@@ -1,0 +1,17 @@
+
+# FROM : https://github.com/Crascit/DownloadProject
+# Distributed under the OSI-approved MIT License.
+
+cmake_minimum_required(VERSION 3.2)
+project(${PACKAGE_NAME}-package NONE)
+include(ExternalProject)
+ExternalProject_Add(
+    "${PACKAGE_NAME}"
+    "${FARGS_UNPARSED_ARGUMENTS}"
+    SOURCE_DIR "${PACKAGE_SOURCE_DIR}"
+    BINARY_DIR "${PACKAGE_BINARY_DIR}"
+    CONFIGURE_COMMAND ""
+    INSTALL_COMMAND ""
+    BUILD_COMMAND ""
+    TEST_COMMAND ""
+)
