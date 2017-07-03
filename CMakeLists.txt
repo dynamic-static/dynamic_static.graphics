@@ -46,6 +46,7 @@ include(ExternalProject)
 # TODO : DRY...
 ExternalProject_Add(
     GLFW
+    # TODO : Generic path...
     URL "D:/Dynamic_Static_Redux/Dynamic_Static.Graphics.Ex/external/glfw-3.2.1.zip"
     URL_MD5 "35A0672885AD4CA59C8EBE7550176276"
     CMAKE_ARGS
@@ -62,6 +63,7 @@ set(GLFW_LIBRARY "${SOURCE_DIR}/../GLFW-build/src/Debug/glfw3.lib")
 ################################################################################################################################
 ExternalProject_Add(
     Dynamic_Static.Core
+    # TODO : Generic path...
     URL "D:/Dynamic_Static_Redux/Dynamic_Static.Graphics.Ex/external/Dynamic_Static.Core-1.0.0.zip"
     URL_MD5 "BB7761F3A24CD65676F51006764427ED"
     CMAKE_ARGS
