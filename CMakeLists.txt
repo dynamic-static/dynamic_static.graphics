@@ -59,22 +59,22 @@ set(GLFW_INCLUDE "${SOURCE_DIR}/include/")
 set(GLFW_LIBRARY "${SOURCE_DIR}/../GLFW-build/src/Debug/glfw3.lib")
 ################################################################################################################################
 ExternalProject_Add(
-    GLFW
+    Dynamic_Static.Core
     URL "D:/Dynamic_Static_Redux/Dynamic_Static.Graphics.Ex/external/Dynamic_Static.Core-1.0.0.zip"
     URL_MD5 "BB7761F3A24CD65676F51006764427ED"
-    # CMAKE_ARGS
-    #     -DST_CORE_BUILD_SANDBOX=OFF
-    #     -DST_CORE_BUILD_TESTS=OFF
-    #     -DST_CORE_BUILD_DOCS=OFF
+    CMAKE_ARGS
+        -DST_CORE_BUILD_SANDBOX=OFF
+        -DST_CORE_BUILD_TESTS=OFF
     INSTALL_COMMAND ""
 )
 
-ExternalProject_Get_Property(GLFW SOURCE_DIR)
-set(GLFW_INCLUDE "${SOURCE_DIR}/include/")
-set(GLFW_LIBRARY "${SOURCE_DIR}/../GLFW-build/src/Debug/glfw3.lib")
+ExternalProject_Get_Property(Dynamic_Static.Core SOURCE_DIR)
+set(DST_CORE_INCLUDE "${SOURCE_DIR}/include/")
+set(DST_CORE_LIBRARY "${SOURCE_DIR}/../Dynamic_Static.Core-build/source/Debug/Dynamic_Static.Core.lib")
 ################################################################################################################################
 
 set(DST_GFX_INCLUDE "${CMAKE_SOURCE_DIR}/include/")
+include_directories("${DST_CORE_INCLUDE}")
 include_directories("${DST_GFX_INCLUDE}")
 add_subdirectory(source/)
 if (DST_GFX_BUILD_SANDBOX)

@@ -18,23 +18,25 @@ include_directories(
     DYNAMIC_STATIC_CORE_INCLUDE_DIRECTORY
     ${INCLUDE_DIRECTORY}
     ${GLFW_INCLUDE}
-    # "${Dynamic_Static.Core_SOURCE_DIR}/Dynamic_Static.Core/include/"
 )
 
 if (MSVC)
     set(DST_GFX_DEPENDENCIES
+        ${DST_CORE_LIBRARY}
         ${GLFW_LIBRARY}
         PARENT_SCOPE
     )
 else()
     set(DST_GFX_DEPENDENCIES
+        ${DST_CORE_LIBRARY}
         ${GLFW_LIBRARY}
         PARENT_SCOPE
     )
 endif()
 
 add_library(Dynamic_Static.Graphics ${INCLUDE_FILES} ${SOURCE_FILES})
-add_dependencies(Dynamic_Static.Graphics GLFW)
 set_target_properties(Dynamic_Static.Graphics PROPERTIES PREFIX "")
+add_dependencies(Dynamic_Static.Graphics Dynamic_Static.Core)
+add_dependencies(Dynamic_Static.Graphics GLFW)
 create_file_group("${INCLUDE_FILES}")
 create_file_group("${SOURCE_FILES}")
