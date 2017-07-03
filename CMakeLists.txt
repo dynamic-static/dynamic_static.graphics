@@ -46,9 +46,9 @@ include(ExternalProject)
 # TODO : DRY...
 ExternalProject_Add(
     GLFW
-    # TODO : Generic path...
-    URL "D:/Dynamic_Static_Redux/Dynamic_Static.Graphics.Ex/external/glfw-3.2.1.zip"
-    URL_MD5 "35A0672885AD4CA59C8EBE7550176276"
+    PREFIX external
+    URL "${CMAKE_SOURCE_DIR}/external/glfw-3.2.1.zip"
+    # URL_MD5 "35A0672885AD4CA59C8EBE7550176276"
     CMAKE_ARGS
         -DGLFW_BUILD_EXAMPLES=OFF
         -DGLFW_BUILD_TESTS=OFF
@@ -57,25 +57,35 @@ ExternalProject_Add(
 )
 
 ExternalProject_Get_Property(GLFW SOURCE_DIR)
+ExternalProject_Get_Property(GLFW BINARY_DIR)
+message("== GLFW BINARY_DIR ${BINARY_DIR}")
 set(GLFW_INCLUDE "${SOURCE_DIR}/include/")
 # TODO : Generic link...
-set(GLFW_LIBRARY "${SOURCE_DIR}/../GLFW-build/src/Debug/glfw3.lib")
+set(GLFW_LIBRARY "${BINARY_DIR}/src/Debug/glfw3.lib")
 ################################################################################################################################
 ExternalProject_Add(
     Dynamic_Static.Core
-    # TODO : Generic path...
-    URL "D:/Dynamic_Static_Redux/Dynamic_Static.Graphics.Ex/external/Dynamic_Static.Core-1.0.0.zip"
-    URL_MD5 "BB7761F3A24CD65676F51006764427ED"
+    PREFIX external
+
+    # URL "${CMAKE_SOURCE_DIR}/external/Dynamic_Static.Core-1.0.0.zip" # NOTE : Local source package
+    # URL_MD5 BB7761F3A24CD65676F51006764427ED
+    
+    GIT_REPOSITORY https://github.com/DynamicStatic/Dynamic_Static.Core.git
+    # GIT_TAG master
+
+    UPDATE_DISCONNECTED 1
     CMAKE_ARGS
-        -DST_CORE_BUILD_SANDBOX=OFF
-        -DST_CORE_BUILD_TESTS=OFF
+        -DDST_CORE_BUILD_SANDBOX=OFF
+        -DDST_CORE_BUILD_TESTS=OFF
     INSTALL_COMMAND ""
 )
 
 ExternalProject_Get_Property(Dynamic_Static.Core SOURCE_DIR)
+ExternalProject_Get_Property(Dynamic_Static.Core BINARY_DIR)
+message("== Dynamic_Static.Core BINARY_DIR ${BINARY_DIR}")
 set(DST_CORE_INCLUDE "${SOURCE_DIR}/include/")
 # TODO : Generic link...
-set(DST_CORE_LIBRARY "${SOURCE_DIR}/../Dynamic_Static.Core-build/source/Debug/Dynamic_Static.Core.lib")
+set(DST_CORE_LIBRARY "${BINARY_DIR}/source/Debug/Dynamic_Static.Core.lib")
 ################################################################################################################################
 
 set(DST_GFX_INCLUDE "${CMAKE_SOURCE_DIR}/include/")
