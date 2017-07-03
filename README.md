@@ -3,6 +3,9 @@
 
 Provides Vulkan graphics support.
 
+// TODO : Instructions for dst::gfx (they're currently for dst::core)
+// TODO : Instructions to move Git before Visual Studio in PATH on Windows.
+
 ___
 ___
 On Windows 10 or Ubuntu 16.04, create a directory named **"Dynamic_Static"** wherever is convenient.<br/>
