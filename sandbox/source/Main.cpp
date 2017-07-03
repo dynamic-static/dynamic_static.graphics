@@ -4,7 +4,7 @@
 
   MIT License
 
-  Copyright (c) 2016 Dynamic_Static
+  Copyright (c) 2017 Dynamic_Static
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,14 +27,24 @@
 ================================================================================
 */
 
-#pragma once
+// #include "Dynamic_Static/Core/Defines.hpp"
+// #include "Dynamic_Static/Core/Version.hpp"
 
-#include "Dynamic_Static/Core/Defines.hpp"
+#include "Dynamic_Static/Graphics/Object.hpp"
 
-namespace Dynamic_Static
+#include <iostream>
+
+int main(/* int argc, char** argv */)
 {
-    namespace Graphics
-    {
+    // dst::Version version(
+    //     dst::VersionMajor,
+    //     dst::VersionMinor,
+    //     dst::VersionPatch
+    // );
+    
+    Dynamic_Static::Graphics::Object obj;
+    
 
-    } // namespace Graphics
-} // namespace Dynamic_Static
+    std::cout << "Dynamic_Static.Graphics " << std::endl; // version.to_string() << std::endl;
+    return 0;
+}

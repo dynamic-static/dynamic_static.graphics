@@ -27,18 +27,20 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/Defines.hpp"
-#include "Dynamic_Static/Graphics/Object.hpp"
+#pragma once
 
-#include "GLFW/glfw3.h"
+// #include "Dynamic_Static/Core/Object.hpp"
+#include "Dynamic_Static/Graphics/Defines.hpp"
 
 namespace Dynamic_Static
 {
     namespace Graphics
     {
-        Object::Object()
+        class Object
+            // : public dst::Object
         {
-            glfwInit();
-        }
+        public:
+            Object();
+        };
     } // namespace Graphics
 } // namespace Dynamic_Static

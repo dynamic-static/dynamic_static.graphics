@@ -4,7 +4,7 @@
 
   MIT License
 
-  Copyright (c) 2017 Dynamic_Static
+  Copyright (c) 2016 Dynamic_Static
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,19 +27,24 @@
 ================================================================================
 */
 
-// #include "Dynamic_Static/Core/Defines.hpp"
 // #include "Dynamic_Static/Core/Version.hpp"
+#include "Dynamic_Static/Graphics/Defines.hpp"
+#include "Dynamic_Static/Graphics/Object.hpp"
+
+// #include "GLFW/glfw3.h"
 
 #include <iostream>
 
-int main(/* int argc, char** argv */)
+namespace Dynamic_Static
 {
-    // dst::Version version(
-    //     dst::VersionMajor,
-    //     dst::VersionMinor,
-    //     dst::VersionPatch
-    // );
-
-    std::cout << "Dynamic_Static.Graphics " << std::endl; // version.to_string() << std::endl;
-    return 0;
-}
+    namespace Graphics
+    {
+        Object::Object()
+        {
+            // Version version(1, 0, 1);
+            // if (glfwInit() == GLFW_FALSE) {
+            //     std::cerr << "GLFW init failed" << std::endl;
+            // }
+        }
+    } // namespace Graphics
+} // namespace Dynamic_Static
