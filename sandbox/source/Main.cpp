@@ -27,11 +27,9 @@
 ================================================================================
 */
 
+#include "Dynamic_Static/Core/Window.hpp"
 #include "Dynamic_Static/Core/Defines.hpp"
 #include "Dynamic_Static/Core/Version.hpp"
-
-#include "Dynamic_Static/Graphics/Object.hpp"
-#include "Dynamic_Static/Core/Window.hpp"
 
 #include <iostream>
 
@@ -42,11 +40,8 @@ int main(/* int argc, char** argv */)
         dst::VersionMinor,
         dst::VersionPatch
     );
-    
-    Dynamic_Static::Graphics::Object obj;
 
     Dynamic_Static::Window window;
-    
 
     std::cout << "Dynamic_Static.Graphics " << version.to_string() << std::endl;
     return 0;

@@ -29,12 +29,17 @@
 
 #pragma once
 
-// #include "Dynamic_Static/Core/Defines.hpp"
+#include "Dynamic_Static/Core/Defines.hpp"
+
+#define DYNAMIC_STATIC_GRAPHICS_VERSION_MAJOR (0)
+#define DYNAMIC_STATIC_GRAPHICS_VERSION_MINOR (0)
+#define DYNAMIC_STATIC_GRAPHICS_VERSION_PATCH (1)
 
 namespace Dynamic_Static
 {
     namespace Graphics
     {
-
     } // namespace Graphics
+
+    namespace gfx = Graphics;
 } // namespace Dynamic_Static

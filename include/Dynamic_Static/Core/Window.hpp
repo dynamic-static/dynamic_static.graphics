@@ -29,18 +29,33 @@
 
 #pragma once
 
-// #include "Dynamic_Static/Core/Defines.hpp"
+#include "Dynamic_Static/Core/Object.hpp"
+#include "Dynamic_Static/Core/Defines.hpp"
+#include "Dynamic_Static/Core/Version.hpp"
+#include "Dynamic_Static/Core/Callback.hpp"
 
 namespace Dynamic_Static
 {
+    /**
+     * Provides high level control over a system window.
+     */
     class Window final
+        : public Object
     {
     private:
-        mutable void* mGLFWHandle { nullptr };
+        mutable void* mHandle { nullptr };
 
     public:
+        /**
+         * Creates an instance of Window.
+         */
         Window();
 
+        /**
+         * Destroys an instance of Window.
+         */
         ~Window();
+
+    public:
     };
 } // namespace Dynamic_Static

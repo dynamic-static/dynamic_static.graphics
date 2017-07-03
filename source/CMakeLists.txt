@@ -5,12 +5,21 @@ set(INCLUDE_PATH ${DST_GFX_INCLUDE}/Dynamic_Static/Graphics/)
 set(INCLUDE_FILES
     ${INCLUDE_PATH}/Defines.hpp
     ${INCLUDE_PATH}/Object.hpp
+    ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Input.hpp
+    ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Keyboard.hpp
+    ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Monitor.hpp
+    ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Mouse.hpp
     ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Window.hpp
 )
 
 set(SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Graphics/)
 set(SOURCE_FILES
     ${SOURCE_PATH}/Object.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/GLFWInclude.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Input.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Keyboard.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Monitor.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Mouse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Window.cpp
 )
 

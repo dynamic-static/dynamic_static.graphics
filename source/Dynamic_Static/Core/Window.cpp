@@ -28,17 +28,7 @@
 */
 
 #include "Dynamic_Static/Core/Window.hpp"
-
-// TODO : GLFWInclude.hpp
-#include "GLFW/glfw3.h"
-
-#if defined(DYNAMIC_STATIC_WINDOWS)
-    #define GLFW_EXPOSE_NATIVE_WIN32
-#elif defined(DYNAMIC_STATIC_LINUX)
-    #define GLFW_EXPOSE_NATIVE_X11
-    #define GLFW_EXPOSE_NATIVE_GLX
-#endif
-#include "GLFW/glfw3native.h"
+#include "GLFWInclude.hpp"
 
 #include <iostream>
 
@@ -46,15 +36,11 @@ namespace Dynamic_Static
 {
     Window::Window()
     {
-        if (glfwInit() == GLFW_TRUE) {
-            std::cout << "GLFW init success" << std::endl;
-        } else {
-            std::cout << "GLFW init fail" << std::endl;
-        }
+
     }
 
     Window::~Window()
     {
-        glfwTerminate();
+
     }
 } // namespace Dynamic_Static

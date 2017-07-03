@@ -27,13 +27,7 @@
 ================================================================================
 */
 
-// #include "Dynamic_Static/Core/Version.hpp"
-#include "Dynamic_Static/Graphics/Defines.hpp"
 #include "Dynamic_Static/Graphics/Object.hpp"
-
-// #include "GLFW/glfw3.h"
-
-#include <iostream>
 
 namespace Dynamic_Static
 {
@@ -41,10 +35,11 @@ namespace Dynamic_Static
     {
         Object::Object()
         {
-            // Version version(1, 0, 1);
-            // if (glfwInit() == GLFW_FALSE) {
-            //     std::cerr << "GLFW init failed" << std::endl;
-            // }
+            name("Dynamic_Static::Graphics::Object");
+        }
+
+        Object::~Object()
+        {
         }
     } // namespace Graphics
 } // namespace Dynamic_Static

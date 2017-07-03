@@ -4,7 +4,7 @@
 
   MIT License
 
-  Copyright (c) 2016 Dynamic_Static
+  Copyright (c) 2017 Dynamic_Static
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -29,29 +29,13 @@
 
 #pragma once
 
-#include "Dynamic_Static/Graphics/Defines.hpp"
-#include "Dynamic_Static/Core/Object.hpp"
+#include "Dynamic_Static/Core/Defines.hpp"
 
-namespace Dynamic_Static
-{
-    namespace Graphics
-    {
-        /**
-         * Common base for all Dynamic_Static::Graphics objects.
-         */
-        class Object
-            : public dst::Object
-        {
-        public:
-            /**
-             * Constructs an instance of Object.
-             */
-            Object();
-
-            /**
-             * Destroys this instance of Object.
-             */
-            virtual ~Object() = 0;
-        };
-    } // namespace Graphics
-} // namespace Dynamic_Static
+#include "GLFW/glfw3.h"
+#if defined(DYNAMIC_STATIC_WINDOWS)
+    #define GLFW_EXPOSE_NATIVE_WIN32
+#elif defined(DYNAMIC_STATIC_LINUX)
+    #define GLFW_EXPOSE_NATIVE_X11
+    #define GLFW_EXPOSE_NATIVE_GLX
+#endif
+#include "GLFW/glfw3native.h"
