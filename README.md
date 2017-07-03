@@ -4,7 +4,7 @@
 Provides Vulkan graphics support.
 
 // TODO : Instructions for dst::gfx (they're currently for dst::core)
-// TODO : Instructions to move Git before Visual Studio in PATH on Windows.
+// TODO : Instructions to move Git before Visual Studio in PATH on Windows. https://cmake.org/pipermail/cmake/2016-March/062896.html
 
 ___
 ___
