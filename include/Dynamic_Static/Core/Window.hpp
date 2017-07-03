@@ -27,27 +27,20 @@
 ================================================================================
 */
 
+#pragma once
+
 // #include "Dynamic_Static/Core/Defines.hpp"
-// #include "Dynamic_Static/Core/Version.hpp"
 
-#include "Dynamic_Static/Graphics/Object.hpp"
-#include "Dynamic_Static/Core/Window.hpp"
-
-#include <iostream>
-
-int main(/* int argc, char** argv */)
+namespace Dynamic_Static
 {
-    // dst::Version version(
-    //     dst::VersionMajor,
-    //     dst::VersionMinor,
-    //     dst::VersionPatch
-    // );
-    
-    Dynamic_Static::Graphics::Object obj;
+    class Window final
+    {
+    private:
+        mutable void* mGLFWHandle { nullptr };
 
-    Dynamic_Static::Window window;
-    
+    public:
+        Window();
 
-    std::cout << "Dynamic_Static.Graphics " << std::endl; // version.to_string() << std::endl;
-    return 0;
-}
+        ~Window();
+    };
+} // namespace Dynamic_Static

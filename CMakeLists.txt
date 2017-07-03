@@ -41,18 +41,38 @@ function(create_file_group FILE_GROUP)
     endforeach()
 endfunction()
 
-include(BuildExternalProject.cmake)
-# download_project(
-#     PROJ glfw
-#     URL "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}/external/glfw-3.2.1.zip"
-# )
-
-build_external_project(
-    PROJ Dynamic_Static.Core
-    URL "${CMAKE_SOURCE_DIR}/external/Dynamic_Static.Core-1.0.0.zip"
-    URL_MD5 BB7761F3A24CD65676F51006764427ED
-    # CMAKE_ARGS -DDST_CORE_BUILD_SANDBOX=OFF -DDST_CORE_BUILD_TESTS=OFF
+include(ExternalProject)
+################################################################################################################################
+ExternalProject_Add(
+    GLFW
+    URL "D:/Dynamic_Static_Redux/Dynamic_Static.Graphics.Ex/external/glfw-3.2.1.zip"
+    URL_MD5 "35A0672885AD4CA59C8EBE7550176276"
+    CMAKE_ARGS
+        -DGLFW_BUILD_EXAMPLES=OFF
+        -DGLFW_BUILD_TESTS=OFF
+        -DGLFW_BUILD_DOCS=OFF
+    INSTALL_COMMAND ""
 )
+
+ExternalProject_Get_Property(GLFW SOURCE_DIR)
+set(GLFW_INCLUDE "${SOURCE_DIR}/include/")
+set(GLFW_LIBRARY "${SOURCE_DIR}/../GLFW-build/src/Debug/glfw3.lib")
+################################################################################################################################
+ExternalProject_Add(
+    GLFW
+    URL "D:/Dynamic_Static_Redux/Dynamic_Static.Graphics.Ex/external/Dynamic_Static.Core-1.0.0.zip"
+    URL_MD5 "BB7761F3A24CD65676F51006764427ED"
+    # CMAKE_ARGS
+    #     -DST_CORE_BUILD_SANDBOX=OFF
+    #     -DST_CORE_BUILD_TESTS=OFF
+    #     -DST_CORE_BUILD_DOCS=OFF
+    INSTALL_COMMAND ""
+)
+
+ExternalProject_Get_Property(GLFW SOURCE_DIR)
+set(GLFW_INCLUDE "${SOURCE_DIR}/include/")
+set(GLFW_LIBRARY "${SOURCE_DIR}/../GLFW-build/src/Debug/glfw3.lib")
+################################################################################################################################
 
 set(DST_GFX_INCLUDE "${CMAKE_SOURCE_DIR}/include/")
 include_directories("${DST_GFX_INCLUDE}")

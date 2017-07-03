@@ -13,7 +13,6 @@ set(SOURCE_FILES
 include_directories(
     ${INCLUDE_DIRECTORY}
     ${DST_GFX_INCLUDE}
-    # "${Dynamic_Static.Core_SOURCE_DIR}/Dynamic_Static.Core/include/"
 )
 
 add_executable(
@@ -26,7 +25,6 @@ target_link_libraries(
     Dynamic_Static.Graphics.Sandbox
     Dynamic_Static.Graphics
     ${DST_GFX_DEPENDENCIES}
-    # "${Dynamic_Static.Core_BINARY_DIR}/Dynamic_Static.Core"
 )
 
 create_file_group("${INCLUDE_FILES}")

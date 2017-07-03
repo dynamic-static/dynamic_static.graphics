@@ -27,27 +27,34 @@
 ================================================================================
 */
 
-// #include "Dynamic_Static/Core/Defines.hpp"
-// #include "Dynamic_Static/Core/Version.hpp"
-
-#include "Dynamic_Static/Graphics/Object.hpp"
 #include "Dynamic_Static/Core/Window.hpp"
+
+// TODO : GLFWInclude.hpp
+#include "GLFW/glfw3.h"
+
+#if defined(DYNAMIC_STATIC_WINDOWS)
+    #define GLFW_EXPOSE_NATIVE_WIN32
+#elif defined(DYNAMIC_STATIC_LINUX)
+    #define GLFW_EXPOSE_NATIVE_X11
+    #define GLFW_EXPOSE_NATIVE_GLX
+#endif
+#include "GLFW/glfw3native.h"
 
 #include <iostream>
 
-int main(/* int argc, char** argv */)
+namespace Dynamic_Static
 {
-    // dst::Version version(
-    //     dst::VersionMajor,
-    //     dst::VersionMinor,
-    //     dst::VersionPatch
-    // );
-    
-    Dynamic_Static::Graphics::Object obj;
+    Window::Window()
+    {
+        if (glfwInit() == GLFW_TRUE) {
+            std::cout << "GLFW init success" << std::endl;
+        } else {
+            std::cout << "GLFW init fail" << std::endl;
+        }
+    }
 
-    Dynamic_Static::Window window;
-    
-
-    std::cout << "Dynamic_Static.Graphics " << std::endl; // version.to_string() << std::endl;
-    return 0;
-}
+    Window::~Window()
+    {
+        glfwTerminate();
+    }
+} // namespace Dynamic_Static
