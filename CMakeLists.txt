@@ -43,6 +43,7 @@ endfunction()
 
 include(ExternalProject)
 ################################################################################################################################
+# TODO : DRY...
 ExternalProject_Add(
     GLFW
     URL "D:/Dynamic_Static_Redux/Dynamic_Static.Graphics.Ex/external/glfw-3.2.1.zip"
@@ -56,6 +57,7 @@ ExternalProject_Add(
 
 ExternalProject_Get_Property(GLFW SOURCE_DIR)
 set(GLFW_INCLUDE "${SOURCE_DIR}/include/")
+# TODO : Generic link...
 set(GLFW_LIBRARY "${SOURCE_DIR}/../GLFW-build/src/Debug/glfw3.lib")
 ################################################################################################################################
 ExternalProject_Add(
@@ -70,6 +72,7 @@ ExternalProject_Add(
 
 ExternalProject_Get_Property(Dynamic_Static.Core SOURCE_DIR)
 set(DST_CORE_INCLUDE "${SOURCE_DIR}/include/")
+# TODO : Generic link...
 set(DST_CORE_LIBRARY "${SOURCE_DIR}/../Dynamic_Static.Core-build/source/Debug/Dynamic_Static.Core.lib")
 ################################################################################################################################
 
