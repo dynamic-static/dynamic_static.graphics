@@ -52,8 +52,11 @@ ExternalProject_Add(
     # URL "${CMAKE_SOURCE_DIR}/external/glfw-3.2.1.zip"
     # URL_MD5 35A0672885AD4CA59C8EBE7550176276
 
-    GIT_REPOSITORY https://github.com/glfw/glfw.git
-    GIT_TAG 3.2.1
+    URL https://github.com/glfw/glfw/archive/3.2.1.zip
+    URL_HASH SHA1=3578BEFA2B96A6A2286F33C3A92E08E9F2F834F8
+    
+    # GIT_REPOSITORY https://github.com/glfw/glfw.git
+    # GIT_TAG 3.2.1
 
     CMAKE_ARGS
         -DGLFW_BUILD_EXAMPLES=OFF
@@ -78,7 +81,10 @@ ExternalProject_Add(
     # URL "${CMAKE_SOURCE_DIR}/external/Dynamic_Static.Core-1.0.0.zip"
     # URL_MD5 BB7761F3A24CD65676F51006764427ED
 
-    GIT_REPOSITORY https://github.com/DynamicStatic/Dynamic_Static.Core.git
+    URL https://github.com/DynamicStatic/Dynamic_Static.Core/archive/master.zip
+    URL_HASH SHA1=ED05B1B4C82FC7EBF9C451352EB7B4CF887B80B2
+
+    # GIT_REPOSITORY https://github.com/DynamicStatic/Dynamic_Static.Core.git
     # GIT_TAG master
 
     CMAKE_ARGS
