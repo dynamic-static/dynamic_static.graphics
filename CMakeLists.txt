@@ -2,22 +2,22 @@
 # CMake configuration for Dynamic_Static.Graphics
 
 cmake_minimum_required(VERSION 3.2)
-project(Dynamic_Static.Graphics)
-
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
-
+project(Dynamic_Static.Graphics CXX)
 option(DST_GFX_BUILD_SANDBOX "Build Dynamic_Static.Graphics.Sandbox" ON)
 option(DST_GFX_BUILD_TESTS "Build Dynamic_Static.Graphics.Tests" ON)
 
 include(CheckCXXCompilerFlag)
 function(set_cxx_flag CXX_FLAG)
+    message("== About to call CHECK_CXX_COMPILER_FLAG() with ${CXX_FLAG}")
     CHECK_CXX_COMPILER_FLAG(CXX_FLAG CXX_FLAG_AVAILABLE)
+    message("== Returned from CHECK_CXX_COMPILER_FLAG() with ${CXX_FLAG}")
     if (CXX_FLAG_AVAILABLE)
+        message("-- Setting CXX Flag ${CXX_FLAG}")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} CXX_FLAG")
     endif()
 endfunction()
 
+set(CMAKE_CXX_STANDARD 14)
 set_cxx_flag(-W4)
 set_cxx_flag(-Wall)
 set_cxx_flag(-Wextra)
@@ -26,6 +26,7 @@ set_cxx_flag(-Wwrite-strings)
 set_cxx_flag(-Wpointer-arith)
 set_cxx_flag(-Wunreachable-code)
 set_cxx_flag(-Wstrict_prototypes)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
 add_definitions(-DUNICODE -D_UNICODE)
 
@@ -47,8 +48,13 @@ include(ExternalProject)
 ExternalProject_Add(
     GLFW
     PREFIX external
-    URL "${CMAKE_SOURCE_DIR}/external/glfw-3.2.1.zip"
-    # URL_MD5 "35A0672885AD4CA59C8EBE7550176276"
+
+    # URL "${CMAKE_SOURCE_DIR}/external/glfw-3.2.1.zip"
+    # URL_MD5 35A0672885AD4CA59C8EBE7550176276
+
+    GIT_REPOSITORY https://github.com/glfw/glfw.git
+    GIT_TAG 3.2.1
+
     CMAKE_ARGS
         -DGLFW_BUILD_EXAMPLES=OFF
         -DGLFW_BUILD_TESTS=OFF
@@ -58,22 +64,23 @@ ExternalProject_Add(
 
 ExternalProject_Get_Property(GLFW SOURCE_DIR)
 ExternalProject_Get_Property(GLFW BINARY_DIR)
-message("== GLFW BINARY_DIR ${BINARY_DIR}")
 set(GLFW_INCLUDE "${SOURCE_DIR}/include/")
-# TODO : Generic link...
-set(GLFW_LIBRARY "${BINARY_DIR}/src/Debug/glfw3.lib")
+if (MSVC)
+    set(GLFW_LIBRARY "${BINARY_DIR}/src/$(Configuration)/glfw3.lib")
+else()
+    set(GLFW_LIBRARY "TODO : Generic link...")
+endif()
 ################################################################################################################################
 ExternalProject_Add(
     Dynamic_Static.Core
     PREFIX external
 
-    # URL "${CMAKE_SOURCE_DIR}/external/Dynamic_Static.Core-1.0.0.zip" # NOTE : Local source package
+    # URL "${CMAKE_SOURCE_DIR}/external/Dynamic_Static.Core-1.0.0.zip"
     # URL_MD5 BB7761F3A24CD65676F51006764427ED
-    
+
     GIT_REPOSITORY https://github.com/DynamicStatic/Dynamic_Static.Core.git
     # GIT_TAG master
 
-    UPDATE_DISCONNECTED 1
     CMAKE_ARGS
         -DDST_CORE_BUILD_SANDBOX=OFF
         -DDST_CORE_BUILD_TESTS=OFF
@@ -82,10 +89,12 @@ ExternalProject_Add(
 
 ExternalProject_Get_Property(Dynamic_Static.Core SOURCE_DIR)
 ExternalProject_Get_Property(Dynamic_Static.Core BINARY_DIR)
-message("== Dynamic_Static.Core BINARY_DIR ${BINARY_DIR}")
 set(DST_CORE_INCLUDE "${SOURCE_DIR}/include/")
-# TODO : Generic link...
-set(DST_CORE_LIBRARY "${BINARY_DIR}/source/Debug/Dynamic_Static.Core.lib")
+if (MSVC)
+    set(DST_CORE_LIBRARY "${BINARY_DIR}/source/$(Configuration)/Dynamic_Static.Core.lib")
+else()
+    set(DST_CORE_LIBRARY "TODO : Generic link...")
+endif()
 ################################################################################################################################
 
 set(DST_GFX_INCLUDE "${CMAKE_SOURCE_DIR}/include/")
