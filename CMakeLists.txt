@@ -68,7 +68,7 @@ set(GLFW_INCLUDE "${SOURCE_DIR}/include/")
 if (MSVC)
     set(GLFW_LIBRARY "${BINARY_DIR}/src/$(Configuration)/glfw3.lib")
 else()
-    set(GLFW_LIBRARY "TODO : Generic link...")
+    set(GLFW_LIBRARY "${BINARY_DIR}/src/libglfw3.a")
 endif()
 ################################################################################################################################
 ExternalProject_Add(
@@ -93,7 +93,7 @@ set(DST_CORE_INCLUDE "${SOURCE_DIR}/include/")
 if (MSVC)
     set(DST_CORE_LIBRARY "${BINARY_DIR}/source/$(Configuration)/Dynamic_Static.Core.lib")
 else()
-    set(DST_CORE_LIBRARY "TODO : Generic link...")
+    set(DST_CORE_LIBRARY "${BINARY_DIR}/source/Dynamic_Static.Core.a")
 endif()
 ################################################################################################################################
 
