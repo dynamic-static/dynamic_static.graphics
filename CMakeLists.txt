@@ -54,7 +54,7 @@ ExternalProject_Add(
 
     URL https://github.com/glfw/glfw/archive/3.2.1.zip
     URL_HASH SHA1=3578BEFA2B96A6A2286F33C3A92E08E9F2F834F8
-    
+
     # GIT_REPOSITORY https://github.com/glfw/glfw.git
     # GIT_TAG 3.2.1
 

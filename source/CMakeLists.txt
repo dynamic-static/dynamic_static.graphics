@@ -9,6 +9,8 @@ set(INCLUDE_FILES
     ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Keyboard.hpp
     ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Monitor.hpp
     ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Mouse.hpp
+    ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Point.hpp
+    ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Resolution.hpp
     ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Window.hpp
 )
 
@@ -20,6 +22,8 @@ set(SOURCE_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Keyboard.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Monitor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Mouse.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Point.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Resolution.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Window.cpp
 )
 

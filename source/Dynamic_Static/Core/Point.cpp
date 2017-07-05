@@ -27,31 +27,8 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Core/Window.hpp"
-#include "Dynamic_Static/Core/Defines.hpp"
-#include "Dynamic_Static/Core/Version.hpp"
+#include "Dynamic_Static/Core/Point.hpp"
 
-#include <iostream>
-
-int main(/* int argc, char** argv */)
+namespace Dynamic_Static
 {
-    dst::Version version(
-        dst::VersionMajor,
-        dst::VersionMinor,
-        dst::VersionPatch
-    );
-
-    {
-        Dynamic_Static::Window window;
-        auto name = window.name();
-        window.name("Hello World!");
-
-        bool running = true;
-        while (running) {
-            int breaker = 0;
-        }
-    }
-
-    std::cout << "Dynamic_Static.Graphics " << version.to_string() << std::endl;
-    return 0;
-}
+} // namespace Dynamic_Static

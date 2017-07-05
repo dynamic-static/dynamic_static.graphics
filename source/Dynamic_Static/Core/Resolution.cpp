@@ -27,31 +27,19 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Core/Window.hpp"
-#include "Dynamic_Static/Core/Defines.hpp"
-#include "Dynamic_Static/Core/Version.hpp"
+#include "Dynamic_Static/Core/Resolution.hpp"
 
-#include <iostream>
-
-int main(/* int argc, char** argv */)
+namespace Dynamic_Static
 {
-    dst::Version version(
-        dst::VersionMajor,
-        dst::VersionMinor,
-        dst::VersionPatch
-    );
-
+    float Resolution::aspect_ratio() const
     {
-        Dynamic_Static::Window window;
-        auto name = window.name();
-        window.name("Hello World!");
-
-        bool running = true;
-        while (running) {
-            int breaker = 0;
-        }
+        auto w = static_cast<float>(width);
+        auto h = static_cast<float>(height);
+        return height ? w / h : 0;
     }
 
-    std::cout << "Dynamic_Static.Graphics " << version.to_string() << std::endl;
-    return 0;
-}
+    std::string Resolution::to_string() const
+    {
+        return std::to_string(width) + " x " + std::to_string(height);
+    }
+} // namespace Dynamic_Static

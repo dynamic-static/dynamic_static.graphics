@@ -27,31 +27,28 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Core/Window.hpp"
+#pragma once
+
 #include "Dynamic_Static/Core/Defines.hpp"
-#include "Dynamic_Static/Core/Version.hpp"
 
-#include <iostream>
+#include <string>
 
-int main(/* int argc, char** argv */)
+namespace Dynamic_Static
 {
-    dst::Version version(
-        dst::VersionMajor,
-        dst::VersionMinor,
-        dst::VersionPatch
-    );
-
+    /**
+     * Represents a 2D point.
+     */
+    struct Point final
     {
-        Dynamic_Static::Window window;
-        auto name = window.name();
-        window.name("Hello World!");
+    public:
+        int32_t x { 0 };
+        int32_t y { 0 };
 
-        bool running = true;
-        while (running) {
-            int breaker = 0;
-        }
-    }
-
-    std::cout << "Dynamic_Static.Graphics " << version.to_string() << std::endl;
-    return 0;
-}
+    public:
+        /**
+         * Gets this Point's std::string representation.
+         * @return This Point's std::string representation
+         */
+        std::string to_string() const;
+    };
+} // namespace Dynamic_Static
