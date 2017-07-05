@@ -143,8 +143,8 @@ namespace Dynamic_Static
         int x, y;
         glfwGetWindowPos(glfw_handle(mHandle), &x, &y);
         return Point {
-            static_cast<uint32_t>(x),
-            static_cast<uint32_t>(y)
+            static_cast<int32_t>(x),
+            static_cast<int32_t>(y)
         };
     }
 

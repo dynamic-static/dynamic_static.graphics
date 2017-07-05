@@ -31,4 +31,8 @@
 
 namespace Dynamic_Static
 {
+    std::string Point::to_string() const
+    {
+        return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+    }
 } // namespace Dynamic_Static

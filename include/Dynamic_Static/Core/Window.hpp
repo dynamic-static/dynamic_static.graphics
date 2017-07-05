@@ -96,7 +96,7 @@ namespace Dynamic_Static
 
     public:
         /**
-         * Creates an instance of Window.
+         * Constructs an instance of Window.
          * @param [in] configuration The new Window's Configuration (optional = default Configuration)
          */
         Window(const Window::Configuration& configuration = Configuration());
