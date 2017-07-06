@@ -29,26 +29,10 @@
 
 #pragma once
 
+#include "Dynamic_Static/Core/Input.hpp"
 #include "Dynamic_Static/Core/Defines.hpp"
-
-#include <string>
 
 namespace Dynamic_Static
 {
-    /**
-     * Represents a 2D point.
-     */
-    struct Point final
-    {
-    public:
-        float x { 0 };
-        float y { 0 };
 
-    public:
-        /**
-         * Gets this Point's std::string representation.
-         * @return This Point's std::string representation
-         */
-        std::string to_string() const;
-    };
 } // namespace Dynamic_Static

@@ -28,14 +28,15 @@
 */
 
 #include "Dynamic_Static/Core/Defines.hpp"
-#include "Dynamic_Static/Core/NonCopyable.hpp"
 
 #include <bitset>
 
 namespace Dynamic_Static
 {
+    /**
+     * Provides methods for Keyboard queries.
+     */
     class Keyboard final
-        : NonCopyable
     {
     public:
         /**
@@ -318,6 +319,9 @@ namespace Dynamic_Static
 
     private:
         void update(const State& state);
+
+    private:
+        friend class Input;
     };
 } // namespace Dynamic_Static
 

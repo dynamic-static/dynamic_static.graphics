@@ -28,6 +28,7 @@
 */
 
 #include "Dynamic_Static/Core/Window.hpp"
+#include "Dynamic_Static/Core/Algorithm.hpp"
 #include "GLFWInclude.hpp"
 
 #include <set>
@@ -55,6 +56,7 @@ namespace Dynamic_Static
     {
         glfwSetWindowUserPointer(glfw_handle(mHandle), this);
         cursor_mode(configuration.cursorMode);
+        position(configuration.position);
         visible(configuration.visible);
         name(configuration.name);
     }
@@ -125,10 +127,7 @@ namespace Dynamic_Static
     {
         int width, height;
         glfwGetWindowSize(glfw_handle(mHandle), &width, &height);
-        return Resolution {
-            static_cast<uint32_t>(width),
-            static_cast<uint32_t>(height)
-        };
+        return { static_cast<uint32_t>(width), static_cast<uint32_t>(height) };
     }
 
     void Window::resolution(const Resolution& resolution)
@@ -142,16 +141,13 @@ namespace Dynamic_Static
     {
         int x, y;
         glfwGetWindowPos(glfw_handle(mHandle), &x, &y);
-        return Point {
-            static_cast<int32_t>(x),
-            static_cast<int32_t>(y)
-        };
+        return { static_cast<float>(x), static_cast<float>(y) };
     }
 
     void Window::position(const Point& position)
     {
-        int x = static_cast<int>(position.x);
-        int y = static_cast<int>(position.y);
+        auto x = dst::round_cast<int>(position.x);
+        auto y = dst::round_cast<int>(position.y);
         glfwSetWindowPos(glfw_handle(mHandle), x, y);
     }
 
