@@ -82,7 +82,7 @@ ExternalProject_Add(
     # URL_MD5 BB7761F3A24CD65676F51006764427ED
 
     URL https://github.com/DynamicStatic/Dynamic_Static.Core/archive/master.zip
-    URL_HASH SHA1=ED05B1B4C82FC7EBF9C451352EB7B4CF887B80B2
+    # URL_HASH SHA1=ED05B1B4C82FC7EBF9C451352EB7B4CF887B80B2
 
     # GIT_REPOSITORY https://github.com/DynamicStatic/Dynamic_Static.Core.git
     # GIT_TAG master
