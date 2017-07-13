@@ -78,14 +78,8 @@ ExternalProject_Add(
     Dynamic_Static.Core
     PREFIX external
 
-    # URL "${CMAKE_SOURCE_DIR}/external/Dynamic_Static.Core-1.0.0.zip"
-    # URL_MD5 BB7761F3A24CD65676F51006764427ED
-
     URL https://github.com/DynamicStatic/Dynamic_Static.Core/archive/master.zip
-    URL_HASH SHA1=ED05B1B4C82FC7EBF9C451352EB7B4CF887B80B2
-
-    # GIT_REPOSITORY https://github.com/DynamicStatic/Dynamic_Static.Core.git
-    # GIT_TAG master
+    # URL_HASH SHA1=EC6747B0DD19DF102DD2F4A25B66B976721E7A5F
 
     CMAKE_ARGS
         -DDST_CORE_BUILD_SANDBOX=OFF
@@ -101,9 +95,11 @@ if (MSVC)
 else()
     set(DST_CORE_LIBRARY "${BINARY_DIR}/source/Dynamic_Static.Core.a")
 endif()
-################################################################################################################################
+
+set(GLEW_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/external/glew-2.0.0/lib/Release/x64/glew32s.lib")
 
 set(DST_GFX_INCLUDE "${CMAKE_SOURCE_DIR}/include/")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/external/glew-2.0.0/include/")
 include_directories("${DST_CORE_INCLUDE}")
 include_directories("${DST_GFX_INCLUDE}")
 add_subdirectory(source/)

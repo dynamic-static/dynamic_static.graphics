@@ -27,8 +27,11 @@
 ================================================================================
 */
 
+#include "Dynamic_Static/Core/Mouse.hpp"
 #include "Dynamic_Static/Core/Window.hpp"
+#include "Dynamic_Static/Core/Keyboard.hpp"
 #include "Dynamic_Static/Core/Algorithm.hpp"
+#include "Dynamic_Static/Graphics/OpenGL/GLEWInclude.hpp"
 #include "GLFWInclude.hpp"
 
 #include <set>
@@ -99,6 +102,11 @@ namespace Dynamic_Static
         }
     }
 
+    const Input& Window::input() const
+    {
+        return mInputManager.input();
+    }
+
     Window::CursorMode Window::cursor_mode() const
     {
         auto cursorMode = CursorMode::Normal;
@@ -165,15 +173,16 @@ namespace Dynamic_Static
         }
     }
 
-    void Window::make_current() const
+    void Window::make_current()
     {
         if (mApi == API::OpenGL) {
             glfwMakeContextCurrent(glfw_handle(mHandle));
         }
     }
 
-    void Window::swap_buffers() const
+    void Window::swap_buffers()
     {
+        mInputManager.update();
         if (mApi == API::OpenGL) {
             glfwSwapBuffers(glfw_handle(mHandle));
         }
@@ -248,6 +257,19 @@ namespace Dynamic_Static
             throw std::runtime_error("Failed to create Window");
         }
 
+        if (configuration.api == Window::API::OpenGL) {
+            static bool sGLEWInitialized;
+            if (!sGLEWInitialized) {
+                glewExperimental = true;
+                auto error = glewInit();
+                if (error) {
+                    destroy_glfw_window(handle);
+                    // TODO : Get error for exception...
+                    throw std::runtime_error("Failed to initialize GLEW");
+                }
+            }
+        }
+
         glfwSetFramebufferSizeCallback(handle, frame_buffer_size_callback);
         glfwSetMouseButtonCallback(handle, mouse_button_callback);
         glfwSetCursorPosCallback(handle, mouse_position_callback);
@@ -273,20 +295,54 @@ namespace Dynamic_Static
         dst_window(handle).execute_on_resized();
     }
 
-    void keyboard_callback(GLFWwindow* handle, int glfwKey, int scanCode, int action, int mods)
+    void keyboard_callback(GLFWwindow* handle, int glfwKey, int scanCode, int action, int /* mods */)
     {
+        // auto& input = dst_window(handle).mInputManager;
+        // auto dstKey = glfw_to_dst_key(glfwKey);
+        // switch (action) {
+        //     case GLFW_PRESS:
+        //         input.keyboard_state()[dstKey] = Keyboard::State::Down;
+        //         break;
+        // 
+        //     case GLFW_RELEASE:
+        //         input.keyboard_state()[dstKey] = Keyboard::State::Up;
+        //         break;
+        // 
+        //     case GLFW_REPEAT:
+        //         input.keyboard_state()[dstKey] = Keyboard::State::Down;
+        //         break;
+        // }
     }
 
-    void mouse_button_callback(GLFWwindow* handle, int glfwButton, int action, int mods)
+    void mouse_button_callback(GLFWwindow* handle, int glfwButton, int action, int /* mods */)
     {
+        // auto& input = dst_window(handle).mInputManager;
+        // auto dstButton = glfw_to_dst_mouse_button(glfwButton);
+        // switch (action) {
+        //     case GLFW_PRESS:
+        //         input.mouse_state()[dstButton] = Mouse::State::Down;
+        //         break;
+        // 
+        //     case GLFW_RELEASE:
+        //         input.mouse_state()[dstButton] = Mouse::State::Up;
+        //         break;
+        // 
+        //     case GLFW_REPEAT:
+        //         input.mouse_state()[dstButton] = Mouse::State::Down;
+        //         break;
+        // }
     }
 
     void mouse_position_callback(GLFWwindow* handle, double xOffset, double yOffset)
     {
+        // dst_window(handle).mInputManager.mouse_state().position({ xOffset, yOffset });
     }
 
-    void mouse_scroll_callback(GLFWwindow* handle, double xOffset, double yOffset)
+    void mouse_scroll_callback(GLFWwindow* handle, double /* xOffset */, double yOffset)
     {
+        // auto& input = dst_window(handle).mInputManager;
+        // auto scroll = input.mouse_state().scroll();
+        // input.mouse_state().scroll(scroll + yOffset);
     }
 
     void glfw_error_callback(int error, const char* description)

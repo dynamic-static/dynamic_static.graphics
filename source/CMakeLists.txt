@@ -1,37 +1,48 @@
 
 # CMake configuration for Dynamic_Static.Graphics
 
-set(INCLUDE_PATH ${DST_GFX_INCLUDE}/Dynamic_Static/Graphics/)
+set(INCLUDE_PATH ${DST_GFX_INCLUDE}/Dynamic_Static/)
 set(INCLUDE_FILES
-    ${INCLUDE_PATH}/Defines.hpp
-    ${INCLUDE_PATH}/Object.hpp
-    ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Input.hpp
-    ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Input.Manager.hpp
-    ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Keyboard.hpp
-    ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Monitor.hpp
-    ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Mouse.hpp
-    ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Point.hpp
-    ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Resolution.hpp
-    ${DST_GFX_INCLUDE}/Dynamic_Static/Core/Window.hpp
+    # ${INCLUDE_PATH}/Core/Input.hpp
+    # ${INCLUDE_PATH}/Core/Input.Manager.hpp
+    # ${INCLUDE_PATH}/Core/Keyboard.hpp
+    ${INCLUDE_PATH}/Core/Monitor.hpp
+    # ${INCLUDE_PATH}/Core/Mouse.hpp
+    # ${INCLUDE_PATH}/Core/Point.hpp
+    ${INCLUDE_PATH}/Core/Resolution.hpp
+    ${INCLUDE_PATH}/Core/Window.hpp
+
+    ${INCLUDE_PATH}/Graphics/Camera.hpp
+    ${INCLUDE_PATH}/Graphics/Defines.hpp
+    ${INCLUDE_PATH}/Graphics/Object.hpp
+
+    ${INCLUDE_PATH}/Graphics/OpenGL/GLEWInclude.hpp
+
+    ${INCLUDE_PATH}/Graphics/Vulkan/Instance.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Object.hpp
 )
 
-set(SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Graphics/)
+set(SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/)
 set(SOURCE_FILES
-    ${SOURCE_PATH}/Object.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/GLFWInclude.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Input.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Input.Manager.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Keyboard.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Monitor.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Mouse.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Point.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Resolution.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Core/Window.cpp
+    ${SOURCE_PATH}/Core/GLFWInclude.hpp
+    # ${SOURCE_PATH}/Core/Input.cpp
+    # ${SOURCE_PATH}/Core/Input.Manager.cpp
+    # ${SOURCE_PATH}/Core/Keyboard.cpp
+    ${SOURCE_PATH}/Core/Monitor.cpp
+    # ${SOURCE_PATH}/Core/Mouse.cpp
+    # ${SOURCE_PATH}/Core/Point.cpp
+    ${SOURCE_PATH}/Core/Resolution.cpp
+    ${SOURCE_PATH}/Core/Window.cpp
+
+    ${SOURCE_PATH}/Graphics/Camera.cpp
+    ${SOURCE_PATH}/Graphics/Object.cpp
+
+    ${SOURCE_PATH}/Graphics/Vulkan/Instance.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/Object.cpp
 )
 
 include_directories(
     DYNAMIC_STATIC_CORE_INCLUDE_DIRECTORY
-    ${INCLUDE_DIRECTORY}
     ${GLFW_INCLUDE}
 )
 
@@ -39,6 +50,9 @@ if (MSVC)
     set(DST_GFX_DEPENDENCIES
         ${DST_CORE_LIBRARY}
         ${GLFW_LIBRARY}
+        ${GLEW_LIBRARY}
+        opengl32.lib
+        glu32.lib
         PARENT_SCOPE
     )
 else()

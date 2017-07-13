@@ -29,11 +29,13 @@
 
 #pragma once
 
-#include "Dynamic_Static/Core/Point.hpp"
-#include "Dynamic_Static/Core/Object.hpp"
-#include "Dynamic_Static/Core/Defines.hpp"
-#include "Dynamic_Static/Core/Version.hpp"
 #include "Dynamic_Static/Core/Callback.hpp"
+#include "Dynamic_Static/Core/Defines.hpp"
+#include "Dynamic_Static/Core/Input.hpp"
+#include "Dynamic_Static/Core/Input.Manager.hpp"
+#include "Dynamic_Static/Core/Object.hpp"
+#include "Dynamic_Static/Core/Point.hpp"
+#include "Dynamic_Static/Core/Version.hpp"
 #include "Dynamic_Static/Core/Resolution.hpp"
 
 struct GLFWwindow;
@@ -86,6 +88,7 @@ namespace Dynamic_Static
     private:
         void* mHandle { nullptr };
         API mApi { API::Unknown };
+        Input::Manager mInputManager;
 
     public:
         /**
@@ -130,6 +133,12 @@ namespace Dynamic_Static
          * @param [in] name This Window's name
          */
         void name(const std::string& name) final override;
+
+        /**
+         * Gets this Window's Input.
+         * @return This Window's Input
+         */
+        const Input& input() const;
 
         /**
          * Gets this Window's CursorMode.
@@ -183,13 +192,13 @@ namespace Dynamic_Static
          * Makes this Window's OpenGL context current.
          * \n NOTE : This method is a noop if this Window's API is anything besides OpenGL
          */
-        void make_current() const;
+        void make_current();
 
         /**
          * Swaps this Window's buffers.
          * \n NOTE : This method is a noop if this Window's API is anything besides OpenGL
          */
-        void swap_buffers() const;
+        void swap_buffers();
 
         /**
          * Updates all Window's OS queues.

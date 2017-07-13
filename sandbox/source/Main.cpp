@@ -30,7 +30,9 @@
 #include "Dynamic_Static/Core/Window.hpp"
 #include "Dynamic_Static/Core/Defines.hpp"
 #include "Dynamic_Static/Core/Version.hpp"
+#include "Dynamic_Static/Core/Time.hpp"
 
+#include <thread>
 #include <iostream>
 
 int main(/* int argc, char** argv */)
@@ -42,12 +44,38 @@ int main(/* int argc, char** argv */)
     );
 
     {
-        Dynamic_Static::Window window;
+        dst::Window::Configuration configuration;
+        configuration.api = dst::Window::API::OpenGL;
+        dst::Window window(configuration);
         auto name = window.name();
         window.name("Hello World!");
 
         bool running = true;
         while (running) {
+            auto& input = window.input();
+            bool up = input.keyboard().up(dst::Keyboard::Key::A);
+            bool down = input.keyboard().down(dst::Keyboard::Key::A);
+            bool pressed = input.keyboard().pressed(dst::Keyboard::Key::A);
+            bool held = input.keyboard().held(dst::Keyboard::Key::A);
+            bool released = input.keyboard().released(dst::Keyboard::Key::A);
+            std::cout << std::endl;
+            std::cout <<
+                "["
+                    << up       << ", "
+                    << down     << ", "
+                    << pressed  << ", "
+                    << held     << ", "
+                    << released <<
+                "]"
+                << (pressed ? "PRESSED" : "")
+                << (released ? "RELEASED" : "")
+            << std::endl;
+
+            std::cout << input.mouse().scroll() << std::endl;
+
+            window.swap_buffers();
+            dst::Window::update();
+            std::this_thread::sleep_for(dst::Second<>(1.0f / 15.0f));
             int breaker = 0;
         }
     }
