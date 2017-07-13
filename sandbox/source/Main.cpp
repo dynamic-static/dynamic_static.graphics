@@ -27,7 +27,7 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Core/Window.hpp"
+#include "Dynamic_Static/Graphics/Window.hpp"
 #include "Dynamic_Static/Core/Defines.hpp"
 #include "Dynamic_Static/Core/Version.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
@@ -44,9 +44,11 @@ int main(/* int argc, char** argv */)
     );
 
     {
-        dst::Window::Configuration configuration;
-        configuration.api = dst::Window::API::OpenGL;
-        dst::Window window(configuration);
+        dst::gfx::Window::Configuration configuration;
+        configuration.api = dst::gfx::API::OpenGL;
+        configuration.apiVersion.major = 4;
+        configuration.apiVersion.minor = 1;
+        dst::gfx::Window window(configuration);
         auto name = window.name();
         window.name("Hello World!");
 
@@ -74,7 +76,7 @@ int main(/* int argc, char** argv */)
             std::cout << input.mouse().scroll() << std::endl;
 
             window.swap_buffers();
-            dst::Window::update();
+            dst::gfx::Window::update();
             std::this_thread::sleep_for(dst::Second<>(1.0f / 15.0f));
             int breaker = 0;
         }

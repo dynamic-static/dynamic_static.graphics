@@ -4,7 +4,7 @@
 
   MIT License
 
-  Copyright (c) 2017 Dynamic_Static
+  Copyright (c) 2016 Dynamic_Static
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,10 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
+#pragma once
+
+#include "Dynamic_Static/Graphics/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/VulkanInclude.hpp"
 
 namespace Dynamic_Static
 {
@@ -35,7 +38,10 @@ namespace Dynamic_Static
     {
         namespace Vulkan
         {
-
+            class Instance;
+            class PhysicalDevice;
         } // namespace Vulkan
+
+        // namespace vk = Vulkan;
     } // namespace Graphics
 } // namespace Dynamic_Static

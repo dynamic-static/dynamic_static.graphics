@@ -3,6 +3,7 @@
 
 cmake_minimum_required(VERSION 3.2)
 project(Dynamic_Static.Graphics CXX)
+option(DST_GFX_BUILD_EXAMPLES "Build Dynamic_Static.Graphics.Examples" ON)
 option(DST_GFX_BUILD_SANDBOX "Build Dynamic_Static.Graphics.Sandbox" ON)
 option(DST_GFX_BUILD_TESTS "Build Dynamic_Static.Graphics.Tests" ON)
 
@@ -83,7 +84,6 @@ ExternalProject_Add(
 
     # GIT_REPOSITORY https://github.com/DynamicStatic/Dynamic_Static.Core.git
     # GIT_TAG master
->>>>>>> 2edd8367e110e509bbc216dda1cab32ee0b84faf
 
     CMAKE_ARGS
         -DDST_CORE_BUILD_SANDBOX=OFF
@@ -99,14 +99,20 @@ if (MSVC)
 else()
     set(DST_CORE_LIBRARY "${BINARY_DIR}/source/Dynamic_Static.Core.a")
 endif()
+################################################################################################################################
 
+set(VULKAN_LIBRARY "$ENV{VULKAN_SDK}/Lib/vulkan-1.lib")
 set(GLEW_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/external/glew-2.0.0/lib/Release/x64/glew32s.lib")
 
 set(DST_GFX_INCLUDE "${CMAKE_SOURCE_DIR}/include/")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/external/VulkanSDK/Windows/1.0.51.0/Include/")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/external/glew-2.0.0/include/")
 include_directories("${DST_CORE_INCLUDE}")
 include_directories("${DST_GFX_INCLUDE}")
 add_subdirectory(source/)
+if (DST_GFX_BUILD_EXAMPLES)
+    add_subdirectory(examples/)
+endif()
 if (DST_GFX_BUILD_SANDBOX)
     add_subdirectory(sandbox/)
 endif()

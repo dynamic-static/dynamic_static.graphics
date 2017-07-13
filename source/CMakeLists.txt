@@ -3,42 +3,32 @@
 
 set(INCLUDE_PATH ${DST_GFX_INCLUDE}/Dynamic_Static/)
 set(INCLUDE_FILES
-    # ${INCLUDE_PATH}/Core/Input.hpp
-    # ${INCLUDE_PATH}/Core/Input.Manager.hpp
-    # ${INCLUDE_PATH}/Core/Keyboard.hpp
-    ${INCLUDE_PATH}/Core/Monitor.hpp
-    # ${INCLUDE_PATH}/Core/Mouse.hpp
-    # ${INCLUDE_PATH}/Core/Point.hpp
-    ${INCLUDE_PATH}/Core/Resolution.hpp
-    ${INCLUDE_PATH}/Core/Window.hpp
+    ${INCLUDE_PATH}/Graphics/OpenGL/GLEWInclude.hpp
+
+    ${INCLUDE_PATH}/Graphics/Vulkan/Defines.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Instance.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Object.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/VulkanInclude.hpp
 
     ${INCLUDE_PATH}/Graphics/Camera.hpp
     ${INCLUDE_PATH}/Graphics/Defines.hpp
+    ${INCLUDE_PATH}/Graphics/Monitor.hpp
     ${INCLUDE_PATH}/Graphics/Object.hpp
-
-    ${INCLUDE_PATH}/Graphics/OpenGL/GLEWInclude.hpp
-
-    ${INCLUDE_PATH}/Graphics/Vulkan/Instance.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Object.hpp
+    ${INCLUDE_PATH}/Graphics/Resolution.hpp
+    ${INCLUDE_PATH}/Graphics/Window.hpp
 )
 
 set(SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/)
 set(SOURCE_FILES
-    ${SOURCE_PATH}/Core/GLFWInclude.hpp
-    # ${SOURCE_PATH}/Core/Input.cpp
-    # ${SOURCE_PATH}/Core/Input.Manager.cpp
-    # ${SOURCE_PATH}/Core/Keyboard.cpp
-    ${SOURCE_PATH}/Core/Monitor.cpp
-    # ${SOURCE_PATH}/Core/Mouse.cpp
-    # ${SOURCE_PATH}/Core/Point.cpp
-    ${SOURCE_PATH}/Core/Resolution.cpp
-    ${SOURCE_PATH}/Core/Window.cpp
-
-    ${SOURCE_PATH}/Graphics/Camera.cpp
-    ${SOURCE_PATH}/Graphics/Object.cpp
-
     ${SOURCE_PATH}/Graphics/Vulkan/Instance.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Object.cpp
+
+    ${SOURCE_PATH}/Graphics/Camera.cpp
+    ${SOURCE_PATH}/Graphics/GLFWInclude.hpp
+    ${SOURCE_PATH}/Graphics/Monitor.cpp
+    ${SOURCE_PATH}/Graphics/Object.cpp
+    ${SOURCE_PATH}/Graphics/Resolution.cpp
+    ${SOURCE_PATH}/Graphics/Window.cpp
 )
 
 include_directories(

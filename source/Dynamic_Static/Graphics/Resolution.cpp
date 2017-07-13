@@ -27,15 +27,19 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
+#include "Dynamic_Static/Graphics/Resolution.hpp"
 
 namespace Dynamic_Static
 {
-    namespace Graphics
+    float Resolution::aspect_ratio() const
     {
-        namespace Vulkan
-        {
+        auto w = static_cast<float>(width);
+        auto h = static_cast<float>(height);
+        return height ? w / h : 0;
+    }
 
-        } // namespace Vulkan
-    } // namespace Graphics
+    std::string Resolution::to_string() const
+    {
+        return std::to_string(width) + " x " + std::to_string(height);
+    }
 } // namespace Dynamic_Static

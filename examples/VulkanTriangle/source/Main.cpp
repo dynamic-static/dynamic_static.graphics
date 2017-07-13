@@ -27,15 +27,11 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 
-namespace Dynamic_Static
+int main()
 {
-    namespace Graphics
-    {
-        namespace Vulkan
-        {
+    auto instance = dst::gfx::Vulkan::Instance::create();
 
-        } // namespace Vulkan
-    } // namespace Graphics
-} // namespace Dynamic_Static
+    return 0;
+}

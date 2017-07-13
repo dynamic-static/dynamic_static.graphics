@@ -27,19 +27,21 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Core/Resolution.hpp"
+#pragma once
 
-namespace Dynamic_Static
-{
-    float Resolution::aspect_ratio() const
-    {
-        auto w = static_cast<float>(width);
-        auto h = static_cast<float>(height);
-        return height ? w / h : 0;
-    }
+#include "Dynamic_Static/Graphics/Defines.hpp"
 
-    std::string Resolution::to_string() const
-    {
-        return std::to_string(width) + " x " + std::to_string(height);
-    }
-} // namespace Dynamic_Static
+#if defined(DYNAMIC_STATIC_WINDOWS)
+#ifndef VK_USE_PLATFORM_WIN32_KHR
+#define VK_USE_PLATFORM_WIN32_KHR
+#endif
+#include "Dynamic_Static/Core/Win32LeanAndMean.hpp"
+#endif
+
+#if defined(DYNAMIC_STATIC_MSVC)
+// NOTE : vulkan.hpp generates warning `function marked as __forceinline not inlined` on MSVC.
+#pragma warning(disable : 4714)
+#endif
+
+#include "vulkan/vulkan.h"
+#include "vulkan/vulkan.hpp"
