@@ -79,7 +79,11 @@ ExternalProject_Add(
     PREFIX external
 
     URL https://github.com/DynamicStatic/Dynamic_Static.Core/archive/master.zip
-    # URL_HASH SHA1=EC6747B0DD19DF102DD2F4A25B66B976721E7A5F
+    # URL_HASH SHA1=ED05B1B4C82FC7EBF9C451352EB7B4CF887B80B2
+
+    # GIT_REPOSITORY https://github.com/DynamicStatic/Dynamic_Static.Core.git
+    # GIT_TAG master
+>>>>>>> 2edd8367e110e509bbc216dda1cab32ee0b84faf
 
     CMAKE_ARGS
         -DDST_CORE_BUILD_SANDBOX=OFF
