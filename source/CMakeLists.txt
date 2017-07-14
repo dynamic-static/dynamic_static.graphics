@@ -41,6 +41,7 @@ if (MSVC)
         ${DST_CORE_LIBRARY}
         ${GLFW_LIBRARY}
         ${GLEW_LIBRARY}
+        $ENV{VULKAN_SDK}/Lib/vulkan-1.lib
         opengl32.lib
         glu32.lib
         PARENT_SCOPE
