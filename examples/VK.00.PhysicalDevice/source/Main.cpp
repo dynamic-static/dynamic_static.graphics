@@ -370,7 +370,7 @@ void print_memory_properties(const dst::vlkn::PhysicalDevice& physicalDevice)
         std::cout << Tab(gTab++) << "size : " << size_str(memoryProperties.memoryHeaps[i].size) << std::endl;
         std::cout << Tab(gTab++) << "flags -" << std::endl;
         auto flags = memoryProperties.memoryHeaps[i].flags;
-        if (flags & VK_MEMORY_HEAP_DEVICE_LOCAL_BIT      ) std::cout << Tab(gTab) << "VK_MEMORY_HEAP_DEVICE_LOCAL_BIT" << std::endl;
+        if (flags & VK_MEMORY_HEAP_DEVICE_LOCAL_BIT)       std::cout << Tab(gTab) << "VK_MEMORY_HEAP_DEVICE_LOCAL_BIT" << std::endl;
         if (flags & VK_MEMORY_HEAP_MULTI_INSTANCE_BIT_KHX) std::cout << Tab(gTab) << "VK_MEMORY_HEAP_MULTI_INSTANCE_BIT_KHX" << std::endl;
         std::cout << std::endl;
         --gTab;
