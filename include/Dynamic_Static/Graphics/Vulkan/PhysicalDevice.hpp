@@ -29,6 +29,7 @@
 
 #pragma once
 
+#include "Dynamic_Static/Core/SharedObjectFactory.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 
@@ -40,10 +41,11 @@ namespace Graphics {
 namespace Vulkan {
 
     /**
-     * Provides high level control over a Vulkan physical device.
+     * Provides high level control over a Vulkan PhysicalDevice.
      */
     class PhysicalDevice final
         : public Object<VkPhysicalDevice>
+        , public SharedObjectFactory<Device>
     {
         friend class Instance;
 
@@ -61,9 +63,18 @@ namespace Vulkan {
         MemoryProperties mMemoryProperties { };
 
     private:
-        PhysicalDevice(Instance* instance, VkPhysicalDevice handle);
+        PhysicalDevice(Instance& instance, VkPhysicalDevice handle);
 
     public:
+        ~PhysicalDevice() final override;
+
+    public:
+        /**
+         * Gets this PhysicalDevice's Instance.
+         * @return This PhysicalDevice's Instance
+         */
+        Instance& instance();
+
         /**
          * Gets this PhysicalDevice's Instance.
          * @return This PhysicalDevice's Instance

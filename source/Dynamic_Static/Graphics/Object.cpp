@@ -38,8 +38,22 @@ namespace Dynamic_Static
             name("Dynamic_Static::Graphics::Object");
         }
 
+        Object::Object(Object && other)
+        {
+            *this = std::move(other);
+        }
+
         Object::~Object()
         {
+        }
+
+        Object& Object::operator=(Object&& other)
+        {
+            if (this != &other) {
+                dst::Object::operator=(std::move(other));
+            }
+
+            return *this;
         }
     } // namespace Graphics
 } // namespace Dynamic_Static

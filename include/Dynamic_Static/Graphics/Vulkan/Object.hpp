@@ -52,17 +52,18 @@ namespace Vulkan {
          */
         inline Object()
         {
-            name("Dynamic_Static::Graphics::Vulkan::Object");
+            name("Dynamic_Static::Vulkan::Object");
         }
 
-        // /**
-        //  * Moves an instance of Object.
-        //  * @param [in] other The Object to move from
-        //  */
-        // inline Object<VkHandleType>& operator=(Object<VkHandleType>&& other)
-        // {
-        //     *this = std::move(other);
-        // }
+    public:
+        /**
+         * Moves an instance of Object.
+         * @param [in] other The Object to move from
+         */
+        Object(Object<VkHandleType>&& other)
+        {
+            *this = std::move(other);
+        }
 
         /**
          * Destroys this Object.
@@ -73,16 +74,16 @@ namespace Vulkan {
          * Moves an instance of Object.
          * @param [in] other The Object to move from
          */
-        // inline Object<VkHandleType>& operator=(Object<VkHandleType>&& other)
-        // {
-        //     if (this != &other) {
-        //         gfx::Object::operator=(std::move(other));
-        //         mHandle = std::move(other.mHandle);
-        //         other.mHandle = VK_NULL_HANDLE;
-        //     }
-        // 
-        //     return *this;
-        // }
+        inline Object<VkHandleType>& operator=(Object<VkHandleType>&& other)
+        {
+            if (this != &other) {
+                gfx::Object::operator=(std::move(other));
+                mHandle = std::move(other.mHandle);
+                other.mHandle = VK_NULL_HANDLE;
+            }
+        
+            return *this;
+        }
 
         /**
          * TODO : Documentation.

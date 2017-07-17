@@ -43,6 +43,7 @@ namespace Vulkan {
      */
     class Instance final
         : public Object<VkInstance>
+        , std::enable_shared_from_this<Instance>
     {
     private:
         std::vector<std::string> mLayers;
@@ -65,10 +66,22 @@ namespace Vulkan {
 
     public:
         /**
+         * Gets a std::shared_ptr<> to this Instance.
+         * @return A std::shared_ptr<> to this Instance
+         */
+        std::shared_ptr<Instance> make_shared();
+
+        /**
          * Gets this Vulkan Instance's PhysicalDevices.
          * @return This Vulkan::Instance's PhysicalDevices
          */
-        dst::Collection<std::unique_ptr<PhysicalDevice>> physical_devices() const;
+        const dst::Collection<std::unique_ptr<PhysicalDevice>> physical_devices() const;
+
+        /**
+         * Gets a value indicating whether or not this Instance has validation enabled.
+         * @return Whether or not this Instance has validation enabled
+         */
+        bool validation_enabled() const;
 
         /**
          * Gets a function pointer from this Vulkan Instance.

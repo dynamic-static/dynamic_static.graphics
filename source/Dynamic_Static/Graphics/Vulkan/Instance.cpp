@@ -59,6 +59,7 @@ namespace Vulkan {
             mExtensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
         }
 
+        // NOTE : This code is duplicated in Device.cpp.
         auto validate_requests =
         [](std::vector<std::string>& requests)
         {
@@ -92,7 +93,7 @@ namespace Vulkan {
         instanceInfo.ppEnabledExtensionNames = requestedExtensions.data();
         Validate(vkCreateInstance(&instanceInfo, nullptr, &mHandle));
         if (debugFlags) {
-            mDebugReport.reset(new DebugReport(this, debugFlags));
+            mDebugReport.reset(new DebugReport(*this, debugFlags));
         }
 
         uint32_t physicalDeviceCount;
@@ -102,11 +103,12 @@ namespace Vulkan {
 
         mPhysicalDevices.reserve(physicalDeviceCount);
         for (const auto& handle : physicalDeviceHandles) {
-            auto physicalDevice = new PhysicalDevice(this, handle);
-            mPhysicalDevices.push_back(std::unique_ptr<PhysicalDevice>(physicalDevice));
+            std::unique_ptr<PhysicalDevice> physcialDevice;
+            physcialDevice.reset(new PhysicalDevice(*this, handle));
+            mPhysicalDevices.push_back(std::move(physcialDevice));
         }
 
-        name("Dynamic_Static::Graphics::Vulkan::Instance");
+        name("Dynamic_Static::Vulkan::Instance");
     }
 
     Instance::~Instance()
@@ -118,9 +120,19 @@ namespace Vulkan {
         }
     }
 
-    dst::Collection<std::unique_ptr<PhysicalDevice>> Instance::physical_devices() const
+    std::shared_ptr<Instance> Instance::make_shared()
+    {
+        return shared_from_this();
+    }
+
+    const dst::Collection<std::unique_ptr<PhysicalDevice>> Instance::physical_devices() const
     {
         return mPhysicalDevices;
+    }
+
+    bool Instance::validation_enabled() const
+    {
+        return !!mDebugReport;
     }
 
     std::shared_ptr<Instance> Instance::create(

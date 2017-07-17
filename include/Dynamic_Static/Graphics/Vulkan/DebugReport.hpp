@@ -49,13 +49,13 @@ namespace Vulkan {
 
     public:
         /**
-         * Configuration paramaters for DebugReport creation.
+         * Configuration paramaters for DebugReport construction.
          */
         struct Info final
             : public VkDebugReportCallbackCreateInfoEXT
         {
             /**
-             * Constructs an instnace of DebugReport::Info.
+             * Constructs an instnace of DebugReport::Info with default paramaters.
              */
             Info()
             {
@@ -76,7 +76,7 @@ namespace Vulkan {
         PFN_vkDestroyDebugReportCallbackEXT vkDestroyDebugReportCallbackEXT { nullptr };
 
     private:
-        DebugReport(Instance* instance, VkDebugReportFlagsEXT flags);
+        DebugReport(Instance& instance, VkDebugReportFlagsEXT flags);
 
     public:
         /**

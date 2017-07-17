@@ -49,9 +49,21 @@ namespace Dynamic_Static
             Object();
 
             /**
+             * Moves an instance of Object.
+             * @param [in] other The Object to move from
+             */
+            Object(Object&& other);
+
+            /**
              * Destroys this instance of Object.
              */
             virtual ~Object() = 0;
+
+            /**
+             * Moves an instance of Object.
+             * @param [in] other The Object to move from
+             */
+            Object& operator=(Object&& other);
         };
     } // namespace Graphics
 } // namespace Dynamic_Static

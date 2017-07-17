@@ -21,24 +21,26 @@ namespace Vulkan {
         void* userData
     );
 
-    DebugReport::DebugReport(Instance* instance, VkDebugReportFlagsEXT flags)
-        : mInstance { instance }
+    DebugReport::DebugReport(Instance& instance, VkDebugReportFlagsEXT flags)
+        : mInstance { &instance }
     {
         mInstance->get_function_pointer("vkDebugReportMessageEXT", vkDebugReportMessageEXT);
         mInstance->get_function_pointer("vkCreateDebugReportCallbackEXT", vkCreateDebugReportCallbackEXT);
         mInstance->get_function_pointer("vkDestroyDebugReportCallbackEXT", vkDestroyDebugReportCallbackEXT);
 
-        Info info;
+        Info info { };
         info.flags = flags;
         info.pfnCallback = debug_report_callback;
         info.pUserData = this;
-        Validate(vkCreateDebugReportCallbackEXT(mInstance->handle(), &info, nullptr, &mHandle));
+        Validate(vkCreateDebugReportCallbackEXT(*mInstance, &info, nullptr, &mHandle));
+
+        name("Dynamic_Static::Vulkan::DebugReport");
     }
 
     DebugReport::~DebugReport()
     {
         if (mHandle) {
-            vkDestroyDebugReportCallbackEXT(mInstance->handle(), mHandle, nullptr);
+            vkDestroyDebugReportCallbackEXT(*mInstance, mHandle, nullptr);
         }
     }
 

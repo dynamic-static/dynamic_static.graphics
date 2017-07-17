@@ -78,6 +78,7 @@ namespace Graphics {
 namespace Vulkan {
 
     class DebugReport;
+    class Device;
     class Instance;
     class PhysicalDevice;
 

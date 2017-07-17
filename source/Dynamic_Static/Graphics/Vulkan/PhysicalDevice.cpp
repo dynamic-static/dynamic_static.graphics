@@ -27,8 +27,6 @@
 ================================================================================
 */
 
-#pragma once
-
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/VulkanHppInclude.hpp"
 
@@ -36,8 +34,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    PhysicalDevice::PhysicalDevice(Instance* instance, VkPhysicalDevice handle)
-        : mInstance { instance }
+    PhysicalDevice::PhysicalDevice(Instance& instance, VkPhysicalDevice handle)
+        : mInstance { &instance }
     {
         mHandle = handle;
         vkGetPhysicalDeviceFeatures(mHandle, &mFeatures);
@@ -50,8 +48,19 @@ namespace Vulkan {
         name(mProperties.deviceName);
     }
 
+    PhysicalDevice::~PhysicalDevice()
+    {
+    }
+
+    Instance& PhysicalDevice::instance()
+    {
+        assert(mInstance);
+        return *mInstance;
+    }
+
     const Instance& PhysicalDevice::instance() const
     {
+        assert(mInstance);
         return *mInstance;
     }
 
@@ -80,26 +89,5 @@ namespace Dynamic_Static {
     {
         return ::vk::to_string(::vk::PhysicalDeviceType(physicalDeviceType));
     }
-
-    #if 0
-    std::string to_string(VkSampleCountFlags sampleCountFlags)
-    {
-        // NOTE : This doesn't work because VkSampleCountFlags is a typedef...
-        // TODO : Templatized Flags class like vulkan.hpp
-        std::string str;
-        if (sampleCountFlags & VK_SAMPLE_COUNT_1_BIT) str += "1 | ";
-        if (sampleCountFlags & VK_SAMPLE_COUNT_2_BIT) str += "2 | ";
-        if (sampleCountFlags & VK_SAMPLE_COUNT_4_BIT) str += "4 | ";
-        if (sampleCountFlags & VK_SAMPLE_COUNT_8_BIT) str += "8 | ";
-        if (sampleCountFlags & VK_SAMPLE_COUNT_16_BIT) str += "16 | ";
-        if (sampleCountFlags & VK_SAMPLE_COUNT_32_BIT) str += "32 | ";
-        if (sampleCountFlags & VK_SAMPLE_COUNT_64_BIT) str += "64 | ";
-        if (!str.empty()) {
-            str = str.substr(0, str.size() - 3);
-        }
-
-        return "{ " + str + " }";
-    }
-    #endif
 
 } // namespace Dynamic_Static
