@@ -27,39 +27,75 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
+#include "Dynamic_Static/Core/Collection.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
+#include <vector>
 
-namespace Dynamic_Static
-{
-    namespace Graphics
+namespace Dynamic_Static {
+namespace Graphics {
+namespace Vulkan {
+
+    /**
+     * Provides high level control over a Vulkan Instance.
+     */
+    class Instance final
+        : public Object<VkInstance>
     {
-        namespace Vulkan
+    private:
+        std::vector<std::string> mLayers;
+        std::vector<std::string> mExtensions;
+        std::unique_ptr<DebugReport> mDebugReport;
+        std::vector<std::unique_ptr<PhysicalDevice>> mPhysicalDevices;
+
+    private:
+        Instance(
+            const dst::Collection<std::string>& layers,
+            const dst::Collection<std::string>& extensions,
+            VkDebugReportFlagsEXT debugFlags = 0
+        );
+
+    public:
+        /**
+         * Destroys this Vulkan Instance.
+         */
+        ~Instance();
+
+    public:
+        /**
+         * Gets this Vulkan Instance's PhysicalDevices.
+         * @return This Vulkan::Instance's PhysicalDevices
+         */
+        dst::Collection<std::unique_ptr<PhysicalDevice>> physical_devices() const;
+
+        /**
+         * Gets a function pointer from this Vulkan Instance.
+         * @param [in] name             The name of the function
+         * @param [out] functionPointer The pointer to the function
+         */
+        template <typename FunctionType>
+        void get_function_pointer(const std::string& name, FunctionType& functionPointer) const
         {
-            class Instance final
-                : public Object<VkInstance>
-            {
-            private:
-                /**
-                 * Constructs an instance of Instance.
-                 */
-                Instance();
+            functionPointer = reinterpret_cast<FunctionType>(vkGetInstanceProcAddr(mHandle, name.c_str()));
+            // TODO : Make this check configurable; ie. throw, assert, log, nothing, etc.
+            if (!functionPointer) {
+                throw std::runtime_error("Failed to acquire function pointer for \"" + name + "\"");
+            }
+        }
 
-            public:
-                /**
-                 * Destroys this instance of Instance.
-                 */
-                ~Instance();
+        /**
+         * Creates a Vulkan Instance.
+         * @return The newly created Vulkan Instance.
+         */
+        static std::shared_ptr<Instance> create(
+            const dst::Collection<std::string>& layers,
+            const dst::Collection<std::string>& extensions,
+            VkDebugReportFlagsEXT debugFlags = 0
+        );
+    };
 
-            public:
-                /**
-                 * Creates a Vulkan::Instance.
-                 * @return The newly created Vulkan::Instance.
-                 */
-                static std::shared_ptr<Instance> create();
-            };
-        } // namespace Vulkan
-    } // namespace Graphics
+} // namespace Vulkan
+} // namespace Graphics
 } // namespace Dynamic_Static

@@ -1,5 +1,5 @@
 
-# CMake configuration for Example.VulkanTriangle
+# CMake configuration for Example.VK.00.Triangle
 
 set(INCLUDE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 set(INCLUDE_FILES
@@ -16,13 +16,13 @@ include_directories(
 )
 
 add_executable(
-    Example.VulkanTriangle
+    Example.VK.01.Triangle
     ${INCLUDE_FILES}
     ${SOURCE_FILES}
 )
 
 target_link_libraries(
-    Example.VulkanTriangle
+    Example.VK.01.Triangle
     Dynamic_Static.Graphics
     ${DST_GFX_DEPENDENCIES}
 )

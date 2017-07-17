@@ -31,7 +31,25 @@
 
 int main()
 {
-    auto instance = dst::gfx::Vulkan::Instance::create();
+    std::vector<std::string> layers;
+    std::vector<std::string> extensions {
+        VK_KHR_SURFACE_EXTENSION_NAME,
+        #if defined(DYNAMIC_STATIC_WINDOWS)
+        VK_KHR_WIN32_SURFACE_EXTENSION_NAME,
+        #endif
+    };
+
+    VkDebugReportFlagsEXT debugFlags =
+        0 |
+        VK_DEBUG_REPORT_INFORMATION_BIT_EXT |
+        VK_DEBUG_REPORT_DEBUG_BIT_EXT |
+        VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT |
+        VK_DEBUG_REPORT_WARNING_BIT_EXT |
+        VK_DEBUG_REPORT_ERROR_BIT_EXT
+        ;
+
+    auto instance = dst::vlkn::Instance::create(layers, extensions, debugFlags);
+    auto name = instance->name();
 
     return 0;
 }

@@ -32,16 +32,10 @@
 #include "Dynamic_Static/Graphics/Defines.hpp"
 
 #if defined(DYNAMIC_STATIC_WINDOWS)
-#ifndef VK_USE_PLATFORM_WIN32_KHR
-#define VK_USE_PLATFORM_WIN32_KHR
-#endif
+    #ifndef VK_USE_PLATFORM_WIN32_KHR
+    #define VK_USE_PLATFORM_WIN32_KHR
+    #endif
 #include "Dynamic_Static/Core/Win32LeanAndMean.hpp"
 #endif
 
-#if defined(DYNAMIC_STATIC_MSVC)
-// NOTE : vulkan.hpp generates warning `function marked as __forceinline not inlined` on MSVC.
-#pragma warning(disable : 4714)
-#endif
-
 #include "vulkan/vulkan.h"
-#include "vulkan/vulkan.hpp"

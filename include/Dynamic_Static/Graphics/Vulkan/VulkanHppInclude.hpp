@@ -27,14 +27,18 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
+#pragma once
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+#include "Dynamic_Static/Graphics/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/VulkanInclude.hpp"
 
+#if defined(DYNAMIC_STATIC_MSVC)
+#pragma warning(push)
+#pragma warning(disable : 4714) // `function marked as __forceinline not inlined`
+#endif
 
+#include "vulkan/vulkan.hpp"
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+#if defined(DYNAMIC_STATIC_MSVC)
+#pragma warning(pop)
+#endif

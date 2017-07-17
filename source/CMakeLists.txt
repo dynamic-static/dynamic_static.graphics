@@ -6,8 +6,10 @@ set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/OpenGL/GLEWInclude.hpp
 
     ${INCLUDE_PATH}/Graphics/Vulkan/Defines.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/DebugReport.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Instance.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Object.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/PhysicalDevice.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/VulkanInclude.hpp
 
     ${INCLUDE_PATH}/Graphics/Camera.hpp
@@ -20,8 +22,10 @@ set(INCLUDE_FILES
 
 set(SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/)
 set(SOURCE_FILES
+    ${SOURCE_PATH}/Graphics/Vulkan/DebugReport.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Instance.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Object.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/PhysicalDevice.cpp
 
     ${SOURCE_PATH}/Graphics/Camera.cpp
     ${SOURCE_PATH}/Graphics/GLFWInclude.hpp
