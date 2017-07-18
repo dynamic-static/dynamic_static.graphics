@@ -81,6 +81,8 @@ namespace Vulkan {
     class Device;
     class Instance;
     class PhysicalDevice;
+    class Queue;
+    class SurfaceKHR;
 
     class Exception final
         : public std::runtime_error

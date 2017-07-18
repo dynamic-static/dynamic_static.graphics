@@ -105,6 +105,14 @@ namespace Dynamic_Static
             }
         }
 
+        void* Window::handle()
+        {
+            #if defined(DYNAMIC_STATIC_WINDOWS)
+            return glfwGetWin32Window(glfw_handle(mHandle));
+            #endif
+            return nullptr;
+        }
+
         const Input& Window::input() const
         {
             return mInputManager.input();

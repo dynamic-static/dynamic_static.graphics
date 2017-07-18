@@ -27,29 +27,57 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
+#include "Dynamic_Static/Graphics/Vulkan.hpp"
+#include "Dynamic_Static/Graphics/Window.hpp"
+
+#include <memory>
 
 int main()
 {
-    std::vector<std::string> layers;
-    std::vector<std::string> extensions {
-        VK_KHR_SURFACE_EXTENSION_NAME,
-        #if defined(DYNAMIC_STATIC_WINDOWS)
-        VK_KHR_WIN32_SURFACE_EXTENSION_NAME,
-        #endif
-    };
+    {
+        std::vector<std::string> layers;
+        std::vector<std::string> extensions {
+            VK_KHR_SURFACE_EXTENSION_NAME,
+            #if defined(DYNAMIC_STATIC_WINDOWS)
+            VK_KHR_WIN32_SURFACE_EXTENSION_NAME,
+            #endif
+        };
 
-    VkDebugReportFlagsEXT debugFlags =
-        0 |
-        VK_DEBUG_REPORT_INFORMATION_BIT_EXT |
-        VK_DEBUG_REPORT_DEBUG_BIT_EXT |
-        VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT |
-        VK_DEBUG_REPORT_WARNING_BIT_EXT |
-        VK_DEBUG_REPORT_ERROR_BIT_EXT
-        ;
+        // NOTE : Uncomment any combination of these flags for debug output.
+        VkDebugReportFlagsEXT debugFlags =
+            0
+            | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+            | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+            | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+            | VK_DEBUG_REPORT_WARNING_BIT_EXT
+            | VK_DEBUG_REPORT_ERROR_BIT_EXT
+            ;
 
-    auto instance = dst::vlkn::Instance::create(layers, extensions, debugFlags);
-    auto name = instance->name();
+        auto instance = dst::vlkn::Instance::create(layers, extensions, debugFlags);
+        // NOTE : We're just assuming that the first PhysicalDevice is the one we want.
+        //        This won't always be the case, we should check for necessary features.
+        auto& physicalDevice = *instance->physical_devices()[0];
+        auto apiVersion = physicalDevice.properties().apiVersion;
+
+        dst::gfx::Window::Configuration configuration;
+        configuration.api = dst::gfx::API::Vulkan;
+        configuration.apiVersion.major = VK_VERSION_MAJOR(apiVersion);
+        configuration.apiVersion.minor = VK_VERSION_MAJOR(apiVersion);
+        configuration.apiVersion.patch = VK_VERSION_MAJOR(apiVersion);
+        auto window = std::make_shared<dst::gfx::Window>(configuration);
+        auto surface = physicalDevice.create<dst::vlkn::SurfaceKHR>(window);
+
+        auto quitKey = dst::Keyboard::Key::Escape;
+        bool running = true;
+        while (running) {
+            dst::gfx::Window::update();
+            if (window->input().keyboard().down(quitKey)) {
+                running = false;
+            }
+
+            window->swap_buffers();
+        }
+    }
 
     return 0;
 }

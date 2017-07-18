@@ -27,6 +27,8 @@
 ================================================================================
 */
 
+#pragma once
+
 #include "Dynamic_Static/Core/Collection.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
@@ -43,7 +45,7 @@ namespace Vulkan {
      */
     class Instance final
         : public Object<VkInstance>
-        , std::enable_shared_from_this<Instance>
+        , public std::enable_shared_from_this<Instance>
     {
     private:
         std::vector<std::string> mLayers;

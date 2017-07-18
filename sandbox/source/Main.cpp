@@ -55,11 +55,12 @@ int main(/* int argc, char** argv */)
         bool running = true;
         while (running) {
             auto& input = window.input();
-            bool up = input.keyboard().up(dst::Keyboard::Key::A);
-            bool down = input.keyboard().down(dst::Keyboard::Key::A);
-            bool pressed = input.keyboard().pressed(dst::Keyboard::Key::A);
-            bool held = input.keyboard().held(dst::Keyboard::Key::A);
-            bool released = input.keyboard().released(dst::Keyboard::Key::A);
+            auto key = dst::Keyboard::Key::Escape;
+            bool up = input.keyboard().up(key);
+            bool down = input.keyboard().down(key);
+            bool pressed = input.keyboard().pressed(key);
+            bool held = input.keyboard().held(key);
+            bool released = input.keyboard().released(key);
             std::cout << std::endl;
             std::cout <<
                 "["

@@ -29,8 +29,7 @@
 
 #include "Dynamic_Static/Core/ToString.hpp"
 #include "Dynamic_Static/Core/Version.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
+#include "Dynamic_Static/Graphics/Vulkan.hpp"
 
 #include <iostream>
 

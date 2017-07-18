@@ -127,6 +127,12 @@ namespace Dynamic_Static
             void name(const std::string& name) final override;
 
             /**
+             * Gets this Window's OS handle.
+             * @return This Window's OS handle
+             */
+            void* handle();
+
+            /**
              * Gets this Window's Input.
              * @return This Window's Input
              */

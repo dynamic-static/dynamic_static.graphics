@@ -27,67 +27,28 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/VulkanHppInclude.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    PhysicalDevice::PhysicalDevice(Instance& instance, VkPhysicalDevice handle)
-        : mInstance { &instance }
+    Queue::Queue(Device& device, const Info& info, size_t familyIndex)
+        
     {
-        mHandle = handle;
-        vkGetPhysicalDeviceFeatures(mHandle, &mFeatures);
-        vkGetPhysicalDeviceProperties(mHandle, &mProperties);
-        vkGetPhysicalDeviceMemoryProperties(mHandle, &mMemoryProperties);
-
-        uint32_t queueFamilyCount;
-        vkGetPhysicalDeviceQueueFamilyProperties(mHandle, &queueFamilyCount, nullptr);
-
-        name(mProperties.deviceName);
+        name("Dynamic_Static::Vulkan::Queue");
     }
 
-    PhysicalDevice::~PhysicalDevice()
+    size_t Queue::family_index() const
     {
+        return size_t();
     }
 
-    Instance& PhysicalDevice::instance()
+    float Queue::priority() const
     {
-        assert(mInstance);
-        return *mInstance;
-    }
-
-    const Instance& PhysicalDevice::instance() const
-    {
-        assert(mInstance);
-        return *mInstance;
-    }
-
-    const VkPhysicalDeviceFeatures& PhysicalDevice::features() const
-    {
-        return mFeatures;
-    }
-
-    const VkPhysicalDeviceProperties& PhysicalDevice::properties() const
-    {
-        return mProperties;
-    }
-
-    const VkPhysicalDeviceMemoryProperties& PhysicalDevice::memory_properties() const
-    {
-        return mMemoryProperties;
+        return 0.0f;
     }
 
 } // namespace Vulkan
 } // namespace Graphics
-} // namespace Dynamic_Static
-
-namespace Dynamic_Static {
-
-    std::string to_string(VkPhysicalDeviceType physicalDeviceType)
-    {
-        return ::vk::to_string(::vk::PhysicalDeviceType(physicalDeviceType));
-    }
-
 } // namespace Dynamic_Static

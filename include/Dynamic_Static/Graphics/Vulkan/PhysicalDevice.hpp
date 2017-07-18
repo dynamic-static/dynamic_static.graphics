@@ -30,8 +30,8 @@
 #pragma once
 
 #include "Dynamic_Static/Core/SharedObjectFactory.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
 #include <string>
@@ -45,22 +45,15 @@ namespace Vulkan {
      */
     class PhysicalDevice final
         : public Object<VkPhysicalDevice>
-        , public SharedObjectFactory<Device>
+        , public SharedObjectFactory<Device, SurfaceKHR>
     {
         friend class Instance;
 
-    public:
-        typedef VkPhysicalDeviceType Type;
-        typedef VkPhysicalDeviceLimits Limits;
-        typedef VkPhysicalDeviceFeatures Features;
-        typedef VkPhysicalDeviceProperties Properties;
-        typedef VkPhysicalDeviceMemoryProperties MemoryProperties;
-
     private:
         Instance* mInstance { nullptr };
-        Features mFeatures { };
-        Properties mProperties { };
-        MemoryProperties mMemoryProperties { };
+        VkPhysicalDeviceFeatures mFeatures { };
+        VkPhysicalDeviceProperties mProperties { };
+        VkPhysicalDeviceMemoryProperties mMemoryProperties { };
 
     private:
         PhysicalDevice(Instance& instance, VkPhysicalDevice handle);
@@ -82,22 +75,29 @@ namespace Vulkan {
         const Instance& instance() const;
 
         /**
-         * Gets this PhysicalDevice's PhysicalDevice::Features.
-         * @return This PhysicalDevice's PhysicalDevice::Features
+         * Gets this PhysicalDevice's VkPhysicalDeviceFeatures.
+         * @return This PhysicalDevice's VkPhysicalDeviceFeatures
          */
-        const Features& features() const;
+        const VkPhysicalDeviceFeatures& features() const;
 
         /**
-         * Gets this PhysicalDevice's PhysicalDevice::Properties.
-         * @return This PhysicalDevice's PhysicalDevice::Properties
+         * Gets this PhysicalDevice's VkPhysicalDeviceProperties.
+         * @return This PhysicalDevice's VkPhysicalDeviceProperties
          */
-        const Properties& properties() const;
+        const VkPhysicalDeviceProperties& properties() const;
 
         /**
-         * Gets this PhysicalDevice's PhysicalDevice::MemoryProperties.
-         * @return This PhysicalDevice's PhysicalDevice::MemoryProperties
+         * Gets this PhysicalDevice's VkPhysicalDeviceMemoryProperties.
+         * @return This PhysicalDevice's VkPhysicalDeviceMemoryProperties
          */
-        const MemoryProperties& memory_properties() const;
+        const VkPhysicalDeviceMemoryProperties& memory_properties() const;
+
+        template <typename ObjectType, typename ...Args>
+        std::shared_ptr<ObjectType> create(Args&&... args)
+        {
+            auto object = new ObjectType(*this, args...);
+            return make_shared<ObjectType>(object);
+        }
     };
 
 } // namespace Vulkan

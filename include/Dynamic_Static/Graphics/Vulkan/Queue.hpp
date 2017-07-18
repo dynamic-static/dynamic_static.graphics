@@ -1,5 +1,4 @@
 
-
 /*
 ================================================================================
 
@@ -30,10 +29,8 @@
 
 #pragma once
 
-#include "Dynamic_Static/Core/Collection.hpp"
-#include "Dynamic_Static/Graphics/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
 
 #include <memory>
 
@@ -42,60 +39,54 @@ namespace Graphics {
 namespace Vulkan {
 
     /**
-     * Provides high level control over a Vulkan Device.
+     * Provides high level control over a Vulkan Queue.
      */
-    class Device final
-        : Object<VkDevice>
+    class Queue final
+        : public Object<VkQueue>
     {
-        friend class PhysicalDevice;
+        friend class Device;
 
     public:
         /**
-         * Configuration paramaters for Device construction.
+         * Configuration paramaters for Queue construction.
          */
         struct Info final
-            : public VkDeviceCreateInfo
+            : public VkDeviceQueueCreateInfo
         {
             /**
-             * Constructs an instnace of Device::Info with default paramaters.
+             * Constructs an instance of Queue::Info with default paramaters.
              */
             Info()
             {
-                sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+                sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
                 pNext = nullptr;
                 flags = 0;
-                queueCreateInfoCount = 0;
-                pQueueCreateInfos = nullptr;
-                enabledLayerCount = 0;
-                ppEnabledLayerNames = nullptr;
-                enabledExtensionCount = 0;
-                ppEnabledExtensionNames = nullptr;
-                pEnabledFeatures = nullptr;
+                queueFamilyIndex = 0;
+                queueCount = 0;
+                pQueuePriorities = nullptr;
             }
         };
 
     private:
-        std::vector<std::string> mLayers;
-        std::vector<std::string> mExtensions;
-        // std::vector<
-        PhysicalDevice* mPhysicalDevice { nullptr };
-        std::shared_ptr<Instance> mInstance;
+        size_t mFamilyIndex { 0 };
+        float mPriority { 0 };
+        std::shared_ptr<Device> mDevice;
 
     private:
-        Device(
-            PhysicalDevice& physicalDevice,
-            const dst::Collection<std::string>& layers,
-            const dst::Collection<std::string>& extensions,
-            const dst::Collection<Queue::Info>& queueInfos,
-            const VkPhysicalDeviceFeatures& features = { }
-        );
+        Queue(Device& device, const Info& info, size_t familyIndex);
 
     public:
         /**
-         * Gets this Device's PhysicalDevice.
-         * @return This Device's PhysicalDevice
+         * Gets this Queue's family index.
+         * @return This Queue's family index
          */
-        const PhysicalDevice& physical_device() const;
+        size_t family_index() const;
+
+        /**
+         * Gets this Queue's priority.
+         * @return This Queue's priority
+         */
+        float priority() const;
     };
 
 } // namespace Vulkan

@@ -40,16 +40,14 @@ namespace Vulkan {
         PhysicalDevice& physicalDevice,
         const dst::Collection<std::string>& layers,
         const dst::Collection<std::string>& extensions,
-        const dst::Collection<Queue::Info>& queueInfos
-        // const PhysicalDevice::Features& features
+        const dst::Collection<Queue::Info>& queueInfos,
+        const VkPhysicalDeviceFeatures& features
     )
         : mPhysicalDevice { &physicalDevice }
         , mInstance { physicalDevice.instance().make_shared() }
         , mLayers(layers.begin(), layers.end())
         , mExtensions(extensions.begin(), extensions.end())
     {
-        
-
         // NOTE : This code is duplicated in Instance.cpp.
         auto validate_requests =
         [](std::vector<std::string>& requests)
@@ -69,13 +67,15 @@ namespace Vulkan {
 
         Info info { };
         info.queueCreateInfoCount = static_cast<uint32_t>(queueInfos.size());
-        // TODO : Kind of annoying to use begin() here instead of data()...is there a better way?
+        // TODO : Kind of annoying to use begin() here instead of data()...there must be a better way!
         info.pQueueCreateInfos = queueInfos.begin();
         info.enabledLayerCount = static_cast<uint32_t>(requestedLayers.size());
         info.ppEnabledLayerNames = requestedLayers.data();
         info.enabledExtensionCount = static_cast<uint32_t>(requestedExtensions.size());
         info.ppEnabledExtensionNames = requestedExtensions.data();
         Validate(vkCreateDevice(*mPhysicalDevice, &info, nullptr, &mHandle));
+
+
 
         name("Dynamic_Static::Vulkan::Device");
     }
