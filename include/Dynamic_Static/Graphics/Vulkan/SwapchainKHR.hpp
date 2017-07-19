@@ -1,4 +1,5 @@
 
+
 /*
 ================================================================================
 
@@ -29,12 +30,71 @@
 
 #pragma once
 
-#include "Dynamic_Static/Graphics/Vulkan/DebugReport.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/SurfaceKHR.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp"
+
+#include <vector>
+#include <memory>
+
+namespace Dynamic_Static {
+namespace Graphics {
+namespace Vulkan {
+
+    /**
+     * Provides high level control over a Vulkan SwapchainKHR.
+     */
+    class SwapchainKHR final
+        : public Object<VkSwapchainKHR>
+    {
+        friend class Device;
+
+    private:
+        VkFormat mFormat;
+        VkExtent2D mExtent;
+        std::shared_ptr<Device> mDevice { nullptr };
+        std::shared_ptr<SurfaceKHR> mSurface { nullptr };
+
+    private:
+        SwapchainKHR(
+            const std::shared_ptr<Device>& device,
+            const std::shared_ptr<SurfaceKHR>& surface
+        );
+
+    public:
+        /**
+         * TODO : Documentation.
+         */
+        Device& device();
+
+        /**
+         * TODO : Documentation.
+         */
+        const Device& device() const;
+
+        /**
+         * TODO : Documentation.
+         */
+        SurfaceKHR& surface();
+
+        /**
+         * TODO : Documentation.
+         */
+        const SurfaceKHR& surface() const;
+
+        /**
+         * TODO : Documentation.
+         */
+        VkFormat format() const;
+
+        /**
+         * TODO : Documentation.
+         */
+        VkExtent2D extent() const;
+
+    private:
+        void on_surface_resized();
+    };
+
+} // namespace Vulkan
+} // namespace Graphics
+} // namespace Dynamic_Static

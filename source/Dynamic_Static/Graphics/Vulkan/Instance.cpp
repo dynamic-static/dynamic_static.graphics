@@ -120,7 +120,7 @@ namespace Vulkan {
         }
     }
 
-    std::shared_ptr<Instance> Instance::make_shared()
+    std::shared_ptr<Instance> Instance::shared()
     {
         return shared_from_this();
     }

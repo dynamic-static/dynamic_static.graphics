@@ -13,6 +13,7 @@ set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/Vulkan/PhysicalDevice.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Queue.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/SurfaceKHR.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/SwapchainKHR.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/VulkanHppInclude.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/VulkanInclude.hpp
 
@@ -33,6 +34,7 @@ set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/Vulkan/PhysicalDevice.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Queue.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/SurfaceKHR.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/SwapchainKHR.cpp
 
     ${SOURCE_PATH}/Graphics/Camera.cpp
     ${SOURCE_PATH}/Graphics/GLFWInclude.hpp

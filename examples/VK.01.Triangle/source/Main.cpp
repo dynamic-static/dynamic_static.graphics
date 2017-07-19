@@ -91,9 +91,13 @@ int main()
         auto& presentQueue = graphicsQueue;
 
         // Create SwapChain
+        if (surface->presentation_supported(presentQueue.family_index())) {
+            auto swapchain = device->create<dst::vlkn::SwapchainKHR>(surface);
+        } else {
+            throw std::runtime_error("Surface doesn't support presentation");
+        }
 
-
-        // create RenderPass
+        // Create RenderPass
 
 
         // Create Framebuffers
@@ -105,7 +109,7 @@ int main()
         // Create and record CommandBuffers
 
 
-        // Create sempahores
+        // Create Sempahores
 
         auto quitKey = dst::Keyboard::Key::Escape;
         bool running = true;

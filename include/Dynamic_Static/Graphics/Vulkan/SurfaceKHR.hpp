@@ -47,7 +47,7 @@ namespace Vulkan {
      * Provides high level control over a Vulkan SurfaceKHR.
      */
     class SurfaceKHR final
-        : Object<VkSurfaceKHR>
+        : public Object<VkSurfaceKHR>
     {
         friend class PhysicalDevice;
 
@@ -108,6 +108,12 @@ namespace Vulkan {
          * @return This SurfaceKHR's VkPresentModeKHRs
          */
         const dst::Collection<VkPresentModeKHR> present_modes() const;
+
+        /**
+         * Gets this SurfaceKHR's VkSurfaceTransformFlagBitsKHR.
+         * @return This SurfaceKHR's VkSurfaceTransformFlagBitsKHR
+         */
+        VkSurfaceTransformFlagBitsKHR transform_flags() const;
 
         /**
          * TODO : Documentation.

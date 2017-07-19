@@ -31,6 +31,7 @@
 #pragma once
 
 #include "Dynamic_Static/Core/Collection.hpp"
+#include "Dynamic_Static/Core/SharedObjectFactory.hpp"
 #include "Dynamic_Static/Graphics/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
@@ -46,6 +47,8 @@ namespace Vulkan {
      */
     class Device final
         : public Object<VkDevice>
+        , public std::enable_shared_from_this<Device>
+        , public SharedObjectFactory<SwapchainKHR>
     {
         friend class PhysicalDevice;
 
@@ -99,6 +102,12 @@ namespace Vulkan {
 
     public:
         /**
+         * Gets a std::shared_ptr<> to this Device.
+         * @return A std::shared_ptr<> to this Device
+         */
+        std::shared_ptr<Device> shared();
+
+        /**
          * Gets this Device's PhysicalDevice.
          * @return This Device's PhysicalDevice
          */
@@ -132,6 +141,16 @@ namespace Vulkan {
          * TODO : Documentation.
          */
         void wait_idle();
+
+        /**
+         * TODO : Documentation.
+         */
+        template <typename ObjectType, typename ...Args>
+        std::shared_ptr<ObjectType> create(Args&&... args)
+        {
+            auto object = new ObjectType(shared(), args...);
+            return make_shared<ObjectType>(object);
+        }
     };
 
 } // namespace Vulkan

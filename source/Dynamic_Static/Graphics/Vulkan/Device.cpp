@@ -31,6 +31,7 @@
 #include "Dynamic_Static/Core/VectorUtilities.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
 
 #include <algorithm>
 
@@ -46,7 +47,7 @@ namespace Vulkan {
         const VkPhysicalDeviceFeatures& features
     )
         : mPhysicalDevice { &physicalDevice }
-        , mInstance { physicalDevice.instance().make_shared() }
+        , mInstance { physicalDevice.instance().shared() }
         , mLayers(layers.begin(), layers.end())
         , mExtensions(extensions.begin(), extensions.end())
         , mFeatures { features }
@@ -83,8 +84,9 @@ namespace Vulkan {
             mQueues.push_back(std::vector<std::unique_ptr<Queue>>());
             mQueues.back().reserve(std::max(1u, queueInfo.queueCount));
             for (uint32_t i = 0; i < queueInfo.queueCount; ++i) {
-
-                mQueues.back().push_back(nullptr);
+                std::unique_ptr<Queue> queue;
+                queue.reset(new Queue(*this, queueInfo, i));
+                mQueues.back().push_back(std::move(queue));
             }
         }
 
@@ -94,6 +96,11 @@ namespace Vulkan {
     Device::~Device()
     {
         mQueues.clear();
+    }
+
+    std::shared_ptr<Device> Device::shared()
+    {
+        return shared_from_this();
     }
 
     const PhysicalDevice& Device::physical_device() const

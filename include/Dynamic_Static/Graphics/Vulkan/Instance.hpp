@@ -71,7 +71,7 @@ namespace Vulkan {
          * Gets a std::shared_ptr<> to this Instance.
          * @return A std::shared_ptr<> to this Instance
          */
-        std::shared_ptr<Instance> make_shared();
+        std::shared_ptr<Instance> shared();
 
         /**
          * Gets this Vulkan Instance's PhysicalDevices.

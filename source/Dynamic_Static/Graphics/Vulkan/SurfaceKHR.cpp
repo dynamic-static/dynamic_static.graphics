@@ -43,7 +43,7 @@ namespace Vulkan {
 
     SurfaceKHR::SurfaceKHR(PhysicalDevice& physicalDevice, std::shared_ptr<Window>& window)
         : mPhysicalDevice { &physicalDevice }
-        , mInstance { physicalDevice.instance().make_shared() }
+        , mInstance { physicalDevice.instance().shared() }
         , mWindow { window }
     {
         assert(mPhysicalDevice);
@@ -75,9 +75,10 @@ namespace Vulkan {
         }
 
         uint32_t formatCount;
-        vkGetPhysicalDeviceSurfaceFormatsKHR(*mPhysicalDevice, mHandle, &formatCount, nullptr);
+        Validate(vkGetPhysicalDeviceSurfaceFormatsKHR(*mPhysicalDevice, mHandle, &formatCount, nullptr));
         mFormats.resize(formatCount);
-        vkGetPhysicalDeviceSurfaceFormatsKHR(*mPhysicalDevice, mHandle, &formatCount, mFormats.data());
+        Validate(vkGetPhysicalDeviceSurfaceFormatsKHR(*mPhysicalDevice, mHandle, &formatCount, mFormats.data()));
+        mFormat = mFormats[0];
         if (mFormats.size() == 1 && mFormats[0].format == VK_FORMAT_UNDEFINED) {
             mFormat.colorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
             mFormat.format = VK_FORMAT_R8G8B8A8_UNORM;
@@ -130,10 +131,23 @@ namespace Vulkan {
         return mPresentModes;
     }
 
+    VkSurfaceTransformFlagBitsKHR SurfaceKHR::transform_flags() const
+    {
+        // NOTE : Sometimes images must be transformed before they are presented (ie. due to device's orientation).
+        //        If the specified transform is other than the current transform, the presentation engine will transform
+        //        during the presentation operation...this could have performance implications on some platforms.
+        auto transformFlags = mCapabilities.currentTransform;
+        if (mCapabilities.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR) {
+            transformFlags = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
+        }
+
+        return transformFlags;
+    }
+
     bool SurfaceKHR::presentation_supported(size_t queueFamilyIndex) const
     {
         VkBool32 presentationSupported;
-        Validate(vkGetPhysicalDeviceSurfaceSupportKHR(*mPhysicalDevice, queueFamilyIndex, mHandle, &presentationSupported));
+        Validate(vkGetPhysicalDeviceSurfaceSupportKHR(*mPhysicalDevice, static_cast<uint32_t>(queueFamilyIndex), mHandle, &presentationSupported));
         return presentationSupported ? true : false;
     }
 

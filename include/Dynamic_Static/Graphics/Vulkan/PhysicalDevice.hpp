@@ -96,6 +96,9 @@ namespace Vulkan {
          */
         std::vector<size_t> find_queue_families(VkQueueFlags queueFlags) const;
 
+        /**
+         * TODO : Documentation.
+         */
         template <typename ObjectType, typename ...Args>
         std::shared_ptr<ObjectType> create(Args&&... args)
         {
