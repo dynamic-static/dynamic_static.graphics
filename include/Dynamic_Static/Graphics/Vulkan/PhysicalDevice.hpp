@@ -35,6 +35,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -50,16 +51,14 @@ namespace Vulkan {
         friend class Instance;
 
     private:
-        Instance* mInstance { nullptr };
         VkPhysicalDeviceFeatures mFeatures { };
         VkPhysicalDeviceProperties mProperties { };
         VkPhysicalDeviceMemoryProperties mMemoryProperties { };
+        std::vector<VkQueueFamilyProperties> mQueueFamilyProperties;
+        Instance* mInstance { nullptr };
 
     private:
         PhysicalDevice(Instance& instance, VkPhysicalDevice handle);
-
-    public:
-        ~PhysicalDevice() final override;
 
     public:
         /**
@@ -91,6 +90,11 @@ namespace Vulkan {
          * @return This PhysicalDevice's VkPhysicalDeviceMemoryProperties
          */
         const VkPhysicalDeviceMemoryProperties& memory_properties() const;
+
+        /**
+         * TODO : Documentation.
+         */
+        std::vector<size_t> find_queue_families(VkQueueFlags queueFlags) const;
 
         template <typename ObjectType, typename ...Args>
         std::shared_ptr<ObjectType> create(Args&&... args)

@@ -32,6 +32,8 @@
 #include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 
+#include <algorithm>
+
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
@@ -47,6 +49,7 @@ namespace Vulkan {
         , mInstance { physicalDevice.instance().make_shared() }
         , mLayers(layers.begin(), layers.end())
         , mExtensions(extensions.begin(), extensions.end())
+        , mFeatures { features }
     {
         // NOTE : This code is duplicated in Instance.cpp.
         auto validate_requests =
@@ -75,15 +78,53 @@ namespace Vulkan {
         info.ppEnabledExtensionNames = requestedExtensions.data();
         Validate(vkCreateDevice(*mPhysicalDevice, &info, nullptr, &mHandle));
 
+        mQueues.reserve(queueInfos.size());
+        for (auto queueInfo : queueInfos) {
+            mQueues.push_back(std::vector<std::unique_ptr<Queue>>());
+            mQueues.back().reserve(std::max(1u, queueInfo.queueCount));
+            for (uint32_t i = 0; i < queueInfo.queueCount; ++i) {
 
+                mQueues.back().push_back(nullptr);
+            }
+        }
 
         name("Dynamic_Static::Vulkan::Device");
+    }
+
+    Device::~Device()
+    {
+        mQueues.clear();
     }
 
     const PhysicalDevice& Device::physical_device() const
     {
         assert(mPhysicalDevice);
         return *mPhysicalDevice;
+    }
+
+    const std::vector<std::string>& Device::layers() const
+    {
+        return mLayers;
+    }
+
+    const std::vector<std::string>& Device::extensions() const
+    {
+        return mExtensions;
+    }
+
+    const VkPhysicalDeviceFeatures& Device::features() const
+    {
+        return mFeatures;
+    }
+
+    const std::vector<std::vector<std::unique_ptr<Queue>>>& Device::queues() const
+    {
+        return mQueues;
+    }
+
+    void Device::wait_idle()
+    {
+        Validate(vkDeviceWaitIdle(mHandle));
     }
 
 } // namespace Vulkan

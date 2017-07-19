@@ -108,6 +108,11 @@ namespace Vulkan {
          * @return This SurfaceKHR's VkPresentModeKHRs
          */
         const dst::Collection<VkPresentModeKHR> present_modes() const;
+
+        /**
+         * TODO : Documentation.
+         */
+        bool presentation_supported(size_t queueFamilyIndex) const;
     };
 
 } // namespace Vulkan

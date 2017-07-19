@@ -44,12 +44,10 @@ namespace Vulkan {
 
         uint32_t queueFamilyCount;
         vkGetPhysicalDeviceQueueFamilyProperties(mHandle, &queueFamilyCount, nullptr);
+        mQueueFamilyProperties.resize(queueFamilyCount);
+        vkGetPhysicalDeviceQueueFamilyProperties(mHandle, &queueFamilyCount, mQueueFamilyProperties.data());
 
         name(mProperties.deviceName);
-    }
-
-    PhysicalDevice::~PhysicalDevice()
-    {
     }
 
     Instance& PhysicalDevice::instance()
@@ -77,6 +75,19 @@ namespace Vulkan {
     const VkPhysicalDeviceMemoryProperties& PhysicalDevice::memory_properties() const
     {
         return mMemoryProperties;
+    }
+
+    std::vector<size_t> PhysicalDevice::find_queue_families(VkQueueFlags queueFlags) const
+    {
+        std::vector<size_t> queueFamilyIndices;
+        for (size_t i = 0; i < mQueueFamilyProperties.size(); ++i) {
+            if (mQueueFamilyProperties[i].queueFlags & queueFlags &&
+                mQueueFamilyProperties[i].queueCount > 0) {
+                queueFamilyIndices.push_back(i);
+            }
+        }
+
+        return queueFamilyIndices;
     }
 
 } // namespace Vulkan

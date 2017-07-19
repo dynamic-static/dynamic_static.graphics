@@ -62,7 +62,7 @@ namespace Vulkan {
                 pNext = nullptr;
                 flags = 0;
                 queueFamilyIndex = 0;
-                queueCount = 0;
+                queueCount = 1;
                 pQueuePriorities = nullptr;
             }
         };
@@ -70,12 +70,24 @@ namespace Vulkan {
     private:
         size_t mFamilyIndex { 0 };
         float mPriority { 0 };
-        std::shared_ptr<Device> mDevice;
+        Device* mDevice { nullptr };
 
     private:
         Queue(Device& device, const Info& info, size_t familyIndex);
 
     public:
+        /**
+         * Gets this Queue's Device.
+         * @return This Queue's Device
+         */
+        Device& device();
+
+        /**
+         * Gets this Queue's Device.
+         * @return This Queue's Device
+         */
+        const Device& device() const;
+
         /**
          * Gets this Queue's family index.
          * @return This Queue's family index

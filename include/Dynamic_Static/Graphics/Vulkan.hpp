@@ -31,7 +31,6 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/DebugReport.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"

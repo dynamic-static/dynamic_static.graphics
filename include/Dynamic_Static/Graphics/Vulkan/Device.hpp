@@ -45,7 +45,7 @@ namespace Vulkan {
      * Provides high level control over a Vulkan Device.
      */
     class Device final
-        : Object<VkDevice>
+        : public Object<VkDevice>
     {
         friend class PhysicalDevice;
 
@@ -77,7 +77,8 @@ namespace Vulkan {
     private:
         std::vector<std::string> mLayers;
         std::vector<std::string> mExtensions;
-        // std::vector<
+        VkPhysicalDeviceFeatures mFeatures;
+        std::vector<std::vector<std::unique_ptr<Queue>>> mQueues;
         PhysicalDevice* mPhysicalDevice { nullptr };
         std::shared_ptr<Instance> mInstance;
 
@@ -92,10 +93,45 @@ namespace Vulkan {
 
     public:
         /**
+         * Destroys this instance of Device.
+         */
+        ~Device();
+
+    public:
+        /**
          * Gets this Device's PhysicalDevice.
          * @return This Device's PhysicalDevice
          */
         const PhysicalDevice& physical_device() const;
+
+        /**
+         * Gets this Device's layers.
+         * @return This Device's layers
+         */
+        const std::vector<std::string>& layers() const;
+
+        /**
+         * Gets this Device's extensions.
+         * @return This Device's extensions
+         */
+        const std::vector<std::string>& extensions() const;
+
+        /**
+         * Gets this Device's VkPhysicalDeviceFeatures.
+         * @return This Device's VkPhysicalDeviceFeatures
+         */
+        const VkPhysicalDeviceFeatures& features() const;
+
+        /**
+         * Gets this Device's Queues.
+         * @return This Device's Queues
+         */
+        const std::vector<std::vector<std::unique_ptr<Queue>>>& queues() const;
+
+        /**
+         * TODO : Documentation.
+         */
+        void wait_idle();
     };
 
 } // namespace Vulkan

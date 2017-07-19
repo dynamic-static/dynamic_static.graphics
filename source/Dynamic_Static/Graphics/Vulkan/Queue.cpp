@@ -28,25 +28,41 @@
 */
 
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    Queue::Queue(Device& device, const Info& info, size_t familyIndex)
-        
+    Queue::Queue(Device& device, const Info& info, size_t index)
+        : mDevice { &device }
+        , mFamilyIndex { info.queueFamilyIndex }
+        , mPriority { info.pQueuePriorities[index] }
     {
+        vkGetDeviceQueue(device, static_cast<uint32_t>(mFamilyIndex), static_cast<uint32_t>(index), &mHandle);
         name("Dynamic_Static::Vulkan::Queue");
+    }
+
+    Device& Queue::device()
+    {
+        assert(mDevice);
+        return *mDevice;
+    }
+
+    const Device& Queue::device() const
+    {
+        assert(mDevice);
+        return *mDevice;
     }
 
     size_t Queue::family_index() const
     {
-        return size_t();
+        return mFamilyIndex;
     }
 
     float Queue::priority() const
     {
-        return 0.0f;
+        return mPriority;
     }
 
 } // namespace Vulkan

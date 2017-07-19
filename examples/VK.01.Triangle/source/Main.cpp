@@ -31,12 +31,13 @@
 #include "Dynamic_Static/Graphics/Window.hpp"
 
 #include <memory>
+#include <iostream>
 
 int main()
 {
     {
-        std::vector<std::string> layers;
-        std::vector<std::string> extensions {
+        std::vector<std::string> instanceLayers;
+        std::vector<std::string> instanceExtensions {
             VK_KHR_SURFACE_EXTENSION_NAME,
             #if defined(DYNAMIC_STATIC_WINDOWS)
             VK_KHR_WIN32_SURFACE_EXTENSION_NAME,
@@ -53,12 +54,14 @@ int main()
             | VK_DEBUG_REPORT_ERROR_BIT_EXT
             ;
 
-        auto instance = dst::vlkn::Instance::create(layers, extensions, debugFlags);
+        // Create Instance and PhysicalDevices
+        auto instance = dst::vlkn::Instance::create(instanceLayers, instanceExtensions, debugFlags);
         // NOTE : We're just assuming that the first PhysicalDevice is the one we want.
         //        This won't always be the case, we should check for necessary features.
         auto& physicalDevice = *instance->physical_devices()[0];
         auto apiVersion = physicalDevice.properties().apiVersion;
 
+        // Create Window and Surface
         dst::gfx::Window::Configuration configuration;
         configuration.api = dst::gfx::API::Vulkan;
         configuration.apiVersion.major = VK_VERSION_MAJOR(apiVersion);
@@ -66,6 +69,43 @@ int main()
         configuration.apiVersion.patch = VK_VERSION_MAJOR(apiVersion);
         auto window = std::make_shared<dst::gfx::Window>(configuration);
         auto surface = physicalDevice.create<dst::vlkn::SurfaceKHR>(window);
+
+        // Create logical Device and Queues
+        std::vector<std::string> deviceLayers;
+        std::vector<std::string> deviceExtensions {
+            VK_KHR_SWAPCHAIN_EXTENSION_NAME,
+        };
+
+        auto queueFamilyFlags = VK_QUEUE_GRAPHICS_BIT;
+        auto queueFamilyIndices = physicalDevice.find_queue_families(queueFamilyFlags);
+        dst::vlkn::Queue::Info queueInfo { };
+        std::array<float, 1> queuePriorities { };
+        queueInfo.pQueuePriorities = queuePriorities.data();
+        // NOTE : We're assuming that we got at least one Queue capabale of
+        //        graphics, in anything but a toy we want to validate that.
+        queueInfo.queueFamilyIndex = static_cast<uint32_t>(queueFamilyIndices[0]);
+        auto device = physicalDevice.create<dst::vlkn::Device>(deviceLayers, deviceExtensions, queueInfo);
+        // NOTE : We're assuming that the Queue we're choosing for graphics
+        //        is capable of presenting, this may not always be the case.
+        auto& graphicsQueue = *device->queues()[0][0];
+        auto& presentQueue = graphicsQueue;
+
+        // Create SwapChain
+
+
+        // create RenderPass
+
+
+        // Create Framebuffers
+
+
+        // Create CommandPool
+
+
+        // Create and record CommandBuffers
+
+
+        // Create sempahores
 
         auto quitKey = dst::Keyboard::Key::Escape;
         bool running = true;

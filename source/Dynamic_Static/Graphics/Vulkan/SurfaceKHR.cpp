@@ -51,7 +51,7 @@ namespace Vulkan {
         assert(mWindow);
 
         #if defined(DYNAMIC_STATIC_WINDOWS)
-        VkWin32SurfaceCreateInfoKHR info;
+        VkWin32SurfaceCreateInfoKHR info { };
         info.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
         info.pNext = nullptr;
         info.flags = 0;
@@ -128,6 +128,13 @@ namespace Vulkan {
     const dst::Collection<VkPresentModeKHR> SurfaceKHR::present_modes() const
     {
         return mPresentModes;
+    }
+
+    bool SurfaceKHR::presentation_supported(size_t queueFamilyIndex) const
+    {
+        VkBool32 presentationSupported;
+        Validate(vkGetPhysicalDeviceSurfaceSupportKHR(*mPhysicalDevice, queueFamilyIndex, mHandle, &presentationSupported));
+        return presentationSupported ? true : false;
     }
 
 } // namespace Vulkan
