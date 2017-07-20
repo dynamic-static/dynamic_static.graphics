@@ -103,6 +103,7 @@ endif()
 
 set(VULKAN_LIBRARY "$ENV{VULKAN_SDK}/Lib/vulkan-1.lib")
 set(GLEW_LIBRARY "${CMAKE_CURRENT_SOURCE_DIR}/external/glew-2.0.0/lib/Release/x64/glew32s.lib")
+set(GLEW_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/external/glew-2.0.0/include/")
 
 set(DST_GFX_INCLUDE "${CMAKE_SOURCE_DIR}/include/")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/external/VulkanSDK/Windows/1.0.51.0/Include/")
