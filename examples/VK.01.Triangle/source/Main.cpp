@@ -41,6 +41,8 @@ int main()
             VK_KHR_SURFACE_EXTENSION_NAME,
             #if defined(DYNAMIC_STATIC_WINDOWS)
             VK_KHR_WIN32_SURFACE_EXTENSION_NAME,
+            #elif defined(DYNAMIC_STATIC_LINUX)
+            
             #endif
         };
 

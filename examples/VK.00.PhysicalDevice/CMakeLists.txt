@@ -21,10 +21,15 @@ add_executable(
     ${SOURCE_FILES}
 )
 
+MESSAGE(STATUS "Listing variables")
+foreach (varname ${DST_GFX_BINARY_DEPENDENCIES})
+    message(STATUS ${varname})
+endforeach()
+
 target_link_libraries(
     Example.VK.00.PhysicalDevice
     Dynamic_Static.Graphics
-    ${DST_GFX_DEPENDENCIES}
+    ${DST_GFX_BINARY_DEPENDENCIES}
 )
 
 create_file_group("${INCLUDE_FILES}")

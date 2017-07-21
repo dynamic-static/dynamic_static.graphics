@@ -124,6 +124,7 @@ void print_properties(const dst::vlkn::PhysicalDevice& physicalDevice, bool prin
 {
     const auto& properties = physicalDevice.properties();
 
+    /*
     dst::Version apiVersion {
         VK_VERSION_MAJOR(properties.apiVersion),
         VK_VERSION_MINOR(properties.apiVersion),
@@ -135,10 +136,11 @@ void print_properties(const dst::vlkn::PhysicalDevice& physicalDevice, bool prin
         VK_VERSION_MINOR(properties.driverVersion),
         VK_VERSION_PATCH(properties.driverVersion)
     };
+    */
 
     std::cout << Tab(gTab++) << "Properties -" << std::endl;
-    std::cout << Tab(gTab) << "apiVersion    : " << dst::to_string(apiVersion) << std::endl;
-    std::cout << Tab(gTab) << "driverVersion : " << dst::to_string(driverVersion) << std::endl;
+    // std::cout << Tab(gTab) << "apiVersion    : " << dst::to_string(apiVersion) << std::endl;
+    // std::cout << Tab(gTab) << "driverVersion : " << dst::to_string(driverVersion) << std::endl;
     std::cout << Tab(gTab) << "vendorID      : " << dst::to_string(properties.vendorID) << std::endl;
     std::cout << Tab(gTab) << "deviceID      : " << dst::to_string(properties.deviceID) << std::endl;
     std::cout << Tab(gTab) << "deviceType    : " << dst::to_string(properties.deviceType) << std::endl;

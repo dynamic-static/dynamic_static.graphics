@@ -32,6 +32,8 @@
 #include "Dynamic_Static/Graphics/Object.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 
+#include <string>
+
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
@@ -41,7 +43,7 @@ namespace Vulkan {
      */
     template <typename VkHandleType>
     class Object
-        : public gfx::Object
+        // : public gfx::Object
     {
     protected:
         VkHandleType mHandle { VK_NULL_HANDLE };
@@ -54,8 +56,14 @@ namespace Vulkan {
         {
             name("Dynamic_Static::Vulkan::Object");
         }
+        
+    private:
+        std::string mName;
 
     public:
+        const std::string& name() const { return mName; }
+        void name(const std::string& name) { mName = name; }
+    
         /**
          * Moves an instance of Object.
          * @param [in] other The Object to move from

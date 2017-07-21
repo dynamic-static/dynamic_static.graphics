@@ -67,7 +67,7 @@ namespace Dynamic_Static
             {
             public:
                 API api { API::Unknown };
-                Version apiVersion;
+                Version apiVersion { 0, 0, 0 };
                 std::string name { "Dynamic_Static" };
                 CursorMode cursorMode { CursorMode::Normal };
                 Resolution resolution { 1280, 720 };
@@ -94,7 +94,7 @@ namespace Dynamic_Static
              * Constructs an instance of Window.
              * @param [in] configuration The new Window's Configuration (optional = default Configuration)
              */
-            Window(const Window::Configuration& configuration = Configuration());
+            Window(const Configuration& configuration);
 
             /**
              * Moves an instance of Window.

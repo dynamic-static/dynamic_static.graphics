@@ -63,7 +63,31 @@ if (MSVC)
 else()
     set(DST_GFX_BINARY_DEPENDENCIES
         ${DST_CORE_LIBRARY}
+
+        
+        stdc++fs
+        
+        GL
+        GLU
+        EGL
+        # GLEW
         ${GLFW_LIBRARY}
+
+        Xi
+        X11
+        Xrandr
+        Xinerama
+        Xcursor
+        Xxf86vm
+        
+        pthread
+        
+
+        dl
+        /usr/lib/aarch64-linux-gnu/libvulkan.so
+        
+        
+
         PARENT_SCOPE
     )
 endif()
@@ -74,3 +98,4 @@ add_dependencies(Dynamic_Static.Graphics Dynamic_Static.Core)
 add_dependencies(Dynamic_Static.Graphics GLFW)
 create_file_group("${INCLUDE_FILES}")
 create_file_group("${SOURCE_FILES}")
+

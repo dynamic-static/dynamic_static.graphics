@@ -27,8 +27,6 @@
 ================================================================================
 */
 
-#pragma once
-
 #include "Dynamic_Static/Graphics/Camera.hpp"
 
 namespace Dynamic_Static
