@@ -1,5 +1,4 @@
 
-
 /*
 ================================================================================
 
@@ -48,7 +47,12 @@ namespace Vulkan {
     class Device final
         : public Object<VkDevice>
         , public std::enable_shared_from_this<Device>
-        , public SharedObjectFactory<SwapchainKHR>
+        , public SharedObjectFactory<
+            Framebuffer,
+            Semaphore,
+            ShaderModule,
+            SwapchainKHR
+        >
     {
         friend class PhysicalDevice;
 
@@ -90,8 +94,15 @@ namespace Vulkan {
             PhysicalDevice& physicalDevice,
             const dst::Collection<std::string>& layers,
             const dst::Collection<std::string>& extensions,
+            const dst::Collection<Queue::Info>& queueInfos
+        );
+
+        Device(
+            PhysicalDevice& physicalDevice,
+            const dst::Collection<std::string>& layers,
+            const dst::Collection<std::string>& extensions,
             const dst::Collection<Queue::Info>& queueInfos,
-            const VkPhysicalDeviceFeatures& features = { }
+            const VkPhysicalDeviceFeatures& features
         );
 
     public:

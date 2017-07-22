@@ -19,7 +19,7 @@ add_executable(
 target_link_libraries(
     Dynamic_Static.Graphics.Tests
     Dynamic_Static.Graphics
-    ${DST_GFX_DEPENDENCIES}
+    ${DST_GFX_BINARY_DEPENDENCIES}
 )
 
 create_file_group("${INCLUDE_FILES}")

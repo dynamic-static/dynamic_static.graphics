@@ -93,25 +93,53 @@ int main()
         auto& presentQueue = graphicsQueue;
 
         // Create SwapChain
+        std::shared_ptr<dst::vlkn::SwapchainKHR> swapchain;
         if (surface->presentation_supported(presentQueue.family_index())) {
-            auto swapchain = device->create<dst::vlkn::SwapchainKHR>(surface);
+            swapchain = device->create<dst::vlkn::SwapchainKHR>(surface);
         } else {
             throw std::runtime_error("Surface doesn't support presentation");
         }
 
         // Create RenderPass
+        auto vertexShader = device->create<dst::vlkn::ShaderModule>(
+            dst::vlkn::ShaderModule::Source::Code,
+            VK_SHADER_STAGE_VERTEX_BIT,
+            R"(
 
+                #version 450
+                #extension GL_ARB_separate_shader_objects : enable
 
-        // Create Framebuffers
+                out gl_PerVertex
+                {
+                    vec4 gl_Position;
+                };
 
+                vec2 positions[3] = vec2[](
+                    vec2( 0.0, -0.5),
+                    vec2( 0.5,  0.5),
+                    vec2(-0.5,  0.5)
+                );
+
+                void main()
+                {
+                    gl_Position = vec4(positions[gl_VertexIndex], 0, 1);
+                }
+
+            )"
+        );
 
         // Create CommandPool
 
 
         // Create and record CommandBuffers
 
+        // Create Framebuffers
+        //std::vector<std::shared_ptr<dst::vlkn::Framebuffer>> framebuffers(swapchain->images().size());
+
 
         // Create Sempahores
+        auto imageSemaphore = device->create<dst::vlkn::Semaphore>();
+        auto renderSemaphore = device->create<dst::vlkn::Semaphore>();
 
         auto quitKey = dst::Keyboard::Key::Escape;
         bool running = true;
