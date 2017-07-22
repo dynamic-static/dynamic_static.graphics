@@ -58,6 +58,14 @@ namespace Vulkan {
         info.hinstance = GetModuleHandle(nullptr);
         info.hwnd = static_cast<HWND>(window->handle());
         Validate(vkCreateWin32SurfaceKHR(*mInstance, &info, nullptr, &mHandle));
+        #elif defined(DYNAMIC_STATIC_LINUX)
+        VkXlibSurfaceCreateInfoKHR info { };
+        info.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
+        info.pNext = nullptr;
+        info.flags = 0;
+        info.dpy = static_cast<Display*>(window->display());
+        info.window = static_cast<::Window>(window->x11_window());
+        Validate(vkCreateXlibSurfaceKHR(*mInstance, &info, nullptr, &mHandle));
         #endif
 
         uint32_t presentModeCount;

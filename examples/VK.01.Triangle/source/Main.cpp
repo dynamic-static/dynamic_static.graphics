@@ -42,18 +42,18 @@ int main()
             #if defined(DYNAMIC_STATIC_WINDOWS)
             VK_KHR_WIN32_SURFACE_EXTENSION_NAME,
             #elif defined(DYNAMIC_STATIC_LINUX)
-            
+            VK_KHR_XLIB_SURFACE_EXTENSION_NAME,
             #endif
         };
 
         // NOTE : Uncomment any combination of these flags for debug output.
         VkDebugReportFlagsEXT debugFlags =
             0
-            | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
-            | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-            | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_ERROR_BIT_EXT
+            // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+            // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+            // | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_ERROR_BIT_EXT
             ;
 
         // Create Instance and PhysicalDevices

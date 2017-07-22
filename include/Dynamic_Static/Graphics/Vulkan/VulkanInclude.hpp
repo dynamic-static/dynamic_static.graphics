@@ -36,6 +36,11 @@
     #define VK_USE_PLATFORM_WIN32_KHR
     #endif
 #include "Dynamic_Static/Core/Win32LeanAndMean.hpp"
+#elif defined(DYNAMIC_STATIC_LINUX)
+    #ifndef VK_USE_PLATFORM_XLIB_KHR
+    #define VK_USE_PLATFORM_XLIB_KHR
+    #endif
 #endif
 
 #include "vulkan/vulkan.h"
+

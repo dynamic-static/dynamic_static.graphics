@@ -38,6 +38,10 @@
 #include "Dynamic_Static/Core/Math/Vector2.hpp"
 #include "Dynamic_Static/Graphics/Resolution.hpp"
 
+#if defined(DYNAMIC_STATIC_LINUX)
+typedef unsigned long X11Window;
+#endif
+
 struct GLFWwindow;
 namespace Dynamic_Static
 {
@@ -125,12 +129,27 @@ namespace Dynamic_Static
              * @param [in] name This Window's name
              */
             void name(const std::string& name) final override;
+            
+            /**
+             * Gets this Window's OS Display.
+             * \n NOTE : This value is platform specific
+             * @return This Window's OS Display
+             */
+            void* display();
 
             /**
              * Gets this Window's OS handle.
+             * \n NOTE : This value is platform specific
              * @return This Window's OS handle
              */
             void* handle();
+            
+            #if defined(DYNAMIC_STATIC_LINUX)
+            /**
+             * TODO : Documentation.
+             */
+            X11Window x11_window();
+            #endif
 
             /**
              * Gets this Window's Input.

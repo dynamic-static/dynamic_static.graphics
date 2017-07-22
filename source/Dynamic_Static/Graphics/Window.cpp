@@ -105,6 +105,14 @@ namespace Dynamic_Static
             }
         }
 
+        void* Window::display()
+        {
+            #if defined(DYNAMIC_STATIC_LINUX)
+            return glfwGetX11Display();
+            #endif
+            return nullptr;
+        }
+
         void* Window::handle()
         {
             #if defined(DYNAMIC_STATIC_WINDOWS)
@@ -112,6 +120,13 @@ namespace Dynamic_Static
             #endif
             return nullptr;
         }
+        
+        #if defined(DYNAMIC_STATIC_LINUX)
+        X11Window Window::x11_window()
+        {
+            return glfwGetX11Window(glfw_handle(mHandle));
+        }
+        #endif
 
         const Input& Window::input() const
         {
