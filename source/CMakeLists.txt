@@ -60,10 +60,11 @@ include_directories(
     DYNAMIC_STATIC_CORE_INCLUDE_DIRECTORY
     ${glslang_INCLUDE}
     ${GLFW_INCLUDE}
+    ${GLEW_INCLUDE}
 )
 
 if (MSVC)
-    set(DST_GFX_DEPENDENCIES
+    set(DST_GFX_BINARY_DEPENDENCIES
         ${DST_CORE_LIBRARY}
         ${GLFW_LIBRARY}
         ${GLEW_LIBRARY}
@@ -73,7 +74,7 @@ if (MSVC)
         PARENT_SCOPE
     )
 else()
-    set(DST_GFX_DEPENDENCIES
+    set(DST_GFX_BINARY_DEPENDENCIES
         ${DST_CORE_LIBRARY}
         ${GLFW_LIBRARY}
         PARENT_SCOPE
