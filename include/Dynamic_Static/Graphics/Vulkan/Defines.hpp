@@ -84,6 +84,7 @@ namespace Vulkan {
     class Instance;
     class PhysicalDevice;
     class Queue;
+    class RenderPass;
     class Semaphore;
     class ShaderModule;
     class SurfaceKHR;

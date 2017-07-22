@@ -14,7 +14,10 @@ set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/Vulkan/Instance.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Object.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/PhysicalDevice.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Pipeline.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Pipeline.Layout.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Queue.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/RenderPass.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Semaphore.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/ShaderModule.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/ShaderModule.Compiler.hpp
@@ -41,7 +44,10 @@ set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/Vulkan/Image.View.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Instance.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/PhysicalDevice.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/Pipeline.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/Pipeline.Layout.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Queue.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/RenderPass.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Semaphore.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/ShaderModule.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/ShaderModule.Compiler.cpp
@@ -110,4 +116,3 @@ add_dependencies(Dynamic_Static.Graphics GLFW)
 add_dependencies(Dynamic_Static.Graphics glslang)
 create_file_group("${INCLUDE_FILES}")
 create_file_group("${SOURCE_FILES}")
-

@@ -33,6 +33,7 @@
 #include "Dynamic_Static/Core/SharedObjectFactory.hpp"
 #include "Dynamic_Static/Graphics/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Pipeline.Layout.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
 
 #include <memory>
@@ -49,6 +50,9 @@ namespace Vulkan {
         , public std::enable_shared_from_this<Device>
         , public SharedObjectFactory<
             Framebuffer,
+            Pipeline,
+            Pipeline::Layout,
+            RenderPass,
             Semaphore,
             ShaderModule,
             SwapchainKHR

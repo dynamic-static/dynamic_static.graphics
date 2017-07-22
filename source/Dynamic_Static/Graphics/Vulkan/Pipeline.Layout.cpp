@@ -27,23 +27,40 @@
 ================================================================================
 */
 
-#pragma once
-
-#include "Dynamic_Static/Graphics/Vulkan/DebugReport.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Framebuffer.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Image.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Image.View.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Pipeline.Layout.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/RenderPass.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Semaphore.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/ShaderModule.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/ShaderModule.Compiler.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/SurfaceKHR.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+
+namespace Dynamic_Static {
+namespace Graphics {
+namespace Vulkan {
+
+    Pipeline::Layout::Layout(const std::shared_ptr<Device>& device, const Info& info)
+        : mDevice { device }
+    {
+        assert(mDevice);
+        Validate(vkCreatePipelineLayout(*mDevice, &info, nullptr, &mHandle));
+        name("Dynamic_Static::Vulkan::Pipeline::Layout");
+    }
+
+    Pipeline::Layout::~Layout()
+    {
+        if (mHandle) {
+            vkDestroyPipelineLayout(device(), mHandle, nullptr);
+        }
+    }
+
+    Device& Pipeline::Layout::device()
+    {
+        assert(mDevice);
+        return *mDevice;
+    }
+
+    const Device& Pipeline::Layout::device() const
+    {
+        assert(mDevice);
+        return *mDevice;
+    }
+
+} // namespace Vulkan
+} // namespace Graphics
+} // namespace Dynamic_Static

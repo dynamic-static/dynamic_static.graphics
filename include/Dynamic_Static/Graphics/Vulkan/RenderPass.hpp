@@ -33,87 +33,67 @@
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
-#include <string>
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
     /**
-     * Provides high level control over a Vulkan Shader Module.
+     * Provides high level control over a Vulkan RenderPass.
      */
-    class ShaderModule final
-        : public Object<VkShaderModule>
+    class RenderPass final
+        : public Object<VkRenderPass>
     {
         friend class Device;
 
     public:
-        class Compiler;
-
         /**
-         * TODO : Documentation.
-         */
-        enum class Source
-        {
-            File,
-            Code,
-        };
-
-        /**
-         * Configuration paramaters for ShaderModule construction.
+         * Configuration paramaters for RenderPass construction.
          */
         struct Info final
-            : VkShaderModuleCreateInfo
+            : public VkRenderPassCreateInfo
         {
             /**
-             * Constructs an instance of ShaderModule::Info with default paramaters.
+             * Constructs an instance of RenderPass with default paramaters.
              */
             Info()
             {
-                sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+                sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
                 pNext = nullptr;
                 flags = 0;
-                codeSize = 0;
-                pCode = nullptr;
+                attachmentCount = 0;
+                pAttachments = nullptr;
+                subpassCount = 0;
+                pSubpasses = nullptr;
+                dependencyCount = 0;
+                pDependencies = nullptr;
             }
         };
 
     private:
-        VkShaderStageFlagBits mStage { VK_SHADER_STAGE_ALL_GRAPHICS };
         std::shared_ptr<Device> mDevice;
 
     private:
-        ShaderModule(
-            const std::shared_ptr<Device>& device,
-            Source source,
-            VkShaderStageFlagBits stage,
-            const std::string& compile
-        );
+        RenderPass(const std::shared_ptr<Device>& device, const Info& info);
 
     public:
         /**
-         * Destroys this instance of ShaderModule.
+         * Destroys this instance of RenderPass.
          */
-        ~ShaderModule();
+        ~RenderPass();
 
     public:
         /**
-         * Gets this ShaderModule's Device.
-         * @return This ShaderModule's Device
+         * Gets this RenderPass's Device.
+         * @return This RenderPass's Device
          */
         Device& device();
 
         /**
-         * Gets this ShaderModule's Device.
-         * @return This ShaderModule's Device
+         * Gets this RenderPass's Device.
+         * @return This RenderPass's Device
          */
         const Device& device() const;
-
-        /**
-         * Gets this ShaderModule's VkPipelineShaderStageCreateInfo.
-         * @return This ShaderModule's VkPipelineShaderStageCreateInfo
-         */
-        VkPipelineShaderStageCreateInfo pipeline_stage_info() const;
     };
 
 } // namespace Vulkan

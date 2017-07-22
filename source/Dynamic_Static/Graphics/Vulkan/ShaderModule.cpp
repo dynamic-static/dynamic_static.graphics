@@ -44,7 +44,8 @@ namespace Vulkan {
         VkShaderStageFlagBits stage,
         const std::string& compile
     )
-        : mDevice { device }
+        : mStage { stage }
+        , mDevice { device }
     {
         assert(mDevice);
         // TODO : DRY...
@@ -64,7 +65,7 @@ namespace Vulkan {
                 Validate(vkCreateShaderModule(*mDevice, &info, nullptr, &mHandle));
             }
         } else {
-            auto spirv = Compiler::compile_from_source(stage, compile);
+            auto spirv = Compiler::compile_from_source(mStage, compile);
             Info info;
             info.codeSize = spirv.size() * sizeof(spirv[0]);
             info.pCode = reinterpret_cast<uint32_t*>(spirv.data());
@@ -91,6 +92,19 @@ namespace Vulkan {
     {
         assert(mDevice);
         return *mDevice;
+    }
+
+    VkPipelineShaderStageCreateInfo ShaderModule::pipeline_stage_info() const
+    {
+        VkPipelineShaderStageCreateInfo info { };
+        info.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+        info.pNext = nullptr;
+        info.flags = 0;
+        info.stage = mStage;
+        info.module = mHandle;
+        info.pName = "main";
+        info.pSpecializationInfo = nullptr;
+        return info;
     }
 
 } // namespace Vulkan

@@ -27,23 +27,40 @@
 ================================================================================
 */
 
-#pragma once
-
-#include "Dynamic_Static/Graphics/Vulkan/DebugReport.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Framebuffer.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Image.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Image.View.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Pipeline.Layout.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/RenderPass.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Semaphore.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/ShaderModule.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/ShaderModule.Compiler.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/SurfaceKHR.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+
+namespace Dynamic_Static {
+namespace Graphics {
+namespace Vulkan {
+
+    Pipeline::Pipeline(const std::shared_ptr<Device>& device, const GraphicsInfo& info)
+        : mDevice { device }
+    {
+        assert(mDevice);
+        Validate(vkCreateGraphicsPipelines(*mDevice, VK_NULL_HANDLE, 1, &info, nullptr, &mHandle));
+        name("Dynamic_Static::Vulkan::Pipeline");
+    }
+
+    Pipeline::~Pipeline()
+    {
+        if (mHandle) {
+            vkDestroyPipeline(device(), mHandle, nullptr);
+        }
+    }
+
+    Device& Pipeline::device()
+    {
+        assert(mDevice);
+        return *mDevice;
+    }
+
+    const Device& Pipeline::device() const
+    {
+        assert(mDevice);
+        return *mDevice;
+    }
+
+} // namespace Vulkan
+} // namespace Graphics
+} // namespace Dynamic_Static
