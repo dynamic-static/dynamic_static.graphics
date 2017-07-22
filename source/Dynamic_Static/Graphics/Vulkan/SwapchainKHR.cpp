@@ -126,6 +126,14 @@ namespace Vulkan {
         name("Dynamic_Static::Vulkan::SwapchainKHR");
     }
 
+    SwapchainKHR::~SwapchainKHR()
+    {
+        if (mHandle) {
+            mImages.clear();
+            vkDestroySwapchainKHR(device(), mHandle, nullptr);
+        }
+    }
+
     Device& SwapchainKHR::device()
     {
         assert(mDevice);
