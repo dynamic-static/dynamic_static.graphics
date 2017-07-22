@@ -84,9 +84,9 @@ namespace Vulkan {
     private:
         ShaderModule(
             const std::shared_ptr<Device>& device,
-            const std::string& compile,
+            Source source,
             VkShaderStageFlagBits stage,
-            Source source
+            const std::string& compile
         );
 
     public:

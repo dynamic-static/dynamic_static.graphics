@@ -100,33 +100,7 @@ int main()
 
         // Create RenderPass
         auto vertexShader = device->create<dst::vlkn::ShaderModule>(
-            R"(
-
-                #version 450
-                #extension GL_ARB_separate_shader_objects : enable
-
-                out gl_PerVertex
-                {
-                    vec4 gl_Position;
-                };
-
-                vec2 positions[3] = vec2[](
-                    vec2( 0.0, -0.5),
-                    vec2( 0.5,  0.5),
-                    vec2(-0.5,  0.5)
-                );
-
-                void main()
-                {
-                    gl_Position = vec4(positions[gl_VertexIndex], 0, 1);
-                }
-
-            )",
-            VK_SHADER_STAGE_VERTEX_BIT,
-            dst::vlkn::ShaderModule::Source::Code
-        );
-
-        auto shaderTest = dst::vlkn::ShaderModule::Compiler::compile_from_source(
+            dst::vlkn::ShaderModule::Source::Code,
             VK_SHADER_STAGE_VERTEX_BIT,
             R"(
 

@@ -40,9 +40,9 @@ namespace Vulkan {
 
     ShaderModule::ShaderModule(
         const std::shared_ptr<Device>& device,
-        const std::string& compile,
+        Source source,
         VkShaderStageFlagBits stage,
-        Source source
+        const std::string& compile
     )
         : mDevice { device }
     {
@@ -53,7 +53,7 @@ namespace Vulkan {
             if (extension == ".spv") {
                 auto spirv = dst::File::read_bytes(compile);
                 Info info;
-                info.codeSize = spirv.size();
+                info.codeSize = spirv.size() * sizeof(spirv[0]);
                 info.pCode = reinterpret_cast<uint32_t*>(spirv.data());
                 Validate(vkCreateShaderModule(*mDevice, &info, nullptr, &mHandle));
             } else {
@@ -66,8 +66,8 @@ namespace Vulkan {
         } else {
             auto spirv = Compiler::compile_from_source(stage, compile);
             Info info;
-            info.codeSize = spirv.size();
-            info.pCode = spirv.data();
+            info.codeSize = spirv.size() * sizeof(spirv[0]);
+            info.pCode = reinterpret_cast<uint32_t*>(spirv.data());
             Validate(vkCreateShaderModule(*mDevice, &info, nullptr, &mHandle));
         }
 
