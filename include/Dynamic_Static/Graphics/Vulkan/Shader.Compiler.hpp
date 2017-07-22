@@ -57,13 +57,11 @@ namespace Vulkan {
          * Compiles a shader from source.
          * @param [in] stage  The shader stage
          * @param [in] source The shader source to compile
-         * @param [in] tag    The tag to use for error reporting (optional = <stage>)
          * @return The compiled SPIR-V bytecode
          */
         static std::vector<uint32_t> compile_from_source(
             VkShaderStageFlagBits stage,
-            const std::string& source,
-            const std::string& tag = std::string()
+            const std::string& source
         );
     };
 
