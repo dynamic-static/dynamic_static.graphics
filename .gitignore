@@ -6,5 +6,6 @@
 [Xx]64/
 latex
 html
+*.tmp
 
 CMakeSettings.json
