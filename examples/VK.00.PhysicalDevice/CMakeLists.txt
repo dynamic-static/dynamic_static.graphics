@@ -21,10 +21,12 @@ add_executable(
     ${SOURCE_FILES}
 )
 
-MESSAGE(STATUS "Listing variables")
+MESSAGE(STATUS "DST_GFX_BINARY_DEPENDENCIES")
+MESSAGE(STATUS "===================================================")
 foreach (varname ${DST_GFX_BINARY_DEPENDENCIES})
     message(STATUS ${varname})
 endforeach()
+MESSAGE(STATUS "===================================================")
 
 target_link_libraries(
     Example.VK.00.PhysicalDevice

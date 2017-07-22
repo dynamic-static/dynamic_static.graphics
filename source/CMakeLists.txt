@@ -78,29 +78,26 @@ else()
     set(DST_GFX_BINARY_DEPENDENCIES
         ${DST_CORE_LIBRARY}
 
-        
-        stdc++fs
-        
         GL
         GLU
-        EGL
         # GLEW
         ${GLFW_LIBRARY}
 
-        Xi
+        EGL
+
         X11
-        Xrandr
-        Xinerama
         Xcursor
+        Xi
+        Xinerama
+        Xrandr
         Xxf86vm
-        
-        pthread
-        
+
+        /usr/lib/aarch64-linux-gnu/libvulkan.so
+        ${glslang_LIBRARY}
 
         dl
-        /usr/lib/aarch64-linux-gnu/libvulkan.so
-        
-        
+        pthread
+        stdc++fs
 
         PARENT_SCOPE
     )

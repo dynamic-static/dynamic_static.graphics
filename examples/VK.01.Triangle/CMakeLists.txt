@@ -21,6 +21,13 @@ add_executable(
     ${SOURCE_FILES}
 )
 
+MESSAGE(STATUS "DST_GFX_BINARY_DEPENDENCIES")
+MESSAGE(STATUS "===================================================")
+foreach (varname ${DST_GFX_BINARY_DEPENDENCIES})
+    message(STATUS ${varname})
+endforeach()
+MESSAGE(STATUS "===================================================")
+
 target_link_libraries(
     Example.VK.01.Triangle
     Dynamic_Static.Graphics
@@ -29,3 +36,4 @@ target_link_libraries(
 
 create_file_group("${INCLUDE_FILES}")
 create_file_group("${SOURCE_FILES}")
+

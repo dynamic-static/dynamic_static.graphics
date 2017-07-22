@@ -105,6 +105,14 @@ if (MSVC)
         "${BINARY_DIR}/SPIRV/$(Configuration)/SPVRemapper*.lib"
     )
 else()
+    set(glslang_LIBRARY
+        "${BINARY_DIR}/glslang/libglslang.a"
+        "${BINARY_DIR}/glslang/OSDependent/Unix/libOSDependent.a"
+        "${BINARY_DIR}/hlsl/libHLSL.a"
+        "${BINARY_DIR}/OGLCompilersDLL/libOGLCompiler.a"
+        "${BINARY_DIR}/SPIRV/libSPIRV.a"
+        "${BINARY_DIR}/SPIRV/libSPVRemapper.a"
+    )
 endif()
 ################################################################################################################################
 ################################################################################################################################
