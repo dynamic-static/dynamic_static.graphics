@@ -92,6 +92,14 @@ namespace Vulkan {
         name("Dynamic_Static::Vulkan::Surface");
     }
 
+    SurfaceKHR::~SurfaceKHR()
+    {
+        if (mHandle) {
+            assert(mInstance);
+            vkDestroySurfaceKHR(*mInstance, mHandle, nullptr);
+        }
+    }
+
     const PhysicalDevice& SurfaceKHR::physical_device() const
     {
         assert(mPhysicalDevice);

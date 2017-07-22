@@ -67,6 +67,12 @@ namespace Vulkan {
 
     public:
         /**
+         * Destroys this instance of SurfaceKHR.
+         */
+        ~SurfaceKHR();
+
+    public:
+        /**
          * Gets this SurfaceKHR's PhysicalDevice.
          * @return This SurfaceKHR's PhysicalDevice
          */

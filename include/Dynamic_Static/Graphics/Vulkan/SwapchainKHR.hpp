@@ -62,6 +62,12 @@ namespace Vulkan {
 
     public:
         /**
+         * Destroys this instance of SwapchainKHR.
+         */
+        ~SwapchainKHR();
+
+    public:
+        /**
          * TODO : Documentation.
          */
         Device& device();
