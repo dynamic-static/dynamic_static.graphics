@@ -60,7 +60,7 @@ include_directories(
     DYNAMIC_STATIC_CORE_INCLUDE_DIRECTORY
     ${GLFW_INCLUDE}
     ${GLEW_INCLUDE}
-    # ${glslang_INCLUDE}
+    ${glslang_INCLUDE}
 )
 
 if (MSVC)
@@ -69,7 +69,7 @@ if (MSVC)
         ${GLFW_LIBRARY}
         ${GLEW_LIBRARY}
         $ENV{VULKAN_SDK}/Lib/vulkan-1.lib
-        # ${glslang_LIBRARY}
+        ${glslang_LIBRARY}
         opengl32.lib
         glu32.lib
         PARENT_SCOPE
@@ -86,6 +86,6 @@ add_library(Dynamic_Static.Graphics ${INCLUDE_FILES} ${SOURCE_FILES})
 set_target_properties(Dynamic_Static.Graphics PROPERTIES PREFIX "")
 add_dependencies(Dynamic_Static.Graphics Dynamic_Static.Core)
 add_dependencies(Dynamic_Static.Graphics GLFW)
-# add_dependencies(Dynamic_Static.Graphics glslang)
+add_dependencies(Dynamic_Static.Graphics glslang)
 create_file_group("${INCLUDE_FILES}")
 create_file_group("${SOURCE_FILES}")

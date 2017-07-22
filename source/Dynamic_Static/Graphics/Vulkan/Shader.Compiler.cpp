@@ -32,13 +32,15 @@
 #include "Dynamic_Static/Core/FileSystem/File.hpp"
 #include "Dynamic_Static/Core/FileSystem/Path.hpp"
 
-// #include "glslang/Public/ShaderLang.h"
-// #include "SPIRV/GlslangToSpv.h"
+#include "glslang/Public/ShaderLang.h"
+#include "SPIRV/GlslangToSpv.h"
 
 #include <map>
 #include <stdexcept>
 
-#define FAKE
+// #define FAKE
+
+
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -66,7 +68,8 @@ namespace Vulkan {
         return std::vector<uint32_t>();
     }
     #else
-    static const TBuiltInResource BuiltInResource;
+
+    extern const TBuiltInResource BuiltInResource;
 
     class GLSLangInitializer final
     {
