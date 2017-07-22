@@ -79,9 +79,13 @@ namespace Vulkan {
 
     class DebugReport;
     class Device;
+    class Framebuffer;
+    class Image;
     class Instance;
     class PhysicalDevice;
     class Queue;
+    class Semaphore;
+    class Shader;
     class SurfaceKHR;
     class SwapchainKHR;
 

@@ -1,5 +1,4 @@
 
-
 /*
 ================================================================================
 
@@ -33,8 +32,8 @@
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -53,6 +52,7 @@ namespace Vulkan {
         VkExtent2D mExtent;
         std::shared_ptr<Device> mDevice { nullptr };
         std::shared_ptr<SurfaceKHR> mSurface { nullptr };
+        std::vector<std::unique_ptr<Image>> mImages;
 
     private:
         SwapchainKHR(
@@ -80,6 +80,12 @@ namespace Vulkan {
          * TODO : Documentation.
          */
         const SurfaceKHR& surface() const;
+
+        /**
+         * Gets this SwapchainKHR's Images.
+         * @return This SwapchainKHR's Images
+         */
+        const std::vector<std::unique_ptr<Image>>& images() const;
 
         /**
          * TODO : Documentation.

@@ -54,7 +54,6 @@ namespace Vulkan {
     private:
         VkSurfaceFormatKHR mFormat;
         VkPresentModeKHR mPresentMode;
-        VkSurfaceCapabilitiesKHR mCapabilities;
         std::vector<VkSurfaceFormatKHR> mFormats;
         std::vector<VkPresentModeKHR> mPresentModes;
 
@@ -83,7 +82,7 @@ namespace Vulkan {
          * Gets this SurfaceKHR's VkSurfaceCapabilitiesKHR.
          * @return This SurfaceKHR's VkSurfaceCapabilitiesKHR
          */
-        const VkSurfaceCapabilitiesKHR& capabilities() const;
+        VkSurfaceCapabilitiesKHR capabilities() const;
 
         /**
          * Gets this SurfaceKHR's VkSurfaceFormatKHR.

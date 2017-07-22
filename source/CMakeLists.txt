@@ -5,13 +5,19 @@ set(INCLUDE_PATH ${DST_GFX_INCLUDE}/Dynamic_Static/)
 set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/OpenGL/GLEWInclude.hpp
 
-    ${INCLUDE_PATH}/Graphics/Vulkan/Defines.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/DebugReport.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Defines.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Device.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Framebuffer.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Image.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Image.View.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Instance.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Object.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/PhysicalDevice.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Queue.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Semaphore.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Shader.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Shader.Compiler.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/SurfaceKHR.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/SwapchainKHR.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/VulkanHppInclude.hpp
@@ -30,9 +36,15 @@ set(SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/)
 set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/Vulkan/DebugReport.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Device.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/Framebuffer.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/Image.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/Image.View.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Instance.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/PhysicalDevice.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Queue.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/Semaphore.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/Shader.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/Shader.Compiler.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/SurfaceKHR.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/SwapchainKHR.cpp
 
@@ -46,6 +58,7 @@ set(SOURCE_FILES
 
 include_directories(
     DYNAMIC_STATIC_CORE_INCLUDE_DIRECTORY
+    ${glslang_INCLUDE}
     ${GLFW_INCLUDE}
 )
 

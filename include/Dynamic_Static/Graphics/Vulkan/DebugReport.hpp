@@ -30,8 +30,8 @@
 #pragma once
 
 #include "Dynamic_Static/Core/Collection.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <array>
 

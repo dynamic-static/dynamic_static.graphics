@@ -43,12 +43,12 @@ namespace Dynamic_Static
         static GLFWwindow* glfw_handle(const void* handle);
         static GLFWwindow* create_glfw_window(const Window::Configuration& configuration);
         static void destroy_glfw_window(GLFWwindow* handle);
-        static void frame_buffer_size_callback(GLFWwindow* handle, int width, int height);
-        static void keyboard_callback(GLFWwindow* handle, int glfwKey, int scanCode, int action, int mods);
-        static void mouse_button_callback(GLFWwindow* handle, int glfwButton, int action, int mods);
-        static void mouse_position_callback(GLFWwindow* handle, double xOffset, double yOffset);
-        static void mouse_scroll_callback(GLFWwindow* handle, double xOffset, double yOffset);
-        static void glfw_error_callback(int error, const char* description);
+        void frame_buffer_size_callback(GLFWwindow* handle, int width, int height);
+        void keyboard_callback(GLFWwindow* handle, int glfwKey, int scanCode, int action, int mods);
+        void mouse_button_callback(GLFWwindow* handle, int glfwButton, int action, int mods);
+        void mouse_position_callback(GLFWwindow* handle, double xOffset, double yOffset);
+        void mouse_scroll_callback(GLFWwindow* handle, double xOffset, double yOffset);
+        void glfw_error_callback(int error, const char* description);
     } // namespace Graphics
 } // namespace Dynamic_Static
 
@@ -277,6 +277,7 @@ namespace Dynamic_Static
                 static bool sGLEWInitialized;
                 if (!sGLEWInitialized) {
                     glfwMakeContextCurrent(handle);
+                    #if defined(DYNAMIC_STATIC_WINDOWS)
                     glewExperimental = true;
                     auto error = glewInit();
                     if (error) {
@@ -284,6 +285,7 @@ namespace Dynamic_Static
                         // TODO : Get error for exception...
                         throw std::runtime_error("Failed to initialize GLEW");
                     }
+                    #endif
 
                     sGLEWInitialized = true;
                 }

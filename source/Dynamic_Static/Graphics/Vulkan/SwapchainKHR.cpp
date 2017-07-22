@@ -31,6 +31,8 @@
 #include "Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp"
 #include "Dynamic_Static/Core/Algorithm.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Image.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Image.View.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/SurfaceKHR.hpp"
 
 namespace Dynamic_Static {
@@ -71,10 +73,27 @@ namespace Vulkan {
             usage |= VK_IMAGE_USAGE_TRANSFER_DST_BIT;
         }
 
+        // FROM : I Am Graphics And So Can You :: Part 3
+        //        https://www.fasterthan.life/blog/2017/7/12/i-am-graphics-and-so-can-you-part-3-breaking-ground
+        //
+        //        // Moment of truth.  If the graphics queue family and present queue family don't match
+        //        // then we need to create the swapchain with different information.
+        //        if ( vkcontext.graphicsFamilyIdx != vkcontext.presentFamilyIdx ) {
+        //            uint32 indices[] = { (uint32)vkcontext.graphicsFamilyIdx, (ui9nt32)vkcontext.presentFamily };
+        //
+        //            // There are only two sharing modes.  This is the one to use
+        //            // if images are not exclusive to one queue.
+        //            info.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+        //            info.queueFamilyIndexCount = 2;
+        //            info.pQueueFamilyIndices = indices;
+        //        } else {
+        //            // If the indices are the same, then the queue can have exclusive
+        //            // access to the images.
+        //            info.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+        //        }
+
         VkSwapchainCreateInfoKHR info { };
         info.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-        info.pNext = nullptr;
-        info.flags = 0;
         info.surface = *mSurface;
         info.minImageCount = imageCount;
         info.imageFormat = mSurface->format().format;
@@ -93,9 +112,16 @@ namespace Vulkan {
         // NOTE : Setting clipped to true will discard pixels that are obscured by other windows.
         info.clipped = true;
         info.oldSwapchain = mHandle;
-
-        mDevice->wait_idle();
         Validate(vkCreateSwapchainKHR(*mDevice, &info, nullptr, &mHandle));
+
+        Validate(vkGetSwapchainImagesKHR(*mDevice, mHandle, &imageCount, nullptr));
+        std::vector<VkImage> imageHandles(imageCount);
+        Validate(vkGetSwapchainImagesKHR(*mDevice, mHandle, &imageCount, imageHandles.data()));
+        for (const auto& handle : imageHandles) {
+            std::unique_ptr<Image> image(new Image(*this, handle));
+            image->create<Image::View>();
+            mImages.push_back(std::move(image));
+        }
 
         name("Dynamic_Static::Vulkan::SwapchainKHR");
     }
@@ -124,9 +150,14 @@ namespace Vulkan {
         return *mSurface;
     }
 
+    const std::vector<std::unique_ptr<Image>>& SwapchainKHR::images() const
+    {
+        return mImages;
+    }
+
     VkFormat SwapchainKHR::format() const
     {
-        return VkFormat();
+        return surface().format().format;
     }
 
     VkExtent2D SwapchainKHR::extent() const

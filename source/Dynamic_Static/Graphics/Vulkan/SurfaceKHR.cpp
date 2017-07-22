@@ -60,8 +60,6 @@ namespace Vulkan {
         Validate(vkCreateWin32SurfaceKHR(*mInstance, &info, nullptr, &mHandle));
         #endif
 
-        Validate(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(*mPhysicalDevice, mHandle, &mCapabilities));
-
         uint32_t presentModeCount;
         vkGetPhysicalDeviceSurfacePresentModesKHR(*mPhysicalDevice, mHandle, &presentModeCount, nullptr);
         mPresentModes.resize(presentModeCount);
@@ -106,9 +104,11 @@ namespace Vulkan {
         return *mWindow;
     }
 
-    const VkSurfaceCapabilitiesKHR& SurfaceKHR::capabilities() const
+    VkSurfaceCapabilitiesKHR SurfaceKHR::capabilities() const
     {
-        return mCapabilities;
+        VkSurfaceCapabilitiesKHR capabilities;
+        Validate(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(*mPhysicalDevice, mHandle, &capabilities));
+        return capabilities;
     }
 
     const VkSurfaceFormatKHR& SurfaceKHR::format() const
@@ -136,8 +136,9 @@ namespace Vulkan {
         // NOTE : Sometimes images must be transformed before they are presented (ie. due to device's orientation).
         //        If the specified transform is other than the current transform, the presentation engine will transform
         //        during the presentation operation...this could have performance implications on some platforms.
-        auto transformFlags = mCapabilities.currentTransform;
-        if (mCapabilities.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR) {
+        auto surfaceCapabilities = capabilities();
+        auto transformFlags = surfaceCapabilities.currentTransform;
+        if (surfaceCapabilities.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR) {
             transformFlags = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
         }
 
