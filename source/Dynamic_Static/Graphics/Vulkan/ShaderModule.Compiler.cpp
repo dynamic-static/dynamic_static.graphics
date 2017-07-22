@@ -27,7 +27,7 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/Vulkan/Shader.Compiler.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/ShaderModule.Compiler.hpp"
 #include "Dynamic_Static/Core/StringUtilities.hpp"
 #include "Dynamic_Static/Core/FileSystem/File.hpp"
 #include "Dynamic_Static/Core/FileSystem/Path.hpp"
@@ -38,36 +38,9 @@
 #include <map>
 #include <stdexcept>
 
-// #define FAKE
-
-
-
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
-
-    #if defined(FAKE)
-    std::vector<uint32_t> Shader::Compiler::compile_from_file(
-        const std::string& filePath
-    )
-    {
-        return std::vector<uint32_t>();
-    }
-
-    /**
-    * Compiles a shader from source.
-    * @param [in] stage  The shader stage
-    * @param [in] source The shader source to compile
-    * @return The compiled SPIR-V bytecode
-    */
-    std::vector<uint32_t> Shader::Compiler::compile_from_source(
-        VkShaderStageFlagBits stage,
-        const std::string& source
-    )
-    {
-        return std::vector<uint32_t>();
-    }
-    #else
 
     extern const TBuiltInResource BuiltInResource;
 
@@ -95,7 +68,7 @@ namespace Vulkan {
         }
     };
 
-    std::vector<uint32_t> Shader::Compiler::compile_from_file(
+    std::vector<uint32_t> ShaderModule::Compiler::compile_from_file(
         const std::string& filePath
     )
     {
@@ -123,7 +96,7 @@ namespace Vulkan {
         );
     }
 
-    std::vector<uint32_t> Shader::Compiler::compile_from_source(
+    std::vector<uint32_t> ShaderModule::Compiler::compile_from_source(
         VkShaderStageFlagBits stage,
         const std::string& source
     )
@@ -264,7 +237,6 @@ namespace Vulkan {
         builtInResource.limits.generalConstantMatrixVectorIndexing = 1;
         return builtInResource;
     }();
-    #endif
 
 } // namespace Vulkan
 } // namespace Graphics

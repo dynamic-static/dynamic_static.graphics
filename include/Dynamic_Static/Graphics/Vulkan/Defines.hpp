@@ -85,7 +85,7 @@ namespace Vulkan {
     class PhysicalDevice;
     class Queue;
     class Semaphore;
-    class Shader;
+    class ShaderModule;
     class SurfaceKHR;
     class SwapchainKHR;
 

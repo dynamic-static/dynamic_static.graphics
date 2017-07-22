@@ -50,7 +50,7 @@ namespace Vulkan {
         , public SharedObjectFactory<
             Framebuffer,
             Semaphore,
-            Shader,
+            ShaderModule,
             SwapchainKHR
         >
     {

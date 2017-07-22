@@ -29,40 +29,84 @@
 
 #pragma once
 
-#include "Dynamic_Static/Graphics/Vulkan/Shader.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
-#include <vector>
+#include <memory>
+#include <string>
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
     /**
-     * TODO : Documentation.
+     * Provides high level control over a Vulkan Shader Module.
      */
-    class Shader::Compiler final
+    class ShaderModule final
+        : public Object<VkShaderModule>
     {
+        friend class Device;
+
     public:
-        /**
-         * Compiles a shader from a given file path.
-         * @param [in] filePath The path to the shader source to compile
-         * @return The compiled SPIR-V bytecode
-         */
-        static std::vector<uint32_t> compile_from_file(
-            const std::string& filePath
-        );
+        class Compiler;
 
         /**
-         * Compiles a shader from source.
-         * @param [in] stage  The shader stage
-         * @param [in] source The shader source to compile
-         * @return The compiled SPIR-V bytecode
+         * TODO : Documentation.
          */
-        static std::vector<uint32_t> compile_from_source(
+        enum class Source
+        {
+            File,
+            Code,
+        };
+
+        /**
+         * Configuration paramaters for ShaderModule construction.
+         */
+        struct Info final
+            : VkShaderModuleCreateInfo
+        {
+            /**
+             * Constructs an instance of ShaderModule::Info with default paramaters.
+             */
+            Info()
+            {
+                sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+                pNext = nullptr;
+                flags = 0;
+                codeSize = 0;
+                pCode = nullptr;
+            }
+        };
+
+    private:
+        std::shared_ptr<Device> mDevice;
+
+    private:
+        ShaderModule(
+            const std::shared_ptr<Device>& device,
+            const std::string& compile,
             VkShaderStageFlagBits stage,
-            const std::string& source
+            Source source
         );
+
+    public:
+        /**
+         * Destroys this instance of ShaderModule.
+         */
+        ~ShaderModule();
+
+    public:
+        /**
+         * Gets this ShaderModule's Device.
+         * @return This ShaderModule's Device
+         */
+        Device& device();
+
+        /**
+         * Gets this ShaderModule's Device.
+         * @return This ShaderModule's Device
+         */
+        const Device& device() const;
     };
 
 } // namespace Vulkan
