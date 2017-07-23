@@ -29,6 +29,7 @@
 
 #pragma once
 
+#include "Dynamic_Static/Core/Callback.hpp"
 #include "Dynamic_Static/Core/Collection.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
@@ -64,6 +65,13 @@ namespace Vulkan {
         PhysicalDevice* mPhysicalDevice { nullptr };
         std::shared_ptr<Instance> mInstance;
         std::shared_ptr<Window> mWindow;
+
+    public:
+        /**
+         * Callback executed when this SurfaceKHR is resized.
+         * @param [in] The SurfaceKHR being resized
+         */
+        Callback<SurfaceKHR, const SurfaceKHR&> on_resized;
 
     public:
         /**
@@ -124,6 +132,9 @@ namespace Vulkan {
          * TODO : Documentation.
          */
         bool presentation_supported(size_t queueFamilyIndex) const;
+
+    private:
+        void on_window_resized(const Window& window);
     };
 
 } // namespace Vulkan

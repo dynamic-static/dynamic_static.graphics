@@ -31,7 +31,8 @@
 
 #include "Dynamic_Static/Core/Defines.hpp"
 
-namespace Dynamic_Static
-{
+namespace Dynamic_Static {
+
+
 
 } // namespace Dynamic_Static

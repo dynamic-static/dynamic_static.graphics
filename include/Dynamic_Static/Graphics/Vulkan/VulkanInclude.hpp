@@ -43,4 +43,3 @@
 #endif
 
 #include "vulkan/vulkan.h"
-

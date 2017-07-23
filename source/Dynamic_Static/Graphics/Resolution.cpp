@@ -29,8 +29,8 @@
 
 #include "Dynamic_Static/Graphics/Resolution.hpp"
 
-namespace Dynamic_Static
-{
+namespace Dynamic_Static {
+
     float Resolution::aspect_ratio() const
     {
         auto w = static_cast<float>(width);
@@ -42,4 +42,5 @@ namespace Dynamic_Static
     {
         return std::to_string(width) + " x " + std::to_string(height);
     }
+
 } // namespace Dynamic_Static

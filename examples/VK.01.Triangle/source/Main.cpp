@@ -160,7 +160,7 @@ int main()
                 );
 
                 vec3 colors[3] = vec3[](
-                    vec3(1, 1, 1),
+                    vec3(1, 0, 0),
                     vec3(0, 1, 0),
                     vec3(0, 0, 1)
                 );
@@ -324,6 +324,8 @@ int main()
                 running = false;
             }
 
+            presentQueue.wait_idle();
+
             auto imageIndex = static_cast<uint32_t>(swapchain->next_image(*imageSemaphore));
 
             dst::vlkn::Queue::SubmitInfo submitInfo;
@@ -344,7 +346,6 @@ int main()
             presentInfo.pSwapchains = &swapchain->handle();
             presentInfo.pImageIndices = &imageIndex;
             presentQueue.present(presentInfo);
-            presentQueue.wait_idle();
 
             window->swap_buffers();
         }

@@ -33,8 +33,8 @@
 
 #include <string>
 
-namespace Dynamic_Static
-{
+namespace Dynamic_Static {
+
     /**
      * Represents a width and height.
      */
@@ -57,4 +57,5 @@ namespace Dynamic_Static
          */
         std::string to_string() const;
     };
+
 } // namespace Dynamic_Static

@@ -28,9 +28,9 @@
 */
 
 #include "Dynamic_Static/Graphics/Vulkan/SurfaceKHR.hpp"
+#include "Dynamic_Static/Graphics/Window.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
-#include "Dynamic_Static/Graphics/Window.hpp"
 
 #if defined(DYNAMIC_STATIC_WINDOWS)
 #include "Dynamic_Static/Core/Win32LeanAndMean.hpp"
@@ -49,19 +49,19 @@ namespace Vulkan {
         assert(mInstance);
         assert(mWindow);
 
+        mWindow->on_resized = std::bind(&SurfaceKHR::on_window_resized, this, std::placeholders::_1);
+
         #if defined(DYNAMIC_STATIC_WINDOWS)
         VkWin32SurfaceCreateInfoKHR info { };
         info.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-        info.pNext = nullptr;
-        info.flags = 0;
         info.hinstance = GetModuleHandle(nullptr);
         info.hwnd = static_cast<HWND>(window->handle());
         validate(vkCreateWin32SurfaceKHR(*mInstance, &info, nullptr, &mHandle));
-        #elif defined(DYNAMIC_STATIC_LINUX)
+        #endif
+
+        #if defined(DYNAMIC_STATIC_LINUX)
         VkXlibSurfaceCreateInfoKHR info { };
         info.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
-        info.pNext = nullptr;
-        info.flags = 0;
         info.dpy = static_cast<Display*>(window->display());
         info.window = static_cast<::Window>(window->x11_window());
         validate(vkCreateXlibSurfaceKHR(*mInstance, &info, nullptr, &mHandle));
@@ -165,6 +165,11 @@ namespace Vulkan {
         VkBool32 presentationSupported;
         validate(vkGetPhysicalDeviceSurfaceSupportKHR(*mPhysicalDevice, static_cast<uint32_t>(queueFamilyIndex), mHandle, &presentationSupported));
         return presentationSupported ? true : false;
+    }
+
+    void SurfaceKHR::on_window_resized(const Window& window)
+    {
+        on_resized(*this);
     }
 
 } // namespace Vulkan

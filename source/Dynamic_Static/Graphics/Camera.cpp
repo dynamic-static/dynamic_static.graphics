@@ -29,68 +29,68 @@
 
 #include "Dynamic_Static/Graphics/Camera.hpp"
 
-namespace Dynamic_Static
-{
-    namespace Graphics
+namespace Dynamic_Static {
+namespace Graphics {
+
+    Transform& Camera::transform()
     {
-        Transform& Camera::transform()
-        {
-            return mTransform;
-        }
+        return mTransform;
+    }
 
-        const Transform& Camera::transform() const
-        {
-            return mTransform;
-        }
+    const Transform& Camera::transform() const
+    {
+        return mTransform;
+    }
 
-        float Camera::aspect_ratio() const
-        {
-            return mAspectRatio;
-        }
+    float Camera::aspect_ratio() const
+    {
+        return mAspectRatio;
+    }
 
-        void Camera::aspect_ratio(float aspectRatio)
-        {
-            mAspectRatio = aspectRatio;
-        }
+    void Camera::aspect_ratio(float aspectRatio)
+    {
+        mAspectRatio = aspectRatio;
+    }
 
-        float Camera::field_of_view() const
-        {
-            return mFieldOfView;
-        }
+    float Camera::field_of_view() const
+    {
+        return mFieldOfView;
+    }
 
-        void Camera::field_of_view(float fieldOfView)
-        {
-            mFieldOfView = fieldOfView;
-        }
+    void Camera::field_of_view(float fieldOfView)
+    {
+        mFieldOfView = fieldOfView;
+    }
 
-        float Camera::near_plane() const
-        {
-            return mNearPlane;
-        }
+    float Camera::near_plane() const
+    {
+        return mNearPlane;
+    }
 
-        void Camera::near_plane(float nearPlane)
-        {
-            mNearPlane = nearPlane;
-        }
+    void Camera::near_plane(float nearPlane)
+    {
+        mNearPlane = nearPlane;
+    }
 
-        float Camera::far_plane() const
-        {
-            return mFarPlane;
-        }
+    float Camera::far_plane() const
+    {
+        return mFarPlane;
+    }
 
-        void Camera::far_plane(float farPlane)
-        {
-            mFarPlane = farPlane;
-        }
+    void Camera::far_plane(float farPlane)
+    {
+        mFarPlane = farPlane;
+    }
 
-        Matrix4x4 Camera::view() const
-        {
-            return Matrix4x4::Identity;
-        }
+    Matrix4x4 Camera::view() const
+    {
+        return Matrix4x4::Identity;
+    }
 
-        Matrix4x4 Camera::projection() const
-        {
-            return Matrix4x4::Identity;
-        }
-    } // namespace Graphics
+    Matrix4x4 Camera::projection() const
+    {
+        return Matrix4x4::Identity;
+    }
+
+} // namespace Graphics
 } // namespace Dynamic_Static

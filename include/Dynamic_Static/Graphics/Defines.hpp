@@ -35,17 +35,16 @@
 #define DYNAMIC_STATIC_GRAPHICS_VERSION_MINOR (0)
 #define DYNAMIC_STATIC_GRAPHICS_VERSION_PATCH (1)
 
-namespace Dynamic_Static
-{
-    namespace Graphics
-    {
-        enum class API
-        {
-            Unknown,
-            OpenGL,
-            Vulkan,
-        };
-    } // namespace Graphics
+namespace Dynamic_Static {
+namespace Graphics {
 
-    namespace gfx = Graphics;
+    enum class API
+    {
+        Unknown,
+        OpenGL,
+        Vulkan,
+    };
+
+} // namespace Graphics
+namespace gfx = Graphics;
 } // namespace Dynamic_Static
