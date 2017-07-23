@@ -264,16 +264,26 @@ int main()
         auto pipeline = device->create<dst::vlkn::Pipeline>(pipelineInfo);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Create Framebuffers
+        std::vector<std::shared_ptr<dst::vlkn::Framebuffer>> framebuffers;
+        framebuffers.reserve(swapchain->images().size());
+        for (const auto& image : swapchain->images()) {
+            dst::vlkn::Framebuffer::Info framebufferInfo;
+            framebufferInfo.renderPass = *renderPass;
+            framebufferInfo.attachmentCount = 1;
+            framebufferInfo.pAttachments = &image->views()[0]->handle();
+            framebufferInfo.width = swapchain->extent().width;
+            framebufferInfo.height = swapchain->extent().height;
+            framebufferInfo.layers = 1;
+            framebuffers.push_back(device->create<dst::vlkn::Framebuffer>(framebufferInfo));
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create CommandPool
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create and record CommandBuffers
-
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Create Framebuffers
-        //std::vector<std::shared_ptr<dst::vlkn::Framebuffer>> framebuffers(swapchain->images().size());
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

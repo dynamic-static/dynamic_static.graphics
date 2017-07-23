@@ -170,7 +170,7 @@ namespace Vulkan {
 
     VkExtent2D SwapchainKHR::extent() const
     {
-        return VkExtent2D();
+        return surface().capabilities().currentExtent;
     }
 
     void SwapchainKHR::on_surface_resized()

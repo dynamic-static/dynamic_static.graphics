@@ -48,8 +48,6 @@ namespace Vulkan {
         friend class Device;
 
     private:
-        VkFormat mFormat;
-        VkExtent2D mExtent;
         std::shared_ptr<Device> mDevice { nullptr };
         std::shared_ptr<SurfaceKHR> mSurface { nullptr };
         std::vector<std::unique_ptr<Image>> mImages;

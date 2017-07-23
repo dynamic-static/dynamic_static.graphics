@@ -179,6 +179,12 @@ namespace Vulkan {
         VkFormat format() const;
 
         /**
+         * Gets this Image's Views.
+         * @return This Image's Views
+         */
+        const std::vector<std::unique_ptr<View>>& views() const;
+
+        /**
          * TODO : Documentation.
          */
         template <typename ObjectType, typename ...Args>

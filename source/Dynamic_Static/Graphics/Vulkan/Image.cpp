@@ -69,6 +69,11 @@ namespace Vulkan {
         return mFormat;
     }
 
+    const std::vector<std::unique_ptr<Image::View>>& Image::views() const
+    {
+        return mViews;
+    }
+
 } // namespace Vulkan
 } // namespace Graphics
 } // namespace Dynamic_Static
