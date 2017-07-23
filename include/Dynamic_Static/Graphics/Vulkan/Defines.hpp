@@ -121,7 +121,7 @@ namespace Vulkan {
         }
     };
 
-    inline VkResult Validate(VkResult result)
+    inline VkResult validate(VkResult result)
     {
         // TODO : Wrap this up so that validation, exceptions,
         //        asserts, logs, etc. can be enabled/disabled.

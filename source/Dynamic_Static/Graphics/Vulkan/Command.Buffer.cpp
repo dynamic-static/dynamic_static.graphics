@@ -43,7 +43,7 @@ namespace Vulkan {
         Info info;
         info.commandPool = *mPool;
         info.commandBufferCount = 1;
-        Validate(vkAllocateCommandBuffers(pool.device(), &info, &mHandle));
+        validate(vkAllocateCommandBuffers(pool.device(), &info, &mHandle));
         name("Dynamic_Static::Vulkan::Command::Buffer");
     }
 
@@ -61,7 +61,7 @@ namespace Vulkan {
 
     void Command::Buffer::begin_recording(const BeginInfo& beginInfo)
     {
-        Validate(vkBeginCommandBuffer(mHandle, &beginInfo));
+        validate(vkBeginCommandBuffer(mHandle, &beginInfo));
     }
 
     void Command::Buffer::begin_render_pass(
@@ -100,7 +100,7 @@ namespace Vulkan {
 
     void Command::Buffer::end_recording()
     {
-        Validate(vkEndCommandBuffer(mHandle));
+        validate(vkEndCommandBuffer(mHandle));
     }
 
 } // namespace Vulkan

@@ -56,7 +56,7 @@ namespace Vulkan {
         info.flags = 0;
         info.hinstance = GetModuleHandle(nullptr);
         info.hwnd = static_cast<HWND>(window->handle());
-        Validate(vkCreateWin32SurfaceKHR(*mInstance, &info, nullptr, &mHandle));
+        validate(vkCreateWin32SurfaceKHR(*mInstance, &info, nullptr, &mHandle));
         #elif defined(DYNAMIC_STATIC_LINUX)
         VkXlibSurfaceCreateInfoKHR info { };
         info.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
@@ -64,7 +64,7 @@ namespace Vulkan {
         info.flags = 0;
         info.dpy = static_cast<Display*>(window->display());
         info.window = static_cast<::Window>(window->x11_window());
-        Validate(vkCreateXlibSurfaceKHR(*mInstance, &info, nullptr, &mHandle));
+        validate(vkCreateXlibSurfaceKHR(*mInstance, &info, nullptr, &mHandle));
         #endif
 
         uint32_t presentModeCount;
@@ -80,9 +80,9 @@ namespace Vulkan {
         }
 
         uint32_t formatCount;
-        Validate(vkGetPhysicalDeviceSurfaceFormatsKHR(*mPhysicalDevice, mHandle, &formatCount, nullptr));
+        validate(vkGetPhysicalDeviceSurfaceFormatsKHR(*mPhysicalDevice, mHandle, &formatCount, nullptr));
         mFormats.resize(formatCount);
-        Validate(vkGetPhysicalDeviceSurfaceFormatsKHR(*mPhysicalDevice, mHandle, &formatCount, mFormats.data()));
+        validate(vkGetPhysicalDeviceSurfaceFormatsKHR(*mPhysicalDevice, mHandle, &formatCount, mFormats.data()));
         mFormat = mFormats[0];
         if (mFormats.size() == 1 && mFormats[0].format == VK_FORMAT_UNDEFINED) {
             mFormat.colorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
@@ -122,7 +122,7 @@ namespace Vulkan {
     VkSurfaceCapabilitiesKHR SurfaceKHR::capabilities() const
     {
         VkSurfaceCapabilitiesKHR capabilities;
-        Validate(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(*mPhysicalDevice, mHandle, &capabilities));
+        validate(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(*mPhysicalDevice, mHandle, &capabilities));
         return capabilities;
     }
 
@@ -163,7 +163,7 @@ namespace Vulkan {
     bool SurfaceKHR::presentation_supported(size_t queueFamilyIndex) const
     {
         VkBool32 presentationSupported;
-        Validate(vkGetPhysicalDeviceSurfaceSupportKHR(*mPhysicalDevice, static_cast<uint32_t>(queueFamilyIndex), mHandle, &presentationSupported));
+        validate(vkGetPhysicalDeviceSurfaceSupportKHR(*mPhysicalDevice, static_cast<uint32_t>(queueFamilyIndex), mHandle, &presentationSupported));
         return presentationSupported ? true : false;
     }
 

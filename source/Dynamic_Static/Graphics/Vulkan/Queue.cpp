@@ -65,6 +65,21 @@ namespace Vulkan {
         return mPriority;
     }
 
+    void Queue::submit(const SubmitInfo& submitInfo)
+    {
+        validate(vkQueueSubmit(mHandle, 1, &submitInfo, VK_NULL_HANDLE));
+    }
+
+    void Queue::present(const PresentInfoKHR& presentInfo)
+    {
+        validate(vkQueuePresentKHR(mHandle, &presentInfo));
+    }
+
+    void Queue::wait_idle()
+    {
+        validate(vkQueueWaitIdle(mHandle));
+    }
+
 } // namespace Vulkan
 } // namespace Graphics
 } // namespace Dynamic_Static

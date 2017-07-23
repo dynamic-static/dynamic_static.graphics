@@ -38,7 +38,7 @@ namespace Vulkan {
         : mDevice { device }
     {
         assert(mDevice);
-        Validate(vkCreateRenderPass(*mDevice, &info, nullptr, &mHandle));
+        validate(vkCreateRenderPass(*mDevice, &info, nullptr, &mHandle));
         name("Dynamic_Static::Vulkan::RenderPass");
     }
 

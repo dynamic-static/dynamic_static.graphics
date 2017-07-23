@@ -33,7 +33,10 @@
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Image.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Image.View.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Semaphore.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/SurfaceKHR.hpp"
+
+#include <limits>
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -112,11 +115,11 @@ namespace Vulkan {
         // NOTE : Setting clipped to true will discard pixels that are obscured by other windows.
         info.clipped = true;
         info.oldSwapchain = mHandle;
-        Validate(vkCreateSwapchainKHR(*mDevice, &info, nullptr, &mHandle));
+        validate(vkCreateSwapchainKHR(*mDevice, &info, nullptr, &mHandle));
 
-        Validate(vkGetSwapchainImagesKHR(*mDevice, mHandle, &imageCount, nullptr));
+        validate(vkGetSwapchainImagesKHR(*mDevice, mHandle, &imageCount, nullptr));
         std::vector<VkImage> imageHandles(imageCount);
-        Validate(vkGetSwapchainImagesKHR(*mDevice, mHandle, &imageCount, imageHandles.data()));
+        validate(vkGetSwapchainImagesKHR(*mDevice, mHandle, &imageCount, imageHandles.data()));
         for (const auto& handle : imageHandles) {
             std::unique_ptr<Image> image(new Image(*this, handle));
             image->create<Image::View>();
@@ -171,6 +174,23 @@ namespace Vulkan {
     VkExtent2D SwapchainKHR::extent() const
     {
         return surface().capabilities().currentExtent;
+    }
+
+    size_t SwapchainKHR::next_image(const Semaphore& semaphore)
+    {
+        uint32_t imageIndex;
+        validate(
+            vkAcquireNextImageKHR(
+                device(),
+                mHandle,
+                std::numeric_limits<uint64_t>::max(),
+                semaphore,
+                VK_NULL_HANDLE,
+                &imageIndex
+            )
+        );
+
+        return static_cast<size_t>(imageIndex);
     }
 
     void SwapchainKHR::on_surface_resized()

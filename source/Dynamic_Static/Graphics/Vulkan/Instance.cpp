@@ -91,15 +91,15 @@ namespace Vulkan {
         instanceInfo.ppEnabledLayerNames = requestedLayers.data();
         instanceInfo.enabledExtensionCount = static_cast<uint32_t>(requestedExtensions.size());
         instanceInfo.ppEnabledExtensionNames = requestedExtensions.data();
-        Validate(vkCreateInstance(&instanceInfo, nullptr, &mHandle));
+        validate(vkCreateInstance(&instanceInfo, nullptr, &mHandle));
         if (debugFlags) {
             mDebugReport.reset(new DebugReport(*this, debugFlags));
         }
 
         uint32_t physicalDeviceCount;
-        Validate(vkEnumeratePhysicalDevices(mHandle, &physicalDeviceCount, nullptr));
+        validate(vkEnumeratePhysicalDevices(mHandle, &physicalDeviceCount, nullptr));
         std::vector<VkPhysicalDevice> physicalDeviceHandles(physicalDeviceCount);
-        Validate(vkEnumeratePhysicalDevices(mHandle, &physicalDeviceCount, physicalDeviceHandles.data()));
+        validate(vkEnumeratePhysicalDevices(mHandle, &physicalDeviceCount, physicalDeviceHandles.data()));
 
         mPhysicalDevices.reserve(physicalDeviceCount);
         for (const auto& handle : physicalDeviceHandles) {

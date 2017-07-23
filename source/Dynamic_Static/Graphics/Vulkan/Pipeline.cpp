@@ -38,7 +38,7 @@ namespace Vulkan {
         : mDevice { device }
     {
         assert(mDevice);
-        Validate(vkCreateGraphicsPipelines(*mDevice, VK_NULL_HANDLE, 1, &info, nullptr, &mHandle));
+        validate(vkCreateGraphicsPipelines(*mDevice, VK_NULL_HANDLE, 1, &info, nullptr, &mHandle));
         name("Dynamic_Static::Vulkan::Pipeline");
     }
 

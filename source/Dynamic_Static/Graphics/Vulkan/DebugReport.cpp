@@ -32,7 +32,7 @@ namespace Vulkan {
         info.flags = flags;
         info.pfnCallback = debug_report_callback;
         info.pUserData = this;
-        Validate(vkCreateDebugReportCallbackEXT(*mInstance, &info, nullptr, &mHandle));
+        validate(vkCreateDebugReportCallbackEXT(*mInstance, &info, nullptr, &mHandle));
 
         name("Dynamic_Static::Vulkan::DebugReport");
     }

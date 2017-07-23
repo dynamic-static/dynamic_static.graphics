@@ -97,6 +97,12 @@ namespace Vulkan {
         const Device& device() const;
 
         /**
+         * Gets this Command::Pool's Command::Buffers.
+         * @return This Command::Pool's Command::Buffers
+         */
+        const std::vector<std::unique_ptr<Command::Buffer>>& buffers() const;
+
+        /**
          * TODO : Documentation.
          */
         template <typename ObjectType, typename ...Args>

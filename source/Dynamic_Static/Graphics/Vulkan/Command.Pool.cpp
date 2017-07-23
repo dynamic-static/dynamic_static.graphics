@@ -38,7 +38,7 @@ namespace Vulkan {
         : mDevice { device }
     {
         assert(mDevice);
-        Validate(vkCreateCommandPool(*mDevice, &info, nullptr, &mHandle));
+        validate(vkCreateCommandPool(*mDevice, &info, nullptr, &mHandle));
         name("Dynamic_Static::Vulkan::Command::Pool");
     }
 
@@ -59,6 +59,11 @@ namespace Vulkan {
     {
         assert(mDevice);
         return *mDevice;
+    }
+
+    const std::vector<std::unique_ptr<Command::Buffer>>& Command::Pool::buffers() const
+    {
+        return mBuffers;
     }
 
 } // namespace Vulkan

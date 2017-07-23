@@ -101,6 +101,11 @@ namespace Vulkan {
          */
         VkExtent2D extent() const;
 
+        /**
+         * TODO : Documentation.
+         */
+        size_t next_image(const Semaphore& semaphore);
+
     private:
         void on_surface_resized();
     };

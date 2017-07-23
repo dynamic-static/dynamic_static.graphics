@@ -51,7 +51,6 @@ int main()
             #endif
         };
 
-        // NOTE : Uncomment any combination of these flags for debug output.
         VkDebugReportFlagsEXT debugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
@@ -315,6 +314,8 @@ int main()
         auto imageSemaphore = device->create<dst::vlkn::Semaphore>();
         auto renderSemaphore = device->create<dst::vlkn::Semaphore>();
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Render
         auto quitKey = dst::Keyboard::Key::Escape;
         bool running = true;
         while (running) {
@@ -323,8 +324,32 @@ int main()
                 running = false;
             }
 
+            auto imageIndex = static_cast<uint32_t>(swapchain->next_image(*imageSemaphore));
+
+            dst::vlkn::Queue::SubmitInfo submitInfo;
+            VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+            submitInfo.waitSemaphoreCount = 1;
+            submitInfo.pWaitSemaphores = &imageSemaphore->handle();
+            submitInfo.pWaitDstStageMask = waitStages;
+            submitInfo.commandBufferCount = 1;
+            submitInfo.pCommandBuffers = &commandPool->buffers()[imageIndex]->handle();
+            submitInfo.signalSemaphoreCount = 1;
+            submitInfo.pSignalSemaphores = &renderSemaphore->handle();
+            graphicsQueue.submit(submitInfo);
+
+            dst::vlkn::Queue::PresentInfoKHR presentInfo;
+            presentInfo.waitSemaphoreCount = 1;
+            presentInfo.pWaitSemaphores = &renderSemaphore->handle();
+            presentInfo.swapchainCount = 1;
+            presentInfo.pSwapchains = &swapchain->handle();
+            presentInfo.pImageIndices = &imageIndex;
+            presentQueue.present(presentInfo);
+            presentQueue.wait_idle();
+
             window->swap_buffers();
         }
+
+        device->wait_idle();
     }
 
     return 0;

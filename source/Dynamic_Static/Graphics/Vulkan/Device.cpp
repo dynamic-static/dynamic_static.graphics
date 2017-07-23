@@ -86,7 +86,7 @@ namespace Vulkan {
         info.ppEnabledLayerNames = requestedLayers.data();
         info.enabledExtensionCount = static_cast<uint32_t>(requestedExtensions.size());
         info.ppEnabledExtensionNames = requestedExtensions.data();
-        Validate(vkCreateDevice(*mPhysicalDevice, &info, nullptr, &mHandle));
+        validate(vkCreateDevice(*mPhysicalDevice, &info, nullptr, &mHandle));
 
         mQueues.reserve(queueInfos.size());
         for (auto queueInfo : queueInfos) {
@@ -140,7 +140,7 @@ namespace Vulkan {
 
     void Device::wait_idle()
     {
-        Validate(vkDeviceWaitIdle(mHandle));
+        validate(vkDeviceWaitIdle(mHandle));
     }
 
 } // namespace Vulkan

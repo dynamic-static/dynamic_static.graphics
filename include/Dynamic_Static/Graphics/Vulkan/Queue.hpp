@@ -67,6 +67,51 @@ namespace Vulkan {
             }
         };
 
+        /**
+         * TODO : Documentation.
+         */
+        struct SubmitInfo final
+            : public VkSubmitInfo
+        {
+            /**
+             * TODO : Documentation.
+             */
+            SubmitInfo()
+            {
+                sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+                pNext = nullptr;
+                waitSemaphoreCount = 0;
+                pWaitSemaphores = nullptr;
+                pWaitDstStageMask = nullptr;
+                commandBufferCount = 0;
+                pCommandBuffers = nullptr;
+                signalSemaphoreCount = 0;
+                pSignalSemaphores = nullptr;
+            }
+        };
+
+        /**
+         * TODO : Documentation.
+         */
+        struct PresentInfoKHR final
+            : public VkPresentInfoKHR
+        {
+            /**
+             * TODO : Documentation.
+             */
+            PresentInfoKHR()
+            {
+                sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+                pNext = nullptr;
+                waitSemaphoreCount = 0;
+                pWaitSemaphores = nullptr;
+                swapchainCount = 0;
+                pSwapchains = nullptr;
+                pImageIndices = nullptr;
+                pResults = nullptr;
+            }
+        };
+
     private:
         size_t mFamilyIndex { 0 };
         float mPriority { 0 };
@@ -99,6 +144,21 @@ namespace Vulkan {
          * @return This Queue's priority
          */
         float priority() const;
+
+        /**
+         * TODO : Documentation.
+         */
+        void submit(const SubmitInfo& submitInfo);
+
+        /**
+         * TODO : Documentation.
+         */
+        void present(const PresentInfoKHR& presentInfo);
+
+        /**
+         * TODO : Documentation.
+         */
+        void wait_idle();
     };
 
 } // namespace Vulkan

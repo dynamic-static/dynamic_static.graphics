@@ -56,20 +56,20 @@ namespace Vulkan {
                 Info info;
                 info.codeSize = spirv.size() * sizeof(spirv[0]);
                 info.pCode = reinterpret_cast<uint32_t*>(spirv.data());
-                Validate(vkCreateShaderModule(*mDevice, &info, nullptr, &mHandle));
+                validate(vkCreateShaderModule(*mDevice, &info, nullptr, &mHandle));
             } else {
                 auto spirv = Compiler::compile_from_file(compile);
                 Info info;
                 info.codeSize = spirv.size();
                 info.pCode = spirv.data();
-                Validate(vkCreateShaderModule(*mDevice, &info, nullptr, &mHandle));
+                validate(vkCreateShaderModule(*mDevice, &info, nullptr, &mHandle));
             }
         } else {
             auto spirv = Compiler::compile_from_source(mStage, compile);
             Info info;
             info.codeSize = spirv.size() * sizeof(spirv[0]);
             info.pCode = reinterpret_cast<uint32_t*>(spirv.data());
-            Validate(vkCreateShaderModule(*mDevice, &info, nullptr, &mHandle));
+            validate(vkCreateShaderModule(*mDevice, &info, nullptr, &mHandle));
         }
 
         name("Dynamic_Static::Vulkan::ShaderModule");

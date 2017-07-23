@@ -42,7 +42,7 @@ namespace Vulkan {
         info.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
         info.pNext = nullptr;
         info.flags = 0;
-        Validate(vkCreateSemaphore(*mDevice, &info, nullptr, &mHandle));
+        validate(vkCreateSemaphore(*mDevice, &info, nullptr, &mHandle));
         name("Dynamic_Static::Graphics::Semaphore");
     }
 
