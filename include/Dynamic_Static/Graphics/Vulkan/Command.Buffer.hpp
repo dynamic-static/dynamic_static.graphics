@@ -29,44 +29,40 @@
 
 #pragma once
 
+#include "Dynamic_Static/Graphics/Vulkan/Command.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
-
-#include <memory>
+#include "Dynamic_Static/Graphics/Vulkan/RenderPass.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
     /**
-     * Provides high level control over a Vulkan RenderPass.
+     * Provides high level control over a Vulkan Command Buffer.
      */
-    class RenderPass final
-        : public Object<VkRenderPass>
+    class Command::Buffer final
+        : public Object<VkCommandBuffer>
     {
-        friend class Device;
+        friend Command::Pool;
 
     public:
         /**
-         * Configuration paramaters for RenderPass construction.
+         * Configuration paramaters for Command::Buffer allocation.
          */
         struct Info final
-            : public VkRenderPassCreateInfo
+            : public VkCommandBufferAllocateInfo
         {
             /**
-             * Constructs an instance of RenderPass with default paramaters.
+             * Constructs an instance of Command::Buffer::Info with default paramaters.
              */
             Info()
             {
-                sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+                sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
                 pNext = nullptr;
-                flags = 0;
-                attachmentCount = 0;
-                pAttachments = nullptr;
-                subpassCount = 0;
-                pSubpasses = nullptr;
-                dependencyCount = 0;
-                pDependencies = nullptr;
+                commandPool = VK_NULL_HANDLE;
+                level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+                commandBufferCount = 0;
             }
         };
 
@@ -74,47 +70,76 @@ namespace Vulkan {
          * TODO : Documentation.
          */
         struct BeginInfo final
-            : public VkRenderPassBeginInfo
+            : public VkCommandBufferBeginInfo
         {
             /**
              * TODO : Documentation.
              */
             BeginInfo()
             {
-                sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+                sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
                 pNext = nullptr;
-                renderPass = VK_NULL_HANDLE;
-                framebuffer = VK_NULL_HANDLE;
-                renderArea = { };
-                clearValueCount = 0;
-                pClearValues = nullptr;
+                flags = 0;
+                pInheritanceInfo = nullptr;
             }
         };
 
     private:
-        std::shared_ptr<Device> mDevice;
+        Command::Pool* mPool { nullptr };
 
     private:
-        RenderPass(const std::shared_ptr<Device>& device, const Info& info);
+        Buffer(Command::Pool& pool);
 
     public:
         /**
-         * Destroys this instance of RenderPass.
+         * Gets this Command::Buffer's Command::Pool.
+         * @return This Command::Buffer's Command::Pool
          */
-        ~RenderPass();
-
-    public:
-        /**
-         * Gets this RenderPass's Device.
-         * @return This RenderPass's Device
-         */
-        Device& device();
+        Command::Pool& pool();
 
         /**
-         * Gets this RenderPass's Device.
-         * @return This RenderPass's Device
+         * Gets this Command::Buffer's Command::Pool.
+         * @return This Command::Buffer's Command::Pool
          */
-        const Device& device() const;
+        const Command::Pool& pool() const;
+
+        /**
+         * TODO : Documentation.
+         */
+        void begin_recording(const BeginInfo& beginInfo);
+
+        /**
+         * TODO : Documentation.
+         */
+        void begin_render_pass(
+            const RenderPass::BeginInfo& renderPassBeginInfo,
+            VkSubpassContents subpassContents = VK_SUBPASS_CONTENTS_INLINE
+        );
+
+        /**
+         * TODO : Documentation.
+         */
+        void bind_pipeline(VkPipelineBindPoint bindPoint, const Pipeline& pipeline);
+
+        /**
+         * TODO : Documentation.
+         */
+        void draw(
+            size_t vertexCount = 0,
+            size_t instanceCount = 0,
+            size_t firstVertex = 0,
+            size_t firstInstance = 0
+        );
+
+        /**
+         * TODO : Documentation.
+         */
+        void end_render_pass();
+
+        /**
+         * TODO : Documentation.
+         */
+        void end_recording();
     };
 
 } // namespace Vulkan

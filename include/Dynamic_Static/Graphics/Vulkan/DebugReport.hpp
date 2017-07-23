@@ -92,11 +92,6 @@ namespace Vulkan {
         const Instance& instance() const;
     };
 
-    static_assert(
-        sizeof(DebugReport::Info) == sizeof(VkDebugReportCallbackCreateInfoEXT),
-        "sizeof(DebugReport::Info) must equal sizeof(VkDebugReportCallbackCreateInfoEXT)"
-    );
-
 } // namespace Vulkan
 } // namespace Graphics
 } // namespace Dynamic_Static

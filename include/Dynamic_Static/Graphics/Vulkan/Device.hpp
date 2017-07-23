@@ -32,6 +32,7 @@
 #include "Dynamic_Static/Core/Collection.hpp"
 #include "Dynamic_Static/Core/SharedObjectFactory.hpp"
 #include "Dynamic_Static/Graphics/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Command.Pool.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Pipeline.Layout.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
@@ -49,6 +50,7 @@ namespace Vulkan {
         : public Object<VkDevice>
         , public std::enable_shared_from_this<Device>
         , public SharedObjectFactory<
+            Command::Pool,
             Framebuffer,
             Pipeline,
             Pipeline::Layout,

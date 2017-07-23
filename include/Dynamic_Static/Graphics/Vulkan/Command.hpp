@@ -29,24 +29,22 @@
 
 #pragma once
 
-#include "Dynamic_Static/Graphics/Vulkan/Command.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Command.Buffer.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Command.Pool.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/DebugReport.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Framebuffer.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Image.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Image.View.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Pipeline.Layout.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/RenderPass.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Semaphore.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/ShaderModule.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/ShaderModule.Compiler.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/SurfaceKHR.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp"
+
+namespace Dynamic_Static {
+namespace Graphics {
+namespace Vulkan {
+
+    /**
+     * TODO : Documentation.
+     */
+    class Command final
+    {
+    public:
+        class Buffer;
+        class Pool;
+    };
+
+} // namespace Vulkan
+} // namespace Graphics
+} // namespace Dynamic_Static

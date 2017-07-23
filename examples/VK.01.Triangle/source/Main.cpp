@@ -279,12 +279,36 @@ int main()
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Create CommandPool
-
+        // Create Command::Pool
+        dst::vlkn::Command::Pool::Info commandPoolInfo;
+        commandPoolInfo.queueFamilyIndex = static_cast<uint32_t>(graphicsQueue.family_index());
+        auto commandPool = device->create<dst::vlkn::Command::Pool>(commandPoolInfo);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Create and record CommandBuffers
+        // Create and record Command::Buffers
+        for (const auto& framebuffer : framebuffers) {
+            auto& commandBuffer = *commandPool->allocate<dst::vlkn::Command::Buffer>();
 
+            dst::vlkn::Command::Buffer::BeginInfo beginInfo;
+            beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+            commandBuffer.begin_recording(beginInfo);
+
+            VkClearValue clearColor { 0.2f, 0.2f, 0.2f, 1 };
+            dst::vlkn::RenderPass::BeginInfo renderPassBeginInfo;
+            renderPassBeginInfo.renderPass = *renderPass;
+            renderPassBeginInfo.framebuffer = *framebuffer;
+            renderPassBeginInfo.renderArea.extent = swapchain->extent();
+            renderPassBeginInfo.clearValueCount = 1;
+            renderPassBeginInfo.pClearValues = &clearColor;
+            commandBuffer.begin_render_pass(renderPassBeginInfo);
+
+            commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *pipeline);
+            size_t vertexCount = 3;
+            size_t instanceCount = 1;
+            commandBuffer.draw(vertexCount, instanceCount);
+            commandBuffer.end_render_pass();
+            commandBuffer.end_recording();
+        }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Sempahores

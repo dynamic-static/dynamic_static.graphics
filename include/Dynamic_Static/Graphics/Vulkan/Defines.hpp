@@ -77,12 +77,14 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    class Command;
     class DebugReport;
     class Device;
     class Framebuffer;
     class Image;
     class Instance;
     class PhysicalDevice;
+    class Pipeline;
     class Queue;
     class RenderPass;
     class Semaphore;

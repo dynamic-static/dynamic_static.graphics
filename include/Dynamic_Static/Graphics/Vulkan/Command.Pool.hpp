@@ -29,92 +29,89 @@
 
 #pragma once
 
+#include "Dynamic_Static/Graphics/Vulkan/Command.hpp"
+#include "Dynamic_Static/Core/SharedObjectFactory.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Command.Buffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
+#include <type_traits>
+#include <vector>
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
     /**
-     * Provides high level control over a Vulkan RenderPass.
+     * Provides high level control over a Vulkan Command Pool.
      */
-    class RenderPass final
-        : public Object<VkRenderPass>
+    class Command::Pool final
+        : public Object<VkCommandPool>
     {
         friend class Device;
 
     public:
         /**
-         * Configuration paramaters for RenderPass construction.
+         * Configuration paramaters for Command::Pool construction.
          */
         struct Info final
-            : public VkRenderPassCreateInfo
+            : public VkCommandPoolCreateInfo
         {
             /**
-             * Constructs an instance of RenderPass with default paramaters.
+             * Constructs an instance of Command::Pool::Info with default paramaters.
              */
             Info()
             {
-                sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+                sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
                 pNext = nullptr;
                 flags = 0;
-                attachmentCount = 0;
-                pAttachments = nullptr;
-                subpassCount = 0;
-                pSubpasses = nullptr;
-                dependencyCount = 0;
-                pDependencies = nullptr;
-            }
-        };
-
-        /**
-         * TODO : Documentation.
-         */
-        struct BeginInfo final
-            : public VkRenderPassBeginInfo
-        {
-            /**
-             * TODO : Documentation.
-             */
-            BeginInfo()
-            {
-                sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-                pNext = nullptr;
-                renderPass = VK_NULL_HANDLE;
-                framebuffer = VK_NULL_HANDLE;
-                renderArea = { };
-                clearValueCount = 0;
-                pClearValues = nullptr;
+                queueFamilyIndex = 0;
             }
         };
 
     private:
+        std::vector<std::unique_ptr<Command::Buffer>> mBuffers;
         std::shared_ptr<Device> mDevice;
 
     private:
-        RenderPass(const std::shared_ptr<Device>& device, const Info& info);
+        Pool(const std::shared_ptr<Device>& device, const Info& info);
 
     public:
         /**
-         * Destroys this instance of RenderPass.
+         * Destroys this instance of Command::Pool.
          */
-        ~RenderPass();
+        ~Pool();
 
     public:
         /**
-         * Gets this RenderPass's Device.
-         * @return This RenderPass's Device
+         * Gets this Command::Pool's Device.
+         * @return This Command::Pool's Device
          */
         Device& device();
 
         /**
-         * Gets this RenderPass's Device.
-         * @return This RenderPass's Device
+         * Gets this Command::Pool's Device.
+         * @return This Command::Pool's Device
          */
         const Device& device() const;
+
+        /**
+         * TODO : Documentation.
+         */
+        template <typename ObjectType, typename ...Args>
+        ObjectType* allocate(Args&&... args)
+        {
+            static_assert(
+                std::is_same<ObjectType, Command::Buffer>::value,
+                "Command::Pool can only allocate Command::Buffer"
+            );
+
+            // TODO : UniqueObject factory...
+            std::unique_ptr<Command::Buffer> buffer(new Command::Buffer(*this, args...));
+            mBuffers.push_back(std::move(buffer));
+            return mBuffers.back().get();
+        }
     };
 
 } // namespace Vulkan
