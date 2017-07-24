@@ -49,8 +49,6 @@ namespace Vulkan {
         assert(mInstance);
         assert(mWindow);
 
-        mWindow->on_resized = std::bind(&SurfaceKHR::on_window_resized, this, std::placeholders::_1);
-
         #if defined(DYNAMIC_STATIC_WINDOWS)
         VkWin32SurfaceCreateInfoKHR info { };
         info.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
@@ -96,6 +94,7 @@ namespace Vulkan {
             }
         }
 
+        mWindow->on_resized = std::bind(&SurfaceKHR::on_window_resized, this, std::placeholders::_1);
         name("Dynamic_Static::Vulkan::Surface");
     }
 

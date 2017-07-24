@@ -124,6 +124,16 @@ namespace Vulkan {
         /**
          * TODO : Documentation.
          */
+        void set_viewport(const VkViewport& viewport);
+
+        /**
+         * TODO : Documentation.
+         */
+        void set_scissor(const VkRect2D& scissor);
+
+        /**
+         * TODO : Documentation.
+         */
         void draw(
             size_t vertexCount = 0,
             size_t instanceCount = 0,

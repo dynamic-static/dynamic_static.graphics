@@ -29,6 +29,7 @@
 
 #pragma once
 
+#include "Dynamic_Static/Core/Callback.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
@@ -51,6 +52,13 @@ namespace Vulkan {
         std::shared_ptr<Device> mDevice { nullptr };
         std::shared_ptr<SurfaceKHR> mSurface { nullptr };
         std::vector<std::unique_ptr<Image>> mImages;
+
+    public:
+        /**
+         * Callback executed when this SwapchainKHR is resized.
+         * @param [in] The SwapchainKHR being resized
+         */
+        Callback<SwapchainKHR, const SwapchainKHR&> on_resized;
 
     private:
         SwapchainKHR(
@@ -86,10 +94,10 @@ namespace Vulkan {
         const SurfaceKHR& surface() const;
 
         /**
-         * Gets this SwapchainKHR's Images.
-         * @return This SwapchainKHR's Images
+         * Gets a value indicating whether or not this SwapchainKHR is in a valid state.
+         * @return Whether or not this SwapchainKHR is in a valid state
          */
-        const std::vector<std::unique_ptr<Image>>& images() const;
+        bool valid() const;
 
         /**
          * TODO : Documentation.
@@ -102,12 +110,20 @@ namespace Vulkan {
         VkExtent2D extent() const;
 
         /**
+         * Gets this SwapchainKHR's Images.
+         * @return This SwapchainKHR's Images
+         */
+        const std::vector<std::unique_ptr<Image>>& images() const;
+
+        /**
          * TODO : Documentation.
          */
         size_t next_image(const Semaphore& semaphore);
 
     private:
-        void on_surface_resized();
+        void create_swap_chain();
+        void destroy_swap_chain();
+        void on_surface_resized(const SurfaceKHR& surface);
     };
 
 } // namespace Vulkan

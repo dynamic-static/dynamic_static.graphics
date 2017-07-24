@@ -54,11 +54,11 @@ int main()
         VkDebugReportFlagsEXT debugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
-            | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
-            | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-            | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_ERROR_BIT_EXT
+            // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+            // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+            // | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_ERROR_BIT_EXT
             #endif
             ;
 
@@ -102,8 +102,10 @@ int main()
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create SwapChain
         std::shared_ptr<dst::vlkn::SwapchainKHR> swapchain;
+        std::vector<std::shared_ptr<dst::vlkn::Framebuffer>> framebuffers;
         if (surface->presentation_supported(presentQueue.family_index())) {
             swapchain = device->create<dst::vlkn::SwapchainKHR>(surface);
+            framebuffers.reserve(swapchain->images().size());
         } else {
             throw std::runtime_error("Surface doesn't support presentation");
         }
@@ -240,13 +242,23 @@ int main()
             VK_COLOR_COMPONENT_B_BIT |
             VK_COLOR_COMPONENT_A_BIT;
 
-        VkPipelineColorBlendStateCreateInfo colorBlendState { };
-        colorBlendState.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
-        colorBlendState.attachmentCount = 1;
-        colorBlendState.pAttachments = &colorBlendAttacment;
+        VkPipelineColorBlendStateCreateInfo colorBlendStateInfo { };
+        colorBlendStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+        colorBlendStateInfo.attachmentCount = 1;
+        colorBlendStateInfo.pAttachments = &colorBlendAttacment;
 
         dst::vlkn::Pipeline::Layout::Info pipelineLayoutInfo;
         auto pipelineLayout = device->create<dst::vlkn::Pipeline::Layout>(pipelineLayoutInfo);
+
+        std::array<VkDynamicState, 2> dynamicStates {
+            VK_DYNAMIC_STATE_VIEWPORT,
+            VK_DYNAMIC_STATE_SCISSOR,
+        };
+
+        VkPipelineDynamicStateCreateInfo dynamicStateInfo { };
+        dynamicStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+        dynamicStateInfo.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
+        dynamicStateInfo.pDynamicStates = dynamicStates.data();
 
         dst::vlkn::Pipeline::GraphicsInfo pipelineInfo;
         pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
@@ -256,26 +268,12 @@ int main()
         pipelineInfo.pViewportState = &viewportInfo;
         pipelineInfo.pRasterizationState = &rasterizationInfo;
         pipelineInfo.pMultisampleState = &multisampleInfo;
-        pipelineInfo.pColorBlendState = &colorBlendState;
+        pipelineInfo.pColorBlendState = &colorBlendStateInfo;
+        pipelineInfo.pDynamicState = &dynamicStateInfo;
         pipelineInfo.layout = *pipelineLayout;
         pipelineInfo.renderPass = *renderPass;
         pipelineInfo.subpass = 0;
         auto pipeline = device->create<dst::vlkn::Pipeline>(pipelineInfo);
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Create Framebuffers
-        std::vector<std::shared_ptr<dst::vlkn::Framebuffer>> framebuffers;
-        framebuffers.reserve(swapchain->images().size());
-        for (const auto& image : swapchain->images()) {
-            dst::vlkn::Framebuffer::Info framebufferInfo;
-            framebufferInfo.renderPass = *renderPass;
-            framebufferInfo.attachmentCount = 1;
-            framebufferInfo.pAttachments = &image->views()[0]->handle();
-            framebufferInfo.width = swapchain->extent().width;
-            framebufferInfo.height = swapchain->extent().height;
-            framebufferInfo.layers = 1;
-            framebuffers.push_back(device->create<dst::vlkn::Framebuffer>(framebufferInfo));
-        }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Pool
@@ -284,29 +282,9 @@ int main()
         auto commandPool = device->create<dst::vlkn::Command::Pool>(commandPoolInfo);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Create and record Command::Buffers
-        for (const auto& framebuffer : framebuffers) {
-            auto& commandBuffer = *commandPool->allocate<dst::vlkn::Command::Buffer>();
-
-            dst::vlkn::Command::Buffer::BeginInfo beginInfo;
-            beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
-            commandBuffer.begin_recording(beginInfo);
-
-            VkClearValue clearColor { 0.2f, 0.2f, 0.2f, 1 };
-            dst::vlkn::RenderPass::BeginInfo renderPassBeginInfo;
-            renderPassBeginInfo.renderPass = *renderPass;
-            renderPassBeginInfo.framebuffer = *framebuffer;
-            renderPassBeginInfo.renderArea.extent = swapchain->extent();
-            renderPassBeginInfo.clearValueCount = 1;
-            renderPassBeginInfo.pClearValues = &clearColor;
-            commandBuffer.begin_render_pass(renderPassBeginInfo);
-
-            commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *pipeline);
-            size_t vertexCount = 3;
-            size_t instanceCount = 1;
-            commandBuffer.draw(vertexCount, instanceCount);
-            commandBuffer.end_render_pass();
-            commandBuffer.end_recording();
+        // Create Command::Buffers
+        for (size_t i = 0; i < swapchain->images().size(); ++i) {
+            commandPool->allocate<dst::vlkn::Command::Buffer>();
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -316,36 +294,107 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Render
-        auto quitKey = dst::Keyboard::Key::Escape;
+        bool createFramebuffers = true;
+        bool recordCommandBuffers = true;
+        swapchain->on_resized =
+        [&](const dst::vlkn::SwapchainKHR&)
+        {
+            // NOTE : If our Window size changes, our Surface and Swapchain's Image
+            //        sizes will also change.  When this occurs we need to recreate
+            //        our Framebuffers and re-record our Command::Buffers.
+            createFramebuffers = true;
+            recordCommandBuffers = true;
+            auto extent = swapchain->extent();
+        };
+
+        window->name("Dynamic_Static VK.01.Triangle");
         bool running = true;
         while (running) {
             dst::gfx::Window::update();
+            auto quitKey = dst::Keyboard::Key::Escape;
             if (window->input().keyboard().down(quitKey)) {
                 running = false;
             }
 
-            presentQueue.wait_idle();
+            if (swapchain->valid()) {
+                if (createFramebuffers) {
+                    createFramebuffers = false;
+                    recordCommandBuffers = true;
+                    framebuffers.clear();
+                    framebuffers.reserve(swapchain->images().size());
+                    for (const auto& image : swapchain->images()) {
+                        dst::vlkn::Framebuffer::Info framebufferInfo;
+                        framebufferInfo.renderPass = *renderPass;
+                        framebufferInfo.attachmentCount = 1;
+                        framebufferInfo.pAttachments = &image->views()[0]->handle();
+                        framebufferInfo.width = swapchain->extent().width;
+                        framebufferInfo.height = swapchain->extent().height;
+                        framebufferInfo.layers = 1;
+                        framebuffers.push_back(device->create<dst::vlkn::Framebuffer>(framebufferInfo));
+                    }
+                }
 
-            auto imageIndex = static_cast<uint32_t>(swapchain->next_image(*imageSemaphore));
+                if (recordCommandBuffers) {
+                    recordCommandBuffers = false;
+                    for (size_t i = 0; i < framebuffers.size(); ++i) {
+                        auto& commandBuffer = commandPool->buffers()[i];
 
-            dst::vlkn::Queue::SubmitInfo submitInfo;
-            VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
-            submitInfo.waitSemaphoreCount = 1;
-            submitInfo.pWaitSemaphores = &imageSemaphore->handle();
-            submitInfo.pWaitDstStageMask = waitStages;
-            submitInfo.commandBufferCount = 1;
-            submitInfo.pCommandBuffers = &commandPool->buffers()[imageIndex]->handle();
-            submitInfo.signalSemaphoreCount = 1;
-            submitInfo.pSignalSemaphores = &renderSemaphore->handle();
-            graphicsQueue.submit(submitInfo);
+                        dst::vlkn::Command::Buffer::BeginInfo beginInfo;
+                        beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+                        commandBuffer->begin_recording(beginInfo);
 
-            dst::vlkn::Queue::PresentInfoKHR presentInfo;
-            presentInfo.waitSemaphoreCount = 1;
-            presentInfo.pWaitSemaphores = &renderSemaphore->handle();
-            presentInfo.swapchainCount = 1;
-            presentInfo.pSwapchains = &swapchain->handle();
-            presentInfo.pImageIndices = &imageIndex;
-            presentQueue.present(presentInfo);
+                        VkClearValue clearColor { 0.2f, 0.2f, 0.2f, 1 };
+                        dst::vlkn::RenderPass::BeginInfo renderPassBeginInfo;
+                        renderPassBeginInfo.renderPass = *renderPass;
+                        renderPassBeginInfo.framebuffer = *framebuffers[i];
+                        renderPassBeginInfo.renderArea.extent = swapchain->extent();
+                        renderPassBeginInfo.clearValueCount = 1;
+                        renderPassBeginInfo.pClearValues = &clearColor;
+                        commandBuffer->begin_render_pass(renderPassBeginInfo);
+
+                        commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *pipeline);
+
+                        VkViewport viewport { };
+                        viewport.width = static_cast<float>(swapchain->extent().width);
+                        viewport.height = static_cast<float>(swapchain->extent().height);
+                        viewport.minDepth = 0;
+                        viewport.maxDepth = 1;
+                        commandBuffer->set_viewport(viewport);
+
+                        VkRect2D scissor { };
+                        scissor.extent = swapchain->extent();
+                        commandBuffer->set_scissor(scissor);
+
+                        size_t vertexCount = 3;
+                        size_t instanceCount = 1;
+                        commandBuffer->draw(vertexCount, instanceCount);
+                        commandBuffer->end_render_pass();
+                        commandBuffer->end_recording();
+                    }
+                }
+
+                auto imageIndex = static_cast<uint32_t>(swapchain->next_image(*imageSemaphore));
+
+                dst::vlkn::Queue::SubmitInfo submitInfo;
+                VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+                submitInfo.waitSemaphoreCount = 1;
+                submitInfo.pWaitSemaphores = &imageSemaphore->handle();
+                submitInfo.pWaitDstStageMask = waitStages;
+                submitInfo.commandBufferCount = 1;
+                submitInfo.pCommandBuffers = &commandPool->buffers()[imageIndex]->handle();
+                submitInfo.signalSemaphoreCount = 1;
+                submitInfo.pSignalSemaphores = &renderSemaphore->handle();
+                graphicsQueue.submit(submitInfo);
+
+                dst::vlkn::Queue::PresentInfoKHR presentInfo;
+                presentInfo.waitSemaphoreCount = 1;
+                presentInfo.pWaitSemaphores = &renderSemaphore->handle();
+                presentInfo.swapchainCount = 1;
+                presentInfo.pSwapchains = &swapchain->handle();
+                presentInfo.pImageIndices = &imageIndex;
+                presentQueue.wait_idle();
+                presentQueue.present(presentInfo);
+            }
 
             window->swap_buffers();
         }

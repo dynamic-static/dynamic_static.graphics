@@ -77,6 +77,16 @@ namespace Vulkan {
         vkCmdBindPipeline(mHandle, bindPoint, pipeline);
     }
 
+    void Command::Buffer::set_viewport(const VkViewport& viewport)
+    {
+        vkCmdSetViewport(mHandle, 0, 1, &viewport);
+    }
+
+    void Command::Buffer::set_scissor(const VkRect2D& scissor)
+    {
+        vkCmdSetScissor(mHandle, 0, 1, &scissor);
+    }
+
     void Command::Buffer::draw(
         size_t vertexCount,
         size_t instanceCount,
