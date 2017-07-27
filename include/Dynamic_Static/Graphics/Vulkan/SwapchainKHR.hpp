@@ -49,6 +49,7 @@ namespace Vulkan {
         friend class Device;
 
     private:
+        bool mUpdate { false };
         std::shared_ptr<Device> mDevice { nullptr };
         std::shared_ptr<SurfaceKHR> mSurface { nullptr };
         std::vector<std::unique_ptr<Image>> mImages;
@@ -114,6 +115,11 @@ namespace Vulkan {
          * @return This SwapchainKHR's Images
          */
         const std::vector<std::unique_ptr<Image>>& images() const;
+
+        /**
+         * Updates this SwapchainKHR.
+         */
+        void update();
 
         /**
          * TODO : Documentation.

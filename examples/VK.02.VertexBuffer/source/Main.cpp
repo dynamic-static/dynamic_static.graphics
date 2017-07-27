@@ -37,7 +37,7 @@
 int main()
 {
     {
-        // Renders a triangle using a vertex buffer based on https://vulkan-tutorial.com/
+        // Renders a triangle based on https://vulkan-tutorial.com/
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Instance and PhysicalDevices
@@ -54,11 +54,11 @@ int main()
         VkDebugReportFlagsEXT debugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
-            | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
-            | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-            | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_ERROR_BIT_EXT
+            // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+            // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+            // | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_ERROR_BIT_EXT
             #endif
             ;
 
@@ -278,6 +278,7 @@ int main()
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Pool
         dst::vlkn::Command::Pool::Info commandPoolInfo;
+        commandPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
         commandPoolInfo.queueFamilyIndex = static_cast<uint32_t>(graphicsQueue.family_index());
         auto commandPool = device->create<dst::vlkn::Command::Pool>(commandPoolInfo);
 
@@ -318,9 +319,9 @@ int main()
 
             presentQueue.wait_idle();
             swapchain->update();
-            auto imageIndex = static_cast<uint32_t>(swapchain->next_image(*imageSemaphore));
-
             if (swapchain->valid()) {
+                auto imageIndex = static_cast<uint32_t>(swapchain->next_image(*imageSemaphore));
+
                 if (createFramebuffers) {
                     createFramebuffers = false;
                     recordCommandBuffers = true;

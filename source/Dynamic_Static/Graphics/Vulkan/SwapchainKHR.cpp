@@ -103,19 +103,30 @@ namespace Vulkan {
         return mImages;
     }
 
+    void SwapchainKHR::update()
+    {
+        if (mUpdate) {
+            mUpdate = false;
+            destroy_swap_chain();
+            create_swap_chain();
+        }
+    }
+
     size_t SwapchainKHR::next_image(const Semaphore& semaphore)
     {
-        uint32_t imageIndex;
-        validate(
-            vkAcquireNextImageKHR(
-                device(),
-                mHandle,
-                std::numeric_limits<uint64_t>::max(),
-                semaphore,
-                VK_NULL_HANDLE,
-                &imageIndex
-            )
-        );
+        uint32_t imageIndex = 0;
+        if (valid()) {
+            validate(
+                vkAcquireNextImageKHR(
+                    device(),
+                    mHandle,
+                    std::numeric_limits<uint64_t>::max(),
+                    semaphore,
+                    VK_NULL_HANDLE,
+                    &imageIndex
+                )
+            );
+        }
 
         return static_cast<size_t>(imageIndex);
     }
@@ -216,8 +227,7 @@ namespace Vulkan {
 
     void SwapchainKHR::on_surface_resized(const SurfaceKHR& surface)
     {
-        destroy_swap_chain();
-        create_swap_chain();
+        mUpdate = true;
         on_resized(*this);
     }
 

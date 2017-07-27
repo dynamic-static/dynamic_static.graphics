@@ -3,3 +3,4 @@
 
 add_subdirectory(VK.00.PhysicalDevice/)
 add_subdirectory(VK.01.Triangle/)
+add_subdirectory(VK.02.VertexBuffer/)
