@@ -199,29 +199,15 @@ int main()
                 layout(location = 0) in vec2 inPosition;
                 layout(location = 1) in vec4 inColor;
 
+                layout(location = 0) out vec3 fragColor;
+
                 out gl_PerVertex
                 {
                     vec4 gl_Position;
                 };
 
-                layout(location = 0) out vec3 fragColor;
-
-                // vec2 positions[3] = vec2[](
-                //     vec2( 0.0, -0.5),
-                //     vec2( 0.5,  0.5),
-                //     vec2(-0.5,  0.5)
-                // );
-                // 
-                // vec3 colors[3] = vec3[](
-                //     vec3(1, 0, 0),
-                //     vec3(0, 1, 0),
-                //     vec3(0, 0, 1)
-                // );
-
                 void main()
                 {
-                    // gl_Position = vec4(positions[gl_VertexIndex], 0, 1);
-                    // fragColor = colors[gl_VertexIndex];
                     gl_Position = vec4(inPosition, 0, 1);
                     fragColor = inColor.rgb;
                 }
@@ -238,6 +224,7 @@ int main()
                 #extension GL_ARB_separate_shader_objects : enable
 
                 layout(location = 0) in vec3 fragColor;
+
                 layout(location = 0) out vec4 outColor;
 
                 void main()
@@ -346,9 +333,11 @@ int main()
         Buffer::Info vertexBufferInfo;
         vertexBufferInfo.size = sizeof(vertices[0]) * vertices.size();
         vertexBufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-        auto vertexBuffer = device->create<Buffer>(vertexBufferInfo);
+        auto memoryPropertyFlags =
+            VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
+            VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+        auto vertexBuffer = device->create<Buffer>(vertexBufferInfo, memoryPropertyFlags);
         vertexBuffer->write<Vertex>(vertices);
-        int breaker = 0;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Buffers

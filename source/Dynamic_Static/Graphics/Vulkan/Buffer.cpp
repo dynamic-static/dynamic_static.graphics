@@ -36,10 +36,14 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    Buffer::Buffer(const std::shared_ptr<Device>& device, const Info& info)
+    Buffer::Buffer(
+        const std::shared_ptr<Device>& device,
+        const Info& info,
+        VkMemoryPropertyFlags memoryPropertyFlags
+    )
         : DeviceChild(device)
     {
-        initialize(info);
+        initialize(info, memoryPropertyFlags);
     }
 
     Buffer::~Buffer()
@@ -57,7 +61,7 @@ namespace Vulkan {
         return memoryRequirements;
     }
 
-    void Buffer::initialize(const Info& info)
+    void Buffer::initialize(const Info& info, VkMemoryPropertyFlags memoryPropertyFlags)
     {
         validate(vkCreateBuffer(DeviceChild::device(), &info, nullptr, &mHandle));
         name("Dynamic_Static::Vulkan::Buffer");
@@ -65,11 +69,7 @@ namespace Vulkan {
         /*
         }
         */
-            // TODO : Should this be moved to PhysicalDevice?
-            // NOTE : We don't want to force these flags for every Buffer.
-            auto memoryPropertyFlags =
-                VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
-                VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+            // TODO : This should be moved to PhysicalDevice...
             auto memoryRequirements = memory_requirements();
             auto memoryTypeFilter = memoryRequirements.memoryTypeBits;
             auto memoryProperties = device().physical_device().memory_properties();

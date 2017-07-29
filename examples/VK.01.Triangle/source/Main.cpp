@@ -148,12 +148,12 @@ int main()
                 #version 450
                 #extension GL_ARB_separate_shader_objects : enable
 
+                layout(location = 0) out vec3 fragColor;
+
                 out gl_PerVertex
                 {
                     vec4 gl_Position;
                 };
-
-                layout(location = 0) out vec3 fragColor;
 
                 vec2 positions[3] = vec2[](
                     vec2( 0.0, -0.5),
@@ -185,6 +185,7 @@ int main()
                 #extension GL_ARB_separate_shader_objects : enable
 
                 layout(location = 0) in vec3 fragColor;
+
                 layout(location = 0) out vec4 outColor;
 
                 void main()

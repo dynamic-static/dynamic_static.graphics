@@ -80,8 +80,7 @@ namespace Vulkan {
 
         Info info { };
         info.queueCreateInfoCount = static_cast<uint32_t>(queueInfos.size());
-        // TODO : Kind of annoying to have to use begin() here instead of data()...this needs to be fixed in Core.
-        info.pQueueCreateInfos = queueInfos.begin();
+        info.pQueueCreateInfos = queueInfos.data();
         info.enabledLayerCount = static_cast<uint32_t>(requestedLayers.size());
         info.ppEnabledLayerNames = requestedLayers.data();
         info.enabledExtensionCount = static_cast<uint32_t>(requestedExtensions.size());

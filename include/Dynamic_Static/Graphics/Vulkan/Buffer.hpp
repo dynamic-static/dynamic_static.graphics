@@ -76,7 +76,11 @@ namespace Vulkan {
         std::shared_ptr<Memory> mMemory;
 
     private:
-        Buffer(const std::shared_ptr<Device>& device, const Info& info);
+        Buffer(
+            const std::shared_ptr<Device>& device,
+            const Info& info,
+            VkMemoryPropertyFlags memoryPropertyFlags
+        );
 
     public:
         /**
@@ -102,7 +106,10 @@ namespace Vulkan {
         }
 
     private:
-        void initialize(const Info& info);
+        void initialize(
+            const Info& info,
+            VkMemoryPropertyFlags memoryPropertyFlags
+        );
     };
 
 } // namespace Vulkan
