@@ -79,9 +79,12 @@ int main()
         using namespace dst::gfx::vlkn;
 
         const std::vector<Vertex> vertices {
-            { {  0,    -0.5f }, { dst::Color::Red } },
-            { {  0.5f,  0.5f }, { dst::Color::Green } },
-            { { -0.5f,  0.5f }, { dst::Color::Blue } },
+            { { -0.5f, -0.5f }, { dst::Color::OrangeRed } },
+            { {  0.5f, -0.5f }, { dst::Color::BlueViolet } },
+            { { -0.5f,  0.5f }, { dst::Color::Goldenrod } },
+            { {  0.5f, -0.5f }, { dst::Color::BlueViolet } },
+            { {  0.5f,  0.5f }, { dst::Color::DodgerBlue } },
+            { { -0.5f,  0.5f }, { dst::Color::Goldenrod } },
         };
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -193,6 +196,9 @@ int main()
                 #version 450
                 #extension GL_ARB_separate_shader_objects : enable
 
+                layout(location = 0) in vec2 inPosition;
+                layout(location = 1) in vec4 inColor;
+
                 out gl_PerVertex
                 {
                     vec4 gl_Position;
@@ -200,22 +206,24 @@ int main()
 
                 layout(location = 0) out vec3 fragColor;
 
-                vec2 positions[3] = vec2[](
-                    vec2( 0.0, -0.5),
-                    vec2( 0.5,  0.5),
-                    vec2(-0.5,  0.5)
-                );
-
-                vec3 colors[3] = vec3[](
-                    vec3(1, 0, 0),
-                    vec3(0, 1, 0),
-                    vec3(0, 0, 1)
-                );
+                // vec2 positions[3] = vec2[](
+                //     vec2( 0.0, -0.5),
+                //     vec2( 0.5,  0.5),
+                //     vec2(-0.5,  0.5)
+                // );
+                // 
+                // vec3 colors[3] = vec3[](
+                //     vec3(1, 0, 0),
+                //     vec3(0, 1, 0),
+                //     vec3(0, 0, 1)
+                // );
 
                 void main()
                 {
-                    gl_Position = vec4(positions[gl_VertexIndex], 0, 1);
-                    fragColor = colors[gl_VertexIndex];
+                    // gl_Position = vec4(positions[gl_VertexIndex], 0, 1);
+                    // fragColor = colors[gl_VertexIndex];
+                    gl_Position = vec4(inPosition, 0, 1);
+                    fragColor = inColor.rgb;
                 }
 
             )"
@@ -249,7 +257,7 @@ int main()
         auto vertexAttributeDescriptions = Vertex::attribute_descriptions();
         VkPipelineVertexInputStateCreateInfo vertexInputInfo { };
         vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-        vertexInputInfo.vertexAttributeDescriptionCount = 1;
+        vertexInputInfo.vertexBindingDescriptionCount = 1;
         vertexInputInfo.pVertexBindingDescriptions = &vertexBindingDescription;
         vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(vertexAttributeDescriptions.size());
         vertexInputInfo.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
@@ -339,6 +347,7 @@ int main()
         vertexBufferInfo.size = sizeof(vertices[0]) * vertices.size();
         vertexBufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
         auto vertexBuffer = device->create<Buffer>(vertexBufferInfo);
+        vertexBuffer->write<Vertex>(vertices);
         int breaker = 0;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -367,7 +376,7 @@ int main()
             auto extent = swapchain->extent();
         };
 
-        window->name("Dynamic_Static VK.01.Triangle");
+        window->name("Dynamic_Static VK.02.VertexBuffer");
         bool running = true;
         while (running) {
             Window::update();
@@ -428,10 +437,8 @@ int main()
                         VkRect2D scissor { };
                         scissor.extent = swapchain->extent();
                         commandBuffer->set_scissor(scissor);
-
-                        size_t vertexCount = 3;
-                        size_t instanceCount = 1;
-                        commandBuffer->draw(vertexCount, instanceCount);
+                        commandBuffer->bind_vertex_buffer(*vertexBuffer);
+                        commandBuffer->draw(vertices.size(), 1);
                         commandBuffer->end_render_pass();
                         commandBuffer->end_recording();
                     }

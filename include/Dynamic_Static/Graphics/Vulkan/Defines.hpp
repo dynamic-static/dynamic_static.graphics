@@ -84,6 +84,7 @@ namespace Vulkan {
     class Framebuffer;
     class Image;
     class Instance;
+    class Memory;
     class PhysicalDevice;
     class Pipeline;
     class Queue;

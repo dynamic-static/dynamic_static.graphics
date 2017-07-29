@@ -30,6 +30,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/Command.Buffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Command.Pool.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Buffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
 
 namespace Dynamic_Static {
@@ -75,6 +76,13 @@ namespace Vulkan {
     void Command::Buffer::bind_pipeline(VkPipelineBindPoint bindPoint, const Pipeline& pipeline)
     {
         vkCmdBindPipeline(mHandle, bindPoint, pipeline);
+    }
+
+    void Command::Buffer::bind_vertex_buffer(const vlkn::Buffer& vertexBuffer)
+    {
+        // TODO : This is extremely inflexible...
+        VkDeviceSize offsets[] = { 0 };
+        vkCmdBindVertexBuffers(mHandle, 0, 1, &vertexBuffer.handle(), offsets);
     }
 
     void Command::Buffer::set_viewport(const VkViewport& viewport)

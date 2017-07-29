@@ -53,6 +53,7 @@ namespace Vulkan {
             Buffer,
             Command::Pool,
             Framebuffer,
+            Memory,
             Pipeline,
             Pipeline::Layout,
             RenderPass,
@@ -165,6 +166,16 @@ namespace Vulkan {
          */
         template <typename ObjectType, typename ...Args>
         std::shared_ptr<ObjectType> create(Args&&... args)
+        {
+            auto object = new ObjectType(shared(), args...);
+            return make_shared<ObjectType>(object);
+        }
+
+        /**
+         * TODO : Documentation.
+         */
+        template <typename ObjectType, typename ...Args>
+        std::shared_ptr<ObjectType> allocate(Args&&... args)
         {
             auto object = new ObjectType(shared(), args...);
             return make_shared<ObjectType>(object);

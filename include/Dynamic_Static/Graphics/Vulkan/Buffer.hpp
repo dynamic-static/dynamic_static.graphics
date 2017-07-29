@@ -29,7 +29,9 @@
 
 #pragma once
 
+#include "Dynamic_Static/Core/Collection.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
@@ -38,8 +40,12 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    /**
+     * Provides high level control over a Vulkan Buffer.
+     */
     class Buffer final
         : public Object<VkBuffer>
+        , public detail::DeviceChild
     {
         friend class Device;
 
@@ -67,7 +73,7 @@ namespace Vulkan {
         };
 
     private:
-        std::shared_ptr<Device> mDevice;
+        std::shared_ptr<Memory> mMemory;
 
     private:
         Buffer(const std::shared_ptr<Device>& device, const Info& info);
@@ -80,22 +86,23 @@ namespace Vulkan {
 
     public:
         /**
-         * Gets this Buffer's Device.
-         * @return This Buffer's Device
-         */
-        Device& device();
-
-        /**
-         * Gets this Buffer's Device.
-         * @return This BufferS's Device
-         */
-        const Device& device() const;
-
-        /**
          * Gets this Buffer's memory requirements.
          * @return This Buffer's memory requirements
          */
         VkMemoryRequirements memory_requirements() const;
+
+        /**
+         * TODO : Documentation.
+         */
+        template <typename T>
+        void write(const Collection<T>& data)
+        {
+            assert(mMemory);
+            mMemory->write(data);
+        }
+
+    private:
+        void initialize(const Info& info);
     };
 
 } // namespace Vulkan

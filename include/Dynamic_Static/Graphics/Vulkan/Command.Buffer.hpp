@@ -124,6 +124,11 @@ namespace Vulkan {
         /**
          * TODO : Documentation.
          */
+        void bind_vertex_buffer(const vlkn::Buffer& vertexBuffer);
+
+        /**
+         * TODO : Documentation.
+         */
         void set_viewport(const VkViewport& viewport);
 
         /**

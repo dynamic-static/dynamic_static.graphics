@@ -29,7 +29,9 @@
 
 #pragma once
 
+#include "Dynamic_Static/Core/Collection.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
@@ -38,8 +40,12 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    /**
+     * Provides high level control over Vulkan Memory.
+     */
     class Memory final
         : public Object<VkDeviceMemory>
+        , public detail::DeviceChild
     {
         friend class Device;
 
@@ -62,9 +68,6 @@ namespace Vulkan {
             }
         };
 
-    private:
-        std::shared_ptr<Device> mDevice;
-
     public:
         Memory(const std::shared_ptr<Device>& device, const Info& info);
 
@@ -75,7 +78,31 @@ namespace Vulkan {
         ~Memory();
 
     public:
+        /**
+         * TODO : Documentation.
+         */
+        void* map();
 
+        /**
+         * TODO : Documentation.
+         */
+        void* map(size_t offset, size_t size);
+
+        /**
+         * TODO : Documentation.
+         */
+        void unmap();
+
+        /**
+         * TODO : Documentation.
+         */
+        template <typename T>
+        void write(const Collection<T>& data)
+        {
+            auto mappedPtr = map(0, data.byte_size());
+            std::memcpy(mappedPtr, data.data(), data.byte_size());
+            unmap();
+        }
     };
 
 } // namespace Vulkan

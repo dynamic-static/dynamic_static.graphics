@@ -17,6 +17,7 @@ set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/Vulkan/Image.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Image.View.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Instance.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Memory.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Object.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/PhysicalDevice.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Pipeline.hpp
@@ -53,6 +54,7 @@ set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/Vulkan/Image.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Image.View.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Instance.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/Memory.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/PhysicalDevice.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Pipeline.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Pipeline.Layout.cpp

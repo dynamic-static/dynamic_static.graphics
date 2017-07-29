@@ -29,36 +29,25 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/Buffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Memory.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
     Buffer::Buffer(const std::shared_ptr<Device>& device, const Info& info)
-        : mDevice { device }
+        : DeviceChild(device)
     {
-        assert(mDevice);
-        validate(vkCreateBuffer(*mDevice, &info, nullptr, &mHandle));
-        name("Dynamic_Static::Vulkan::Buffer");
+        initialize(info);
     }
 
     Buffer::~Buffer()
     {
         if (mHandle) {
+            mMemory.reset();
             vkDestroyBuffer(device(), mHandle, nullptr);
         }
-    }
-
-    Device& Buffer::device()
-    {
-        assert(mDevice);
-        return *mDevice;
-    }
-
-    const Device& Buffer::device() const
-    {
-        assert(mDevice);
-        return *mDevice;
     }
 
     VkMemoryRequirements Buffer::memory_requirements() const
@@ -66,6 +55,53 @@ namespace Vulkan {
         VkMemoryRequirements memoryRequirements;
         vkGetBufferMemoryRequirements(device(), mHandle, &memoryRequirements);
         return memoryRequirements;
+    }
+
+    void Buffer::initialize(const Info& info)
+    {
+        validate(vkCreateBuffer(DeviceChild::device(), &info, nullptr, &mHandle));
+        name("Dynamic_Static::Vulkan::Buffer");
+
+        /*
+        }
+        */
+            // TODO : Should this be moved to PhysicalDevice?
+            // NOTE : We don't want to force these flags for every Buffer.
+            auto memoryPropertyFlags =
+                VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
+                VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+            auto memoryRequirements = memory_requirements();
+            auto memoryTypeFilter = memoryRequirements.memoryTypeBits;
+            auto memoryProperties = device().physical_device().memory_properties();
+            int32_t memoryTypeIndex = -1;
+            for (int32_t i = 0; i < static_cast<int32_t>(memoryProperties.memoryTypeCount); ++i) {
+                if (memoryTypeFilter & (1 << i)) {
+                    if ((memoryProperties.memoryTypes[i].propertyFlags & memoryPropertyFlags) == memoryPropertyFlags) {
+                        memoryTypeIndex = i;
+                        break;
+                    }
+                }
+            }
+
+            if (memoryTypeIndex == -1) {
+                throw std::runtime_error("Failed to find supported Memory type index");
+            }
+        /*
+        }
+        */
+
+        // TODO : This is a lousy way to be using memory, we should be binding several
+        //        related buffers to a single allocation and ensuring that our offsets
+        //        are aligned to memoryRequirements.alignment.
+        // TODO : Buffer shouldn't own a particular Memory allocation.
+        //        http://gpuopen.com/vulkan-device-memory/
+        //        https://twitter.com/axelgneiting/status/756218806570147840
+        size_t offset = 0;
+        Memory::Info memoryInfo;
+        memoryInfo.memoryTypeIndex = static_cast<uint32_t>(memoryTypeIndex);
+        memoryInfo.allocationSize = memoryRequirements.size;
+        mMemory = device().allocate<Memory>(memoryInfo);
+        validate(vkBindBufferMemory(device(), mHandle, *mMemory, static_cast<VkDeviceSize>(offset)));
     }
 
 } // namespace Vulkan
