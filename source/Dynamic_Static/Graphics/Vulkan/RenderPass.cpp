@@ -35,10 +35,9 @@ namespace Graphics {
 namespace Vulkan {
 
     RenderPass::RenderPass(const std::shared_ptr<Device>& device, const Info& info)
-        : mDevice { device }
+        : DeviceChild(device)
     {
-        assert(mDevice);
-        validate(vkCreateRenderPass(*mDevice, &info, nullptr, &mHandle));
+        validate(vkCreateRenderPass(DeviceChild::device(), &info, nullptr, &mHandle));
         name("Dynamic_Static::Vulkan::RenderPass");
     }
 
@@ -47,18 +46,6 @@ namespace Vulkan {
         if (mHandle) {
             vkDestroyRenderPass(device(), mHandle, nullptr);
         }
-    }
-
-    Device& RenderPass::device()
-    {
-        assert(mDevice);
-        return *mDevice;
-    }
-
-    const Device& RenderPass::device() const
-    {
-        assert(mDevice);
-        return *mDevice;
     }
 
 } // namespace Vulkan

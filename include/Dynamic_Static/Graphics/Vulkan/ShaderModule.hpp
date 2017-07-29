@@ -30,6 +30,7 @@
 #pragma once
 
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
@@ -44,6 +45,7 @@ namespace Vulkan {
      */
     class ShaderModule final
         : public Object<VkShaderModule>
+        , public detail::DeviceChild
     {
         friend class Device;
 
@@ -80,13 +82,12 @@ namespace Vulkan {
 
     private:
         VkShaderStageFlagBits mStage { VK_SHADER_STAGE_ALL_GRAPHICS };
-        std::shared_ptr<Device> mDevice;
 
     private:
         ShaderModule(
             const std::shared_ptr<Device>& device,
-            Source source,
             VkShaderStageFlagBits stage,
+            Source source,
             const std::string& compile
         );
 
@@ -97,18 +98,6 @@ namespace Vulkan {
         ~ShaderModule();
 
     public:
-        /**
-         * Gets this ShaderModule's Device.
-         * @return This ShaderModule's Device
-         */
-        Device& device();
-
-        /**
-         * Gets this ShaderModule's Device.
-         * @return This ShaderModule's Device
-         */
-        const Device& device() const;
-
         /**
          * Gets this ShaderModule's VkPipelineShaderStageCreateInfo.
          * @return This ShaderModule's VkPipelineShaderStageCreateInfo

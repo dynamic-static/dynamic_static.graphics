@@ -5,12 +5,14 @@ set(INCLUDE_PATH ${DST_GFX_INCLUDE}/Dynamic_Static/)
 set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/OpenGL/GLEWInclude.hpp
 
+    ${INCLUDE_PATH}/Graphics/Vulkan/Buffer.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Command.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Command.Buffer.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Command.Pool.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/DebugReport.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Defines.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Device.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/DeviceChild.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Framebuffer.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Image.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Image.View.hpp
@@ -40,11 +42,13 @@ set(INCLUDE_FILES
 
 set(SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/)
 set(SOURCE_FILES
+    ${SOURCE_PATH}/Graphics/Vulkan/Buffer.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Command.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Command.Buffer.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Command.Pool.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/DebugReport.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Device.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/DeviceChild.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Framebuffer.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Image.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Image.View.cpp

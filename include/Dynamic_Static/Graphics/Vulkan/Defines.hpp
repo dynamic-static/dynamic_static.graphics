@@ -77,6 +77,7 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    class Buffer;
     class Command;
     class DebugReport;
     class Device;

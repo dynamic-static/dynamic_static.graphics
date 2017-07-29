@@ -35,10 +35,9 @@ namespace Graphics {
 namespace Vulkan {
 
     Command::Pool::Pool(const std::shared_ptr<Device>& device, const Info& info)
-        : mDevice { device }
+        : DeviceChild { device }
     {
-        assert(mDevice);
-        validate(vkCreateCommandPool(*mDevice, &info, nullptr, &mHandle));
+        validate(vkCreateCommandPool(DeviceChild::device(), &info, nullptr, &mHandle));
         name("Dynamic_Static::Vulkan::Command::Pool");
     }
 
@@ -47,18 +46,6 @@ namespace Vulkan {
         if (mHandle) {
             vkDestroyCommandPool(device(), mHandle, nullptr);
         }
-    }
-
-    Device& Command::Pool::device()
-    {
-        assert(mDevice);
-        return *mDevice;
-    }
-
-    const Device& Command::Pool::device() const
-    {
-        assert(mDevice);
-        return *mDevice;
     }
 
     const std::vector<std::unique_ptr<Command::Buffer>>& Command::Pool::buffers() const

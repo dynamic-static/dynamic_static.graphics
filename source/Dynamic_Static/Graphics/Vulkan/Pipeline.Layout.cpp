@@ -35,10 +35,9 @@ namespace Graphics {
 namespace Vulkan {
 
     Pipeline::Layout::Layout(const std::shared_ptr<Device>& device, const Info& info)
-        : mDevice { device }
+        : DeviceChild(device)
     {
-        assert(mDevice);
-        validate(vkCreatePipelineLayout(*mDevice, &info, nullptr, &mHandle));
+        validate(vkCreatePipelineLayout(DeviceChild::device(), &info, nullptr, &mHandle));
         name("Dynamic_Static::Vulkan::Pipeline::Layout");
     }
 
@@ -47,18 +46,6 @@ namespace Vulkan {
         if (mHandle) {
             vkDestroyPipelineLayout(device(), mHandle, nullptr);
         }
-    }
-
-    Device& Pipeline::Layout::device()
-    {
-        assert(mDevice);
-        return *mDevice;
-    }
-
-    const Device& Pipeline::Layout::device() const
-    {
-        assert(mDevice);
-        return *mDevice;
     }
 
 } // namespace Vulkan

@@ -46,7 +46,7 @@ namespace Vulkan {
         const std::shared_ptr<Device>& device,
         const std::shared_ptr<SurfaceKHR>& surface
     )
-        : mDevice { device }
+        : DeviceChild(device)
         , mSurface { surface }
     {
         create_swap_chain();
@@ -57,18 +57,6 @@ namespace Vulkan {
     SwapchainKHR::~SwapchainKHR()
     {
         destroy_swap_chain();
-    }
-
-    Device& SwapchainKHR::device()
-    {
-        assert(mDevice);
-        return *mDevice;
-    }
-
-    const Device& SwapchainKHR::device() const
-    {
-        assert(mDevice);
-        return *mDevice;
     }
 
     SurfaceKHR& SwapchainKHR::surface()
@@ -133,7 +121,6 @@ namespace Vulkan {
 
     void SwapchainKHR::create_swap_chain()
     {
-        assert(mDevice);
         assert(mSurface);
         auto extent = mSurface->capabilities().currentExtent;
         if (extent.width && extent.height) {
@@ -202,11 +189,11 @@ namespace Vulkan {
             //        This should be false only if we need to read back this SwapchainKHR's contents.
             info.clipped = VK_TRUE;
             info.oldSwapchain = VK_NULL_HANDLE;
-            validate(vkCreateSwapchainKHR(*mDevice, &info, nullptr, &mHandle));
+            validate(vkCreateSwapchainKHR(device(), &info, nullptr, &mHandle));
 
-            validate(vkGetSwapchainImagesKHR(*mDevice, mHandle, &imageCount, nullptr));
+            validate(vkGetSwapchainImagesKHR(device(), mHandle, &imageCount, nullptr));
             std::vector<VkImage> imageHandles(imageCount);
-            validate(vkGetSwapchainImagesKHR(*mDevice, mHandle, &imageCount, imageHandles.data()));
+            validate(vkGetSwapchainImagesKHR(device(), mHandle, &imageCount, imageHandles.data()));
             for (const auto& handle : imageHandles) {
                 std::unique_ptr<Image> image(new Image(*this, handle));
                 image->create<Image::View>();

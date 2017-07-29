@@ -31,6 +31,7 @@
 
 #include "Dynamic_Static/Core/Callback.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
@@ -45,12 +46,12 @@ namespace Vulkan {
      */
     class SwapchainKHR final
         : public Object<VkSwapchainKHR>
+        , public detail::DeviceChild
     {
         friend class Device;
 
     private:
         bool mUpdate { false };
-        std::shared_ptr<Device> mDevice { nullptr };
         std::shared_ptr<SurfaceKHR> mSurface { nullptr };
         std::vector<std::unique_ptr<Image>> mImages;
 
@@ -74,16 +75,6 @@ namespace Vulkan {
         ~SwapchainKHR();
 
     public:
-        /**
-         * TODO : Documentation.
-         */
-        Device& device();
-
-        /**
-         * TODO : Documentation.
-         */
-        const Device& device() const;
-
         /**
          * TODO : Documentation.
          */

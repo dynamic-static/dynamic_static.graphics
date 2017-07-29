@@ -89,7 +89,7 @@ namespace Vulkan {
                 mHandle = std::move(other.mHandle);
                 other.mHandle = VK_NULL_HANDLE;
             }
-        
+
             return *this;
         }
 

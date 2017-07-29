@@ -30,6 +30,8 @@
 #pragma once
 
 #include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
 
@@ -42,6 +44,7 @@ namespace Vulkan {
      */
     class Pipeline::Layout final
         : public Object<VkPipelineLayout>
+        , public detail::DeviceChild
     {
         friend class Device;
 
@@ -68,9 +71,6 @@ namespace Vulkan {
         };
 
     private:
-        std::shared_ptr<Device> mDevice;
-
-    private:
         Layout(const std::shared_ptr<Device>& device, const Info& info);
 
     public:
@@ -78,19 +78,6 @@ namespace Vulkan {
          * Destroys this instance of Pipeline::Layout.
          */
         ~Layout();
-
-    public:
-        /**
-         * Gets this Pipeline::Layout's Device.
-         * @return This Pipeline::Layout's Device
-         */
-        Device& device();
-
-        /**
-         * Gets this Pipeline::Layout's Device.
-         * @return This Pipeline::Layout's Device
-         */
-        const Device& device() const;
     };
 
 } // namespace Vulkan

@@ -30,6 +30,7 @@
 #pragma once
 
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
@@ -43,6 +44,7 @@ namespace Vulkan {
      */
     class RenderPass final
         : public Object<VkRenderPass>
+        , public detail::DeviceChild
     {
         friend class Device;
 
@@ -92,9 +94,6 @@ namespace Vulkan {
         };
 
     private:
-        std::shared_ptr<Device> mDevice;
-
-    private:
         RenderPass(const std::shared_ptr<Device>& device, const Info& info);
 
     public:
@@ -102,19 +101,6 @@ namespace Vulkan {
          * Destroys this instance of RenderPass.
          */
         ~RenderPass();
-
-    public:
-        /**
-         * Gets this RenderPass's Device.
-         * @return This RenderPass's Device
-         */
-        Device& device();
-
-        /**
-         * Gets this RenderPass's Device.
-         * @return This RenderPass's Device
-         */
-        const Device& device() const;
     };
 
 } // namespace Vulkan

@@ -29,84 +29,73 @@
 
 #pragma once
 
-#include "Dynamic_Static/Graphics/Vulkan/Command.hpp"
-#include "Dynamic_Static/Core/SharedObjectFactory.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Command.Buffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
-#include <type_traits>
-#include <vector>
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    /**
-     * Provides high level control over a Vulkan Command Pool.
-     */
-    class Command::Pool final
-        : public Object<VkCommandPool>
-        , public detail::DeviceChild
+    class Buffer final
+        : public Object<VkBuffer>
     {
         friend class Device;
 
     public:
         /**
-         * Configuration paramaters for Command::Pool construction.
+         * Configuration paramaters for Buffer construction.
          */
         struct Info final
-            : public VkCommandPoolCreateInfo
+            : public VkBufferCreateInfo
         {
             /**
-             * Constructs an instance of Command::Pool::Info with default paramaters.
+             * Constructs an instance of Buffer::Info with default paramaters.
              */
             Info()
             {
-                sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+                sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
                 pNext = nullptr;
                 flags = 0;
-                queueFamilyIndex = 0;
+                size = 0;
+                usage = 0;
+                sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+                queueFamilyIndexCount = 0;
+                pQueueFamilyIndices = nullptr;
             }
         };
 
     private:
-        std::vector<std::unique_ptr<Command::Buffer>> mBuffers;
+        std::shared_ptr<Device> mDevice;
 
     private:
-        Pool(const std::shared_ptr<Device>& device, const Info& info);
+        Buffer(const std::shared_ptr<Device>& device, const Info& info);
 
     public:
         /**
-         * Destroys this instance of Command::Pool.
+         * Destroys this instance of Buffer.
          */
-        ~Pool();
+        ~Buffer();
 
     public:
         /**
-         * Gets this Command::Pool's Command::Buffers.
-         * @return This Command::Pool's Command::Buffers
+         * Gets this Buffer's Device.
+         * @return This Buffer's Device
          */
-        const std::vector<std::unique_ptr<Command::Buffer>>& buffers() const;
+        Device& device();
 
         /**
-         * TODO : Documentation.
+         * Gets this Buffer's Device.
+         * @return This BufferS's Device
          */
-        template <typename ObjectType, typename ...Args>
-        ObjectType* allocate(Args&&... args)
-        {
-            static_assert(
-                std::is_same<ObjectType, Command::Buffer>::value,
-                "Command::Pool can only allocate Command::Buffer"
-            );
+        const Device& device() const;
 
-            // TODO : UniqueObject factory...
-            std::unique_ptr<Command::Buffer> buffer(new Command::Buffer(*this, args...));
-            mBuffers.push_back(std::move(buffer));
-            return mBuffers.back().get();
-        }
+        /**
+         * Gets this Buffer's memory requirements.
+         * @return This Buffer's memory requirements
+         */
+        VkMemoryRequirements memory_requirements() const;
     };
 
 } // namespace Vulkan

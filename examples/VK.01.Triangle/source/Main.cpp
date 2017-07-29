@@ -37,7 +37,7 @@
 int main()
 {
     {
-        // Renders a triangle using a vertex buffer based on https://vulkan-tutorial.com/
+        // Renders a triangle based on https://vulkan-tutorial.com/Drawing_a_triangle
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Instance and PhysicalDevices
@@ -141,8 +141,8 @@ int main()
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Pipeline
         auto vertexShader = device->create<dst::vlkn::ShaderModule>(
-            dst::vlkn::ShaderModule::Source::Code,
             VK_SHADER_STAGE_VERTEX_BIT,
+            dst::vlkn::ShaderModule::Source::Code,
             R"(
 
                 #version 450
@@ -177,8 +177,8 @@ int main()
         );
 
         auto fragmentShader = device->create<dst::vlkn::ShaderModule>(
-            dst::vlkn::ShaderModule::Source::Code,
             VK_SHADER_STAGE_FRAGMENT_BIT,
+            dst::vlkn::ShaderModule::Source::Code,
             R"(
 
                 #version 450

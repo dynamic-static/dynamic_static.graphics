@@ -50,6 +50,7 @@ namespace Vulkan {
         : public Object<VkDevice>
         , public std::enable_shared_from_this<Device>
         , public SharedObjectFactory<
+            Buffer,
             Command::Pool,
             Framebuffer,
             Pipeline,

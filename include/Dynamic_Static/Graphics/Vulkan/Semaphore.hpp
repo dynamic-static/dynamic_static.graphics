@@ -30,6 +30,7 @@
 #pragma once
 
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
@@ -43,11 +44,9 @@ namespace Vulkan {
      */
     class Semaphore final
         : public Object<VkSemaphore>
+        , public detail::DeviceChild
     {
         friend class Device;
-
-    private:
-        std::shared_ptr<Device> mDevice;
 
     private:
         Semaphore(const std::shared_ptr<Device>& device);
@@ -57,19 +56,6 @@ namespace Vulkan {
          * Destroys this instance of Semaphore.
          */
         ~Semaphore();
-
-    public:
-        /**
-         * Gets this Semaphore's Device.
-         * @return This Semaphore's Device
-         */
-        Device& device();
-
-        /**
-         * Gets this Semaphore's Device.
-         * @return This Semaphore's Device
-         */
-        const Device& device() const;
     };
 
 } // namespace Vulkan

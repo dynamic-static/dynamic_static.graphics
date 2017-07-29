@@ -27,26 +27,56 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+#pragma once
+
+#include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
+
+#include <memory>
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    Pipeline::Pipeline(const std::shared_ptr<Device>& device, const GraphicsInfo& info)
-        : DeviceChild(device)
+    class Memory final
+        : public Object<VkDeviceMemory>
     {
-        validate(vkCreateGraphicsPipelines(DeviceChild::device(), VK_NULL_HANDLE, 1, &info, nullptr, &mHandle));
-        name("Dynamic_Static::Vulkan::Pipeline");
-    }
+        friend class Device;
 
-    Pipeline::~Pipeline()
-    {
-        if (mHandle) {
-            vkDestroyPipeline(device(), mHandle, nullptr);
-        }
-    }
+    public:
+        /**
+         * Configuration paramaters for Memory allocation.
+         */
+        struct Info final
+            : public VkMemoryAllocateInfo
+        {
+            /**
+             * Constructs an instance of Memory::Info with default paramaters.
+             */
+            Info()
+            {
+                sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+                pNext = nullptr;
+                allocationSize = 0;
+                memoryTypeIndex = 0;
+            }
+        };
+
+    private:
+        std::shared_ptr<Device> mDevice;
+
+    public:
+        Memory(const std::shared_ptr<Device>& device, const Info& info);
+
+    public:
+        /**
+         * Destroys this instance of Memory.
+         */
+        ~Memory();
+
+    public:
+
+    };
 
 } // namespace Vulkan
 } // namespace Graphics

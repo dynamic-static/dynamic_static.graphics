@@ -27,6 +27,7 @@
 ================================================================================
 */
 
+#include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
 #include "Dynamic_Static/Graphics/Window.hpp"
 
@@ -34,10 +35,54 @@
 #include <iostream>
 #include <memory>
 
+struct Vertex final
+{
+    dst::Vector2 position;
+    dst::Color color;
+
+    static VkVertexInputBindingDescription binding_description()
+    {
+        VkVertexInputBindingDescription binding;
+        binding.binding = 0;
+        binding.stride = sizeof(Vertex);
+        binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+        return binding;
+    }
+
+    static std::array<VkVertexInputAttributeDescription, 2> attribute_descriptions()
+    {
+        VkVertexInputAttributeDescription attribute0;
+        attribute0.binding = 0;
+        attribute0.location = 0;
+        attribute0.format = VK_FORMAT_R32G32_SFLOAT;
+        attribute0.offset = offsetof(Vertex, position);
+
+        VkVertexInputAttributeDescription attribute1;
+        attribute1.binding = 0;
+        attribute1.location = 1;
+        attribute1.format = VK_FORMAT_R32G32B32A32_SFLOAT;
+        attribute1.offset = offsetof(Vertex, color);
+
+        return {
+            attribute0,
+            attribute1
+        };
+    }
+};
+
 int main()
 {
     {
-        // Renders a triangle based on https://vulkan-tutorial.com/
+        // Renders a VertexBuffer quad based on https://vulkan-tutorial.com/Vertex_buffers
+
+        using namespace dst::gfx;
+        using namespace dst::gfx::vlkn;
+
+        const std::vector<Vertex> vertices {
+            { {  0,    -0.5f }, { dst::Color::Red } },
+            { {  0.5f,  0.5f }, { dst::Color::Green } },
+            { { -0.5f,  0.5f }, { dst::Color::Blue } },
+        };
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Instance and PhysicalDevices
@@ -62,7 +107,7 @@ int main()
             #endif
             ;
 
-        auto instance = dst::vlkn::Instance::create(instanceLayers, instanceExtensions, debugFlags);
+        auto instance = Instance::create(instanceLayers, instanceExtensions, debugFlags);
         // NOTE : We're just assuming that the first PhysicalDevice is the one we want.
         //        This won't always be the case, we should check for necessary features.
         auto& physicalDevice = *instance->physical_devices()[0];
@@ -70,13 +115,13 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Window and Surface
-        dst::gfx::Window::Configuration configuration;
+        Window::Configuration configuration;
         configuration.api = dst::gfx::API::Vulkan;
         configuration.apiVersion.major = VK_VERSION_MAJOR(apiVersion);
         configuration.apiVersion.minor = VK_VERSION_MAJOR(apiVersion);
         configuration.apiVersion.patch = VK_VERSION_MAJOR(apiVersion);
-        auto window = std::make_shared<dst::gfx::Window>(configuration);
-        auto surface = physicalDevice.create<dst::vlkn::SurfaceKHR>(window);
+        auto window = std::make_shared<Window>(configuration);
+        auto surface = physicalDevice.create<SurfaceKHR>(window);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create logical Device and Queues
@@ -87,13 +132,13 @@ int main()
 
         auto queueFamilyFlags = VK_QUEUE_GRAPHICS_BIT;
         auto queueFamilyIndices = physicalDevice.find_queue_families(queueFamilyFlags);
-        dst::vlkn::Queue::Info queueInfo { };
+        Queue::Info queueInfo { };
         std::array<float, 1> queuePriorities { };
         queueInfo.pQueuePriorities = queuePriorities.data();
         // NOTE : We're assuming that we got at least one Queue capabale of
         //        graphics, in anything but a toy we want to validate that.
         queueInfo.queueFamilyIndex = static_cast<uint32_t>(queueFamilyIndices[0]);
-        auto device = physicalDevice.create<dst::vlkn::Device>(deviceLayers, deviceExtensions, queueInfo);
+        auto device = physicalDevice.create<Device>(deviceLayers, deviceExtensions, queueInfo);
         // NOTE : We're assuming that the Queue we're choosing for graphics
         //        is capable of presenting, this may not always be the case.
         auto& graphicsQueue = *device->queues()[0][0];
@@ -101,10 +146,10 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create SwapChain
-        std::shared_ptr<dst::vlkn::SwapchainKHR> swapchain;
-        std::vector<std::shared_ptr<dst::vlkn::Framebuffer>> framebuffers;
+        std::shared_ptr<SwapchainKHR> swapchain;
+        std::vector<std::shared_ptr<Framebuffer>> framebuffers;
         if (surface->presentation_supported(presentQueue.family_index())) {
-            swapchain = device->create<dst::vlkn::SwapchainKHR>(surface);
+            swapchain = device->create<SwapchainKHR>(surface);
             framebuffers.reserve(swapchain->images().size());
         } else {
             throw std::runtime_error("Surface doesn't support presentation");
@@ -131,18 +176,18 @@ int main()
         subpass.colorAttachmentCount = 1;
         subpass.pColorAttachments = &colorAttachmentReference;
 
-        dst::vlkn::RenderPass::Info renderPassInfo;
+        RenderPass::Info renderPassInfo;
         renderPassInfo.attachmentCount = 1;
         renderPassInfo.pAttachments = &colorAttachment;
         renderPassInfo.subpassCount = 1;
         renderPassInfo.pSubpasses = &subpass;
-        auto renderPass = device->create<dst::vlkn::RenderPass>(renderPassInfo);
+        auto renderPass = device->create<RenderPass>(renderPassInfo);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Pipeline
-        auto vertexShader = device->create<dst::vlkn::ShaderModule>(
-            dst::vlkn::ShaderModule::Source::Code,
+        auto vertexShader = device->create<ShaderModule>(
             VK_SHADER_STAGE_VERTEX_BIT,
+            ShaderModule::Source::Code,
             R"(
 
                 #version 450
@@ -176,9 +221,9 @@ int main()
             )"
         );
 
-        auto fragmentShader = device->create<dst::vlkn::ShaderModule>(
-            dst::vlkn::ShaderModule::Source::Code,
+        auto fragmentShader = device->create<ShaderModule>(
             VK_SHADER_STAGE_FRAGMENT_BIT,
+            ShaderModule::Source::Code,
             R"(
 
                 #version 450
@@ -200,8 +245,14 @@ int main()
             fragmentShader->pipeline_stage_info(),
         };
 
+        auto vertexBindingDescription = Vertex::binding_description();
+        auto vertexAttributeDescriptions = Vertex::attribute_descriptions();
         VkPipelineVertexInputStateCreateInfo vertexInputInfo { };
         vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+        vertexInputInfo.vertexAttributeDescriptionCount = 1;
+        vertexInputInfo.pVertexBindingDescriptions = &vertexBindingDescription;
+        vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(vertexAttributeDescriptions.size());
+        vertexInputInfo.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
 
         VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo { };
         inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
@@ -247,8 +298,8 @@ int main()
         colorBlendStateInfo.attachmentCount = 1;
         colorBlendStateInfo.pAttachments = &colorBlendAttacment;
 
-        dst::vlkn::Pipeline::Layout::Info pipelineLayoutInfo;
-        auto pipelineLayout = device->create<dst::vlkn::Pipeline::Layout>(pipelineLayoutInfo);
+        Pipeline::Layout::Info pipelineLayoutInfo;
+        auto pipelineLayout = device->create<Pipeline::Layout>(pipelineLayoutInfo);
 
         std::array<VkDynamicState, 2> dynamicStates {
             VK_DYNAMIC_STATE_VIEWPORT,
@@ -260,7 +311,7 @@ int main()
         dynamicStateInfo.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
         dynamicStateInfo.pDynamicStates = dynamicStates.data();
 
-        dst::vlkn::Pipeline::GraphicsInfo pipelineInfo;
+        Pipeline::GraphicsInfo pipelineInfo;
         pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
         pipelineInfo.pStages = shaderStages.data();
         pipelineInfo.pVertexInputState = &vertexInputInfo;
@@ -273,32 +324,40 @@ int main()
         pipelineInfo.layout = *pipelineLayout;
         pipelineInfo.renderPass = *renderPass;
         pipelineInfo.subpass = 0;
-        auto pipeline = device->create<dst::vlkn::Pipeline>(pipelineInfo);
+        auto pipeline = device->create<Pipeline>(pipelineInfo);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Pool
-        dst::vlkn::Command::Pool::Info commandPoolInfo;
+        Command::Pool::Info commandPoolInfo;
         commandPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
         commandPoolInfo.queueFamilyIndex = static_cast<uint32_t>(graphicsQueue.family_index());
-        auto commandPool = device->create<dst::vlkn::Command::Pool>(commandPoolInfo);
+        auto commandPool = device->create<Command::Pool>(commandPoolInfo);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Create Vertex Buffer
+        Buffer::Info vertexBufferInfo;
+        vertexBufferInfo.size = sizeof(vertices[0]) * vertices.size();
+        vertexBufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+        auto vertexBuffer = device->create<Buffer>(vertexBufferInfo);
+        int breaker = 0;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Buffers
         for (size_t i = 0; i < swapchain->images().size(); ++i) {
-            commandPool->allocate<dst::vlkn::Command::Buffer>();
+            commandPool->allocate<Command::Buffer>();
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Sempahores
-        auto imageSemaphore = device->create<dst::vlkn::Semaphore>();
-        auto renderSemaphore = device->create<dst::vlkn::Semaphore>();
+        auto imageSemaphore = device->create<Semaphore>();
+        auto renderSemaphore = device->create<Semaphore>();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Render
         bool createFramebuffers = true;
         bool recordCommandBuffers = true;
         swapchain->on_resized =
-        [&](const dst::vlkn::SwapchainKHR&)
+        [&](const SwapchainKHR&)
         {
             // NOTE : If our Window size changes, our Surface and Swapchain's Image
             //        sizes will also change.  When this occurs we need to recreate
@@ -311,7 +370,7 @@ int main()
         window->name("Dynamic_Static VK.01.Triangle");
         bool running = true;
         while (running) {
-            dst::gfx::Window::update();
+            Window::update();
             auto quitKey = dst::Keyboard::Key::Escape;
             if (window->input().keyboard().down(quitKey)) {
                 running = false;
@@ -328,14 +387,14 @@ int main()
                     framebuffers.clear();
                     framebuffers.reserve(swapchain->images().size());
                     for (const auto& image : swapchain->images()) {
-                        dst::vlkn::Framebuffer::Info framebufferInfo;
+                        Framebuffer::Info framebufferInfo;
                         framebufferInfo.renderPass = *renderPass;
                         framebufferInfo.attachmentCount = 1;
                         framebufferInfo.pAttachments = &image->views()[0]->handle();
                         framebufferInfo.width = swapchain->extent().width;
                         framebufferInfo.height = swapchain->extent().height;
                         framebufferInfo.layers = 1;
-                        framebuffers.push_back(device->create<dst::vlkn::Framebuffer>(framebufferInfo));
+                        framebuffers.push_back(device->create<Framebuffer>(framebufferInfo));
                     }
                 }
 
@@ -344,12 +403,12 @@ int main()
                     for (size_t i = 0; i < framebuffers.size(); ++i) {
                         auto& commandBuffer = commandPool->buffers()[i];
 
-                        dst::vlkn::Command::Buffer::BeginInfo beginInfo;
+                        Command::Buffer::BeginInfo beginInfo;
                         beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
                         commandBuffer->begin_recording(beginInfo);
 
                         VkClearValue clearColor { 0.2f, 0.2f, 0.2f, 1 };
-                        dst::vlkn::RenderPass::BeginInfo renderPassBeginInfo;
+                        RenderPass::BeginInfo renderPassBeginInfo;
                         renderPassBeginInfo.renderPass = *renderPass;
                         renderPassBeginInfo.framebuffer = *framebuffers[i];
                         renderPassBeginInfo.renderArea.extent = swapchain->extent();
@@ -378,7 +437,7 @@ int main()
                     }
                 }
 
-                dst::vlkn::Queue::SubmitInfo submitInfo;
+                Queue::SubmitInfo submitInfo;
                 VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
                 submitInfo.waitSemaphoreCount = 1;
                 submitInfo.pWaitSemaphores = &imageSemaphore->handle();
@@ -389,7 +448,7 @@ int main()
                 submitInfo.pSignalSemaphores = &renderSemaphore->handle();
                 graphicsQueue.submit(submitInfo);
 
-                dst::vlkn::Queue::PresentInfoKHR presentInfo;
+                Queue::PresentInfoKHR presentInfo;
                 presentInfo.waitSemaphoreCount = 1;
                 presentInfo.pWaitSemaphores = &renderSemaphore->handle();
                 presentInfo.swapchainCount = 1;

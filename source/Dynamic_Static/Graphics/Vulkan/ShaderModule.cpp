@@ -40,14 +40,13 @@ namespace Vulkan {
 
     ShaderModule::ShaderModule(
         const std::shared_ptr<Device>& device,
-        Source source,
         VkShaderStageFlagBits stage,
+        Source source,
         const std::string& compile
     )
-        : mStage { stage }
-        , mDevice { device }
+        : DeviceChild(device)
+        , mStage { stage }
     {
-        assert(mDevice);
         // TODO : DRY...
         if (source == Source::File) {
             std::string extension = dst::to_lower(dst::Path::extension(compile));
@@ -56,20 +55,20 @@ namespace Vulkan {
                 Info info;
                 info.codeSize = spirv.size() * sizeof(spirv[0]);
                 info.pCode = reinterpret_cast<uint32_t*>(spirv.data());
-                validate(vkCreateShaderModule(*mDevice, &info, nullptr, &mHandle));
+                validate(vkCreateShaderModule(DeviceChild::device(), &info, nullptr, &mHandle));
             } else {
                 auto spirv = Compiler::compile_from_file(compile);
                 Info info;
                 info.codeSize = spirv.size();
                 info.pCode = spirv.data();
-                validate(vkCreateShaderModule(*mDevice, &info, nullptr, &mHandle));
+                validate(vkCreateShaderModule(DeviceChild::device(), &info, nullptr, &mHandle));
             }
         } else {
             auto spirv = Compiler::compile_from_source(mStage, compile);
             Info info;
             info.codeSize = spirv.size() * sizeof(spirv[0]);
             info.pCode = reinterpret_cast<uint32_t*>(spirv.data());
-            validate(vkCreateShaderModule(*mDevice, &info, nullptr, &mHandle));
+            validate(vkCreateShaderModule(DeviceChild::device(), &info, nullptr, &mHandle));
         }
 
         name("Dynamic_Static::Vulkan::ShaderModule");
@@ -80,18 +79,6 @@ namespace Vulkan {
         if (mHandle) {
             vkDestroyShaderModule(device(), mHandle, nullptr);
         }
-    }
-
-    Device& ShaderModule::device()
-    {
-        assert(mDevice);
-        return *mDevice;
-    }
-
-    const Device& ShaderModule::device() const
-    {
-        assert(mDevice);
-        return *mDevice;
     }
 
     VkPipelineShaderStageCreateInfo ShaderModule::pipeline_stage_info() const

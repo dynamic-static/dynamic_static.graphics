@@ -27,25 +27,45 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Buffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    Pipeline::Pipeline(const std::shared_ptr<Device>& device, const GraphicsInfo& info)
-        : DeviceChild(device)
+    Buffer::Buffer(const std::shared_ptr<Device>& device, const Info& info)
+        : mDevice { device }
     {
-        validate(vkCreateGraphicsPipelines(DeviceChild::device(), VK_NULL_HANDLE, 1, &info, nullptr, &mHandle));
-        name("Dynamic_Static::Vulkan::Pipeline");
+        assert(mDevice);
+        validate(vkCreateBuffer(*mDevice, &info, nullptr, &mHandle));
+        name("Dynamic_Static::Vulkan::Buffer");
     }
 
-    Pipeline::~Pipeline()
+    Buffer::~Buffer()
     {
         if (mHandle) {
-            vkDestroyPipeline(device(), mHandle, nullptr);
+            vkDestroyBuffer(device(), mHandle, nullptr);
         }
+    }
+
+    Device& Buffer::device()
+    {
+        assert(mDevice);
+        return *mDevice;
+    }
+
+    const Device& Buffer::device() const
+    {
+        assert(mDevice);
+        return *mDevice;
+    }
+
+    VkMemoryRequirements Buffer::memory_requirements() const
+    {
+        VkMemoryRequirements memoryRequirements;
+        vkGetBufferMemoryRequirements(device(), mHandle, &memoryRequirements);
+        return memoryRequirements;
     }
 
 } // namespace Vulkan

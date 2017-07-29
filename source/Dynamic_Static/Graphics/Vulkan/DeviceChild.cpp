@@ -4,7 +4,7 @@
 
   MIT License
 
-  Copyright (c) 2017 Dynamic_Static
+  Copyright (c) 2016 Dynamic_Static
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,27 +27,38 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+#pragma once
+
+#include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
+namespace detail {
 
-    Pipeline::Pipeline(const std::shared_ptr<Device>& device, const GraphicsInfo& info)
-        : DeviceChild(device)
+    DeviceChild::DeviceChild(const std::shared_ptr<Device>& device)
+        : mDevice { device }
     {
-        validate(vkCreateGraphicsPipelines(DeviceChild::device(), VK_NULL_HANDLE, 1, &info, nullptr, &mHandle));
-        name("Dynamic_Static::Vulkan::Pipeline");
+        assert(mDevice);
     }
 
-    Pipeline::~Pipeline()
+    DeviceChild::~DeviceChild()
     {
-        if (mHandle) {
-            vkDestroyPipeline(device(), mHandle, nullptr);
-        }
     }
 
+    Device& DeviceChild::device()
+    {
+        assert(mDevice);
+        return *mDevice;
+    }
+
+    const Device& DeviceChild::device() const
+    {
+        assert(mDevice);
+        return *mDevice;
+    }
+
+} // namespace detail
 } // namespace Vulkan
 } // namespace Graphics
 } // namespace Dynamic_Static

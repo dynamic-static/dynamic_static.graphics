@@ -35,32 +35,19 @@ namespace Graphics {
 namespace Vulkan {
 
     Semaphore::Semaphore(const std::shared_ptr<Device>& device)
-        : mDevice { device }
+        : DeviceChild(device)
     {
-        assert(mDevice);
         VkSemaphoreCreateInfo info { };
         info.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
         info.pNext = nullptr;
         info.flags = 0;
-        validate(vkCreateSemaphore(*mDevice, &info, nullptr, &mHandle));
+        validate(vkCreateSemaphore(DeviceChild::device(), &info, nullptr, &mHandle));
         name("Dynamic_Static::Graphics::Semaphore");
     }
 
     Semaphore::~Semaphore()
     {
         device().wait_idle();
-    }
-
-    Device& Semaphore::device()
-    {
-        assert(mDevice);
-        return *mDevice;
-    }
-
-    const Device& Semaphore::device() const
-    {
-        assert(mDevice);
-        return *mDevice;
     }
 
 } // namespace Vulkan
