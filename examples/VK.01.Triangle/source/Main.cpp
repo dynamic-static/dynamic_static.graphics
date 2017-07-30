@@ -37,7 +37,8 @@
 int main()
 {
     {
-        // Renders a triangle based on https://vulkan-tutorial.com/Drawing_a_triangle
+        // Renders a triangle based on
+        // https://vulkan-tutorial.com/Drawing_a_triangle
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Instance and PhysicalDevices
@@ -62,7 +63,8 @@ int main()
             #endif
             ;
 
-        auto instance = dst::vlkn::Instance::create(instanceLayers, instanceExtensions, debugFlags);
+        // auto instance = dst::vlkn::Instance::create(instanceLayers, instanceExtensions, debugFlags);
+        auto instance = dst::vlkn::create<dst::vlkn::Instance>(instanceLayers, instanceExtensions, debugFlags);
         // NOTE : We're just assuming that the first PhysicalDevice is the one we want.
         //        This won't always be the case, we should check for necessary features.
         auto& physicalDevice = *instance->physical_devices()[0];

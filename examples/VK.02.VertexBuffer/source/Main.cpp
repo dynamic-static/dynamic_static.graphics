@@ -51,41 +51,30 @@ struct Vertex final
 
     static std::array<VkVertexInputAttributeDescription, 2> attribute_descriptions()
     {
-        VkVertexInputAttributeDescription attribute0;
-        attribute0.binding = 0;
-        attribute0.location = 0;
-        attribute0.format = VK_FORMAT_R32G32_SFLOAT;
-        attribute0.offset = offsetof(Vertex, position);
+        VkVertexInputAttributeDescription positionAttribute;
+        positionAttribute.binding = 0;
+        positionAttribute.location = 0;
+        positionAttribute.format = VK_FORMAT_R32G32_SFLOAT;
+        positionAttribute.offset = offsetof(Vertex, position);
 
-        VkVertexInputAttributeDescription attribute1;
-        attribute1.binding = 0;
-        attribute1.location = 1;
-        attribute1.format = VK_FORMAT_R32G32B32A32_SFLOAT;
-        attribute1.offset = offsetof(Vertex, color);
+        VkVertexInputAttributeDescription colorAttribute;
+        colorAttribute.binding = 0;
+        colorAttribute.location = 1;
+        colorAttribute.format = VK_FORMAT_R32G32B32A32_SFLOAT;
+        colorAttribute.offset = offsetof(Vertex, color);
 
-        return {
-            attribute0,
-            attribute1
-        };
+        return { positionAttribute, colorAttribute };
     }
 };
 
 int main()
 {
     {
-        // Renders a VertexBuffer quad based on https://vulkan-tutorial.com/Vertex_buffers
+        // Renders a quad using vertex and index buffers
+        // based on https://vulkan-tutorial.com/Vertex_buffers
 
         using namespace dst::gfx;
         using namespace dst::gfx::vlkn;
-
-        const std::vector<Vertex> vertices {
-            { { -0.5f, -0.5f }, { dst::Color::OrangeRed } },
-            { {  0.5f, -0.5f }, { dst::Color::BlueViolet } },
-            { { -0.5f,  0.5f }, { dst::Color::Goldenrod } },
-            { {  0.5f, -0.5f }, { dst::Color::BlueViolet } },
-            { {  0.5f,  0.5f }, { dst::Color::DodgerBlue } },
-            { { -0.5f,  0.5f }, { dst::Color::Goldenrod } },
-        };
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Instance and PhysicalDevices
@@ -110,7 +99,7 @@ int main()
             #endif
             ;
 
-        auto instance = Instance::create(instanceLayers, instanceExtensions, debugFlags);
+        auto instance = vlkn::create<Instance>(instanceLayers, instanceExtensions, debugFlags);
         // NOTE : We're just assuming that the first PhysicalDevice is the one we want.
         //        This won't always be the case, we should check for necessary features.
         auto& physicalDevice = *instance->physical_devices()[0];
@@ -330,7 +319,21 @@ int main()
         auto commandPool = device->create<Command::Pool>(commandPoolInfo);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Create Vertex Buffer
+        // Create vertex and index Buffers
+        const std::vector<Vertex> vertices {
+            { { -0.5f, -0.5f }, { dst::Color::OrangeRed } },
+            { {  0.5f, -0.5f }, { dst::Color::BlueViolet } },
+            { { -0.5f,  0.5f }, { dst::Color::Goldenrod } },
+
+            { {  0.5f, -0.5f }, { dst::Color::BlueViolet } },
+            { {  0.5f,  0.5f }, { dst::Color::DodgerBlue } },
+            { { -0.5f,  0.5f }, { dst::Color::Goldenrod } },
+        };
+
+        const std::vector<uint16_t> indices {
+            0, 1, 2, 2, 3, 0,
+        };
+
         auto vertexBufferSize = static_cast<VkDeviceSize>(sizeof(vertices[0]) * vertices.size());
 
         Buffer::Info stagingBufferInfo;
@@ -366,7 +369,6 @@ int main()
         //        their associated resources.
         copyCommandBuffer.reset();
         stagingBuffer.reset();
-        int breaker = 0;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Buffers

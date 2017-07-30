@@ -135,13 +135,13 @@ namespace Vulkan {
         return !!mDebugReport;
     }
 
-    std::shared_ptr<Instance> Instance::create(
-        const gsl::span<std::string>& layers,
-        const gsl::span<std::string>& extensions,
-        VkDebugReportFlagsEXT debugFlags)
-    {
-        return std::shared_ptr<Instance>(new Instance(layers, extensions, debugFlags));
-    }
+    // std::shared_ptr<Instance> Instance::create(
+    //     const gsl::span<std::string>& layers,
+    //     const gsl::span<std::string>& extensions,
+    //     VkDebugReportFlagsEXT debugFlags)
+    // {
+    //     return std::shared_ptr<Instance>(new Instance(layers, extensions, debugFlags));
+    // }
 
 } // namespace Vulkan
 } // namespace Graphics

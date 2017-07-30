@@ -42,12 +42,21 @@ namespace Graphics {
 namespace Vulkan {
 
     /**
+     * TODO : Documentation.
+     */
+    template <typename ObjectType, typename ...Args>
+    inline std::shared_ptr<ObjectType> create(Args&&... args);
+
+    /**
      * Provides high level control over a Vulkan Instance.
      */
     class Instance final
         : public Object<VkInstance>
         , public std::enable_shared_from_this<Instance>
     {
+        template <typename ObjectType, typename ...Args>
+        friend std::shared_ptr<ObjectType> Vulkan::create(Args&&...);
+
     private:
         std::vector<std::string> mLayers;
         std::vector<std::string> mExtensions;
@@ -100,17 +109,18 @@ namespace Vulkan {
                 throw std::runtime_error("Failed to acquire function pointer for \"" + name + "\"");
             }
         }
-
-        /**
-         * Creates a Vulkan Instance.
-         * @return The newly created Vulkan Instance.
-         */
-        static std::shared_ptr<Instance> create(
-            const gsl::span<std::string>& layers,
-            const gsl::span<std::string>& extensions,
-            VkDebugReportFlagsEXT debugFlags = 0
-        );
     };
+
+    template <typename ObjectType, typename ...Args>
+    inline std::shared_ptr<ObjectType> create(Args&&... args)
+    {
+        static_assert(
+            std::is_same<ObjectType, Instance>::value,
+            "dst::vlkn::create can only create Instance"
+            );
+
+        return std::shared_ptr<Instance>(new Instance(args...));
+    }
 
 } // namespace Vulkan
 } // namespace Graphics

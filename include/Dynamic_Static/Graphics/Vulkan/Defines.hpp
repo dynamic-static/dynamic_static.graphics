@@ -33,6 +33,7 @@
 #include "Dynamic_Static/Graphics/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/VulkanInclude.hpp"
 
+#include <memory>
 #include <stdexcept>
 
 namespace Dynamic_Static {

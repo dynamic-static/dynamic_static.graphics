@@ -33,6 +33,8 @@
 
 #include <iostream>
 
+using namespace dst::vlkn;
+
 static size_t gTab;
 static std::string Tab(size_t count = 1)
 {
@@ -79,11 +81,11 @@ std::string size_str(VkDeviceSize size)
     return std::to_string(B) + " B = " + std::to_string(MB) + " MB = " + std::to_string(GB) + " GB";
 }
 
-static void print_properties(const dst::vlkn::PhysicalDevice& physicalDevice, bool printLimits, bool printSparseProperties);
-static void print_sparse_properties(const dst::vlkn::PhysicalDevice& physicalDevice);
-static void print_limits(const dst::vlkn::PhysicalDevice& physicalDevice);
-static void print_features(const dst::vlkn::PhysicalDevice& physicalDevice);
-static void print_memory_properties(const dst::vlkn::PhysicalDevice& physicalDevice);
+static void print_properties(const PhysicalDevice& physicalDevice, bool printLimits, bool printSparseProperties);
+static void print_sparse_properties(const PhysicalDevice& physicalDevice);
+static void print_limits(const PhysicalDevice& physicalDevice);
+static void print_features(const PhysicalDevice& physicalDevice);
+static void print_memory_properties(const PhysicalDevice& physicalDevice);
 
 int main()
 {
@@ -94,7 +96,7 @@ int main()
 
     std::vector<std::string> layers;
     std::vector<std::string> extensions;
-    auto instance = dst::vlkn::Instance::create(layers, extensions);
+    auto instance = dst::vlkn::create<Instance>(layers, extensions);
     size_t deviceCount = instance->physical_devices().size();
     std::cout << std::endl;
     std::cout << "Vulkan Devices (" + dst::to_string(deviceCount) + ")" << std::endl;
@@ -120,7 +122,7 @@ int main()
     return 0;
 }
 
-void print_properties(const dst::vlkn::PhysicalDevice& physicalDevice, bool printLimits, bool printSparseProperties)
+void print_properties(const PhysicalDevice& physicalDevice, bool printLimits, bool printSparseProperties)
 {
     const auto& properties = physicalDevice.properties();
 
@@ -156,7 +158,7 @@ void print_properties(const dst::vlkn::PhysicalDevice& physicalDevice, bool prin
     --gTab;
 }
 
-void print_sparse_properties(const dst::vlkn::PhysicalDevice& physicalDevice)
+void print_sparse_properties(const PhysicalDevice& physicalDevice)
 {
     const auto& sparseLimits = physicalDevice.properties().sparseProperties;
     std::cout << Tab(gTab++) << "Sparse Properties -" << std::endl;
@@ -168,7 +170,7 @@ void print_sparse_properties(const dst::vlkn::PhysicalDevice& physicalDevice)
     --gTab;
 }
 
-void print_limits(const dst::vlkn::PhysicalDevice& physicalDevice)
+void print_limits(const PhysicalDevice& physicalDevice)
 {
     const auto& limits = physicalDevice.properties().limits;
     std::cout << Tab(gTab++) << "Limits -" << std::endl;
@@ -281,7 +283,7 @@ void print_limits(const dst::vlkn::PhysicalDevice& physicalDevice)
     --gTab;
 }
 
-void print_features(const dst::vlkn::PhysicalDevice& physicalDevice)
+void print_features(const PhysicalDevice& physicalDevice)
 {
     const auto& features = physicalDevice.features();
     std::cout << Tab(gTab++) << "Features -" << std::endl;
@@ -343,7 +345,7 @@ void print_features(const dst::vlkn::PhysicalDevice& physicalDevice)
     --gTab;
 }
 
-void print_memory_properties(const dst::vlkn::PhysicalDevice& physicalDevice)
+void print_memory_properties(const PhysicalDevice& physicalDevice)
 {
     const auto& memoryProperties = physicalDevice.memory_properties();
     std::cout << Tab(gTab++) << "Memory Properties -" << std::endl;
