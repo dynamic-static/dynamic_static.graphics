@@ -323,18 +323,17 @@ int main()
         const std::vector<Vertex> vertices {
             { { -0.5f, -0.5f }, { dst::Color::OrangeRed } },
             { {  0.5f, -0.5f }, { dst::Color::BlueViolet } },
-            { { -0.5f,  0.5f }, { dst::Color::Goldenrod } },
-
-            { {  0.5f, -0.5f }, { dst::Color::BlueViolet } },
             { {  0.5f,  0.5f }, { dst::Color::DodgerBlue } },
             { { -0.5f,  0.5f }, { dst::Color::Goldenrod } },
         };
 
-        const std::vector<uint16_t> indices {
-            0, 1, 2, 2, 3, 0,
-        };
-
         auto vertexBufferSize = static_cast<VkDeviceSize>(sizeof(vertices[0]) * vertices.size());
+
+        Buffer::Info vertexBufferInfo;
+        vertexBufferInfo.size = vertexBufferSize;
+        vertexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+        auto vertexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+        auto vertexBuffer = device->create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
 
         Buffer::Info stagingBufferInfo;
         stagingBufferInfo.size = vertexBufferSize;
@@ -343,32 +342,53 @@ int main()
         auto stagingBuffer = device->create<Buffer>(stagingBufferInfo, stagingMemoryProperties);
         stagingBuffer->write<Vertex>(vertices);
 
-        Buffer::Info vertexBufferInfo;
-        vertexBufferInfo.size = vertexBufferSize;
-        vertexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-        auto vertexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-        auto vertexBuffer = device->create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
+        {
+            auto copyCommandBuffer = commandPool->allocate_transient<Command::Buffer>();
+            Command::Buffer::BeginInfo copyBufferBeginInfo;
+            copyBufferBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+            copyCommandBuffer->begin(copyBufferBeginInfo);
+            VkBufferCopy copyInfo { };
+            copyInfo.size = vertexBufferSize;
+            copyCommandBuffer->copy_buffer(*stagingBuffer, *vertexBuffer, vertexBufferSize);
+            copyCommandBuffer->end();
+            graphicsQueue.wait_idle();
+            Queue::SubmitInfo copySubmitInfo;
+            copySubmitInfo.commandBufferCount = 1;
+            copySubmitInfo.pCommandBuffers = &copyCommandBuffer->handle();
+            graphicsQueue.submit(copySubmitInfo);
+            graphicsQueue.wait_idle();
+        }
 
-        auto copyCommandBuffer = commandPool->allocate_transient<Command::Buffer>();
-        Command::Buffer::BeginInfo copyBufferBeginInfo;
-        copyBufferBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-        copyCommandBuffer->begin(copyBufferBeginInfo);
-        VkBufferCopy copyInfo { };
-        copyInfo.size = vertexBufferSize;
-        copyCommandBuffer->copy_buffer(*stagingBuffer, *vertexBuffer, vertexBufferSize);
-        copyCommandBuffer->end();
-        graphicsQueue.wait_idle();
-        Queue::SubmitInfo copySubmitInfo;
-        copySubmitInfo.commandBufferCount = 1;
-        copySubmitInfo.pCommandBuffers = &copyCommandBuffer->handle();
-        graphicsQueue.submit(copySubmitInfo);
-        graphicsQueue.wait_idle();
+        const std::vector<uint16_t> indices {
+            0, 1, 2, 2, 3, 0,
+        };
 
-        // NOTE : After copying our vertex data from host memory to device local memory
-        //        we can free our staging buffer and our copy command buffer and all of
-        //        their associated resources.
-        copyCommandBuffer.reset();
-        stagingBuffer.reset();
+        auto indexBufferSize = static_cast<VkDeviceSize>(sizeof(indices[0]) * indices.size());
+
+        Buffer::Info indexBufferInfo;
+        indexBufferInfo.size = indexBufferSize;
+        indexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
+        auto indexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+        auto indexBuffer = device->create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
+
+        stagingBuffer->write<uint16_t>(indices);
+
+        {
+            auto copyCommandBuffer = commandPool->allocate_transient<Command::Buffer>();
+            Command::Buffer::BeginInfo copyBufferBeginInfo;
+            copyBufferBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+            copyCommandBuffer->begin(copyBufferBeginInfo);
+            VkBufferCopy copyInfo { };
+            copyInfo.size = indexBufferSize;
+            copyCommandBuffer->copy_buffer(*stagingBuffer, *indexBuffer, indexBufferSize);
+            copyCommandBuffer->end();
+            graphicsQueue.wait_idle();
+            Queue::SubmitInfo copySubmitInfo;
+            copySubmitInfo.commandBufferCount = 1;
+            copySubmitInfo.pCommandBuffers = &copyCommandBuffer->handle();
+            graphicsQueue.submit(copySubmitInfo);
+            graphicsQueue.wait_idle();
+        }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Buffers
@@ -458,7 +478,8 @@ int main()
                         scissor.extent = swapchain->extent();
                         commandBuffer->set_scissor(scissor);
                         commandBuffer->bind_vertex_buffer(*vertexBuffer);
-                        commandBuffer->draw(vertices.size(), 1);
+                        commandBuffer->bind_index_buffer(*indexBuffer);
+                        commandBuffer->draw_indexed(indices.size());
                         commandBuffer->end_render_pass();
                         commandBuffer->end();
                     }

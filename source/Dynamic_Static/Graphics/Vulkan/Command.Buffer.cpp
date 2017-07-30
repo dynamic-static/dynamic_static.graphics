@@ -78,6 +78,12 @@ namespace Vulkan {
         vkCmdBindPipeline(mHandle, bindPoint, pipeline);
     }
 
+    void Command::Buffer::bind_index_buffer(const vlkn::Buffer& indexBuffer)
+    {
+        // TODO : This is extremely inflexible...
+        vkCmdBindIndexBuffer(mHandle, indexBuffer, 0, VK_INDEX_TYPE_UINT16);
+    }
+
     void Command::Buffer::bind_vertex_buffer(const vlkn::Buffer& vertexBuffer)
     {
         // TODO : This is extremely inflexible...
@@ -118,6 +124,24 @@ namespace Vulkan {
             static_cast<uint32_t>(vertexCount),
             static_cast<uint32_t>(instanceCount),
             static_cast<uint32_t>(firstVertex),
+            static_cast<uint32_t>(firstInstance)
+        );
+    }
+
+    void Command::Buffer::draw_indexed(
+        size_t indexCount,
+        size_t instanceCount,
+        size_t firstIndex,
+        int32_t vertexOffset,
+        size_t firstInstance
+    )
+    {
+        vkCmdDrawIndexed(
+            mHandle,
+            static_cast<uint32_t>(indexCount),
+            static_cast<uint32_t>(instanceCount),
+            static_cast<uint32_t>(firstIndex),
+            vertexOffset,
             static_cast<uint32_t>(firstInstance)
         );
     }

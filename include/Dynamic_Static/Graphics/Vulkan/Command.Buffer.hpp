@@ -127,6 +127,11 @@ namespace Vulkan {
         /**
          * TODO : Documentation.
          */
+        void bind_index_buffer(const vlkn::Buffer& indexBuffer);
+
+        /**
+         * TODO : Documentation.
+         */
         void bind_vertex_buffer(const vlkn::Buffer& vertexBuffer);
 
         /**
@@ -153,8 +158,19 @@ namespace Vulkan {
          */
         void draw(
             size_t vertexCount = 0,
-            size_t instanceCount = 0,
+            size_t instanceCount = 1,
             size_t firstVertex = 0,
+            size_t firstInstance = 0
+        );
+
+        /**
+         * TODO : Documentation.
+         */
+        void draw_indexed(
+            size_t indexCount = 0,
+            size_t instanceCount = 1,
+            size_t firstIndex = 0,
+            int32_t vertexOffset = 0,
             size_t firstInstance = 0
         );
 
