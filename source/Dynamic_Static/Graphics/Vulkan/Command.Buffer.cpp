@@ -60,7 +60,7 @@ namespace Vulkan {
         return *mPool;
     }
 
-    void Command::Buffer::begin_recording(const BeginInfo& beginInfo)
+    void Command::Buffer::begin(const BeginInfo& beginInfo)
     {
         validate(vkBeginCommandBuffer(mHandle, &beginInfo));
     }
@@ -83,6 +83,17 @@ namespace Vulkan {
         // TODO : This is extremely inflexible...
         VkDeviceSize offsets[] = { 0 };
         vkCmdBindVertexBuffers(mHandle, 0, 1, &vertexBuffer.handle(), offsets);
+    }
+
+    void Command::Buffer::copy_buffer(
+        const vlkn::Buffer& source,
+        const vlkn::Buffer& destination,
+        VkDeviceSize size
+    )
+    {
+        VkBufferCopy copyRegion { };
+        copyRegion.size = size;
+        vkCmdCopyBuffer(mHandle, source, destination, 1, &copyRegion);
     }
 
     void Command::Buffer::set_viewport(const VkViewport& viewport)
@@ -116,7 +127,7 @@ namespace Vulkan {
         vkCmdEndRenderPass(mHandle);
     }
 
-    void Command::Buffer::end_recording()
+    void Command::Buffer::end()
     {
         validate(vkEndCommandBuffer(mHandle));
     }

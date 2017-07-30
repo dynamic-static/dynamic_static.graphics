@@ -331,14 +331,42 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Vertex Buffer
+        auto vertexBufferSize = static_cast<VkDeviceSize>(sizeof(vertices[0]) * vertices.size());
+
+        Buffer::Info stagingBufferInfo;
+        stagingBufferInfo.size = vertexBufferSize;
+        stagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+        auto stagingMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+        auto stagingBuffer = device->create<Buffer>(stagingBufferInfo, stagingMemoryProperties);
+        stagingBuffer->write<Vertex>(vertices);
+
         Buffer::Info vertexBufferInfo;
-        vertexBufferInfo.size = sizeof(vertices[0]) * vertices.size();
-        vertexBufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-        auto memoryPropertyFlags =
-            VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
-            VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-        auto vertexBuffer = device->create<Buffer>(vertexBufferInfo, memoryPropertyFlags);
-        vertexBuffer->write<Vertex>(vertices);
+        vertexBufferInfo.size = vertexBufferSize;
+        vertexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+        auto vertexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+        auto vertexBuffer = device->create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
+
+        auto copyCommandBuffer = commandPool->allocate_transient<Command::Buffer>();
+        Command::Buffer::BeginInfo copyBufferBeginInfo;
+        copyBufferBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+        copyCommandBuffer->begin(copyBufferBeginInfo);
+        VkBufferCopy copyInfo { };
+        copyInfo.size = vertexBufferSize;
+        copyCommandBuffer->copy_buffer(*stagingBuffer, *vertexBuffer, vertexBufferSize);
+        copyCommandBuffer->end();
+        graphicsQueue.wait_idle();
+        Queue::SubmitInfo copySubmitInfo;
+        copySubmitInfo.commandBufferCount = 1;
+        copySubmitInfo.pCommandBuffers = &copyCommandBuffer->handle();
+        graphicsQueue.submit(copySubmitInfo);
+        graphicsQueue.wait_idle();
+
+        // NOTE : After copying our vertex data from host memory to device local memory
+        //        we can free our staging buffer and our copy command buffer and all of
+        //        their associated resources.
+        copyCommandBuffer.reset();
+        stagingBuffer.reset();
+        int breaker = 0;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Buffers
@@ -404,7 +432,7 @@ int main()
 
                         Command::Buffer::BeginInfo beginInfo;
                         beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
-                        commandBuffer->begin_recording(beginInfo);
+                        commandBuffer->begin(beginInfo);
 
                         VkClearValue clearColor { 0.2f, 0.2f, 0.2f, 1 };
                         RenderPass::BeginInfo renderPassBeginInfo;
@@ -430,7 +458,7 @@ int main()
                         commandBuffer->bind_vertex_buffer(*vertexBuffer);
                         commandBuffer->draw(vertices.size(), 1);
                         commandBuffer->end_render_pass();
-                        commandBuffer->end_recording();
+                        commandBuffer->end();
                     }
                 }
 

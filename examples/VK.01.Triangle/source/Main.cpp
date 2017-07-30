@@ -347,7 +347,7 @@ int main()
 
                         dst::vlkn::Command::Buffer::BeginInfo beginInfo;
                         beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
-                        commandBuffer->begin_recording(beginInfo);
+                        commandBuffer->begin(beginInfo);
 
                         VkClearValue clearColor { 0.2f, 0.2f, 0.2f, 1 };
                         dst::vlkn::RenderPass::BeginInfo renderPassBeginInfo;
@@ -375,7 +375,7 @@ int main()
                         size_t instanceCount = 1;
                         commandBuffer->draw(vertexCount, instanceCount);
                         commandBuffer->end_render_pass();
-                        commandBuffer->end_recording();
+                        commandBuffer->end();
                     }
                 }
 

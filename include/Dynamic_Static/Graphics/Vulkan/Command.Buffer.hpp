@@ -62,7 +62,7 @@ namespace Vulkan {
                 pNext = nullptr;
                 commandPool = VK_NULL_HANDLE;
                 level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-                commandBufferCount = 0;
+                commandBufferCount = 1;
             }
         };
 
@@ -106,7 +106,7 @@ namespace Vulkan {
         /**
          * TODO : Documentation.
          */
-        void begin_recording(const BeginInfo& beginInfo);
+        void begin(const BeginInfo& beginInfo);
 
         /**
          * TODO : Documentation.
@@ -119,12 +119,24 @@ namespace Vulkan {
         /**
          * TODO : Documentation.
          */
-        void bind_pipeline(VkPipelineBindPoint bindPoint, const Pipeline& pipeline);
+        void bind_pipeline(
+            VkPipelineBindPoint bindPoint,
+            const Pipeline& pipeline
+        );
 
         /**
          * TODO : Documentation.
          */
         void bind_vertex_buffer(const vlkn::Buffer& vertexBuffer);
+
+        /**
+         * TODO : Documentation.
+         */
+        void copy_buffer(
+            const vlkn::Buffer& source,
+            const vlkn::Buffer& destination,
+            VkDeviceSize size
+        );
 
         /**
          * TODO : Documentation.
@@ -154,7 +166,7 @@ namespace Vulkan {
         /**
          * TODO : Documentation.
          */
-        void end_recording();
+        void end();
     };
 
 } // namespace Vulkan

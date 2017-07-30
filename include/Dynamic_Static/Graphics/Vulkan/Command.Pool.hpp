@@ -102,10 +102,23 @@ namespace Vulkan {
                 "Command::Pool can only allocate Command::Buffer"
             );
 
+            // TODO : DRY...
             // TODO : UniqueObject factory...
             std::unique_ptr<Command::Buffer> buffer(new Command::Buffer(*this, args...));
             mBuffers.push_back(std::move(buffer));
             return mBuffers.back().get();
+        }
+
+        template <typename ObjectType, typename ...Args>
+        std::unique_ptr<ObjectType> allocate_transient(Args&&... args)
+        {
+            static_assert(
+                std::is_same<ObjectType, Command::Buffer>::value,
+                "Command::Pool can only allocate Command::Buffer"
+            );
+
+            // TODO : DRY...
+            return std::unique_ptr<Command::Buffer>(new Command::Buffer(*this, args...));
         }
     };
 
