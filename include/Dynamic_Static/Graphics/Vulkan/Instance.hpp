@@ -29,9 +29,10 @@
 
 #pragma once
 
-#include "Dynamic_Static/Core/Collection.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
+
+#include "gsl/span"
 
 #include <memory>
 #include <vector>
@@ -55,8 +56,8 @@ namespace Vulkan {
 
     private:
         Instance(
-            const dst::Collection<std::string>& layers,
-            const dst::Collection<std::string>& extensions,
+            const gsl::span<std::string>& layers,
+            const gsl::span<std::string>& extensions,
             VkDebugReportFlagsEXT debugFlags = 0
         );
 
@@ -77,7 +78,7 @@ namespace Vulkan {
          * Gets this Vulkan Instance's PhysicalDevices.
          * @return This Vulkan::Instance's PhysicalDevices
          */
-        const dst::Collection<std::unique_ptr<PhysicalDevice>> physical_devices() const;
+        const std::vector<std::unique_ptr<PhysicalDevice>>& physical_devices() const;
 
         /**
          * Gets a value indicating whether or not this Instance has validation enabled.
@@ -105,8 +106,8 @@ namespace Vulkan {
          * @return The newly created Vulkan Instance.
          */
         static std::shared_ptr<Instance> create(
-            const dst::Collection<std::string>& layers,
-            const dst::Collection<std::string>& extensions,
+            const gsl::span<std::string>& layers,
+            const gsl::span<std::string>& extensions,
             VkDebugReportFlagsEXT debugFlags = 0
         );
     };

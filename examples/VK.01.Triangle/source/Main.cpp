@@ -93,7 +93,8 @@ int main()
         // NOTE : We're assuming that we got at least one Queue capabale of
         //        graphics, in anything but a toy we want to validate that.
         queueInfo.queueFamilyIndex = static_cast<uint32_t>(queueFamilyIndices[0]);
-        auto device = physicalDevice.create<dst::vlkn::Device>(deviceLayers, deviceExtensions, queueInfo);
+        std::array<dst::vlkn::Queue::Info, 1> queueInfos { queueInfo };
+        auto device = physicalDevice.create<dst::vlkn::Device>(deviceLayers, deviceExtensions, queueInfos);
         // NOTE : We're assuming that the Queue we're choosing for graphics
         //        is capable of presenting, this may not always be the case.
         auto& graphicsQueue = *device->queues()[0][0];

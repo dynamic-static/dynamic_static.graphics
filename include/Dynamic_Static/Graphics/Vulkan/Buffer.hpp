@@ -29,10 +29,11 @@
 
 #pragma once
 
-#include "Dynamic_Static/Core/Collection.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
+
+#include "gsl/span"
 
 #include <memory>
 
@@ -99,7 +100,7 @@ namespace Vulkan {
          * TODO : Documentation.
          */
         template <typename T>
-        void write(const Collection<T>& data)
+        void write(const gsl::span<const T>& data)
         {
             assert(mMemory);
             mMemory->write(data);

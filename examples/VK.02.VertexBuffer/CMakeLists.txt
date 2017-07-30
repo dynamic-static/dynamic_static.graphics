@@ -21,6 +21,7 @@ add_executable(
     ${SOURCE_FILES}
 )
 
+add_dependencies(Example.VK.02.VertexBuffer Dynamic_Static.Graphics)
 target_link_libraries(
     Example.VK.02.VertexBuffer
     Dynamic_Static.Graphics

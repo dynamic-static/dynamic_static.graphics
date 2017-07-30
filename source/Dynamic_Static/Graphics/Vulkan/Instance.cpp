@@ -37,8 +37,8 @@ namespace Graphics {
 namespace Vulkan {
 
     Instance::Instance(
-        const dst::Collection<std::string>& layers,
-        const dst::Collection<std::string>& extensions,
+        const gsl::span<std::string>& layers,
+        const gsl::span<std::string>& extensions,
         VkDebugReportFlagsEXT debugFlags)
         : mLayers(layers.begin(), layers.end())
         , mExtensions(extensions.begin(), extensions.end())
@@ -125,7 +125,7 @@ namespace Vulkan {
         return shared_from_this();
     }
 
-    const dst::Collection<std::unique_ptr<PhysicalDevice>> Instance::physical_devices() const
+    const std::vector<std::unique_ptr<PhysicalDevice>>& Instance::physical_devices() const
     {
         return mPhysicalDevices;
     }
@@ -136,8 +136,8 @@ namespace Vulkan {
     }
 
     std::shared_ptr<Instance> Instance::create(
-        const dst::Collection<std::string>& layers,
-        const dst::Collection<std::string>& extensions,
+        const gsl::span<std::string>& layers,
+        const gsl::span<std::string>& extensions,
         VkDebugReportFlagsEXT debugFlags)
     {
         return std::shared_ptr<Instance>(new Instance(layers, extensions, debugFlags));

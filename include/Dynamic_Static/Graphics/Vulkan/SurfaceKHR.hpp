@@ -30,9 +30,10 @@
 #pragma once
 
 #include "Dynamic_Static/Core/Callback.hpp"
-#include "Dynamic_Static/Core/Collection.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
+
+#include "gsl/span"
 
 #include <memory>
 #include <vector>
@@ -105,10 +106,10 @@ namespace Vulkan {
         const VkSurfaceFormatKHR& format() const;
 
         /**
-         * Gets this SurfaceKHR's VkSurfaceFormatKHR.
-         * @return This SurfaceKHR's VkSurfaceFormatKHR
+         * Gets this SurfaceKHR's VkSurfaceFormatKHRs.
+         * @return This SurfaceKHR's VkSurfaceFormatKHRs
          */
-        const dst::Collection<VkSurfaceFormatKHR> formats() const;
+        const std::vector<VkSurfaceFormatKHR>& formats() const;
 
         /**
          * Gets this SurfaceKHR's VkPresentModeKHR.
@@ -120,7 +121,7 @@ namespace Vulkan {
          * Gets this SurfaceKHR's VkPresentModeKHRs.
          * @return This SurfaceKHR's VkPresentModeKHRs
          */
-        const dst::Collection<VkPresentModeKHR> present_modes() const;
+        const std::vector<VkPresentModeKHR>& present_modes() const;
 
         /**
          * Gets this SurfaceKHR's VkSurfaceTransformFlagBitsKHR.

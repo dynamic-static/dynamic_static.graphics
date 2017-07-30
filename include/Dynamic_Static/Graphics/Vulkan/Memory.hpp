@@ -29,10 +29,11 @@
 
 #pragma once
 
-#include "Dynamic_Static/Core/Collection.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
+
+#include "gsl/span"
 
 #include <memory>
 
@@ -97,10 +98,10 @@ namespace Vulkan {
          * TODO : Documentation.
          */
         template <typename T>
-        void write(const Collection<T>& data)
+        void write(const gsl::span<const T>& data)
         {
-            auto mappedPtr = map(0, data.byte_size());
-            std::memcpy(mappedPtr, data.data(), data.byte_size());
+            auto mappedPtr = map(0, data.size_bytes());
+            std::memcpy(mappedPtr, data.data(), data.size_bytes());
             unmap();
         }
     };

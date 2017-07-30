@@ -28,6 +28,7 @@ foreach (varname ${DST_GFX_BINARY_DEPENDENCIES})
 endforeach()
 MESSAGE(STATUS "===================================================")
 
+add_dependencies(Example.VK.00.PhysicalDevice Dynamic_Static.Graphics)
 target_link_libraries(
     Example.VK.00.PhysicalDevice
     Dynamic_Static.Graphics

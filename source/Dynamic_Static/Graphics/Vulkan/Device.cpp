@@ -40,9 +40,9 @@ namespace Graphics {
 namespace Vulkan {
     Device::Device(
         PhysicalDevice& physicalDevice,
-        const dst::Collection<std::string>& layers,
-        const dst::Collection<std::string>& extensions,
-        const dst::Collection<Queue::Info>& queueInfos
+        const gsl::span<std::string>& layers,
+        const gsl::span<std::string>& extensions,
+        const gsl::span<Queue::Info>& queueInfos
     )
         : Device(physicalDevice, layers, extensions, queueInfos, physicalDevice.features())
     {
@@ -50,9 +50,9 @@ namespace Vulkan {
 
     Device::Device(
         PhysicalDevice& physicalDevice,
-        const dst::Collection<std::string>& layers,
-        const dst::Collection<std::string>& extensions,
-        const dst::Collection<Queue::Info>& queueInfos,
+        const gsl::span<std::string>& layers,
+        const gsl::span<std::string>& extensions,
+        const gsl::span<Queue::Info>& queueInfos,
         const VkPhysicalDeviceFeatures& features
     )
         : mPhysicalDevice { &physicalDevice }

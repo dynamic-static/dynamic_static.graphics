@@ -16,6 +16,7 @@ add_executable(
     ${SOURCE_FILES}
 )
 
+add_dependencies(Dynamic_Static.Graphics.Tests Dynamic_Static.Graphics)
 target_link_libraries(
     Dynamic_Static.Graphics.Tests
     Dynamic_Static.Graphics

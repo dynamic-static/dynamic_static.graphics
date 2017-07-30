@@ -29,13 +29,14 @@
 
 #pragma once
 
-#include "Dynamic_Static/Core/Collection.hpp"
 #include "Dynamic_Static/Core/SharedObjectFactory.hpp"
 #include "Dynamic_Static/Graphics/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Command.Pool.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Pipeline.Layout.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
+
+#include "gsl/span"
 
 #include <memory>
 
@@ -100,16 +101,16 @@ namespace Vulkan {
     private:
         Device(
             PhysicalDevice& physicalDevice,
-            const dst::Collection<std::string>& layers,
-            const dst::Collection<std::string>& extensions,
-            const dst::Collection<Queue::Info>& queueInfos
+            const gsl::span<std::string>& layers,
+            const gsl::span<std::string>& extensions,
+            const gsl::span<Queue::Info>& queueInfos
         );
 
         Device(
             PhysicalDevice& physicalDevice,
-            const dst::Collection<std::string>& layers,
-            const dst::Collection<std::string>& extensions,
-            const dst::Collection<Queue::Info>& queueInfos,
+            const gsl::span<std::string>& layers,
+            const gsl::span<std::string>& extensions,
+            const gsl::span<Queue::Info>& queueInfos,
             const VkPhysicalDeviceFeatures& features
         );
 

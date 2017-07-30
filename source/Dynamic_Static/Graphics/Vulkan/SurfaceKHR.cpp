@@ -130,7 +130,7 @@ namespace Vulkan {
         return mFormat;
     }
 
-    const dst::Collection<VkSurfaceFormatKHR> SurfaceKHR::formats() const
+    const std::vector<VkSurfaceFormatKHR>& SurfaceKHR::formats() const
     {
         return mFormats;
     }
@@ -140,7 +140,7 @@ namespace Vulkan {
         return mPresentMode;
     }
 
-    const dst::Collection<VkPresentModeKHR> SurfaceKHR::present_modes() const
+    const std::vector<VkPresentModeKHR>& SurfaceKHR::present_modes() const
     {
         return mPresentModes;
     }
