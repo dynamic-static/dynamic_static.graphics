@@ -11,6 +11,10 @@ set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/Vulkan/Command.Pool.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/DebugReport.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Defines.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Descriptor.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Descriptor.Pool.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Descriptor.Set.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Descriptor.Set.Layout.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Device.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/DeviceChild.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Framebuffer.hpp
@@ -48,6 +52,9 @@ set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/Vulkan/Command.Buffer.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Command.Pool.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/DebugReport.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/Descriptor.Pool.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/Descriptor.Set.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/Descriptor.Set.Layout.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Device.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/DeviceChild.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Framebuffer.cpp

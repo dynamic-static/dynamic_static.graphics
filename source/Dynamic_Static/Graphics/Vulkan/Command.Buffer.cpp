@@ -29,9 +29,10 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/Command.Buffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Command.Pool.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Descriptor.Set.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Buffer.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Pipeline.Layout.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -76,6 +77,24 @@ namespace Vulkan {
     void Command::Buffer::bind_pipeline(VkPipelineBindPoint bindPoint, const Pipeline& pipeline)
     {
         vkCmdBindPipeline(mHandle, bindPoint, pipeline);
+    }
+
+    void Command::Buffer::bind_descriptor_set(
+        const Descriptor::Set& descriptorSet,
+        const Pipeline::Layout& pipelineLayout
+    )
+    {
+        // TODO : This is extremely inflexible...
+        vkCmdBindDescriptorSets(
+            mHandle,
+            VK_PIPELINE_BIND_POINT_GRAPHICS,
+            pipelineLayout,
+            0,
+            1,
+            &descriptorSet.handle(),
+            0,
+            nullptr
+        );
     }
 
     void Command::Buffer::bind_index_buffer(const vlkn::Buffer& indexBuffer)

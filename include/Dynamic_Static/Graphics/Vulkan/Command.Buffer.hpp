@@ -31,7 +31,9 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/Command.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Descriptor.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/RenderPass.hpp"
 
 namespace Dynamic_Static {
@@ -122,6 +124,14 @@ namespace Vulkan {
         void bind_pipeline(
             VkPipelineBindPoint bindPoint,
             const Pipeline& pipeline
+        );
+
+        /**
+         * TODO : Documentation.
+         */
+        void bind_descriptor_set(
+            const Descriptor::Set& descriptorSet,
+            const Pipeline::Layout& pipelineLayout
         );
 
         /**

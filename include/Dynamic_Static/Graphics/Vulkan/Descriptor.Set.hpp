@@ -29,9 +29,8 @@
 
 #pragma once
 
-#include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Descriptor.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
@@ -41,44 +40,53 @@ namespace Graphics {
 namespace Vulkan {
 
     /**
-     * Provides high level control over a Vulkan Pipeline Layout.
+     * Provides high level control over a Vulkan Descriptor Set.
      */
-    class Pipeline::Layout final
-        : public Object<VkPipelineLayout>
-        , public detail::DeviceChild
+    class Descriptor::Set final
+        : public Object<VkDescriptorSet>
     {
-        friend class Device;
+        friend Descriptor::Pool;
 
     public:
+        class Layout;
+
         /**
-         * Configuration paramaters for Pipeline::Layout construction.
+         * Configuration paramaters for Descriptor::Set construction.
          */
         struct Info final
-            : public VkPipelineLayoutCreateInfo
+            : public VkDescriptorSetAllocateInfo
         {
             /**
-             * Constructs an instance of Pipeline::Layout::Info with default paramaters.
+             * Constructs an instance of Descriptor::Set::Info with default paramaters.
              */
             Info()
             {
-                sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+                sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
                 pNext = nullptr;
-                flags = 0;
-                setLayoutCount = 0;
+                descriptorPool = VK_NULL_HANDLE;
+                descriptorSetCount = 0;
                 pSetLayouts = nullptr;
-                pushConstantRangeCount = 0;
-                pPushConstantRanges = nullptr;
             }
         };
 
     private:
-        Layout(const std::shared_ptr<Device>& device, const Info& info);
+        Descriptor::Pool* mPool { nullptr };
+
+    private:
+        Set(Descriptor::Pool& pool, const Info& info);
 
     public:
         /**
-         * Destroys this instance of Pipeline::Layout.
+         * Gets this Descriptor::Set's Descriptor::Pool.
+         * @return This Descriptor::Set's Descriptor::Pool
          */
-        ~Layout();
+        Descriptor::Pool& pool();
+
+        /**
+         * Gets this Descriptor::Set's Descriptor::Pool.
+         * @return This Descriptor::Set's Descriptor::Pool
+         */
+        const Descriptor::Pool& pool() const;
     };
 
 } // namespace Vulkan

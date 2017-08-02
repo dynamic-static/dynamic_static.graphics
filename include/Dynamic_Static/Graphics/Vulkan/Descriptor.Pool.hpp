@@ -29,14 +29,12 @@
 
 #pragma once
 
-#include "Dynamic_Static/Graphics/Vulkan/Command.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Command.Buffer.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Descriptor.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Descriptor.Set.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
-#include <type_traits>
 #include <vector>
 
 namespace Dynamic_Static {
@@ -44,51 +42,53 @@ namespace Graphics {
 namespace Vulkan {
 
     /**
-     * Provides high level control over a Vulkan Command Pool.
+     * Provides high level control over a Vulkan Descriptor Pool.
      */
-    class Command::Pool final
-        : public Object<VkCommandPool>
+    class Descriptor::Pool final
+        : public Object<VkDescriptorPool>
         , public detail::DeviceChild
     {
         friend class Device;
 
     public:
         /**
-         * Configuration paramaters for Command::Pool construction.
+         * Configuration paramaters for Descriptor::Pool construction.
          */
         struct Info final
-            : public VkCommandPoolCreateInfo
+            : public VkDescriptorPoolCreateInfo
         {
             /**
-             * Constructs an instance of Command::Pool::Info with default paramaters.
+             * Constructs an instance of Descriptor::Pool::Info with default paramaters.
              */
             Info()
             {
-                sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+                sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
                 pNext = nullptr;
                 flags = 0;
-                queueFamilyIndex = 0;
+                maxSets = 0;
+                poolSizeCount = 0;
+                pPoolSizes = nullptr;
             }
         };
 
     private:
-        std::vector<std::unique_ptr<Command::Buffer>> mBuffers;
+        std::vector<std::unique_ptr<Descriptor::Set>> mSets;
 
     private:
         Pool(const std::shared_ptr<Device>& device, const Info& info);
 
     public:
         /**
-         * Destroys this instance of Command::Pool.
+         * Destroys this instance of Descriptor::Pool.
          */
         ~Pool();
 
     public:
         /**
-         * Gets this Command::Pool's Command::Buffers.
-         * @return This Command::Pool's Command::Buffers
+         * Gets this Descriptor::Pool's Descriptor::Sets.
+         * @return This Descriptor::Pool's Descriptor::Sets
          */
-        const std::vector<std::unique_ptr<Command::Buffer>>& buffers() const;
+        const std::vector<std::unique_ptr<Descriptor::Set>>& sets() const;
 
         /**
          * TODO : Documentation.
@@ -97,30 +97,15 @@ namespace Vulkan {
         ObjectType* allocate(Args&&... args)
         {
             static_assert(
-                std::is_same<ObjectType, Command::Buffer>::value,
-                "Command::Pool can only allocate Command::Buffer"
+                std::is_same<ObjectType, Descriptor::Set>::value,
+                "Command::Pool can only allocate Descriptor::Set"
             );
 
             // TODO : DRY...
             // TODO : UniqueObject factory...
-            std::unique_ptr<Command::Buffer> buffer(new Command::Buffer(*this, args...));
-            mBuffers.push_back(std::move(buffer));
-            return mBuffers.back().get();
-        }
-
-        /**
-         * TODO : Documentation.
-         */
-        template <typename ObjectType, typename ...Args>
-        std::unique_ptr<ObjectType> allocate_transient(Args&&... args)
-        {
-            static_assert(
-                std::is_same<ObjectType, Command::Buffer>::value,
-                "Command::Pool can only allocate Command::Buffer"
-            );
-
-            // TODO : DRY...
-            return std::unique_ptr<Command::Buffer>(new Command::Buffer(*this, args...));
+            std::unique_ptr<Descriptor::Set> buffer(new Descriptor::Set(*this, args...));
+            mSets.push_back(std::move(buffer));
+            return mSets.back().get();
         }
     };
 

@@ -27,59 +27,32 @@
 ================================================================================
 */
 
-#pragma once
-
-#include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
-
-#include <memory>
+#include "Dynamic_Static/Graphics/Vulkan/Descriptor.Set.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Descriptor.Pool.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    /**
-     * Provides high level control over a Vulkan Pipeline Layout.
-     */
-    class Pipeline::Layout final
-        : public Object<VkPipelineLayout>
-        , public detail::DeviceChild
+    Descriptor::Set::Set(Descriptor::Pool& pool, const Info& info)
+        : mPool { &pool }
     {
-        friend class Device;
+        validate(vkAllocateDescriptorSets(pool.device(), &info, &mHandle));
+        name("Descriptor::Set");
+    }
 
-    public:
-        /**
-         * Configuration paramaters for Pipeline::Layout construction.
-         */
-        struct Info final
-            : public VkPipelineLayoutCreateInfo
-        {
-            /**
-             * Constructs an instance of Pipeline::Layout::Info with default paramaters.
-             */
-            Info()
-            {
-                sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-                pNext = nullptr;
-                flags = 0;
-                setLayoutCount = 0;
-                pSetLayouts = nullptr;
-                pushConstantRangeCount = 0;
-                pPushConstantRanges = nullptr;
-            }
-        };
+    Descriptor::Pool& Descriptor::Set::pool()
+    {
+        assert(mPool);
+        return *mPool;
+    }
 
-    private:
-        Layout(const std::shared_ptr<Device>& device, const Info& info);
-
-    public:
-        /**
-         * Destroys this instance of Pipeline::Layout.
-         */
-        ~Layout();
-    };
+    const Descriptor::Pool& Descriptor::Set::pool() const
+    {
+        assert(mPool);
+        return *mPool;
+    }
 
 } // namespace Vulkan
 } // namespace Graphics

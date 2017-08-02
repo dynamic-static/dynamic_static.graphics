@@ -28,12 +28,20 @@
 */
 
 #include "Dynamic_Static/Core/Math.hpp"
+#include "Dynamic_Static/Core/Time.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
 #include "Dynamic_Static/Graphics/Window.hpp"
 
 #include <array>
 #include <iostream>
 #include <memory>
+
+struct UniformBuffer final
+{
+    dst::Matrix4x4 world;
+    dst::Matrix4x4 view;
+    dst::Matrix4x4 projection;
+};
 
 struct Vertex final
 {
@@ -70,8 +78,8 @@ struct Vertex final
 int main()
 {
     {
-        // Renders a quad using vertex and index buffers
-        // based on https://vulkan-tutorial.com/Vertex_buffers
+        // Rotates a quad using a uniform buffer
+        // based on https://vulkan-tutorial.com/Uniform_buffers
 
         using namespace dst::gfx;
         using namespace dst::gfx::vlkn;
@@ -177,6 +185,18 @@ int main()
         auto renderPass = device->create<RenderPass>(renderPassInfo);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Create DescriptorSet::Layout
+        VkDescriptorSetLayoutBinding uniformBufferLayoutBinding { };
+        uniformBufferLayoutBinding.binding = 0;
+        uniformBufferLayoutBinding.descriptorCount = 1;
+        uniformBufferLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        uniformBufferLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+        Descriptor::Set::Layout::Info descriptorSetLayoutInfo;
+        descriptorSetLayoutInfo.bindingCount = 1;
+        descriptorSetLayoutInfo.pBindings = &uniformBufferLayoutBinding;
+        auto descriptorSetLayout = device->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Pipeline
         auto vertexShader = device->create<ShaderModule>(
             VK_SHADER_STAGE_VERTEX_BIT,
@@ -185,6 +205,14 @@ int main()
 
                 #version 450
                 #extension GL_ARB_separate_shader_objects : enable
+
+                layout(binding = 0)
+                uniform UniformBuffer
+                {
+                    mat4 world;
+                    mat4 view;
+                    mat4 projection;
+                } ubo;
 
                 layout(location = 0) in vec2 inPosition;
                 layout(location = 1) in vec4 inColor;
@@ -198,7 +226,7 @@ int main()
 
                 void main()
                 {
-                    gl_Position = vec4(inPosition, 0, 1);
+                    gl_Position = ubo.projection * ubo.view * ubo.world * vec4(inPosition, 0, 1);
                     fragColor = inColor.rgb;
                 }
 
@@ -264,7 +292,7 @@ int main()
         rasterizationInfo.polygonMode = VK_POLYGON_MODE_FILL;
         rasterizationInfo.lineWidth = 1;
         rasterizationInfo.cullMode = VK_CULL_MODE_BACK_BIT;
-        rasterizationInfo.frontFace = VK_FRONT_FACE_CLOCKWISE;
+        rasterizationInfo.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
 
         VkPipelineMultisampleStateCreateInfo multisampleInfo { };
         multisampleInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
@@ -284,6 +312,8 @@ int main()
         colorBlendStateInfo.pAttachments = &colorBlendAttacment;
 
         Pipeline::Layout::Info pipelineLayoutInfo;
+        pipelineLayoutInfo.setLayoutCount = 1;
+        pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout->handle();
         auto pipelineLayout = device->create<Pipeline::Layout>(pipelineLayoutInfo);
 
         std::array<VkDynamicState, 2> dynamicStates {
@@ -310,6 +340,9 @@ int main()
         pipelineInfo.renderPass = *renderPass;
         pipelineInfo.subpass = 0;
         auto pipeline = device->create<Pipeline>(pipelineInfo);
+
+        vertexShader.reset();
+        fragmentShader.reset();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Pool
@@ -391,6 +424,47 @@ int main()
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Create uniform Buffer
+        VkDeviceSize uniformBufferSize = sizeof(UniformBuffer);
+        Buffer::Info uniformBufferInfo;
+        uniformBufferInfo.size = uniformBufferSize;
+        uniformBufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+        auto uniformMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+        auto uniformBuffer = device->create<Buffer>(uniformBufferInfo, uniformMemoryProperties);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Create Descriptor::Pool and Descriptor::Set
+        VkDescriptorPoolSize descriptorPoolSize { };
+        descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        descriptorPoolSize.descriptorCount = 1;
+        Descriptor::Pool::Info descriptorPoolInfo;
+        descriptorPoolInfo.poolSizeCount = 1;
+        descriptorPoolInfo.pPoolSizes = &descriptorPoolSize;
+        descriptorPoolInfo.maxSets = 1;
+        auto desciptorPool = device->create<Descriptor::Pool>(descriptorPoolInfo);
+
+        Descriptor::Set::Info descriptorSetInfo;
+        descriptorSetInfo.descriptorPool = *desciptorPool;
+        descriptorSetInfo.descriptorSetCount = 1;
+        descriptorSetInfo.pSetLayouts = &descriptorSetLayout->handle();
+        auto descriptorSet = desciptorPool->allocate<Descriptor::Set>(descriptorSetInfo);
+
+        VkDescriptorBufferInfo descriptorBufferInfo { };
+        descriptorBufferInfo.buffer = *uniformBuffer;
+        descriptorBufferInfo.offset = 0;
+        descriptorBufferInfo.range = sizeof(UniformBuffer);
+
+        VkWriteDescriptorSet descriptorWrite { };
+        descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        descriptorWrite.dstSet = *descriptorSet;
+        descriptorWrite.dstBinding = 0;
+        descriptorWrite.dstArrayElement = 0;
+        descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        descriptorWrite.descriptorCount = 1;
+        descriptorWrite.pBufferInfo = &descriptorBufferInfo;
+        vkUpdateDescriptorSets(*device, 1, &descriptorWrite, 0, nullptr);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Buffers
         for (size_t i = 0; i < swapchain->images().size(); ++i) {
             commandPool->allocate<Command::Buffer>();
@@ -413,10 +487,11 @@ int main()
             //        our Framebuffers and re-record our Command::Buffers.
             createFramebuffers = true;
             recordCommandBuffers = true;
-            auto extent = swapchain->extent();
         };
 
         window->name("Dynamic_Static VK.03.UniformBuffer");
+        dst::Clock clock;
+        float angle = 0;
         bool running = true;
         while (running) {
             Window::update();
@@ -424,6 +499,33 @@ int main()
             if (window->input().keyboard().down(quitKey)) {
                 running = false;
             }
+
+            clock.update();
+            angle += 90.0f * clock.elapsed<dst::Second<float>>();
+
+            UniformBuffer ubo;
+            ubo.world = dst::Matrix4x4::create_rotation(
+                dst::to_radians(angle),
+                dst::Vector3::UnitZ
+            );
+
+            ubo.view = dst::Matrix4x4::create_view(
+                { 2, 2, 2 },
+                dst::Vector3::Zero,
+                dst::Vector3::UnitZ
+            );
+
+            ubo.projection = dst::Matrix4x4::create_perspective(
+                dst::to_radians(30.0f),
+                static_cast<float>(swapchain->extent().width) /
+                static_cast<float>(swapchain->extent().height),
+                0.01f,
+                10.0f
+            );
+
+            ubo.projection[1][1] *= -1;
+
+            uniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
 
             presentQueue.wait_idle();
             swapchain->update();
@@ -477,6 +579,7 @@ int main()
                         VkRect2D scissor { };
                         scissor.extent = swapchain->extent();
                         commandBuffer->set_scissor(scissor);
+                        commandBuffer->bind_descriptor_set(*descriptorSet, *pipelineLayout);
                         commandBuffer->bind_vertex_buffer(*vertexBuffer);
                         commandBuffer->bind_index_buffer(*indexBuffer);
                         commandBuffer->draw_indexed(indices.size());

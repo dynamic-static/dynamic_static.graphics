@@ -81,6 +81,7 @@ namespace Vulkan {
     class Buffer;
     class Command;
     class DebugReport;
+    class Descriptor;
     class Device;
     class Framebuffer;
     class Image;

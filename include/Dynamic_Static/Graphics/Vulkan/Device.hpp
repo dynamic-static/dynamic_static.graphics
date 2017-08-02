@@ -32,6 +32,8 @@
 #include "Dynamic_Static/Core/SharedObjectFactory.hpp"
 #include "Dynamic_Static/Graphics/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Command.Pool.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Descriptor.Pool.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Descriptor.Set.Layout.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Pipeline.Layout.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
@@ -53,6 +55,8 @@ namespace Vulkan {
         , public SharedObjectFactory<
             Buffer,
             Command::Pool,
+            Descriptor::Pool,
+            Descriptor::Set::Layout,
             Framebuffer,
             Memory,
             Pipeline,
