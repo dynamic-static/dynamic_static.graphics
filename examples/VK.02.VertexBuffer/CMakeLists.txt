@@ -1,6 +1,8 @@
 
 # CMake configuration for Example.VK.02.VertexBuffer
 
+set(DST_GFX_EXAMPLE Example.VK.02.VertexBuffer)
+
 set(INCLUDE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 set(INCLUDE_FILES
 )
@@ -16,14 +18,14 @@ include_directories(
 )
 
 add_executable(
-    Example.VK.02.VertexBuffer
+    ${DST_GFX_EXAMPLE}
     ${INCLUDE_FILES}
     ${SOURCE_FILES}
 )
 
-add_dependencies(Example.VK.02.VertexBuffer Dynamic_Static.Graphics)
+add_dependencies(${DST_GFX_EXAMPLE} Dynamic_Static.Graphics)
 target_link_libraries(
-    Example.VK.02.VertexBuffer
+    ${DST_GFX_EXAMPLE}
     Dynamic_Static.Graphics
     ${DST_GFX_BINARY_DEPENDENCIES}
 )

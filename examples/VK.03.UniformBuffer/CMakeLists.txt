@@ -1,6 +1,8 @@
 
 # CMake configuration for Example.VK.03.UniformBuffer
 
+set(DST_GFX_EXAMPLE Example.VK.03.UniformBuffer)
+
 set(INCLUDE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 set(INCLUDE_FILES
 )
@@ -16,14 +18,14 @@ include_directories(
 )
 
 add_executable(
-    Example.VK.03.UniformBuffer
+    ${DST_GFX_EXAMPLE}
     ${INCLUDE_FILES}
     ${SOURCE_FILES}
 )
 
-add_dependencies(Example.VK.03.UniformBuffer Dynamic_Static.Graphics)
+add_dependencies(${DST_GFX_EXAMPLE} Dynamic_Static.Graphics)
 target_link_libraries(
-    Example.VK.03.UniformBuffer
+    ${DST_GFX_EXAMPLE}
     Dynamic_Static.Graphics
     ${DST_GFX_BINARY_DEPENDENCIES}
 )

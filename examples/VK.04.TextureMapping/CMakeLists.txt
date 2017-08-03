@@ -1,7 +1,7 @@
 
-# CMake configuration for Example.VK.00.PhysicalDevice
+# CMake configuration for Example.VK.04.TextureMapping
 
-set(DST_GFX_EXAMPLE Example.VK.00.PhysicalDevice)
+set(DST_GFX_EXAMPLE Example.VK.04.TextureMapping)
 
 set(INCLUDE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 set(INCLUDE_FILES

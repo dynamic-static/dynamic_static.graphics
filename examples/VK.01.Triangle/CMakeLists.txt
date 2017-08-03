@@ -1,6 +1,8 @@
 
 # CMake configuration for Example.VK.00.Triangle
 
+set(DST_GFX_EXAMPLE Example.VK.00.Triangle)
+
 set(INCLUDE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 set(INCLUDE_FILES
 )
@@ -16,25 +18,17 @@ include_directories(
 )
 
 add_executable(
-    Example.VK.01.Triangle
+    ${DST_GFX_EXAMPLE}
     ${INCLUDE_FILES}
     ${SOURCE_FILES}
 )
 
-MESSAGE(STATUS "DST_GFX_BINARY_DEPENDENCIES")
-MESSAGE(STATUS "===================================================")
-foreach (varname ${DST_GFX_BINARY_DEPENDENCIES})
-    message(STATUS ${varname})
-endforeach()
-MESSAGE(STATUS "===================================================")
-
-add_dependencies(Example.VK.01.Triangle Dynamic_Static.Graphics)
+add_dependencies(${DST_GFX_EXAMPLE} Dynamic_Static.Graphics)
 target_link_libraries(
-    Example.VK.01.Triangle
+    ${DST_GFX_EXAMPLE}
     Dynamic_Static.Graphics
     ${DST_GFX_BINARY_DEPENDENCIES}
 )
 
 create_file_group("${INCLUDE_FILES}")
 create_file_group("${SOURCE_FILES}")
-
