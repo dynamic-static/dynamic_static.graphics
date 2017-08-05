@@ -28,6 +28,7 @@
 */
 
 #include "Dynamic_Static/Graphics/ImageReader.hpp"
+#include "Dynamic_Static/Core/FileSystem.hpp"
 
 #ifndef STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
@@ -49,13 +50,14 @@ namespace Graphics {
             imageCache = ImageCache(
                 static_cast<uint32_t>(width),
                 static_cast<uint32_t>(height),
-                static_cast<uint32_t>(channels)
+                4 // static_cast<uint32_t>(channels)
             );
 
             memcpy(imageCache.data().data(), image, imageCache.data().size());
             stbi_image_free(image);
         } else {
-            throw std::runtime_error("TODO : what - " + std::string(stbi_failure_reason()));
+            std::string failureReason(stbi_failure_reason());
+            throw std::runtime_error("TODO : what - " + failureReason);
         }
 
         return imageCache;

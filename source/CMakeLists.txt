@@ -39,6 +39,7 @@ set(INCLUDE_FILES
 
     ${INCLUDE_PATH}/Graphics/Camera.hpp
     ${INCLUDE_PATH}/Graphics/Defines.hpp
+    ${INCLUDE_PATH}/Graphics/GLTFReader.hpp
     ${INCLUDE_PATH}/Graphics/ImageCache.hpp
     ${INCLUDE_PATH}/Graphics/ImageReader.hpp
     ${INCLUDE_PATH}/Graphics/Monitor.hpp
@@ -79,6 +80,7 @@ set(SOURCE_FILES
 
     ${SOURCE_PATH}/Graphics/Camera.cpp
     ${SOURCE_PATH}/Graphics/GLFWInclude.hpp
+    ${SOURCE_PATH}/Graphics/GLTFReader.cpp
     ${SOURCE_PATH}/Graphics/ImageCache.cpp
     ${SOURCE_PATH}/Graphics/ImageReader.cpp
     ${SOURCE_PATH}/Graphics/Monitor.cpp

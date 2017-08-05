@@ -112,6 +112,29 @@ namespace Vulkan {
         return queueFamilyIndices;
     }
 
+    VkFormat PhysicalDevice::find_supported_format(
+        const gsl::span<VkFormat>& candidates,
+        VkImageTiling tiling,
+        VkFormatFeatureFlags features)
+    {
+        VkFormat format = VK_FORMAT_UNDEFINED;
+        for (auto candidate : candidates) {
+            VkFormatProperties properties;
+            vkGetPhysicalDeviceFormatProperties(mHandle, candidate, &properties);
+            if (tiling == VK_IMAGE_TILING_LINEAR &&
+                (properties.linearTilingFeatures & features) == features) {
+                format = candidate;
+            } else
+            if (tiling == VK_IMAGE_TILING_OPTIMAL &&
+                (properties.optimalTilingFeatures & features) == features) {
+                format = candidate;
+            }
+        }
+
+        // TODO : throw?
+        return format;
+    }
+
 } // namespace Vulkan
 } // namespace Graphics
 } // namespace Dynamic_Static

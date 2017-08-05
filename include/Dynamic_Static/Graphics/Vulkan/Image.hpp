@@ -149,6 +149,7 @@ namespace Vulkan {
 
     private:
         VkFormat mFormat { VK_FORMAT_UNDEFINED };
+        VkImageUsageFlags mUsage { VK_IMAGE_USAGE_STORAGE_BIT };
         std::vector<std::unique_ptr<View>> mViews;
         SwapchainKHR* mSwapchain { nullptr };
         std::shared_ptr<Device> mDevice;
@@ -182,6 +183,12 @@ namespace Vulkan {
          * @return This Image's VkFormat
          */
         VkFormat format() const;
+
+        /**
+         * Gets this Image's VkImageUsageFlags.
+         * @return This Image's VkImageUsageFlags
+         */
+        VkImageUsageFlags usage() const;
 
         /**
          * Gets this Image's memory requirements.

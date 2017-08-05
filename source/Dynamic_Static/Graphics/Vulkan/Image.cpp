@@ -39,6 +39,7 @@ namespace Vulkan {
     Image::Image(const std::shared_ptr<Device>& device, const Info& info)
         : DeviceChild(device)
         , mFormat { info.format }
+        , mUsage { info.usage }
     {
         validate(vkCreateImage(DeviceChild::device(), &info, nullptr, &mHandle));
         name("Image");
@@ -48,6 +49,7 @@ namespace Vulkan {
         : DeviceChild(swapchain.device().shared())
         , mSwapchain { &swapchain }
         , mFormat { swapchain.format() }
+        , mUsage { VK_IMAGE_ASPECT_COLOR_BIT }
     {
         assert(handle);
         mHandle = handle;
@@ -75,6 +77,11 @@ namespace Vulkan {
     VkFormat Image::format() const
     {
         return mFormat;
+    }
+
+    VkImageUsageFlags Image::usage() const
+    {
+        return mUsage;
     }
 
     VkMemoryRequirements Image::memory_requirements() const

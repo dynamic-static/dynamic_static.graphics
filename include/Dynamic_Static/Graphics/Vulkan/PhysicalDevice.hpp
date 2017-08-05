@@ -33,6 +33,8 @@
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
+#include "gsl/span"
+
 #include <memory>
 #include <string>
 #include <vector>
@@ -103,6 +105,15 @@ namespace Vulkan {
          * TODO : Documentation.
          */
         std::vector<size_t> find_queue_families(VkQueueFlags queueFlags) const;
+
+        /**
+         * TODO : Documentation.
+         */
+        VkFormat find_supported_format(
+            const gsl::span<VkFormat>& candidates,
+            VkImageTiling tiling,
+            VkFormatFeatureFlags features
+        );
 
         /**
          * TODO : Documentation.
