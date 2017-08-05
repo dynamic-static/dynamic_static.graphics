@@ -29,6 +29,8 @@
 
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
+#include "Dynamic_Static/Graphics/ImageCache.hpp"
+#include "Dynamic_Static/Graphics/ImageReader.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
 #include "Dynamic_Static/Graphics/Window.hpp"
 
@@ -46,6 +48,7 @@ struct UniformBuffer final
 struct Vertex final
 {
     dst::Vector2 position;
+    dst::Vector2 texCoord;
     dst::Color color;
 
     static VkVertexInputBindingDescription binding_description()
@@ -57,7 +60,7 @@ struct Vertex final
         return binding;
     }
 
-    static std::array<VkVertexInputAttributeDescription, 2> attribute_descriptions()
+    static std::array<VkVertexInputAttributeDescription, 3> attribute_descriptions()
     {
         VkVertexInputAttributeDescription positionAttribute;
         positionAttribute.binding = 0;
@@ -65,13 +68,23 @@ struct Vertex final
         positionAttribute.format = VK_FORMAT_R32G32_SFLOAT;
         positionAttribute.offset = offsetof(Vertex, position);
 
+        VkVertexInputAttributeDescription texCoordAttribute;
+        texCoordAttribute.binding = 0;
+        texCoordAttribute.location = 1;
+        texCoordAttribute.format = VK_FORMAT_R32G32_SFLOAT;
+        texCoordAttribute.offset = offsetof(Vertex, texCoord);
+
         VkVertexInputAttributeDescription colorAttribute;
         colorAttribute.binding = 0;
-        colorAttribute.location = 1;
+        colorAttribute.location = 2;
         colorAttribute.format = VK_FORMAT_R32G32B32A32_SFLOAT;
         colorAttribute.offset = offsetof(Vertex, color);
 
-        return { positionAttribute, colorAttribute };
+        return {
+            positionAttribute,
+            texCoordAttribute,
+            colorAttribute
+        };
     }
 };
 
@@ -191,9 +204,22 @@ int main()
         uniformBufferLayoutBinding.descriptorCount = 1;
         uniformBufferLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
         uniformBufferLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+
+        VkDescriptorSetLayoutBinding samplerLayoutBinding { };
+        samplerLayoutBinding.binding = 1;
+        samplerLayoutBinding.descriptorCount = 1;
+        samplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        samplerLayoutBinding.pImmutableSamplers = nullptr;
+        samplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+
         Descriptor::Set::Layout::Info descriptorSetLayoutInfo;
-        descriptorSetLayoutInfo.bindingCount = 1;
-        descriptorSetLayoutInfo.pBindings = &uniformBufferLayoutBinding;
+        std::array<VkDescriptorSetLayoutBinding, 2> descriptorSetLayoutBindings {
+            uniformBufferLayoutBinding,
+            samplerLayoutBinding,
+        };
+
+        descriptorSetLayoutInfo.bindingCount = static_cast<uint32_t>(descriptorSetLayoutBindings.size());
+        descriptorSetLayoutInfo.pBindings = descriptorSetLayoutBindings.data();
         auto descriptorSetLayout = device->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -215,9 +241,11 @@ int main()
                 } ubo;
 
                 layout(location = 0) in vec2 inPosition;
-                layout(location = 1) in vec4 inColor;
+                layout(location = 1) in vec2 inTexCoord;
+                layout(location = 2) in vec4 inColor;
 
-                layout(location = 0) out vec3 fragColor;
+                layout(location = 0) out vec2 fragTexCoord;
+                layout(location = 1) out vec4 fragColor;
 
                 out gl_PerVertex
                 {
@@ -227,7 +255,8 @@ int main()
                 void main()
                 {
                     gl_Position = ubo.projection * ubo.view * ubo.world * vec4(inPosition, 0, 1);
-                    fragColor = inColor.rgb;
+                    fragTexCoord = inTexCoord;
+                    fragColor = inColor;
                 }
 
             )"
@@ -241,13 +270,16 @@ int main()
                 #version 450
                 #extension GL_ARB_separate_shader_objects : enable
 
-                layout(location = 0) in vec3 fragColor;
+                layout(binding = 1) uniform sampler2D imageSampler;
+
+                layout(location = 0) in vec2 fragTexCoord;
+                layout(location = 1) in vec4 fragColor;
 
                 layout(location = 0) out vec4 outColor;
 
                 void main()
                 {
-                    outColor = vec4(fragColor, 1);
+                    outColor = texture(imageSampler, fragTexCoord);
                 }
 
             )"
@@ -299,8 +331,18 @@ int main()
         multisampleInfo.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
         multisampleInfo.minSampleShading = 1;
 
-        VkPipelineColorBlendAttachmentState colorBlendAttacment { };
-        colorBlendAttacment.colorWriteMask =
+        VkPipelineColorBlendAttachmentState colorBlendAttachment { };
+        colorBlendAttachment.blendEnable = VK_TRUE;
+
+        colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+        colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+        colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+
+        colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+        colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+        colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+
+        colorBlendAttachment.colorWriteMask =
             VK_COLOR_COMPONENT_R_BIT |
             VK_COLOR_COMPONENT_G_BIT |
             VK_COLOR_COMPONENT_B_BIT |
@@ -309,7 +351,7 @@ int main()
         VkPipelineColorBlendStateCreateInfo colorBlendStateInfo { };
         colorBlendStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
         colorBlendStateInfo.attachmentCount = 1;
-        colorBlendStateInfo.pAttachments = &colorBlendAttacment;
+        colorBlendStateInfo.pAttachments = &colorBlendAttachment;
 
         Pipeline::Layout::Info pipelineLayoutInfo;
         pipelineLayoutInfo.setLayoutCount = 1;
@@ -352,12 +394,142 @@ int main()
         auto commandPool = device->create<Command::Pool>(commandPoolInfo);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Create Image and Sampler
+        auto imageCache = ImageReader::read_file("D:/Dynamic_Static_Redux/Dynamic_Static.Core/logo/logo-512x512-no-text-transp.png");
+
+        Buffer::Info imageStagingBufferInfo;
+        imageStagingBufferInfo.size = static_cast<VkDeviceSize>(imageCache.data().size_bytes());
+        imageStagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+        auto imageStagingMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+        auto imageStagingBuffer = device->create<Buffer>(imageStagingBufferInfo, imageStagingMemoryProperties);
+        imageStagingBuffer->write<uint8_t>(imageCache.data());
+
+        Image::Info imageInfo;
+        imageInfo.imageType = VK_IMAGE_TYPE_2D;
+        imageInfo.extent.width = imageCache.width();
+        imageInfo.extent.height = imageCache.height();
+        imageInfo.format = VK_FORMAT_R8G8B8A8_UNORM;
+        imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+        imageInfo.initialLayout = VK_IMAGE_LAYOUT_PREINITIALIZED;
+        imageInfo.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+        auto image = device->create<Image>(imageInfo);
+
+        Memory::Info imageMemoryInfo;
+        auto imageMemoryRequirements = image->memory_requirements();
+        imageMemoryInfo.allocationSize = imageMemoryRequirements.size;
+        imageMemoryInfo.memoryTypeIndex = physicalDevice.find_memory_type_index(
+            imageMemoryRequirements.memoryTypeBits,
+            VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
+        );
+
+        auto imageMemory = device->allocate<Memory>(imageMemoryInfo);
+        image->bind_memory(imageMemory);
+
+        {
+            auto prepareImageCommandBuffer = commandPool->allocate_transient<Command::Buffer>();
+            Command::Buffer::BeginInfo beginInfo;
+            beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+            prepareImageCommandBuffer->begin(beginInfo);
+
+            VkImageMemoryBarrier imageMemoryBarrier { };
+            imageMemoryBarrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+            imageMemoryBarrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+            imageMemoryBarrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+            imageMemoryBarrier.image = *image;
+            imageMemoryBarrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+            imageMemoryBarrier.subresourceRange.baseMipLevel = 0;
+            imageMemoryBarrier.subresourceRange.levelCount = 1;
+            imageMemoryBarrier.subresourceRange.baseArrayLayer = 0;
+            imageMemoryBarrier.subresourceRange.layerCount = 1;
+
+            /*
+
+            if (oldLayout == VK_IMAGE_LAYOUT_PREINITIALIZED && newLayout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL) {
+                barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
+                barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+            } else
+            if (oldLayout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL && newLayout == VK_IMAGE_LAYOUT_SHADER_READ_OPTIMAL) {
+                barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+                barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+            } else {
+                throw std::invalid_argument("Unsupported layout transition");
+            }
+
+            */
+
+            // NOTE : Transition to TRANSFER_DST_OPIMAL.
+            imageMemoryBarrier.oldLayout = VK_IMAGE_LAYOUT_PREINITIALIZED;
+            imageMemoryBarrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+            imageMemoryBarrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
+            imageMemoryBarrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+            vkCmdPipelineBarrier(
+                *prepareImageCommandBuffer,
+                VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+                VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+                0,
+                0, nullptr,
+                0, nullptr,
+                1, &imageMemoryBarrier
+            );
+
+            // NOTE : Copy staging Buffer to Image.
+            VkBufferImageCopy region { };
+            region.bufferOffset = 0;
+            region.bufferRowLength = 0;
+            region.bufferImageHeight = 0;
+            region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+            region.imageSubresource.mipLevel = 0;
+            region.imageSubresource.baseArrayLayer = 0;
+            region.imageSubresource.layerCount = 1;
+            region.imageOffset = { 0, 0, 0 };
+            region.imageExtent = {
+                imageCache.width(),
+                imageCache.height(),
+                1
+            };
+
+            vkCmdCopyBufferToImage(
+                *prepareImageCommandBuffer,
+                *imageStagingBuffer,
+                *image,
+                VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                1,
+                &region
+            );
+
+            // NOTE : Transition to SHADER_READ_ONLY_OPTIMAL.
+            imageMemoryBarrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+            imageMemoryBarrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+            imageMemoryBarrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+            imageMemoryBarrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+            vkCmdPipelineBarrier(
+                *prepareImageCommandBuffer,
+                VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+                VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+                0,
+                0, nullptr,
+                0, nullptr,
+                1, &imageMemoryBarrier
+            );
+
+            prepareImageCommandBuffer->end();
+            Queue::SubmitInfo submitInfo;
+            submitInfo.commandBufferCount = 1;
+            submitInfo.pCommandBuffers = &prepareImageCommandBuffer->handle();
+            graphicsQueue.submit(submitInfo);
+            graphicsQueue.wait_idle();
+        }
+
+        image->create<Image::View>();
+        auto sampler = device->create<Sampler>();
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create vertex and index Buffers
         const std::vector<Vertex> vertices {
-            { { -0.5f, -0.5f }, { dst::Color::OrangeRed } },
-            { {  0.5f, -0.5f }, { dst::Color::BlueViolet } },
-            { {  0.5f,  0.5f }, { dst::Color::DodgerBlue } },
-            { { -0.5f,  0.5f }, { dst::Color::Goldenrod } },
+            { { -0.5f, -0.5f }, { 0, 0 }, { dst::Color::OrangeRed } },
+            { {  0.5f, -0.5f }, { 1, 0 }, { dst::Color::BlueViolet } },
+            { {  0.5f,  0.5f }, { 1, 1 }, { dst::Color::DodgerBlue } },
+            { { -0.5f,  0.5f }, { 0, 1 }, { dst::Color::Goldenrod } },
         };
 
         auto vertexBufferSize = static_cast<VkDeviceSize>(sizeof(vertices[0]) * vertices.size());
@@ -434,12 +606,15 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Descriptor::Pool and Descriptor::Set
-        VkDescriptorPoolSize descriptorPoolSize { };
-        descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        descriptorPoolSize.descriptorCount = 1;
+        std::array<VkDescriptorPoolSize, 2> descriptorPoolSizes;
+        descriptorPoolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        descriptorPoolSizes[0].descriptorCount = 1;
+        descriptorPoolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        descriptorPoolSizes[1].descriptorCount = 1;
+
         Descriptor::Pool::Info descriptorPoolInfo;
-        descriptorPoolInfo.poolSizeCount = 1;
-        descriptorPoolInfo.pPoolSizes = &descriptorPoolSize;
+        descriptorPoolInfo.poolSizeCount = static_cast<uint32_t>(descriptorPoolSizes.size());
+        descriptorPoolInfo.pPoolSizes = descriptorPoolSizes.data();
         descriptorPoolInfo.maxSets = 1;
         auto desciptorPool = device->create<Descriptor::Pool>(descriptorPoolInfo);
 
@@ -454,15 +629,34 @@ int main()
         descriptorBufferInfo.offset = 0;
         descriptorBufferInfo.range = sizeof(UniformBuffer);
 
-        VkWriteDescriptorSet descriptorWrite { };
-        descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-        descriptorWrite.dstSet = *descriptorSet;
-        descriptorWrite.dstBinding = 0;
-        descriptorWrite.dstArrayElement = 0;
-        descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        descriptorWrite.descriptorCount = 1;
-        descriptorWrite.pBufferInfo = &descriptorBufferInfo;
-        vkUpdateDescriptorSets(*device, 1, &descriptorWrite, 0, nullptr);
+        VkDescriptorImageInfo descriptorImageInfo { };
+        descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+        descriptorImageInfo.imageView = *image->views()[0];
+        descriptorImageInfo.sampler = *sampler;
+
+        std::array<VkWriteDescriptorSet, 2> descriptorWrites { };
+        descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        descriptorWrites[0].dstSet = *descriptorSet;
+        descriptorWrites[0].dstBinding = 0;
+        descriptorWrites[0].dstArrayElement = 0;
+        descriptorWrites[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        descriptorWrites[0].descriptorCount = 1;
+        descriptorWrites[0].pBufferInfo = &descriptorBufferInfo;
+
+        descriptorWrites[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        descriptorWrites[1].dstSet = *descriptorSet;
+        descriptorWrites[1].dstBinding = 1;
+        descriptorWrites[1].dstArrayElement = 0;
+        descriptorWrites[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        descriptorWrites[1].descriptorCount = 1;
+        descriptorWrites[1].pImageInfo = &descriptorImageInfo;
+        vkUpdateDescriptorSets(
+            *device,
+            static_cast<uint32_t>(descriptorWrites.size()),
+            descriptorWrites.data(),
+            0,
+            nullptr
+        );
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Buffers
@@ -489,7 +683,7 @@ int main()
             recordCommandBuffers = true;
         };
 
-        window->name("Dynamic_Static VK.03.UniformBuffer");
+        window->name("Dynamic_Static VK.04.TextureMapping");
         dst::Clock clock;
         float angle = 0;
         bool running = true;

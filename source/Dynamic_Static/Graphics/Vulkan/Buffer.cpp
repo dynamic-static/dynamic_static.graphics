@@ -66,29 +66,35 @@ namespace Vulkan {
         validate(vkCreateBuffer(DeviceChild::device(), &info, nullptr, &mHandle));
         name("Dynamic_Static::Vulkan::Buffer");
 
-        /*
-        }
-        */
-            // TODO : This should be moved to PhysicalDevice...
-            auto memoryRequirements = memory_requirements();
-            auto memoryTypeFilter = memoryRequirements.memoryTypeBits;
-            auto memoryProperties = device().physical_device().memory_properties();
-            int32_t memoryTypeIndex = -1;
-            for (int32_t i = 0; i < static_cast<int32_t>(memoryProperties.memoryTypeCount); ++i) {
-                if (memoryTypeFilter & (1 << i)) {
-                    if ((memoryProperties.memoryTypes[i].propertyFlags & memoryPropertyFlags) == memoryPropertyFlags) {
-                        memoryTypeIndex = i;
-                        break;
-                    }
-                }
-            }
+        // /*
+        // }
+        // */
+        //     // TODO : This should be moved to PhysicalDevice...
+        //     auto memoryRequirements = memory_requirements();
+        //     auto memoryTypeFilter = memoryRequirements.memoryTypeBits;
+        //     auto memoryProperties = device().physical_device().memory_properties();
+        //     int32_t memoryTypeIndex = -1;
+        //     for (int32_t i = 0; i < static_cast<int32_t>(memoryProperties.memoryTypeCount); ++i) {
+        //         if (memoryTypeFilter & (1 << i)) {
+        //             if ((memoryProperties.memoryTypes[i].propertyFlags & memoryPropertyFlags) == memoryPropertyFlags) {
+        //                 memoryTypeIndex = i;
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // 
+        //     if (memoryTypeIndex == -1) {
+        //         throw std::runtime_error("Failed to find supported Memory type index");
+        //     }
+        // /*
+        // }
+        // */
 
-            if (memoryTypeIndex == -1) {
-                throw std::runtime_error("Failed to find supported Memory type index");
-            }
-        /*
-        }
-        */
+        auto memoryRequirements = memory_requirements();
+        auto memoryTypeIndex = device().physical_device().find_memory_type_index(
+            memoryRequirements.memoryTypeBits,
+            memoryPropertyFlags
+        );
 
         // TODO : This is a lousy way to be using memory, we should be binding several
         //        related buffers to a single allocation and ensuring that our offsets

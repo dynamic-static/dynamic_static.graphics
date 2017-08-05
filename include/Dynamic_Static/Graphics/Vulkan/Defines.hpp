@@ -91,11 +91,15 @@ namespace Vulkan {
     class Pipeline;
     class Queue;
     class RenderPass;
+    class Sampler;
     class Semaphore;
     class ShaderModule;
     class SurfaceKHR;
     class SwapchainKHR;
 
+    /**
+     * TODO : Documentation.
+     */
     class Exception final
         : public std::runtime_error
     {
@@ -125,6 +129,9 @@ namespace Vulkan {
         }
     };
 
+    /**
+     * TODO : Documentation.
+     */
     inline VkResult validate(VkResult result)
     {
         // TODO : Wrap this up so that validation, exceptions,

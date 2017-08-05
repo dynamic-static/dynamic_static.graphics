@@ -28,6 +28,7 @@ set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/Vulkan/Pipeline.Layout.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Queue.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/RenderPass.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Sampler.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Semaphore.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/ShaderModule.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/ShaderModule.Compiler.hpp
@@ -38,6 +39,8 @@ set(INCLUDE_FILES
 
     ${INCLUDE_PATH}/Graphics/Camera.hpp
     ${INCLUDE_PATH}/Graphics/Defines.hpp
+    ${INCLUDE_PATH}/Graphics/ImageCache.hpp
+    ${INCLUDE_PATH}/Graphics/ImageReader.hpp
     ${INCLUDE_PATH}/Graphics/Monitor.hpp
     ${INCLUDE_PATH}/Graphics/Object.hpp
     ${INCLUDE_PATH}/Graphics/Resolution.hpp
@@ -67,6 +70,7 @@ set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/Vulkan/Pipeline.Layout.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Queue.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/RenderPass.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/Sampler.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Semaphore.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/ShaderModule.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/ShaderModule.Compiler.cpp
@@ -75,6 +79,8 @@ set(SOURCE_FILES
 
     ${SOURCE_PATH}/Graphics/Camera.cpp
     ${SOURCE_PATH}/Graphics/GLFWInclude.hpp
+    ${SOURCE_PATH}/Graphics/ImageCache.cpp
+    ${SOURCE_PATH}/Graphics/ImageReader.cpp
     ${SOURCE_PATH}/Graphics/Monitor.cpp
     ${SOURCE_PATH}/Graphics/Object.cpp
     ${SOURCE_PATH}/Graphics/Resolution.cpp

@@ -30,6 +30,7 @@
 #pragma once
 
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
@@ -45,8 +46,10 @@ namespace Vulkan {
      */
     class Image final
         : public Object<VkImage>
+        , public detail::DeviceChild
     {
-        friend SwapchainKHR;
+        friend class Device;
+        friend class SwapchainKHR;
 
     public:
         /**
@@ -149,8 +152,10 @@ namespace Vulkan {
         std::vector<std::unique_ptr<View>> mViews;
         SwapchainKHR* mSwapchain { nullptr };
         std::shared_ptr<Device> mDevice;
+        std::shared_ptr<Memory> mMemory;
 
     private:
+        Image(const std::shared_ptr<Device>& device, const Info& info);
         Image(SwapchainKHR& swapchain, VkImage handle);
 
     public:
@@ -161,16 +166,16 @@ namespace Vulkan {
 
     public:
         /**
-         * Gets this Image's Device.
-         * @return This Image's Device
+         * Gets this Image's Memory.
+         * @return This Image's Memory
          */
-        Device& device();
+        std::shared_ptr<Memory>& memory();
 
         /**
-         * Gets this Image's Device.
-         * @return This Image's Device
+         * Gets this Image's Memory.
+         * @return This Image's Memory
          */
-        const Device& device() const;
+        const std::shared_ptr<Memory>& memory() const;
 
         /**
          * Gets this Image's VkFormat.
@@ -179,10 +184,21 @@ namespace Vulkan {
         VkFormat format() const;
 
         /**
+         * Gets this Image's memory requirements.
+         * @return This Image's memory requirements
+         */
+        VkMemoryRequirements memory_requirements() const;
+
+        /**
          * Gets this Image's Views.
          * @return This Image's Views
          */
         const std::vector<std::unique_ptr<View>>& views() const;
+
+        /**
+         * TODO : Documentation.
+         */
+        void bind_memory(const std::shared_ptr<Memory>& memory);
 
         /**
          * TODO : Documentation.

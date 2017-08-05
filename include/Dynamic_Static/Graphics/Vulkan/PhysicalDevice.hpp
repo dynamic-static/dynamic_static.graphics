@@ -94,6 +94,14 @@ namespace Vulkan {
         /**
          * TODO : Documentation.
          */
+        uint32_t find_memory_type_index(
+            uint32_t memoryTypeFilter,
+            VkMemoryPropertyFlags memoryPropertyFlags
+        ) const;
+
+        /**
+         * TODO : Documentation.
+         */
         std::vector<size_t> find_queue_families(VkQueueFlags queueFlags) const;
 
         /**

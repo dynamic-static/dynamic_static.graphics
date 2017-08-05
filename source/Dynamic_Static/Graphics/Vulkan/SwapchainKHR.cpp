@@ -30,6 +30,7 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp"
 #include "Dynamic_Static/Core/Algorithm.hpp"
+#include "Dynamic_Static/Core/ToString.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Image.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Image.View.hpp"
@@ -197,6 +198,7 @@ namespace Vulkan {
             for (const auto& handle : imageHandles) {
                 std::unique_ptr<Image> image(new Image(*this, handle));
                 image->create<Image::View>();
+                image->name("SwapchainKHR Image " + dst::to_string(mImages.size()));
                 mImages.push_back(std::move(image));
             }
         }

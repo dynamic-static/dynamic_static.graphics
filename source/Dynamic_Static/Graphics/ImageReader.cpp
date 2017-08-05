@@ -4,7 +4,7 @@
 
   MIT License
 
-  Copyright (c) 2016 Dynamic_Static
+  Copyright (c) 2017 Dynamic_Static
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,45 +27,39 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/Vulkan/Image.View.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+#include "Dynamic_Static/Graphics/ImageReader.hpp"
+
+#ifndef STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_IMPLEMENTATION
+#endif
+#include "stb/stb_image.h"
+
+#include <stdexcept>
+#include <string>
 
 namespace Dynamic_Static {
 namespace Graphics {
-namespace Vulkan {
 
-    Image::View::View(Image& image)
-        : mImage { &image }
+    ImageCache ImageReader::read_file(const std::string& filePath)
     {
-        // TODO : This is extremely inflexible...
-        Info info { };
-        info.image = image;
-        info.viewType = VK_IMAGE_VIEW_TYPE_2D;
-        info.format = mImage->format();
-        info.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-        validate(vkCreateImageView(image.device(), &info, nullptr, &mHandle));
-        name(image.name() +  "::View");
-    }
+        ImageCache imageCache;
+        int width, height, channels;
+        auto image = stbi_load(filePath.c_str(), &width, &height, &channels, STBI_rgb_alpha);
+        if (image) {
+            imageCache = ImageCache(
+                static_cast<uint32_t>(width),
+                static_cast<uint32_t>(height),
+                static_cast<uint32_t>(channels)
+            );
 
-    Image::View::~View()
-    {
-        if (mHandle) {
-            vkDestroyImageView(image().device(), mHandle, nullptr);
+            memcpy(imageCache.data().data(), image, imageCache.data().size());
+            stbi_image_free(image);
+        } else {
+            throw std::runtime_error("TODO : what - " + std::string(stbi_failure_reason()));
         }
+
+        return imageCache;
     }
 
-    Image& Image::View::image()
-    {
-        assert(mImage);
-        return *mImage;
-    }
-
-    const Image& Image::View::image() const
-    {
-        assert(mImage);
-        return *mImage;
-    }
-
-} // namespace Vulkan
 } // namespace Graphics
 } // namespace Dynamic_Static

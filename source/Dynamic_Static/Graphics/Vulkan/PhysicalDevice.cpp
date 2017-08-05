@@ -77,6 +77,28 @@ namespace Vulkan {
         return mMemoryProperties;
     }
 
+    uint32_t PhysicalDevice::find_memory_type_index(
+        uint32_t memoryTypeFilter,
+        VkMemoryPropertyFlags memoryPropertyFlags
+    ) const
+    {
+        int32_t memoryTypeIndex = -1;
+        for (int32_t i = 0; i < static_cast<int32_t>(mMemoryProperties.memoryTypeCount); ++i) {
+            if (memoryTypeFilter & (1 << i)) {
+                if ((mMemoryProperties.memoryTypes[i].propertyFlags & memoryPropertyFlags) == memoryPropertyFlags) {
+                    memoryTypeIndex = i;
+                    break;
+                }
+            }
+        }
+
+        if (memoryTypeIndex == -1) {
+            throw std::runtime_error("Failed to find supported Memory type index");
+        }
+
+        return static_cast<uint32_t>(memoryTypeIndex);
+    }
+
     std::vector<size_t> PhysicalDevice::find_queue_families(VkQueueFlags queueFlags) const
     {
         std::vector<size_t> queueFamilyIndices;

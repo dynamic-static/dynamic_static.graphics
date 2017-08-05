@@ -4,7 +4,7 @@
 
   MIT License
 
-  Copyright (c) 2016 Dynamic_Static
+  Copyright (c) 2017 Dynamic_Static
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,45 +27,22 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/Vulkan/Image.View.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+#pragma once
+
+#include "Dynamic_Static/Graphics/Defines.hpp"
+#include "Dynamic_Static/Graphics/ImageCache.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
-namespace Vulkan {
 
-    Image::View::View(Image& image)
-        : mImage { &image }
+    /**
+     * TODO : Documentation.
+     */
+    class ImageReader final
     {
-        // TODO : This is extremely inflexible...
-        Info info { };
-        info.image = image;
-        info.viewType = VK_IMAGE_VIEW_TYPE_2D;
-        info.format = mImage->format();
-        info.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-        validate(vkCreateImageView(image.device(), &info, nullptr, &mHandle));
-        name(image.name() +  "::View");
-    }
+    public:
+        static ImageCache read_file(const std::string& filePath);
+    };
 
-    Image::View::~View()
-    {
-        if (mHandle) {
-            vkDestroyImageView(image().device(), mHandle, nullptr);
-        }
-    }
-
-    Image& Image::View::image()
-    {
-        assert(mImage);
-        return *mImage;
-    }
-
-    const Image& Image::View::image() const
-    {
-        assert(mImage);
-        return *mImage;
-    }
-
-} // namespace Vulkan
 } // namespace Graphics
 } // namespace Dynamic_Static

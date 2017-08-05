@@ -58,10 +58,12 @@ namespace Vulkan {
             Descriptor::Pool,
             Descriptor::Set::Layout,
             Framebuffer,
+            Image,
             Memory,
             Pipeline,
             Pipeline::Layout,
             RenderPass,
+            Sampler,
             Semaphore,
             ShaderModule,
             SwapchainKHR

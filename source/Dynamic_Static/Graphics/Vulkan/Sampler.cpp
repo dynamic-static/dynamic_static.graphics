@@ -27,43 +27,25 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/Vulkan/Image.View.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Sampler.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    Image::View::View(Image& image)
-        : mImage { &image }
+    Sampler::Sampler(const std::shared_ptr<Device>& device, const Info& info)
+        : DeviceChild(device)
     {
-        // TODO : This is extremely inflexible...
-        Info info { };
-        info.image = image;
-        info.viewType = VK_IMAGE_VIEW_TYPE_2D;
-        info.format = mImage->format();
-        info.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-        validate(vkCreateImageView(image.device(), &info, nullptr, &mHandle));
-        name(image.name() +  "::View");
+        validate(vkCreateSampler(DeviceChild::device(), &info, nullptr, &mHandle));
+        name("Sampler");
     }
 
-    Image::View::~View()
+    Sampler::~Sampler()
     {
         if (mHandle) {
-            vkDestroyImageView(image().device(), mHandle, nullptr);
+            vkDestroySampler(device(), mHandle, nullptr);
         }
-    }
-
-    Image& Image::View::image()
-    {
-        assert(mImage);
-        return *mImage;
-    }
-
-    const Image& Image::View::image() const
-    {
-        assert(mImage);
-        return *mImage;
     }
 
 } // namespace Vulkan

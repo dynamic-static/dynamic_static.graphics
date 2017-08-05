@@ -29,15 +29,24 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/Image.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Memory.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    Image::Image(const std::shared_ptr<Device>& device, const Info& info)
+        : DeviceChild(device)
+        , mFormat { info.format }
+    {
+        validate(vkCreateImage(DeviceChild::device(), &info, nullptr, &mHandle));
+        name("Image");
+    }
+
     Image::Image(SwapchainKHR& swapchain, VkImage handle)
-        : mSwapchain { &swapchain }
-        , mDevice { swapchain.device().shared() }
+        : DeviceChild(swapchain.device().shared())
+        , mSwapchain { &swapchain }
         , mFormat { swapchain.format() }
     {
         assert(handle);
@@ -49,19 +58,18 @@ namespace Vulkan {
         // NOTE : If this Image belongs to a SwapchainKHR, the Vulkan resource
         //        will be destroyed along with the SwapchainKHR that owns it.
         if (mHandle && !mSwapchain) {
+            vkDestroyImage(device(), mHandle, nullptr);
         }
     }
 
-    Device& Image::device()
+    std::shared_ptr<Memory>& Image::memory()
     {
-        assert(mDevice);
-        return *mDevice;
+        return mMemory;
     }
 
-    const Device& Image::device() const
+    const std::shared_ptr<Memory>& Image::memory() const
     {
-        assert(mDevice);
-        return *mDevice;
+        return mMemory;
     }
 
     VkFormat Image::format() const
@@ -69,9 +77,25 @@ namespace Vulkan {
         return mFormat;
     }
 
+    VkMemoryRequirements Image::memory_requirements() const
+    {
+        VkMemoryRequirements memoryRequirements;
+        vkGetImageMemoryRequirements(device(), mHandle, &memoryRequirements);
+        return memoryRequirements;
+    }
+
     const std::vector<std::unique_ptr<Image::View>>& Image::views() const
     {
         return mViews;
+    }
+
+    void Image::bind_memory(const std::shared_ptr<Memory>& memory)
+    {
+        mMemory = memory;
+        if (mMemory) {
+            // NOTE : This is extremely inflexible...
+            validate(vkBindImageMemory(device(), mHandle, *mMemory, 0));
+        }
     }
 
 } // namespace Vulkan

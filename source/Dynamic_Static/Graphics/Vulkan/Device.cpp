@@ -85,6 +85,7 @@ namespace Vulkan {
         info.ppEnabledLayerNames = requestedLayers.data();
         info.enabledExtensionCount = static_cast<uint32_t>(requestedExtensions.size());
         info.ppEnabledExtensionNames = requestedExtensions.data();
+        info.pEnabledFeatures = &mFeatures;
         validate(vkCreateDevice(*mPhysicalDevice, &info, nullptr, &mHandle));
 
         mQueues.reserve(queueInfos.size());
