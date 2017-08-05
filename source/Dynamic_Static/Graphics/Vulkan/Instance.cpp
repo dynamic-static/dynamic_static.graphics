@@ -108,7 +108,7 @@ namespace Vulkan {
             mPhysicalDevices.push_back(std::move(physcialDevice));
         }
 
-        name("Dynamic_Static::Vulkan::Instance");
+        name("Instance");
     }
 
     Instance::~Instance()

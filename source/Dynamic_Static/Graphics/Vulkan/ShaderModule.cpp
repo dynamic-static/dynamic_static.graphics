@@ -71,7 +71,7 @@ namespace Vulkan {
             validate(vkCreateShaderModule(DeviceChild::device(), &info, nullptr, &mHandle));
         }
 
-        name("Dynamic_Static::Vulkan::ShaderModule");
+        name("ShaderModule");
     }
 
     ShaderModule::~ShaderModule()

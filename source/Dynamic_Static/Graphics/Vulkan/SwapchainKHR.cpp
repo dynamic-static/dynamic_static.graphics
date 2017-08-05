@@ -52,7 +52,7 @@ namespace Vulkan {
     {
         create_swap_chain();
         mSurface->on_resized = std::bind(&SwapchainKHR::on_surface_resized, this, std::placeholders::_1);
-        name("Dynamic_Static::Vulkan::SwapchainKHR");
+        name("SwapchainKHR");
     }
 
     SwapchainKHR::~SwapchainKHR()

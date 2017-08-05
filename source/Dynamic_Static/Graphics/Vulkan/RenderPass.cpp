@@ -38,7 +38,7 @@ namespace Vulkan {
         : DeviceChild(device)
     {
         validate(vkCreateRenderPass(DeviceChild::device(), &info, nullptr, &mHandle));
-        name("Dynamic_Static::Vulkan::RenderPass");
+        name("RenderPass");
     }
 
     RenderPass::~RenderPass()

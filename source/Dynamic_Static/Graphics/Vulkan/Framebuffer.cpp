@@ -39,7 +39,7 @@ namespace Vulkan {
     {
         assert(mDevice);
         vkCreateFramebuffer(*mDevice, &info, nullptr, &mHandle);
-        name("Dynamic_Static::Vulkan::Framebuffer");
+        name("Framebuffer");
     }
 
     Framebuffer::~Framebuffer()

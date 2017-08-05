@@ -99,7 +99,7 @@ namespace Vulkan {
             }
         }
 
-        name("Dynamic_Static::Vulkan::Device");
+        name("Device");
     }
 
     Device::~Device()

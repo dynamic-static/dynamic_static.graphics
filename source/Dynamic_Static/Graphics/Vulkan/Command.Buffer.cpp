@@ -46,7 +46,7 @@ namespace Vulkan {
         info.commandPool = *mPool;
         info.commandBufferCount = 1;
         validate(vkAllocateCommandBuffers(pool.device(), &info, &mHandle));
-        name("Dynamic_Static::Vulkan::Command::Buffer");
+        name("Command::Buffer");
     }
 
     Command::Pool& Command::Buffer::pool()

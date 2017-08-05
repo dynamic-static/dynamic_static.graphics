@@ -38,7 +38,7 @@ namespace Vulkan {
         : DeviceChild(device)
     {
         validate(vkCreatePipelineLayout(DeviceChild::device(), &info, nullptr, &mHandle));
-        name("Dynamic_Static::Vulkan::Pipeline::Layout");
+        name("Layout");
     }
 
     Pipeline::Layout::~Layout()

@@ -40,7 +40,7 @@ namespace Vulkan {
         , mPriority { info.pQueuePriorities[index] }
     {
         vkGetDeviceQueue(device, static_cast<uint32_t>(mFamilyIndex), static_cast<uint32_t>(index), &mHandle);
-        name("Dynamic_Static::Vulkan::Queue");
+        name("Queue");
     }
 
     Device& Queue::device()

@@ -38,7 +38,7 @@ namespace Vulkan {
         : DeviceChild(device)
     {
         validate(vkCreateGraphicsPipelines(DeviceChild::device(), VK_NULL_HANDLE, 1, &info, nullptr, &mHandle));
-        name("Dynamic_Static::Vulkan::Pipeline");
+        name("Pipeline");
     }
 
     Pipeline::~Pipeline()

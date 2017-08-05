@@ -38,7 +38,7 @@ namespace Vulkan {
         : DeviceChild { device }
     {
         validate(vkCreateCommandPool(DeviceChild::device(), &info, nullptr, &mHandle));
-        name("Dynamic_Static::Vulkan::Command::Pool");
+        name("Command::Pool");
     }
 
     Command::Pool::~Pool()

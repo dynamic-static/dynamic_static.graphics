@@ -95,7 +95,7 @@ namespace Vulkan {
         }
 
         mWindow->on_resized = std::bind(&SurfaceKHR::on_window_resized, this, std::placeholders::_1);
-        name("Dynamic_Static::Vulkan::Surface");
+        name("Surface");
     }
 
     SurfaceKHR::~SurfaceKHR()

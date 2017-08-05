@@ -38,7 +38,7 @@ namespace Vulkan {
         : DeviceChild(device)
     {
         validate(vkAllocateMemory(DeviceChild::device(), &info, nullptr, &mHandle));
-        name("Dynamic_Static::Vulkan::Memory");
+        name("Memory");
     }
 
     Memory::~Memory()

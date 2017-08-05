@@ -38,7 +38,7 @@ namespace Vulkan {
         : DeviceChild(device)
     {
         validate(vkCreateDescriptorSetLayout(DeviceChild::device(), &info, nullptr, &mHandle));
-        name("Descriptor::Set::Layout");
+        name("Layout");
     }
 
     Descriptor::Set::Layout::~Layout()

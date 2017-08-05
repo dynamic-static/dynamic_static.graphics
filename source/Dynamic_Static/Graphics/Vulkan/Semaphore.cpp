@@ -42,7 +42,7 @@ namespace Vulkan {
         info.pNext = nullptr;
         info.flags = 0;
         validate(vkCreateSemaphore(DeviceChild::device(), &info, nullptr, &mHandle));
-        name("Dynamic_Static::Graphics::Semaphore");
+        name("Semaphore");
     }
 
     Semaphore::~Semaphore()

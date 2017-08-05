@@ -62,7 +62,7 @@ namespace Vulkan {
         info.pUserData = this;
         validate(vkCreateDebugReportCallbackEXT(*mInstance, &info, nullptr, &mHandle));
 
-        name("Dynamic_Static::Vulkan::DebugReport");
+        name("DebugReport");
     }
 
     DebugReport::~DebugReport()
