@@ -4,7 +4,7 @@
 
   MIT License
 
-  Copyright (c) 2017 Dynamic_Static
+  Copyright (c) 2016 Dynamic_Static
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,37 +27,50 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/ImageReader.hpp"
-#include "Dynamic_Static/Core/FileSystem.hpp"
-#include "StbImageInclude.hpp"
+// Based on "Make a Neon Vector Shooter in XNA"
+// https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559
 
-#include <stdexcept>
-#include <string>
+#pragma once
 
-namespace Dynamic_Static {
-namespace Graphics {
+#include "Dynamic_Static/Core/Math.hpp"
+#include "Dynamic_Static/Graphics/Vulkan.hpp"
 
-    ImageCache ImageReader::read_file(const std::string& filePath)
+#include <memory>
+
+namespace ShapeBlaster {
+
+    class Entity
     {
-        ImageCache imageCache;
-        int width, height, channels;
-        auto image = stbi_load(filePath.c_str(), &width, &height, &channels, STBI_rgb_alpha);
-        if (image) {
-            imageCache = ImageCache(
-                static_cast<uint32_t>(width),
-                static_cast<uint32_t>(height),
-                4 // static_cast<uint32_t>(channels)
-            );
+    public:
+        class Manager;
 
-            memcpy(imageCache.data().data(), image, imageCache.data().size());
-            stbi_image_free(image);
-        } else {
-            std::string failureReason(stbi_failure_reason());
-            throw std::runtime_error("TODO : what - " + failureReason);
+    protected:
+        std::shared_ptr<dst::vlkn::Image> mImage;
+        dst::Color mColor { dst::Color::White };
+        dst::Vector2 mPosition;
+        dst::Vector2 mVelocity;
+        float mOrientation { 0 };
+        float mRadius { 20 };
+        bool mExpired { false };
+
+    public:
+        dst::Vector2 size() const
+        {
+            return
+                mImage ?
+                dst::Vector2 {
+                    mImage->extent().width,
+                    mImage->extent().height
+                } :
+                dst::Vector2::Zero;
         }
 
-        return imageCache;
-    }
+        virtual void update() = 0;
 
-} // namespace Graphics
-} // namespace Dynamic_Static
+        virtual void render()
+        {
+
+        }
+    };
+
+} // ShapeBlaster

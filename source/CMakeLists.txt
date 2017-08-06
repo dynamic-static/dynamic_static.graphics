@@ -88,6 +88,10 @@ set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/Monitor.cpp
     ${SOURCE_PATH}/Graphics/Object.cpp
     ${SOURCE_PATH}/Graphics/Resolution.cpp
+    ${SOURCE_PATH}/Graphics/StbImageInclude.hpp
+    ${SOURCE_PATH}/Graphics/StbImageInclude.cpp
+    ${SOURCE_PATH}/Graphics/TinyGLTFInclude.hpp
+    ${SOURCE_PATH}/Graphics/TinyGLTFInclude.cpp
     ${SOURCE_PATH}/Graphics/Window.cpp
 )
 

@@ -148,6 +148,7 @@ namespace Vulkan {
         };
 
     private:
+        VkExtent3D mExtent { };
         VkFormat mFormat { VK_FORMAT_UNDEFINED };
         VkImageUsageFlags mUsage { VK_IMAGE_USAGE_STORAGE_BIT };
         std::vector<std::unique_ptr<View>> mViews;
@@ -177,6 +178,12 @@ namespace Vulkan {
          * @return This Image's Memory
          */
         const std::shared_ptr<Memory>& memory() const;
+
+        /**
+         * Gets this Image's extent.
+         * @return This Image's extent
+         */
+        const VkExtent3D& extent() const;
 
         /**
          * Gets this Image's VkFormat.

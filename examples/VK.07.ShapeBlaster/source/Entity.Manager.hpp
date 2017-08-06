@@ -4,7 +4,7 @@
 
   MIT License
 
-  Copyright (c) 2017 Dynamic_Static
+  Copyright (c) 2016 Dynamic_Static
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -27,37 +27,40 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/ImageReader.hpp"
-#include "Dynamic_Static/Core/FileSystem.hpp"
-#include "StbImageInclude.hpp"
+// Based on "Make a Neon Vector Shooter in XNA"
+// https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559
 
-#include <stdexcept>
-#include <string>
+#pragma once
 
-namespace Dynamic_Static {
-namespace Graphics {
+#include "Entity.hpp"
 
-    ImageCache ImageReader::read_file(const std::string& filePath)
+#include <vector>
+
+namespace ShapeBlaster {
+
+    class Entity::Manager final
     {
-        ImageCache imageCache;
-        int width, height, channels;
-        auto image = stbi_load(filePath.c_str(), &width, &height, &channels, STBI_rgb_alpha);
-        if (image) {
-            imageCache = ImageCache(
-                static_cast<uint32_t>(width),
-                static_cast<uint32_t>(height),
-                4 // static_cast<uint32_t>(channels)
-            );
+    private:
+        std::vector<Entity> mEntites;
+        bool mUpdating { false };
 
-            memcpy(imageCache.data().data(), image, imageCache.data().size());
-            stbi_image_free(image);
-        } else {
-            std::string failureReason(stbi_failure_reason());
-            throw std::runtime_error("TODO : what - " + failureReason);
+    public:
+        void udpate()
+        {
+            mUpdating = true;
+            for (auto& entity : mEntites) {
+                entity.update();
+            }
+
+            mUpdating = false;
         }
 
-        return imageCache;
-    }
+        void render()
+        {
+            for (auto& entity : mEntites) {
+                entity.render();
+            }
+        }
+    };
 
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace ShapeBlaster

@@ -31,6 +31,8 @@
 
 #include "Dynamic_Static/Graphics/Defines.hpp"
 
+#include "gsl/gsl"
+
 #include <vector>
 
 namespace Dynamic_Static {
@@ -41,30 +43,27 @@ namespace Graphics {
      */
     class GLTFCache final
     {
-    public:
-        class Asset final
-        {
-        public:
-
-        };
-
-        class Buffer final
-        {
-        public:
-            size_t byteLength { 0 };
-            std::string uri;
-        };
-
-        class BufferView final
-        {
-        public:
-            size_t buffer { 0 };
-            size_t byteLength { 0 };
-            size_t byteOffset { 0 };
-            uint32_t byteStride { 0 };
-            size_t target { 0 };
-            std::string name;
-        };
+    // public:
+    //     using Buffer = std::vector<uint8_t>;
+    // 
+    //     class Asset final
+    //     {
+    //     public:
+    // 
+    //     };
+    // 
+    //     class BufferView final
+    //     {
+    //     public:
+    //         size_t buffer { 0 };
+    //         size_t byteLength { 0 };
+    //         size_t byteOffset { 0 };
+    //         size_t byteStride { 0 };
+    //         size_t target { 0 };
+    //         std::string name;
+    // 
+    //         gsl::span<uint8_t> bytes;
+    //     };
     };
 
 } // namespace Graphics
