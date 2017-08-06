@@ -30,7 +30,7 @@
 // Based on "Make a Neon Vector Shooter in XNA"
 // https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559
 
-#include "Art.hpp"
+#include "Resources.hpp"
 
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
@@ -54,48 +54,48 @@ struct UniformBuffer final
     dst::Matrix4x4 projection;
 };
 
-struct Vertex final
-{
-    dst::Vector3 position;
-    dst::Vector2 texCoord;
-    dst::Color color;
-
-    static VkVertexInputBindingDescription binding_description()
-    {
-        VkVertexInputBindingDescription binding;
-        binding.binding = 0;
-        binding.stride = sizeof(Vertex);
-        binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-        return binding;
-    }
-
-    static std::array<VkVertexInputAttributeDescription, 3> attribute_descriptions()
-    {
-        VkVertexInputAttributeDescription positionAttribute;
-        positionAttribute.binding = 0;
-        positionAttribute.location = 0;
-        positionAttribute.format = VK_FORMAT_R32G32B32_SFLOAT;
-        positionAttribute.offset = offsetof(Vertex, position);
-
-        VkVertexInputAttributeDescription texCoordAttribute;
-        texCoordAttribute.binding = 0;
-        texCoordAttribute.location = 1;
-        texCoordAttribute.format = VK_FORMAT_R32G32_SFLOAT;
-        texCoordAttribute.offset = offsetof(Vertex, texCoord);
-
-        VkVertexInputAttributeDescription colorAttribute;
-        colorAttribute.binding = 0;
-        colorAttribute.location = 2;
-        colorAttribute.format = VK_FORMAT_R32G32B32A32_SFLOAT;
-        colorAttribute.offset = offsetof(Vertex, color);
-
-        return {
-            positionAttribute,
-            texCoordAttribute,
-            colorAttribute
-        };
-    }
-};
+// struct Vertex final
+// {
+//     dst::Vector3 position;
+//     dst::Vector2 texCoord;
+//     dst::Color color;
+// 
+//     static VkVertexInputBindingDescription binding_description()
+//     {
+//         VkVertexInputBindingDescription binding;
+//         binding.binding = 0;
+//         binding.stride = sizeof(Vertex);
+//         binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+//         return binding;
+//     }
+// 
+//     static std::array<VkVertexInputAttributeDescription, 3> attribute_descriptions()
+//     {
+//         VkVertexInputAttributeDescription positionAttribute;
+//         positionAttribute.binding = 0;
+//         positionAttribute.location = 0;
+//         positionAttribute.format = VK_FORMAT_R32G32B32_SFLOAT;
+//         positionAttribute.offset = offsetof(Vertex, position);
+// 
+//         VkVertexInputAttributeDescription texCoordAttribute;
+//         texCoordAttribute.binding = 0;
+//         texCoordAttribute.location = 1;
+//         texCoordAttribute.format = VK_FORMAT_R32G32_SFLOAT;
+//         texCoordAttribute.offset = offsetof(Vertex, texCoord);
+// 
+//         VkVertexInputAttributeDescription colorAttribute;
+//         colorAttribute.binding = 0;
+//         colorAttribute.location = 2;
+//         colorAttribute.format = VK_FORMAT_R32G32B32A32_SFLOAT;
+//         colorAttribute.offset = offsetof(Vertex, color);
+// 
+//         return {
+//             positionAttribute,
+//             texCoordAttribute,
+//             colorAttribute
+//         };
+//     }
+// };
 
 template <typename FuncType>
 void process_transient_command_buffer(Command::Pool& commandPool, Queue& queue, const FuncType& f)
@@ -320,10 +320,10 @@ int main()
 
                 layout(location = 0) in vec3 inPosition;
                 layout(location = 1) in vec2 inTexCoord;
-                layout(location = 2) in vec4 inColor;
+                // layout(location = 2) in vec4 inColor;
 
                 layout(location = 0) out vec2 fragTexCoord;
-                layout(location = 1) out vec4 fragColor;
+                // layout(location = 1) out vec4 fragColor;
 
                 out gl_PerVertex
                 {
@@ -334,7 +334,7 @@ int main()
                 {
                     gl_Position = ubo.projection * ubo.view * ubo.world * vec4(inPosition, 1);
                     fragTexCoord = inTexCoord;
-                    fragColor = inColor;
+                    // fragColor = inColor;
                 }
 
             )"
@@ -351,7 +351,7 @@ int main()
                 layout(binding = 1) uniform sampler2D imageSampler;
 
                 layout(location = 0) in vec2 fragTexCoord;
-                layout(location = 1) in vec4 fragColor;
+                // layout(location = 1) in vec4 fragColor;
 
                 layout(location = 0) out vec4 outColor;
 
@@ -368,8 +368,10 @@ int main()
             fragmentShader->pipeline_stage_info(),
         };
 
-        auto vertexBindingDescription = Vertex::binding_description();
-        auto vertexAttributeDescriptions = Vertex::attribute_descriptions();
+        // auto vertexBindingDescription = Vertex::binding_description();
+        // auto vertexAttributeDescriptions = Vertex::attribute_descriptions();
+        auto vertexBindingDescription = ShapeBlaster::QuadVertex::binding_description();
+        auto vertexAttributeDescriptions = ShapeBlaster::QuadVertex::attribute_descriptions();
         VkPipelineVertexInputStateCreateInfo vertexInputInfo { };
         vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
         vertexInputInfo.vertexBindingDescriptionCount = 1;
@@ -480,8 +482,6 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Image and Sampler
-        ShapeBlaster::Art art;
-        art.load(*device, *commandPool, graphicsQueue);
 
         // // FROM : https://pixabay.com/en/sea-ocean-turtle-wildlife-closeup-2361247/
         // // FROM : https://pixabay.com/en/phi-phi-islands-phuket-thailand-2538412/
@@ -582,78 +582,82 @@ int main()
         // );
         // 
         // image->create<Image::View>();
-        auto image = art.wandererImage;
+
+        ShapeBlaster::Resources resources;
+        resources.load(*device, *commandPool, graphicsQueue);
+        auto image = resources.wandererImage;
         auto sampler = device->create<Sampler>();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create vertex and index Buffers
-        float w = static_cast<float>(image->extent().width);
-        float h = static_cast<float>(image->extent().height);
-        float a = 1.0f / std::max(w, h);
-        w = w * a * 0.5f;
-        h = h * a * 0.5f;
-        const std::vector<Vertex> vertices {
-            { { -w, -h, 0 }, { 0, 0 }, { dst::Color::OrangeRed } },
-            { {  w, -h, 0 }, { 1, 0 }, { dst::Color::BlueViolet } },
-            { {  w,  h, 0 }, { 1, 1 }, { dst::Color::DodgerBlue } },
-            { { -w,  h, 0 }, { 0, 1 }, { dst::Color::Goldenrod } },
 
-            { { -w, -h, -0.5f }, { 0, 0 }, { dst::Color::OrangeRed } },
-            { {  w, -h, -0.5f }, { 1, 0 }, { dst::Color::BlueViolet } },
-            { {  w,  h, -0.5f }, { 1, 1 }, { dst::Color::DodgerBlue } },
-            { { -w,  h, -0.5f }, { 0, 1 }, { dst::Color::Goldenrod } },
-        };
-
-        auto vertexBufferSize = static_cast<VkDeviceSize>(sizeof(vertices[0]) * vertices.size());
-
-        Buffer::Info vertexBufferInfo;
-        vertexBufferInfo.size = vertexBufferSize;
-        vertexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-        auto vertexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-        auto vertexBuffer = device->create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
-
-        Buffer::Info stagingBufferInfo;
-        stagingBufferInfo.size = vertexBufferSize;
-        stagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
-        auto stagingMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-        auto stagingBuffer = device->create<Buffer>(stagingBufferInfo, stagingMemoryProperties);
-        stagingBuffer->write<Vertex>(vertices);
-
-        process_transient_command_buffer(
-            *commandPool,
-            graphicsQueue,
-            [&](Command::Buffer& commandBuffer)
-            {
-                VkBufferCopy copyInfo { };
-                copyInfo.size = vertexBufferSize;
-                commandBuffer.copy_buffer(*stagingBuffer, *vertexBuffer, vertexBufferSize);
-            }
-        );
-
-        const std::vector<uint16_t> indices {
-            0, 1, 2, 2, 3, 0,
-            4, 5, 6, 6, 7, 4,
-        };
-
-        auto indexBufferSize = static_cast<VkDeviceSize>(sizeof(indices[0]) * indices.size());
-
-        Buffer::Info indexBufferInfo;
-        indexBufferInfo.size = indexBufferSize;
-        indexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
-        auto indexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-        auto indexBuffer = device->create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
-        stagingBuffer->write<uint16_t>(indices);
-
-        process_transient_command_buffer(
-            *commandPool,
-            graphicsQueue,
-            [&](Command::Buffer& commandBuffer)
-            {
-                VkBufferCopy copyInfo { };
-                copyInfo.size = indexBufferSize;
-                commandBuffer.copy_buffer(*stagingBuffer, *indexBuffer, indexBufferSize);
-            }
-        );
+        // float w = static_cast<float>(image->extent().width);
+        // float h = static_cast<float>(image->extent().height);
+        // float a = 1.0f / std::max(w, h);
+        // w = w * a * 0.5f;
+        // h = h * a * 0.5f;
+        // const std::vector<Vertex> vertices {
+        //     { { -w, -h, 0 }, { 0, 0 }, { dst::Color::OrangeRed } },
+        //     { {  w, -h, 0 }, { 1, 0 }, { dst::Color::BlueViolet } },
+        //     { {  w,  h, 0 }, { 1, 1 }, { dst::Color::DodgerBlue } },
+        //     { { -w,  h, 0 }, { 0, 1 }, { dst::Color::Goldenrod } },
+        // 
+        //     { { -w, -h, -0.5f }, { 0, 0 }, { dst::Color::OrangeRed } },
+        //     { {  w, -h, -0.5f }, { 1, 0 }, { dst::Color::BlueViolet } },
+        //     { {  w,  h, -0.5f }, { 1, 1 }, { dst::Color::DodgerBlue } },
+        //     { { -w,  h, -0.5f }, { 0, 1 }, { dst::Color::Goldenrod } },
+        // };
+        // 
+        // auto vertexBufferSize = static_cast<VkDeviceSize>(sizeof(vertices[0]) * vertices.size());
+        // 
+        // Buffer::Info vertexBufferInfo;
+        // vertexBufferInfo.size = vertexBufferSize;
+        // vertexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+        // auto vertexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+        // auto vertexBuffer = device->create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
+        // 
+        // Buffer::Info stagingBufferInfo;
+        // stagingBufferInfo.size = vertexBufferSize;
+        // stagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+        // auto stagingMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+        // auto stagingBuffer = device->create<Buffer>(stagingBufferInfo, stagingMemoryProperties);
+        // stagingBuffer->write<Vertex>(vertices);
+        // 
+        // process_transient_command_buffer(
+        //     *commandPool,
+        //     graphicsQueue,
+        //     [&](Command::Buffer& commandBuffer)
+        //     {
+        //         VkBufferCopy copyInfo { };
+        //         copyInfo.size = vertexBufferSize;
+        //         commandBuffer.copy_buffer(*stagingBuffer, *vertexBuffer, vertexBufferSize);
+        //     }
+        // );
+        // 
+        // const std::vector<uint16_t> indices {
+        //     0, 1, 2, 2, 3, 0,
+        //     4, 5, 6, 6, 7, 4,
+        // };
+        // 
+        // auto indexBufferSize = static_cast<VkDeviceSize>(sizeof(indices[0]) * indices.size());
+        // 
+        // Buffer::Info indexBufferInfo;
+        // indexBufferInfo.size = indexBufferSize;
+        // indexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
+        // auto indexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+        // auto indexBuffer = device->create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
+        // stagingBuffer->write<uint16_t>(indices);
+        // 
+        // process_transient_command_buffer(
+        //     *commandPool,
+        //     graphicsQueue,
+        //     [&](Command::Buffer& commandBuffer)
+        //     {
+        //         VkBufferCopy copyInfo { };
+        //         copyInfo.size = indexBufferSize;
+        //         commandBuffer.copy_buffer(*stagingBuffer, *indexBuffer, indexBufferSize);
+        //     }
+        // );
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create uniform Buffer
@@ -776,10 +780,11 @@ int main()
                 dst::Vector3::UnitZ
             );
 
+            float w = static_cast<float>(swapchain->extent().width);
+            float h = static_cast<float>(swapchain->extent().height);
             ubo.projection = dst::Matrix4x4::create_perspective(
                 dst::to_radians(30.0f),
-                static_cast<float>(swapchain->extent().width) /
-                static_cast<float>(swapchain->extent().height),
+                w / h,
                 0.01f,
                 10.0f
             );
@@ -873,9 +878,15 @@ int main()
                         scissor.extent = swapchain->extent();
                         commandBuffer->set_scissor(scissor);
                         commandBuffer->bind_descriptor_set(*descriptorSet, *pipelineLayout);
-                        commandBuffer->bind_vertex_buffer(*vertexBuffer);
-                        commandBuffer->bind_index_buffer(*indexBuffer);
-                        commandBuffer->draw_indexed(indices.size());
+
+                        // commandBuffer->bind_vertex_buffer(*vertexBuffer);
+                        // commandBuffer->bind_index_buffer(*indexBuffer);
+                        // commandBuffer->draw_indexed(indices.size());
+
+                        commandBuffer->bind_vertex_buffer(*resources.quadVertexBuffer);
+                        commandBuffer->bind_index_buffer(*resources.quadIndexBuffer);
+                        commandBuffer->draw_indexed(ShapeBlaster::Resources::QuadIndexCount);
+
                         commandBuffer->end_render_pass();
                         commandBuffer->end();
                     }

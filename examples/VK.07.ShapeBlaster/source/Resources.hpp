@@ -33,23 +33,64 @@
 #pragma once
 
 #include "Dynamic_Static/Core/FileSystem.hpp"
+#include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Graphics/ImageCache.hpp"
 #include "Dynamic_Static/Graphics/ImageReader.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
 
+#include <array>
 #include <memory>
 #include <string>
 
 namespace ShapeBlaster {
 
-    class Art final
+    struct QuadVertex final
+    {
+        dst::Vector3 position;
+        dst::Vector2 texCoord;
+
+        static VkVertexInputBindingDescription binding_description()
+        {
+            VkVertexInputBindingDescription binding;
+            binding.binding = 0;
+            binding.stride = sizeof(QuadVertex);
+            binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+            return binding;
+        }
+
+        static std::array<VkVertexInputAttributeDescription, 2> attribute_descriptions()
+        {
+            VkVertexInputAttributeDescription positionAttribute;
+            positionAttribute.binding = 0;
+            positionAttribute.location = 0;
+            positionAttribute.format = VK_FORMAT_R32G32B32_SFLOAT;
+            positionAttribute.offset = offsetof(QuadVertex, position);
+
+            VkVertexInputAttributeDescription texCoordAttribute;
+            texCoordAttribute.binding = 0;
+            texCoordAttribute.location = 1;
+            texCoordAttribute.format = VK_FORMAT_R32G32_SFLOAT;
+            texCoordAttribute.offset = offsetof(QuadVertex, texCoord);
+
+            return {
+                positionAttribute,
+                texCoordAttribute
+            };
+        }
+    };
+
+    class Resources final
     {
     public:
+        static constexpr size_t QuadVertexCount { 4 };
+        static constexpr size_t QuadIndexCount { 6 };
         std::shared_ptr<dst::vlkn::Image> playerImage;
         std::shared_ptr<dst::vlkn::Image> seekerImage;
         std::shared_ptr<dst::vlkn::Image> wandererImage;
         std::shared_ptr<dst::vlkn::Image> bulletImage;
         std::shared_ptr<dst::vlkn::Image> pointerImage;
+        std::shared_ptr<dst::vlkn::Buffer> quadVertexBuffer;
+        std::shared_ptr<dst::vlkn::Buffer> quadIndexBuffer;
 
     public:
         void load(
@@ -63,6 +104,7 @@ namespace ShapeBlaster {
             wandererImage = create_image(device, commandPool, queue, "Wanderer.png");
             bulletImage = create_image(device, commandPool, queue, "Bullet.png");
             pointerImage = create_image(device, commandPool, queue, "Pointer.png");
+            create_quad(device, commandPool, queue);
         }
 
     private:
@@ -228,6 +270,67 @@ namespace ShapeBlaster {
             image->create<Image::View>();
             return image;
         }
+
+        void create_quad(
+            dst::vlkn::Device& device,
+            dst::vlkn::Command::Pool& commandPool,
+            dst::vlkn::Queue& queue
+        )
+        {
+            using namespace dst::vlkn;
+
+            std::array<QuadVertex, QuadVertexCount> vertices;
+            vertices[0] = { { -0.5f, -0.5f, 0 }, { 0, 0 } };
+            vertices[1] = { {  0.5f, -0.5f, 0 }, { 1, 0 } };
+            vertices[2] = { {  0.5f,  0.5f, 0 }, { 1, 1 } };
+            vertices[3] = { { -0.5f,  0.5f, 0 }, { 0, 1 } };
+
+            auto vertexBufferSize = static_cast<VkDeviceSize>(sizeof(vertices));
+
+            Buffer::Info vertexBufferInfo;
+            vertexBufferInfo.size = vertexBufferSize;
+            vertexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+            auto vertexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+            quadVertexBuffer = device.create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
+
+            Buffer::Info stagingBufferInfo;
+            stagingBufferInfo.size = vertexBufferSize;
+            stagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+            auto stagingMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+            auto stagingBuffer = device.create<Buffer>(stagingBufferInfo, stagingMemoryProperties);
+
+            stagingBuffer->write<QuadVertex>(vertices);
+            process_transient_command_buffer(
+                commandPool,
+                queue,
+                [&](Command::Buffer& commandBuffer)
+                {
+                    commandBuffer.copy_buffer(*stagingBuffer, *quadVertexBuffer, vertexBufferSize);
+                }
+            );
+
+            const std::array<uint16_t, QuadIndexCount> indices {
+                0, 1, 2, 2, 3, 0
+            };
+
+            auto indexBufferSize = static_cast<VkDeviceSize>(sizeof(indices));
+
+            Buffer::Info indexBufferInfo;
+            indexBufferInfo.size = indexBufferSize;
+            indexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
+            auto indexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+            quadIndexBuffer = device.create<Buffer>(indexBufferInfo, indexMemoryProperties);
+
+            stagingBuffer->write<uint16_t>(indices);
+            process_transient_command_buffer(
+                commandPool,
+                queue,
+                [&](Command::Buffer& commandBuffer)
+                {
+                    commandBuffer.copy_buffer(*stagingBuffer, *quadIndexBuffer, indexBufferSize);
+                }
+            );
+        }
     };
 
-} // ShapeBlaster
+} // namespace ShapeBlaster

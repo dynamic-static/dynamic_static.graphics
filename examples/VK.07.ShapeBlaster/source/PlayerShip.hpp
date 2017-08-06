@@ -34,15 +34,57 @@
 
 #include "Entity.hpp"
 
+#include "Dynamic_Static/Core/Input.hpp"
+#include "Dynamic_Static/Core/Math.hpp"
+
 namespace ShapeBlaster {
 
     class PlayerShip final
         : public Entity
     {
+    private:
+        float mSpeed { 8 };
+        dst::Vector2 mAimDirection;
+
     public:
         PlayerShip()
         {
 
+        }
+
+    public:
+        void update(const dst::Input& input)
+        {
+            using namespace dst;
+            auto upKey = Keyboard::Key::W;
+            auto downKey = Keyboard::Key::S;
+            auto leftKey = Keyboard::Key::A;
+            auto rightKey = Keyboard::Key::D;
+
+            Vector2 direction;
+            if (input.keyboard().down(upKey)) {
+                ++direction.y;
+            }
+
+            if (input.keyboard().down(downKey)) {
+                --direction.y;
+            }
+
+            if (input.keyboard().down(leftKey)) {
+                --direction.x;
+            }
+
+            if (input.keyboard().down(rightKey)) {
+                ++direction.x;
+            }
+
+            if (direction.x || direction.y) {
+                direction.normalize();
+            }
+
+            mVelocity = mSpeed * direction;
+            mPosition += mVelocity;
+            // TODO : Clamp position to play area...
         }
     };
 

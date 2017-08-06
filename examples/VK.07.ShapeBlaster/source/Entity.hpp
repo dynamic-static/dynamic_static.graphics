@@ -45,7 +45,7 @@ namespace ShapeBlaster {
         class Manager;
 
     protected:
-        std::shared_ptr<dst::vlkn::Image> mImage;
+        dst::vlkn::Image* mImage { nullptr };
         dst::Color mColor { dst::Color::White };
         dst::Vector2 mPosition;
         dst::Vector2 mVelocity;
