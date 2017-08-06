@@ -34,6 +34,7 @@ using json = nlohmann::json;
 
 #include <fstream>
 #include <functional>
+#include <vector>
 
 #include <iostream>
 
@@ -49,43 +50,57 @@ namespace Graphics {
         // std::cout << std::setw(4) << gltf;
         //outFile << std::setw(2) << gltf;
 
-
-
         auto asset = gltf.find("asset");
 
-        auto buffers = gltf.at("buffers");
-        for (auto& buffer : buffers) {
-            std::cout << buffer << std::endl;
-            std::cout << "----" << std::endl;
+        std::vector<GLTFCache::Buffer> buffers;
+        if (gltf.find("buffers") != gltf.end()) {
+            for (auto& element : gltf.at("buffers")) {
+                GLTFCache::Buffer buffer;
+                buffer.byteLength = element.value<size_t>("byteLength", 0);
+                buffer.uri        = element.value<std::string>("uri", std::string());
+                buffers.push_back(buffer);
+            }
         }
 
-        auto bufferViews = gltf.at("bufferViews");
+        std::vector<GLTFCache::BufferView> bufferViews;
+        if (gltf.find("buffers") != gltf.end()) {
+            for (auto& element : gltf.at("bufferViews")) {
+                GLTFCache::BufferView bufferView;
+                bufferView.buffer     = element.value<size_t>("buffer",     0);
+                bufferView.byteLength = element.value<size_t>("byteLength", 0);
+                bufferView.byteOffset = element.value<size_t>("byteOffset", 0);
+                bufferView.byteStride = element.value<size_t>("byteStride", 0);
+                bufferView.target     = element.value<size_t>("target ",    0);
+                std::string name      = element.value<std::string>("name", std::string());
+                bufferViews.push_back(bufferView);
+            }
+        }
 
-        auto accessors = gltf.at("accessors");
-
-        auto meshes = gltf.at("meshes");
-
-        auto nodes = gltf.at("nodes");
-
-        auto scenes = gltf.at("scenes");
-
-        auto scene = gltf.at("scene");
-
-        auto materials = gltf.at("materials");
-
-        auto images = gltf.at("images");
-
-        auto textures = gltf.at("textures");
-
-        auto shaders = gltf.at("shaders");
-
-        auto programs = gltf.at("programs");
-
-        auto techniques = gltf.at("techniques");
-
-        auto animations = gltf.at("animations");
-
-        auto samplers = gltf.at("samplers");
+        // auto accessors = gltf.at("accessors");
+        // 
+        // auto meshes = gltf.at("meshes");
+        // 
+        // auto nodes = gltf.at("nodes");
+        // 
+        // auto scenes = gltf.at("scenes");
+        // 
+        // auto scene = gltf.at("scene");
+        // 
+        // auto materials = gltf.at("materials");
+        // 
+        // auto images = gltf.at("images");
+        // 
+        // auto textures = gltf.at("textures");
+        // 
+        // auto shaders = gltf.at("shaders");
+        // 
+        // auto programs = gltf.at("programs");
+        // 
+        // auto techniques = gltf.at("techniques");
+        // 
+        // auto animations = gltf.at("animations");
+        // 
+        // auto samplers = gltf.at("samplers");
 
 
         int breaker = 0;

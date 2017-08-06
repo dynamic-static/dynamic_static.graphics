@@ -54,6 +54,17 @@ namespace Graphics {
             size_t byteLength { 0 };
             std::string uri;
         };
+
+        class BufferView final
+        {
+        public:
+            size_t buffer { 0 };
+            size_t byteLength { 0 };
+            size_t byteOffset { 0 };
+            uint32_t byteStride { 0 };
+            size_t target { 0 };
+            std::string name;
+        };
     };
 
 } // namespace Graphics
