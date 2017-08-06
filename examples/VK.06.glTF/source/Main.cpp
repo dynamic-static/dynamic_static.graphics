@@ -29,6 +29,7 @@
 
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
+#include "Dynamic_Static/Graphics/GLTFReader.hpp"
 #include "Dynamic_Static/Graphics/ImageCache.hpp"
 #include "Dynamic_Static/Graphics/ImageReader.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
@@ -148,6 +149,10 @@ VkImageMemoryBarrier create_layout_transition_barrier(Image& image, VkImageLayou
 int main()
 {
     {
+        auto glTFPath = "../../../examples/resources/glTF/cudillero_diorama_bake/scene.gltf";
+        GLTFReader::read_file(glTFPath);
+        return 0;
+
         // Loads and renders a glTF model
         // based on https://vulkan-tutorial.com/Loading_models
 

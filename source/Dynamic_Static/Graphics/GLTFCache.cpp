@@ -27,24 +27,12 @@
 ================================================================================
 */
 
-#pragma once
-
-#include "Dynamic_Static/Graphics/Defines.hpp"
-#include "Dynamic_Static/Graphics/ImageCache.hpp"
-
-#include <string>
+#include "Dynamic_Static/Graphics/GLTFCache.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
 
-    /**
-     * TODO : Documentation.
-     */
-    class ImageReader final
-    {
-    public:
-        static ImageCache read_file(const std::string& filePath);
-    };
+
 
 } // namespace Graphics
 } // namespace Dynamic_Static

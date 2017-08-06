@@ -27,71 +27,34 @@
 ================================================================================
 */
 
-#include "Dynamic_Static/Graphics/GLTFReader.hpp"
+#pragma once
 
-#include "nlohmann/json.hpp"
-using json = nlohmann::json;
+#include "Dynamic_Static/Graphics/Defines.hpp"
 
-#include <fstream>
-#include <functional>
-
-#include <iostream>
+#include <vector>
 
 namespace Dynamic_Static {
 namespace Graphics {
 
-    GLTFCache GLTFReader::read_file(const std::string& filePath)
+    /**
+     * TODO : Documentation.
+     */
+    class GLTFCache final
     {
-        std::ifstream file(filePath);
-        json gltf;
-        file >> gltf;
-        //std::ofstream outFile(filePath + ".out");
-        // std::cout << std::setw(4) << gltf;
-        //outFile << std::setw(2) << gltf;
+    public:
+        class Asset final
+        {
+        public:
 
+        };
 
-
-        auto asset = gltf.find("asset");
-
-        auto buffers = gltf.at("buffers");
-        for (auto& buffer : buffers) {
-            std::cout << buffer << std::endl;
-            std::cout << "----" << std::endl;
-        }
-
-        auto bufferViews = gltf.at("bufferViews");
-
-        auto accessors = gltf.at("accessors");
-
-        auto meshes = gltf.at("meshes");
-
-        auto nodes = gltf.at("nodes");
-
-        auto scenes = gltf.at("scenes");
-
-        auto scene = gltf.at("scene");
-
-        auto materials = gltf.at("materials");
-
-        auto images = gltf.at("images");
-
-        auto textures = gltf.at("textures");
-
-        auto shaders = gltf.at("shaders");
-
-        auto programs = gltf.at("programs");
-
-        auto techniques = gltf.at("techniques");
-
-        auto animations = gltf.at("animations");
-
-        auto samplers = gltf.at("samplers");
-
-
-        int breaker = 0;
-
-        return GLTFCache();
-    }
+        class Buffer final
+        {
+        public:
+            size_t byteLength { 0 };
+            std::string uri;
+        };
+    };
 
 } // namespace Graphics
 } // namespace Dynamic_Static

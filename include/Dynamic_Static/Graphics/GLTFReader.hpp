@@ -30,6 +30,9 @@
 #pragma once
 
 #include "Dynamic_Static/Graphics/Defines.hpp"
+#include "Dynamic_Static/Graphics/GLTFCache.hpp"
+
+#include <string>
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -37,9 +40,10 @@ namespace Graphics {
     /**
      * TODO : Documentation.
      */
-    class ImageReader final
+    class GLTFReader final
     {
-
+    public:
+        static GLTFCache read_file(const std::string& filePath);
     };
 
 } // namespace Graphics
