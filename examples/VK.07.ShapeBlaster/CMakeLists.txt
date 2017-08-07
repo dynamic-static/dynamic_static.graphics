@@ -9,6 +9,8 @@ set(INCLUDE_FILES
 
 set(SOURCE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/source/)
 set(SOURCE_FILES
+    ${SOURCE_DIRECTORY}/Bullet.hpp
+    ${SOURCE_DIRECTORY}/Cursor.hpp
     ${SOURCE_DIRECTORY}/Entity.hpp
     ${SOURCE_DIRECTORY}/Entity.Manager.hpp
     ${SOURCE_DIRECTORY}/Main.cpp

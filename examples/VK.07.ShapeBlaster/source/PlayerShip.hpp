@@ -1,30 +1,10 @@
 
 /*
-================================================================================
-
-  MIT License
-
-  Copyright (c) 2016 Dynamic_Static
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to deal
-  in the Software without restriction, including without limitation the rights
-  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  SOFTWARE.
-
-================================================================================
+==========================================
+    Copyright (c) 2017 Dynamic_Static 
+    Licensed under the MIT license
+    http://opensource.org/licenses/MIT
+==========================================
 */
 
 // Based on "Make a Neon Vector Shooter in XNA"
@@ -32,10 +12,14 @@
 
 #pragma once
 
+#include "Cursor.hpp"
 #include "Entity.hpp"
+#include "Resources.hpp"
 
+#include "Dynamic_Static/Core/Algorithm.hpp"
 #include "Dynamic_Static/Core/Input.hpp"
 #include "Dynamic_Static/Core/Math.hpp"
+#include "Dynamic_Static/Core/Time.hpp"
 
 namespace ShapeBlaster {
 
@@ -43,48 +27,47 @@ namespace ShapeBlaster {
         : public Entity
     {
     private:
-        float mSpeed { 8 };
+        float mSpeed { 720 };
         dst::Vector2 mAimDirection;
+        Cursor* mCursor { nullptr };
 
     public:
-        PlayerShip()
+        PlayerShip(Resources& resources, Cursor& cursor, const dst::Vector2& position)
+            : mCursor { &cursor }
         {
-
+            mSprite = resources.playerSprite;
+            mPosition = position;
         }
 
     public:
-        void update(const dst::Input& input)
+        void update(const dst::Input& input, const dst::Clock& clock, VkExtent2D playField) override final
         {
-            using namespace dst;
-            auto upKey = Keyboard::Key::W;
-            auto downKey = Keyboard::Key::S;
-            auto leftKey = Keyboard::Key::A;
-            auto rightKey = Keyboard::Key::D;
-
-            Vector2 direction;
-            if (input.keyboard().down(upKey)) {
-                ++direction.y;
+            mVelocity = dst::Vector3::Zero;
+            if (input.keyboard().down(dst::Keyboard::Key::W)) {
+                ++mVelocity.y;
             }
 
-            if (input.keyboard().down(downKey)) {
-                --direction.y;
+            if (input.keyboard().down(dst::Keyboard::Key::S)) {
+                --mVelocity.y;
             }
 
-            if (input.keyboard().down(leftKey)) {
-                --direction.x;
+            if (input.keyboard().down(dst::Keyboard::Key::A)) {
+                --mVelocity.x;
             }
 
-            if (input.keyboard().down(rightKey)) {
-                ++direction.x;
+            if (input.keyboard().down(dst::Keyboard::Key::D)) {
+                ++mVelocity.x;
             }
 
-            if (direction.x || direction.y) {
-                direction.normalize();
+            if (mVelocity.x || mVelocity.y) {
+                mVelocity.normalize();
+                mOrientation = to_angle(mVelocity);
             }
 
-            mVelocity = direction * mSpeed;
+            mVelocity *= mSpeed * clock.elapsed<dst::Second<float>>();
             mPosition += mVelocity;
-            // TODO : Clamp position to play area...
+            mPosition.x = dst::clamp(mPosition.x, 0.0f, static_cast<float>(playField.width));
+            mPosition.y = dst::clamp(mPosition.y, 0.0f, static_cast<float>(playField.height));
         }
     };
 

@@ -1,30 +1,10 @@
 
 /*
-================================================================================
-
-  MIT License
-
-  Copyright (c) 2016 Dynamic_Static
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to deal
-  in the Software without restriction, including without limitation the rights
-  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  SOFTWARE.
-
-================================================================================
+==========================================
+    Copyright (c) 2017 Dynamic_Static 
+    Licensed under the MIT license
+    http://opensource.org/licenses/MIT
+==========================================
 */
 
 // Based on "Make a Neon Vector Shooter in XNA"
@@ -32,12 +12,21 @@
 
 #pragma once
 
+#include "Resources.hpp"
+
+#include "Dynamic_Static/Core/Input.hpp"
 #include "Dynamic_Static/Core/Math.hpp"
+#include "Dynamic_Static/Core/Time.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
 
-#include <memory>
+#include <array>
 
 namespace ShapeBlaster {
+
+    static float to_angle(const dst::Vector2& v)
+    {
+        return std::atan2(v.y, v.x);
+    }
 
     class Entity
     {
@@ -45,7 +34,7 @@ namespace ShapeBlaster {
         class Manager;
 
     protected:
-        dst::vlkn::Image* mImage { nullptr };
+        Sprite mSprite;
         dst::Color mColor { dst::Color::White };
         dst::Vector2 mPosition;
         dst::Vector2 mVelocity;
@@ -57,25 +46,43 @@ namespace ShapeBlaster {
         dst::Vector2 size() const
         {
             return
-                mImage ?
+                mSprite.image ?
                 dst::Vector2 {
-                    mImage->extent().width,
-                    mImage->extent().height
+                    mSprite.image->extent().width,
+                    mSprite.image->extent().height
                 } :
                 dst::Vector2::Zero;
         }
 
-        virtual void update() = 0;
-
-        virtual void render()
+        const dst::Vector2& position() const
         {
+            return mPosition;
+        }
 
+        dst::Matrix4x4 local_to_world() const
+        {
+            auto translation = dst::Matrix4x4::create_translation({ mPosition.x, mPosition.y, 0 });
+            auto rotation = dst::Matrix4x4::create_rotation(mOrientation, dst::Vector3::UnitZ);
+            auto scale = dst::Matrix4x4::create_scale({
+                mSprite.image->extent().width,
+                mSprite.image->extent().height,
+                1
+            });
+
+            return translation * rotation * scale;
+        }
+
+        virtual void update(const dst::Input& input, const dst::Clock& clock, VkExtent2D playField) = 0;
+
+        void update_uniforms(const dst::Matrix4x4& view, const dst::Matrix4x4& projection)
+        {
+            Sprite::UniformBuffer ubo;
+            ubo.color = mColor;
+            ubo.wvp = projection * view * local_to_world();
+            mSprite.uniformBuffer->write<Sprite::UniformBuffer>(
+                std::array<Sprite::UniformBuffer, 1> { ubo }
+            );
         }
     };
-
-    static float to_angle(const dst::Vector2& v)
-    {
-        return std::atan2(v.y, v.x);
-    }
 
 } // ShapeBlaster

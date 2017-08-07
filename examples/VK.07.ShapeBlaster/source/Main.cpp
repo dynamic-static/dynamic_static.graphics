@@ -10,6 +10,7 @@
 // Based on "Make a Neon Vector Shooter in XNA"
 // https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559
 
+#include "Cursor.hpp"
 #include "PlayerShip.hpp"
 #include "Resources.hpp"
 
@@ -32,7 +33,6 @@ int main()
 {
     try {
 
-    {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Instance and PhysicalDevices
         std::vector<std::string> instanceLayers;
@@ -69,6 +69,8 @@ int main()
         configuration.apiVersion.major = VK_VERSION_MAJOR(apiVersion);
         configuration.apiVersion.minor = VK_VERSION_MAJOR(apiVersion);
         configuration.apiVersion.patch = VK_VERSION_MAJOR(apiVersion);
+        configuration.cursorMode = dst::gfx::Window::CursorMode::Hidden;
+        configuration.name = "Dynamic_Static VK.07.ShapeBlaster";
         auto window = std::make_shared<Window>(configuration);
         auto surface = physicalDevice.create<SurfaceKHR>(window);
 
@@ -138,8 +140,6 @@ int main()
             recordCommandBuffers = true;
         };
 
-        window->name("Dynamic_Static VK.07.ShapeBlaster");
-
         std::vector<std::shared_ptr<Framebuffer>> framebuffers;
         framebuffers.reserve(swapchain->images().size());
 
@@ -156,7 +156,11 @@ int main()
             VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
         );
 
-        window->cursor_mode(dst::gfx::Window::CursorMode::Hidden);
+        auto extent = swapchain->extent();
+        ShapeBlaster::Cursor cursor(resources);
+        auto spawnPosition = dst::Vector2(extent.width, extent.height) * 0.5f;
+        ShapeBlaster::PlayerShip playerShip(resources, cursor, spawnPosition);
+
         dst::Clock clock;
         float angle = 0;
         bool running = true;
@@ -171,105 +175,23 @@ int main()
             float dt = clock.elapsed<dst::Second<float>>();
             angle += 90.0f * clock.elapsed<dst::Second<float>>();
 
-            ShapeBlaster::Sprite::UniformBuffer ubo;
-            auto world = dst::Matrix4x4::create_rotation(
-                dst::to_radians(angle),
-                dst::Vector3::UnitZ
-            );
-
-            float cameraSpeed = 8;
-            static float x = 0;
-            static float y = 0;
-            static float z = 64;
-            // std::cout << z << std::endl;
-
-            static float shipSpeed = 720;
-            dst::Vector2 direction;
-            if (window->input().keyboard().down(dst::Keyboard::Key::W)) {
-                ++direction.y;
-            }
-
-            if (window->input().keyboard().down(dst::Keyboard::Key::S)) {
-                --direction.y;
-            }
-
-            if (window->input().keyboard().down(dst::Keyboard::Key::A)) {
-                --direction.x;
-            }
-
-            if (window->input().keyboard().down(dst::Keyboard::Key::D)) {
-                ++direction.x;
-            }
-
-            if (window->input().keyboard().down(dst::Keyboard::Key::Q)) {
-                ++shipSpeed;
-            }
-
-            if (window->input().keyboard().down(dst::Keyboard::Key::E)) {
-                --shipSpeed;
-            }
+            extent = swapchain->extent();
+            const auto& input = window->input();
+            playerShip.update(input, clock, extent);
+            cursor.update(input, clock, extent);
 
             auto view = dst::Matrix4x4::create_view(
-                // { x, y, z },
-                { 0, 0, 64 },
-                dst::Vector3::Zero,
-                dst::Vector3::UnitY
+                { 0, 0, 1 }, dst::Vector3::Zero, dst::Vector3::UnitY
             );
 
-            float w = static_cast<float>(swapchain->extent().width);
-            float h = static_cast<float>(swapchain->extent().height);
-            auto projection = dst::Matrix4x4::create_perspective(
-                dst::to_radians(30.0f),
-                w / h,
-                0.01f,
-                100.0f
+            float w = static_cast<float>(extent.width);
+            float h = static_cast<float>(extent.height);
+            auto projection = dst::Matrix4x4::create_orhtographic(
+                0, w, 0, h, 0.01f, 10.0f
             );
 
-            projection[1][1] *= -1;
-            
-            projection = dst::Matrix4x4::create_orhtographic(
-                0, w, 0, h, 0.01f, 100.0f
-            );
-
-            static dst::Vector2 p;
-            if (direction.x || direction.y) {
-                direction.normalize();
-            }
-
-            auto velocity = direction * shipSpeed;
-            p += velocity * dt;
-            auto t = dst::Matrix4x4::create_translation({ p.x, p.y, 0 });
-            auto r = dst::Matrix4x4::create_rotation(ShapeBlaster::to_angle(direction), dst::Vector3::UnitZ);
-            auto s = dst::Matrix4x4::create_scale({
-                resources.playerSprite.image->extent().width,
-                resources.playerSprite.image->extent().height,
-                1
-            });
-
-            world = t * r * s;
-            ubo.wvp = projection * view * world;
-            ubo.color = dst::Color::White;
-
-            resources.playerSprite.uniformBuffer->write<ShapeBlaster::Sprite::UniformBuffer>(
-                std::array<ShapeBlaster::Sprite::UniformBuffer, 1> { ubo }
-            );
-
-            const auto& input = window->input();
-            auto cursor = input.mouse().position();
-            cursor.y = h - cursor.y;
-            std::cout << shipSpeed << std::endl;
-            auto translation = dst::Matrix4x4::create_translation({ cursor.x, cursor.y, 0 });
-            auto scale = dst::Matrix4x4::create_scale({
-                resources.pointerSprite.image->extent().width,
-                resources.pointerSprite.image->extent().height,
-                1
-            });
-
-            world = translation * scale;
-            ubo.wvp = projection * view * world;
-            resources.pointerSprite.uniformBuffer->write<ShapeBlaster::Sprite::UniformBuffer>(
-                std::array<ShapeBlaster::Sprite::UniformBuffer, 1> { ubo }
-            );
+            playerShip.update_uniforms(view, projection);
+            cursor.update_uniforms(view, projection);
 
             presentQueue.wait_idle();
             swapchain->update();
@@ -280,7 +202,7 @@ int main()
                     createFramebuffersAndDepthBuffer = false;
                     recordCommandBuffers = true;
 
-                    auto extent = swapchain->extent();
+                    extent = swapchain->extent();
 
                     Image::Info depthBufferInfo;
                     depthBufferInfo.imageType = VK_IMAGE_TYPE_2D;
@@ -391,14 +313,11 @@ int main()
         }
 
         device->wait_idle();
-    }
 
-    }
-    catch (const std::exception& e) {
-        std::cout << std::endl << "========" << std::endl;
+    } catch (const std::exception& e) {
+        std::cout << std::endl << "==========================================" << std::endl;
         std::cout << e.what() << std::endl;
-        std::cout << std::endl << "========" << std::endl;
-        int breaker = 0;
+        std::cout << std::endl << "==========================================" << std::endl;
     }
 
     return 0;

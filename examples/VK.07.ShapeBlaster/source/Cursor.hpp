@@ -13,33 +13,24 @@
 #pragma once
 
 #include "Entity.hpp"
-
-#include <vector>
+#include "Resources.hpp"
 
 namespace ShapeBlaster {
 
-    class Entity::Manager final
+    class Cursor final
+        : public Entity
     {
-    private:
-        std::vector<Entity> mEntites;
-        bool mUpdating { false };
-
     public:
-        void udpate()
+        Cursor(Resources& resources)
         {
-            mUpdating = true;
-            for (auto& entity : mEntites) {
-                entity.update();
-            }
-
-            mUpdating = false;
+            mSprite = resources.pointerSprite;
         }
 
-        void render()
+    public:
+        void update(const dst::Input& input, const dst::Clock& clock, VkExtent2D playField) override final
         {
-            // for (auto& entity : mEntites) {
-            //     entity.render();
-            // }
+            mPosition = input.mouse().position();
+            mPosition.y = playField.height - mPosition.y;
         }
     };
 
