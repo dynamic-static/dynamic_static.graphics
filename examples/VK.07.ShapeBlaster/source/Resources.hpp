@@ -12,6 +12,7 @@
 
 #pragma once
 
+#include "Dynamic_Static/Core/Defines.hpp"
 #include "Dynamic_Static/Core/FileSystem.hpp"
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Graphics/ImageCache.hpp"
@@ -25,6 +26,32 @@
 // 512
 
 namespace ShapeBlaster {
+
+    void* aligned_alloc(size_t size, size_t alignment)
+    {
+        // FROM : https://github.com/SaschaWillems/Vulkan/tree/master/dynamicuniformbuffer
+        void* data = nullptr;
+        #if defined(DYNAMIC_STATIC_WINDOWS)
+        data = _aligned_malloc(size, alignment);
+        #else
+        int result = posix_memalign(&data, alignment, size);
+        if (!result) {
+            data = nullptr;
+        }
+        #endif
+
+        return data;
+    }
+
+    void aligned_free(void* data)
+    {
+        // FROM : https://github.com/SaschaWillems/Vulkan/tree/master/dynamicuniformbuffer
+        #if defined(DYNAMIC_STATIC_WINDOWS)
+        _aligned_free(data);
+        #else
+        free(data);
+        #endif
+    }
 
     template <typename FuncType>
     static void process_transient_command_buffer_ex(
@@ -132,7 +159,7 @@ namespace ShapeBlaster {
         struct UniformBuffer final
         {
             dst::Matrix4x4 wvp;
-            dst::Color color { dst::Color::White };
+            dst::Color color;
         };
 
     public:
@@ -149,6 +176,8 @@ namespace ShapeBlaster {
                 *descriptorSet,
                 *pipelineLayout
             );
+
+            commandBuffer.draw_indexed(6 /* Resources::QuadIndexCount */);
         }
     };
 
@@ -328,10 +357,10 @@ namespace ShapeBlaster {
             using namespace dst::vlkn;
 
             std::array<QuadVertex, QuadVertexCount> vertices;
-            vertices[0] = { { -0.5f, -0.5f, 0 }, { 0, 0 } };
-            vertices[1] = { {  0.5f, -0.5f, 0 }, { 1, 0 } };
-            vertices[2] = { {  0.5f,  0.5f, 0 }, { 1, 1 } };
-            vertices[3] = { { -0.5f,  0.5f, 0 }, { 0, 1 } };
+            vertices[0] = { { -0.5f, -0.5f, 0 }, { 0, 1 } };
+            vertices[1] = { {  0.5f, -0.5f, 0 }, { 1, 1 } };
+            vertices[2] = { {  0.5f,  0.5f, 0 }, { 1, 0 } };
+            vertices[3] = { { -0.5f,  0.5f, 0 }, { 0, 0 } };
 
             auto vertexBufferSize = static_cast<VkDeviceSize>(sizeof(vertices));
 
@@ -579,8 +608,8 @@ namespace ShapeBlaster {
 
             VkPipelineDepthStencilStateCreateInfo depthStencilInfo { };
             depthStencilInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
-            depthStencilInfo.depthTestEnable = VK_TRUE;
-            depthStencilInfo.depthWriteEnable = VK_TRUE;
+            depthStencilInfo.depthTestEnable = VK_FALSE; // VK_TRUE;
+            depthStencilInfo.depthWriteEnable = VK_FALSE; // VK_TRUE;
             depthStencilInfo.depthCompareOp = VK_COMPARE_OP_LESS;
             depthStencilInfo.depthBoundsTestEnable = VK_FALSE;
             depthStencilInfo.stencilTestEnable = VK_FALSE;
@@ -642,14 +671,14 @@ namespace ShapeBlaster {
             using namespace dst::vlkn;
             std::array<VkDescriptorPoolSize, 2> descriptorPoolSizes;
             descriptorPoolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-            descriptorPoolSizes[0].descriptorCount = 1;
+            descriptorPoolSizes[0].descriptorCount = 2;
             descriptorPoolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            descriptorPoolSizes[1].descriptorCount = 1;
+            descriptorPoolSizes[1].descriptorCount = 2;
 
             Descriptor::Pool::Info descriptorPoolInfo;
             descriptorPoolInfo.poolSizeCount = static_cast<uint32_t>(descriptorPoolSizes.size());
             descriptorPoolInfo.pPoolSizes = descriptorPoolSizes.data();
-            descriptorPoolInfo.maxSets = 1;
+            descriptorPoolInfo.maxSets = 2;
             mDescriptorPool = device.create<Descriptor::Pool>(descriptorPoolInfo);
         }
 

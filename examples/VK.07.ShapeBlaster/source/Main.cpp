@@ -1,35 +1,16 @@
 
 /*
-================================================================================
-
-  MIT License
-
-  Copyright (c) 2017 Dynamic_Static
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to deal
-  in the Software without restriction, including without limitation the rights
-  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  SOFTWARE.
-
-================================================================================
+==========================================
+    Copyright (c) 2017 Dynamic_Static 
+    Licensed under the MIT license
+    http://opensource.org/licenses/MIT
+==========================================
 */
 
 // Based on "Make a Neon Vector Shooter in XNA"
 // https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559
 
+#include "PlayerShip.hpp"
 #include "Resources.hpp"
 
 #include "Dynamic_Static/Core/Math.hpp"
@@ -67,11 +48,11 @@ int main()
         VkDebugReportFlagsEXT debugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
-            | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
-            | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-            | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_ERROR_BIT_EXT
+            // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+            // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+            // | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_ERROR_BIT_EXT
             #endif
             ;
 
@@ -175,6 +156,7 @@ int main()
             VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
         );
 
+        window->cursor_mode(dst::gfx::Window::CursorMode::Hidden);
         dst::Clock clock;
         float angle = 0;
         bool running = true;
@@ -200,32 +182,36 @@ int main()
             static float y = 0;
             static float z = 64;
             // std::cout << z << std::endl;
+
+            static float shipSpeed = 720;
+            dst::Vector2 direction;
             if (window->input().keyboard().down(dst::Keyboard::Key::W)) {
-                z -= cameraSpeed * dt;
+                ++direction.y;
             }
 
             if (window->input().keyboard().down(dst::Keyboard::Key::S)) {
-                z += cameraSpeed * dt;
+                --direction.y;
             }
 
             if (window->input().keyboard().down(dst::Keyboard::Key::A)) {
-
+                --direction.x;
             }
 
             if (window->input().keyboard().down(dst::Keyboard::Key::D)) {
-
+                ++direction.x;
             }
 
             if (window->input().keyboard().down(dst::Keyboard::Key::Q)) {
-
+                ++shipSpeed;
             }
 
             if (window->input().keyboard().down(dst::Keyboard::Key::E)) {
-
+                --shipSpeed;
             }
 
             auto view = dst::Matrix4x4::create_view(
-                { x, y, z },
+                // { x, y, z },
+                { 0, 0, 64 },
                 dst::Vector3::Zero,
                 dst::Vector3::UnitY
             );
@@ -240,12 +226,48 @@ int main()
             );
 
             projection[1][1] *= -1;
+            
+            projection = dst::Matrix4x4::create_orhtographic(
+                0, w, 0, h, 0.01f, 100.0f
+            );
 
+            static dst::Vector2 p;
+            if (direction.x || direction.y) {
+                direction.normalize();
+            }
+
+            auto velocity = direction * shipSpeed;
+            p += velocity * dt;
+            auto t = dst::Matrix4x4::create_translation({ p.x, p.y, 0 });
+            auto r = dst::Matrix4x4::create_rotation(ShapeBlaster::to_angle(direction), dst::Vector3::UnitZ);
+            auto s = dst::Matrix4x4::create_scale({
+                resources.playerSprite.image->extent().width,
+                resources.playerSprite.image->extent().height,
+                1
+            });
+
+            world = t * r * s;
             ubo.wvp = projection * view * world;
             ubo.color = dst::Color::White;
 
-            // uniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
             resources.playerSprite.uniformBuffer->write<ShapeBlaster::Sprite::UniformBuffer>(
+                std::array<ShapeBlaster::Sprite::UniformBuffer, 1> { ubo }
+            );
+
+            const auto& input = window->input();
+            auto cursor = input.mouse().position();
+            cursor.y = h - cursor.y;
+            std::cout << shipSpeed << std::endl;
+            auto translation = dst::Matrix4x4::create_translation({ cursor.x, cursor.y, 0 });
+            auto scale = dst::Matrix4x4::create_scale({
+                resources.pointerSprite.image->extent().width,
+                resources.pointerSprite.image->extent().height,
+                1
+            });
+
+            world = translation * scale;
+            ubo.wvp = projection * view * world;
+            resources.pointerSprite.uniformBuffer->write<ShapeBlaster::Sprite::UniformBuffer>(
                 std::array<ShapeBlaster::Sprite::UniformBuffer, 1> { ubo }
             );
 
@@ -314,14 +336,13 @@ int main()
                         clearValues[0].color = { 0.2f, 0.2f, 0.2f, 1 };
                         clearValues[1].depthStencil = { 1, 0 };
                         RenderPass::BeginInfo renderPassBeginInfo;
-                        renderPassBeginInfo.renderPass = *resources.mRenderPass; // *renderPass;
+                        renderPassBeginInfo.renderPass = *resources.mRenderPass;
                         renderPassBeginInfo.framebuffer = *framebuffers[i];
                         renderPassBeginInfo.renderArea.extent = swapchain->extent();
                         renderPassBeginInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
                         renderPassBeginInfo.pClearValues = clearValues.data();
                         commandBuffer->begin_render_pass(renderPassBeginInfo);
 
-                        // commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *pipeline);
                         commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *resources.mPipeline);
 
                         VkViewport viewport { };
@@ -334,22 +355,12 @@ int main()
                         VkRect2D scissor { };
                         scissor.extent = swapchain->extent();
                         commandBuffer->set_scissor(scissor);
-                        // commandBuffer->bind_descriptor_set(*descriptorSet, *pipelineLayout);
-                        // commandBuffer->bind_descriptor_set(
-                        //     *resources.playerSprite.descriptorSet,
-                        //     *resources.mPipelineLayout
-                        // );
-
-                        // commandBuffer->bind_vertex_buffer(*vertexBuffer);
-                        // commandBuffer->bind_index_buffer(*indexBuffer);
-                        // commandBuffer->draw_indexed(indices.size());
-
-                        resources.playerSprite.render(*commandBuffer);
-                        // resources.pointerSprite.render(*commandBuffer);
 
                         commandBuffer->bind_vertex_buffer(*resources.quadVertexBuffer);
                         commandBuffer->bind_index_buffer(*resources.quadIndexBuffer);
-                        commandBuffer->draw_indexed(ShapeBlaster::Resources::QuadIndexCount);
+
+                        resources.playerSprite.render(*commandBuffer);
+                        resources.pointerSprite.render(*commandBuffer);
 
                         commandBuffer->end_render_pass();
                         commandBuffer->end();

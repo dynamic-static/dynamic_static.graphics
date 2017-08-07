@@ -82,7 +82,7 @@ namespace ShapeBlaster {
                 direction.normalize();
             }
 
-            mVelocity = mSpeed * direction;
+            mVelocity = direction * mSpeed;
             mPosition += mVelocity;
             // TODO : Clamp position to play area...
         }

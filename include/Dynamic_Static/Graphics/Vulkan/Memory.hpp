@@ -111,7 +111,7 @@ namespace Vulkan {
         void write(const gsl::span<const T>& data, size_t offset)
         {
             auto mappedPtr = map(offset, data.size_bytes());
-            std::copy(data.begin(), data.end(), mappedPtr);
+            memcpy(mappedPtr, data.data(), data.size_bytes());
             unmap();
         }
     };
