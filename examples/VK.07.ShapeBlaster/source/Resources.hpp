@@ -539,8 +539,6 @@ namespace ShapeBlaster {
                 fragmentShader->pipeline_stage_info(),
             };
 
-            // auto vertexBindingDescription = Vertex::binding_description();
-            // auto vertexAttributeDescriptions = Vertex::attribute_descriptions();
             auto vertexBindingDescription = ShapeBlaster::QuadVertex::binding_description();
             auto vertexAttributeDescriptions = ShapeBlaster::QuadVertex::attribute_descriptions();
             VkPipelineVertexInputStateCreateInfo vertexInputInfo { };
@@ -554,15 +552,8 @@ namespace ShapeBlaster {
             inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
             inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 
-            VkViewport viewport { };
-            viewport.width = 0; // static_cast<float>(swapchain->extent().width);
-            viewport.height = 0; // static_cast<float>(swapchain->extent().height);
-            viewport.minDepth = 0;
-            viewport.maxDepth = 1;
-
             VkRect2D scissor { };
-            // scissor.extent = swapchain->extent();
-
+            VkViewport viewport { };
             VkPipelineViewportStateCreateInfo viewportInfo { };
             viewportInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
             viewportInfo.viewportCount = 1;
