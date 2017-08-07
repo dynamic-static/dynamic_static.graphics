@@ -136,6 +136,7 @@ namespace ShapeBlaster {
         };
 
     public:
+        size_t uniformBufferIndex { 0 };
         dst::vlkn::Image* image { nullptr };
         dst::vlkn::Descriptor::Set* descriptorSet { nullptr };
         dst::vlkn::Pipeline::Layout* pipelineLayout { nullptr };
@@ -175,6 +176,7 @@ namespace ShapeBlaster {
         std::shared_ptr<dst::vlkn::Pipeline::Layout> mPipelineLayout;
         std::shared_ptr<dst::vlkn::Pipeline> mPipeline;
         std::shared_ptr<dst::vlkn::Descriptor::Pool> mDescriptorPool;
+        std::shared_ptr<dst::vlkn::Buffer> mUniformBuffer;
         std::shared_ptr<dst::vlkn::Sampler> mSampler;
 
     public:
@@ -206,10 +208,12 @@ namespace ShapeBlaster {
             create_descriptor_pool(device);
 
             playerSprite = create_sprite(device, *playerImage);
+            playerSprite.uniformBufferIndex = 0;
             // seekerSprite = create_sprite(device, *seekerImage);
             // wandererSprite = create_sprite(device, *wandererImage);
             // bulletSprite = create_sprite(device, *bulletImage);
-            // pointerSprite = create_sprite(device, *pointerImage);
+            pointerSprite = create_sprite(device, *pointerImage);
+            pointerSprite.uniformBufferIndex = 1;
         }
 
     private:
@@ -665,7 +669,8 @@ namespace ShapeBlaster {
             VkDescriptorBufferInfo descriptorBufferInfo { };
             descriptorBufferInfo.buffer = uniformBuffer;
             descriptorBufferInfo.offset = 0;
-            descriptorBufferInfo.range = sizeof(Sprite::UniformBuffer);
+            descriptorBufferInfo.range = VK_WHOLE_SIZE;
+            // descriptorBufferInfo.range = sizeof(Sprite::UniformBuffer);
 
             VkDescriptorImageInfo descriptorImageInfo { };
             descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;

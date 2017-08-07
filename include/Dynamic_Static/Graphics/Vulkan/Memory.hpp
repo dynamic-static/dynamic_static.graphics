@@ -36,6 +36,7 @@
 #include "gsl/span"
 
 #include <memory>
+#include <algorithm>
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -100,8 +101,17 @@ namespace Vulkan {
         template <typename T>
         void write(const gsl::span<const T>& data)
         {
-            auto mappedPtr = map(0, data.size_bytes());
-            std::memcpy(mappedPtr, data.data(), data.size_bytes());
+            write(data, 0);
+        }
+
+        /**
+         * TODO : Documentation.
+         */
+        template <typename T>
+        void write(const gsl::span<const T>& data, size_t offset)
+        {
+            auto mappedPtr = map(offset, data.size_bytes());
+            std::copy(data.begin(), data.end(), mappedPtr);
             unmap();
         }
     };
