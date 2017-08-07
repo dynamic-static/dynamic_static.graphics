@@ -7,6 +7,7 @@
 ==========================================
 */
 
+// Renders an action arcade game
 // Based on "Make a Neon Vector Shooter in XNA"
 // https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559
 

@@ -1,7 +1,7 @@
 
-# CMake configuration for Example.VK.00.Triangle
+# CMake configuration for Example.VK.01.Triangle
 
-set(DST_GFX_EXAMPLE Example.VK.00.Triangle)
+set(DST_GFX_EXAMPLE Example.VK.01.Triangle)
 
 set(INCLUDE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 set(INCLUDE_FILES

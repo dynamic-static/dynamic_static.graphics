@@ -1,31 +1,14 @@
 
 /*
-================================================================================
-
-  MIT License
-
-  Copyright (c) 2017 Dynamic_Static
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to deal
-  in the Software without restriction, including without limitation the rights
-  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  SOFTWARE.
-
-================================================================================
+==========================================
+    Copyright (c) 2017 Dynamic_Static 
+    Licensed under the MIT license
+    http://opensource.org/licenses/MIT
+==========================================
 */
+
+// Rotates a quad using a uniform buffer
+// Based on https://vulkan-tutorial.com/Uniform_buffers
 
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
@@ -77,10 +60,8 @@ struct Vertex final
 
 int main()
 {
+    try
     {
-        // Rotates a quad using a uniform buffer
-        // based on https://vulkan-tutorial.com/Uniform_buffers
-
         using namespace dst::gfx;
         using namespace dst::gfx::vlkn;
 
@@ -120,6 +101,7 @@ int main()
         configuration.apiVersion.major = VK_VERSION_MAJOR(apiVersion);
         configuration.apiVersion.minor = VK_VERSION_MAJOR(apiVersion);
         configuration.apiVersion.patch = VK_VERSION_MAJOR(apiVersion);
+        configuration.name = "Dynamic_Static VK.03.UniformBuffer";
         auto window = std::make_shared<Window>(configuration);
         auto surface = physicalDevice.create<SurfaceKHR>(window);
 
@@ -489,7 +471,6 @@ int main()
             recordCommandBuffers = true;
         };
 
-        window->name("Dynamic_Static VK.03.UniformBuffer");
         dst::Clock clock;
         float angle = 0;
         bool running = true;
@@ -612,6 +593,11 @@ int main()
         }
 
         device->wait_idle();
+
+    } catch (const std::exception& e) {
+        std::cout << std::endl << "==========================================" << std::endl;
+        std::cout << e.what() << std::endl;
+        std::cout << std::endl << "==========================================" << std::endl;
     }
 
     return 0;
