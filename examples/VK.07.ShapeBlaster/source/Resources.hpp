@@ -1,30 +1,10 @@
 
 /*
-================================================================================
-
-  MIT License
-
-  Copyright (c) 2016 Dynamic_Static
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to deal
-  in the Software without restriction, including without limitation the rights
-  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  SOFTWARE.
-
-================================================================================
+==========================================
+    Copyright (c) 2017 Dynamic_Static 
+    Licensed under the MIT license
+    http://opensource.org/licenses/MIT
+==========================================
 */
 
 // Based on "Make a Neon Vector Shooter in XNA"
@@ -41,6 +21,8 @@
 #include <array>
 #include <memory>
 #include <string>
+
+// 512
 
 namespace ShapeBlaster {
 
@@ -149,15 +131,24 @@ namespace ShapeBlaster {
     public:
         struct UniformBuffer final
         {
-            dst::Matrix4x4 world;
-            dst::Matrix4x4 view;
-            dst::Matrix4x4 projection;
+            dst::Matrix4x4 wvp;
+            dst::Color color { dst::Color::White };
         };
 
     public:
         dst::vlkn::Image* image { nullptr };
         dst::vlkn::Descriptor::Set* descriptorSet { nullptr };
+        dst::vlkn::Pipeline::Layout* pipelineLayout { nullptr };
         std::shared_ptr<dst::vlkn::Buffer> uniformBuffer;
+
+    public:
+        void render(dst::vlkn::Command::Buffer& commandBuffer)
+        {
+            commandBuffer.bind_descriptor_set(
+                *descriptorSet,
+                *pipelineLayout
+            );
+        }
     };
 
     class Resources final
@@ -494,17 +485,15 @@ namespace ShapeBlaster {
                     layout(binding = 0)
                     uniform UniformBuffer
                     {
-                        mat4 world;
-                        mat4 view;
-                        mat4 projection;
+                        mat4 wvp;
+                        vec4 color;
                     } ubo;
 
                     layout(location = 0) in vec3 inPosition;
                     layout(location = 1) in vec2 inTexCoord;
-                    // layout(location = 2) in vec4 inColor;
 
                     layout(location = 0) out vec2 fragTexCoord;
-                    // layout(location = 1) out vec4 fragColor;
+                    layout(location = 1) out vec4 fragColor;
 
                     out gl_PerVertex
                     {
@@ -513,9 +502,9 @@ namespace ShapeBlaster {
 
                     void main()
                     {
-                        gl_Position = ubo.projection * ubo.view * ubo.world * vec4(inPosition, 1);
+                        gl_Position = ubo.wvp * vec4(inPosition, 1);
                         fragTexCoord = inTexCoord;
-                        // fragColor = inColor;
+                        fragColor = ubo.color;
                     }
 
                 )"
@@ -532,13 +521,14 @@ namespace ShapeBlaster {
                     layout(binding = 1) uniform sampler2D imageSampler;
 
                     layout(location = 0) in vec2 fragTexCoord;
-                    // layout(location = 1) in vec4 fragColor;
+                    layout(location = 1) in vec4 fragColor;
 
                     layout(location = 0) out vec4 outColor;
 
                     void main()
                     {
                         outColor = texture(imageSampler, fragTexCoord);
+                        outColor *= fragColor;
                     }
 
                 )"
@@ -723,6 +713,7 @@ namespace ShapeBlaster {
             Sprite sprite;
             sprite.image = &image;
             sprite.uniformBuffer = create_uniform_buffer(device);
+            sprite.pipelineLayout = mPipelineLayout.get();
             sprite.descriptorSet = create_descriptor_set(device, image, *sprite.uniformBuffer);
             return sprite;
         }

@@ -152,6 +152,8 @@ VkImageMemoryBarrier create_layout_transition_barrier(Image& image, VkImageLayou
 
 int main()
 {
+    try {
+
     {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Instance and PhysicalDevices
@@ -791,8 +793,7 @@ int main()
             angle += 90.0f * clock.elapsed<dst::Second<float>>();
 
             ShapeBlaster::Sprite::UniformBuffer ubo;
-            ubo.world = dst::Matrix4x4::Identity;
-            ubo.world = dst::Matrix4x4::create_rotation(
+            auto world = dst::Matrix4x4::create_rotation(
                 dst::to_radians(angle),
                 dst::Vector3::UnitZ
             );
@@ -826,7 +827,7 @@ int main()
 
             }
 
-            ubo.view = dst::Matrix4x4::create_view(
+            auto view = dst::Matrix4x4::create_view(
                 { x, y, z },
                 dst::Vector3::Zero,
                 dst::Vector3::UnitY
@@ -834,14 +835,17 @@ int main()
 
             float w = static_cast<float>(swapchain->extent().width);
             float h = static_cast<float>(swapchain->extent().height);
-            ubo.projection = dst::Matrix4x4::create_perspective(
+            auto projection = dst::Matrix4x4::create_perspective(
                 dst::to_radians(30.0f),
                 w / h,
                 0.01f,
                 100.0f
             );
 
-            ubo.projection[1][1] *= -1;
+            projection[1][1] *= -1;
+
+            ubo.wvp = projection * view * world;
+            ubo.color = dst::Color::White;
 
             // uniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
             resources.playerSprite.uniformBuffer->write<ShapeBlaster::Sprite::UniformBuffer>(
@@ -934,14 +938,17 @@ int main()
                         scissor.extent = swapchain->extent();
                         commandBuffer->set_scissor(scissor);
                         // commandBuffer->bind_descriptor_set(*descriptorSet, *pipelineLayout);
-                        commandBuffer->bind_descriptor_set(
-                            *resources.playerSprite.descriptorSet,
-                            *resources.mPipelineLayout
-                        );
+                        // commandBuffer->bind_descriptor_set(
+                        //     *resources.playerSprite.descriptorSet,
+                        //     *resources.mPipelineLayout
+                        // );
 
                         // commandBuffer->bind_vertex_buffer(*vertexBuffer);
                         // commandBuffer->bind_index_buffer(*indexBuffer);
                         // commandBuffer->draw_indexed(indices.size());
+
+                        resources.playerSprite.render(*commandBuffer);
+                        // resources.pointerSprite.render(*commandBuffer);
 
                         commandBuffer->bind_vertex_buffer(*resources.quadVertexBuffer);
                         commandBuffer->bind_index_buffer(*resources.quadIndexBuffer);
@@ -976,6 +983,14 @@ int main()
         }
 
         device->wait_idle();
+    }
+
+    }
+    catch (const std::exception& e) {
+        std::cout << std::endl << "========" << std::endl;
+        std::cout << e.what() << std::endl;
+        std::cout << std::endl << "========" << std::endl;
+        int breaker = 0;
     }
 
     return 0;
