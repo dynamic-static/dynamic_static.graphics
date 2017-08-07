@@ -115,7 +115,8 @@ namespace Vulkan {
     VkFormat PhysicalDevice::find_supported_format(
         const gsl::span<VkFormat>& candidates,
         VkImageTiling tiling,
-        VkFormatFeatureFlags features)
+        VkFormatFeatureFlags features
+    ) const
     {
         VkFormat format = VK_FORMAT_UNDEFINED;
         for (auto candidate : candidates) {

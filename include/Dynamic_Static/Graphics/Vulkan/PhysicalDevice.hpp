@@ -113,7 +113,7 @@ namespace Vulkan {
             const gsl::span<VkFormat>& candidates,
             VkImageTiling tiling,
             VkFormatFeatureFlags features
-        );
+        ) const;
 
         /**
          * TODO : Documentation.

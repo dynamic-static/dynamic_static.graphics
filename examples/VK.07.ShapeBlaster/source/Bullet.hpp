@@ -32,50 +32,38 @@
 
 #pragma once
 
-#include "Dynamic_Static/Core/Math.hpp"
-#include "Dynamic_Static/Graphics/Vulkan.hpp"
+#include "Entity.hpp"
 
-#include <memory>
+#include "Dynamic_Static/Core/Math.hpp"
 
 namespace ShapeBlaster {
 
-    class Entity
+    class Bullet final
+        : public Entity
     {
     public:
-        class Manager;
-
-    protected:
-        dst::vlkn::Image* mImage { nullptr };
-        dst::Color mColor { dst::Color::White };
-        dst::Vector2 mPosition;
-        dst::Vector2 mVelocity;
-        float mOrientation { 0 };
-        float mRadius { 20 };
-        bool mExpired { false };
-
-    public:
-        dst::Vector2 size() const
+        Bullet(const dst::Vector2& position, const dst::Vector2& velocity)
         {
-            return
-                mImage ?
-                dst::Vector2 {
-                    mImage->extent().width,
-                    mImage->extent().height
-                } :
-                dst::Vector2::Zero;
+            mPosition = position;
+            mVelocity = velocity;
+            mOrientation = to_angle(mVelocity);
+            mRadius = 8;
         }
 
-        virtual void update() = 0;
-
-        virtual void render()
+    public:
+        void update() override final
         {
+            if (mVelocity.x || mVelocity.y) {
+                mOrientation = to_angle(mVelocity);
+            }
 
+            mPosition += mVelocity;
+
+            // TODO : If out of bounds...
+            if (false) {
+                mExpired = true;
+            }
         }
     };
 
-    static float to_angle(const dst::Vector2& v)
-    {
-        return std::atan2(v.y, v.x);
-    }
-
-} // ShapeBlaster
+} // namespace ShapeBlaster

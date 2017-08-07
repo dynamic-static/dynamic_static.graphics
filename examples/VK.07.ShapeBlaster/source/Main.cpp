@@ -168,11 +168,11 @@ int main()
         VkDebugReportFlagsEXT debugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
-            // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
-            // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-            // | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-            // | VK_DEBUG_REPORT_WARNING_BIT_EXT
-            // | VK_DEBUG_REPORT_ERROR_BIT_EXT
+            | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+            | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+            | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+            | VK_DEBUG_REPORT_WARNING_BIT_EXT
+            | VK_DEBUG_REPORT_ERROR_BIT_EXT
             #endif
             ;
 
@@ -225,253 +225,256 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create RenderPass
-        VkAttachmentDescription colorAttachment { };
-        colorAttachment.format = swapchain->format();
-        colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
-        colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-        colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-        colorAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-        colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-        colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-        colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-        VkAttachmentReference colorAttachmentReference { };
-        colorAttachmentReference.attachment = 0;
-        colorAttachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
-        std::array<VkFormat, 3> depthFormats {
-            VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT
-        };
-
-        auto depthFormat = physicalDevice.find_supported_format(
-            depthFormats,
-            VK_IMAGE_TILING_OPTIMAL,
-            VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
-        );
-
-        VkAttachmentDescription depthAttachment { };
-        depthAttachment.format = depthFormat;
-        depthAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
-        depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-        depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-        depthAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-        depthAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-        depthAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-        depthAttachment.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-        VkAttachmentReference depthAttachmentReference { };
-        depthAttachmentReference.attachment = 1;
-        depthAttachmentReference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-
-        VkSubpassDescription subpass { };
-        subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-        subpass.colorAttachmentCount = 1;
-        subpass.pColorAttachments = &colorAttachmentReference;
-        subpass.pDepthStencilAttachment = &depthAttachmentReference;
-
-        std::array<VkAttachmentDescription, 2> attachments { colorAttachment, depthAttachment };
-        RenderPass::Info renderPassInfo;
-        renderPassInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
-        renderPassInfo.pAttachments = attachments.data();
-        renderPassInfo.subpassCount = 1;
-        renderPassInfo.pSubpasses = &subpass;
-        auto renderPass = device->create<RenderPass>(renderPassInfo);
+        // VkAttachmentDescription colorAttachment { };
+        // colorAttachment.format = swapchain->format();
+        // colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+        // colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+        // colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+        // colorAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+        // colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+        // colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        // colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+        // VkAttachmentReference colorAttachmentReference { };
+        // colorAttachmentReference.attachment = 0;
+        // colorAttachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+        // 
+        // std::array<VkFormat, 3> depthFormats {
+        //     VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT
+        // };
+        // 
+        // auto depthFormat = physicalDevice.find_supported_format(
+        //     depthFormats,
+        //     VK_IMAGE_TILING_OPTIMAL,
+        //     VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
+        // );
+        // 
+        // VkAttachmentDescription depthAttachment { };
+        // depthAttachment.format = depthFormat;
+        // depthAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+        // depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+        // depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+        // depthAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+        // depthAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+        // depthAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        // depthAttachment.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+        // VkAttachmentReference depthAttachmentReference { };
+        // depthAttachmentReference.attachment = 1;
+        // depthAttachmentReference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+        // 
+        // VkSubpassDescription subpass { };
+        // subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+        // subpass.colorAttachmentCount = 1;
+        // subpass.pColorAttachments = &colorAttachmentReference;
+        // subpass.pDepthStencilAttachment = &depthAttachmentReference;
+        // 
+        // std::array<VkAttachmentDescription, 2> attachments { colorAttachment, depthAttachment };
+        // RenderPass::Info renderPassInfo;
+        // renderPassInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
+        // renderPassInfo.pAttachments = attachments.data();
+        // renderPassInfo.subpassCount = 1;
+        // renderPassInfo.pSubpasses = &subpass;
+        // auto renderPass = device->create<RenderPass>(renderPassInfo);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create DescriptorSet::Layout
-        VkDescriptorSetLayoutBinding uniformBufferLayoutBinding { };
-        uniformBufferLayoutBinding.binding = 0;
-        uniformBufferLayoutBinding.descriptorCount = 1;
-        uniformBufferLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        uniformBufferLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
 
-        VkDescriptorSetLayoutBinding samplerLayoutBinding { };
-        samplerLayoutBinding.binding = 1;
-        samplerLayoutBinding.descriptorCount = 1;
-        samplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-        samplerLayoutBinding.pImmutableSamplers = nullptr;
-        samplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
-
-        Descriptor::Set::Layout::Info descriptorSetLayoutInfo;
-        std::array<VkDescriptorSetLayoutBinding, 2> descriptorSetLayoutBindings {
-            uniformBufferLayoutBinding,
-            samplerLayoutBinding,
-        };
-
-        descriptorSetLayoutInfo.bindingCount = static_cast<uint32_t>(descriptorSetLayoutBindings.size());
-        descriptorSetLayoutInfo.pBindings = descriptorSetLayoutBindings.data();
-        auto descriptorSetLayout = device->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
+        // VkDescriptorSetLayoutBinding uniformBufferLayoutBinding { };
+        // uniformBufferLayoutBinding.binding = 0;
+        // uniformBufferLayoutBinding.descriptorCount = 1;
+        // uniformBufferLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        // uniformBufferLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+        // 
+        // VkDescriptorSetLayoutBinding samplerLayoutBinding { };
+        // samplerLayoutBinding.binding = 1;
+        // samplerLayoutBinding.descriptorCount = 1;
+        // samplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        // samplerLayoutBinding.pImmutableSamplers = nullptr;
+        // samplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+        // 
+        // Descriptor::Set::Layout::Info descriptorSetLayoutInfo;
+        // std::array<VkDescriptorSetLayoutBinding, 2> descriptorSetLayoutBindings {
+        //     uniformBufferLayoutBinding,
+        //     samplerLayoutBinding,
+        // };
+        // 
+        // descriptorSetLayoutInfo.bindingCount = static_cast<uint32_t>(descriptorSetLayoutBindings.size());
+        // descriptorSetLayoutInfo.pBindings = descriptorSetLayoutBindings.data();
+        // auto descriptorSetLayout = device->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Pipeline
-        auto vertexShader = device->create<ShaderModule>(
-            VK_SHADER_STAGE_VERTEX_BIT,
-            ShaderModule::Source::Code,
-            R"(
 
-                #version 450
-                #extension GL_ARB_separate_shader_objects : enable
-
-                layout(binding = 0)
-                uniform UniformBuffer
-                {
-                    mat4 world;
-                    mat4 view;
-                    mat4 projection;
-                } ubo;
-
-                layout(location = 0) in vec3 inPosition;
-                layout(location = 1) in vec2 inTexCoord;
-                // layout(location = 2) in vec4 inColor;
-
-                layout(location = 0) out vec2 fragTexCoord;
-                // layout(location = 1) out vec4 fragColor;
-
-                out gl_PerVertex
-                {
-                    vec4 gl_Position;
-                };
-
-                void main()
-                {
-                    gl_Position = ubo.projection * ubo.view * ubo.world * vec4(inPosition, 1);
-                    fragTexCoord = inTexCoord;
-                    // fragColor = inColor;
-                }
-
-            )"
-        );
-
-        auto fragmentShader = device->create<ShaderModule>(
-            VK_SHADER_STAGE_FRAGMENT_BIT,
-            ShaderModule::Source::Code,
-            R"(
-
-                #version 450
-                #extension GL_ARB_separate_shader_objects : enable
-
-                layout(binding = 1) uniform sampler2D imageSampler;
-
-                layout(location = 0) in vec2 fragTexCoord;
-                // layout(location = 1) in vec4 fragColor;
-
-                layout(location = 0) out vec4 outColor;
-
-                void main()
-                {
-                    outColor = texture(imageSampler, fragTexCoord);
-                }
-
-            )"
-        );
-
-        std::array<VkPipelineShaderStageCreateInfo, 2> shaderStages {
-            vertexShader->pipeline_stage_info(),
-            fragmentShader->pipeline_stage_info(),
-        };
-
-        // auto vertexBindingDescription = Vertex::binding_description();
-        // auto vertexAttributeDescriptions = Vertex::attribute_descriptions();
-        auto vertexBindingDescription = ShapeBlaster::QuadVertex::binding_description();
-        auto vertexAttributeDescriptions = ShapeBlaster::QuadVertex::attribute_descriptions();
-        VkPipelineVertexInputStateCreateInfo vertexInputInfo { };
-        vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-        vertexInputInfo.vertexBindingDescriptionCount = 1;
-        vertexInputInfo.pVertexBindingDescriptions = &vertexBindingDescription;
-        vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(vertexAttributeDescriptions.size());
-        vertexInputInfo.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
-
-        VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo { };
-        inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-        inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-
-        VkViewport viewport { };
-        viewport.width = static_cast<float>(swapchain->extent().width);
-        viewport.height = static_cast<float>(swapchain->extent().height);
-        viewport.minDepth = 0;
-        viewport.maxDepth = 1;
-
-        VkRect2D scissor { };
-        scissor.extent = swapchain->extent();
-
-        VkPipelineViewportStateCreateInfo viewportInfo { };
-        viewportInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-        viewportInfo.viewportCount = 1;
-        viewportInfo.pViewports = &viewport;
-        viewportInfo.scissorCount = 1;
-        viewportInfo.pScissors = &scissor;
-
-        VkPipelineRasterizationStateCreateInfo rasterizationInfo { };
-        rasterizationInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
-        rasterizationInfo.polygonMode = VK_POLYGON_MODE_FILL;
-        rasterizationInfo.lineWidth = 1;
-        rasterizationInfo.cullMode = VK_CULL_MODE_BACK_BIT;
-        rasterizationInfo.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
-
-        VkPipelineMultisampleStateCreateInfo multisampleInfo { };
-        multisampleInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
-        multisampleInfo.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
-        multisampleInfo.minSampleShading = 1;
-
-        VkPipelineDepthStencilStateCreateInfo depthStencilInfo { };
-        depthStencilInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
-        depthStencilInfo.depthTestEnable = VK_TRUE;
-        depthStencilInfo.depthWriteEnable = VK_TRUE;
-        depthStencilInfo.depthCompareOp = VK_COMPARE_OP_LESS;
-        depthStencilInfo.depthBoundsTestEnable = VK_FALSE;
-        depthStencilInfo.stencilTestEnable = VK_FALSE;
-
-        VkPipelineColorBlendAttachmentState colorBlendAttachment { };
-        colorBlendAttachment.blendEnable = VK_TRUE;
-        colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
-        colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
-        colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-        colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-        colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-        colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
-
-        colorBlendAttachment.colorWriteMask =
-            VK_COLOR_COMPONENT_R_BIT |
-            VK_COLOR_COMPONENT_G_BIT |
-            VK_COLOR_COMPONENT_B_BIT |
-            VK_COLOR_COMPONENT_A_BIT;
-
-        VkPipelineColorBlendStateCreateInfo colorBlendStateInfo { };
-        colorBlendStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
-        colorBlendStateInfo.attachmentCount = 1;
-        colorBlendStateInfo.pAttachments = &colorBlendAttachment;
-
-        Pipeline::Layout::Info pipelineLayoutInfo;
-        pipelineLayoutInfo.setLayoutCount = 1;
-        pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout->handle();
-        auto pipelineLayout = device->create<Pipeline::Layout>(pipelineLayoutInfo);
-
-        std::array<VkDynamicState, 2> dynamicStates {
-            VK_DYNAMIC_STATE_VIEWPORT,
-            VK_DYNAMIC_STATE_SCISSOR,
-        };
-
-        VkPipelineDynamicStateCreateInfo dynamicStateInfo { };
-        dynamicStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
-        dynamicStateInfo.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
-        dynamicStateInfo.pDynamicStates = dynamicStates.data();
-
-        Pipeline::GraphicsInfo pipelineInfo;
-        pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
-        pipelineInfo.pStages = shaderStages.data();
-        pipelineInfo.pVertexInputState = &vertexInputInfo;
-        pipelineInfo.pInputAssemblyState = &inputAssemblyInfo;
-        pipelineInfo.pViewportState = &viewportInfo;
-        pipelineInfo.pRasterizationState = &rasterizationInfo;
-        pipelineInfo.pMultisampleState = &multisampleInfo;
-        pipelineInfo.pDepthStencilState = &depthStencilInfo;
-        pipelineInfo.pColorBlendState = &colorBlendStateInfo;
-        pipelineInfo.pDynamicState = &dynamicStateInfo;
-        pipelineInfo.layout = *pipelineLayout;
-        pipelineInfo.renderPass = *renderPass;
-        pipelineInfo.subpass = 0;
-        auto pipeline = device->create<Pipeline>(pipelineInfo);
-
-        vertexShader.reset();
-        fragmentShader.reset();
+        // auto vertexShader = device->create<ShaderModule>(
+        //     VK_SHADER_STAGE_VERTEX_BIT,
+        //     ShaderModule::Source::Code,
+        //     R"(
+        // 
+        //         #version 450
+        //         #extension GL_ARB_separate_shader_objects : enable
+        // 
+        //         layout(binding = 0)
+        //         uniform UniformBuffer
+        //         {
+        //             mat4 world;
+        //             mat4 view;
+        //             mat4 projection;
+        //         } ubo;
+        // 
+        //         layout(location = 0) in vec3 inPosition;
+        //         layout(location = 1) in vec2 inTexCoord;
+        //         // layout(location = 2) in vec4 inColor;
+        // 
+        //         layout(location = 0) out vec2 fragTexCoord;
+        //         // layout(location = 1) out vec4 fragColor;
+        // 
+        //         out gl_PerVertex
+        //         {
+        //             vec4 gl_Position;
+        //         };
+        // 
+        //         void main()
+        //         {
+        //             gl_Position = ubo.projection * ubo.view * ubo.world * vec4(inPosition, 1);
+        //             fragTexCoord = inTexCoord;
+        //             // fragColor = inColor;
+        //         }
+        // 
+        //     )"
+        // );
+        // 
+        // auto fragmentShader = device->create<ShaderModule>(
+        //     VK_SHADER_STAGE_FRAGMENT_BIT,
+        //     ShaderModule::Source::Code,
+        //     R"(
+        // 
+        //         #version 450
+        //         #extension GL_ARB_separate_shader_objects : enable
+        // 
+        //         layout(binding = 1) uniform sampler2D imageSampler;
+        // 
+        //         layout(location = 0) in vec2 fragTexCoord;
+        //         // layout(location = 1) in vec4 fragColor;
+        // 
+        //         layout(location = 0) out vec4 outColor;
+        // 
+        //         void main()
+        //         {
+        //             outColor = texture(imageSampler, fragTexCoord);
+        //         }
+        // 
+        //     )"
+        // );
+        // 
+        // std::array<VkPipelineShaderStageCreateInfo, 2> shaderStages {
+        //     vertexShader->pipeline_stage_info(),
+        //     fragmentShader->pipeline_stage_info(),
+        // };
+        // 
+        // // auto vertexBindingDescription = Vertex::binding_description();
+        // // auto vertexAttributeDescriptions = Vertex::attribute_descriptions();
+        // auto vertexBindingDescription = ShapeBlaster::QuadVertex::binding_description();
+        // auto vertexAttributeDescriptions = ShapeBlaster::QuadVertex::attribute_descriptions();
+        // VkPipelineVertexInputStateCreateInfo vertexInputInfo { };
+        // vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+        // vertexInputInfo.vertexBindingDescriptionCount = 1;
+        // vertexInputInfo.pVertexBindingDescriptions = &vertexBindingDescription;
+        // vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(vertexAttributeDescriptions.size());
+        // vertexInputInfo.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
+        // 
+        // VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo { };
+        // inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+        // inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        // 
+        // VkViewport viewport { };
+        // viewport.width = static_cast<float>(swapchain->extent().width);
+        // viewport.height = static_cast<float>(swapchain->extent().height);
+        // viewport.minDepth = 0;
+        // viewport.maxDepth = 1;
+        // 
+        // VkRect2D scissor { };
+        // scissor.extent = swapchain->extent();
+        // 
+        // VkPipelineViewportStateCreateInfo viewportInfo { };
+        // viewportInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+        // viewportInfo.viewportCount = 1;
+        // viewportInfo.pViewports = &viewport;
+        // viewportInfo.scissorCount = 1;
+        // viewportInfo.pScissors = &scissor;
+        // 
+        // VkPipelineRasterizationStateCreateInfo rasterizationInfo { };
+        // rasterizationInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+        // rasterizationInfo.polygonMode = VK_POLYGON_MODE_FILL;
+        // rasterizationInfo.lineWidth = 1;
+        // rasterizationInfo.cullMode = VK_CULL_MODE_BACK_BIT;
+        // rasterizationInfo.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
+        // 
+        // VkPipelineMultisampleStateCreateInfo multisampleInfo { };
+        // multisampleInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+        // multisampleInfo.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
+        // multisampleInfo.minSampleShading = 1;
+        // 
+        // VkPipelineDepthStencilStateCreateInfo depthStencilInfo { };
+        // depthStencilInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+        // depthStencilInfo.depthTestEnable = VK_TRUE;
+        // depthStencilInfo.depthWriteEnable = VK_TRUE;
+        // depthStencilInfo.depthCompareOp = VK_COMPARE_OP_LESS;
+        // depthStencilInfo.depthBoundsTestEnable = VK_FALSE;
+        // depthStencilInfo.stencilTestEnable = VK_FALSE;
+        // 
+        // VkPipelineColorBlendAttachmentState colorBlendAttachment { };
+        // colorBlendAttachment.blendEnable = VK_TRUE;
+        // colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+        // colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+        // colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+        // colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+        // colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+        // colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+        // 
+        // colorBlendAttachment.colorWriteMask =
+        //     VK_COLOR_COMPONENT_R_BIT |
+        //     VK_COLOR_COMPONENT_G_BIT |
+        //     VK_COLOR_COMPONENT_B_BIT |
+        //     VK_COLOR_COMPONENT_A_BIT;
+        // 
+        // VkPipelineColorBlendStateCreateInfo colorBlendStateInfo { };
+        // colorBlendStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+        // colorBlendStateInfo.attachmentCount = 1;
+        // colorBlendStateInfo.pAttachments = &colorBlendAttachment;
+        // 
+        // Pipeline::Layout::Info pipelineLayoutInfo;
+        // pipelineLayoutInfo.setLayoutCount = 1;
+        // pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout->handle();
+        // auto pipelineLayout = device->create<Pipeline::Layout>(pipelineLayoutInfo);
+        // 
+        // std::array<VkDynamicState, 2> dynamicStates {
+        //     VK_DYNAMIC_STATE_VIEWPORT,
+        //     VK_DYNAMIC_STATE_SCISSOR,
+        // };
+        // 
+        // VkPipelineDynamicStateCreateInfo dynamicStateInfo { };
+        // dynamicStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+        // dynamicStateInfo.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
+        // dynamicStateInfo.pDynamicStates = dynamicStates.data();
+        // 
+        // Pipeline::GraphicsInfo pipelineInfo;
+        // pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
+        // pipelineInfo.pStages = shaderStages.data();
+        // pipelineInfo.pVertexInputState = &vertexInputInfo;
+        // pipelineInfo.pInputAssemblyState = &inputAssemblyInfo;
+        // pipelineInfo.pViewportState = &viewportInfo;
+        // pipelineInfo.pRasterizationState = &rasterizationInfo;
+        // pipelineInfo.pMultisampleState = &multisampleInfo;
+        // pipelineInfo.pDepthStencilState = &depthStencilInfo;
+        // pipelineInfo.pColorBlendState = &colorBlendStateInfo;
+        // pipelineInfo.pDynamicState = &dynamicStateInfo;
+        // pipelineInfo.layout = *pipelineLayout;
+        // pipelineInfo.renderPass = *renderPass;
+        // pipelineInfo.subpass = 0;
+        // auto pipeline = device->create<Pipeline>(pipelineInfo);
+        // 
+        // vertexShader.reset();
+        // fragmentShader.reset();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Pool
@@ -584,9 +587,15 @@ int main()
         // image->create<Image::View>();
 
         ShapeBlaster::Resources resources;
-        resources.load(*device, *commandPool, graphicsQueue);
-        auto image = resources.wandererImage;
-        auto sampler = device->create<Sampler>();
+        resources.load(*device, *commandPool, graphicsQueue, swapchain->format());
+
+        // auto image = resources.playerImage;
+        // Sampler::Info samplerInfo;
+        // samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER;
+        // samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER;
+        // samplerInfo.magFilter = VK_FILTER_NEAREST;
+        // samplerInfo.minFilter = VK_FILTER_NEAREST;
+        // auto sampler = device->create<Sampler>(samplerInfo);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create vertex and index Buffers
@@ -661,66 +670,68 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create uniform Buffer
-        VkDeviceSize uniformBufferSize = sizeof(UniformBuffer);
-        Buffer::Info uniformBufferInfo;
-        uniformBufferInfo.size = uniformBufferSize;
-        uniformBufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
-        auto uniformMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-        auto uniformBuffer = device->create<Buffer>(uniformBufferInfo, uniformMemoryProperties);
+
+        // VkDeviceSize uniformBufferSize = sizeof(UniformBuffer);
+        // Buffer::Info uniformBufferInfo;
+        // uniformBufferInfo.size = uniformBufferSize;
+        // uniformBufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+        // auto uniformMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+        // auto uniformBuffer = device->create<Buffer>(uniformBufferInfo, uniformMemoryProperties);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Descriptor::Pool and Descriptor::Set
-        std::array<VkDescriptorPoolSize, 2> descriptorPoolSizes;
-        descriptorPoolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        descriptorPoolSizes[0].descriptorCount = 1;
-        descriptorPoolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-        descriptorPoolSizes[1].descriptorCount = 1;
 
-        Descriptor::Pool::Info descriptorPoolInfo;
-        descriptorPoolInfo.poolSizeCount = static_cast<uint32_t>(descriptorPoolSizes.size());
-        descriptorPoolInfo.pPoolSizes = descriptorPoolSizes.data();
-        descriptorPoolInfo.maxSets = 1;
-        auto desciptorPool = device->create<Descriptor::Pool>(descriptorPoolInfo);
-
-        Descriptor::Set::Info descriptorSetInfo;
-        descriptorSetInfo.descriptorPool = *desciptorPool;
-        descriptorSetInfo.descriptorSetCount = 1;
-        descriptorSetInfo.pSetLayouts = &descriptorSetLayout->handle();
-        auto descriptorSet = desciptorPool->allocate<Descriptor::Set>(descriptorSetInfo);
-
-        VkDescriptorBufferInfo descriptorBufferInfo { };
-        descriptorBufferInfo.buffer = *uniformBuffer;
-        descriptorBufferInfo.offset = 0;
-        descriptorBufferInfo.range = sizeof(UniformBuffer);
-
-        VkDescriptorImageInfo descriptorImageInfo { };
-        descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-        descriptorImageInfo.imageView = *image->views()[0];
-        descriptorImageInfo.sampler = *sampler;
-
-        std::array<VkWriteDescriptorSet, 2> descriptorWrites { };
-        descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-        descriptorWrites[0].dstSet = *descriptorSet;
-        descriptorWrites[0].dstBinding = 0;
-        descriptorWrites[0].dstArrayElement = 0;
-        descriptorWrites[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        descriptorWrites[0].descriptorCount = 1;
-        descriptorWrites[0].pBufferInfo = &descriptorBufferInfo;
-
-        descriptorWrites[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-        descriptorWrites[1].dstSet = *descriptorSet;
-        descriptorWrites[1].dstBinding = 1;
-        descriptorWrites[1].dstArrayElement = 0;
-        descriptorWrites[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-        descriptorWrites[1].descriptorCount = 1;
-        descriptorWrites[1].pImageInfo = &descriptorImageInfo;
-        vkUpdateDescriptorSets(
-            *device,
-            static_cast<uint32_t>(descriptorWrites.size()),
-            descriptorWrites.data(),
-            0,
-            nullptr
-        );
+        // std::array<VkDescriptorPoolSize, 2> descriptorPoolSizes;
+        // descriptorPoolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        // descriptorPoolSizes[0].descriptorCount = 1;
+        // descriptorPoolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        // descriptorPoolSizes[1].descriptorCount = 1;
+        // 
+        // Descriptor::Pool::Info descriptorPoolInfo;
+        // descriptorPoolInfo.poolSizeCount = static_cast<uint32_t>(descriptorPoolSizes.size());
+        // descriptorPoolInfo.pPoolSizes = descriptorPoolSizes.data();
+        // descriptorPoolInfo.maxSets = 1;
+        // auto desciptorPool = device->create<Descriptor::Pool>(descriptorPoolInfo);
+        // 
+        // Descriptor::Set::Info descriptorSetInfo;
+        // descriptorSetInfo.descriptorPool = *desciptorPool;
+        // descriptorSetInfo.descriptorSetCount = 1;
+        // descriptorSetInfo.pSetLayouts = &descriptorSetLayout->handle();
+        // auto descriptorSet = desciptorPool->allocate<Descriptor::Set>(descriptorSetInfo);
+        // 
+        // VkDescriptorBufferInfo descriptorBufferInfo { };
+        // descriptorBufferInfo.buffer = *uniformBuffer;
+        // descriptorBufferInfo.offset = 0;
+        // descriptorBufferInfo.range = sizeof(UniformBuffer);
+        // 
+        // VkDescriptorImageInfo descriptorImageInfo { };
+        // descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+        // descriptorImageInfo.imageView = *image->views()[0];
+        // descriptorImageInfo.sampler = *sampler;
+        // 
+        // std::array<VkWriteDescriptorSet, 2> descriptorWrites { };
+        // descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        // descriptorWrites[0].dstSet = *descriptorSet;
+        // descriptorWrites[0].dstBinding = 0;
+        // descriptorWrites[0].dstArrayElement = 0;
+        // descriptorWrites[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        // descriptorWrites[0].descriptorCount = 1;
+        // descriptorWrites[0].pBufferInfo = &descriptorBufferInfo;
+        // 
+        // descriptorWrites[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        // descriptorWrites[1].dstSet = *descriptorSet;
+        // descriptorWrites[1].dstBinding = 1;
+        // descriptorWrites[1].dstArrayElement = 0;
+        // descriptorWrites[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        // descriptorWrites[1].descriptorCount = 1;
+        // descriptorWrites[1].pImageInfo = &descriptorImageInfo;
+        // vkUpdateDescriptorSets(
+        //     *device,
+        //     static_cast<uint32_t>(descriptorWrites.size()),
+        //     descriptorWrites.data(),
+        //     0,
+        //     nullptr
+        // );
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Buffers
@@ -755,6 +766,16 @@ int main()
         std::shared_ptr<Image> depthBuffer;
         std::shared_ptr<Memory> depthBufferMemory;
 
+        std::array<VkFormat, 3> depthFormats {
+            VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT
+        };
+
+        auto depthFormat = physicalDevice.find_supported_format(
+            depthFormats,
+            VK_IMAGE_TILING_OPTIMAL,
+            VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
+        );
+
         dst::Clock clock;
         float angle = 0;
         bool running = true;
@@ -766,18 +787,49 @@ int main()
             }
 
             clock.update();
+            float dt = clock.elapsed<dst::Second<float>>();
             angle += 90.0f * clock.elapsed<dst::Second<float>>();
 
-            UniformBuffer ubo;
+            ShapeBlaster::Sprite::UniformBuffer ubo;
+            ubo.world = dst::Matrix4x4::Identity;
             ubo.world = dst::Matrix4x4::create_rotation(
                 dst::to_radians(angle),
                 dst::Vector3::UnitZ
             );
 
+            float cameraSpeed = 8;
+            static float x = 0;
+            static float y = 0;
+            static float z = 64;
+            // std::cout << z << std::endl;
+            if (window->input().keyboard().down(dst::Keyboard::Key::W)) {
+                z -= cameraSpeed * dt;
+            }
+
+            if (window->input().keyboard().down(dst::Keyboard::Key::S)) {
+                z += cameraSpeed * dt;
+            }
+
+            if (window->input().keyboard().down(dst::Keyboard::Key::A)) {
+
+            }
+
+            if (window->input().keyboard().down(dst::Keyboard::Key::D)) {
+
+            }
+
+            if (window->input().keyboard().down(dst::Keyboard::Key::Q)) {
+
+            }
+
+            if (window->input().keyboard().down(dst::Keyboard::Key::E)) {
+
+            }
+
             ubo.view = dst::Matrix4x4::create_view(
-                { 2, 2, 2 },
+                { x, y, z },
                 dst::Vector3::Zero,
-                dst::Vector3::UnitZ
+                dst::Vector3::UnitY
             );
 
             float w = static_cast<float>(swapchain->extent().width);
@@ -786,12 +838,15 @@ int main()
                 dst::to_radians(30.0f),
                 w / h,
                 0.01f,
-                10.0f
+                100.0f
             );
 
             ubo.projection[1][1] *= -1;
 
-            uniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
+            // uniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
+            resources.playerSprite.uniformBuffer->write<ShapeBlaster::Sprite::UniformBuffer>(
+                std::array<ShapeBlaster::Sprite::UniformBuffer, 1> { ubo }
+            );
 
             presentQueue.wait_idle();
             swapchain->update();
@@ -835,7 +890,7 @@ int main()
                         };
 
                         Framebuffer::Info framebufferInfo;
-                        framebufferInfo.renderPass = *renderPass;
+                        framebufferInfo.renderPass = *resources.mRenderPass; // *renderPass;
                         framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
                         framebufferInfo.pAttachments = attachments.data();
                         framebufferInfo.width = extent.width;
@@ -858,14 +913,15 @@ int main()
                         clearValues[0].color = { 0.2f, 0.2f, 0.2f, 1 };
                         clearValues[1].depthStencil = { 1, 0 };
                         RenderPass::BeginInfo renderPassBeginInfo;
-                        renderPassBeginInfo.renderPass = *renderPass;
+                        renderPassBeginInfo.renderPass = *resources.mRenderPass; // *renderPass;
                         renderPassBeginInfo.framebuffer = *framebuffers[i];
                         renderPassBeginInfo.renderArea.extent = swapchain->extent();
                         renderPassBeginInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
                         renderPassBeginInfo.pClearValues = clearValues.data();
                         commandBuffer->begin_render_pass(renderPassBeginInfo);
 
-                        commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *pipeline);
+                        // commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *pipeline);
+                        commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *resources.mPipeline);
 
                         VkViewport viewport { };
                         viewport.width = static_cast<float>(swapchain->extent().width);
@@ -877,7 +933,11 @@ int main()
                         VkRect2D scissor { };
                         scissor.extent = swapchain->extent();
                         commandBuffer->set_scissor(scissor);
-                        commandBuffer->bind_descriptor_set(*descriptorSet, *pipelineLayout);
+                        // commandBuffer->bind_descriptor_set(*descriptorSet, *pipelineLayout);
+                        commandBuffer->bind_descriptor_set(
+                            *resources.playerSprite.descriptorSet,
+                            *resources.mPipelineLayout
+                        );
 
                         // commandBuffer->bind_vertex_buffer(*vertexBuffer);
                         // commandBuffer->bind_index_buffer(*indexBuffer);
