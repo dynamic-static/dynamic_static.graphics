@@ -79,12 +79,13 @@ namespace ShapeBlaster {
             Sprite::UniformBuffer ubo;
             ubo.color = mColor;
             ubo.wvp = projection * view * local_to_world();
-            mSprite.mHostStorage[0] = ubo;
-            // *mSprite.ptr() = ubo;
+            *mSprite.host_storage_ptr() = ubo;
             mSprite.update(device);
-            // mSprite.uniformBuffer->write<Sprite::UniformBuffer>(
-            //     std::array<Sprite::UniformBuffer, 1> { ubo }
-            // );
+        }
+
+        void render(dst::vlkn::Command::Buffer& commandBuffer)
+        {
+            mSprite.render(commandBuffer);
         }
     };
 

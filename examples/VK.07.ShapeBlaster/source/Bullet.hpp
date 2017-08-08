@@ -17,19 +17,26 @@
 
 #include "Dynamic_Static/Core/Math.hpp"
 
+#include <iostream>
+
 namespace ShapeBlaster {
 
     class Bullet final
         : public Entity
     {
     public:
+        Bullet() = default;
+
         Bullet(Resources& resources, const dst::Vector2& position, const dst::Vector2& velocity, size_t index)
         {
+            mSprite = resources.bulletSprite;
             mSprite.uniformBufferIndex = static_cast<uint32_t>(index);
             mPosition = position;
             mVelocity = velocity;
             mOrientation = to_angle(mVelocity);
             mRadius = 8;
+
+            std::cout << index << " : " << (void*)mSprite.host_storage_ptr() << std::endl;
         }
     
     public:

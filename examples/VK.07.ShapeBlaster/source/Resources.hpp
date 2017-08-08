@@ -173,7 +173,7 @@ namespace ShapeBlaster {
         std::shared_ptr<dst::vlkn::Buffer> uniformBuffer;
 
     public:
-        UniformBuffer* ptr()
+        UniformBuffer* host_storage_ptr()
         {
             return (UniformBuffer*)((uint64_t)mHostStorage + (uniformBufferIndex * mHostStorageAlignment));
         }
@@ -194,6 +194,7 @@ namespace ShapeBlaster {
 
         void render(dst::vlkn::Command::Buffer& commandBuffer)
         {
+            uint32_t offset = uniformBufferIndex * mHostStorageAlignment;
             vkCmdBindDescriptorSets(
                 commandBuffer,
                 VK_PIPELINE_BIND_POINT_GRAPHICS,
@@ -202,7 +203,7 @@ namespace ShapeBlaster {
                 1,
                 &descriptorSet->handle(),
                 1,
-                &uniformBufferIndex
+                &offset
             );
 
             commandBuffer.draw_indexed(6 /* Resources::QuadIndexCount */);
@@ -290,21 +291,21 @@ namespace ShapeBlaster {
             playerSprite.uniformBufferIndex = 0;
             // seekerSprite = create_sprite(device, *seekerImage);
             // wandererSprite = create_sprite(device, *wandererImage);
-            // bulletSprite = create_sprite(device, *bulletImage, mBulletBufferSize);
+            bulletSprite = create_sprite(device, *bulletImage, mBulletBufferSize);
             pointerSprite = create_sprite(device, *pointerImage, mPointerBufferSize);
             pointerSprite.uniformBufferIndex = 0;
 
             playerSprite.mHostStorage = mPlayerBuffer;
             playerSprite.mHostStorageSize = mPlayerBufferSize;
-            // playerSprite.mHostStorageAlignment = storage_alignment(device);
+            playerSprite.mHostStorageAlignment = storage_alignment(device);
 
-            // bulletSprite.mHostStorage = mBulletBuffer;
-            // bulletSprite.mHostStorageSize = mBulletBufferSize;
-            // bulletSprite.mHostStorageAlignment = storage_alignment(device);
+            bulletSprite.mHostStorage = mBulletBuffer;
+            bulletSprite.mHostStorageSize = mBulletBufferSize;
+            bulletSprite.mHostStorageAlignment = storage_alignment(device);
 
             pointerSprite.mHostStorage = mPointerBuffer;
             pointerSprite.mHostStorageSize = mPointerBufferSize;
-            // pointerSprite.mHostStorageAlignment = storage_alignment(device);
+            pointerSprite.mHostStorageAlignment = storage_alignment(device);
         }
 
     private:
@@ -319,8 +320,7 @@ namespace ShapeBlaster {
         Sprite::UniformBuffer* create_uniform_buffer_host_storage(const dst::vlkn::Device& device, size_t count, size_t& bufferSize)
         {
             size_t elementSize = sizeof(Sprite::UniformBuffer);
-            size_t alignment = device.physical_device().properties().limits.minUniformBufferOffsetAlignment;
-            alignment = (elementSize / alignment) * alignment + ((elementSize % alignment) > 0 ? alignment : 0);
+            size_t alignment = storage_alignment(device);
             bufferSize = count * alignment;
             return reinterpret_cast<Sprite::UniformBuffer*>(aligned_alloc(bufferSize, alignment));
         }

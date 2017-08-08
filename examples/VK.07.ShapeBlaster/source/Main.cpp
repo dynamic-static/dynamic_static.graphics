@@ -50,11 +50,11 @@ int main()
         VkDebugReportFlagsEXT debugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
-            | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
-            | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-            | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_ERROR_BIT_EXT
+            // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+            // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+            // | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_ERROR_BIT_EXT
             #endif
             ;
 
@@ -163,7 +163,14 @@ int main()
         auto spawnPosition = dst::Vector2(extent.width, extent.height) * 0.5f;
         ShapeBlaster::PlayerShip playerShip(resources, cursor, spawnPosition);
 
-        // ShapeBlaster::Bullet bullet0(resources, 
+
+        std::array<ShapeBlaster::Bullet, 64> bullets { };
+        for (size_t i = 0; i < bullets.size(); ++i) {
+            dst::Vector2 position;
+            position.y = spawnPosition.y;
+            position.x = i * 16;
+            bullets[i] = ShapeBlaster::Bullet(resources, position, dst::Vector2::Zero, i);
+        }
 
         dst::Clock clock;
         float angle = 0;
@@ -184,6 +191,10 @@ int main()
             playerShip.update(input, clock, extent);
             cursor.update(input, clock, extent);
 
+            for (size_t i = bullets.size(); i-- > 0;) {
+                bullets[i].update(input, clock, extent);
+            }
+
             auto view = dst::Matrix4x4::create_view(
                 { 0, 0, 1 }, dst::Vector3::Zero, dst::Vector3::UnitY
             );
@@ -196,6 +207,10 @@ int main()
 
             playerShip.update_uniforms(*device, view, projection);
             cursor.update_uniforms(*device, view, projection);
+
+            for (size_t i = bullets.size(); i-- > 0;) {
+                bullets[i].update_uniforms(*device, view, projection);
+            }
 
             presentQueue.wait_idle();
             swapchain->update();
@@ -287,6 +302,10 @@ int main()
 
                         resources.playerSprite.render(*commandBuffer);
                         resources.pointerSprite.render(*commandBuffer);
+
+                        for (size_t i = bullets.size(); i-- > 0;) {
+                            bullets[i].render(*commandBuffer);
+                        }
 
                         commandBuffer->end_render_pass();
                         commandBuffer->end();
