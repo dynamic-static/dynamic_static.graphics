@@ -41,6 +41,31 @@ namespace Vulkan {
         return memoryRequirements;
     }
 
+    std::shared_ptr<Memory> Buffer::memory()
+    {
+        return mMemory;
+    }
+
+    const std::shared_ptr<Memory>& Buffer::memory() const
+    {
+        return mMemory;
+    }
+
+    void* Buffer::mapped_ptr()
+    {
+        return mMemory->mapped_ptr();
+    }
+
+    void* Buffer::map()
+    {
+        return mMemory->map();
+    }
+
+    void Buffer::unmap()
+    {
+        mMemory->unmap();
+    }
+
     void Buffer::initialize(const Info& info, VkMemoryPropertyFlags memoryPropertyFlags)
     {
         validate(vkCreateBuffer(DeviceChild::device(), &info, nullptr, &mHandle));

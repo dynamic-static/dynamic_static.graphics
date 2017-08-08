@@ -167,14 +167,35 @@ namespace ShapeBlaster {
         dst::vlkn::Image* image { nullptr };
         dst::vlkn::Descriptor::Set* descriptorSet { nullptr };
         dst::vlkn::Pipeline::Layout* pipelineLayout { nullptr };
+        UniformBuffer* mHostStorage { nullptr };
+        size_t mHostStorageSize { 0 };
         std::shared_ptr<dst::vlkn::Buffer> uniformBuffer;
 
     public:
+        void update(dst::vlkn::Device& device)
+        {
+            memcpy(uniformBuffer->mapped_ptr(), mHostStorage, mHostStorageSize);
+            VkMappedMemoryRange memoryRange { };
+            memoryRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
+            memoryRange.pNext = nullptr;
+            memoryRange.memory = *uniformBuffer->memory();
+            memoryRange.offset = 0;
+            memoryRange.size = static_cast<VkDeviceSize>(mHostStorageSize);
+            vkFlushMappedMemoryRanges(device, 1, &memoryRange);
+        }
+
         void render(dst::vlkn::Command::Buffer& commandBuffer)
         {
-            commandBuffer.bind_descriptor_set(
-                *descriptorSet,
-                *pipelineLayout
+            uint32_t offset = 0;
+            vkCmdBindDescriptorSets(
+                commandBuffer,
+                VK_PIPELINE_BIND_POINT_GRAPHICS,
+                *pipelineLayout,
+                0,
+                1,
+                &descriptorSet->handle(),
+                1,
+                &offset
             );
 
             commandBuffer.draw_indexed(6 /* Resources::QuadIndexCount */);
@@ -208,6 +229,22 @@ namespace ShapeBlaster {
         std::shared_ptr<dst::vlkn::Buffer> mUniformBuffer;
         std::shared_ptr<dst::vlkn::Sampler> mSampler;
 
+        Sprite::UniformBuffer* mPlayerBuffer { nullptr }; size_t mPlayerBufferSize { 0 };
+        Sprite::UniformBuffer* mSeekerBuffer { nullptr }; size_t mSeekerBufferSize { 0 };
+        Sprite::UniformBuffer* mWandererBuffer { nullptr }; size_t mWandererBufferSize { 0 };
+        Sprite::UniformBuffer* mBulletBuffer { nullptr }; size_t mBulletBufferSize { 0 };
+        Sprite::UniformBuffer* mPointerBuffer { nullptr }; size_t mPointerBufferSize { 0 };
+
+    public:
+        ~Resources()
+        {
+            aligned_free(mPlayerBuffer);
+            aligned_free(mSeekerBuffer);
+            aligned_free(mWandererBuffer);
+            aligned_free(mBulletBuffer);
+            aligned_free(mPointerBuffer);
+        }
+
     public:
         void load(
             dst::vlkn::Device& device,
@@ -234,18 +271,53 @@ namespace ShapeBlaster {
             create_render_pass(device, renderPassFormat);
             create_descriptor_set_layout(device);
             create_sprite_pipeline(device);
-            create_descriptor_pool(device);
+            create_descriptor_pool(device, 5);
 
-            playerSprite = create_sprite(device, *playerImage);
+            mPlayerBuffer = create_uniform_buffer_host_storage(device, 1, mPlayerBufferSize);
+            mSeekerBuffer = create_uniform_buffer_host_storage(device, 64, mSeekerBufferSize);
+            mWandererBuffer = create_uniform_buffer_host_storage(device, 64, mWandererBufferSize);
+            mBulletBuffer = create_uniform_buffer_host_storage(device, 64, mBulletBufferSize);
+            mPointerBuffer = create_uniform_buffer_host_storage(device, 1, mPointerBufferSize);
+
+            playerSprite = create_sprite(device, *playerImage, mPlayerBufferSize);
             playerSprite.uniformBufferIndex = 0;
             // seekerSprite = create_sprite(device, *seekerImage);
             // wandererSprite = create_sprite(device, *wandererImage);
             // bulletSprite = create_sprite(device, *bulletImage);
-            pointerSprite = create_sprite(device, *pointerImage);
+            pointerSprite = create_sprite(device, *pointerImage, mPointerBufferSize);
             pointerSprite.uniformBufferIndex = 1;
+
+            playerSprite.mHostStorage = mPlayerBuffer;
+            playerSprite.mHostStorageSize = mPlayerBufferSize;
+
+            pointerSprite.mHostStorage = mPointerBuffer;
+            pointerSprite.mHostStorageSize = mPointerBufferSize;
         }
 
     private:
+        Sprite::UniformBuffer* create_uniform_buffer_host_storage(const dst::vlkn::Device& device, size_t count, size_t& bufferSize)
+        {
+            size_t elementSize = sizeof(Sprite::UniformBuffer);
+            size_t alignment = device.physical_device().properties().limits.minUniformBufferOffsetAlignment;
+            alignment = (elementSize / alignment) * alignment + ((elementSize % alignment) > 0 ? alignment : 0);
+            bufferSize = count * alignment;
+            return reinterpret_cast<Sprite::UniformBuffer*>(aligned_alloc(bufferSize, alignment));
+        }
+
+        std::shared_ptr<dst::vlkn::Buffer> create_uniform_buffer(dst::vlkn::Device& device, size_t size)
+        {
+            using namespace dst::vlkn;
+
+            VkDeviceSize uniformBufferSize = sizeof(Sprite::UniformBuffer);
+            Buffer::Info uniformBufferInfo;
+            uniformBufferInfo.size = static_cast<VkDeviceSize>(size); // uniformBufferSize;
+            uniformBufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+            auto uniformMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+            auto buffer = device.create<Buffer>(uniformBufferInfo, uniformMemoryProperties);
+            buffer->map();
+            return buffer;
+        }
+
         std::shared_ptr<dst::vlkn::Image> create_image(
             dst::vlkn::Device& device,
             dst::vlkn::Command::Pool& commandPool,
@@ -409,18 +481,6 @@ namespace ShapeBlaster {
             );
         }
 
-        std::shared_ptr<dst::vlkn::Buffer> create_uniform_buffer(dst::vlkn::Device& device)
-        {
-            using namespace dst::vlkn;
-
-            VkDeviceSize uniformBufferSize = sizeof(Sprite::UniformBuffer);
-            Buffer::Info uniformBufferInfo;
-            uniformBufferInfo.size = uniformBufferSize;
-            uniformBufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
-            auto uniformMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-            return device.create<Buffer>(uniformBufferInfo, uniformMemoryProperties);
-        }
-
         void create_render_pass(dst::vlkn::Device& device, VkFormat format)
         {
             using namespace dst::vlkn;
@@ -482,7 +542,7 @@ namespace ShapeBlaster {
             VkDescriptorSetLayoutBinding uniformBufferLayoutBinding { };
             uniformBufferLayoutBinding.binding = 0;
             uniformBufferLayoutBinding.descriptorCount = 1;
-            uniformBufferLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+            uniformBufferLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
             uniformBufferLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
 
             VkDescriptorSetLayoutBinding samplerLayoutBinding { };
@@ -666,19 +726,20 @@ namespace ShapeBlaster {
             mPipeline = device.create<Pipeline>(pipelineInfo);
         }
 
-        void create_descriptor_pool(dst::vlkn::Device& device)
+        void create_descriptor_pool(dst::vlkn::Device& device, uint32_t maxSets)
         {
             using namespace dst::vlkn;
             std::array<VkDescriptorPoolSize, 2> descriptorPoolSizes;
-            descriptorPoolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-            descriptorPoolSizes[0].descriptorCount = 2;
+            descriptorPoolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
+            descriptorPoolSizes[0].descriptorCount = maxSets;
+
             descriptorPoolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            descriptorPoolSizes[1].descriptorCount = 2;
+            descriptorPoolSizes[1].descriptorCount = maxSets;
 
             Descriptor::Pool::Info descriptorPoolInfo;
             descriptorPoolInfo.poolSizeCount = static_cast<uint32_t>(descriptorPoolSizes.size());
             descriptorPoolInfo.pPoolSizes = descriptorPoolSizes.data();
-            descriptorPoolInfo.maxSets = 2;
+            descriptorPoolInfo.maxSets = maxSets;
             mDescriptorPool = device.create<Descriptor::Pool>(descriptorPoolInfo);
         }
 
@@ -711,7 +772,7 @@ namespace ShapeBlaster {
             descriptorWrites[0].dstSet = *descriptorSet;
             descriptorWrites[0].dstBinding = 0;
             descriptorWrites[0].dstArrayElement = 0;
-            descriptorWrites[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+            descriptorWrites[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
             descriptorWrites[0].descriptorCount = 1;
             descriptorWrites[0].pBufferInfo = &descriptorBufferInfo;
 
@@ -733,11 +794,11 @@ namespace ShapeBlaster {
             return descriptorSet;
         }
 
-        Sprite create_sprite(dst::vlkn::Device& device, dst::vlkn::Image& image)
+        Sprite create_sprite(dst::vlkn::Device& device, dst::vlkn::Image& image, size_t storageSize)
         {
             Sprite sprite;
             sprite.image = &image;
-            sprite.uniformBuffer = create_uniform_buffer(device);
+            sprite.uniformBuffer = create_uniform_buffer(device, storageSize);
             sprite.pipelineLayout = mPipelineLayout.get();
             sprite.descriptorSet = create_descriptor_set(device, image, *sprite.uniformBuffer);
             return sprite;

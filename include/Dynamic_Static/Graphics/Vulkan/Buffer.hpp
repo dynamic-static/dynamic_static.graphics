@@ -77,6 +77,23 @@ namespace Vulkan {
         VkMemoryRequirements memory_requirements() const;
 
         /**
+         * Gets this Buffer's Memory.
+         * @return This Buffer's Memory
+         */
+        std::shared_ptr<Memory> memory();
+
+        /**
+         * Gets this Buffer's Memory.
+         * @return This Buffer's Memory
+         */
+        const std::shared_ptr<Memory>& memory() const;
+
+        /**
+         * TODO : Documentation.
+         */
+        void* mapped_ptr();
+
+        /**
          * TODO : Documentation.
          */
         template <typename T>
@@ -85,6 +102,16 @@ namespace Vulkan {
             assert(mMemory);
             mMemory->write(data);
         }
+
+        /**
+         * TODO : Documentation.
+         */
+        void* map();
+
+        /**
+         * TODO : Documentation.
+         */
+        void unmap();
 
     private:
         void initialize(

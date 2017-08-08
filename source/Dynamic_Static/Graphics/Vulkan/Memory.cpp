@@ -16,6 +16,7 @@ namespace Vulkan {
 
     Memory::Memory(const std::shared_ptr<Device>& device, const Info& info)
         : DeviceChild(device)
+        , mSize { info.allocationSize }
     {
         validate(vkAllocateMemory(DeviceChild::device(), &info, nullptr, &mHandle));
         name("Memory");
@@ -28,9 +29,14 @@ namespace Vulkan {
         }
     }
 
+    void* Memory::mapped_ptr()
+    {
+        return mMappedPtr;
+    }
+
     void* Memory::map()
     {
-        return map(0, 0);
+        return map(0, mSize);
     }
 
     void* Memory::map(size_t offset, size_t size)
@@ -48,21 +54,23 @@ namespace Vulkan {
 
         */
 
+        // TODO : throw if already mapped?
         // TODO : throw on attempts to map memory that isn't host visible.
         // TODO : throw on attempts to map more memory than this Device::Memory is responsible for.
-        void* mappedPtr = nullptr;
-        validate(
-            vkMapMemory(
-                device(),
-                mHandle,
-                static_cast<VkDeviceSize>(offset),
-                static_cast<VkDeviceSize>(size),
-                0,
-                &mappedPtr
-            )
-        );
+        if (!mMappedPtr) {
+            validate(
+                vkMapMemory(
+                    device(),
+                    mHandle,
+                    static_cast<VkDeviceSize>(offset),
+                    static_cast<VkDeviceSize>(size),
+                    0,
+                    &mMappedPtr
+                )
+            );
+        }
 
-        return mappedPtr;
+        return mMappedPtr;
     }
 
     void Memory::unmap()
@@ -73,6 +81,7 @@ namespace Vulkan {
         //        vkFlushMappedMemoryRanges after writing the mapped memory and
         //        vkInvalidateMappedMemoryRanges() before reading from the mapped memory.
         vkUnmapMemory(device(), mHandle);
+        mMappedPtr = nullptr;
     }
 
 } // namespace Vulkan

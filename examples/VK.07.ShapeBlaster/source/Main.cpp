@@ -191,8 +191,8 @@ int main()
                 0, w, 0, h, 0.01f, 10.0f
             );
 
-            playerShip.update_uniforms(view, projection);
-            cursor.update_uniforms(view, projection);
+            playerShip.update_uniforms(*device, view, projection);
+            cursor.update_uniforms(*device, view, projection);
 
             presentQueue.wait_idle();
             swapchain->update();

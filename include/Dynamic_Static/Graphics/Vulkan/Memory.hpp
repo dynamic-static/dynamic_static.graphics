@@ -50,6 +50,10 @@ namespace Vulkan {
             }
         };
 
+    private:
+        size_t mSize { 0 };
+        void* mMappedPtr { nullptr };
+
     public:
         Memory(const std::shared_ptr<Device>& device, const Info& info);
 
@@ -60,6 +64,17 @@ namespace Vulkan {
         ~Memory();
 
     public:
+        /**
+         * Gets this Memory's size in bytes.
+         * @return This Memory's size in bytes
+         */
+        size_t size() const;
+
+        /**
+         * TODO : Documentation.
+         */
+        void* mapped_ptr();
+
         /**
          * TODO : Documentation.
          */

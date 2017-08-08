@@ -74,14 +74,16 @@ namespace ShapeBlaster {
 
         virtual void update(const dst::Input& input, const dst::Clock& clock, VkExtent2D playField) = 0;
 
-        void update_uniforms(const dst::Matrix4x4& view, const dst::Matrix4x4& projection)
+        void update_uniforms(dst::vlkn::Device& device, const dst::Matrix4x4& view, const dst::Matrix4x4& projection)
         {
             Sprite::UniformBuffer ubo;
             ubo.color = mColor;
             ubo.wvp = projection * view * local_to_world();
-            mSprite.uniformBuffer->write<Sprite::UniformBuffer>(
-                std::array<Sprite::UniformBuffer, 1> { ubo }
-            );
+            mSprite.mHostStorage[0] = ubo;
+            mSprite.update(device);
+            // mSprite.uniformBuffer->write<Sprite::UniformBuffer>(
+            //     std::array<Sprite::UniformBuffer, 1> { ubo }
+            // );
         }
     };
 
