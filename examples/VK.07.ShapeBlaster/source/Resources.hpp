@@ -284,7 +284,7 @@ namespace ShapeBlaster {
             mPlayerBuffer = create_uniform_buffer_host_storage(device, 1, mPlayerBufferSize);
             mSeekerBuffer = create_uniform_buffer_host_storage(device, 64, mSeekerBufferSize);
             mWandererBuffer = create_uniform_buffer_host_storage(device, 64, mWandererBufferSize);
-            mBulletBuffer = create_uniform_buffer_host_storage(device, 64, mBulletBufferSize);
+            mBulletBuffer = create_uniform_buffer_host_storage(device, 128, mBulletBufferSize);
             mPointerBuffer = create_uniform_buffer_host_storage(device, 1, mPointerBufferSize);
 
             playerSprite = create_sprite(device, *playerImage, mPlayerBufferSize);

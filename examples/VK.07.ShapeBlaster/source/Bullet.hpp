@@ -17,40 +17,49 @@
 
 #include "Dynamic_Static/Core/Math.hpp"
 
-#include <iostream>
-
 namespace ShapeBlaster {
 
     class Bullet final
         : public Entity
     {
+    private:
+        float mSpeed { 96 };
+
     public:
         Bullet() = default;
 
-        Bullet(Resources& resources, const dst::Vector2& position, const dst::Vector2& velocity, size_t index)
+        Bullet(Resources& resources, size_t index)
         {
             mSprite = resources.bulletSprite;
             mSprite.uniformBufferIndex = static_cast<uint32_t>(index);
-            mPosition = position;
-            mVelocity = velocity;
-            mOrientation = to_angle(mVelocity);
+            mColor = dst::Color::Transparent;
             mRadius = 8;
-
-            std::cout << index << " : " << (void*)mSprite.host_storage_ptr() << std::endl;
+            mExpired = true;
         }
     
     public:
+        void spawn(const dst::Vector2& position, const dst::Vector2& direction)
+        {
+            mPosition = position;
+            mVelocity = direction;
+            mOrientation = to_angle(mVelocity);
+            mColor = dst::Color::White;
+            mExpired = false;
+        }
+
         void update(const dst::Input& input, const dst::Clock& clock, VkExtent2D playField) override final
         {
-            if (mVelocity.x || mVelocity.y) {
-                mOrientation = to_angle(mVelocity);
-            }
+            if (!mExpired) {
+                if (mVelocity.x || mVelocity.y) {
+                    mOrientation = to_angle(mVelocity);
+                }
 
-            // mPosition += mVelocity;
-
-            // TODO : If out of bounds...
-            if (false) {
-                mExpired = true;
+                mPosition += mVelocity * mSpeed * clock.elapsed<dst::Second<float>>();
+                if (mPosition.x < 0 || playField.width < mPosition.x ||
+                    mPosition.y < 0 || playField.height < mPosition.y) {
+                    mColor = dst::Color::Transparent;
+                    mExpired = true;
+                }
             }
         }
     };

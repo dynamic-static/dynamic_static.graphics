@@ -160,17 +160,14 @@ int main()
 
         auto extent = swapchain->extent();
         ShapeBlaster::Cursor cursor(resources);
-        auto spawnPosition = dst::Vector2(extent.width, extent.height) * 0.5f;
-        ShapeBlaster::PlayerShip playerShip(resources, cursor, spawnPosition);
 
-
-        std::array<ShapeBlaster::Bullet, 64> bullets { };
+        std::array<ShapeBlaster::Bullet, 128> bullets { };
         for (size_t i = 0; i < bullets.size(); ++i) {
-            dst::Vector2 position;
-            position.y = spawnPosition.y;
-            position.x = i * 16;
-            bullets[i] = ShapeBlaster::Bullet(resources, position, dst::Vector2::Zero, i);
+            bullets[i] = ShapeBlaster::Bullet(resources, i);
         }
+
+        auto spawnPosition = dst::Vector2(extent.width, extent.height) * 0.5f;
+        ShapeBlaster::PlayerShip playerShip(resources, cursor, bullets, spawnPosition);
 
         dst::Clock clock;
         float angle = 0;
@@ -274,7 +271,7 @@ int main()
                         commandBuffer->begin(beginInfo);
 
                         std::array<VkClearValue, 2> clearValues;
-                        clearValues[0].color = { 0.2f, 0.2f, 0.2f, 1 };
+                        clearValues[0].color = { 0, 0, 0, 1 };
                         clearValues[1].depthStencil = { 1, 0 };
                         RenderPass::BeginInfo renderPassBeginInfo;
                         renderPassBeginInfo.renderPass = *resources.mRenderPass;

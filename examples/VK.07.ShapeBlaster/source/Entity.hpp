@@ -28,6 +28,11 @@ namespace ShapeBlaster {
         return std::atan2(v.y, v.x);
     }
 
+    static dst::Vector2 from_polar(float angle, float magnitude)
+    {
+        return dst::Vector2(std::cos(angle), std::sin(angle)) * magnitude;
+    }
+
     class Entity
     {
     public:
@@ -43,6 +48,11 @@ namespace ShapeBlaster {
         bool mExpired { false };
 
     public:
+        bool expired() const
+        {
+            return mExpired;
+        }
+
         dst::Vector2 size() const
         {
             return
