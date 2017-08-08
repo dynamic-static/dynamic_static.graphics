@@ -80,6 +80,7 @@ namespace ShapeBlaster {
             ubo.color = mColor;
             ubo.wvp = projection * view * local_to_world();
             mSprite.mHostStorage[0] = ubo;
+            // *mSprite.ptr() = ubo;
             mSprite.update(device);
             // mSprite.uniformBuffer->write<Sprite::UniformBuffer>(
             //     std::array<Sprite::UniformBuffer, 1> { ubo }

@@ -163,30 +163,37 @@ namespace ShapeBlaster {
         };
 
     public:
-        size_t uniformBufferIndex { 0 };
+        uint32_t uniformBufferIndex { 0 };
         dst::vlkn::Image* image { nullptr };
         dst::vlkn::Descriptor::Set* descriptorSet { nullptr };
         dst::vlkn::Pipeline::Layout* pipelineLayout { nullptr };
         UniformBuffer* mHostStorage { nullptr };
         size_t mHostStorageSize { 0 };
+        size_t mHostStorageAlignment { 0 };
         std::shared_ptr<dst::vlkn::Buffer> uniformBuffer;
 
     public:
+        UniformBuffer* ptr()
+        {
+            return (UniformBuffer*)((uint64_t)mHostStorage + (uniformBufferIndex * mHostStorageAlignment));
+        }
+
         void update(dst::vlkn::Device& device)
         {
-            memcpy(uniformBuffer->mapped_ptr(), mHostStorage, mHostStorageSize);
-            VkMappedMemoryRange memoryRange { };
-            memoryRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
-            memoryRange.pNext = nullptr;
-            memoryRange.memory = *uniformBuffer->memory();
-            memoryRange.offset = 0;
-            memoryRange.size = static_cast<VkDeviceSize>(mHostStorageSize);
-            vkFlushMappedMemoryRanges(device, 1, &memoryRange);
+            if (uniformBufferIndex == 0) {
+                memcpy(uniformBuffer->mapped_ptr(), mHostStorage, mHostStorageSize);
+                VkMappedMemoryRange memoryRange { };
+                memoryRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
+                memoryRange.pNext = nullptr;
+                memoryRange.memory = *uniformBuffer->memory();
+                memoryRange.offset = 0;
+                memoryRange.size = static_cast<VkDeviceSize>(mHostStorageSize);
+                vkFlushMappedMemoryRanges(device, 1, &memoryRange);
+            }
         }
 
         void render(dst::vlkn::Command::Buffer& commandBuffer)
         {
-            uint32_t offset = 0;
             vkCmdBindDescriptorSets(
                 commandBuffer,
                 VK_PIPELINE_BIND_POINT_GRAPHICS,
@@ -195,7 +202,7 @@ namespace ShapeBlaster {
                 1,
                 &descriptorSet->handle(),
                 1,
-                &offset
+                &uniformBufferIndex
             );
 
             commandBuffer.draw_indexed(6 /* Resources::QuadIndexCount */);
@@ -283,18 +290,32 @@ namespace ShapeBlaster {
             playerSprite.uniformBufferIndex = 0;
             // seekerSprite = create_sprite(device, *seekerImage);
             // wandererSprite = create_sprite(device, *wandererImage);
-            // bulletSprite = create_sprite(device, *bulletImage);
+            // bulletSprite = create_sprite(device, *bulletImage, mBulletBufferSize);
             pointerSprite = create_sprite(device, *pointerImage, mPointerBufferSize);
-            pointerSprite.uniformBufferIndex = 1;
+            pointerSprite.uniformBufferIndex = 0;
 
             playerSprite.mHostStorage = mPlayerBuffer;
             playerSprite.mHostStorageSize = mPlayerBufferSize;
+            // playerSprite.mHostStorageAlignment = storage_alignment(device);
+
+            // bulletSprite.mHostStorage = mBulletBuffer;
+            // bulletSprite.mHostStorageSize = mBulletBufferSize;
+            // bulletSprite.mHostStorageAlignment = storage_alignment(device);
 
             pointerSprite.mHostStorage = mPointerBuffer;
             pointerSprite.mHostStorageSize = mPointerBufferSize;
+            // pointerSprite.mHostStorageAlignment = storage_alignment(device);
         }
 
     private:
+        size_t storage_alignment(const dst::vlkn::Device& device)
+        {
+            size_t elementSize = sizeof(Sprite::UniformBuffer);
+            size_t alignment = device.physical_device().properties().limits.minUniformBufferOffsetAlignment;
+            alignment = (elementSize / alignment) * alignment + ((elementSize % alignment) > 0 ? alignment : 0);
+            return alignment;
+        }
+
         Sprite::UniformBuffer* create_uniform_buffer_host_storage(const dst::vlkn::Device& device, size_t count, size_t& bufferSize)
         {
             size_t elementSize = sizeof(Sprite::UniformBuffer);

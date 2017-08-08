@@ -11,6 +11,7 @@
 // Based on "Make a Neon Vector Shooter in XNA"
 // https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559
 
+#include "Bullet.hpp"
 #include "Cursor.hpp"
 #include "PlayerShip.hpp"
 #include "Resources.hpp"
@@ -49,11 +50,11 @@ int main()
         VkDebugReportFlagsEXT debugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
-            // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
-            // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-            // | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-            // | VK_DEBUG_REPORT_WARNING_BIT_EXT
-            // | VK_DEBUG_REPORT_ERROR_BIT_EXT
+            | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+            | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+            | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+            | VK_DEBUG_REPORT_WARNING_BIT_EXT
+            | VK_DEBUG_REPORT_ERROR_BIT_EXT
             #endif
             ;
 
@@ -161,6 +162,8 @@ int main()
         ShapeBlaster::Cursor cursor(resources);
         auto spawnPosition = dst::Vector2(extent.width, extent.height) * 0.5f;
         ShapeBlaster::PlayerShip playerShip(resources, cursor, spawnPosition);
+
+        // ShapeBlaster::Bullet bullet0(resources, 
 
         dst::Clock clock;
         float angle = 0;
