@@ -14,6 +14,7 @@
 
 #include "Resources.hpp"
 
+#include "Dynamic_Static/Core/Algorithm.hpp"
 #include "Dynamic_Static/Core/Input.hpp"
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
@@ -96,6 +97,19 @@ namespace ShapeBlaster {
         void render(dst::vlkn::Command::Buffer& commandBuffer)
         {
             mSprite.render(commandBuffer);
+        }
+
+    protected:
+        void update_position(const dst::Clock& clock, const VkExtent2D& playField)
+        {
+            mPosition += mVelocity * clock.elapsed<dst::Second<float>>();
+            bounds_check(playField);
+        }
+
+        virtual void bounds_check(const VkExtent2D& playField)
+        {
+            mPosition.x = dst::clamp(mPosition.x, 0.0f, static_cast<float>(playField.width));
+            mPosition.y = dst::clamp(mPosition.y, 0.0f, static_cast<float>(playField.height));
         }
     };
 

@@ -35,6 +35,7 @@ namespace ShapeBlaster {
     private:
         static constexpr float Spread { 0.005f };
         static constexpr float CoolDownTime { 0.07f };
+        static constexpr float RateOfFire { 1 };
 
     private:
         float mSpeed { 720 };
@@ -60,21 +61,21 @@ namespace ShapeBlaster {
     public:
         void update(const dst::Input& input, const dst::Clock& clock, VkExtent2D playField) override final
         {
-            mVelocity = dst::Vector3::Zero;
+            auto moveDirection = dst::Vector3::Zero;
             if (input.keyboard().down(dst::Keyboard::Key::W)) {
-                ++mVelocity.y;
+                ++moveDirection.y;
             }
 
             if (input.keyboard().down(dst::Keyboard::Key::S)) {
-                --mVelocity.y;
+                --moveDirection.y;
             }
 
             if (input.keyboard().down(dst::Keyboard::Key::A)) {
-                --mVelocity.x;
+                --moveDirection.x;
             }
 
             if (input.keyboard().down(dst::Keyboard::Key::D)) {
-                ++mVelocity.x;
+                ++moveDirection.x;
             }
 
             if (input.mouse().down(dst::Mouse::Button::Left)) {
@@ -93,15 +94,13 @@ namespace ShapeBlaster {
                 fire_bullet({ 24, -7 });
             }
 
-            if (mVelocity.x || mVelocity.y) {
-                mVelocity.normalize();
-                mOrientation = to_angle(mVelocity);
+            if (moveDirection.x || moveDirection.y) {
+                moveDirection.normalize();
+                mOrientation = to_angle(moveDirection);
             }
 
-            mVelocity *= mSpeed * clock.elapsed<dst::Second<float>>();
-            mPosition += mVelocity;
-            mPosition.x = dst::clamp(mPosition.x, 0.0f, static_cast<float>(playField.width));
-            mPosition.y = dst::clamp(mPosition.y, 0.0f, static_cast<float>(playField.height));
+            mVelocity = moveDirection * mSpeed;
+            update_position(clock, playField);
         }
 
     private:

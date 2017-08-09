@@ -41,7 +41,7 @@ namespace ShapeBlaster {
         void spawn(const dst::Vector2& position, const dst::Vector2& direction)
         {
             mPosition = position;
-            mVelocity = direction;
+            mVelocity = direction * mSpeed;
             mOrientation = to_angle(mVelocity);
             mColor = dst::Color::White;
             mExpired = false;
@@ -54,12 +54,17 @@ namespace ShapeBlaster {
                     mOrientation = to_angle(mVelocity);
                 }
 
-                mPosition += mVelocity * mSpeed * clock.elapsed<dst::Second<float>>();
-                if (mPosition.x < 0 || playField.width < mPosition.x ||
-                    mPosition.y < 0 || playField.height < mPosition.y) {
-                    mColor = dst::Color::Transparent;
-                    mExpired = true;
-                }
+                update_position(clock, playField);
+            }
+        }
+
+    private:
+        void bounds_check(const VkExtent2D& playField)
+        {
+            if (mPosition.x < 0 || playField.width < mPosition.x ||
+                mPosition.y < 0 || playField.height < mPosition.y) {
+                mColor = dst::Color::Transparent;
+                mExpired = true;
             }
         }
     };
