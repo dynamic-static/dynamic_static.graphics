@@ -27,7 +27,7 @@ namespace ShapeBlaster {
         }
 
     public:
-        void update(const dst::Input& input, const dst::Clock& clock, VkExtent2D playField) override final
+        void update(const dst::Input& input, const dst::Clock& clock, const VkExtent2D& playField) override final
         {
             mPosition = input.mouse().position();
             mPosition.y = playField.height - mPosition.y;

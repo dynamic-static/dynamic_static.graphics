@@ -15,6 +15,8 @@
 #include "Cursor.hpp"
 #include "PlayerShip.hpp"
 #include "Resources.hpp"
+#include "Seeker.hpp"
+#include "Wanderer.hpp"
 
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
@@ -166,6 +168,16 @@ int main()
             bullets[i] = ShapeBlaster::Bullet(resources, i);
         }
 
+        std::array<ShapeBlaster::Wanderer, 64> wanderers { };
+        for (size_t i = 0; i < wanderers.size(); ++i) {
+            wanderers[i] = ShapeBlaster::Wanderer(resources, i);
+        }
+
+        std::array<ShapeBlaster::Seeker, 64> seekers { };
+        for (size_t i = 0; i < seekers.size(); ++i) {
+            seekers[i] = ShapeBlaster::Seeker(resources, i);
+        }
+
         auto spawnPosition = dst::Vector2(extent.width, extent.height) * 0.5f;
         ShapeBlaster::PlayerShip playerShip(resources, cursor, bullets, spawnPosition);
 
@@ -173,6 +185,15 @@ int main()
         float angle = 0;
         bool running = true;
         while (running) {
+            static size_t sFrameCounter;
+            static dst::Timer sFrameTimer;
+            ++sFrameCounter;
+            if (sFrameTimer.total<dst::Second<>>() >= 1) {
+                window->name("Dynamic_Static VK.07.ShapeBlaster @ " + dst::to_string(sFrameCounter) + " fps");
+                sFrameTimer.reset();
+                sFrameCounter = 0;
+            }
+
             Window::update();
             auto quitKey = dst::Keyboard::Key::Escape;
             if (window->input().keyboard().down(quitKey)) {
@@ -192,6 +213,36 @@ int main()
                 bullets[i].update(input, clock, extent);
             }
 
+            static bool needSpawn = false;
+            static size_t counter;
+            if (counter++ >= 20) {
+                counter = 0;
+                needSpawn = true;
+            }
+
+            for (size_t i = wanderers.size(); i-- > 0;) {
+                wanderers[i].update(input, clock, extent);
+                if (wanderers[i].expired() && needSpawn) {
+                    wanderers[i].spawn(clock, extent, playerShip);
+                    needSpawn = false;
+                }
+            }
+
+            static bool needSpawn_ex = false;
+            static size_t counter_ex;
+            if (counter_ex++ >= 20) {
+                counter_ex = 0;
+                needSpawn_ex = true;
+            }
+
+            for (size_t i = seekers.size(); i-- > 0;) {
+                seekers[i].update(input, clock, extent);
+                if (seekers[i].expired() && needSpawn_ex) {
+                    seekers[i].spawn(clock, extent, playerShip);
+                    needSpawn_ex = false;
+                }
+            }
+
             auto view = dst::Matrix4x4::create_view(
                 { 0, 0, 1 }, dst::Vector3::Zero, dst::Vector3::UnitY
             );
@@ -207,6 +258,14 @@ int main()
 
             for (size_t i = bullets.size(); i-- > 0;) {
                 bullets[i].update_uniforms(*device, view, projection);
+            }
+
+            for (size_t i = wanderers.size(); i-- > 0;) {
+                wanderers[i].update_uniforms(*device, view, projection);
+            }
+
+            for (size_t i = seekers.size(); i-- > 0;) {
+                seekers[i].update_uniforms(*device, view, projection);
             }
 
             presentQueue.wait_idle();
@@ -302,6 +361,14 @@ int main()
 
                         for (size_t i = bullets.size(); i-- > 0;) {
                             bullets[i].render(*commandBuffer);
+                        }
+
+                        for (size_t i = wanderers.size(); i-- > 0;) {
+                            wanderers[i].render(*commandBuffer);
+                        }
+
+                        for (size_t i = seekers.size(); i-- > 0;) {
+                            seekers[i].render(*commandBuffer);
                         }
 
                         commandBuffer->end_render_pass();

@@ -34,6 +34,13 @@ namespace ShapeBlaster {
         return dst::Vector2(std::cos(angle), std::sin(angle)) * magnitude;
     }
 
+    static float wrap_radians(float theta)
+    {
+        auto twoPi = M_PI * 2;
+        theta = std::fmod(theta, twoPi);
+        return theta < 0 ? theta : theta + twoPi;
+    }
+
     class Entity
     {
     public:
@@ -83,7 +90,7 @@ namespace ShapeBlaster {
             return translation * rotation * scale;
         }
 
-        virtual void update(const dst::Input& input, const dst::Clock& clock, VkExtent2D playField) = 0;
+        virtual void update(const dst::Input& input, const dst::Clock& clock, const VkExtent2D& playField) = 0;
 
         void update_uniforms(dst::vlkn::Device& device, const dst::Matrix4x4& view, const dst::Matrix4x4& projection)
         {

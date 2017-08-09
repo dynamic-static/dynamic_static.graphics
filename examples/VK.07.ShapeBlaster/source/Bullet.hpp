@@ -47,7 +47,7 @@ namespace ShapeBlaster {
             mExpired = false;
         }
 
-        void update(const dst::Input& input, const dst::Clock& clock, VkExtent2D playField) override final
+        void update(const dst::Input& input, const dst::Clock& clock, const VkExtent2D& playField) override final
         {
             if (!mExpired) {
                 if (mVelocity.x || mVelocity.y) {

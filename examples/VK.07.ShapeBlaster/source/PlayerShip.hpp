@@ -59,7 +59,7 @@ namespace ShapeBlaster {
         }
 
     public:
-        void update(const dst::Input& input, const dst::Clock& clock, VkExtent2D playField) override final
+        void update(const dst::Input& input, const dst::Clock& clock, const VkExtent2D& playField) override final
         {
             auto moveDirection = dst::Vector3::Zero;
             if (input.keyboard().down(dst::Keyboard::Key::W)) {

@@ -265,8 +265,8 @@ namespace ShapeBlaster {
             Sampler::Info samplerInfo;
             samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER;
             samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER;
-            samplerInfo.magFilter = VK_FILTER_NEAREST;
-            samplerInfo.minFilter = VK_FILTER_NEAREST;
+            samplerInfo.magFilter = VK_FILTER_LINEAR;
+            samplerInfo.minFilter = VK_FILTER_LINEAR;
             mSampler = device.create<Sampler>(samplerInfo);
 
             playerImage = create_image(device, commandPool, queue, "Player.png");
@@ -289,8 +289,8 @@ namespace ShapeBlaster {
 
             playerSprite = create_sprite(device, *playerImage, mPlayerBufferSize);
             playerSprite.uniformBufferIndex = 0;
-            // seekerSprite = create_sprite(device, *seekerImage);
-            // wandererSprite = create_sprite(device, *wandererImage);
+            seekerSprite = create_sprite(device, *seekerImage, mSeekerBufferSize);
+            wandererSprite = create_sprite(device, *wandererImage, mWandererBufferSize);
             bulletSprite = create_sprite(device, *bulletImage, mBulletBufferSize);
             pointerSprite = create_sprite(device, *pointerImage, mPointerBufferSize);
             pointerSprite.uniformBufferIndex = 0;
@@ -298,6 +298,14 @@ namespace ShapeBlaster {
             playerSprite.mHostStorage = mPlayerBuffer;
             playerSprite.mHostStorageSize = mPlayerBufferSize;
             playerSprite.mHostStorageAlignment = storage_alignment(device);
+
+            seekerSprite.mHostStorage = mSeekerBuffer;
+            seekerSprite.mHostStorageSize = mSeekerBufferSize;
+            seekerSprite.mHostStorageAlignment = storage_alignment(device);
+
+            wandererSprite.mHostStorage = mWandererBuffer;
+            wandererSprite.mHostStorageSize = mWandererBufferSize;
+            wandererSprite.mHostStorageAlignment = storage_alignment(device);
 
             bulletSprite.mHostStorage = mBulletBuffer;
             bulletSprite.mHostStorageSize = mBulletBufferSize;
