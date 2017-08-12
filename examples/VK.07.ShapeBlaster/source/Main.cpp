@@ -13,6 +13,7 @@
 
 #include "Bullet.hpp"
 #include "Cursor.hpp"
+#include "Entity.Manager.hpp"
 #include "PlayerShip.hpp"
 #include "Resources.hpp"
 #include "Seeker.hpp"
@@ -161,25 +162,33 @@ int main()
         );
 
         auto extent = swapchain->extent();
+
+        ShapeBlaster::Entity::Manager entityManager;
+
         ShapeBlaster::Cursor cursor(resources);
+        entityManager.add(&cursor);
 
         std::array<ShapeBlaster::Bullet, 128> bullets { };
         for (size_t i = 0; i < bullets.size(); ++i) {
             bullets[i] = ShapeBlaster::Bullet(resources, i);
+            entityManager.add(&bullets[i]);
         }
 
         std::array<ShapeBlaster::Wanderer, 64> wanderers { };
         for (size_t i = 0; i < wanderers.size(); ++i) {
             wanderers[i] = ShapeBlaster::Wanderer(resources, i);
+            entityManager.add(&wanderers[i]);
         }
 
         std::array<ShapeBlaster::Seeker, 64> seekers { };
         for (size_t i = 0; i < seekers.size(); ++i) {
             seekers[i] = ShapeBlaster::Seeker(resources, i);
+            entityManager.add(&seekers[i]);
         }
 
         auto spawnPosition = dst::Vector2(extent.width, extent.height) * 0.5f;
         ShapeBlaster::PlayerShip playerShip(resources, cursor, bullets, spawnPosition);
+        entityManager.add(&playerShip);
 
         dst::Clock clock;
         float angle = 0;
@@ -253,20 +262,22 @@ int main()
                 0, w, 0, h, 0.01f, 10.0f
             );
 
-            playerShip.update_uniforms(*device, view, projection);
-            cursor.update_uniforms(*device, view, projection);
+            // playerShip.update_uniforms(*device, view, projection);
+            // cursor.update_uniforms(*device, view, projection);
+            // 
+            // for (size_t i = bullets.size(); i-- > 0;) {
+            //     bullets[i].update_uniforms(*device, view, projection);
+            // }
+            // 
+            // for (size_t i = wanderers.size(); i-- > 0;) {
+            //     wanderers[i].update_uniforms(*device, view, projection);
+            // }
+            // 
+            // for (size_t i = seekers.size(); i-- > 0;) {
+            //     seekers[i].update_uniforms(*device, view, projection);
+            // }
 
-            for (size_t i = bullets.size(); i-- > 0;) {
-                bullets[i].update_uniforms(*device, view, projection);
-            }
-
-            for (size_t i = wanderers.size(); i-- > 0;) {
-                wanderers[i].update_uniforms(*device, view, projection);
-            }
-
-            for (size_t i = seekers.size(); i-- > 0;) {
-                seekers[i].update_uniforms(*device, view, projection);
-            }
+            entityManager.update_uniforms(*device, view, projection);
 
             presentQueue.wait_idle();
             swapchain->update();
@@ -356,21 +367,7 @@ int main()
                         commandBuffer->bind_vertex_buffer(*resources.quadVertexBuffer);
                         commandBuffer->bind_index_buffer(*resources.quadIndexBuffer);
 
-                        resources.mPlayerPackage.mSprite.render(*commandBuffer);
-                        //resources.playerSprite.render(*commandBuffer);
-                        resources.mPointerPackage.mSprite.render(*commandBuffer);
-
-                        for (size_t i = bullets.size(); i-- > 0;) {
-                            bullets[i].render(*commandBuffer);
-                        }
-
-                        for (size_t i = wanderers.size(); i-- > 0;) {
-                            wanderers[i].render(*commandBuffer);
-                        }
-
-                        for (size_t i = seekers.size(); i-- > 0;) {
-                            seekers[i].render(*commandBuffer);
-                        }
+                        entityManager.render(*commandBuffer);
 
                         commandBuffer->end_render_pass();
                         commandBuffer->end();

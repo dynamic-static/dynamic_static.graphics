@@ -452,32 +452,9 @@ namespace ShapeBlaster {
         Package mSeekerPackage;
         Package mWandererPackage;
 
-        //std::shared_ptr<dst::vlkn::Image> playerImage;
-        //std::shared_ptr<dst::vlkn::Image> seekerImage;
-        //std::shared_ptr<dst::vlkn::Image> wandererImage;
-        //std::shared_ptr<dst::vlkn::Image> bulletImage;
-        //std::shared_ptr<dst::vlkn::Image> pointerImage;
-
-        //Sprite playerSprite;
-        //Sprite seekerSprite;
-        //Sprite wandererSprite;
-        //Sprite bulletSprite;
-        //Sprite pointerSprite;
-
-        //Sprite::UniformBuffer* mPlayerBuffer { nullptr }; size_t mPlayerBufferSize { 0 };
-        //Sprite::UniformBuffer* mSeekerBuffer { nullptr }; size_t mSeekerBufferSize { 0 };
-        //Sprite::UniformBuffer* mWandererBuffer { nullptr }; size_t mWandererBufferSize { 0 };
-        //Sprite::UniformBuffer* mBulletBuffer { nullptr }; size_t mBulletBufferSize { 0 };
-        //Sprite::UniformBuffer* mPointerBuffer { nullptr }; size_t mPointerBufferSize { 0 };
-
     public:
         ~Resources()
         {
-            //aligned_free(mPlayerBuffer);
-            //aligned_free(mSeekerBuffer);
-            //aligned_free(mWandererBuffer);
-            //aligned_free(mBulletBuffer);
-            //aligned_free(mPointerBuffer);
         }
 
     public:
@@ -524,48 +501,6 @@ namespace ShapeBlaster {
             initialize_sprite_package("Seeker.png", 64, mSeekerPackage);
             initialize_sprite_package("Wanderer.png", 64, mWandererPackage);
             initialize_sprite_package("Pointer.png", 1, mPointerPackage);
-
-            //playerImage = create_image(device, commandPool, queue, "Player.png");
-            //seekerImage = create_image(device, commandPool, queue, "Seeker.png");
-            //wandererImage = create_image(device, commandPool, queue, "Wanderer.png");
-            //bulletImage = create_image(device, commandPool, queue, "Bullet.png");
-            //pointerImage = create_image(device, commandPool, queue, "Pointer.png");
-
-            //mPlayerBuffer = create_uniform_buffer_host_storage(device, 1, mPlayerBufferSize);
-            //mSeekerBuffer = create_uniform_buffer_host_storage(device, 64, mSeekerBufferSize);
-            //mWandererBuffer = create_uniform_buffer_host_storage(device, 64, mWandererBufferSize);
-            //mBulletBuffer = create_uniform_buffer_host_storage(device, 128, mBulletBufferSize);
-            //mPointerBuffer = create_uniform_buffer_host_storage(device, 1, mPointerBufferSize);
-
-            //playerSprite = create_sprite(device, *playerImage, mPlayerBufferSize);
-            //playerSprite.uniformBufferIndex = 0;
-            //seekerSprite = create_sprite(device, *seekerImage, mSeekerBufferSize);
-            //wandererSprite = create_sprite(device, *wandererImage, mWandererBufferSize);
-            //bulletSprite = create_sprite(device, *bulletImage, mBulletBufferSize);
-            //pointerSprite = create_sprite(device, *pointerImage, mPointerBufferSize);
-            //pointerSprite.uniformBufferIndex = 0;
-
-            //size_t uniformBufferElementSize = sizeof(Sprite::UniformBuffer);
-            //size_t uniformBufferAlignment = device.physical_device().uniform_buffer_alignment(uniformBufferElementSize);
-            //playerSprite.mHostStorage = mPlayerBuffer;
-            //playerSprite.mHostStorageSize = mPlayerBufferSize;
-            //playerSprite.mHostStorageAlignment = uniformBufferAlignment;
-
-            //seekerSprite.mHostStorage = mSeekerBuffer;
-            //seekerSprite.mHostStorageSize = mSeekerBufferSize;
-            //seekerSprite.mHostStorageAlignment = uniformBufferAlignment;
-
-            //wandererSprite.mHostStorage = mWandererBuffer;
-            //wandererSprite.mHostStorageSize = mWandererBufferSize;
-            //wandererSprite.mHostStorageAlignment = uniformBufferAlignment;
-
-            //bulletSprite.mHostStorage = mBulletBuffer;
-            //bulletSprite.mHostStorageSize = mBulletBufferSize;
-            //bulletSprite.mHostStorageAlignment = uniformBufferAlignment;
-
-            //pointerSprite.mHostStorage = mPointerBuffer;
-            //pointerSprite.mHostStorageSize = mPointerBufferSize;
-            //pointerSprite.mHostStorageAlignment = uniformBufferAlignment;
         }
 
     private:
