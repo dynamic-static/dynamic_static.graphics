@@ -356,7 +356,8 @@ int main()
                         commandBuffer->bind_vertex_buffer(*resources.quadVertexBuffer);
                         commandBuffer->bind_index_buffer(*resources.quadIndexBuffer);
 
-                        resources.playerSprite.render(*commandBuffer);
+                        resources.mPlayerPackage.mSprite.render(*commandBuffer);
+                        //resources.playerSprite.render(*commandBuffer);
                         resources.pointerSprite.render(*commandBuffer);
 
                         for (size_t i = bullets.size(); i-- > 0;) {

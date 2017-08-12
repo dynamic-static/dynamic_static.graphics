@@ -98,6 +98,11 @@ namespace Vulkan {
         /**
          * TODO : Documentation.
          */
+        size_t uniform_buffer_alignment(size_t elementSize) const;
+
+        /**
+         * TODO : Documentation.
+         */
         template <typename ObjectType, typename ...Args>
         std::shared_ptr<ObjectType> create(Args&&... args)
         {
@@ -111,8 +116,10 @@ namespace Vulkan {
 } // namespace Dynamic_Static
 
 namespace Dynamic_Static {
+
     /**
      * TODO : Documentation.
      */
     std::string to_string(VkPhysicalDeviceType physicalDeviceType);
+
 } // namespace Dynamic_Static

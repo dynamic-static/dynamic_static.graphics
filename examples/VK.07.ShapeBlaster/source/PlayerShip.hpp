@@ -54,7 +54,7 @@ namespace ShapeBlaster {
             : mCursor { &cursor }
             , mBullets { bullets }
         {
-            mSprite = resources.playerSprite;
+            mSprite = resources.mPlayerPackage.mSprite;
             mPosition = position;
         }
 

@@ -210,24 +210,233 @@ namespace ShapeBlaster {
         }
     };
 
+    struct Package final
+    {
+        std::shared_ptr<dst::vlkn::Image> mImage;
+        Sprite::UniformBuffer* mBuffer { nullptr };
+        size_t mBufferAligment { 0 };
+        size_t mBufferSize { 0 };
+        size_t mCount { 0 };
+        Sprite mSprite;
+
+        ~Package()
+        {
+            if (mBuffer) {
+                aligned_free(mBuffer);
+            }
+        }
+
+        void initialize(
+            dst::vlkn::Device& device,
+            dst::vlkn::Pipeline::Layout& pipelineLayout,
+            dst::vlkn::Command::Pool& commandPool,
+            dst::vlkn::Queue& queue,
+            dst::vlkn::Descriptor::Set::Layout& descriptorSetLayout,
+            dst::vlkn::Descriptor::Pool& descriptorPool,
+            dst::vlkn::Sampler& sampler,
+            const std::string& imageName,
+            size_t count
+        )
+        {
+            mCount = count;
+            create_image(device, commandPool, queue, "Player.png");
+            create_uniform_buffer_host_storage(device);
+
+            mSprite.image = mImage.get();
+            mSprite.uniformBuffer = create_uniform_buffer(device);
+            mSprite.pipelineLayout = &pipelineLayout;
+            mSprite.mHostStorage = mBuffer;
+            mSprite.mHostStorageSize = mBufferSize;
+            mSprite.mHostStorageAlignment = mBufferAligment;
+            mSprite.descriptorSet = create_descriptor_set(device, *mImage, *mSprite.uniformBuffer, descriptorSetLayout, descriptorPool, sampler);
+        }
+
+    private:
+        void create_image(
+            dst::vlkn::Device& device,
+            dst::vlkn::Command::Pool& commandPool,
+            dst::vlkn::Queue& queue,
+            const std::string& fileName
+        )
+        {
+            using namespace dst::vlkn;
+            std::string resourcePath = "../../../examples/resources/ShapeBlaster_AllParts/ShapeBlaster_Part5/ShapeBlaster_Part5Content/Art/";
+            auto filePath = dst::Path::combine(resourcePath, fileName);
+            auto imageCache = dst::gfx::ImageReader::read_file(filePath);
+
+            Buffer::Info stagingBufferInfo;
+            stagingBufferInfo.size = static_cast<VkDeviceSize>(imageCache.data().size_bytes());
+            stagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+            auto stagingMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+            auto stagingBuffer = device.create<Buffer>(stagingBufferInfo, stagingMemoryProperties);
+            stagingBuffer->write<uint8_t>(imageCache.data());
+
+            Image::Info imageInfo;
+            imageInfo.imageType = VK_IMAGE_TYPE_2D;
+            imageInfo.extent.width = imageCache.width();
+            imageInfo.extent.height = imageCache.height();
+            imageInfo.format = VK_FORMAT_R8G8B8A8_UNORM;
+            imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+            imageInfo.initialLayout = VK_IMAGE_LAYOUT_PREINITIALIZED;
+            imageInfo.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+            mImage = device.create<Image>(imageInfo);
+
+            Memory::Info memoryInfo;
+            auto memoryRequirements = mImage->memory_requirements();
+            memoryInfo.allocationSize = memoryRequirements.size;
+            memoryInfo.memoryTypeIndex = device.physical_device().find_memory_type_index(
+                memoryRequirements.memoryTypeBits,
+                VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
+            );
+
+            auto memory = device.allocate<Memory>(memoryInfo);
+            mImage->bind_memory(memory);
+
+            process_transient_command_buffer_ex(
+                commandPool,
+                queue,
+                [&](Command::Buffer& commandBuffer)
+                {
+                    auto barrier = create_layout_transition_barrier_ex(
+                        *mImage,
+                        VK_IMAGE_LAYOUT_PREINITIALIZED,
+                        VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL
+                    );
+
+                    vkCmdPipelineBarrier(
+                        commandBuffer,
+                        VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+                        VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+                        0,
+                        0, nullptr,
+                        0, nullptr,
+                        1, &barrier
+                    );
+
+                    VkBufferImageCopy copyRegion { };
+                    copyRegion.bufferOffset = 0;
+                    copyRegion.bufferRowLength = 0;
+                    copyRegion.bufferImageHeight = 0;
+                    copyRegion.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+                    copyRegion.imageSubresource.mipLevel = 0;
+                    copyRegion.imageSubresource.baseArrayLayer = 0;
+                    copyRegion.imageSubresource.layerCount = 1;
+                    copyRegion.imageOffset = { 0, 0, 0 };
+                    copyRegion.imageExtent = mImage->extent();
+                    vkCmdCopyBufferToImage(
+                        commandBuffer,
+                        *stagingBuffer,
+                        *mImage,
+                        VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                        1,
+                        &copyRegion
+                    );
+
+                    barrier = create_layout_transition_barrier_ex(
+                        *mImage,
+                        VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                        VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL
+                    );
+
+                    vkCmdPipelineBarrier(
+                        commandBuffer,
+                        VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+                        VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+                        0,
+                        0, nullptr,
+                        0, nullptr,
+                        1, &barrier
+                    );
+                }
+            );
+
+            mImage->create<Image::View>();
+        }
+
+        void create_uniform_buffer_host_storage(const dst::vlkn::Device& device)
+        {
+            size_t elementSize = sizeof(Sprite::UniformBuffer);
+            mBufferAligment = device.physical_device().uniform_buffer_alignment(elementSize);
+            mBufferSize = mCount * mBufferAligment;
+            mBuffer = reinterpret_cast<Sprite::UniformBuffer*>(aligned_alloc(mBufferSize, mBufferAligment));
+        }
+
+        std::shared_ptr<dst::vlkn::Buffer> create_uniform_buffer(dst::vlkn::Device& device)
+        {
+            using namespace dst::vlkn;
+
+            VkDeviceSize uniformBufferSize = sizeof(Sprite::UniformBuffer);
+            Buffer::Info uniformBufferInfo;
+            uniformBufferInfo.size = static_cast<VkDeviceSize>(mBufferSize);
+            uniformBufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+            auto uniformMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+            auto buffer = device.create<Buffer>(uniformBufferInfo, uniformMemoryProperties);
+            buffer->map();
+            return buffer;
+        }
+
+        dst::vlkn::Descriptor::Set* create_descriptor_set(
+            dst::vlkn::Device& device,
+            dst::vlkn::Image& image,
+            dst::vlkn::Buffer& uniformBuffer,
+            dst::vlkn::Descriptor::Set::Layout& descriptorSetLayout,
+            dst::vlkn::Descriptor::Pool& descriptorPool,
+            dst::vlkn::Sampler& sampler
+        )
+        {
+            using namespace dst::vlkn;
+            Descriptor::Set::Info descriptorSetInfo;
+            descriptorSetInfo.descriptorPool = descriptorPool;
+            descriptorSetInfo.descriptorSetCount = 1;
+            descriptorSetInfo.pSetLayouts = &descriptorSetLayout.handle();
+            auto descriptorSet = descriptorPool.allocate<Descriptor::Set>(descriptorSetInfo);
+
+            VkDescriptorBufferInfo descriptorBufferInfo { };
+            descriptorBufferInfo.buffer = uniformBuffer;
+            descriptorBufferInfo.offset = 0;
+            descriptorBufferInfo.range = VK_WHOLE_SIZE;
+            // descriptorBufferInfo.range = sizeof(Sprite::UniformBuffer);
+
+            VkDescriptorImageInfo descriptorImageInfo { };
+            descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+            descriptorImageInfo.imageView = *image.views()[0];
+            descriptorImageInfo.sampler = sampler;
+
+            std::array<VkWriteDescriptorSet, 2> descriptorWrites { };
+            descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+            descriptorWrites[0].dstSet = *descriptorSet;
+            descriptorWrites[0].dstBinding = 0;
+            descriptorWrites[0].dstArrayElement = 0;
+            descriptorWrites[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
+            descriptorWrites[0].descriptorCount = 1;
+            descriptorWrites[0].pBufferInfo = &descriptorBufferInfo;
+
+            descriptorWrites[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+            descriptorWrites[1].dstSet = *descriptorSet;
+            descriptorWrites[1].dstBinding = 1;
+            descriptorWrites[1].dstArrayElement = 0;
+            descriptorWrites[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+            descriptorWrites[1].descriptorCount = 1;
+            descriptorWrites[1].pImageInfo = &descriptorImageInfo;
+            vkUpdateDescriptorSets(
+                device,
+                static_cast<uint32_t>(descriptorWrites.size()),
+                descriptorWrites.data(),
+                0,
+                nullptr
+            );
+
+            return descriptorSet;
+        }
+    };
+
     class Resources final
     {
     public:
         static constexpr size_t QuadVertexCount { 4 };
         static constexpr size_t QuadIndexCount { 6 };
-        std::shared_ptr<dst::vlkn::Image> playerImage;
-        std::shared_ptr<dst::vlkn::Image> seekerImage;
-        std::shared_ptr<dst::vlkn::Image> wandererImage;
-        std::shared_ptr<dst::vlkn::Image> bulletImage;
-        std::shared_ptr<dst::vlkn::Image> pointerImage;
         std::shared_ptr<dst::vlkn::Buffer> quadVertexBuffer;
         std::shared_ptr<dst::vlkn::Buffer> quadIndexBuffer;
-
-        Sprite playerSprite;
-        Sprite seekerSprite;
-        Sprite wandererSprite;
-        Sprite bulletSprite;
-        Sprite pointerSprite;
 
         std::shared_ptr<dst::vlkn::RenderPass> mRenderPass;
         std::shared_ptr<dst::vlkn::Descriptor::Set::Layout> mDescriptorSetLayout;
@@ -237,7 +446,21 @@ namespace ShapeBlaster {
         std::shared_ptr<dst::vlkn::Buffer> mUniformBuffer;
         std::shared_ptr<dst::vlkn::Sampler> mSampler;
 
-        Sprite::UniformBuffer* mPlayerBuffer { nullptr }; size_t mPlayerBufferSize { 0 };
+        Package mPlayerPackage;
+
+        //std::shared_ptr<dst::vlkn::Image> playerImage;
+        std::shared_ptr<dst::vlkn::Image> seekerImage;
+        std::shared_ptr<dst::vlkn::Image> wandererImage;
+        std::shared_ptr<dst::vlkn::Image> bulletImage;
+        std::shared_ptr<dst::vlkn::Image> pointerImage;
+
+        //Sprite playerSprite;
+        Sprite seekerSprite;
+        Sprite wandererSprite;
+        Sprite bulletSprite;
+        Sprite pointerSprite;
+
+        //Sprite::UniformBuffer* mPlayerBuffer { nullptr }; size_t mPlayerBufferSize { 0 };
         Sprite::UniformBuffer* mSeekerBuffer { nullptr }; size_t mSeekerBufferSize { 0 };
         Sprite::UniformBuffer* mWandererBuffer { nullptr }; size_t mWandererBufferSize { 0 };
         Sprite::UniformBuffer* mBulletBuffer { nullptr }; size_t mBulletBufferSize { 0 };
@@ -246,7 +469,7 @@ namespace ShapeBlaster {
     public:
         ~Resources()
         {
-            aligned_free(mPlayerBuffer);
+            // aligned_free(mPlayerBuffer);
             aligned_free(mSeekerBuffer);
             aligned_free(mWandererBuffer);
             aligned_free(mBulletBuffer);
@@ -269,11 +492,6 @@ namespace ShapeBlaster {
             samplerInfo.minFilter = VK_FILTER_LINEAR;
             mSampler = device.create<Sampler>(samplerInfo);
 
-            playerImage = create_image(device, commandPool, queue, "Player.png");
-            seekerImage = create_image(device, commandPool, queue, "Seeker.png");
-            wandererImage = create_image(device, commandPool, queue, "Wanderer.png");
-            bulletImage = create_image(device, commandPool, queue, "Bullet.png");
-            pointerImage = create_image(device, commandPool, queue, "Pointer.png");
             create_quad(device, commandPool, queue);
 
             create_render_pass(device, renderPassFormat);
@@ -281,54 +499,66 @@ namespace ShapeBlaster {
             create_sprite_pipeline(device);
             create_descriptor_pool(device, 5);
 
-            mPlayerBuffer = create_uniform_buffer_host_storage(device, 1, mPlayerBufferSize);
+            mPlayerPackage.initialize(
+                device,
+                *mPipelineLayout,
+                commandPool,
+                queue,
+                *mDescriptorSetLayout,
+                *mDescriptorPool,
+                *mSampler,
+                "Player.png",
+                1
+            );
+
+            //playerImage = create_image(device, commandPool, queue, "Player.png");
+            seekerImage = create_image(device, commandPool, queue, "Seeker.png");
+            wandererImage = create_image(device, commandPool, queue, "Wanderer.png");
+            bulletImage = create_image(device, commandPool, queue, "Bullet.png");
+            pointerImage = create_image(device, commandPool, queue, "Pointer.png");
+
+            //mPlayerBuffer = create_uniform_buffer_host_storage(device, 1, mPlayerBufferSize);
             mSeekerBuffer = create_uniform_buffer_host_storage(device, 64, mSeekerBufferSize);
             mWandererBuffer = create_uniform_buffer_host_storage(device, 64, mWandererBufferSize);
             mBulletBuffer = create_uniform_buffer_host_storage(device, 128, mBulletBufferSize);
             mPointerBuffer = create_uniform_buffer_host_storage(device, 1, mPointerBufferSize);
 
-            playerSprite = create_sprite(device, *playerImage, mPlayerBufferSize);
-            playerSprite.uniformBufferIndex = 0;
+            //playerSprite = create_sprite(device, *playerImage, mPlayerBufferSize);
+            //playerSprite.uniformBufferIndex = 0;
             seekerSprite = create_sprite(device, *seekerImage, mSeekerBufferSize);
             wandererSprite = create_sprite(device, *wandererImage, mWandererBufferSize);
             bulletSprite = create_sprite(device, *bulletImage, mBulletBufferSize);
             pointerSprite = create_sprite(device, *pointerImage, mPointerBufferSize);
             pointerSprite.uniformBufferIndex = 0;
 
-            playerSprite.mHostStorage = mPlayerBuffer;
-            playerSprite.mHostStorageSize = mPlayerBufferSize;
-            playerSprite.mHostStorageAlignment = storage_alignment(device);
+            size_t uniformBufferElementSize = sizeof(Sprite::UniformBuffer);
+            size_t uniformBufferAlignment = device.physical_device().uniform_buffer_alignment(uniformBufferElementSize);
+            //playerSprite.mHostStorage = mPlayerBuffer;
+            //playerSprite.mHostStorageSize = mPlayerBufferSize;
+            //playerSprite.mHostStorageAlignment = uniformBufferAlignment;
 
             seekerSprite.mHostStorage = mSeekerBuffer;
             seekerSprite.mHostStorageSize = mSeekerBufferSize;
-            seekerSprite.mHostStorageAlignment = storage_alignment(device);
+            seekerSprite.mHostStorageAlignment = uniformBufferAlignment;
 
             wandererSprite.mHostStorage = mWandererBuffer;
             wandererSprite.mHostStorageSize = mWandererBufferSize;
-            wandererSprite.mHostStorageAlignment = storage_alignment(device);
+            wandererSprite.mHostStorageAlignment = uniformBufferAlignment;
 
             bulletSprite.mHostStorage = mBulletBuffer;
             bulletSprite.mHostStorageSize = mBulletBufferSize;
-            bulletSprite.mHostStorageAlignment = storage_alignment(device);
+            bulletSprite.mHostStorageAlignment = uniformBufferAlignment;
 
             pointerSprite.mHostStorage = mPointerBuffer;
             pointerSprite.mHostStorageSize = mPointerBufferSize;
-            pointerSprite.mHostStorageAlignment = storage_alignment(device);
+            pointerSprite.mHostStorageAlignment = uniformBufferAlignment;
         }
 
     private:
-        size_t storage_alignment(const dst::vlkn::Device& device)
-        {
-            size_t elementSize = sizeof(Sprite::UniformBuffer);
-            size_t alignment = device.physical_device().properties().limits.minUniformBufferOffsetAlignment;
-            alignment = (elementSize / alignment) * alignment + ((elementSize % alignment) > 0 ? alignment : 0);
-            return alignment;
-        }
-
         Sprite::UniformBuffer* create_uniform_buffer_host_storage(const dst::vlkn::Device& device, size_t count, size_t& bufferSize)
         {
             size_t elementSize = sizeof(Sprite::UniformBuffer);
-            size_t alignment = storage_alignment(device);
+            size_t alignment = device.physical_device().uniform_buffer_alignment(elementSize);
             bufferSize = count * alignment;
             return reinterpret_cast<Sprite::UniformBuffer*>(aligned_alloc(bufferSize, alignment));
         }

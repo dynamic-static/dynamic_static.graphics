@@ -116,6 +116,12 @@ namespace Vulkan {
         return format;
     }
 
+    size_t PhysicalDevice::uniform_buffer_alignment(size_t elementSize) const
+    {
+        size_t alignment = properties().limits.minUniformBufferOffsetAlignment;
+        return (elementSize / alignment) * alignment + ((elementSize % alignment) > 0 ? alignment : 0);
+    }
+
 } // namespace Vulkan
 } // namespace Graphics
 } // namespace Dynamic_Static
