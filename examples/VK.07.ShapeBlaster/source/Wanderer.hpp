@@ -37,7 +37,7 @@ namespace ShapeBlaster {
 
         Wanderer(Resources& resources, size_t index)
         {
-            mSprite = resources.wandererSprite;
+            mSprite = resources.mWandererPackage.mSprite;
             mSprite.uniformBufferIndex = index;
             mColor = dst::Color::Transparent;
             mRadius = mSprite.image->extent().width * 0.5f;

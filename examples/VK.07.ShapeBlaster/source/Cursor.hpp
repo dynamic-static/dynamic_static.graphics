@@ -23,7 +23,7 @@ namespace ShapeBlaster {
     public:
         Cursor(Resources& resources)
         {
-            mSprite = resources.pointerSprite;
+            mSprite = resources.mPointerPackage.mSprite;
         }
 
     public:

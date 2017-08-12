@@ -30,7 +30,7 @@ namespace ShapeBlaster {
 
         Bullet(Resources& resources, size_t index)
         {
-            mSprite = resources.bulletSprite;
+            mSprite = resources.mBulletPackage.mSprite;
             mSprite.uniformBufferIndex = static_cast<uint32_t>(index);
             mColor = dst::Color::Transparent;
             mRadius = 8;

@@ -358,7 +358,7 @@ int main()
 
                         resources.mPlayerPackage.mSprite.render(*commandBuffer);
                         //resources.playerSprite.render(*commandBuffer);
-                        resources.pointerSprite.render(*commandBuffer);
+                        resources.mPointerPackage.mSprite.render(*commandBuffer);
 
                         for (size_t i = bullets.size(); i-- > 0;) {
                             bullets[i].render(*commandBuffer);
