@@ -33,14 +33,12 @@ namespace ShapeBlaster {
         const PlayerShip* mPlayer { nullptr };
 
     public:
-        void spawn(const dst::Clock& clock, const VkExtent2D& playField, const PlayerShip& player)
+        void spawn(const dst::Clock& clock, const dst::Vector2& spawnPosition, const PlayerShip& player)
         {
-            // TODO : Don't spawn too close to the player...
             mPlayer = &player;
-            mPosition.x = dst::Random.range<float>(0, playField.width);
-            mPosition.y = dst::Random.range<float>(0, playField.height);
+            mPosition = spawnPosition;
             mColor = dst::Color::Transparent;
-            on_spawn(clock, playField, player);
+            on_spawn(clock, player);
             mExpired = false;
         }
 
@@ -65,7 +63,7 @@ namespace ShapeBlaster {
         }
 
     protected:
-        virtual void on_spawn(const dst::Clock& clock, const VkExtent2D& playField, const PlayerShip& player)
+        virtual void on_spawn(const dst::Clock& clock, const PlayerShip& player)
         {
         }
 

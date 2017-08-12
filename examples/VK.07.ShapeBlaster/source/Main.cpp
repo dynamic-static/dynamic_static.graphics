@@ -163,32 +163,9 @@ int main()
 
         auto extent = swapchain->extent();
 
-        ShapeBlaster::Entity::Manager entityManager;
+        ShapeBlaster::Entity::Manager entityManager(*swapchain, resources);
 
         ShapeBlaster::Cursor cursor(resources);
-        entityManager.add(&cursor);
-
-        std::array<ShapeBlaster::Bullet, 128> bullets { };
-        for (size_t i = 0; i < bullets.size(); ++i) {
-            bullets[i] = ShapeBlaster::Bullet(resources, i);
-            entityManager.add(&bullets[i]);
-        }
-
-        std::array<ShapeBlaster::Wanderer, 64> wanderers { };
-        for (size_t i = 0; i < wanderers.size(); ++i) {
-            wanderers[i] = ShapeBlaster::Wanderer(resources, i);
-            entityManager.add(&wanderers[i]);
-        }
-
-        std::array<ShapeBlaster::Seeker, 64> seekers { };
-        for (size_t i = 0; i < seekers.size(); ++i) {
-            seekers[i] = ShapeBlaster::Seeker(resources, i);
-            entityManager.add(&seekers[i]);
-        }
-
-        auto spawnPosition = dst::Vector2(extent.width, extent.height) * 0.5f;
-        ShapeBlaster::PlayerShip playerShip(resources, cursor, bullets, spawnPosition);
-        entityManager.add(&playerShip);
 
         dst::Clock clock;
         float angle = 0;
@@ -215,42 +192,8 @@ int main()
 
             extent = swapchain->extent();
             const auto& input = window->input();
-            playerShip.update(input, clock, extent);
-            cursor.update(input, clock, extent);
 
-            for (size_t i = bullets.size(); i-- > 0;) {
-                bullets[i].update(input, clock, extent);
-            }
-
-            static bool needSpawn = false;
-            static size_t counter;
-            if (counter++ >= 20) {
-                counter = 0;
-                needSpawn = true;
-            }
-
-            for (size_t i = wanderers.size(); i-- > 0;) {
-                wanderers[i].update(input, clock, extent);
-                if (wanderers[i].expired() && needSpawn) {
-                    wanderers[i].spawn(clock, extent, playerShip);
-                    needSpawn = false;
-                }
-            }
-
-            static bool needSpawn_ex = false;
-            static size_t counter_ex;
-            if (counter_ex++ >= 20) {
-                counter_ex = 0;
-                needSpawn_ex = true;
-            }
-
-            for (size_t i = seekers.size(); i-- > 0;) {
-                seekers[i].update(input, clock, extent);
-                if (seekers[i].expired() && needSpawn_ex) {
-                    seekers[i].spawn(clock, extent, playerShip);
-                    needSpawn_ex = false;
-                }
-            }
+            entityManager.udpate(input, clock, extent);
 
             auto view = dst::Matrix4x4::create_view(
                 { 0, 0, 1 }, dst::Vector3::Zero, dst::Vector3::UnitY
@@ -261,21 +204,6 @@ int main()
             auto projection = dst::Matrix4x4::create_orhtographic(
                 0, w, 0, h, 0.01f, 10.0f
             );
-
-            // playerShip.update_uniforms(*device, view, projection);
-            // cursor.update_uniforms(*device, view, projection);
-            // 
-            // for (size_t i = bullets.size(); i-- > 0;) {
-            //     bullets[i].update_uniforms(*device, view, projection);
-            // }
-            // 
-            // for (size_t i = wanderers.size(); i-- > 0;) {
-            //     wanderers[i].update_uniforms(*device, view, projection);
-            // }
-            // 
-            // for (size_t i = seekers.size(); i-- > 0;) {
-            //     seekers[i].update_uniforms(*device, view, projection);
-            // }
 
             entityManager.update_uniforms(*device, view, projection);
 

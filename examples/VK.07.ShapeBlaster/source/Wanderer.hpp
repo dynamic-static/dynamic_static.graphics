@@ -50,7 +50,7 @@ namespace ShapeBlaster {
         }
 
     protected:
-        void on_spawn(const dst::Clock& clock, const VkExtent2D& playField, const PlayerShip& player) override final
+        void on_spawn(const dst::Clock& clock, const PlayerShip& player) override final
         {
             mCalclulateDirectionTimer = CalculateDirectionTime;
         }
