@@ -119,9 +119,6 @@ int main()
         commandPoolInfo.queueFamilyIndex = static_cast<uint32_t>(graphicsQueue.family_index());
         auto commandPool = device->create<Command::Pool>(commandPoolInfo);
 
-        ShapeBlaster::Resources resources;
-        resources.load(*device, *commandPool, graphicsQueue, swapchain->format());
-
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Buffers
         for (size_t i = 0; i < swapchain->images().size(); ++i) {
@@ -163,20 +160,16 @@ int main()
             VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
         );
 
-        auto extent = swapchain->extent();
-
+        ShapeBlaster::Resources resources;
+        resources.load(*device, *commandPool, graphicsQueue, swapchain->format());
         ShapeBlaster::Game game(resources);
-
-        //ShapeBlaster::PlayerStatus playerStatus;
-        //ShapeBlaster::Entity::Manager entityManager(resources, playerStatus);
-        std::string title = "Dynamic_Static VK.07.ShapeBlaster";
 
         dst::Clock clock;
         float angle = 0;
         float frameRate = 0;
         bool running = true;
         while (running) {
-            window->name(title + "    " + game.label());
+            window->name("Dynamic_Static VK.07.ShapeBlaster    " + game.label());
 
             Window::update();
             auto quitKey = dst::Keyboard::Key::Escape;
@@ -185,22 +178,7 @@ int main()
             }
 
             clock.update();
-            extent = swapchain->extent();
-            // const auto& input = window->input();
-            // entityManager.udpate(input, clock, extent);
-            // playerStatus.update(clock);
-            // 
-            // auto view = dst::Matrix4x4::create_view(
-            //     { 0, 0, 1 }, dst::Vector3::Zero, dst::Vector3::UnitY
-            // );
-            // 
-            // float w = static_cast<float>(extent.width);
-            // float h = static_cast<float>(extent.height);
-            // auto projection = dst::Matrix4x4::create_orhtographic(
-            //     0, w, 0, h, 0.01f, 10.0f
-            // );
-            // 
-            // entityManager.update_uniforms(*device, view, projection);
+            auto extent = swapchain->extent();
             game.update(*device, window->input(), clock, extent);
 
             presentQueue.wait_idle();
