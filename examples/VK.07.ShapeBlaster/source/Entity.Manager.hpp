@@ -44,7 +44,6 @@ namespace ShapeBlaster {
         std::vector<Entity*> mEntities;
         std::vector<Enemy*> mActiveEnemies;
         std::vector<Bullet*> mActiveBullets;
-        dst::vlkn::SwapchainKHR* mSwapChain { nullptr };
         PlayerStatus* mStatus { nullptr };
         float inverseSpawnChance { 60 };
         size_t mEnemyCount { 0 };
@@ -52,9 +51,8 @@ namespace ShapeBlaster {
         float mSpawnRate { 1 };
 
     public:
-        Manager(dst::vlkn::SwapchainKHR& swapChain, Resources& resources, PlayerStatus& status)
-            : mSwapChain { &swapChain }
-            , mStatus { &status }
+        Manager(Resources& resources, PlayerStatus& status)
+            : mStatus { &status }
         {
             mCursors.push_back(Cursor(resources));
             mEntities.push_back(&mCursors[0]);
@@ -80,8 +78,7 @@ namespace ShapeBlaster {
                 mActiveEnemies.push_back(&mSeekers[i]);
             }
 
-            auto extent = mSwapChain->extent();
-            auto spawnPosition = dst::Vector2(extent.width, extent.height) * 0.5f;
+            auto spawnPosition = dst::Vector2(1280, 720) * 0.5f;
             mPlayerShips.push_back(PlayerShip(resources, mCursors[0], mBullets, spawnPosition));
             mEntities.push_back(&mPlayerShips[0]);
         }

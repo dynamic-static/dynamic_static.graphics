@@ -14,6 +14,7 @@
 #include "Bullet.hpp"
 #include "Cursor.hpp"
 #include "Entity.Manager.hpp"
+#include "Game.hpp"
 #include "PlayerShip.hpp"
 #include "Game.Status.hpp"
 #include "Resources.hpp"
@@ -164,8 +165,10 @@ int main()
 
         auto extent = swapchain->extent();
 
-        ShapeBlaster::PlayerStatus playerStatus;
-        ShapeBlaster::Entity::Manager entityManager(*swapchain, resources, playerStatus);
+        ShapeBlaster::Game game(resources);
+
+        //ShapeBlaster::PlayerStatus playerStatus;
+        //ShapeBlaster::Entity::Manager entityManager(resources, playerStatus);
         std::string title = "Dynamic_Static VK.07.ShapeBlaster";
 
         dst::Clock clock;
@@ -173,14 +176,7 @@ int main()
         float frameRate = 0;
         bool running = true;
         while (running) {
-            window->name(
-                title + "    " +
-                "[Lives : "      + dst::to_string(playerStatus.lives())      + "]    " +
-                "[Bombs : "      + dst::to_string(0)                         + "]    " +
-                "[Multiplier : " + dst::to_string(playerStatus.multiplier()) + "]    " +
-                "[Score : "      + dst::to_string(playerStatus.score())      + "]    " +
-                "[HiScore : "    + dst::to_string(0)                         + "]"
-            );
+            window->name(title + "    " + game.label());
 
             Window::update();
             auto quitKey = dst::Keyboard::Key::Escape;
@@ -190,21 +186,22 @@ int main()
 
             clock.update();
             extent = swapchain->extent();
-            const auto& input = window->input();
-            entityManager.udpate(input, clock, extent);
-            playerStatus.update(clock);
-
-            auto view = dst::Matrix4x4::create_view(
-                { 0, 0, 1 }, dst::Vector3::Zero, dst::Vector3::UnitY
-            );
-
-            float w = static_cast<float>(extent.width);
-            float h = static_cast<float>(extent.height);
-            auto projection = dst::Matrix4x4::create_orhtographic(
-                0, w, 0, h, 0.01f, 10.0f
-            );
-
-            entityManager.update_uniforms(*device, view, projection);
+            // const auto& input = window->input();
+            // entityManager.udpate(input, clock, extent);
+            // playerStatus.update(clock);
+            // 
+            // auto view = dst::Matrix4x4::create_view(
+            //     { 0, 0, 1 }, dst::Vector3::Zero, dst::Vector3::UnitY
+            // );
+            // 
+            // float w = static_cast<float>(extent.width);
+            // float h = static_cast<float>(extent.height);
+            // auto projection = dst::Matrix4x4::create_orhtographic(
+            //     0, w, 0, h, 0.01f, 10.0f
+            // );
+            // 
+            // entityManager.update_uniforms(*device, view, projection);
+            game.update(*device, window->input(), clock, extent);
 
             presentQueue.wait_idle();
             swapchain->update();
@@ -294,7 +291,8 @@ int main()
                         commandBuffer->bind_vertex_buffer(*resources.quadVertexBuffer);
                         commandBuffer->bind_index_buffer(*resources.quadIndexBuffer);
 
-                        entityManager.render(*commandBuffer);
+                        game.render(*commandBuffer);
+                        // entityManager.render(*commandBuffer);
 
                         commandBuffer->end_render_pass();
                         commandBuffer->end();

@@ -32,16 +32,10 @@ namespace ShapeBlaster {
     private:
         uint32_t mLives { DefaultLives };
         uint32_t mScore { 0 };
+        uint32_t mHighScore { 0 };
         uint32_t mMultiplier { 1 };
         float mMultiplierTimer { 0 };
         uint32_t mNextLife { FreeLifeScore };
-        PlayerShip* mPlayerShip { nullptr };
-
-    public:
-        PlayerStatus()
-        {
-
-        }
 
     public:
         uint32_t lives() const
@@ -71,22 +65,18 @@ namespace ShapeBlaster {
 
         void add_points(uint32_t points)
         {
-            if (true /* Player is alive */) {
-                mScore += points * mMultiplier;
-                while (mScore >= mNextLife) {
-                    mNextLife += FreeLifeScore;
-                    ++mLives;
-                }
+            mScore += points * mMultiplier;
+            while (mScore >= mNextLife) {
+                mNextLife += FreeLifeScore;
+                ++mLives;
             }
         }
 
         void increase_multiplier()
         {
-            if (true /* Player is alive */) {
-                mMultiplierTimer = MultiplierExpireTime;
-                if (mMultiplier < MaxMultiplier) {
-                    ++mMultiplier;
-                }
+            mMultiplierTimer = MultiplierExpireTime;
+            if (mMultiplier < MaxMultiplier) {
+                ++mMultiplier;
             }
         }
 
@@ -102,14 +92,29 @@ namespace ShapeBlaster {
 
         void reset()
         {
+            if (mScore > mHighScore) {
+                mHighScore = mScore;
+                save_high_score();
+            }
+
             mLives = DefaultLives;
             mScore = 0;
             mMultiplier = 1;
+            mMultiplierTimer = 0;
             mNextLife = FreeLifeScore;
         }
 
     private:
+        void load_high_score()
+        {
+            mHighScore = 0; // TODO : Read from file...
+        }
 
+        void save_high_score()
+        {
+            
+            // TODO : Write to file...
+        }
     };
 
 } // namespace ShapeBlaster
