@@ -13,7 +13,6 @@
 #pragma once
 
 #include "Game.Status.hpp"
-#include "Enemy.Spawner.hpp"
 #include "Entity.Manager.hpp"
 #include "Resources.hpp"
 
@@ -31,25 +30,16 @@ namespace ShapeBlaster {
     class Game final
     {
     private:
-        // Resources resources;
         PlayerStatus mGameStatus;
-        // Enemy::Spawner mEnemySpawner;
         Entity::Manager mEntityManager;
-        dst::Clock mClock;
 
     public:
         Game(Resources& resources)
             : mEntityManager(resources, mGameStatus)
         {
-
         }
 
     public:
-        bool over() const
-        {
-            // mStatus.lives() == 0;
-        }
-
         void update(
             dst::vlkn::Device& device,
             const dst::Input& input,
@@ -57,27 +47,28 @@ namespace ShapeBlaster {
             const VkExtent2D& playField
         )
         {
-            // clock update
-            // input update
+            if (mGameStatus.over()) {
+                // TODO : Any key / button...
+                if (input.keyboard().pressed(dst::Keyboard::Key::SpaceBar)) {
+                    mEntityManager.reset();
+                    mGameStatus.reset();
+                }
+            } else {
+                mEntityManager.udpate(input, clock, playField);
+                mGameStatus.update(clock);
 
-            // if (input was pressed back or escape)
-            //  exit
+                auto view = dst::Matrix4x4::create_view(
+                    { 0, 0, 1 }, dst::Vector3::Zero, dst::Vector3::UnitY
+                );
 
-            mEntityManager.udpate(input, clock, playField);
-            // mEnemySpawner.update(clock);
-            mGameStatus.update(clock);
+                float w = static_cast<float>(playField.width);
+                float h = static_cast<float>(playField.height);
+                auto projection = dst::Matrix4x4::create_orhtographic(
+                    0, w, 0, h, 0.01f, 10.0f
+                );
 
-            auto view = dst::Matrix4x4::create_view(
-                { 0, 0, 1 }, dst::Vector3::Zero, dst::Vector3::UnitY
-            );
-
-            float w = static_cast<float>(playField.width);
-            float h = static_cast<float>(playField.height);
-            auto projection = dst::Matrix4x4::create_orhtographic(
-                0, w, 0, h, 0.01f, 10.0f
-            );
-
-            mEntityManager.update_uniforms(device, view, projection);
+                mEntityManager.update_uniforms(device, view, projection);
+            }
         }
 
         void render(dst::vlkn::Command::Buffer& commandBuffer)
@@ -87,17 +78,17 @@ namespace ShapeBlaster {
 
         std::string label() const
         {
+            std::string scoreLabel =
+                "[Score : " + dst::to_string(mGameStatus.score()) + "]    " +
+                "[High : " + dst::to_string(mGameStatus.high_score()) + "]    ";
+
             return
-                "[Lives : "      + dst::to_string(mGameStatus.lives())      + "]    " +
-                "[Bombs : "      + dst::to_string(0)                        + "]    " +
-                "[Multiplier : " + dst::to_string(mGameStatus.multiplier()) + "]    " +
-                "[Score : "      + dst::to_string(mGameStatus.score())      + "]    " +
-                "[HiScore : "    + dst::to_string(0)                        + "]";
-        }
-
-        void exit()
-        {
-
+                mGameStatus.over() ?
+                scoreLabel + "Game Over!"
+                :
+                "[Lives : " + dst::to_string(mGameStatus.lives()) + "]    " +
+                " x" + dst::to_string(mGameStatus.multiplier()) + " " +
+                scoreLabel;
         }
     };
 

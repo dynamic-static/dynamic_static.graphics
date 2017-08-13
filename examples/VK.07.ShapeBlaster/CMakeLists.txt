@@ -13,7 +13,7 @@ set(SOURCE_FILES
     ${SOURCE_DIRECTORY}/Cursor.hpp
     ${SOURCE_DIRECTORY}/Enemy.hpp
     ${SOURCE_DIRECTORY}/Enemy.Behavior.hpp
-    ${SOURCE_DIRECTORY}/Enemy.Spawner.hpp
+    # ${SOURCE_DIRECTORY}/Enemy.Spawner.hpp
     ${SOURCE_DIRECTORY}/Entity.hpp
     ${SOURCE_DIRECTORY}/Entity.Manager.hpp
     ${SOURCE_DIRECTORY}/Game.hpp

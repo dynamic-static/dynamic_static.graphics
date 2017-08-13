@@ -49,13 +49,13 @@ namespace ShapeBlaster {
             mPosition = spawnPosition;
             mColor = dst::Color::Transparent;
             on_spawn(clock, player);
-            mExpired = false;
+            enabled(true);
         }
 
         void update(const dst::Input& input, const dst::Clock& clock, const VkExtent2D& playField) override
         {
             if (mSpawnTimer <= 0) {
-                if (!mExpired) {
+                if (enabled()) {
                     apply_behavior(clock, playField);
                 }
             } else {

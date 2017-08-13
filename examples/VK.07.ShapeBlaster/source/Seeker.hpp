@@ -33,7 +33,7 @@ namespace ShapeBlaster {
             mSprite.uniformBufferIndex = index;
             mColor = dst::Color::Transparent;
             mRadius = mSprite.image->extent().width * 0.5f;
-            mExpired = true;
+            enabled(false);
         }
 
     protected:

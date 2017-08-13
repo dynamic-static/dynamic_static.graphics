@@ -34,7 +34,7 @@ namespace ShapeBlaster {
             mSprite.uniformBufferIndex = static_cast<uint32_t>(index);
             mColor = dst::Color::Transparent;
             mRadius = 8;
-            mExpired = true;
+            enabled(false);
         }
     
     public:
@@ -44,7 +44,7 @@ namespace ShapeBlaster {
             mVelocity = direction * mSpeed;
             mOrientation = to_angle(mVelocity);
             mColor = dst::Color::White;
-            mExpired = false;
+            enabled(true);
         }
 
         void update(const dst::Input& input, const dst::Clock& clock, const VkExtent2D& playField) override final

@@ -62,23 +62,19 @@ namespace ShapeBlaster {
         dst::Vector2 mVelocity;
         float mOrientation { 0 };
         float mRadius { 20 };
-        bool mExpired { false };
+
+    private:
+        bool mEnabled { false };
 
     public:
-        bool expired() const
+        bool enabled() const
         {
-            return mExpired;
+            return mEnabled;
         }
 
-        dst::Vector2 size() const
+        void enabled(bool enabled)
         {
-            return
-                mSprite.image ?
-                dst::Vector2 {
-                    mSprite.image->extent().width,
-                    mSprite.image->extent().height
-                } :
-                dst::Vector2::Zero;
+            mEnabled = enabled;
         }
 
         const dst::Vector2& position() const
@@ -131,14 +127,14 @@ namespace ShapeBlaster {
         void expire()
         {
             mColor = dst::Color::Transparent;
-            mExpired = true;
+            mEnabled = false;
         }
 
     private:
         static bool colliding(const Entity& lhs, const Entity& rhs)
         {
             float radius = lhs.mRadius + rhs.mRadius;
-            return !lhs.mExpired && !rhs.mExpired && distance_squared(lhs.mPosition, rhs.mPosition) < radius * radius;
+            return lhs.mEnabled && rhs.mEnabled && distance_squared(lhs.mPosition, rhs.mPosition) < radius * radius;
         }
     };
 

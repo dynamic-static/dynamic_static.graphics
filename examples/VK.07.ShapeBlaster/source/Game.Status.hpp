@@ -17,6 +17,7 @@
 
 #include "Dynamic_Static/Core/Time.hpp"
 
+#include <algorithm>
 #include <fstream>
 
 namespace ShapeBlaster {
@@ -36,6 +37,13 @@ namespace ShapeBlaster {
         uint32_t mMultiplier { 1 };
         float mMultiplierTimer { 0 };
         uint32_t mNextLife { FreeLifeScore };
+        bool mGameOver { false };
+
+    public:
+        PlayerStatus()
+        {
+            reset();
+        }
 
     public:
         uint32_t lives() const
@@ -48,9 +56,19 @@ namespace ShapeBlaster {
             return mScore;
         }
 
+        uint32_t high_score() const
+        {
+            return mHighScore;
+        }
+
         uint32_t multiplier() const
         {
             return mMultiplier;
+        }
+
+        bool over() const
+        {
+            return mGameOver;
         }
 
         void update(const dst::Clock& clock)
@@ -70,6 +88,8 @@ namespace ShapeBlaster {
                 mNextLife += FreeLifeScore;
                 ++mLives;
             }
+
+            mHighScore = std::max(mScore, mHighScore);
         }
 
         void increase_multiplier()
@@ -87,33 +107,41 @@ namespace ShapeBlaster {
 
         void remove_life()
         {
-            --mLives;
+            if (mLives > 0) {
+                --mLives;
+            } else {
+                mGameOver = true;
+                save_high_score();
+            }
         }
 
         void reset()
         {
-            if (mScore > mHighScore) {
-                mHighScore = mScore;
-                save_high_score();
-            }
-
+            load_high_score();
             mLives = DefaultLives;
             mScore = 0;
             mMultiplier = 1;
             mMultiplierTimer = 0;
             mNextLife = FreeLifeScore;
+            mGameOver = false;
         }
 
     private:
         void load_high_score()
         {
-            mHighScore = 0; // TODO : Read from file...
+            mHighScore = 0;
+            std::ifstream file("highscore");
+            if (file) {
+                file >> mHighScore;
+            }
         }
 
         void save_high_score()
         {
-            
-            // TODO : Write to file...
+            std::ofstream file("highscore");
+            if (file) {
+                file << mHighScore;
+            }
         }
     };
 

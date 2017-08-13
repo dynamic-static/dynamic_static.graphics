@@ -141,7 +141,7 @@ namespace ShapeBlaster {
         {
             Bullet* bulletPtr = nullptr;
             for (auto& bullet : mBullets) {
-                if (bullet.expired()) {
+                if (!bullet.enabled()) {
                     bulletPtr = &bullet;
                     break;
                 }

@@ -56,12 +56,12 @@ namespace ShapeBlaster {
         {
             mCursors.push_back(Cursor(resources));
             mEntities.push_back(&mCursors[0]);
+            mCursors[0].enabled(true);
 
             mBullets.reserve(128);
             for (size_t i = 0; i < 128; ++i) {
                 mBullets.push_back(ShapeBlaster::Bullet(resources, i));
                 mEntities.push_back(&mBullets[i]);
-                
             }
 
             mWanderers.reserve(64);
@@ -81,6 +81,7 @@ namespace ShapeBlaster {
             auto spawnPosition = dst::Vector2(1280, 720) * 0.5f;
             mPlayerShips.push_back(PlayerShip(resources, mCursors[0], mBullets, spawnPosition));
             mEntities.push_back(&mPlayerShips[0]);
+            mPlayerShips[0].enabled(true);
         }
 
     public:
@@ -94,7 +95,7 @@ namespace ShapeBlaster {
                 if (dst::Random.die_roll(60) < 2) {
                 //if (dst::Random.range(0.0f, 100.0f) < mSpawnRate / clock.elapsed<dst::Second<float>>()) {
                     for (size_t i = mSeekers.size(); i-- > 0;) {
-                        if (mSeekers[i].expired()) {
+                        if (!mSeekers[i].enabled()) {
                             mSeekers[i].spawn(clock, spawn_position(playField), mPlayerShips[0]);
                             break;
                         }
@@ -104,7 +105,7 @@ namespace ShapeBlaster {
                 if (dst::Random.die_roll(60) < 2) {
                 //if (dst::Random.range(0.0f, 100.0f) < mSpawnRate / clock.elapsed<dst::Second<float>>()) {
                     for (size_t i = mWanderers.size(); i-- > 0;) {
-                        if (mWanderers[i].expired()) {
+                        if (!mWanderers[i].enabled()) {
                             mWanderers[i].spawn(clock, spawn_position(playField), mPlayerShips[0]);
                             break;
                         }
@@ -118,7 +119,7 @@ namespace ShapeBlaster {
 
             mUpdating = true;
             for (size_t i = mEntities.size(); i-- > 0;) {
-                if (!mEntities[i]->expired()) {
+                if (mEntities[i]->enabled()) {
                     mEntities[i]->update(input, clock, playField);
                 }
             }
@@ -146,6 +147,13 @@ namespace ShapeBlaster {
             }
         }
 
+        void reset()
+        {
+            for (auto& entity : mEntities) {
+                entity->enabled(false);
+            }
+        }
+
     private:
         void handle_collisions()
         {
@@ -170,6 +178,7 @@ namespace ShapeBlaster {
                 if (Entity::colliding(*mActiveEnemies[i], mPlayerShips[0])) {
                     mPlayerShips[0].kill();
                     playerKilled = true;
+                    mStatus->remove_life();
                     break;
                 }
             }
@@ -190,11 +199,6 @@ namespace ShapeBlaster {
             } while (distance_squared(spawnPosition, mPlayerShips[0].position()) < 250 * 250);
 
             return spawnPosition;
-        }
-
-        void reset()
-        {
-
         }
     };
 

@@ -170,11 +170,11 @@ int main()
         bool running = true;
         while (running) {
             window->name("Dynamic_Static VK.07.ShapeBlaster    " + game.label());
-
             Window::update();
             auto quitKey = dst::Keyboard::Key::Escape;
             if (window->input().keyboard().down(quitKey)) {
                 running = false;
+                break;
             }
 
             clock.update();
@@ -242,37 +242,33 @@ int main()
                         beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
                         commandBuffer->begin(beginInfo);
 
-                        std::array<VkClearValue, 2> clearValues;
-                        clearValues[0].color = { 0, 0, 0, 1 };
-                        clearValues[1].depthStencil = { 1, 0 };
-                        RenderPass::BeginInfo renderPassBeginInfo;
-                        renderPassBeginInfo.renderPass = *resources.mRenderPass;
-                        renderPassBeginInfo.framebuffer = *framebuffers[i];
-                        renderPassBeginInfo.renderArea.extent = swapchain->extent();
-                        renderPassBeginInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
-                        renderPassBeginInfo.pClearValues = clearValues.data();
-                        commandBuffer->begin_render_pass(renderPassBeginInfo);
+                            std::array<VkClearValue, 2> clearValues;
+                            clearValues[0].color = { 0, 0, 0, 1 };
+                            clearValues[1].depthStencil = { 1, 0 };
+                            RenderPass::BeginInfo renderPassBeginInfo;
+                            renderPassBeginInfo.renderPass = *resources.mRenderPass;
+                            renderPassBeginInfo.framebuffer = *framebuffers[i];
+                            renderPassBeginInfo.renderArea.extent = swapchain->extent();
+                            renderPassBeginInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
+                            renderPassBeginInfo.pClearValues = clearValues.data();
+                            commandBuffer->begin_render_pass(renderPassBeginInfo);
 
-                        commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *resources.mPipeline);
+                                commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *resources.mPipeline);
+                                VkViewport viewport { };
+                                viewport.width = static_cast<float>(swapchain->extent().width);
+                                viewport.height = static_cast<float>(swapchain->extent().height);
+                                viewport.minDepth = 0;
+                                viewport.maxDepth = 1;
+                                commandBuffer->set_viewport(viewport);
+                                VkRect2D scissor { };
+                                scissor.extent = swapchain->extent();
+                                commandBuffer->set_scissor(scissor);
+                                commandBuffer->bind_vertex_buffer(*resources.quadVertexBuffer);
+                                commandBuffer->bind_index_buffer(*resources.quadIndexBuffer);
+                                game.render(*commandBuffer);
 
-                        VkViewport viewport { };
-                        viewport.width = static_cast<float>(swapchain->extent().width);
-                        viewport.height = static_cast<float>(swapchain->extent().height);
-                        viewport.minDepth = 0;
-                        viewport.maxDepth = 1;
-                        commandBuffer->set_viewport(viewport);
+                            commandBuffer->end_render_pass();
 
-                        VkRect2D scissor { };
-                        scissor.extent = swapchain->extent();
-                        commandBuffer->set_scissor(scissor);
-
-                        commandBuffer->bind_vertex_buffer(*resources.quadVertexBuffer);
-                        commandBuffer->bind_index_buffer(*resources.quadIndexBuffer);
-
-                        game.render(*commandBuffer);
-                        // entityManager.render(*commandBuffer);
-
-                        commandBuffer->end_render_pass();
                         commandBuffer->end();
                     }
                 }

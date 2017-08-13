@@ -14,11 +14,27 @@
 
 #include "Enemy.hpp"
 
+#include "Dynamic_Static/Core/Math.hpp"
+#include "Dynamic_Static/Core/Time.hpp"
+
 namespace ShapeBlaster {
 
     class Enemy::Spawner final
     {
+    public:
+        void update(const dst::Clock& clock)
+        {
+        }
 
+        void reset()
+        {
+        }
+
+    private:
+        dst::Vector2 spawn_position()
+        {
+
+        }
     };
 
 } // namespace ShapeBlaster
