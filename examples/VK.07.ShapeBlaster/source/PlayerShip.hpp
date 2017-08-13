@@ -37,13 +37,16 @@ namespace ShapeBlaster {
         static constexpr float CoolDownTime { 0.07f };
         static constexpr float RateOfFire { 1 };
         static constexpr float RespawnTime { 2 };
+        static constexpr float BlinkRate { 4 };
+        static constexpr float BlinkTime { 1.0f / BlinkRate };
 
     private:
         float mSpeed { 720 };
         gsl::span<Bullet> mBullets;
         dst::Vector2 mAimDirection;
         float mCoolDownTimer { 0 };
-        float mRespawnTimer { 0 };
+        float mSpawnTimer { 0 };
+        float mBlinkTimer { 0 };
         Cursor* mCursor { nullptr };
 
     public:
@@ -63,13 +66,21 @@ namespace ShapeBlaster {
     public:
         void spawn(const dst::Vector2& position)
         {
-            mRespawnTimer = 0;
+            mSpawnTimer = RespawnTime;
+            mBlinkTimer = BlinkTime;
+            mColor = dst::Color::White;
         }
 
         void update(const dst::Input& input, const dst::Clock& clock, const VkExtent2D& playField) override final
         {
-            if (mRespawnTimer > 0) {
-                mRespawnTimer -= clock.elapsed<dst::Second<float>>();
+            if (mSpawnTimer > 0) {
+                auto dt = clock.elapsed<dst::Second<float>>();
+                mSpawnTimer -= dt;
+                mBlinkTimer -= dt * BlinkTime;
+                if (mBlinkTimer <= 0) {
+                    mBlinkTimer = 0;
+                    mColor.a *= -1;
+                }
             } else {
                 mColor = dst::Color::White;
                 auto moveDirection = dst::Vector3::Zero;
@@ -117,7 +128,8 @@ namespace ShapeBlaster {
 
         void kill()
         {
-            mRespawnTimer = RespawnTime;
+            mSpawnTimer = RespawnTime;
+            mBlinkTimer = BlinkTime;
             mColor = dst::Color::Transparent;
         }
 

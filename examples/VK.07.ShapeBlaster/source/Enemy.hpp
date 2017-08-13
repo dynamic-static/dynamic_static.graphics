@@ -72,7 +72,7 @@ namespace ShapeBlaster {
             expire();
         }
 
-        void on_collision(const Enemy& other)
+        void handle_collision(const Enemy& other)
         {
             auto d = mPosition - other.mPosition;
             mVelocity += d * 1000 / (distance_squared(d, dst::Vector3::Zero) + 1);

@@ -49,6 +49,7 @@ namespace ShapeBlaster {
         size_t mEnemyCount { 0 };
         bool mUpdating { false };
         float mSpawnRate { 1 };
+        bool mStartTimer { false };
 
     public:
         Manager(Resources& resources, PlayerStatus& status)
@@ -161,8 +162,8 @@ namespace ShapeBlaster {
             for (size_t i = 0; i < mActiveEnemies.size(); ++i) {
                 for (size_t j = i + 1; j < mActiveEnemies.size(); ++j) {
                     if (Entity::colliding(*mActiveEnemies[i], *mActiveEnemies[j])) {
-                        mActiveEnemies[i]->on_collision(*mActiveEnemies[j]);
-                        mActiveEnemies[j]->on_collision(*mActiveEnemies[i]);
+                        mActiveEnemies[i]->handle_collision(*mActiveEnemies[j]);
+                        mActiveEnemies[j]->handle_collision(*mActiveEnemies[i]);
                     }
                 }
 
