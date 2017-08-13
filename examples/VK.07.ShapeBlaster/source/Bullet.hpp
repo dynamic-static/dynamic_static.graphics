@@ -49,13 +49,16 @@ namespace ShapeBlaster {
 
         void update(const dst::Input& input, const dst::Clock& clock, const VkExtent2D& playField) override final
         {
-            if (!mExpired) {
-                if (mVelocity.x || mVelocity.y) {
-                    mOrientation = to_angle(mVelocity);
-                }
-
-                update_position(clock, playField);
+            if (mVelocity.x || mVelocity.y) {
+                mOrientation = to_angle(mVelocity);
             }
+
+            update_position(clock, playField);
+        }
+
+        void shot()
+        {
+            expire();
         }
 
     private:
@@ -63,8 +66,7 @@ namespace ShapeBlaster {
         {
             if (mPosition.x < 0 || playField.width < mPosition.x ||
                 mPosition.y < 0 || playField.height < mPosition.y) {
-                mColor = dst::Color::Transparent;
-                mExpired = true;
+                expire();
             }
         }
     };

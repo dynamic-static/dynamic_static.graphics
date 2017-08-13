@@ -28,6 +28,7 @@ namespace ShapeBlaster {
 
         Seeker(Resources& resources, size_t index)
         {
+            mValue = 5;
             mSprite = resources.mSeekerPackage.mSprite;
             mSprite.uniformBufferIndex = index;
             mColor = dst::Color::Transparent;

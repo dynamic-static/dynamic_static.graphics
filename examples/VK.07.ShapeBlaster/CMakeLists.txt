@@ -12,12 +12,20 @@ set(SOURCE_FILES
     ${SOURCE_DIRECTORY}/Bullet.hpp
     ${SOURCE_DIRECTORY}/Cursor.hpp
     ${SOURCE_DIRECTORY}/Enemy.hpp
+    ${SOURCE_DIRECTORY}/Enemy.Behavior.hpp
+    ${SOURCE_DIRECTORY}/Enemy.Spawner.hpp
     ${SOURCE_DIRECTORY}/Entity.hpp
     ${SOURCE_DIRECTORY}/Entity.Manager.hpp
+    ${SOURCE_DIRECTORY}/Game.hpp
+    ${SOURCE_DIRECTORY}/Game.Status.hpp
     ${SOURCE_DIRECTORY}/Main.cpp
     ${SOURCE_DIRECTORY}/PlayerShip.hpp
     ${SOURCE_DIRECTORY}/Resources.hpp
     ${SOURCE_DIRECTORY}/Seeker.hpp
+    ${SOURCE_DIRECTORY}/Sound.hpp
+    # ${SOURCE_DIRECTORY}/tinysound.h
+    # ${SOURCE_DIRECTORY}/TinySoundInclude.hpp
+    # ${SOURCE_DIRECTORY}/TinySoundInclude.cpp
     ${SOURCE_DIRECTORY}/Wanderer.hpp
 )
 

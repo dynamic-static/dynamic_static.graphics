@@ -36,12 +36,14 @@ namespace ShapeBlaster {
         static constexpr float Spread { 0.005f };
         static constexpr float CoolDownTime { 0.07f };
         static constexpr float RateOfFire { 1 };
+        static constexpr float RespawnTime { 2 };
 
     private:
         float mSpeed { 720 };
         gsl::span<Bullet> mBullets;
         dst::Vector2 mAimDirection;
         float mCoolDownTimer { 0 };
+        float mRespawnTimer { 0 };
         Cursor* mCursor { nullptr };
 
     public:
@@ -59,48 +61,64 @@ namespace ShapeBlaster {
         }
 
     public:
+        void spawn(const dst::Vector2& position)
+        {
+            mRespawnTimer = 0;
+        }
+
         void update(const dst::Input& input, const dst::Clock& clock, const VkExtent2D& playField) override final
         {
-            auto moveDirection = dst::Vector3::Zero;
-            if (input.keyboard().down(dst::Keyboard::Key::W)) {
-                ++moveDirection.y;
-            }
-
-            if (input.keyboard().down(dst::Keyboard::Key::S)) {
-                --moveDirection.y;
-            }
-
-            if (input.keyboard().down(dst::Keyboard::Key::A)) {
-                --moveDirection.x;
-            }
-
-            if (input.keyboard().down(dst::Keyboard::Key::D)) {
-                ++moveDirection.x;
-            }
-
-            if (input.mouse().down(dst::Mouse::Button::Left)) {
-                mAimDirection = mCursor->position() - mPosition;
+            if (mRespawnTimer > 0) {
+                mRespawnTimer -= clock.elapsed<dst::Second<float>>();
             } else {
-                mAimDirection = dst::Vector2::Zero;
-            }
+                mColor = dst::Color::White;
+                auto moveDirection = dst::Vector3::Zero;
+                if (input.keyboard().down(dst::Keyboard::Key::W)) {
+                    ++moveDirection.y;
+                }
 
-            auto floatMax = std::numeric_limits<float>::max();
-            mCoolDownTimer -= clock.elapsed<dst::Second<float>>();
-            mCoolDownTimer = dst::clamp(mCoolDownTimer, 0.0f, floatMax);
-            if ((mAimDirection.x || mAimDirection.y) && mCoolDownTimer <= 0) {
-                mAimDirection.normalize();
-                mCoolDownTimer = CoolDownTime;
-                fire_bullet({ 24,  7 });
-                fire_bullet({ 24, -7 });
-            }
+                if (input.keyboard().down(dst::Keyboard::Key::S)) {
+                    --moveDirection.y;
+                }
 
-            if (moveDirection.x || moveDirection.y) {
-                moveDirection.normalize();
-                mOrientation = to_angle(moveDirection);
-            }
+                if (input.keyboard().down(dst::Keyboard::Key::A)) {
+                    --moveDirection.x;
+                }
 
-            mVelocity = moveDirection * mSpeed;
-            update_position(clock, playField);
+                if (input.keyboard().down(dst::Keyboard::Key::D)) {
+                    ++moveDirection.x;
+                }
+
+                if (input.mouse().down(dst::Mouse::Button::Left)) {
+                    mAimDirection = mCursor->position() - mPosition;
+                } else {
+                    mAimDirection = dst::Vector2::Zero;
+                }
+
+                auto floatMax = std::numeric_limits<float>::max();
+                mCoolDownTimer -= clock.elapsed<dst::Second<float>>();
+                mCoolDownTimer = dst::clamp(mCoolDownTimer, 0.0f, floatMax);
+                if ((mAimDirection.x || mAimDirection.y) && mCoolDownTimer <= 0) {
+                    mAimDirection.normalize();
+                    mCoolDownTimer = CoolDownTime;
+                    fire_bullet({ 24,  7 });
+                    fire_bullet({ 24, -7 });
+                }
+
+                if (moveDirection.x || moveDirection.y) {
+                    moveDirection.normalize();
+                    mOrientation = to_angle(moveDirection);
+                }
+
+                mVelocity = moveDirection * mSpeed;
+                update_position(clock, playField);
+            }
+        }
+
+        void kill()
+        {
+            mRespawnTimer = RespawnTime;
+            mColor = dst::Color::Transparent;
         }
 
     private:

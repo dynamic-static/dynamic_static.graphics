@@ -16,6 +16,7 @@
 #include "Bullet.hpp"
 #include "Cursor.hpp"
 #include "PlayerShip.hpp"
+#include "Game.Status.hpp"
 #include "Seeker.hpp"
 #include "Wanderer.hpp"
 #include "Resources.hpp"
@@ -41,14 +42,19 @@ namespace ShapeBlaster {
         std::vector<Seeker> mSeekers;
         std::vector<Wanderer> mWanderers;
         std::vector<Entity*> mEntities;
+        std::vector<Enemy*> mActiveEnemies;
+        std::vector<Bullet*> mActiveBullets;
         dst::vlkn::SwapchainKHR* mSwapChain { nullptr };
+        PlayerStatus* mStatus { nullptr };
         float inverseSpawnChance { 60 };
         size_t mEnemyCount { 0 };
         bool mUpdating { false };
+        float mSpawnRate { 1 };
 
     public:
-        Manager(dst::vlkn::SwapchainKHR& swapChain, Resources& resources)
+        Manager(dst::vlkn::SwapchainKHR& swapChain, Resources& resources, PlayerStatus& status)
             : mSwapChain { &swapChain }
+            , mStatus { &status }
         {
             mCursors.push_back(Cursor(resources));
             mEntities.push_back(&mCursors[0]);
@@ -57,18 +63,21 @@ namespace ShapeBlaster {
             for (size_t i = 0; i < 128; ++i) {
                 mBullets.push_back(ShapeBlaster::Bullet(resources, i));
                 mEntities.push_back(&mBullets[i]);
+                
             }
 
             mWanderers.reserve(64);
             for (size_t i = 0; i < 64; ++i) {
                 mWanderers.push_back(ShapeBlaster::Wanderer(resources, i));
                 mEntities.push_back(&mWanderers[i]);
+                mActiveEnemies.push_back(&mWanderers[i]);
             }
 
             mSeekers.reserve(64);
             for (size_t i = 0; i < 64; ++i) {
                 mSeekers.push_back(ShapeBlaster::Seeker(resources, i));
                 mEntities.push_back(&mSeekers[i]);
+                mActiveEnemies.push_back(&mSeekers[i]);
             }
 
             auto extent = mSwapChain->extent();
@@ -85,45 +94,41 @@ namespace ShapeBlaster {
         )
         {
             if (true /*Player alive*/ && mEnemyCount < MaxEnemyCount) {
-                static bool needSpawn = false;
-                static size_t counter;
-                if (counter++ >= 20) {
-                    counter = 0;
-                    needSpawn = true;
-                }
-
-                for (size_t i = mSeekers.size(); i-- > 0;) {
-                    if (mSeekers[i].expired() && needSpawn) {
-                        mSeekers[i].spawn(clock, spawn_position(playField), mPlayerShips[0]);
-                        needSpawn = false;
+                if (dst::Random.die_roll(60) < 2) {
+                //if (dst::Random.range(0.0f, 100.0f) < mSpawnRate / clock.elapsed<dst::Second<float>>()) {
+                    for (size_t i = mSeekers.size(); i-- > 0;) {
+                        if (mSeekers[i].expired()) {
+                            mSeekers[i].spawn(clock, spawn_position(playField), mPlayerShips[0]);
+                            break;
+                        }
                     }
                 }
 
-                static bool needSpawn_ex = false;
-                static size_t counter_ex;
-                if (counter_ex++ >= 20) {
-                    counter_ex = 0;
-                    needSpawn_ex = true;
-                }
-
-                for (size_t i = mWanderers.size(); i-- > 0;) {
-                    if (mWanderers[i].expired() && needSpawn_ex) {
-                        mWanderers[i].spawn(clock, spawn_position(playField), mPlayerShips[0]);
-                        needSpawn_ex = false;
+                if (dst::Random.die_roll(60) < 2) {
+                //if (dst::Random.range(0.0f, 100.0f) < mSpawnRate / clock.elapsed<dst::Second<float>>()) {
+                    for (size_t i = mWanderers.size(); i-- > 0;) {
+                        if (mWanderers[i].expired()) {
+                            mWanderers[i].spawn(clock, spawn_position(playField), mPlayerShips[0]);
+                            break;
+                        }
                     }
                 }
             }
 
-            if (inverseSpawnChance > 20) {
-                inverseSpawnChance -= 0.005f * clock.elapsed<dst::Second<float>>();
+            if (inverseSpawnChance < 3) {
+                inverseSpawnChance += 0.005f * clock.elapsed<dst::Second<float>>();
             }
 
             mUpdating = true;
             for (size_t i = mEntities.size(); i-- > 0;) {
-                mEntities[i]->update(input, clock, playField);
+                if (!mEntities[i]->expired()) {
+                    mEntities[i]->update(input, clock, playField);
+                }
             }
 
             mUpdating = false;
+
+            handle_collisions();
         }
 
         void update_uniforms(
@@ -145,12 +150,38 @@ namespace ShapeBlaster {
         }
 
     private:
-        float distance_squard(const dst::Vector2& lhs, const dst::Vector2& rhs)
+        void handle_collisions()
         {
-            // TODO : Move into dst::Core...
-            auto x = std::abs(lhs.x - rhs.x);
-            auto y = std::abs(lhs.y - rhs.y);
-            return x * x + y * y;
+            bool playerKilled = false;
+            for (size_t i = 0; i < mActiveEnemies.size(); ++i) {
+                for (size_t j = i + 1; j < mActiveEnemies.size(); ++j) {
+                    if (Entity::colliding(*mActiveEnemies[i], *mActiveEnemies[j])) {
+                        mActiveEnemies[i]->on_collision(*mActiveEnemies[j]);
+                        mActiveEnemies[j]->on_collision(*mActiveEnemies[i]);
+                    }
+                }
+
+                for (size_t bullet_i = 0; bullet_i < mBullets.size(); ++bullet_i) {
+                    if (Entity::colliding(*mActiveEnemies[i], mBullets[bullet_i])) {
+                        mActiveEnemies[i]->was_shot();
+                        mBullets[bullet_i].shot();
+                        mStatus->add_points(mActiveEnemies[i]->value());
+                        mStatus->increase_multiplier();
+                    }
+                }
+
+                if (Entity::colliding(*mActiveEnemies[i], mPlayerShips[0])) {
+                    mPlayerShips[0].kill();
+                    playerKilled = true;
+                    break;
+                }
+            }
+
+            if (playerKilled) {
+                for (auto& enemy : mActiveEnemies) {
+                    enemy->was_shot();
+                }
+            }
         }
 
         dst::Vector2 spawn_position(const VkExtent2D& playField)
@@ -159,7 +190,7 @@ namespace ShapeBlaster {
             do {
                 spawnPosition.x = dst::Random.range<float>(0, playField.width);
                 spawnPosition.y = dst::Random.range<float>(0, playField.height);
-            } while (distance_squard(spawnPosition, mPlayerShips[0].position()) < 250 * 250);
+            } while (distance_squared(spawnPosition, mPlayerShips[0].position()) < 250 * 250);
 
             return spawnPosition;
         }

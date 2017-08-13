@@ -25,16 +25,26 @@ namespace ShapeBlaster {
     private:
         static constexpr float SpawnTime { 1 };
 
+    public:
+        class Spawner;
+
     private:
         float mSpawnTimer { 1 };
         bool mAcitve { false };
 
     protected:
+        uint32_t mValue { 1 };
         const PlayerShip* mPlayer { nullptr };
 
     public:
+        uint32_t value() const
+        {
+            return mValue;
+        }
+
         void spawn(const dst::Clock& clock, const dst::Vector2& spawnPosition, const PlayerShip& player)
         {
+            mSpawnTimer = 1;
             mPlayer = &player;
             mPosition = spawnPosition;
             mColor = dst::Color::Transparent;
@@ -59,7 +69,13 @@ namespace ShapeBlaster {
 
         void was_shot()
         {
-            mExpired = true;
+            expire();
+        }
+
+        void on_collision(const Enemy& other)
+        {
+            auto d = mPosition - other.mPosition;
+            mVelocity += d * 1000 / (distance_squared(d, dst::Vector3::Zero) + 1);
         }
 
     protected:
@@ -70,4 +86,4 @@ namespace ShapeBlaster {
         virtual void apply_behavior(const dst::Clock& clock, const VkExtent2D& playField) = 0;
     };
 
-} // ShapeBlaster
+} // namespace ShapeBlaster

@@ -15,6 +15,7 @@
 #include "Cursor.hpp"
 #include "Entity.Manager.hpp"
 #include "PlayerShip.hpp"
+#include "Game.Status.hpp"
 #include "Resources.hpp"
 #include "Seeker.hpp"
 #include "Wanderer.hpp"
@@ -163,22 +164,23 @@ int main()
 
         auto extent = swapchain->extent();
 
-        ShapeBlaster::Entity::Manager entityManager(*swapchain, resources);
-
-        ShapeBlaster::Cursor cursor(resources);
+        ShapeBlaster::PlayerStatus playerStatus;
+        ShapeBlaster::Entity::Manager entityManager(*swapchain, resources, playerStatus);
+        std::string title = "Dynamic_Static VK.07.ShapeBlaster";
 
         dst::Clock clock;
         float angle = 0;
+        float frameRate = 0;
         bool running = true;
         while (running) {
-            static size_t sFrameCounter;
-            static dst::Timer sFrameTimer;
-            ++sFrameCounter;
-            if (sFrameTimer.total<dst::Second<>>() >= 1) {
-                window->name("Dynamic_Static VK.07.ShapeBlaster @ " + dst::to_string(sFrameCounter) + " fps");
-                sFrameTimer.reset();
-                sFrameCounter = 0;
-            }
+            window->name(
+                title + "    " +
+                "[Lives : "      + dst::to_string(playerStatus.lives())      + "]    " +
+                "[Bombs : "      + dst::to_string(0)                         + "]    " +
+                "[Multiplier : " + dst::to_string(playerStatus.multiplier()) + "]    " +
+                "[Score : "      + dst::to_string(playerStatus.score())      + "]    " +
+                "[HiScore : "    + dst::to_string(0)                         + "]"
+            );
 
             Window::update();
             auto quitKey = dst::Keyboard::Key::Escape;
@@ -187,13 +189,10 @@ int main()
             }
 
             clock.update();
-            float dt = clock.elapsed<dst::Second<float>>();
-            angle += 90.0f * clock.elapsed<dst::Second<float>>();
-
             extent = swapchain->extent();
             const auto& input = window->input();
-
             entityManager.udpate(input, clock, extent);
+            playerStatus.update(clock);
 
             auto view = dst::Matrix4x4::create_view(
                 { 0, 0, 1 }, dst::Vector3::Zero, dst::Vector3::UnitY
