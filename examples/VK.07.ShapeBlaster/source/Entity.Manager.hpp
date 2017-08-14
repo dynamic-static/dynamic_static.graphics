@@ -13,6 +13,7 @@
 #pragma once
 
 #include "Entity.hpp"
+#include "BlackHole.hpp"
 #include "Bullet.hpp"
 #include "Cursor.hpp"
 #include "PlayerShip.hpp"
@@ -32,8 +33,11 @@ namespace ShapeBlaster {
 
     class Entity::Manager final
     {
+        friend class BlackHole;
+
     private:
         static constexpr size_t MaxEnemyCount { 200 };
+        static constexpr size_t MaxBlackHoleCount { 2 };
 
     private:
         std::vector<PlayerShip> mPlayerShips;
@@ -41,12 +45,15 @@ namespace ShapeBlaster {
         std::vector<Bullet> mBullets;
         std::vector<Seeker> mSeekers;
         std::vector<Wanderer> mWanderers;
+        std::vector<BlackHole> mBlackHoles;
         std::vector<Entity*> mEntities;
         std::vector<Enemy*> mActiveEnemies;
         std::vector<Bullet*> mActiveBullets;
+        std::vector<BlackHole*> mActiveBlackHoles;
         PlayerStatus* mStatus { nullptr };
         float inverseSpawnChance { 60 };
         size_t mEnemyCount { 0 };
+        size_t mBlackHoleCount { 0 };
         bool mUpdating { false };
         float mSpawnRate { 1 };
         bool mStartTimer { false };
@@ -83,6 +90,16 @@ namespace ShapeBlaster {
             mPlayerShips.push_back(PlayerShip(resources, mCursors[0], mBullets, spawnPosition));
             mEntities.push_back(&mPlayerShips[0]);
             mPlayerShips[0].enabled(true);
+
+            mBlackHoles.reserve(64);
+            for (size_t i = 0; i < 64; ++i) {
+                mBlackHoles.push_back(ShapeBlaster::BlackHole(resources, i));
+                mEntities.push_back(&mBlackHoles[i]);
+                mActiveBlackHoles.push_back(&mBlackHoles[i]);
+                mActiveBlackHoles.back()->mEnemies = &mActiveEnemies;
+                mActiveBlackHoles.back()->mBullets = &mBullets;
+                mActiveBlackHoles.back()->mPlayerShip = &mPlayerShips[0];
+            }
         }
 
     public:
@@ -116,6 +133,18 @@ namespace ShapeBlaster {
 
             if (inverseSpawnChance < 3) {
                 inverseSpawnChance += 0.005f * clock.elapsed<dst::Second<float>>();
+            }
+
+            if (true /*Player alive*/ && mBlackHoleCount < MaxBlackHoleCount) {
+                if (dst::Random.die_roll(240) < 2) {
+                    //if (dst::Random.range(0.0f, 100.0f) < mSpawnRate / clock.elapsed<dst::Second<float>>()) {
+                    for (size_t i = mBlackHoles.size(); i-- > 0;) {
+                        if (!mBlackHoles[i].enabled()) {
+                            mBlackHoles[i].spawn(clock, spawn_position(playField));
+                            break;
+                        }
+                    }
+                }
             }
 
             mUpdating = true;
@@ -184,9 +213,37 @@ namespace ShapeBlaster {
                 }
             }
 
+            for (auto& blackHole : mActiveBlackHoles) {
+                if (blackHole->enabled()) {
+                    for (auto& enemy : mActiveEnemies) {
+                        if (Entity::colliding(*blackHole, *enemy)) {
+                            enemy->was_shot();
+                        }
+                    }
+
+                    for (auto& bullet : mBullets) {
+                        if (Entity::colliding(*blackHole, bullet)) {
+                            blackHole->was_shot();
+                            bullet.shot();
+                        }
+                    }
+
+                    if (Entity::colliding(*blackHole, mPlayerShips[0])) {
+                        mPlayerShips[0].kill();
+                        playerKilled = true;
+                        mStatus->remove_life();
+                        break;
+                    }
+                }
+            }
+
             if (playerKilled) {
                 for (auto& enemy : mActiveEnemies) {
                     enemy->was_shot();
+                }
+
+                for (auto& blackHole : mActiveBlackHoles) {
+                    blackHole->kill();
                 }
             }
         }

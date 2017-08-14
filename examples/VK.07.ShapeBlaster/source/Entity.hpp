@@ -31,6 +31,8 @@ namespace ShapeBlaster {
 
     class Entity
     {
+        friend class BlackHole;
+
     public:
         class Manager;
 
@@ -41,6 +43,7 @@ namespace ShapeBlaster {
         dst::Vector2 mVelocity;
         float mOrientation { 0 };
         float mRadius { 20 };
+        float mScale { 1 };
 
     private:
         bool mEnabled { false };
@@ -66,8 +69,8 @@ namespace ShapeBlaster {
             auto translation = dst::Matrix4x4::create_translation({ mPosition.x, mPosition.y, 0 });
             auto rotation = dst::Matrix4x4::create_rotation(mOrientation, dst::Vector3::UnitZ);
             auto scale = dst::Matrix4x4::create_scale({
-                mSprite.image->extent().width,
-                mSprite.image->extent().height,
+                mSprite.image->extent().width * mScale,
+                mSprite.image->extent().height * mScale,
                 1
             });
 

@@ -23,8 +23,6 @@
 #include <memory>
 #include <string>
 
-// 512
-
 namespace ShapeBlaster {
 
     void* aligned_alloc(size_t size, size_t alignment)
@@ -451,6 +449,7 @@ namespace ShapeBlaster {
         Package mBulletPackage;
         Package mSeekerPackage;
         Package mWandererPackage;
+        Package mBlackHolePackage;
 
     public:
         ~Resources()
@@ -474,11 +473,13 @@ namespace ShapeBlaster {
             mSampler = device.create<Sampler>(samplerInfo);
 
             create_quad(device, commandPool, queue);
-
             create_render_pass(device, renderPassFormat);
             create_descriptor_set_layout(device);
             create_sprite_pipeline(device);
-            create_descriptor_pool(device, 5);
+
+            // NOTE : This spriteTypeCount is dumb...
+            size_t spriteTypeCount = 6;
+            create_descriptor_pool(device, spriteTypeCount);
 
             auto initialize_sprite_package =
             [&](const std::string& fileName, size_t count, Package& pacakge)
@@ -501,6 +502,7 @@ namespace ShapeBlaster {
             initialize_sprite_package("Seeker.png", 64, mSeekerPackage);
             initialize_sprite_package("Wanderer.png", 64, mWandererPackage);
             initialize_sprite_package("Pointer.png", 1, mPointerPackage);
+            initialize_sprite_package("Black Hole.png", 64, mBlackHolePackage);
         }
 
     private:
