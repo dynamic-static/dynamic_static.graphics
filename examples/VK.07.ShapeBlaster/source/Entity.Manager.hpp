@@ -197,7 +197,7 @@ namespace ShapeBlaster {
             do {
                 spawnPosition.x = dst::Random.range<float>(0, playField.width);
                 spawnPosition.y = dst::Random.range<float>(0, playField.height);
-            } while (distance_squared(spawnPosition, mPlayerShips[0].position()) < 250 * 250);
+            } while (spawnPosition.distance_squared(mPlayerShips[0].position()) < 250 * 250);
 
             return spawnPosition;
         }

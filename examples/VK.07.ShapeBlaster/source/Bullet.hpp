@@ -42,7 +42,7 @@ namespace ShapeBlaster {
         {
             mPosition = position;
             mVelocity = direction * mSpeed;
-            mOrientation = to_angle(mVelocity);
+            mOrientation = mVelocity.to_angle();
             mColor = dst::Color::White;
             enabled(true);
         }
@@ -50,7 +50,7 @@ namespace ShapeBlaster {
         void update(const dst::Input& input, const dst::Clock& clock, const VkExtent2D& playField) override final
         {
             if (mVelocity.x || mVelocity.y) {
-                mOrientation = to_angle(mVelocity);
+                mOrientation = mVelocity.to_angle();
             }
 
             update_position(clock, playField);

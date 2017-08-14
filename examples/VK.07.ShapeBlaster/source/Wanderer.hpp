@@ -62,7 +62,7 @@ namespace ShapeBlaster {
             if (mCalclulateDirectionTimer <= 0) {
                 mCalclulateDirectionTimer = CalculateDirectionTime;
                 mDirection += dst::Random.range<float>(-0.1f, 0.1f);
-                mDirection = wrap_radians(mDirection);
+                mDirection = dst::wrap_radians(mDirection);
             }
 
             mVelocity += from_polar(mDirection, 0.4f) * Speed;
@@ -87,7 +87,7 @@ namespace ShapeBlaster {
 
             if (avoidWallDirection.x || avoidWallDirection.y) {
                 avoidWallDirection.normalize();
-                mDirection = to_angle(avoidWallDirection) + dst::Random.range<float>(-M_PI_2, M_PI_2);
+                mDirection = avoidWallDirection.to_angle() + dst::Random.range<float>(-M_PI_2, M_PI_2);
             }
         }
     };

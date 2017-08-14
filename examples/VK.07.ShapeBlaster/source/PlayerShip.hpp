@@ -83,7 +83,7 @@ namespace ShapeBlaster {
                 }
             } else {
                 mColor = dst::Color::White;
-                auto moveDirection = dst::Vector3::Zero;
+                auto moveDirection = dst::Vector2::Zero;
                 if (input.keyboard().down(dst::Keyboard::Key::W)) {
                     ++moveDirection.y;
                 }
@@ -118,7 +118,7 @@ namespace ShapeBlaster {
 
                 if (moveDirection.x || moveDirection.y) {
                     moveDirection.normalize();
-                    mOrientation = to_angle(moveDirection);
+                    mOrientation = moveDirection.to_angle();
                 }
 
                 mVelocity = moveDirection * mSpeed;
@@ -138,7 +138,7 @@ namespace ShapeBlaster {
         {
             auto bullet = find_bullet();
             if (bullet) {
-                float angle = to_angle(mAimDirection);
+                float angle = mAimDirection.to_angle();
                 float spread = dst::Random.range<float>(-Spread, Spread) + dst::Random.range<float>(-Spread, Spread);
                 dst::Vector2 direction = from_polar(angle + spread, 11.0f);
                 auto translation = dst::Matrix4x4::create_translation({ offset.x, offset.y, 0 });

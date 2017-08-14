@@ -42,7 +42,7 @@ namespace ShapeBlaster {
             auto direction = mPlayer->position() - mPosition;
             if (direction.x || direction.y) {
                 direction.normalize();
-                mOrientation = to_angle(direction);
+                mOrientation = direction.to_angle();
             }
 
             mVelocity += direction * Speed;

@@ -24,30 +24,9 @@
 
 namespace ShapeBlaster {
 
-    // TODO : Move these into dst::Core...
-
-    static float to_angle(const dst::Vector2& v)
-    {
-        return std::atan2(v.y, v.x);
-    }
-
     static dst::Vector2 from_polar(float angle, float magnitude)
     {
         return dst::Vector2(std::cos(angle), std::sin(angle)) * magnitude;
-    }
-
-    static float wrap_radians(float theta)
-    {
-        auto twoPi = M_PI * 2;
-        theta = std::fmod(theta, twoPi);
-        return theta < 0 ? theta : theta + twoPi;
-    }
-
-    float distance_squared(const dst::Vector2& lhs, const dst::Vector2& rhs)
-    {
-        auto x = std::abs(lhs.x - rhs.x);
-        auto y = std::abs(lhs.y - rhs.y);
-        return x * x + y * y;
     }
 
     class Entity
@@ -134,7 +113,8 @@ namespace ShapeBlaster {
         static bool colliding(const Entity& lhs, const Entity& rhs)
         {
             float radius = lhs.mRadius + rhs.mRadius;
-            return lhs.mEnabled && rhs.mEnabled && distance_squared(lhs.mPosition, rhs.mPosition) < radius * radius;
+            auto distanceSquared = lhs.mPosition.distance_squared(rhs.mPosition);
+            return lhs.mEnabled && rhs.mEnabled && distanceSquared < radius * radius;
         }
     };
 
