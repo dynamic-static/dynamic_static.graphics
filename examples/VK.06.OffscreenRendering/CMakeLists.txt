@@ -1,7 +1,7 @@
 
-# CMake configuration for Example.VK.06.glTF
+# CMake configuration for Example.VK.06.OffscreenRendering
 
-set(DST_GFX_EXAMPLE Example.VK.06.glTF)
+set(DST_GFX_EXAMPLE Example.VK.06.OffscreenRendering)
 
 set(INCLUDE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 set(INCLUDE_FILES

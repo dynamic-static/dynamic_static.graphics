@@ -7,12 +7,8 @@
 ==========================================
 */
 
-// Loads and renders a glTF model
-// Based on https://vulkan-tutorial.com/Loading_models
-
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
-#include "Dynamic_Static/Graphics/GLTFReader.hpp"
 #include "Dynamic_Static/Graphics/ImageCache.hpp"
 #include "Dynamic_Static/Graphics/ImageReader.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
@@ -133,10 +129,6 @@ int main()
 {
     try
     {
-        auto glTFPath = "../../../examples/resources/glTF/cudillero_diorama_bake/scene.gltf";
-        GLTFReader::read_file(glTFPath);
-        return 0;
-
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Instance and PhysicalDevices
         std::vector<std::string> instanceLayers;
@@ -173,7 +165,7 @@ int main()
         configuration.apiVersion.major = VK_VERSION_MAJOR(apiVersion);
         configuration.apiVersion.minor = VK_VERSION_MAJOR(apiVersion);
         configuration.apiVersion.patch = VK_VERSION_MAJOR(apiVersion);
-        configuration.name = "Dynamic_Static VK.06.glTF";
+        configuration.name = "Dynamic_Static VK.06.OffscreenRendering";
         auto window = std::make_shared<Window>(configuration);
         auto surface = physicalDevice.create<SurfaceKHR>(window);
 
