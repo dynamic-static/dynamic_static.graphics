@@ -49,6 +49,7 @@ include(ExternalProject)
 ExternalProject_Add(
     GLFW
     PREFIX external
+    DOWNLOAD_DIR external/GLFW
 
     # URL "${CMAKE_SOURCE_DIR}/external/glfw-3.2.1.zip"
     # URL_MD5 35A0672885AD4CA59C8EBE7550176276
@@ -79,6 +80,7 @@ endif()
 ExternalProject_Add(
     glslang
     PREFIX external
+    DOWNLOAD_DIR external/glslang
 
     URL https://github.com/KhronosGroup/glslang/archive/master.zip
     # URL_HASH SHA1=ED05B1B4C82FC7EBF9C451352EB7B4CF887B80B2
@@ -118,7 +120,8 @@ endif()
 ################################################################################################################################
 ExternalProject_Add(
     Dynamic_Static.Core
-    PREFIX external/
+    PREFIX external
+    DOWNLOAD_DIR external/Dynamic_Static.Core
 
     URL https://github.com/DynamicStatic/Dynamic_Static.Core/archive/master.zip
     # URL_HASH SHA1=ED05B1B4C82FC7EBF9C451352EB7B4CF887B80B2
