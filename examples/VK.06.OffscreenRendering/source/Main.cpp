@@ -335,6 +335,7 @@ int main()
                 void main()
                 {
                     outColor = texture(imageSampler, fragTexCoord);
+                    outColor.rgb = fragColor.rgb;
                 }
 
             )"
@@ -379,7 +380,7 @@ int main()
         rasterizationInfo.polygonMode = VK_POLYGON_MODE_FILL;
         rasterizationInfo.lineWidth = 1;
         rasterizationInfo.cullMode = VK_CULL_MODE_BACK_BIT;
-        rasterizationInfo.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
+        rasterizationInfo.frontFace = VK_FRONT_FACE_CLOCKWISE;
 
         VkPipelineMultisampleStateCreateInfo multisampleInfo { };
         multisampleInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
@@ -559,21 +560,45 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create vertex and index Buffers
-        float w = static_cast<float>(imageCache.width());
-        float h = static_cast<float>(imageCache.height());
-        float a = 1.0f / std::max(w, h);
-        w = w * a * 0.5f;
-        h = h * a * 0.5f;
+        float w = 0.5f;
+        float h = 0.5f;
+        float d = 0.5f;
         const std::vector<Vertex> vertices {
-            { { -w, -h, 0 }, { 0, 0 }, { dst::Color::OrangeRed } },
-            { {  w, -h, 0 }, { 1, 0 }, { dst::Color::BlueViolet } },
-            { {  w,  h, 0 }, { 1, 1 }, { dst::Color::DodgerBlue } },
-            { { -w,  h, 0 }, { 0, 1 }, { dst::Color::Goldenrod } },
+            // Front
+            { { -w,  h, w }, { 0, 0 }, { dst::Color::Green } },
+            { {  w,  h, w }, { 1, 0 }, { dst::Color::Red } },
+            { {  w, -h, w }, { 1, 1 }, { dst::Color::Blue } },
+            { { -w, -h, w }, { 0, 1 }, { dst::Color::Yellow } },
 
-            { { -w, -h, -0.5f }, { 0, 0 }, { dst::Color::OrangeRed } },
-            { {  w, -h, -0.5f }, { 1, 0 }, { dst::Color::BlueViolet } },
-            { {  w,  h, -0.5f }, { 1, 1 }, { dst::Color::DodgerBlue } },
-            { { -w,  h, -0.5f }, { 0, 1 }, { dst::Color::Goldenrod } },
+            // Back
+            { {  w,  h, -d }, { 0, 0 }, { dst::Color::White } },
+            { { -w,  h, -d }, { 1, 0 }, { dst::Color::White } },
+            { { -w, -h, -d }, { 1, 1 }, { dst::Color::White } },
+            { {  w, -h, -d }, { 0, 1 }, { dst::Color::OrangeRed } },
+
+            // Left
+            { { -w,  h, -d }, { 0, 0 }, { dst::Color::Green } },
+            { { -w,  h,  d }, { 1, 0 }, { dst::Color::White } },
+            { { -w, -h,  d }, { 1, 1 }, { dst::Color::White } },
+            { { -w, -h, -d }, { 0, 1 }, { dst::Color::DodgerBlue } },
+
+            // Right
+            { {  w,  h,  d }, { 0, 0 }, { dst::Color::White } },
+            { {  w,  h, -d }, { 1, 0 }, { dst::Color::White } },
+            { {  w, -h, -d }, { 1, 1 }, { dst::Color::White } },
+            { {  w, -h,  d }, { 0, 1 }, { dst::Color::DodgerBlue } },
+
+            // Top
+            { { -w,  h, -d }, { 0, 0 }, { dst::Color::Orange } },
+            { {  w,  h, -d }, { 1, 0 }, { dst::Color::White } },
+            { {  w,  h,  d }, { 1, 1 }, { dst::Color::Pink } },
+            { { -w,  h,  d }, { 0, 1 }, { dst::Color::Black } },
+
+            // Bottom
+            { { -w, -h,  d }, { 0, 0 }, { dst::Color::DarkOrchid } },
+            { {  w, -h,  d }, { 1, 0 }, { dst::Color::DarkOrchid } },
+            { {  w, -h, -d }, { 1, 1 }, { dst::Color::DarkOrchid } },
+            { { -w, -h, -d }, { 0, 1 }, { dst::Color::DarkOrchid } },
         };
 
         auto vertexBufferSize = static_cast<VkDeviceSize>(sizeof(vertices[0]) * vertices.size());
@@ -602,10 +627,20 @@ int main()
             }
         );
 
-        const std::vector<uint16_t> indices {
-            0, 1, 2, 2, 3, 0,
-            4, 5, 6, 6, 7, 4,
-        };
+        size_t vertex_i = 0;
+        size_t faceCount = 6;
+        size_t indicesPerFace = 6;
+        std::vector<uint16_t> indices;
+        indices.reserve(indicesPerFace * faceCount);
+        for (size_t face_i = 0; face_i < faceCount; ++face_i) {
+            indices.push_back(vertex_i + 0);
+            indices.push_back(vertex_i + 1);
+            indices.push_back(vertex_i + 2);
+            indices.push_back(vertex_i + 2);
+            indices.push_back(vertex_i + 3);
+            indices.push_back(vertex_i + 0);
+            vertex_i += 4;
+        }
 
         auto indexBufferSize = static_cast<VkDeviceSize>(sizeof(indices[0]) * indices.size());
 
@@ -737,13 +772,13 @@ int main()
             UniformBuffer ubo;
             ubo.world = dst::Matrix4x4::create_rotation(
                 dst::to_radians(angle),
-                dst::Vector3::UnitZ
+                dst::Vector3::UnitY
             );
 
             ubo.view = dst::Matrix4x4::create_view(
-                { 2, 2, 2 },
+                { 4, 4, 4 },
                 dst::Vector3::Zero,
-                dst::Vector3::UnitZ
+                dst::Vector3::UnitY
             );
 
             ubo.projection = dst::Matrix4x4::create_perspective(
@@ -755,6 +790,12 @@ int main()
             );
 
             ubo.projection[1][1] *= -1;
+
+            dst::Matrix4x4 translation;
+            dst::Matrix4x4 rotation;
+            dst::Matrix4x4 scale;
+
+            auto local_to_world = translation * rotation * scale;
 
             uniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
 
