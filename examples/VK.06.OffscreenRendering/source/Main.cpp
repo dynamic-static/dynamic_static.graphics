@@ -22,6 +22,22 @@
 using namespace dst::gfx;
 using namespace dst::gfx::vlkn;
 
+class Mesh final
+{
+public:
+    std::shared_ptr<Buffer> vertexBuffer;
+    std::shared_ptr<Buffer> indexBuffer;
+    size_t indexCount { 0 };
+
+public:
+    void render(Command::Buffer& commandBuffer)
+    {
+        commandBuffer.bind_vertex_buffer(*vertexBuffer);
+        commandBuffer.bind_index_buffer(*indexBuffer);
+        commandBuffer.draw_indexed(indexCount);
+    }
+};
+
 struct UniformBuffer final
 {
     dst::Matrix4x4 world;
@@ -131,7 +147,6 @@ void create_render_target(uint32_t width, uint32_t height)
 
     Image::Info imageInfo;
     imageInfo.imageType = VK_IMAGE_TYPE_2D;
-    
 }
 
 void create_pipelines()
@@ -139,148 +154,139 @@ void create_pipelines()
 
 }
 
-std::pair<std::shared_ptr<Buffer>, std::shared_ptr<Buffer>> create_meshes(Device& device, Command::Pool& commandPool, Queue& queue)
+Mesh create_mesh(
+    Device& device,
+    Command::Pool& commandPool,
+    Queue& queue,
+    const std::vector<Vertex>& vertices,
+    const std::vector<uint16_t>& indices
+)
 {
-    auto create_mesh =
-    [&](const std::vector<Vertex>& vertices, const std::vector<uint16_t>& indices)
-    {
-        auto vertexBufferSize = static_cast<VkDeviceSize>(sizeof(vertices[0]) * vertices.size());
-        Buffer::Info vertexBufferInfo;
-        vertexBufferInfo.size = vertexBufferSize;
-        vertexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-        auto vertexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-        auto vertexBuffer = device.create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
+    Mesh mesh;
 
-        Buffer::Info stagingBufferInfo;
-        stagingBufferInfo.size = vertexBufferSize;
-        stagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
-        auto stagingMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-        auto stagingBuffer = device.create<Buffer>(stagingBufferInfo, stagingMemoryProperties);
-        stagingBuffer->write<Vertex>(vertices);
+    auto vertexBufferSize = static_cast<VkDeviceSize>(sizeof(vertices[0]) * vertices.size());
+    Buffer::Info vertexBufferInfo;
+    vertexBufferInfo.size = vertexBufferSize;
+    vertexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+    auto vertexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+    mesh.vertexBuffer = device.create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
 
-        process_transient_command_buffer(
-            commandPool,
-            queue,
-            [&](Command::Buffer& commandBuffer)
-            {
-                VkBufferCopy copyInfo { };
-                copyInfo.size = vertexBufferSize;
-                commandBuffer.copy_buffer(*stagingBuffer, *vertexBuffer, vertexBufferSize);
-            }
-        );
+    Buffer::Info stagingBufferInfo;
+    stagingBufferInfo.size = vertexBufferSize;
+    stagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+    auto stagingMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+    auto stagingBuffer = device.create<Buffer>(stagingBufferInfo, stagingMemoryProperties);
+    stagingBuffer->write<Vertex>(vertices);
 
-        auto indexBufferSize = static_cast<VkDeviceSize>(sizeof(indices[0]) * indices.size());
-        Buffer::Info indexBufferInfo;
-        indexBufferInfo.size = indexBufferSize;
-        indexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
-        auto indexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-        auto indexBuffer = device.create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
-        stagingBuffer->write<uint16_t>(indices);
-
-        process_transient_command_buffer(
-            commandPool,
-            queue,
-            [&](Command::Buffer& commandBuffer)
-            {
-                VkBufferCopy copyInfo { };
-                copyInfo.size = indexBufferSize;
-                commandBuffer.copy_buffer(*stagingBuffer, *indexBuffer, indexBufferSize);
-            }
-        );
-
-        return std::make_pair(vertexBuffer, indexBuffer);
-    };
-
-    auto create_box =
-    [&](float width, float height, float depth, const dst::Color& color0, const dst::Color& color1)
-    {
-        float w = width * 0.5f;
-        float h = width * 0.5f;
-        float d = width * 0.5f;
-        const std::vector<Vertex> vertices {
-            // Top
-            { { -w,  h, -d }, { 0, 0 }, { color0 } },
-            { {  w,  h, -d }, { 0, 0 }, { color0 } },
-            { {  w,  h,  d }, { 0, 0 }, { color0 } },
-            { { -w,  h,  d }, { 0, 0 }, { color0 } },
-
-            // Left
-            { { -w,  h, -d }, { 0, 0 }, { color0 } },
-            { { -w,  h,  d }, { 0, 0 }, { color0 } },
-            { { -w, -h,  d }, { 0, 0 }, { color1 } },
-            { { -w, -h, -d }, { 0, 0 }, { color1 } },
-
-            // Front
-            { { -w,  h, w }, { 0, 0 }, { color0 } },
-            { {  w,  h, w }, { 0, 0 }, { color0 } },
-            { {  w, -h, w }, { 0, 0 }, { color1 } },
-            { { -w, -h, w }, { 0, 0 }, { color1 } },
-
-            // Right
-            { { w,  h,  d }, { 0, 0 }, { color0 } },
-            { { w,  h, -d }, { 0, 0 }, { color0 } },
-            { { w, -h, -d }, { 0, 0 }, { color1 } },
-            { { w, -h,  d }, { 0, 0 }, { color1 } },
-
-            // Back
-            { {  w,  h, -d }, { 0, 0 }, { color0 } },
-            { { -w,  h, -d }, { 0, 0 }, { color0 } },
-            { { -w, -h, -d }, { 0, 0 }, { color1 } },
-            { {  w, -h, -d }, { 0, 0 }, { color1 } },
-
-            // Bottom
-            { { -w, -h,  d }, { 0, 0 }, { color1 } },
-            { {  w, -h,  d }, { 0, 0 }, { color1 } },
-            { {  w, -h, -d }, { 0, 0 }, { color1 } },
-            { { -w, -h, -d }, { 0, 0 }, { color1 } },
-        };
-
-        size_t vertex_i = 0;
-        size_t faceCount = 6;
-        size_t indicesPerFace = 6;
-        std::vector<uint16_t> indices;
-        indices.reserve(indicesPerFace * faceCount);
-        for (size_t face_i = 0; face_i < faceCount; ++face_i) {
-            indices.push_back(vertex_i + 0);
-            indices.push_back(vertex_i + 1);
-            indices.push_back(vertex_i + 2);
-            indices.push_back(vertex_i + 2);
-            indices.push_back(vertex_i + 3);
-            indices.push_back(vertex_i + 0);
-            vertex_i += 4;
+    process_transient_command_buffer(
+        commandPool,
+        queue,
+        [&](Command::Buffer& commandBuffer)
+        {
+            VkBufferCopy copyInfo { };
+            copyInfo.size = vertexBufferSize;
+            commandBuffer.copy_buffer(*stagingBuffer, *mesh.vertexBuffer, vertexBufferSize);
         }
-
-        return create_mesh(vertices, indices);
-    };
-
-    auto cube = create_box(1, 1, 1, dst::Color::Green, dst::Color::Black);
-    auto cubeVertexBuffer = cube.first;
-    auto cubeIndexBuffer = cube.second;
-
-    auto floor = create_box(8, 1, 8, dst::Color::White, dst::Color::White);
-    auto floorVertexBuffer = floor.first;
-    auto floorIndexBuffer = floor.second;
-
-    auto quad = create_mesh(
-        std::vector<Vertex> {
-            { { -0.5f,  0.5f, 0 }, { 0, 0 }, { dst::Color::White } },
-            { {  0.5f,  0.5f, 0 }, { 0, 0 }, { dst::Color::White } },
-            { {  0.5f, -0.5f, 0 }, { 0, 0 }, { dst::Color::White } },
-            { { -0.5f, -0.5f, 0 }, { 0, 0 }, { dst::Color::White } },
-        },
-        std::vector<uint16_t> { 0, 1, 2, 2, 3, 0 }
     );
 
-    auto quadVertexBuffer = quad.first;
-    auto quadIndexBuffer = quad.second;
+    auto indexBufferSize = static_cast<VkDeviceSize>(sizeof(indices[0]) * indices.size());
+    Buffer::Info indexBufferInfo;
+    indexBufferInfo.size = indexBufferSize;
+    indexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
+    auto indexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+    mesh.indexBuffer = device.create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
+    stagingBuffer->write<uint16_t>(indices);
 
-    return cube;
+    process_transient_command_buffer(
+        commandPool,
+        queue,
+        [&](Command::Buffer& commandBuffer)
+        {
+            VkBufferCopy copyInfo { };
+            copyInfo.size = indexBufferSize;
+            commandBuffer.copy_buffer(*stagingBuffer, *mesh.indexBuffer, indexBufferSize);
+        }
+    );
+
+    mesh.indexCount = indices.size();
+    return mesh;
+}
+
+Mesh create_box(
+    Device& device,
+    Command::Pool& commandPool,
+    Queue& queue,
+    float width,
+    float height,
+    float depth,
+    const dst::Color& color0,
+    const dst::Color& color1
+)
+{
+    float w = width * 0.5f;
+    float h = width * 0.5f;
+    float d = width * 0.5f;
+    const std::vector<Vertex> vertices {
+        // Top
+        { { -w,  h, -d }, { 0, 0 }, { color0 } },
+        { {  w,  h, -d }, { 0, 0 }, { color0 } },
+        { {  w,  h,  d }, { 0, 0 }, { color0 } },
+        { { -w,  h,  d }, { 0, 0 }, { color0 } },
+
+        // Left
+        { { -w,  h, -d }, { 0, 0 }, { color0 } },
+        { { -w,  h,  d }, { 0, 0 }, { color0 } },
+        { { -w, -h,  d }, { 0, 0 }, { color1 } },
+        { { -w, -h, -d }, { 0, 0 }, { color1 } },
+
+        // Front
+        { { -w,  h, w }, { 0, 0 }, { color0 } },
+        { {  w,  h, w }, { 0, 0 }, { color0 } },
+        { {  w, -h, w }, { 0, 0 }, { color1 } },
+        { { -w, -h, w }, { 0, 0 }, { color1 } },
+
+        // Right
+        { { w,  h,  d }, { 0, 0 }, { color0 } },
+        { { w,  h, -d }, { 0, 0 }, { color0 } },
+        { { w, -h, -d }, { 0, 0 }, { color1 } },
+        { { w, -h,  d }, { 0, 0 }, { color1 } },
+
+        // Back
+        { {  w,  h, -d }, { 0, 0 }, { color0 } },
+        { { -w,  h, -d }, { 0, 0 }, { color0 } },
+        { { -w, -h, -d }, { 0, 0 }, { color1 } },
+        { {  w, -h, -d }, { 0, 0 }, { color1 } },
+
+        // Bottom
+        { { -w, -h,  d }, { 0, 0 }, { color1 } },
+        { {  w, -h,  d }, { 0, 0 }, { color1 } },
+        { {  w, -h, -d }, { 0, 0 }, { color1 } },
+        { { -w, -h, -d }, { 0, 0 }, { color1 } },
+    };
+
+    size_t vertex_i = 0;
+    size_t faceCount = 6;
+    size_t indicesPerFace = 6;
+    std::vector<uint16_t> indices;
+    indices.reserve(indicesPerFace * faceCount);
+    for (size_t face_i = 0; face_i < faceCount; ++face_i) {
+        indices.push_back(vertex_i + 0);
+        indices.push_back(vertex_i + 1);
+        indices.push_back(vertex_i + 2);
+        indices.push_back(vertex_i + 2);
+        indices.push_back(vertex_i + 3);
+        indices.push_back(vertex_i + 0);
+        vertex_i += 4;
+    }
+
+    return create_mesh(device, commandPool, queue, vertices, indices);
 }
 
 int main()
 {
     // loadAssets();
     // generateQuad();
+
     // prepareOffscreen();
     // setupVertexDescriptions();
     // prepareUniformBuffers();
@@ -727,117 +733,21 @@ int main()
         auto sampler = device->create<Sampler>();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Create vertex and index Buffers
-        // float w = 0.5f;
-        // float h = 0.5f;
-        // float d = 0.5f;
-        // auto color0 = dst::Color::Green;
-        // auto color1 = dst::Color::Green;
-        // auto color2 = dst::Color::Black;
-        // auto color3 = dst::Color::Black;
-        // const std::vector<Vertex> vertices {
-        //     // Top
-        //     { { -w,  h, -d }, { 0, 0 }, { color0 } },
-        //     { {  w,  h, -d }, { 0, 0 }, { color0 } },
-        //     { {  w,  h,  d }, { 0, 0 }, { color0 } },
-        //     { { -w,  h,  d }, { 0, 0 }, { color0 } },
-        // 
-        //     // Left
-        //     { { -w,  h, -d }, { 0, 0 }, { color1 } },
-        //     { { -w,  h,  d }, { 0, 0 }, { color1 } },
-        //     { { -w, -h,  d }, { 0, 0 }, { color2 } },
-        //     { { -w, -h, -d }, { 0, 0 }, { color2 } },
-        // 
-        //     // Front
-        //     { { -w,  h, w }, { 0, 0 }, { color1 } },
-        //     { {  w,  h, w }, { 0, 0 }, { color1 } },
-        //     { {  w, -h, w }, { 0, 0 }, { color2 } },
-        //     { { -w, -h, w }, { 0, 0 }, { color2 } },
-        // 
-        //     // Right
-        //     { { w,  h,  d }, { 0, 0 }, { color1 } },
-        //     { { w,  h, -d }, { 0, 0 }, { color1 } },
-        //     { { w, -h, -d }, { 0, 0 }, { color2 } },
-        //     { { w, -h,  d }, { 0, 0 }, { color2 } },
-        // 
-        //     // Back
-        //     { {  w,  h, -d }, { 0, 0 }, { color1 } },
-        //     { { -w,  h, -d }, { 0, 0 }, { color1 } },
-        //     { { -w, -h, -d }, { 0, 0 }, { color2 } },
-        //     { {  w, -h, -d }, { 0, 0 }, { color2 } },
-        // 
-        //     // Bottom
-        //     { { -w, -h,  d }, { 0, 0 }, { color3 } },
-        //     { {  w, -h,  d }, { 0, 0 }, { color3 } },
-        //     { {  w, -h, -d }, { 0, 0 }, { color3 } },
-        //     { { -w, -h, -d }, { 0, 0 }, { color3 } },
-        // };
-        // 
-        // auto vertexBufferSize = static_cast<VkDeviceSize>(sizeof(vertices[0]) * vertices.size());
-        // 
-        // Buffer::Info vertexBufferInfo;
-        // vertexBufferInfo.size = vertexBufferSize;
-        // vertexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-        // auto vertexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-        // auto vertexBuffer = device->create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
-        // 
-        // Buffer::Info stagingBufferInfo;
-        // stagingBufferInfo.size = vertexBufferSize;
-        // stagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
-        // auto stagingMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-        // auto stagingBuffer = device->create<Buffer>(stagingBufferInfo, stagingMemoryProperties);
-        // stagingBuffer->write<Vertex>(vertices);
-        // 
-        // process_transient_command_buffer(
-        //     *commandPool,
-        //     graphicsQueue,
-        //     [&](Command::Buffer& commandBuffer)
-        //     {
-        //         VkBufferCopy copyInfo { };
-        //         copyInfo.size = vertexBufferSize;
-        //         commandBuffer.copy_buffer(*stagingBuffer, *vertexBuffer, vertexBufferSize);
-        //     }
-        // );
-        // 
-        // size_t vertex_i = 0;
-        // size_t faceCount = 6;
-        // size_t indicesPerFace = 6;
-        // std::vector<uint16_t> indices;
-        // indices.reserve(indicesPerFace * faceCount);
-        // for (size_t face_i = 0; face_i < faceCount; ++face_i) {
-        //     indices.push_back(vertex_i + 0);
-        //     indices.push_back(vertex_i + 1);
-        //     indices.push_back(vertex_i + 2);
-        //     indices.push_back(vertex_i + 2);
-        //     indices.push_back(vertex_i + 3);
-        //     indices.push_back(vertex_i + 0);
-        //     vertex_i += 4;
-        // }
-        // 
-        // auto indexBufferSize = static_cast<VkDeviceSize>(sizeof(indices[0]) * indices.size());
-        // 
-        // Buffer::Info indexBufferInfo;
-        // indexBufferInfo.size = indexBufferSize;
-        // indexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
-        // auto indexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-        // auto indexBuffer = device->create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
-        // stagingBuffer->write<uint16_t>(indices);
-        // 
-        // process_transient_command_buffer(
-        //     *commandPool,
-        //     graphicsQueue,
-        //     [&](Command::Buffer& commandBuffer)
-        //     {
-        //         VkBufferCopy copyInfo { };
-        //         copyInfo.size = indexBufferSize;
-        //         commandBuffer.copy_buffer(*stagingBuffer, *indexBuffer, indexBufferSize);
-        //     }
-        // );
+        // Create meshes
+        auto cube = create_box(*device, *commandPool, graphicsQueue, 1, 1, 1, dst::Color::Green, dst::Color::Black);
+        auto floor = create_box(*device, *commandPool, graphicsQueue, 8, 1, 8, dst::Color::White, dst::Color::White);
+        auto quad = create_mesh(*device, *commandPool, graphicsQueue,
+        std::vector<Vertex> {
+                { { -0.5f,  0.5f, 0 }, { 0, 0 }, { dst::Color::White } },
+                { {  0.5f,  0.5f, 0 }, { 0, 0 }, { dst::Color::White } },
+                { {  0.5f, -0.5f, 0 }, { 0, 0 }, { dst::Color::White } },
+                { { -0.5f, -0.5f, 0 }, { 0, 0 }, { dst::Color::White } },
+            },
+            std::vector<uint16_t> { 0, 1, 2, 2, 3, 0 }
+        );
 
-        auto cube = create_meshes(*device, *commandPool, graphicsQueue);
-        auto vertexBuffer = cube.first;
-        auto indexBuffer = cube.second;
-        size_t indexCount = 36;
+        //auto vertexBuffer = cube.vertexBuffer;
+        //auto indexBuffer = cube.indexBuffer;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create uniform Buffer
@@ -1069,10 +979,7 @@ int main()
                         scissor.extent = swapchain->extent();
                         commandBuffer->set_scissor(scissor);
                         commandBuffer->bind_descriptor_set(*descriptorSet, *pipelineLayout);
-                        commandBuffer->bind_vertex_buffer(*vertexBuffer);
-                        commandBuffer->bind_index_buffer(*indexBuffer);
-                        // commandBuffer->draw_indexed(indices.size());
-                        commandBuffer->draw_indexed(indexCount);
+                        cube.render(*commandBuffer);
                         commandBuffer->end_render_pass();
                         commandBuffer->end();
                     }
