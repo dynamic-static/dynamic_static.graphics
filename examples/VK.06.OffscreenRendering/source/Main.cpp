@@ -86,6 +86,19 @@ struct Vertex final
             colorAttribute
         };
     }
+
+    static VkPipelineVertexInputStateCreateInfo pipeline_input_state()
+    {
+        static auto bindindDescription = binding_description();
+        static auto attributeDescriptions = attribute_descriptions();
+        VkPipelineVertexInputStateCreateInfo inputState { };
+        inputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+        inputState.vertexBindingDescriptionCount = 1;
+        inputState.pVertexBindingDescriptions = &bindindDescription;
+        inputState.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+        inputState.pVertexAttributeDescriptions = attributeDescriptions.data();
+        return inputState;
+    }
 };
 
 template <typename FuncType>
@@ -224,8 +237,8 @@ Mesh create_box(
 )
 {
     float w = width * 0.5f;
-    float h = width * 0.5f;
-    float d = width * 0.5f;
+    float h = height * 0.5f;
+    float d = depth * 0.5f;
     const std::vector<Vertex> vertices {
         // Top
         { { -w,  h, -d }, { 0, 0 }, { color0 } },
@@ -270,16 +283,264 @@ Mesh create_box(
     std::vector<uint16_t> indices;
     indices.reserve(indicesPerFace * faceCount);
     for (size_t face_i = 0; face_i < faceCount; ++face_i) {
-        indices.push_back(vertex_i + 0);
-        indices.push_back(vertex_i + 1);
-        indices.push_back(vertex_i + 2);
-        indices.push_back(vertex_i + 2);
-        indices.push_back(vertex_i + 3);
-        indices.push_back(vertex_i + 0);
+        indices.push_back(static_cast<uint16_t>(vertex_i + 0));
+        indices.push_back(static_cast<uint16_t>(vertex_i + 1));
+        indices.push_back(static_cast<uint16_t>(vertex_i + 2));
+        indices.push_back(static_cast<uint16_t>(vertex_i + 2));
+        indices.push_back(static_cast<uint16_t>(vertex_i + 3));
+        indices.push_back(static_cast<uint16_t>(vertex_i + 0));
         vertex_i += 4;
     }
 
     return create_mesh(device, commandPool, queue, vertices, indices);
+}
+
+VkAttachmentDescription default_attachment_description()
+{
+    VkAttachmentDescription attachmentDescription { };
+    attachmentDescription.format = VK_FORMAT_UNDEFINED;
+    attachmentDescription.samples = VK_SAMPLE_COUNT_1_BIT;
+    attachmentDescription.loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+    attachmentDescription.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+    attachmentDescription.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+    attachmentDescription.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+    attachmentDescription.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    attachmentDescription.finalLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    return attachmentDescription;
+}
+
+std::shared_ptr<RenderPass> create_non_reflective_render_pass(Device& device, VkFormat format, VkFormat& depthFormat)
+{
+    auto colorAttachment = default_attachment_description();
+    colorAttachment.format = format;
+    colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+    colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+    VkAttachmentReference colorAttachmentReference { };
+    colorAttachmentReference.attachment = 0;
+    colorAttachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
+    std::array<VkFormat, 3> depthFormats {
+        VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT
+    };
+
+    depthFormat = device.physical_device().find_supported_format(
+        depthFormats,
+        VK_IMAGE_TILING_OPTIMAL,
+        VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
+    );
+
+    auto depthAttachment = default_attachment_description();
+    depthAttachment.format = depthFormat;
+    depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    depthAttachment.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+    VkAttachmentReference depthAttachmentReference { };
+    depthAttachmentReference.attachment = 1;
+    depthAttachmentReference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+
+    VkSubpassDescription subpass { };
+    subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+    subpass.colorAttachmentCount = 1;
+    subpass.pColorAttachments = &colorAttachmentReference;
+    subpass.pDepthStencilAttachment = &depthAttachmentReference;
+
+    std::array<VkAttachmentDescription, 2> attachments { colorAttachment, depthAttachment };
+    RenderPass::Info renderPassInfo;
+    renderPassInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
+    renderPassInfo.pAttachments = attachments.data();
+    renderPassInfo.subpassCount = 1;
+    renderPassInfo.pSubpasses = &subpass;
+    return device.create<RenderPass>(renderPassInfo);
+}
+
+std::shared_ptr<Descriptor::Set::Layout> create_non_reflective_descriptor_set_layout(Device& device)
+{
+    VkDescriptorSetLayoutBinding uniformBufferLayoutBinding { };
+    uniformBufferLayoutBinding.binding = 0;
+    uniformBufferLayoutBinding.descriptorCount = 1;
+    uniformBufferLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    uniformBufferLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+
+    VkDescriptorSetLayoutBinding samplerLayoutBinding { };
+    samplerLayoutBinding.binding = 1;
+    samplerLayoutBinding.descriptorCount = 1;
+    samplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    samplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+
+    std::array<VkDescriptorSetLayoutBinding, 2> descriptorsetLayoutBinding {
+        uniformBufferLayoutBinding,
+        samplerLayoutBinding
+    };
+
+    Descriptor::Set::Layout::Info descriptorSetLayoutInfo;
+    descriptorSetLayoutInfo.bindingCount = static_cast<uint32_t>(descriptorsetLayoutBinding.size());
+    descriptorSetLayoutInfo.pBindings = descriptorsetLayoutBinding.data();
+    return device.create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
+}
+
+void create_reflective_render_pass()
+{
+}
+
+void create_reflective_descriptor_set_layout()
+{
+}
+
+std::shared_ptr<Pipeline> create_pipeline(
+    RenderPass& renderPass,
+    Descriptor::Set::Layout& descriptorSetLayout,
+    const std::string& vertexShaderSource,
+    const std::string& fragmentShaderSource
+)
+{
+    auto& device = descriptorSetLayout.device();
+
+    auto vertexShader = device.create<ShaderModule>(
+        VK_SHADER_STAGE_VERTEX_BIT,
+        ShaderModule::Source::Code,
+        vertexShaderSource
+    );
+
+    auto fragmentShader = device.create<ShaderModule>(
+        VK_SHADER_STAGE_FRAGMENT_BIT,
+        ShaderModule::Source::Code,
+        fragmentShaderSource
+    );
+
+    std::array<VkPipelineShaderStageCreateInfo, 2> shaderStages {
+        vertexShader->pipeline_stage_info(),
+        fragmentShader->pipeline_stage_info()
+    };
+
+    VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo { };
+    inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+    inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+
+    VkPipelineRasterizationStateCreateInfo rasterizationInfo { };
+    rasterizationInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+    rasterizationInfo.polygonMode = VK_POLYGON_MODE_FILL;
+    rasterizationInfo.lineWidth = 1;
+    rasterizationInfo.cullMode = VK_CULL_MODE_BACK_BIT;
+    rasterizationInfo.frontFace = VK_FRONT_FACE_CLOCKWISE;
+
+    VkPipelineMultisampleStateCreateInfo multisampleInfo { };
+    multisampleInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+    multisampleInfo.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
+    multisampleInfo.minSampleShading = 1;
+
+    VkPipelineDepthStencilStateCreateInfo depthStencilInfo { };
+    depthStencilInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+    depthStencilInfo.depthTestEnable = VK_TRUE;
+    depthStencilInfo.depthWriteEnable = VK_TRUE;
+    depthStencilInfo.depthCompareOp = VK_COMPARE_OP_LESS;
+    depthStencilInfo.depthBoundsTestEnable = VK_FALSE;
+    depthStencilInfo.stencilTestEnable = VK_FALSE;
+
+    VkPipelineColorBlendAttachmentState colorBlendAttachment { };
+    colorBlendAttachment.blendEnable = VK_FALSE;
+    colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+    colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+    colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+    colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+    colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+    colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+    colorBlendAttachment.colorWriteMask =
+        VK_COLOR_COMPONENT_R_BIT |
+        VK_COLOR_COMPONENT_G_BIT |
+        VK_COLOR_COMPONENT_B_BIT |
+        VK_COLOR_COMPONENT_A_BIT;
+
+    VkPipelineColorBlendStateCreateInfo colorBlendStateInfo { };
+    colorBlendStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+    colorBlendStateInfo.attachmentCount = 1;
+    colorBlendStateInfo.pAttachments = &colorBlendAttachment;
+
+    VkViewport viewport { };
+    VkRect2D scissor { };
+    VkPipelineViewportStateCreateInfo viewportInfo { };
+    viewportInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+    viewportInfo.viewportCount = 1;
+    viewportInfo.pViewports = &viewport;
+    viewportInfo.scissorCount = 1;
+    viewportInfo.pScissors = &scissor;
+
+    std::array<VkDynamicState, 2> dynamicStates {
+        VK_DYNAMIC_STATE_VIEWPORT,
+        VK_DYNAMIC_STATE_SCISSOR
+    };
+
+    VkPipelineDynamicStateCreateInfo dynamicStateInfo { };
+    dynamicStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+    dynamicStateInfo.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
+    dynamicStateInfo.pDynamicStates = dynamicStates.data();
+
+    Pipeline::Layout::Info pipelineLayoutInfo;
+    pipelineLayoutInfo.setLayoutCount = 1;
+    pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout.handle();
+    auto pipelineLayout = device.create<Pipeline::Layout>(pipelineLayoutInfo);
+
+    auto vertexInputInfo = Vertex::pipeline_input_state();
+    Pipeline::GraphicsInfo pipelineInfo;
+    pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
+    pipelineInfo.pStages = shaderStages.data();
+    pipelineInfo.pVertexInputState = &vertexInputInfo;
+    pipelineInfo.pInputAssemblyState = &inputAssemblyInfo;
+    pipelineInfo.pViewportState = &viewportInfo;
+    pipelineInfo.pRasterizationState = &rasterizationInfo;
+    pipelineInfo.pMultisampleState = &multisampleInfo;
+    pipelineInfo.pDepthStencilState = &depthStencilInfo;
+    pipelineInfo.pColorBlendState = &colorBlendStateInfo;
+    pipelineInfo.pDynamicState = &dynamicStateInfo;
+    pipelineInfo.layout = *pipelineLayout;
+    // pipelineInfo.renderPass = nullptr;
+    pipelineInfo.subpass = 0;
+    return device.create<Pipeline>(pipelineInfo);
+}
+
+void create_non_reflective_pipeline(
+    RenderPass& renderPass,
+    Descriptor::Set::Layout& descriptorSetLayout
+)
+{
+    create_pipeline(
+        renderPass,
+        descriptorSetLayout,
+        R"(
+
+            #version 450
+            #extension GL_ARB_separate_shader_objects : enable
+
+        )",
+        R"(
+
+            #version 450
+            #extension GL_ARB_separate_shader_objects : enable
+
+        )"
+    );
+}
+
+void create_reflective_pipeline(
+    RenderPass& renderPass,
+    Descriptor::Set::Layout& descriptorSetLayout
+)
+{
+    create_pipeline(
+        renderPass,
+        descriptorSetLayout,
+        R"(
+
+            #version 450
+            #extension GL_ARB_separate_shader_objects : enable
+
+        )",
+        R"(
+
+            #version 450
+            #extension GL_ARB_separate_shader_objects : enable
+
+        )"
+    );
 }
 
 int main()
@@ -376,55 +637,57 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create RenderPass
-        VkAttachmentDescription colorAttachment { };
-        colorAttachment.format = swapchain->format();
-        colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
-        colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-        colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-        colorAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-        colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-        colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-        colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-        VkAttachmentReference colorAttachmentReference { };
-        colorAttachmentReference.attachment = 0;
-        colorAttachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-
-        std::array<VkFormat, 3> depthFormats {
-            VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT
-        };
-
-        auto depthFormat = physicalDevice.find_supported_format(
-            depthFormats,
-            VK_IMAGE_TILING_OPTIMAL,
-            VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
-        );
-
-        VkAttachmentDescription depthAttachment { };
-        depthAttachment.format = depthFormat;
-        depthAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
-        depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-        depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-        depthAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-        depthAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-        depthAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-        depthAttachment.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-        VkAttachmentReference depthAttachmentReference { };
-        depthAttachmentReference.attachment = 1;
-        depthAttachmentReference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-
-        VkSubpassDescription subpass { };
-        subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-        subpass.colorAttachmentCount = 1;
-        subpass.pColorAttachments = &colorAttachmentReference;
-        subpass.pDepthStencilAttachment = &depthAttachmentReference;
-
-        std::array<VkAttachmentDescription, 2> attachments { colorAttachment, depthAttachment };
-        RenderPass::Info renderPassInfo;
-        renderPassInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
-        renderPassInfo.pAttachments = attachments.data();
-        renderPassInfo.subpassCount = 1;
-        renderPassInfo.pSubpasses = &subpass;
-        auto renderPass = device->create<RenderPass>(renderPassInfo);
+        // VkAttachmentDescription colorAttachment { };
+        // colorAttachment.format = swapchain->format();
+        // colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+        // colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+        // colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+        // colorAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+        // colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+        // colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        // colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+        // VkAttachmentReference colorAttachmentReference { };
+        // colorAttachmentReference.attachment = 0;
+        // colorAttachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+        // 
+        // std::array<VkFormat, 3> depthFormats {
+        //     VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT
+        // };
+        // 
+        // auto depthFormat = physicalDevice.find_supported_format(
+        //     depthFormats,
+        //     VK_IMAGE_TILING_OPTIMAL,
+        //     VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
+        // );
+        // 
+        // VkAttachmentDescription depthAttachment { };
+        // depthAttachment.format = depthFormat;
+        // depthAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+        // depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+        // depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+        // depthAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+        // depthAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+        // depthAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        // depthAttachment.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+        // VkAttachmentReference depthAttachmentReference { };
+        // depthAttachmentReference.attachment = 1;
+        // depthAttachmentReference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+        // 
+        // VkSubpassDescription subpass { };
+        // subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+        // subpass.colorAttachmentCount = 1;
+        // subpass.pColorAttachments = &colorAttachmentReference;
+        // subpass.pDepthStencilAttachment = &depthAttachmentReference;
+        // 
+        // std::array<VkAttachmentDescription, 2> attachments { colorAttachment, depthAttachment };
+        // RenderPass::Info renderPassInfo;
+        // renderPassInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
+        // renderPassInfo.pAttachments = attachments.data();
+        // renderPassInfo.subpassCount = 1;
+        // renderPassInfo.pSubpasses = &subpass;
+        // auto renderPass = device->create<RenderPass>(renderPassInfo);
+        VkFormat depthFormat = VK_FORMAT_UNDEFINED;
+        auto renderPass = create_non_reflective_render_pass(*device, swapchain->format(), depthFormat);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create DescriptorSet::Layout
@@ -520,14 +783,14 @@ int main()
             fragmentShader->pipeline_stage_info(),
         };
 
-        auto vertexBindingDescription = Vertex::binding_description();
-        auto vertexAttributeDescriptions = Vertex::attribute_descriptions();
-        VkPipelineVertexInputStateCreateInfo vertexInputInfo { };
-        vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-        vertexInputInfo.vertexBindingDescriptionCount = 1;
-        vertexInputInfo.pVertexBindingDescriptions = &vertexBindingDescription;
-        vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(vertexAttributeDescriptions.size());
-        vertexInputInfo.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
+        // auto vertexBindingDescription = Vertex::binding_description();
+        // auto vertexAttributeDescriptions = Vertex::attribute_descriptions();
+        // VkPipelineVertexInputStateCreateInfo vertexInputInfo { };
+        // vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+        // vertexInputInfo.vertexBindingDescriptionCount = 1;
+        // vertexInputInfo.pVertexBindingDescriptions = &vertexBindingDescription;
+        // vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(vertexAttributeDescriptions.size());
+        // vertexInputInfo.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
 
         VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo { };
         inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
@@ -604,6 +867,7 @@ int main()
         dynamicStateInfo.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
         dynamicStateInfo.pDynamicStates = dynamicStates.data();
 
+        auto vertexInputInfo = Vertex::pipeline_input_state();
         Pipeline::GraphicsInfo pipelineInfo;
         pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
         pipelineInfo.pStages = shaderStages.data();
@@ -735,7 +999,7 @@ int main()
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create meshes
         auto cube = create_box(*device, *commandPool, graphicsQueue, 1, 1, 1, dst::Color::Green, dst::Color::Black);
-        auto floor = create_box(*device, *commandPool, graphicsQueue, 8, 1, 8, dst::Color::White, dst::Color::White);
+        auto floor = create_box(*device, *commandPool, graphicsQueue, 4, 0.25f, 4, dst::Color::White, dst::Color::Blue);
         auto quad = create_mesh(*device, *commandPool, graphicsQueue,
         std::vector<Vertex> {
                 { { -0.5f,  0.5f, 0 }, { 0, 0 }, { dst::Color::White } },
@@ -980,6 +1244,8 @@ int main()
                         commandBuffer->set_scissor(scissor);
                         commandBuffer->bind_descriptor_set(*descriptorSet, *pipelineLayout);
                         cube.render(*commandBuffer);
+                        floor.render(*commandBuffer);
+                        // quad.render(*commandBuffer);
                         commandBuffer->end_render_pass();
                         commandBuffer->end();
                     }
