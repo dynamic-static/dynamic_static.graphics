@@ -22,6 +22,8 @@
 using namespace dst::gfx;
 using namespace dst::gfx::vlkn;
 
+using PipelinePair = std::pair<std::shared_ptr<Pipeline>, std::shared_ptr<Pipeline::Layout>>;
+
 class Mesh final
 {
 public:
@@ -152,19 +154,6 @@ VkImageMemoryBarrier create_layout_transition_barrier(Image& image, VkImageLayou
     }
 
     return barrier;
-}
-
-void create_render_target(uint32_t width, uint32_t height)
-{
-    VkFormat depthFormat;
-
-    Image::Info imageInfo;
-    imageInfo.imageType = VK_IMAGE_TYPE_2D;
-}
-
-void create_pipelines()
-{
-
 }
 
 Mesh create_mesh(
@@ -386,7 +375,7 @@ void create_reflective_descriptor_set_layout()
 {
 }
 
-std::shared_ptr<Pipeline> create_pipeline(
+PipelinePair create_pipeline(
     RenderPass& renderPass,
     Descriptor::Set::Layout& descriptorSetLayout,
     const std::string& vertexShaderSource,
@@ -492,40 +481,80 @@ std::shared_ptr<Pipeline> create_pipeline(
     pipelineInfo.pColorBlendState = &colorBlendStateInfo;
     pipelineInfo.pDynamicState = &dynamicStateInfo;
     pipelineInfo.layout = *pipelineLayout;
-    // pipelineInfo.renderPass = nullptr;
+    pipelineInfo.renderPass = renderPass;
     pipelineInfo.subpass = 0;
-    return device.create<Pipeline>(pipelineInfo);
+    return std::make_pair(device.create<Pipeline>(pipelineInfo), pipelineLayout);
 }
 
-void create_non_reflective_pipeline(
+PipelinePair create_non_reflective_pipeline(
     RenderPass& renderPass,
     Descriptor::Set::Layout& descriptorSetLayout
 )
 {
-    create_pipeline(
+    return create_pipeline(
         renderPass,
         descriptorSetLayout,
         R"(
 
             #version 450
             #extension GL_ARB_separate_shader_objects : enable
+            
+            layout(binding = 0)
+            uniform UniformBuffer
+            {
+                mat4 world;
+                mat4 view;
+                mat4 projection;
+            } ubo;
+            
+            layout(location = 0) in vec3 inPosition;
+            layout(location = 1) in vec2 inTexCoord;
+            layout(location = 2) in vec4 inColor;
+            
+            layout(location = 0) out vec2 fragTexCoord;
+            layout(location = 1) out vec4 fragColor;
+            
+            out gl_PerVertex
+            {
+                vec4 gl_Position;
+            };
+            
+            void main()
+            {
+                gl_Position = ubo.projection * ubo.view * ubo.world * vec4(inPosition, 1);
+                fragTexCoord = inTexCoord;
+                fragColor = inColor;
+            }
 
         )",
         R"(
 
             #version 450
             #extension GL_ARB_separate_shader_objects : enable
+            
+            layout(binding = 1) uniform sampler2D imageSampler;
+            
+            layout(location = 0) in vec2 fragTexCoord;
+            layout(location = 1) in vec4 fragColor;
+            
+            layout(location = 0) out vec4 outColor;
+            
+            void main()
+            {
+                outColor = texture(imageSampler, fragTexCoord);
+                outColor.rgb = fragColor.rgb;
+            }
 
         )"
     );
 }
 
-void create_reflective_pipeline(
+PipelinePair create_reflective_pipeline(
     RenderPass& renderPass,
     Descriptor::Set::Layout& descriptorSetLayout
 )
 {
-    create_pipeline(
+    return create_pipeline(
         renderPass,
         descriptorSetLayout,
         R"(
@@ -545,23 +574,6 @@ void create_reflective_pipeline(
 
 int main()
 {
-    // loadAssets();
-    // generateQuad();
-
-    // prepareOffscreen();
-    // setupVertexDescriptions();
-    // prepareUniformBuffers();
-    // setupDescriptorSetLayout();
-    // preparePipelines();
-    // setupDescriptorPool();
-    // setupDescriptorSet();
-    // buildCommandBuffers();
-    // buildOffscreenCommandBuffer();
-
-
-
-
-
     try
     {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -642,202 +654,174 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create DescriptorSet::Layout
-        // VkDescriptorSetLayoutBinding uniformBufferLayoutBinding { };
-        // uniformBufferLayoutBinding.binding = 0;
-        // uniformBufferLayoutBinding.descriptorCount = 1;
-        // uniformBufferLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        // uniformBufferLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-        // 
-        // VkDescriptorSetLayoutBinding samplerLayoutBinding { };
-        // samplerLayoutBinding.binding = 1;
-        // samplerLayoutBinding.descriptorCount = 1;
-        // samplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-        // samplerLayoutBinding.pImmutableSamplers = nullptr;
-        // samplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
-        // 
-        // Descriptor::Set::Layout::Info descriptorSetLayoutInfo;
-        // std::array<VkDescriptorSetLayoutBinding, 2> descriptorSetLayoutBindings {
-        //     uniformBufferLayoutBinding,
-        //     samplerLayoutBinding,
-        // };
-        // 
-        // descriptorSetLayoutInfo.bindingCount = static_cast<uint32_t>(descriptorSetLayoutBindings.size());
-        // descriptorSetLayoutInfo.pBindings = descriptorSetLayoutBindings.data();
-        // auto descriptorSetLayout = device->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
         auto descriptorSetLayout = create_non_reflective_descriptor_set_layout(*device);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Pipeline
-        auto vertexShader = device->create<ShaderModule>(
-            VK_SHADER_STAGE_VERTEX_BIT,
-            ShaderModule::Source::Code,
-            R"(
-
-                #version 450
-                #extension GL_ARB_separate_shader_objects : enable
-
-                layout(binding = 0)
-                uniform UniformBuffer
-                {
-                    mat4 world;
-                    mat4 view;
-                    mat4 projection;
-                } ubo;
-
-                layout(location = 0) in vec3 inPosition;
-                layout(location = 1) in vec2 inTexCoord;
-                layout(location = 2) in vec4 inColor;
-
-                layout(location = 0) out vec2 fragTexCoord;
-                layout(location = 1) out vec4 fragColor;
-
-                out gl_PerVertex
-                {
-                    vec4 gl_Position;
-                };
-
-                void main()
-                {
-                    gl_Position = ubo.projection * ubo.view * ubo.world * vec4(inPosition, 1);
-                    fragTexCoord = inTexCoord;
-                    fragColor = inColor;
-                }
-
-            )"
-        );
-
-        auto fragmentShader = device->create<ShaderModule>(
-            VK_SHADER_STAGE_FRAGMENT_BIT,
-            ShaderModule::Source::Code,
-            R"(
-
-                #version 450
-                #extension GL_ARB_separate_shader_objects : enable
-
-                layout(binding = 1) uniform sampler2D imageSampler;
-
-                layout(location = 0) in vec2 fragTexCoord;
-                layout(location = 1) in vec4 fragColor;
-
-                layout(location = 0) out vec4 outColor;
-
-                void main()
-                {
-                    outColor = texture(imageSampler, fragTexCoord);
-                    outColor.rgb = fragColor.rgb;
-                }
-
-            )"
-        );
-
-        std::array<VkPipelineShaderStageCreateInfo, 2> shaderStages {
-            vertexShader->pipeline_stage_info(),
-            fragmentShader->pipeline_stage_info(),
-        };
-
-        // auto vertexBindingDescription = Vertex::binding_description();
-        // auto vertexAttributeDescriptions = Vertex::attribute_descriptions();
-        // VkPipelineVertexInputStateCreateInfo vertexInputInfo { };
-        // vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-        // vertexInputInfo.vertexBindingDescriptionCount = 1;
-        // vertexInputInfo.pVertexBindingDescriptions = &vertexBindingDescription;
-        // vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(vertexAttributeDescriptions.size());
-        // vertexInputInfo.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
-
-        VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo { };
-        inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-        inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-
-        VkViewport viewport { };
-        viewport.width = static_cast<float>(swapchain->extent().width);
-        viewport.height = static_cast<float>(swapchain->extent().height);
-        viewport.minDepth = 0;
-        viewport.maxDepth = 1;
-
-        VkRect2D scissor { };
-        scissor.extent = swapchain->extent();
-
-        VkPipelineViewportStateCreateInfo viewportInfo { };
-        viewportInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-        viewportInfo.viewportCount = 1;
-        viewportInfo.pViewports = &viewport;
-        viewportInfo.scissorCount = 1;
-        viewportInfo.pScissors = &scissor;
-
-        VkPipelineRasterizationStateCreateInfo rasterizationInfo { };
-        rasterizationInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
-        rasterizationInfo.polygonMode = VK_POLYGON_MODE_FILL;
-        rasterizationInfo.lineWidth = 1;
-        rasterizationInfo.cullMode = VK_CULL_MODE_BACK_BIT;
-        rasterizationInfo.frontFace = VK_FRONT_FACE_CLOCKWISE;
-
-        VkPipelineMultisampleStateCreateInfo multisampleInfo { };
-        multisampleInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
-        multisampleInfo.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
-        multisampleInfo.minSampleShading = 1;
-
-        VkPipelineDepthStencilStateCreateInfo depthStencilInfo { };
-        depthStencilInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
-        depthStencilInfo.depthTestEnable = VK_TRUE;
-        depthStencilInfo.depthWriteEnable = VK_TRUE;
-        depthStencilInfo.depthCompareOp = VK_COMPARE_OP_LESS;
-        depthStencilInfo.depthBoundsTestEnable = VK_FALSE;
-        depthStencilInfo.stencilTestEnable = VK_FALSE;
-
-        VkPipelineColorBlendAttachmentState colorBlendAttachment { };
-        colorBlendAttachment.blendEnable = VK_TRUE;
-        colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
-        colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
-        colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-        colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-        colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-        colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
-
-        colorBlendAttachment.colorWriteMask =
-            VK_COLOR_COMPONENT_R_BIT |
-            VK_COLOR_COMPONENT_G_BIT |
-            VK_COLOR_COMPONENT_B_BIT |
-            VK_COLOR_COMPONENT_A_BIT;
-
-        VkPipelineColorBlendStateCreateInfo colorBlendStateInfo { };
-        colorBlendStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
-        colorBlendStateInfo.attachmentCount = 1;
-        colorBlendStateInfo.pAttachments = &colorBlendAttachment;
-
-        Pipeline::Layout::Info pipelineLayoutInfo;
-        pipelineLayoutInfo.setLayoutCount = 1;
-        pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout->handle();
-        auto pipelineLayout = device->create<Pipeline::Layout>(pipelineLayoutInfo);
-
-        std::array<VkDynamicState, 2> dynamicStates {
-            VK_DYNAMIC_STATE_VIEWPORT,
-            VK_DYNAMIC_STATE_SCISSOR,
-        };
-
-        VkPipelineDynamicStateCreateInfo dynamicStateInfo { };
-        dynamicStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
-        dynamicStateInfo.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
-        dynamicStateInfo.pDynamicStates = dynamicStates.data();
-
-        auto vertexInputInfo = Vertex::pipeline_input_state();
-        Pipeline::GraphicsInfo pipelineInfo;
-        pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
-        pipelineInfo.pStages = shaderStages.data();
-        pipelineInfo.pVertexInputState = &vertexInputInfo;
-        pipelineInfo.pInputAssemblyState = &inputAssemblyInfo;
-        pipelineInfo.pViewportState = &viewportInfo;
-        pipelineInfo.pRasterizationState = &rasterizationInfo;
-        pipelineInfo.pMultisampleState = &multisampleInfo;
-        pipelineInfo.pDepthStencilState = &depthStencilInfo;
-        pipelineInfo.pColorBlendState = &colorBlendStateInfo;
-        pipelineInfo.pDynamicState = &dynamicStateInfo;
-        pipelineInfo.layout = *pipelineLayout;
-        pipelineInfo.renderPass = *renderPass;
-        pipelineInfo.subpass = 0;
-        auto pipeline = device->create<Pipeline>(pipelineInfo);
-
-        vertexShader.reset();
-        fragmentShader.reset();
+        // auto vertexShader = device->create<ShaderModule>(
+        //     VK_SHADER_STAGE_VERTEX_BIT,
+        //     ShaderModule::Source::Code,
+        //     R"(
+        // 
+        //         #version 450
+        //         #extension GL_ARB_separate_shader_objects : enable
+        // 
+        //         layout(binding = 0)
+        //         uniform UniformBuffer
+        //         {
+        //             mat4 world;
+        //             mat4 view;
+        //             mat4 projection;
+        //         } ubo;
+        // 
+        //         layout(location = 0) in vec3 inPosition;
+        //         layout(location = 1) in vec2 inTexCoord;
+        //         layout(location = 2) in vec4 inColor;
+        // 
+        //         layout(location = 0) out vec2 fragTexCoord;
+        //         layout(location = 1) out vec4 fragColor;
+        // 
+        //         out gl_PerVertex
+        //         {
+        //             vec4 gl_Position;
+        //         };
+        // 
+        //         void main()
+        //         {
+        //             gl_Position = ubo.projection * ubo.view * ubo.world * vec4(inPosition, 1);
+        //             fragTexCoord = inTexCoord;
+        //             fragColor = inColor;
+        //         }
+        // 
+        //     )"
+        // );
+        // 
+        // auto fragmentShader = device->create<ShaderModule>(
+        //     VK_SHADER_STAGE_FRAGMENT_BIT,
+        //     ShaderModule::Source::Code,
+        //     R"(
+        // 
+        //         #version 450
+        //         #extension GL_ARB_separate_shader_objects : enable
+        // 
+        //         layout(binding = 1) uniform sampler2D imageSampler;
+        // 
+        //         layout(location = 0) in vec2 fragTexCoord;
+        //         layout(location = 1) in vec4 fragColor;
+        // 
+        //         layout(location = 0) out vec4 outColor;
+        // 
+        //         void main()
+        //         {
+        //             outColor = texture(imageSampler, fragTexCoord);
+        //             outColor.rgb = fragColor.rgb;
+        //         }
+        // 
+        //     )"
+        // );
+        // 
+        // std::array<VkPipelineShaderStageCreateInfo, 2> shaderStages {
+        //     vertexShader->pipeline_stage_info(),
+        //     fragmentShader->pipeline_stage_info(),
+        // };
+        // 
+        // VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo { };
+        // inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+        // inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        // 
+        // VkViewport viewport { };
+        // viewport.width = static_cast<float>(swapchain->extent().width);
+        // viewport.height = static_cast<float>(swapchain->extent().height);
+        // viewport.minDepth = 0;
+        // viewport.maxDepth = 1;
+        // 
+        // VkRect2D scissor { };
+        // scissor.extent = swapchain->extent();
+        // 
+        // VkPipelineViewportStateCreateInfo viewportInfo { };
+        // viewportInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+        // viewportInfo.viewportCount = 1;
+        // viewportInfo.pViewports = &viewport;
+        // viewportInfo.scissorCount = 1;
+        // viewportInfo.pScissors = &scissor;
+        // 
+        // VkPipelineRasterizationStateCreateInfo rasterizationInfo { };
+        // rasterizationInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+        // rasterizationInfo.polygonMode = VK_POLYGON_MODE_FILL;
+        // rasterizationInfo.lineWidth = 1;
+        // rasterizationInfo.cullMode = VK_CULL_MODE_BACK_BIT;
+        // rasterizationInfo.frontFace = VK_FRONT_FACE_CLOCKWISE;
+        // 
+        // VkPipelineMultisampleStateCreateInfo multisampleInfo { };
+        // multisampleInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+        // multisampleInfo.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
+        // multisampleInfo.minSampleShading = 1;
+        // 
+        // VkPipelineDepthStencilStateCreateInfo depthStencilInfo { };
+        // depthStencilInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+        // depthStencilInfo.depthTestEnable = VK_TRUE;
+        // depthStencilInfo.depthWriteEnable = VK_TRUE;
+        // depthStencilInfo.depthCompareOp = VK_COMPARE_OP_LESS;
+        // depthStencilInfo.depthBoundsTestEnable = VK_FALSE;
+        // depthStencilInfo.stencilTestEnable = VK_FALSE;
+        // 
+        // VkPipelineColorBlendAttachmentState colorBlendAttachment { };
+        // colorBlendAttachment.blendEnable = VK_TRUE;
+        // colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+        // colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+        // colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+        // colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+        // colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+        // colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+        // 
+        // colorBlendAttachment.colorWriteMask =
+        //     VK_COLOR_COMPONENT_R_BIT |
+        //     VK_COLOR_COMPONENT_G_BIT |
+        //     VK_COLOR_COMPONENT_B_BIT |
+        //     VK_COLOR_COMPONENT_A_BIT;
+        // 
+        // VkPipelineColorBlendStateCreateInfo colorBlendStateInfo { };
+        // colorBlendStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+        // colorBlendStateInfo.attachmentCount = 1;
+        // colorBlendStateInfo.pAttachments = &colorBlendAttachment;
+        // 
+        // Pipeline::Layout::Info pipelineLayoutInfo;
+        // pipelineLayoutInfo.setLayoutCount = 1;
+        // pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout->handle();
+        // auto pipelineLayout = device->create<Pipeline::Layout>(pipelineLayoutInfo);
+        // 
+        // std::array<VkDynamicState, 2> dynamicStates {
+        //     VK_DYNAMIC_STATE_VIEWPORT,
+        //     VK_DYNAMIC_STATE_SCISSOR,
+        // };
+        // 
+        // VkPipelineDynamicStateCreateInfo dynamicStateInfo { };
+        // dynamicStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+        // dynamicStateInfo.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
+        // dynamicStateInfo.pDynamicStates = dynamicStates.data();
+        // 
+        // auto vertexInputInfo = Vertex::pipeline_input_state();
+        // Pipeline::GraphicsInfo pipelineInfo;
+        // pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
+        // pipelineInfo.pStages = shaderStages.data();
+        // pipelineInfo.pVertexInputState = &vertexInputInfo;
+        // pipelineInfo.pInputAssemblyState = &inputAssemblyInfo;
+        // pipelineInfo.pViewportState = &viewportInfo;
+        // pipelineInfo.pRasterizationState = &rasterizationInfo;
+        // pipelineInfo.pMultisampleState = &multisampleInfo;
+        // pipelineInfo.pDepthStencilState = &depthStencilInfo;
+        // pipelineInfo.pColorBlendState = &colorBlendStateInfo;
+        // pipelineInfo.pDynamicState = &dynamicStateInfo;
+        // pipelineInfo.layout = *pipelineLayout;
+        // pipelineInfo.renderPass = *renderPass;
+        // pipelineInfo.subpass = 0;
+        // auto pipeline = device->create<Pipeline>(pipelineInfo);
+        // 
+        // vertexShader.reset();
+        // fragmentShader.reset();
+        auto pipelinePair = create_non_reflective_pipeline(*renderPass, *descriptorSetLayout);
+        auto pipeline = pipelinePair.first;
+        auto pipelineLayout = pipelinePair.second;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Pool
@@ -961,9 +945,6 @@ int main()
             },
             std::vector<uint16_t> { 0, 1, 2, 2, 3, 0 }
         );
-
-        //auto vertexBuffer = cube.vertexBuffer;
-        //auto indexBuffer = cube.indexBuffer;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create uniform Buffer
