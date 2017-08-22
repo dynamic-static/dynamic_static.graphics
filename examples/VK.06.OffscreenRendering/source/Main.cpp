@@ -642,28 +642,29 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create DescriptorSet::Layout
-        VkDescriptorSetLayoutBinding uniformBufferLayoutBinding { };
-        uniformBufferLayoutBinding.binding = 0;
-        uniformBufferLayoutBinding.descriptorCount = 1;
-        uniformBufferLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        uniformBufferLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-
-        VkDescriptorSetLayoutBinding samplerLayoutBinding { };
-        samplerLayoutBinding.binding = 1;
-        samplerLayoutBinding.descriptorCount = 1;
-        samplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-        samplerLayoutBinding.pImmutableSamplers = nullptr;
-        samplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
-
-        Descriptor::Set::Layout::Info descriptorSetLayoutInfo;
-        std::array<VkDescriptorSetLayoutBinding, 2> descriptorSetLayoutBindings {
-            uniformBufferLayoutBinding,
-            samplerLayoutBinding,
-        };
-
-        descriptorSetLayoutInfo.bindingCount = static_cast<uint32_t>(descriptorSetLayoutBindings.size());
-        descriptorSetLayoutInfo.pBindings = descriptorSetLayoutBindings.data();
-        auto descriptorSetLayout = device->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
+        // VkDescriptorSetLayoutBinding uniformBufferLayoutBinding { };
+        // uniformBufferLayoutBinding.binding = 0;
+        // uniformBufferLayoutBinding.descriptorCount = 1;
+        // uniformBufferLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        // uniformBufferLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+        // 
+        // VkDescriptorSetLayoutBinding samplerLayoutBinding { };
+        // samplerLayoutBinding.binding = 1;
+        // samplerLayoutBinding.descriptorCount = 1;
+        // samplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        // samplerLayoutBinding.pImmutableSamplers = nullptr;
+        // samplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+        // 
+        // Descriptor::Set::Layout::Info descriptorSetLayoutInfo;
+        // std::array<VkDescriptorSetLayoutBinding, 2> descriptorSetLayoutBindings {
+        //     uniformBufferLayoutBinding,
+        //     samplerLayoutBinding,
+        // };
+        // 
+        // descriptorSetLayoutInfo.bindingCount = static_cast<uint32_t>(descriptorSetLayoutBindings.size());
+        // descriptorSetLayoutInfo.pBindings = descriptorSetLayoutBindings.data();
+        // auto descriptorSetLayout = device->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
+        auto descriptorSetLayout = create_non_reflective_descriptor_set_layout(*device);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Pipeline
