@@ -868,57 +868,6 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Descriptor::Pool and Descriptor::Set
-        // std::array<VkDescriptorPoolSize, 2> descriptorPoolSizes;
-        // descriptorPoolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        // descriptorPoolSizes[0].descriptorCount = 1;
-        // descriptorPoolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-        // descriptorPoolSizes[1].descriptorCount = 1;
-        // 
-        // Descriptor::Pool::Info descriptorPoolInfo;
-        // descriptorPoolInfo.poolSizeCount = static_cast<uint32_t>(descriptorPoolSizes.size());
-        // descriptorPoolInfo.pPoolSizes = descriptorPoolSizes.data();
-        // descriptorPoolInfo.maxSets = 1;
-        // auto desciptorPool = device->create<Descriptor::Pool>(descriptorPoolInfo);
-        // 
-        // Descriptor::Set::Info descriptorSetInfo;
-        // descriptorSetInfo.descriptorPool = *desciptorPool;
-        // descriptorSetInfo.descriptorSetCount = 1;
-        // descriptorSetInfo.pSetLayouts = &descriptorSetLayout->handle();
-        // auto descriptorSet = desciptorPool->allocate<Descriptor::Set>(descriptorSetInfo);
-        // 
-        // VkDescriptorBufferInfo descriptorBufferInfo { };
-        // descriptorBufferInfo.buffer = *uniformBuffer;
-        // descriptorBufferInfo.offset = 0;
-        // descriptorBufferInfo.range = sizeof(UniformBuffer);
-        // 
-        // VkDescriptorImageInfo descriptorImageInfo { };
-        // descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-        // descriptorImageInfo.imageView = *image->views()[0];
-        // descriptorImageInfo.sampler = *sampler;
-        // 
-        // std::array<VkWriteDescriptorSet, 2> descriptorWrites { };
-        // descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-        // descriptorWrites[0].dstSet = *descriptorSet;
-        // descriptorWrites[0].dstBinding = 0;
-        // descriptorWrites[0].dstArrayElement = 0;
-        // descriptorWrites[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        // descriptorWrites[0].descriptorCount = 1;
-        // descriptorWrites[0].pBufferInfo = &descriptorBufferInfo;
-        // 
-        // descriptorWrites[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-        // descriptorWrites[1].dstSet = *descriptorSet;
-        // descriptorWrites[1].dstBinding = 1;
-        // descriptorWrites[1].dstArrayElement = 0;
-        // descriptorWrites[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-        // descriptorWrites[1].descriptorCount = 1;
-        // descriptorWrites[1].pImageInfo = &descriptorImageInfo;
-        // vkUpdateDescriptorSets(
-        //     *device,
-        //     static_cast<uint32_t>(descriptorWrites.size()),
-        //     descriptorWrites.data(),
-        //     0,
-        //     nullptr
-        // );
         auto descriptorPool = create_non_reflective_descriptor_pool(*device, *descriptorSetLayout);
         auto descriptorSet = descriptorPool->sets()[0].get();
         update_non_reflective_descriptor_set(*descriptorSet, *uniformBuffer, *image, *sampler);
