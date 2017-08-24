@@ -715,6 +715,10 @@ PipelinePair create_textured_pipeline(
 
             #version 450
             #extension GL_ARB_separate_shader_objects : enable
+
+            #define BLUR_SAMPLES (9)
+            #define BLUR ((BLUR_SAMPLES - 1) * 0.5)
+            #define BLUR_AVERAGE (BLUR_SAMPLES * BLUR_SAMPLES)
             
             layout(binding = 1) uniform sampler2D imageSampler;
             
@@ -725,8 +729,20 @@ PipelinePair create_textured_pipeline(
             
             void main()
             {
-                outColor = texture(imageSampler, fragTexCoord);
-                outColor.rb += fragTexCoord * (1 - outColor.a);
+                vec2 offset;
+                vec4 reflection = vec4(0);
+                vec2 size = textureSize(imageSampler, 0);
+                // NOTE : This is a horrendous blur that should never be used...
+                for (offset.y = -BLUR; offset.y <= BLUR; ++offset.y) {
+                    for (offset.x = -BLUR; offset.x <= BLUR; ++offset.x) {
+                        vec2 uv = fragTexCoord + offset * (vec2(1) / size);
+                        reflection += texture(imageSampler, uv) / BLUR_AVERAGE;
+                    }
+                }
+
+                outColor.a = 1;
+                outColor.rb = fragTexCoord * (1 - reflection.a);
+                outColor.rgb += reflection.rgb;
             }
 
         )"
@@ -923,20 +939,6 @@ std::shared_ptr<RenderPass> create_offscreen_render_pass(Device& device, VkForma
     return device.create<RenderPass>(renderPassInfo);
 }
 
-void create_offscreen_pass(Device& device, uint32_t width, uint32_t height)
-{
-    // VkFramebuffer
-    // FrameBufferAttachment color, depth;
-    //  VkImage
-    //  VkDeviceMemory
-    //  VkImageview
-    // VkRenderPass
-    // VkSampler
-    // VkDescriptorImageInfo
-    // VkCommandBuffer
-    // VkSemaphore
-}
-
 int main()
 {
     try
@@ -1063,6 +1065,7 @@ int main()
         // FROM : https://pixabay.com/en/sea-ocean-turtle-wildlife-closeup-2361247/
         // FROM : https://pixabay.com/en/phi-phi-islands-phuket-thailand-2538412/
         // FROM : https://pixabay.com/en/portugal-mountains-landscape-beach-2537468/
+        // Cudillero Diorama Bake by Thomas Kole is licensed under CC Attribution-ShareAlike
         auto filePath = "../../../examples/resources/images/phi-phi-islands.jpg";
         auto imageCache = ImageReader::read_file(filePath);
 
@@ -1158,7 +1161,11 @@ int main()
         );
 
         image->create<Image::View>();
-        auto sampler = device->create<Sampler>();
+        Sampler::Info samplerInfo;
+        samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+        samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+        samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+        auto sampler = device->create<Sampler>(samplerInfo);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create meshes
@@ -1286,11 +1293,33 @@ int main()
             );
 
             ubo.projection[1][1] *= -1;
-
             cubeUniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
-            offscreenUniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
             ubo.world = dst::Matrix4x4::Identity;
             floorUniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
+
+            ubo.world =
+                dst::Matrix4x4::create_translation({ 0, positionY, 0 }) *
+                dst::Matrix4x4::create_rotation(angleY, dst::Vector3::UnitY) *
+                dst::Matrix4x4::create_rotation(angleZ, dst::Vector3::UnitZ);
+
+            auto flippedCamera = cameraPosition;
+            flippedCamera.y *= -1;
+            ubo.view = dst::Matrix4x4::create_view(
+                flippedCamera,
+                dst::Vector3::Zero,
+                dst::Vector3(1, -1, 0).normalized()
+            );
+
+            ubo.projection = dst::Matrix4x4::create_perspective(
+                dst::to_radians(30.0f),
+                static_cast<float>(offscreenRenderTarget.colorAttachment->extent().width) /
+                static_cast<float>(offscreenRenderTarget.colorAttachment->extent().height),
+                0.001f,
+                100.0f
+            );
+
+            ubo.projection[1][1] *= -1;
+            offscreenUniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
 
             //ubo.world = dst::Matrix4x4::Identity;
             //ubo.view = dst::Matrix4x4::Identity;
@@ -1394,9 +1423,8 @@ int main()
                         {
                             auto& commandBuffer = commandPool->buffers()[i];
 
-                            Command::Buffer::BeginInfo beginInfo;
-                            // beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
-                            commandBuffer->begin(beginInfo);
+
+                            commandBuffer->begin();
 
                             std::array<VkClearValue, 2> clearValues;
                             clearValues[0].color = { 0.2f, 0.2f, 0.2f, 1 };
@@ -1428,8 +1456,6 @@ int main()
                             commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *floorPipeline);
                             floor.render(*commandBuffer);
 
-                            // quad.render(*commandBuffer);
-
                             commandBuffer->end_render_pass();
                             commandBuffer->end();
                         }
@@ -1440,8 +1466,8 @@ int main()
                     Queue::SubmitInfo submitInfo;
                     VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT };
                     submitInfo.waitSemaphoreCount = 0;
-                    submitInfo.pWaitSemaphores = nullptr; // &renderSemaphore->handle();
-                    submitInfo.pWaitDstStageMask = nullptr; // waitStages;
+                    submitInfo.pWaitSemaphores = nullptr;
+                    submitInfo.pWaitDstStageMask = nullptr;
                     submitInfo.commandBufferCount = 1;
                     submitInfo.pCommandBuffers = &offscreenCommandBuffer->handle();
                     submitInfo.signalSemaphoreCount = 1;
@@ -1480,25 +1506,6 @@ int main()
                 presentInfo.pSwapchains = &swapchain->handle();
                 presentInfo.pImageIndices = &imageIndex;
                 presentQueue.present(presentInfo);
-
-                // Queue::SubmitInfo submitInfo;
-                // VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
-                // submitInfo.waitSemaphoreCount = 1;
-                // submitInfo.pWaitSemaphores = &imageSemaphore->handle();
-                // submitInfo.pWaitDstStageMask = waitStages;
-                // submitInfo.commandBufferCount = 1;
-                // submitInfo.pCommandBuffers = &commandPool->buffers()[imageIndex]->handle();
-                // submitInfo.signalSemaphoreCount = 1;
-                // submitInfo.pSignalSemaphores = &renderSemaphore->handle();
-                // graphicsQueue.submit(submitInfo);
-                // 
-                // Queue::PresentInfoKHR presentInfo;
-                // presentInfo.waitSemaphoreCount = 1;
-                // presentInfo.pWaitSemaphores = &renderSemaphore->handle();
-                // presentInfo.swapchainCount = 1;
-                // presentInfo.pSwapchains = &swapchain->handle();
-                // presentInfo.pImageIndices = &imageIndex;
-                // presentQueue.present(presentInfo);
             }
 
             window->swap_buffers();
@@ -1514,5 +1521,3 @@ int main()
 
     return 0;
 }
-
-// Cudillero Diorama Bake by Thomas Kole is licensed under CC Attribution-ShareAlike
