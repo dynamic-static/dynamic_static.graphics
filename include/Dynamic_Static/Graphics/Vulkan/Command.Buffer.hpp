@@ -88,7 +88,7 @@ namespace Vulkan {
         /**
          * TODO : Documentation.
          */
-        void begin(const BeginInfo& beginInfo);
+        void begin(const BeginInfo& beginInfo = BeginInfo { });
 
         /**
          * TODO : Documentation.

@@ -47,9 +47,9 @@ namespace Vulkan {
                 renderPass = VK_NULL_HANDLE;
                 attachmentCount = 0;
                 pAttachments = nullptr;
-                width = 0;
-                height = 0;
-                layers = 0;
+                width = 1;
+                height = 1;
+                layers = 1;
             }
         };
 

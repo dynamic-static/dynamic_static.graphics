@@ -40,6 +40,75 @@ public:
     }
 };
 
+class RenderTarget final
+{
+public:
+    std::shared_ptr<Framebuffer> framebuffer;
+    std::shared_ptr<Image> colorAttachment;
+    std::shared_ptr<Memory> colorAttachmentMemory;
+    std::shared_ptr<Image> depthAttachment;
+    std::shared_ptr<Memory> depthAttachmentMemory;
+
+public:
+    RenderTarget(RenderPass& renderPass, uint32_t width, uint32_t height, VkFormat format, VkFormat depthFormat)
+    {
+        auto& device = renderPass.device();
+
+        Image::Info imageInfo;
+        imageInfo.imageType = VK_IMAGE_TYPE_2D;
+        imageInfo.extent.width = width;
+        imageInfo.extent.height = height;
+        imageInfo.format = format;
+        imageInfo.usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+        colorAttachment = device.create<Image>(imageInfo);
+        auto memoryRequirements = colorAttachment->memory_requirements();
+
+        Memory::Info memoryInfo;
+        memoryInfo.allocationSize = memoryRequirements.size;
+        memoryInfo.memoryTypeIndex = device.physical_device().find_memory_type_index(
+            memoryRequirements.memoryTypeBits,
+            VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
+        );
+
+        colorAttachmentMemory = device.allocate<Memory>(memoryInfo);
+        colorAttachment->bind_memory(colorAttachmentMemory);
+        colorAttachment->create<Image::View>();
+
+        imageInfo.format = depthFormat;
+        imageInfo.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+        depthAttachment = device.create<Image>(imageInfo);
+        memoryRequirements = depthAttachment->memory_requirements();
+
+        memoryInfo.allocationSize = memoryRequirements.size;
+        memoryInfo.memoryTypeIndex = device.physical_device().find_memory_type_index(
+            memoryRequirements.memoryTypeBits,
+            VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
+        );
+
+        depthAttachmentMemory = device.allocate<Memory>(memoryInfo);
+        depthAttachment->bind_memory(depthAttachmentMemory);
+        depthAttachment->create<Image::View>();
+
+        std::array<VkImageView, 2> attachments;
+        attachments[0] = *colorAttachment->view();
+        attachments[1] = *depthAttachment->view();
+
+        Framebuffer::Info framebufferInfo;
+        framebufferInfo.renderPass = renderPass;
+        framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
+        framebufferInfo.pAttachments = attachments.data();
+        framebufferInfo.width = width;
+        framebufferInfo.height = height;
+        framebuffer = renderPass.device().create<Framebuffer>(framebufferInfo);
+    }
+
+public:
+    const VkExtent3D& extent() const
+    {
+        return colorAttachment->extent();
+    }
+};
+
 struct UniformBuffer final
 {
     dst::Matrix4x4 world;
@@ -231,9 +300,9 @@ Mesh create_box(
     const std::vector<Vertex> vertices {
         // Top
         { { -w,  h, -d }, { 0, 0 }, { color0 } },
-        { {  w,  h, -d }, { 0, 0 }, { color0 } },
-        { {  w,  h,  d }, { 0, 0 }, { color0 } },
-        { { -w,  h,  d }, { 0, 0 }, { color0 } },
+        { {  w,  h, -d }, { 1, 0 }, { color0 } },
+        { {  w,  h,  d }, { 1, 1 }, { color0 } },
+        { { -w,  h,  d }, { 0, 1 }, { color0 } },
 
         // Left
         { { -w,  h, -d }, { 0, 0 }, { color0 } },
@@ -309,16 +378,6 @@ std::shared_ptr<RenderPass> create_non_reflective_render_pass(Device& device, Vk
     colorAttachmentReference.attachment = 0;
     colorAttachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
-    std::array<VkFormat, 3> depthFormats {
-        VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT
-    };
-
-    depthFormat = device.physical_device().find_supported_format(
-        depthFormats,
-        VK_IMAGE_TILING_OPTIMAL,
-        VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
-    );
-
     auto depthAttachment = default_attachment_description();
     depthAttachment.format = depthFormat;
     depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
@@ -367,14 +426,73 @@ std::shared_ptr<Descriptor::Set::Layout> create_non_reflective_descriptor_set_la
     return device.create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
 }
 
-void create_reflective_render_pass()
+std::shared_ptr<RenderPass> create_reflective_render_pass(Device& device, VkFormat format, VkFormat& depthFormat)
 {
+    auto colorAttachment = default_attachment_description();
+    colorAttachment.format = format;
+    colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+    colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+    VkAttachmentReference colorAttachmentReference { };
+    colorAttachmentReference.attachment = 0;
+    colorAttachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
+    std::array<VkFormat, 3> depthFormats {
+        VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT
+    };
+
+    depthFormat = device.physical_device().find_supported_format(
+        depthFormats,
+        VK_IMAGE_TILING_OPTIMAL,
+        VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
+    );
+
+    auto depthAttachment = default_attachment_description();
+    depthAttachment.format = depthFormat;
+    depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    depthAttachment.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+    VkAttachmentReference depthAttachmentReference { };
+    depthAttachmentReference.attachment = 1;
+    depthAttachmentReference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+
+    VkSubpassDescription subpass { };
+    subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+    subpass.colorAttachmentCount = 1;
+    subpass.pColorAttachments = &colorAttachmentReference;
+    subpass.pDepthStencilAttachment = &depthAttachmentReference;
+
+    std::array<VkAttachmentDescription, 2> attachments { colorAttachment, depthAttachment };
+    RenderPass::Info renderPassInfo;
+    renderPassInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
+    renderPassInfo.pAttachments = attachments.data();
+    renderPassInfo.subpassCount = 1;
+    renderPassInfo.pSubpasses = &subpass;
+    return device.create<RenderPass>(renderPassInfo);
 }
 
-void create_reflective_descriptor_set_layout()
+std::shared_ptr<Descriptor::Set::Layout> create_reflective_descriptor_set_layout(Device& device)
 {
+    VkDescriptorSetLayoutBinding uniformBufferLayoutBinding { };
+    uniformBufferLayoutBinding.binding = 0;
+    uniformBufferLayoutBinding.descriptorCount = 1;
+    uniformBufferLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    uniformBufferLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
 
+    VkDescriptorSetLayoutBinding samplerLayoutBinding { };
+    samplerLayoutBinding.binding = 1;
+    samplerLayoutBinding.descriptorCount = 1;
+    samplerLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    samplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+
+    std::array<VkDescriptorSetLayoutBinding, 2> descriptorSetLayoutBinding {
+        uniformBufferLayoutBinding,
+        samplerLayoutBinding
+    };
+
+    Descriptor::Set::Layout::Info descriptorSetLayoutInfo;
+    descriptorSetLayoutInfo.bindingCount = static_cast<uint32_t>(descriptorSetLayoutBinding.size());
+    descriptorSetLayoutInfo.pBindings = descriptorSetLayoutBinding.data();
+    return device.create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
 }
 
 PipelinePair create_pipeline(
@@ -488,7 +606,71 @@ PipelinePair create_pipeline(
     return std::make_pair(device.create<Pipeline>(pipelineInfo), pipelineLayout);
 }
 
-PipelinePair create_non_reflective_pipeline(
+PipelinePair create_untextured_pipeline(
+    RenderPass& renderPass,
+    Descriptor::Set::Layout& descriptorSetLayout
+)
+{
+    return create_pipeline(
+        renderPass,
+        descriptorSetLayout,
+        R"(
+
+            #version 450
+            #extension GL_ARB_separate_shader_objects : enable
+            
+            layout(binding = 0)
+            uniform UniformBuffer
+            {
+                mat4 world;
+                mat4 view;
+                mat4 projection;
+            } ubo;
+            
+            layout(location = 0) in vec3 inPosition;
+            layout(location = 1) in vec2 inTexCoord;
+            layout(location = 2) in vec4 inColor;
+            
+            layout(location = 0) out vec2 fragTexCoord;
+            layout(location = 1) out vec4 fragColor;
+            
+            out gl_PerVertex
+            {
+                vec4 gl_Position;
+            };
+            
+            void main()
+            {
+                gl_Position = ubo.projection * ubo.view * ubo.world * vec4(inPosition, 1);
+                fragTexCoord = inTexCoord;
+                fragColor = inColor;
+            }
+
+        )",
+        R"(
+
+            #version 450
+            #extension GL_ARB_separate_shader_objects : enable
+            
+            layout(binding = 1) uniform sampler2D imageSampler;
+            
+            layout(location = 0) in vec2 fragTexCoord;
+            layout(location = 1) in vec4 fragColor;
+            
+            layout(location = 0) out vec4 outColor;
+            
+            void main()
+            {
+                // outColor = texture(imageSampler, fragTexCoord);
+                outColor.a = 1;
+                outColor.rgb = fragColor.rgb;
+            }
+
+        )"
+    );
+}
+
+PipelinePair create_textured_pipeline(
     RenderPass& renderPass,
     Descriptor::Set::Layout& descriptorSetLayout
 )
@@ -544,31 +726,8 @@ PipelinePair create_non_reflective_pipeline(
             void main()
             {
                 outColor = texture(imageSampler, fragTexCoord);
-                outColor.rgb = fragColor.rgb;
+                outColor.rb += fragTexCoord * (1 - outColor.a);
             }
-
-        )"
-    );
-}
-
-PipelinePair create_reflective_pipeline(
-    RenderPass& renderPass,
-    Descriptor::Set::Layout& descriptorSetLayout
-)
-{
-    return create_pipeline(
-        renderPass,
-        descriptorSetLayout,
-        R"(
-
-            #version 450
-            #extension GL_ARB_separate_shader_objects : enable
-
-        )",
-        R"(
-
-            #version 450
-            #extension GL_ARB_separate_shader_objects : enable
 
         )"
     );
@@ -639,9 +798,143 @@ void update_non_reflective_descriptor_set(
     );
 }
 
-void create_reflective_descriptor_pool()
+std::shared_ptr<Descriptor::Pool> create_reflective_descriptor_pool(Device& device, Descriptor::Set::Layout& descriptorSetLayout)
 {
+    std::array<VkDescriptorPoolSize, 2> descriptorPoolSizes;
+    descriptorPoolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    descriptorPoolSizes[0].descriptorCount = 1;
+    descriptorPoolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    descriptorPoolSizes[1].descriptorCount = 1;
 
+    Descriptor::Pool::Info descriptorPoolInfo;
+    descriptorPoolInfo.poolSizeCount = static_cast<uint32_t>(descriptorPoolSizes.size());
+    descriptorPoolInfo.pPoolSizes = descriptorPoolSizes.data();
+    descriptorPoolInfo.maxSets = 1;
+    auto descriptorPool = device.create<Descriptor::Pool>(descriptorPoolInfo);
+
+    Descriptor::Set::Info descriptorSetInfo;
+    descriptorSetInfo.descriptorPool = *descriptorPool;
+    descriptorSetInfo.descriptorSetCount = 1;
+    descriptorSetInfo.pSetLayouts = &descriptorSetLayout.handle();
+    descriptorPool->allocate<Descriptor::Set>(descriptorSetInfo);
+
+    return descriptorPool;
+}
+
+void update_reflective_descriptor_set(
+    Descriptor::Set& descriptorSet,
+    Buffer& uniformBuffer,
+    Image& image,
+    Sampler& sampler
+)
+{
+    VkDescriptorBufferInfo descriptorBufferInfo { };
+    descriptorBufferInfo.buffer = uniformBuffer;
+    descriptorBufferInfo.offset = 0;
+    descriptorBufferInfo.range = sizeof(UniformBuffer);
+
+    VkDescriptorImageInfo descriptorImageInfo { };
+    descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+    descriptorImageInfo.imageView = *image.views()[0];
+    descriptorImageInfo.sampler = sampler;
+
+    std::array<VkWriteDescriptorSet, 2> descriptorWrites { };
+    descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    descriptorWrites[0].dstSet = descriptorSet;
+    descriptorWrites[0].dstBinding = 0;
+    descriptorWrites[0].dstArrayElement = 0;
+    descriptorWrites[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    descriptorWrites[0].descriptorCount = 1;
+    descriptorWrites[0].pBufferInfo = &descriptorBufferInfo;
+
+    descriptorWrites[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    descriptorWrites[1].dstSet = descriptorSet;
+    descriptorWrites[1].dstBinding = 1;
+    descriptorWrites[1].dstArrayElement = 0;
+    descriptorWrites[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    descriptorWrites[1].descriptorCount = 1;
+    descriptorWrites[1].pImageInfo = &descriptorImageInfo;
+    vkUpdateDescriptorSets(
+        descriptorSet.pool().device(),
+        static_cast<uint32_t>(descriptorWrites.size()),
+        descriptorWrites.data(),
+        0,
+        nullptr
+    );
+}
+
+std::shared_ptr<RenderPass> create_offscreen_render_pass(Device& device, VkFormat format, VkFormat depthFormat)
+{
+    std::array<VkAttachmentDescription, 2> attachmentDescriptions { };
+    attachmentDescriptions[0].format = format;
+    attachmentDescriptions[0].samples = VK_SAMPLE_COUNT_1_BIT;
+    attachmentDescriptions[0].loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    attachmentDescriptions[0].storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+    attachmentDescriptions[0].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+    attachmentDescriptions[0].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+    attachmentDescriptions[0].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    attachmentDescriptions[0].finalLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+    VkAttachmentReference colorAttachmentReference { };
+    colorAttachmentReference.attachment = 0;
+    colorAttachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
+    attachmentDescriptions[1].format = depthFormat;
+    attachmentDescriptions[1].samples = VK_SAMPLE_COUNT_1_BIT;
+    attachmentDescriptions[1].loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    attachmentDescriptions[1].storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+    attachmentDescriptions[1].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+    attachmentDescriptions[1].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+    attachmentDescriptions[1].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    attachmentDescriptions[1].finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+    VkAttachmentReference depthAttachmentReference { };
+    depthAttachmentReference.attachment = 1;
+    depthAttachmentReference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+
+    VkSubpassDescription subpassDescription { };
+    subpassDescription.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+    subpassDescription.colorAttachmentCount = 1;
+    subpassDescription.pColorAttachments = &colorAttachmentReference;
+    subpassDescription.pDepthStencilAttachment = &depthAttachmentReference;
+
+    std::array<VkSubpassDependency, 2> dependencies;
+    dependencies[0].srcSubpass = VK_SUBPASS_EXTERNAL;
+    dependencies[0].dstSubpass = 0;
+    dependencies[0].srcStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
+    dependencies[0].dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+    dependencies[0].srcAccessMask = VK_ACCESS_MEMORY_READ_BIT;
+    dependencies[0].dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+    dependencies[0].dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT;
+
+    dependencies[1].srcSubpass = 0;
+    dependencies[1].dstSubpass = VK_SUBPASS_EXTERNAL;
+    dependencies[1].srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+    dependencies[1].dstStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
+    dependencies[1].srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+    dependencies[1].dstAccessMask = VK_ACCESS_MEMORY_READ_BIT;
+    dependencies[1].dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT;
+
+    RenderPass::Info renderPassInfo;
+    renderPassInfo.attachmentCount = static_cast<uint32_t>(attachmentDescriptions.size());
+    renderPassInfo.pAttachments = attachmentDescriptions.data();
+    renderPassInfo.subpassCount = 1;
+    renderPassInfo.pSubpasses = &subpassDescription;
+    renderPassInfo.dependencyCount = static_cast<uint32_t>(dependencies.size());
+    renderPassInfo.pDependencies = dependencies.data();
+    return device.create<RenderPass>(renderPassInfo);
+}
+
+void create_offscreen_pass(Device& device, uint32_t width, uint32_t height)
+{
+    // VkFramebuffer
+    // FrameBufferAttachment color, depth;
+    //  VkImage
+    //  VkDeviceMemory
+    //  VkImageview
+    // VkRenderPass
+    // VkSampler
+    // VkDescriptorImageInfo
+    // VkCommandBuffer
+    // VkSemaphore
 }
 
 int main()
@@ -720,19 +1013,43 @@ int main()
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Create RenderPass
+        // Create RenderPasss
         VkFormat depthFormat = VK_FORMAT_UNDEFINED;
-        auto renderPass = create_non_reflective_render_pass(*device, swapchain->format(), depthFormat);
+        depthFormat = VK_FORMAT_UNDEFINED;
+        std::array<VkFormat, 3> depthFormats {
+            VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT
+        };
+
+        depthFormat = device->physical_device().find_supported_format(
+            depthFormats,
+            VK_IMAGE_TILING_OPTIMAL,
+            VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
+        );
+
+        auto offscreenRenderPass = create_offscreen_render_pass(*device, VK_FORMAT_R8G8B8A8_UNORM, depthFormat);
+        RenderTarget offscreenRenderTarget(*offscreenRenderPass, 512, 512, VK_FORMAT_R8G8B8A8_UNORM, depthFormat);
+        auto cubeRenderPass = create_non_reflective_render_pass(*device, swapchain->format(), depthFormat);
+        auto floorRenderPass = create_reflective_render_pass(*device, swapchain->format(), depthFormat);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Create DescriptorSet::Layout
-        auto descriptorSetLayout = create_non_reflective_descriptor_set_layout(*device);
+        // Create DescriptorSet::Layouts
+        auto offscreenDescriptorSetLayout = create_non_reflective_descriptor_set_layout(*device);
+        auto cubeDescriptorSetLayout = create_non_reflective_descriptor_set_layout(*device);
+        auto floorDescriptorSetLayout = create_reflective_descriptor_set_layout(*device);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Create Pipeline
-        auto pipelinePair = create_non_reflective_pipeline(*renderPass, *descriptorSetLayout);
-        auto pipeline = pipelinePair.first;
-        auto pipelineLayout = pipelinePair.second;
+        // Create Pipelines
+        auto offscreenPipelinePair = create_untextured_pipeline(*offscreenRenderPass, *offscreenDescriptorSetLayout);
+        auto offscreenPipeline = offscreenPipelinePair.first;
+        auto offscreenPipelineLayout = offscreenPipelinePair.second;
+
+        auto cubePipelinePair = create_untextured_pipeline(*cubeRenderPass, *cubeDescriptorSetLayout);
+        auto cubePipeline = cubePipelinePair.first;
+        auto cubePipelineLayout = cubePipelinePair.second;
+
+        auto floorPipelinePair = create_textured_pipeline(*floorRenderPass, *floorDescriptorSetLayout);
+        auto floorPipeline = floorPipelinePair.first;
+        auto floorPipelineLayout = floorPipelinePair.second;
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Pool
@@ -846,13 +1163,13 @@ int main()
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create meshes
         auto cube = create_box(*device, *commandPool, graphicsQueue, 1, 1, 1, dst::Color::Green, dst::Color::Black);
-        auto floor = create_box(*device, *commandPool, graphicsQueue, 4, 0.25f, 4, dst::Color::White, dst::Color::Blue);
+        auto floor = create_box(*device, *commandPool, graphicsQueue, 4, 0.25f, 4, dst::Color::Transparent, dst::Color::Black);
         auto quad = create_mesh(*device, *commandPool, graphicsQueue,
         std::vector<Vertex> {
                 { { -0.5f,  0.5f, 0 }, { 0, 0 }, { dst::Color::White } },
-                { {  0.5f,  0.5f, 0 }, { 0, 0 }, { dst::Color::White } },
-                { {  0.5f, -0.5f, 0 }, { 0, 0 }, { dst::Color::White } },
-                { { -0.5f, -0.5f, 0 }, { 0, 0 }, { dst::Color::White } },
+                { {  0.5f,  0.5f, 0 }, { 1, 0 }, { dst::Color::White } },
+                { {  0.5f, -0.5f, 0 }, { 1, 1 }, { dst::Color::White } },
+                { { -0.5f, -0.5f, 0 }, { 0, 1 }, { dst::Color::White } },
             },
             std::vector<uint16_t> { 0, 1, 2, 2, 3, 0 }
         );
@@ -864,19 +1181,32 @@ int main()
         uniformBufferInfo.size = uniformBufferSize;
         uniformBufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
         auto uniformMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-        auto uniformBuffer = device->create<Buffer>(uniformBufferInfo, uniformMemoryProperties);
+        auto offscreenUniformBuffer = device->create<Buffer>(uniformBufferInfo, uniformMemoryProperties);
+        auto cubeUniformBuffer = device->create<Buffer>(uniformBufferInfo, uniformMemoryProperties);
+        auto floorUniformBuffer = device->create<Buffer>(uniformBufferInfo, uniformMemoryProperties);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Create Descriptor::Pool and Descriptor::Set
-        auto descriptorPool = create_non_reflective_descriptor_pool(*device, *descriptorSetLayout);
-        auto descriptorSet = descriptorPool->sets()[0].get();
-        update_non_reflective_descriptor_set(*descriptorSet, *uniformBuffer, *image, *sampler);
+        // Create Descriptor::Pools and Descriptor::Sets
+        auto offscreenDescriptorPool = create_non_reflective_descriptor_pool(*device, *offscreenDescriptorSetLayout);
+        auto offscreenDescriptorSet = offscreenDescriptorPool->sets()[0].get();
+        update_non_reflective_descriptor_set(*offscreenDescriptorSet, *offscreenUniformBuffer, *image, *sampler);
+
+        auto cubeDescriptorPool = create_non_reflective_descriptor_pool(*device, *cubeDescriptorSetLayout);
+        auto cubeDescriptorSet = cubeDescriptorPool->sets()[0].get();
+        update_non_reflective_descriptor_set(*cubeDescriptorSet, *cubeUniformBuffer, *image, *sampler);
+
+        auto floorDescriptorPool = create_reflective_descriptor_pool(*device, *floorDescriptorSetLayout);
+        auto floorDescriptorSet = floorDescriptorPool->sets()[0].get();
+        update_reflective_descriptor_set(*floorDescriptorSet, *floorUniformBuffer, *offscreenRenderTarget.colorAttachment, *sampler);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Buffers
         for (size_t i = 0; i < swapchain->images().size(); ++i) {
             commandPool->allocate<Command::Buffer>();
         }
+
+        auto offscreenCommandBuffer = commandPool->allocate<Command::Buffer>();
+        auto offscreenSemaphore = device->create<Semaphore>();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Sempahores
@@ -909,29 +1239,40 @@ int main()
         float positionY = 0;
         float wobbleHeight = 0.5;
         float wobbleSpeed = 3;
+        float yOffset = 1.5f;
         bool running = true;
+
+        dst::Vector3 cameraPosition(7, 6, 7);
+
         while (running) {
             Window::update();
+            const auto& input = window->input();
             auto quitKey = dst::Keyboard::Key::Escape;
-            if (window->input().keyboard().down(quitKey)) {
+            if (input.keyboard().down(quitKey)) {
                 running = false;
             }
 
             clock.update();
             auto dt = clock.elapsed<dst::Second<float>>();
+
+            float scrollSpeed = 720;
+            cameraPosition.z -= input.mouse().scroll() * scrollSpeed * dt;
+            if (cameraPosition.z < 0.01f) {
+                cameraPosition.z = 0.01f;
+            }
+
             angleY += dst::to_radians(90.0f * dt);
             angleZ += dst::to_radians(45.0f * dt);
-            positionY = wobbleHeight * std::sin(wobbleSpeed * clock.total<dst::Second<float>>());
+            positionY = wobbleHeight * std::sin(wobbleSpeed * clock.total<dst::Second<float>>()) + yOffset;
 
             UniformBuffer ubo;
             ubo.world =
                 dst::Matrix4x4::create_translation({ 0, positionY, 0 }) *
                 dst::Matrix4x4::create_rotation(angleY, dst::Vector3::UnitY) *
-                dst::Matrix4x4::create_rotation(angleZ, dst::Vector3::UnitZ)
-                ;
+                dst::Matrix4x4::create_rotation(angleZ, dst::Vector3::UnitZ);
 
             ubo.view = dst::Matrix4x4::create_view(
-                { 4, 4, 4 },
+                cameraPosition,
                 dst::Vector3::Zero,
                 dst::Vector3::UnitY
             );
@@ -940,19 +1281,21 @@ int main()
                 dst::to_radians(30.0f),
                 static_cast<float>(swapchain->extent().width) /
                 static_cast<float>(swapchain->extent().height),
-                0.01f,
-                10.0f
+                0.001f,
+                100.0f
             );
 
             ubo.projection[1][1] *= -1;
 
-            dst::Matrix4x4 translation;
-            dst::Matrix4x4 rotation;
-            dst::Matrix4x4 scale;
+            cubeUniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
+            offscreenUniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
+            ubo.world = dst::Matrix4x4::Identity;
+            floorUniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
 
-            auto local_to_world = translation * rotation * scale;
-
-            uniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
+            //ubo.world = dst::Matrix4x4::Identity;
+            //ubo.view = dst::Matrix4x4::Identity;
+            //ubo.projection = dst::Matrix4x4::Identity;
+            //offscreenUniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
 
             presentQueue.wait_idle();
             swapchain->update();
@@ -991,72 +1334,144 @@ int main()
                     framebuffers.reserve(swapchain->images().size());
                     for (const auto& image : swapchain->images()) {
                         std::array<VkImageView, 2> attachments {
-                            *image->views()[0],
-                            *depthBuffer->views()[0]
+                            *image->view(),
+                            *depthBuffer->view()
                         };
 
                         Framebuffer::Info framebufferInfo;
-                        framebufferInfo.renderPass = *renderPass;
+                        framebufferInfo.renderPass = *cubeRenderPass;
                         framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
                         framebufferInfo.pAttachments = attachments.data();
                         framebufferInfo.width = extent.width;
                         framebufferInfo.height = extent.height;
-                        framebufferInfo.layers = 1;
                         framebuffers.push_back(device->create<Framebuffer>(framebufferInfo));
                     }
                 }
 
                 if (recordCommandBuffers) {
                     recordCommandBuffers = false;
-                    for (size_t i = 0; i < framebuffers.size(); ++i) {
-                        auto& commandBuffer = commandPool->buffers()[i];
 
-                        Command::Buffer::BeginInfo beginInfo;
-                        beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
-                        commandBuffer->begin(beginInfo);
-
+                    {
                         std::array<VkClearValue, 2> clearValues;
-                        clearValues[0].color = { 0.2f, 0.2f, 0.2f, 1 };
+                        clearValues[0].color = { 0, 0, 0, 0 };
                         clearValues[1].depthStencil = { 1, 0 };
                         RenderPass::BeginInfo renderPassBeginInfo;
-                        renderPassBeginInfo.renderPass = *renderPass;
-                        renderPassBeginInfo.framebuffer = *framebuffers[i];
-                        renderPassBeginInfo.renderArea.extent = swapchain->extent();
+                        renderPassBeginInfo.renderPass = *offscreenRenderPass;
+                        renderPassBeginInfo.framebuffer = *offscreenRenderTarget.framebuffer;
+                        VkExtent2D extent;
+                        extent.width = offscreenRenderTarget.extent().width;
+                        extent.height = offscreenRenderTarget.extent().height;
+                        renderPassBeginInfo.renderArea.extent = extent;
                         renderPassBeginInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
                         renderPassBeginInfo.pClearValues = clearValues.data();
-                        commandBuffer->begin_render_pass(renderPassBeginInfo);
 
-                        commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *pipeline);
+                        offscreenCommandBuffer->begin();
+                        offscreenCommandBuffer->begin_render_pass(renderPassBeginInfo);
 
                         VkViewport viewport { };
-                        viewport.width = static_cast<float>(swapchain->extent().width);
-                        viewport.height = static_cast<float>(swapchain->extent().height);
+                        viewport.width = static_cast<float>(extent.width);
+                        viewport.height = static_cast<float>(extent.height);
                         viewport.minDepth = 0;
                         viewport.maxDepth = 1;
-                        commandBuffer->set_viewport(viewport);
+                        offscreenCommandBuffer->set_viewport(viewport);
 
                         VkRect2D scissor { };
-                        scissor.extent = swapchain->extent();
-                        commandBuffer->set_scissor(scissor);
-                        commandBuffer->bind_descriptor_set(*descriptorSet, *pipelineLayout);
-                        cube.render(*commandBuffer);
-                        floor.render(*commandBuffer);
-                        // quad.render(*commandBuffer);
-                        commandBuffer->end_render_pass();
-                        commandBuffer->end();
+                        scissor.extent = extent;
+                        offscreenCommandBuffer->set_scissor(scissor);
+
+                        offscreenCommandBuffer->bind_descriptor_set(*offscreenDescriptorSet, *offscreenPipelineLayout);
+                        offscreenCommandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *offscreenPipeline);
+                        cube.render(*offscreenCommandBuffer);
+
+                        offscreenCommandBuffer->end_render_pass();
+                        offscreenCommandBuffer->end();
+                    }
+
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                    for (size_t i = 0; i < framebuffers.size(); ++i) {
+
+                        {
+                            auto& commandBuffer = commandPool->buffers()[i];
+
+                            Command::Buffer::BeginInfo beginInfo;
+                            // beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+                            commandBuffer->begin(beginInfo);
+
+                            std::array<VkClearValue, 2> clearValues;
+                            clearValues[0].color = { 0.2f, 0.2f, 0.2f, 1 };
+                            clearValues[1].depthStencil = { 1, 0 };
+                            RenderPass::BeginInfo renderPassBeginInfo;
+                            renderPassBeginInfo.renderPass = *cubeRenderPass;
+                            renderPassBeginInfo.framebuffer = *framebuffers[i];
+                            renderPassBeginInfo.renderArea.extent = swapchain->extent();
+                            renderPassBeginInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
+                            renderPassBeginInfo.pClearValues = clearValues.data();
+                            commandBuffer->begin_render_pass(renderPassBeginInfo);
+
+                            VkViewport viewport { };
+                            viewport.width = static_cast<float>(swapchain->extent().width);
+                            viewport.height = static_cast<float>(swapchain->extent().height);
+                            viewport.minDepth = 0;
+                            viewport.maxDepth = 1;
+                            commandBuffer->set_viewport(viewport);
+
+                            VkRect2D scissor { };
+                            scissor.extent = swapchain->extent();
+                            commandBuffer->set_scissor(scissor);
+
+                            commandBuffer->bind_descriptor_set(*cubeDescriptorSet, *cubePipelineLayout);
+                            commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *cubePipeline);
+                            cube.render(*commandBuffer);
+
+                            commandBuffer->bind_descriptor_set(*floorDescriptorSet, *floorPipelineLayout);
+                            commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *floorPipeline);
+                            floor.render(*commandBuffer);
+
+                            // quad.render(*commandBuffer);
+
+                            commandBuffer->end_render_pass();
+                            commandBuffer->end();
+                        }
                     }
                 }
 
-                Queue::SubmitInfo submitInfo;
-                VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
-                submitInfo.waitSemaphoreCount = 1;
-                submitInfo.pWaitSemaphores = &imageSemaphore->handle();
-                submitInfo.pWaitDstStageMask = waitStages;
-                submitInfo.commandBufferCount = 1;
-                submitInfo.pCommandBuffers = &commandPool->buffers()[imageIndex]->handle();
-                submitInfo.signalSemaphoreCount = 1;
-                submitInfo.pSignalSemaphores = &renderSemaphore->handle();
-                graphicsQueue.submit(submitInfo);
+                {
+                    Queue::SubmitInfo submitInfo;
+                    VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT };
+                    submitInfo.waitSemaphoreCount = 0;
+                    submitInfo.pWaitSemaphores = nullptr; // &renderSemaphore->handle();
+                    submitInfo.pWaitDstStageMask = nullptr; // waitStages;
+                    submitInfo.commandBufferCount = 1;
+                    submitInfo.pCommandBuffers = &offscreenCommandBuffer->handle();
+                    submitInfo.signalSemaphoreCount = 1;
+                    submitInfo.pSignalSemaphores = &offscreenSemaphore->handle();
+                    graphicsQueue.submit(submitInfo);
+                    int breaker = 0;
+                }
+
+                {
+                    std::array<VkSemaphore, 2> waitSempaphores {
+                        *offscreenSemaphore,
+                        *imageSemaphore,
+                    };
+
+                    Queue::SubmitInfo submitInfo;
+                    VkPipelineStageFlags waitStages[] {
+                        VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
+                        VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT
+                    };
+
+                    submitInfo.waitSemaphoreCount = static_cast<uint32_t>(waitSempaphores.size());
+                    submitInfo.pWaitSemaphores = waitSempaphores.data();
+                    submitInfo.pWaitDstStageMask = waitStages;
+                    submitInfo.commandBufferCount = 1;
+                    submitInfo.pCommandBuffers = &commandPool->buffers()[imageIndex]->handle();
+                    submitInfo.signalSemaphoreCount = 1;
+                    submitInfo.pSignalSemaphores = &renderSemaphore->handle();
+                    graphicsQueue.submit(submitInfo);
+                    int breaker = 0;
+                }
 
                 Queue::PresentInfoKHR presentInfo;
                 presentInfo.waitSemaphoreCount = 1;
@@ -1065,6 +1480,25 @@ int main()
                 presentInfo.pSwapchains = &swapchain->handle();
                 presentInfo.pImageIndices = &imageIndex;
                 presentQueue.present(presentInfo);
+
+                // Queue::SubmitInfo submitInfo;
+                // VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+                // submitInfo.waitSemaphoreCount = 1;
+                // submitInfo.pWaitSemaphores = &imageSemaphore->handle();
+                // submitInfo.pWaitDstStageMask = waitStages;
+                // submitInfo.commandBufferCount = 1;
+                // submitInfo.pCommandBuffers = &commandPool->buffers()[imageIndex]->handle();
+                // submitInfo.signalSemaphoreCount = 1;
+                // submitInfo.pSignalSemaphores = &renderSemaphore->handle();
+                // graphicsQueue.submit(submitInfo);
+                // 
+                // Queue::PresentInfoKHR presentInfo;
+                // presentInfo.waitSemaphoreCount = 1;
+                // presentInfo.pWaitSemaphores = &renderSemaphore->handle();
+                // presentInfo.swapchainCount = 1;
+                // presentInfo.pSwapchains = &swapchain->handle();
+                // presentInfo.pImageIndices = &imageIndex;
+                // presentQueue.present(presentInfo);
             }
 
             window->swap_buffers();

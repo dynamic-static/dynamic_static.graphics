@@ -56,7 +56,7 @@ namespace Vulkan {
                 compareOp = VK_COMPARE_OP_ALWAYS;
                 minLod = 0;
                 maxLod = 0;
-                borderColor = VK_BORDER_COLOR_INT_TRANSPARENT_BLACK;
+                borderColor = VK_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK;
                 unnormalizedCoordinates = VK_FALSE;
             }
         };

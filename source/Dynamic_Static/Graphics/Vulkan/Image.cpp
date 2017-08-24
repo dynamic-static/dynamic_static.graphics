@@ -78,6 +78,11 @@ namespace Vulkan {
         return memoryRequirements;
     }
 
+    const Image::View* Image::view() const
+    {
+        return mViews.empty() ? nullptr : mViews[0].get();
+    }
+
     const std::vector<std::unique_ptr<Image::View>>& Image::views() const
     {
         return mViews;

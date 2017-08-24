@@ -184,8 +184,14 @@ namespace Vulkan {
         VkMemoryRequirements memory_requirements() const;
 
         /**
-         * Gets this Image's Views.
-         * @return This Image's Views
+         * Gets this Image's Image::View.
+         * @return This Image's Image::View
+         */
+        const View* view() const;
+
+        /**
+         * Gets this Image's Image::Views.
+         * @return This Image's Image::Views
          */
         const std::vector<std::unique_ptr<View>>& views() const;
 
