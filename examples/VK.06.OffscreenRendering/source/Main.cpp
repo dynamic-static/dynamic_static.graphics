@@ -299,10 +299,10 @@ Mesh create_box(
     float d = depth * 0.5f;
     const std::vector<Vertex> vertices {
         // Top
-        { { -w,  h, -d }, { 0, 0 }, { color0 } },
-        { {  w,  h, -d }, { 1, 0 }, { color0 } },
-        { {  w,  h,  d }, { 1, 1 }, { color0 } },
-        { { -w,  h,  d }, { 0, 1 }, { color0 } },
+        { { -w,  h, -d }, { 1, 1 }, { color0 } },
+        { {  w,  h, -d }, { 0, 1 }, { color0 } },
+        { {  w,  h,  d }, { 0, 0 }, { color0 } },
+        { { -w,  h,  d }, { 1, 0 }, { color0 } },
 
         // Left
         { { -w,  h, -d }, { 0, 0 }, { color0 } },
@@ -691,12 +691,12 @@ PipelinePair create_textured_pipeline(
                 mat4 projection;
             } ubo;
             
-            layout(location = 0) in vec3 inPosition;
-            layout(location = 1) in vec2 inTexCoord;
-            layout(location = 2) in vec4 inColor;
+            layout(location = 0) in vec3 vsPosition;
+            layout(location = 1) in vec2 vsTexCoord;
+            layout(location = 2) in vec4 vsColor;
             
-            layout(location = 0) out vec2 fragTexCoord;
-            layout(location = 1) out vec4 fragColor;
+            layout(location = 0) out vec2 fsTexCoord;
+            layout(location = 1) out vec4 fsColor;
             
             out gl_PerVertex
             {
@@ -705,9 +705,9 @@ PipelinePair create_textured_pipeline(
             
             void main()
             {
-                gl_Position = ubo.projection * ubo.view * ubo.world * vec4(inPosition, 1);
-                fragTexCoord = inTexCoord;
-                fragColor = inColor;
+                gl_Position = ubo.projection * ubo.view * ubo.world * vec4(vsPosition, 1);
+                fsTexCoord = vsTexCoord;
+                fsColor = vsColor;
             }
 
         )",
@@ -722,10 +722,10 @@ PipelinePair create_textured_pipeline(
             
             layout(binding = 1) uniform sampler2D imageSampler;
             
-            layout(location = 0) in vec2 fragTexCoord;
-            layout(location = 1) in vec4 fragColor;
+            layout(location = 0) in vec2 fsTexCoord;
+            layout(location = 1) in vec4 fsColor;
             
-            layout(location = 0) out vec4 outColor;
+            layout(location = 0) out vec4 fragColor;
             
             void main()
             {
@@ -735,14 +735,14 @@ PipelinePair create_textured_pipeline(
                 // NOTE : This is a horrendous blur that should never be used...
                 for (offset.y = -BLUR; offset.y <= BLUR; ++offset.y) {
                     for (offset.x = -BLUR; offset.x <= BLUR; ++offset.x) {
-                        vec2 uv = fragTexCoord + offset * (vec2(1) / size);
+                        vec2 uv = fsTexCoord + offset * (vec2(1) / size);
                         reflection += texture(imageSampler, uv) / BLUR_AVERAGE;
                     }
                 }
 
-                outColor.a = 1;
-                outColor.rb = fragTexCoord * (1 - reflection.a);
-                outColor.rgb += reflection.rgb;
+                fragColor.a = 1;
+                fragColor.rb = fsTexCoord * (1 - reflection.a);
+                fragColor.rgb += reflection.rgb;
             }
 
         )"
@@ -1173,10 +1173,10 @@ int main()
         auto floor = create_box(*device, *commandPool, graphicsQueue, 4, 0.25f, 4, dst::Color::Transparent, dst::Color::Black);
         auto quad = create_mesh(*device, *commandPool, graphicsQueue,
         std::vector<Vertex> {
-                { { -0.5f,  0.5f, 0 }, { 0, 0 }, { dst::Color::White } },
-                { {  0.5f,  0.5f, 0 }, { 1, 0 }, { dst::Color::White } },
-                { {  0.5f, -0.5f, 0 }, { 1, 1 }, { dst::Color::White } },
-                { { -0.5f, -0.5f, 0 }, { 0, 1 }, { dst::Color::White } },
+                { { -0.5f,  0.5f, 0 }, { 1, 0 }, { dst::Color::White } },
+                { {  0.5f,  0.5f, 0 }, { 0, 0 }, { dst::Color::White } },
+                { {  0.5f, -0.5f, 0 }, { 0, 1 }, { dst::Color::White } },
+                { { -0.5f, -0.5f, 0 }, { 1, 1 }, { dst::Color::White } },
             },
             std::vector<uint16_t> { 0, 1, 2, 2, 3, 0 }
         );
@@ -1249,7 +1249,7 @@ int main()
         float yOffset = 1.5f;
         bool running = true;
 
-        dst::Vector3 cameraPosition(7, 6, 7);
+        dst::Vector3 cameraPosition(0, 6, 7);
 
         while (running) {
             Window::update();
@@ -1298,16 +1298,15 @@ int main()
             floorUniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
 
             ubo.world =
-                dst::Matrix4x4::create_translation({ 0, positionY, 0 }) *
                 dst::Matrix4x4::create_rotation(angleY, dst::Vector3::UnitY) *
-                dst::Matrix4x4::create_rotation(angleZ, dst::Vector3::UnitZ);
+                dst::Matrix4x4::create_rotation(angleZ, dst::Vector3::UnitZ) *
+                dst::Matrix4x4::create_scale({ 1, -1, 1 }) *
+                dst::Matrix4x4::create_translation({ 0, positionY, 0 });
 
-            auto flippedCamera = cameraPosition;
-            flippedCamera.y *= -1;
             ubo.view = dst::Matrix4x4::create_view(
-                flippedCamera,
+                cameraPosition,
                 dst::Vector3::Zero,
-                dst::Vector3(1, -1, 0).normalized()
+                dst::Vector3::UnitY
             );
 
             ubo.projection = dst::Matrix4x4::create_perspective(
@@ -1320,11 +1319,6 @@ int main()
 
             ubo.projection[1][1] *= -1;
             offscreenUniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
-
-            //ubo.world = dst::Matrix4x4::Identity;
-            //ubo.view = dst::Matrix4x4::Identity;
-            //ubo.projection = dst::Matrix4x4::Identity;
-            //offscreenUniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
 
             presentQueue.wait_idle();
             swapchain->update();
