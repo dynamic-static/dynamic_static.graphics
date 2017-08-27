@@ -15,6 +15,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Semaphore.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/SurfaceKHR.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp"
 
@@ -98,6 +99,11 @@ namespace Vulkan {
         } else {
             throw std::runtime_error("Surface doesn't support presentation");
         }
+
+        ////////////////////////////////////////////////////////////////
+        // Create Sempahores
+        mImageSemaphore = mDevice->create<Semaphore>();
+        mRenderSemaphore = mDevice->create<Semaphore>();
     }
 
     void Application::pre_update(const dst::Clock& clock, const dst::Input& input)

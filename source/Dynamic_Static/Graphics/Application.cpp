@@ -36,9 +36,14 @@ namespace Graphics {
             Window::update();
             mClock.update();
 
-            pre_update(mClock, mWindow->input());
-            update(mClock, mWindow->input());
-            post_update(mClock, mWindow->input());
+            const auto& input = mWindow->input();
+            if (input.keyboard().pressed(Keyboard::Key::Escape)) {
+                mRunning = false;
+            }
+
+            pre_update(mClock, input);
+            update(mClock, input);
+            post_update(mClock, input);
 
             pre_render(mClock);
             render(mClock);
