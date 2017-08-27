@@ -38,6 +38,8 @@ set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/Vulkan/VulkanInclude.hpp
 
     ${INCLUDE_PATH}/Graphics/Camera.hpp
+    ${INCLUDE_PATH}/Graphics/Camera.Controller.hpp
+    ${INCLUDE_PATH}/Graphics/FreeCameraController.hpp
     ${INCLUDE_PATH}/Graphics/Defines.hpp
     ${INCLUDE_PATH}/Graphics/GLTFCache.hpp
     ${INCLUDE_PATH}/Graphics/GLTFReader.hpp
@@ -80,6 +82,8 @@ set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/Vulkan/SwapchainKHR.cpp
 
     ${SOURCE_PATH}/Graphics/Camera.cpp
+    ${SOURCE_PATH}/Graphics/Camera.Controller.cpp
+    ${SOURCE_PATH}/Graphics/FreeCameraController.cpp
     ${SOURCE_PATH}/Graphics/GLFWInclude.hpp
     ${SOURCE_PATH}/Graphics/GLTFCache.cpp
     ${SOURCE_PATH}/Graphics/GLTFReader.cpp

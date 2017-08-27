@@ -9,6 +9,8 @@
 
 #include "Dynamic_Static/Graphics/Camera.hpp"
 
+#include <iostream>
+
 namespace Dynamic_Static {
 namespace Graphics {
 
@@ -64,12 +66,30 @@ namespace Graphics {
 
     Matrix4x4 Camera::view() const
     {
-        return Matrix4x4::Identity;
+        // auto u = mTransform.up();
+        // auto f = mTransform.forward();
+        // std::cout << "====================" << std::endl;
+        // std::cout << "T:" << mTransform.translation << std::endl;
+        // std::cout << "U:" << mTransform.up() << std::endl;
+        // std::cout << "F:" << mTransform.forward() << std::endl;
+        return Matrix4x4::create_view(
+            mTransform.translation,
+            mTransform.translation + mTransform.forward(),
+            mTransform.up()
+        );
     }
 
     Matrix4x4 Camera::projection() const
     {
-        return Matrix4x4::Identity;
+        auto m = Matrix4x4::create_perspective(
+            dst::to_radians(mFieldOfView),
+            mAspectRatio,
+            mNearPlane,
+            mFarPlane
+        );
+
+        m[1][1] *= -1;
+        return m;
     }
 
 } // namespace Graphics

@@ -20,11 +20,14 @@ namespace Graphics {
      */
     class Camera
     {
+    public:
+        class Controller;
+
     private:
         float mAspectRatio { 16.0f / 9.0f };
         float mFieldOfView { 60 };
-        float mNearPlane { 0.0001f };
-        float mFarPlane { 1000.0f };
+        float mNearPlane { 0.001f };
+        float mFarPlane { 100.0f };
         Transform mTransform;
 
     public:

@@ -9,6 +9,8 @@
 
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
+#include "Dynamic_Static/Graphics/Camera.hpp"
+#include "Dynamic_Static/Graphics/FreeCameraController.hpp"
 #include "Dynamic_Static/Graphics/ImageCache.hpp"
 #include "Dynamic_Static/Graphics/ImageReader.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
@@ -299,10 +301,10 @@ Mesh create_box(
     float d = depth * 0.5f;
     const std::vector<Vertex> vertices {
         // Top
-        { { -w,  h, -d }, { 1, 1 }, { color0 } },
-        { {  w,  h, -d }, { 0, 1 }, { color0 } },
-        { {  w,  h,  d }, { 0, 0 }, { color0 } },
-        { { -w,  h,  d }, { 1, 0 }, { color0 } },
+        { { -w,  h, -d }, { 0, 1 }, { color0 } },
+        { {  w,  h, -d }, { 1, 1 }, { color0 } },
+        { {  w,  h,  d }, { 1, 0 }, { color0 } },
+        { { -w,  h,  d }, { 0, 0 }, { color0 } },
 
         // Left
         { { -w,  h, -d }, { 0, 0 }, { color0 } },
@@ -529,7 +531,7 @@ PipelinePair create_pipeline(
     rasterizationInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
     rasterizationInfo.polygonMode = VK_POLYGON_MODE_FILL;
     rasterizationInfo.lineWidth = 1;
-    rasterizationInfo.cullMode = VK_CULL_MODE_BACK_BIT;
+    rasterizationInfo.cullMode = VK_CULL_MODE_NONE; //  VK_CULL_MODE_BACK_BIT;
     rasterizationInfo.frontFace = VK_FRONT_FACE_CLOCKWISE;
 
     VkPipelineMultisampleStateCreateInfo multisampleInfo { };
@@ -695,17 +697,19 @@ PipelinePair create_textured_pipeline(
             layout(location = 1) in vec2 vsTexCoord;
             layout(location = 2) in vec4 vsColor;
             
-            layout(location = 0) out vec2 fsTexCoord;
-            layout(location = 1) out vec4 fsColor;
-            
+            layout(location = 0) out vec4 fsPosition;
+            layout(location = 1) out vec2 fsTexCoord;
+            layout(location = 2) out vec4 fsColor;
+
             out gl_PerVertex
             {
                 vec4 gl_Position;
             };
-            
+
             void main()
             {
-                gl_Position = ubo.projection * ubo.view * ubo.world * vec4(vsPosition, 1);
+                fsPosition = ubo.projection * ubo.view * ubo.world * vec4(vsPosition, 1);
+                gl_Position = fsPosition;
                 fsTexCoord = vsTexCoord;
                 fsColor = vsColor;
             }
@@ -716,33 +720,45 @@ PipelinePair create_textured_pipeline(
             #version 450
             #extension GL_ARB_separate_shader_objects : enable
 
-            #define BLUR_SAMPLES (9)
+            #define BLUR_SAMPLES (3)
             #define BLUR ((BLUR_SAMPLES - 1) * 0.5)
             #define BLUR_AVERAGE (BLUR_SAMPLES * BLUR_SAMPLES)
             
             layout(binding = 1) uniform sampler2D imageSampler;
             
-            layout(location = 0) in vec2 fsTexCoord;
-            layout(location = 1) in vec4 fsColor;
+            layout(location = 0) in vec4 fsPosition;
+            layout(location = 1) in vec2 fsTexCoord;
+            layout(location = 2) in vec4 fsColor;
             
             layout(location = 0) out vec4 fragColor;
             
             void main()
             {
-                vec2 offset;
+                vec4 position = fsPosition * (1.0 / fsPosition.w);
+                position += vec4(1);
+                position *= 0.5;
+
+                vec2 offset = vec2(0);
                 vec4 reflection = vec4(0);
-                vec2 size = textureSize(imageSampler, 0);
-                // NOTE : This is a horrendous blur that should never be used...
+                vec2 size = 1.0 / textureSize(imageSampler, 0);
+                // NOTE : This is a terrible blur that should never be used...
                 for (offset.y = -BLUR; offset.y <= BLUR; ++offset.y) {
                     for (offset.x = -BLUR; offset.x <= BLUR; ++offset.x) {
-                        vec2 uv = fsTexCoord + offset * (vec2(1) / size);
+                        vec2 uv = position.st + offset * size; // fsTexCoord + offset * size;
                         reflection += texture(imageSampler, uv) / BLUR_AVERAGE;
                     }
                 }
 
+                // vec2 uv = position.st;
+                // reflection = texture(imageSampler, uv);
+
                 fragColor.a = 1;
                 fragColor.rb = fsTexCoord * (1 - reflection.a);
-                fragColor.rgb += reflection.rgb;
+                //fragColor.g = (fsTexCoord.x + fsTexCoord.y) * 0.5;
+                //if (fragColor.r > 0 || fragColor.g > 0 || fragColor.b > 0) {
+                    fragColor.rgb *= 1 - reflection.a;
+                    fragColor.rgb += reflection.rgb;
+                //}
             }
 
         )"
@@ -1170,7 +1186,7 @@ int main()
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create meshes
         auto cube = create_box(*device, *commandPool, graphicsQueue, 1, 1, 1, dst::Color::Green, dst::Color::Black);
-        auto floor = create_box(*device, *commandPool, graphicsQueue, 4, 0.25f, 4, dst::Color::Transparent, dst::Color::Black);
+        auto floor = create_box(*device, *commandPool, graphicsQueue, 6, 0.25f, 6, dst::Color::Transparent, dst::Color::Black);
         auto quad = create_mesh(*device, *commandPool, graphicsQueue,
         std::vector<Vertex> {
                 { { -0.5f,  0.5f, 0 }, { 1, 0 }, { dst::Color::White } },
@@ -1240,17 +1256,22 @@ int main()
         std::shared_ptr<Image> depthBuffer;
         std::shared_ptr<Memory> depthBufferMemory;
 
-        dst::Clock clock;
-        float angleY = 0;
-        float angleZ = 0;
-        float positionY = 0;
+        float cubeRotationY = 0;
+        float cubeRotationZ = 0;
         float wobbleHeight = 0.5;
         float wobbleSpeed = 3;
-        float yOffset = 1.5f;
+        float wobbleOffset = 1.5f;
+        dst::Vector3 cubePosition;
+
+        Camera camera;
+        FreeCameraController cameraController;
+        cameraController.camera = &camera;
+        camera.transform().translation = dst::Vector3(0, 0, 7);
+        window->cursor_mode(Window::CursorMode::Disabled);
+
+        dst::Clock clock;
+        clock.update();
         bool running = true;
-
-        dst::Vector3 cameraPosition(0, 6, 7);
-
         while (running) {
             Window::update();
             const auto& input = window->input();
@@ -1260,64 +1281,30 @@ int main()
             }
 
             clock.update();
+            cameraController.update(clock, input);
             auto dt = clock.elapsed<dst::Second<float>>();
 
-            float scrollSpeed = 720;
-            cameraPosition.z -= input.mouse().scroll() * scrollSpeed * dt;
-            if (cameraPosition.z < 0.01f) {
-                cameraPosition.z = 0.01f;
-            }
-
-            angleY += dst::to_radians(90.0f * dt);
-            angleZ += dst::to_radians(45.0f * dt);
-            positionY = wobbleHeight * std::sin(wobbleSpeed * clock.total<dst::Second<float>>()) + yOffset;
+            cubeRotationY += dst::to_radians(90.0f * dt);
+            cubeRotationZ += dst::to_radians(45.0f * dt);
+            cubePosition.y = wobbleHeight * std::sin(wobbleSpeed * clock.total<dst::Second<float>>()) + wobbleOffset;
+            auto cubeToWorld =
+                dst::Matrix4x4::create_translation(cubePosition) *
+                dst::Matrix4x4::create_rotation(cubeRotationY, dst::Vector3::UnitY) *
+                dst::Matrix4x4::create_rotation(cubeRotationZ, dst::Vector3::UnitZ);
 
             UniformBuffer ubo;
-            ubo.world =
-                dst::Matrix4x4::create_translation({ 0, positionY, 0 }) *
-                dst::Matrix4x4::create_rotation(angleY, dst::Vector3::UnitY) *
-                dst::Matrix4x4::create_rotation(angleZ, dst::Vector3::UnitZ);
-
-            ubo.view = dst::Matrix4x4::create_view(
-                cameraPosition,
-                dst::Vector3::Zero,
-                dst::Vector3::UnitY
-            );
-
-            ubo.projection = dst::Matrix4x4::create_perspective(
-                dst::to_radians(30.0f),
-                static_cast<float>(swapchain->extent().width) /
-                static_cast<float>(swapchain->extent().height),
-                0.001f,
-                100.0f
-            );
-
-            ubo.projection[1][1] *= -1;
+            ubo.view = camera.view();
+            float swapChainWidth = static_cast<float>(swapchain->extent().width);
+            float swapChainHeight = static_cast<float>(swapchain->extent().height);
+            camera.aspect_ratio(swapChainWidth / swapChainHeight);
+            camera.field_of_view(30.0f);
+            ubo.projection = camera.projection();
+            
+            ubo.world = cubeToWorld;
             cubeUniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
             ubo.world = dst::Matrix4x4::Identity;
             floorUniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
-
-            ubo.world =
-                dst::Matrix4x4::create_rotation(angleY, dst::Vector3::UnitY) *
-                dst::Matrix4x4::create_rotation(angleZ, dst::Vector3::UnitZ) *
-                dst::Matrix4x4::create_scale({ 1, -1, 1 }) *
-                dst::Matrix4x4::create_translation({ 0, positionY, 0 });
-
-            ubo.view = dst::Matrix4x4::create_view(
-                cameraPosition,
-                dst::Vector3::Zero,
-                dst::Vector3::UnitY
-            );
-
-            ubo.projection = dst::Matrix4x4::create_perspective(
-                dst::to_radians(30.0f),
-                static_cast<float>(offscreenRenderTarget.colorAttachment->extent().width) /
-                static_cast<float>(offscreenRenderTarget.colorAttachment->extent().height),
-                0.001f,
-                100.0f
-            );
-
-            ubo.projection[1][1] *= -1;
+            ubo.world = dst::Matrix4x4::create_scale({ 1, -1, 1 }) * cubeToWorld;
             offscreenUniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
 
             presentQueue.wait_idle();
