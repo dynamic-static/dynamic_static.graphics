@@ -738,27 +738,23 @@ PipelinePair create_textured_pipeline(
                 position += vec4(1);
                 position *= 0.5;
 
-                vec2 offset = vec2(0);
                 vec4 reflection = vec4(0);
-                vec2 size = 1.0 / textureSize(imageSampler, 0);
+                vec2 size = 1.0 / textureSize(imageSampler, 0) * 1.5;
                 // NOTE : This is a terrible blur that should never be used...
-                for (offset.y = -BLUR; offset.y <= BLUR; ++offset.y) {
-                    for (offset.x = -BLUR; offset.x <= BLUR; ++offset.x) {
-                        vec2 uv = position.st + offset * size; // fsTexCoord + offset * size;
+                for (float y = -BLUR; y <= BLUR; ++y) {
+                    for (float x = -BLUR; x <= BLUR; ++x) {
+                        vec2 uv = position.st + vec2(x, y) * size;
                         reflection += texture(imageSampler, uv) / BLUR_AVERAGE;
                     }
                 }
 
-                // vec2 uv = position.st;
-                // reflection = texture(imageSampler, uv);
+                reflection.a *= 0.7;
+                reflection.rgb *= reflection.a;
+                reflection.rgb *= step(0.001, dot(fsTexCoord, vec2(0.5)));
 
                 fragColor.a = 1;
                 fragColor.rb = fsTexCoord * (1 - reflection.a);
-                //fragColor.g = (fsTexCoord.x + fsTexCoord.y) * 0.5;
-                //if (fragColor.r > 0 || fragColor.g > 0 || fragColor.b > 0) {
-                    fragColor.rgb *= 1 - reflection.a;
-                    fragColor.rgb += reflection.rgb;
-                //}
+                fragColor.rgb += reflection.rgb;
             }
 
         )"
