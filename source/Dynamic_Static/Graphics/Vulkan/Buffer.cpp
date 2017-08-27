@@ -18,7 +18,7 @@ namespace Vulkan {
 
     Buffer::Buffer(
         const std::shared_ptr<Device>& device,
-        const Info& info,
+        const VkBufferCreateInfo& info,
         VkMemoryPropertyFlags memoryPropertyFlags
     )
         : DeviceChild(device)
@@ -66,7 +66,7 @@ namespace Vulkan {
         mMemory->unmap();
     }
 
-    void Buffer::initialize(const Info& info, VkMemoryPropertyFlags memoryPropertyFlags)
+    void Buffer::initialize(const VkBufferCreateInfo& info, VkMemoryPropertyFlags memoryPropertyFlags)
     {
         validate(vkCreateBuffer(DeviceChild::device(), &info, nullptr, &mHandle));
         name("Buffer");
@@ -84,7 +84,6 @@ namespace Vulkan {
         //        http://gpuopen.com/vulkan-device-memory/
         //        https://twitter.com/axelgneiting/status/756218806570147840
         size_t offset = 0;
-        // Memory::Info memoryInfo;
         auto memoryInfo = Memory::AllocateInfo;
         memoryInfo.memoryTypeIndex = static_cast<uint32_t>(memoryTypeIndex);
         memoryInfo.allocationSize = memoryRequirements.size;

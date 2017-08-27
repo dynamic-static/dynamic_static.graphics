@@ -31,39 +31,42 @@ namespace Vulkan {
         friend class Device;
 
     public:
+        /**
+         * Default configuration parameters for Buffer creation.
+         */
         static constexpr VkBufferCreateInfo CreateInfo
         {
-            /* sType                 = */ VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,
-            /* pNext                 = */ nullptr,
-            /* flags                 = */ 0,
-            /* size                  = */ 0,
-            /* usage                 = */ 0,
-            /* sharingMode           = */ VK_SHARING_MODE_EXCLUSIVE,
-            /* queueFamilyIndexCount = */ 0,
-            /* pQueueFamilyIndices   = */ nullptr,
+            /* sType                 */ VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,
+            /* pNext                 */ nullptr,
+            /* flags                 */ 0,
+            /* size                  */ 0,
+            /* usage                 */ 0,
+            /* sharingMode           */ VK_SHARING_MODE_EXCLUSIVE,
+            /* queueFamilyIndexCount */ 0,
+            /* pQueueFamilyIndices   */ nullptr,
         };
 
-        /**
-         * Configuration paramaters for Buffer construction.
-         */
-        struct Info final
-            : public VkBufferCreateInfo
-        {
-            /**
-             * Constructs an instance of Buffer::Info with default paramaters.
-             */
-            Info()
-            {
-                sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-                pNext = nullptr;
-                flags = 0;
-                size = 0;
-                usage = 0;
-                sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-                queueFamilyIndexCount = 0;
-                pQueueFamilyIndices = nullptr;
-            }
-        };
+        // /**
+        //  * Configuration parameters for Buffer construction.
+        //  */
+        // struct Info final
+        //     : public VkBufferCreateInfo
+        // {
+        //     /**
+        //      * Constructs an instance of Buffer::Info with default paramaters.
+        //      */
+        //     Info()
+        //     {
+        //         sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+        //         pNext = nullptr;
+        //         flags = 0;
+        //         size = 0;
+        //         usage = 0;
+        //         sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+        //         queueFamilyIndexCount = 0;
+        //         pQueueFamilyIndices = nullptr;
+        //     }
+        // };
 
     private:
         std::shared_ptr<Memory> mMemory;
@@ -71,7 +74,7 @@ namespace Vulkan {
     private:
         Buffer(
             const std::shared_ptr<Device>& device,
-            const Info& info,
+            const VkBufferCreateInfo& info,
             VkMemoryPropertyFlags memoryPropertyFlags
         );
 
@@ -127,7 +130,7 @@ namespace Vulkan {
 
     private:
         void initialize(
-            const Info& info,
+            const VkBufferCreateInfo& info,
             VkMemoryPropertyFlags memoryPropertyFlags
         );
     };

@@ -467,7 +467,8 @@ int main()
         auto filePath = "../../../examples/resources/images/statue.jpg";
         auto imageCache = ImageReader::read_file(filePath);
 
-        Buffer::Info imageStagingBufferInfo;
+        // Buffer::Info imageStagingBufferInfo;
+        auto imageStagingBufferInfo = Buffer::CreateInfo;
         imageStagingBufferInfo.size = static_cast<VkDeviceSize>(imageCache.data().size_bytes());
         imageStagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
         auto imageStagingMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
@@ -583,13 +584,15 @@ int main()
 
         auto vertexBufferSize = static_cast<VkDeviceSize>(sizeof(vertices[0]) * vertices.size());
 
-        Buffer::Info vertexBufferInfo;
+        // Buffer::Info vertexBufferInfo;
+        auto vertexBufferInfo = Buffer::CreateInfo;
         vertexBufferInfo.size = vertexBufferSize;
         vertexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
         auto vertexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
         auto vertexBuffer = device->create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
 
-        Buffer::Info stagingBufferInfo;
+        // Buffer::Info stagingBufferInfo;
+        auto stagingBufferInfo = Buffer::CreateInfo;
         stagingBufferInfo.size = vertexBufferSize;
         stagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
         auto stagingMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
@@ -614,7 +617,8 @@ int main()
 
         auto indexBufferSize = static_cast<VkDeviceSize>(sizeof(indices[0]) * indices.size());
 
-        Buffer::Info indexBufferInfo;
+        // Buffer::Info indexBufferInfo;
+        auto indexBufferInfo = Buffer::CreateInfo;
         indexBufferInfo.size = indexBufferSize;
         indexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
         auto indexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
@@ -635,7 +639,8 @@ int main()
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create uniform Buffer
         VkDeviceSize uniformBufferSize = sizeof(UniformBuffer);
-        Buffer::Info uniformBufferInfo;
+        // Buffer::Info uniformBufferInfo;
+        auto uniformBufferInfo = Buffer::CreateInfo;
         uniformBufferInfo.size = uniformBufferSize;
         uniformBufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
         auto uniformMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;

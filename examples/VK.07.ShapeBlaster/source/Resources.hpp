@@ -262,7 +262,8 @@ namespace ShapeBlaster {
             auto filePath = dst::Path::combine(resourcePath, fileName);
             auto imageCache = dst::gfx::ImageReader::read_file(filePath);
 
-            Buffer::Info stagingBufferInfo;
+            // Buffer::Info stagingBufferInfo;
+            auto stagingBufferInfo = Buffer::CreateInfo;
             stagingBufferInfo.size = static_cast<VkDeviceSize>(imageCache.data().size_bytes());
             stagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
             auto stagingMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
@@ -365,7 +366,8 @@ namespace ShapeBlaster {
             using namespace dst::vlkn;
 
             VkDeviceSize uniformBufferSize = sizeof(Sprite::UniformBuffer);
-            Buffer::Info uniformBufferInfo;
+            // Buffer::Info uniformBufferInfo;
+            auto uniformBufferInfo = Buffer::CreateInfo;
             uniformBufferInfo.size = static_cast<VkDeviceSize>(mBufferSize);
             uniformBufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
             auto uniformMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
@@ -520,7 +522,8 @@ namespace ShapeBlaster {
             using namespace dst::vlkn;
 
             VkDeviceSize uniformBufferSize = sizeof(Sprite::UniformBuffer);
-            Buffer::Info uniformBufferInfo;
+            // Buffer::Info uniformBufferInfo;
+            auto uniformBufferInfo = Buffer::CreateInfo;
             uniformBufferInfo.size = static_cast<VkDeviceSize>(size); // uniformBufferSize;
             uniformBufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
             auto uniformMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
@@ -541,7 +544,8 @@ namespace ShapeBlaster {
             auto filePath = dst::Path::combine(resourcePath, fileName);
             auto imageCache = dst::gfx::ImageReader::read_file(filePath);
 
-            Buffer::Info stagingBufferInfo;
+            // Buffer::Info stagingBufferInfo;
+            auto stagingBufferInfo = Buffer::CreateInfo;
             stagingBufferInfo.size = static_cast<VkDeviceSize>(imageCache.data().size_bytes());
             stagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
             auto stagingMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
@@ -648,13 +652,15 @@ namespace ShapeBlaster {
 
             auto vertexBufferSize = static_cast<VkDeviceSize>(sizeof(vertices));
 
-            Buffer::Info vertexBufferInfo;
+            // Buffer::Info vertexBufferInfo;
+            auto vertexBufferInfo = Buffer::CreateInfo;
             vertexBufferInfo.size = vertexBufferSize;
             vertexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
             auto vertexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
             quadVertexBuffer = device.create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
 
-            Buffer::Info stagingBufferInfo;
+            // Buffer::Info stagingBufferInfo;
+            auto stagingBufferInfo = Buffer::CreateInfo;
             stagingBufferInfo.size = vertexBufferSize;
             stagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
             auto stagingMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
@@ -676,7 +682,8 @@ namespace ShapeBlaster {
 
             auto indexBufferSize = static_cast<VkDeviceSize>(sizeof(indices));
 
-            Buffer::Info indexBufferInfo;
+            // Buffer::Info indexBufferInfo;
+            auto indexBufferInfo = Buffer::CreateInfo;
             indexBufferInfo.size = indexBufferSize;
             indexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
             auto indexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
