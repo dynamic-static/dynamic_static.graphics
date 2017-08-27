@@ -5,6 +5,7 @@ set(INCLUDE_PATH ${DST_GFX_INCLUDE}/Dynamic_Static/)
 set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/OpenGL/GLEWInclude.hpp
 
+    ${INCLUDE_PATH}/Graphics/Vulkan/Application.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Buffer.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Command.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Command.Buffer.hpp
@@ -37,6 +38,7 @@ set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/Vulkan/VulkanHppInclude.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/VulkanInclude.hpp
 
+    ${INCLUDE_PATH}/Graphics/Application.hpp
     ${INCLUDE_PATH}/Graphics/Camera.hpp
     ${INCLUDE_PATH}/Graphics/Camera.Controller.hpp
     ${INCLUDE_PATH}/Graphics/FreeCameraController.hpp
@@ -54,6 +56,7 @@ set(INCLUDE_FILES
 
 set(SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/)
 set(SOURCE_FILES
+    ${SOURCE_PATH}/Graphics/Vulkan/Application.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Buffer.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Command.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Command.Buffer.cpp
@@ -81,6 +84,7 @@ set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/Vulkan/SurfaceKHR.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/SwapchainKHR.cpp
 
+    ${SOURCE_PATH}/Graphics/Application.cpp
     ${SOURCE_PATH}/Graphics/Camera.cpp
     ${SOURCE_PATH}/Graphics/Camera.Controller.cpp
     ${SOURCE_PATH}/Graphics/FreeCameraController.cpp

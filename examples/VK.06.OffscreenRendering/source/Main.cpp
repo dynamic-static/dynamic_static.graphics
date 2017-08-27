@@ -739,7 +739,7 @@ PipelinePair create_textured_pipeline(
                 position *= 0.5;
 
                 vec4 reflection = vec4(0);
-                vec2 size = 1.0 / textureSize(imageSampler, 0) * 1.5;
+                vec2 size = 1.0 / textureSize(imageSampler, 0);
                 // NOTE : This is a terrible blur that should never be used...
                 for (float y = -BLUR; y <= BLUR; ++y) {
                     for (float x = -BLUR; x <= BLUR; ++x) {
@@ -748,12 +748,13 @@ PipelinePair create_textured_pipeline(
                     }
                 }
 
-                reflection.a *= 0.7;
+                reflection.a *= 0.25;
                 reflection.rgb *= reflection.a;
                 reflection.rgb *= step(0.001, dot(fsTexCoord, vec2(0.5)));
 
                 fragColor.a = 1;
                 fragColor.rb = fsTexCoord * (1 - reflection.a);
+                fragColor.g = dot(fragColor.rb, vec2(0.5));
                 fragColor.rgb += reflection.rgb;
             }
 
@@ -1041,7 +1042,7 @@ int main()
         );
 
         auto offscreenRenderPass = create_offscreen_render_pass(*device, VK_FORMAT_R8G8B8A8_UNORM, depthFormat);
-        RenderTarget offscreenRenderTarget(*offscreenRenderPass, 512, 512, VK_FORMAT_R8G8B8A8_UNORM, depthFormat);
+        RenderTarget offscreenRenderTarget(*offscreenRenderPass, 1024, 1024, VK_FORMAT_R8G8B8A8_UNORM, depthFormat);
         auto cubeRenderPass = create_non_reflective_render_pass(*device, swapchain->format(), depthFormat);
         auto floorRenderPass = create_reflective_render_pass(*device, swapchain->format(), depthFormat);
 
@@ -1181,7 +1182,7 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create meshes
-        auto cube = create_box(*device, *commandPool, graphicsQueue, 1, 1, 1, dst::Color::Green, dst::Color::Black);
+        auto cube = create_box(*device, *commandPool, graphicsQueue, 1, 1, 1, dst::Color::White, dst::Color::Black);
         auto floor = create_box(*device, *commandPool, graphicsQueue, 6, 0.25f, 6, dst::Color::Transparent, dst::Color::Black);
         auto quad = create_mesh(*device, *commandPool, graphicsQueue,
         std::vector<Vertex> {

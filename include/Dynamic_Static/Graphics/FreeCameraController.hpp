@@ -27,7 +27,7 @@ namespace Graphics {
     {
     public:
         float speed { 4.2f };
-        float zoomSpeed { 16384 };
+        float zoomSpeed { 16000 };
         float speedModifier { 2 };
         float minFieldOfView { 16 };
         float maxFieldOfView { 90 };

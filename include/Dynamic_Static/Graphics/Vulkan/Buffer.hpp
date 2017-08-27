@@ -31,6 +31,18 @@ namespace Vulkan {
         friend class Device;
 
     public:
+        static constexpr VkBufferCreateInfo CreateInfo
+        {
+            /* sType                 = */ VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,
+            /* pNext                 = */ nullptr,
+            /* flags                 = */ 0,
+            /* size                  = */ 0,
+            /* usage                 = */ 0,
+            /* sharingMode           = */ VK_SHARING_MODE_EXCLUSIVE,
+            /* queueFamilyIndexCount = */ 0,
+            /* pQueueFamilyIndices   = */ nullptr,
+        };
+
         /**
          * Configuration paramaters for Buffer construction.
          */
