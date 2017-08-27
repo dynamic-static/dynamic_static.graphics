@@ -398,7 +398,8 @@ int main()
         imageInfo.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
         auto image = device->create<Image>(imageInfo);
 
-        Memory::Info imageMemoryInfo;
+        // Memory::Info imageMemoryInfo;
+        auto imageMemoryInfo = Memory::AllocateInfo;
         auto imageMemoryRequirements = image->memory_requirements();
         imageMemoryInfo.allocationSize = imageMemoryRequirements.size;
         imageMemoryInfo.memoryTypeIndex = physicalDevice.find_memory_type_index(

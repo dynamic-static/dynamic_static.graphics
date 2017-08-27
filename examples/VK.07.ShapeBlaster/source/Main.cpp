@@ -202,7 +202,8 @@ int main()
                     depthBufferInfo.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
                     depthBuffer = device->create<Image>(depthBufferInfo);
 
-                    Memory::Info depthBufferMemoryInfo;
+                    // Memory::Info depthBufferMemoryInfo;
+                    auto depthBufferMemoryInfo = Memory::AllocateInfo;
                     auto depthBufferMemoryRequirements = depthBuffer->memory_requirements();
                     depthBufferMemoryInfo.allocationSize = depthBufferMemoryRequirements.size;
                     depthBufferMemoryInfo.memoryTypeIndex = physicalDevice.find_memory_type_index(

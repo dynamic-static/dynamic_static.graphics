@@ -84,7 +84,8 @@ namespace Vulkan {
         //        http://gpuopen.com/vulkan-device-memory/
         //        https://twitter.com/axelgneiting/status/756218806570147840
         size_t offset = 0;
-        Memory::Info memoryInfo;
+        // Memory::Info memoryInfo;
+        auto memoryInfo = Memory::AllocateInfo;
         memoryInfo.memoryTypeIndex = static_cast<uint32_t>(memoryTypeIndex);
         memoryInfo.allocationSize = memoryRequirements.size;
         mMemory = device().allocate<Memory>(memoryInfo);

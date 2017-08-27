@@ -96,6 +96,28 @@ namespace Vulkan {
             const Image& image() const;
         };
 
+    public:
+        static constexpr VkImageCreateInfo CreateInfo
+        {
+            /* sType                 */ VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO,
+            /* pNext                 */ nullptr,
+            /* flags                 */ 0,
+            /* imageType             */ VK_IMAGE_TYPE_1D,
+            /* format                */ VK_FORMAT_UNDEFINED,
+            /* extent.width          */ 1,
+            /* extent.height         */ 1,
+            /* extent.depth          */ 1,
+            /* mipLevels             */ 1,
+            /* arrayLayers           */ 1,
+            /* samples               */ VK_SAMPLE_COUNT_1_BIT,
+            /* tiling                */ VK_IMAGE_TILING_OPTIMAL,
+            /* usage                 */ VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT,
+            /* sharingMode           */ VK_SHARING_MODE_EXCLUSIVE,
+            /* queueFamilyIndexCount */ 0,
+            /* pQueueFamilyIndices   */ nullptr,
+            /* initialLayout         */ VK_IMAGE_LAYOUT_UNDEFINED,
+        };
+
         /**
          * Configuration paramaters for Image construction.
          */

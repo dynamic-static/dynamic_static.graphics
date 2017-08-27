@@ -7,6 +7,9 @@
 ==========================================
 */
 
+// Renders a box and its reflection using an offscreen RenderTarget.
+// Based on https://github.com/SaschaWillems/Vulkan/tree/master/offscreen
+
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
 #include "Dynamic_Static/Graphics/Camera.hpp"
@@ -42,7 +45,7 @@ public:
     }
 };
 
-class RenderTarget final
+class RenderTarget_ex final
 {
 public:
     std::shared_ptr<Framebuffer> framebuffer;
@@ -52,7 +55,7 @@ public:
     std::shared_ptr<Memory> depthAttachmentMemory;
 
 public:
-    RenderTarget(RenderPass& renderPass, uint32_t width, uint32_t height, VkFormat format, VkFormat depthFormat)
+    RenderTarget_ex(RenderPass& renderPass, uint32_t width, uint32_t height, VkFormat format, VkFormat depthFormat)
     {
         auto& device = renderPass.device();
 
@@ -65,7 +68,8 @@ public:
         colorAttachment = device.create<Image>(imageInfo);
         auto memoryRequirements = colorAttachment->memory_requirements();
 
-        Memory::Info memoryInfo;
+        // Memory::Info memoryInfo;
+        auto memoryInfo = Memory::AllocateInfo;
         memoryInfo.allocationSize = memoryRequirements.size;
         memoryInfo.memoryTypeIndex = device.physical_device().find_memory_type_index(
             memoryRequirements.memoryTypeBits,
@@ -748,13 +752,13 @@ PipelinePair create_textured_pipeline(
                     }
                 }
 
-                reflection.a *= 0.25;
+                reflection.a *= 0.48;
                 reflection.rgb *= reflection.a;
                 reflection.rgb *= step(0.001, dot(fsTexCoord, vec2(0.5)));
 
                 fragColor.a = 1;
                 fragColor.rb = fsTexCoord * (1 - reflection.a);
-                fragColor.g = dot(fragColor.rb, vec2(0.5));
+                fragColor.g = dot(fragColor.rb, vec2(0.5)) * 0.5;
                 fragColor.rgb += reflection.rgb;
             }
 
@@ -1042,7 +1046,7 @@ int main()
         );
 
         auto offscreenRenderPass = create_offscreen_render_pass(*device, VK_FORMAT_R8G8B8A8_UNORM, depthFormat);
-        RenderTarget offscreenRenderTarget(*offscreenRenderPass, 1024, 1024, VK_FORMAT_R8G8B8A8_UNORM, depthFormat);
+        RenderTarget_ex offscreenRenderTarget(*offscreenRenderPass, 1024, 1024, VK_FORMAT_R8G8B8A8_UNORM, depthFormat);
         auto cubeRenderPass = create_non_reflective_render_pass(*device, swapchain->format(), depthFormat);
         auto floorRenderPass = create_reflective_render_pass(*device, swapchain->format(), depthFormat);
 
@@ -1099,7 +1103,8 @@ int main()
         imageInfo.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
         auto image = device->create<Image>(imageInfo);
 
-        Memory::Info imageMemoryInfo;
+        // Memory::Info imageMemoryInfo;
+        auto imageMemoryInfo = Memory::AllocateInfo;
         auto imageMemoryRequirements = image->memory_requirements();
         imageMemoryInfo.allocationSize = imageMemoryRequirements.size;
         imageMemoryInfo.memoryTypeIndex = physicalDevice.find_memory_type_index(
@@ -1264,13 +1269,13 @@ int main()
         FreeCameraController cameraController;
         cameraController.camera = &camera;
         camera.transform().translation = dst::Vector3(0, 0, 7);
-        window->cursor_mode(Window::CursorMode::Disabled);
 
         dst::Clock clock;
         clock.update();
         bool running = true;
         while (running) {
             Window::update();
+            window->cursor_mode(Window::CursorMode::Disabled);
             const auto& input = window->input();
             auto quitKey = dst::Keyboard::Key::Escape;
             if (input.keyboard().down(quitKey)) {
@@ -1325,7 +1330,8 @@ int main()
                     depthBufferInfo.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
                     depthBuffer = device->create<Image>(depthBufferInfo);
 
-                    Memory::Info depthBufferMemoryInfo;
+                    // Memory::Info depthBufferMemoryInfo;
+                    auto depthBufferMemoryInfo = Memory::AllocateInfo;
                     auto depthBufferMemoryRequirements = depthBuffer->memory_requirements();
                     depthBufferMemoryInfo.allocationSize = depthBufferMemoryRequirements.size;
                     depthBufferMemoryInfo.memoryTypeIndex = physicalDevice.find_memory_type_index(

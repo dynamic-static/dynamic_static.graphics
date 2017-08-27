@@ -29,6 +29,7 @@ set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/Vulkan/Pipeline.Layout.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Queue.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/RenderPass.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/RenderTarget.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Sampler.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Semaphore.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/ShaderModule.hpp
@@ -77,6 +78,7 @@ set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/Vulkan/Pipeline.Layout.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Queue.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/RenderPass.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/RenderTarget.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Sampler.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Semaphore.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/ShaderModule.cpp

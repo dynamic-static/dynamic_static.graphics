@@ -33,21 +33,13 @@ namespace Vulkan {
 
     public:
         /**
-         * Configuration paramaters for Memory allocation.
+         * Default configuration parameters for Memory allocation.
          */
-        struct Info final
-            : public VkMemoryAllocateInfo
-        {
-            /**
-             * Constructs an instance of Memory::Info with default paramaters.
-             */
-            Info()
-            {
-                sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-                pNext = nullptr;
-                allocationSize = 0;
-                memoryTypeIndex = 0;
-            }
+        static constexpr VkMemoryAllocateInfo AllocateInfo {
+            /* sType           */ VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO,
+            /* pNext           */ nullptr,
+            /* allocationSize  */ 0,
+            /* memoryTypeIndex */ 0,
         };
 
     private:
@@ -55,7 +47,7 @@ namespace Vulkan {
         void* mMappedPtr { nullptr };
 
     public:
-        Memory(const std::shared_ptr<Device>& device, const Info& info);
+        Memory(const std::shared_ptr<Device>& device, const VkMemoryAllocateInfo& info);
 
     public:
         /**

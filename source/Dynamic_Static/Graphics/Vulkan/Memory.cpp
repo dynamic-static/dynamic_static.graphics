@@ -14,7 +14,7 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    Memory::Memory(const std::shared_ptr<Device>& device, const Info& info)
+    Memory::Memory(const std::shared_ptr<Device>& device, const VkMemoryAllocateInfo& info)
         : DeviceChild(device)
         , mSize { info.allocationSize }
     {
@@ -27,6 +27,11 @@ namespace Vulkan {
         if (mHandle) {
             vkFreeMemory(device(), mHandle, nullptr);
         }
+    }
+
+    size_t Memory::size() const
+    {
+        return mSize;
     }
 
     void* Memory::mapped_ptr()

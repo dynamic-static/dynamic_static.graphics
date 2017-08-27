@@ -279,7 +279,8 @@ namespace ShapeBlaster {
             imageInfo.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
             mImage = device.create<Image>(imageInfo);
 
-            Memory::Info memoryInfo;
+            // Memory::Info memoryInfo;
+            auto memoryInfo = Memory::AllocateInfo;
             auto memoryRequirements = mImage->memory_requirements();
             memoryInfo.allocationSize = memoryRequirements.size;
             memoryInfo.memoryTypeIndex = device.physical_device().find_memory_type_index(
@@ -557,7 +558,8 @@ namespace ShapeBlaster {
             imageInfo.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
             auto image = device.create<Image>(imageInfo);
 
-            Memory::Info memoryInfo;
+            // Memory::Info memoryInfo;
+            auto memoryInfo = Memory::AllocateInfo;
             auto memoryRequirements = image->memory_requirements();
             memoryInfo.allocationSize = memoryRequirements.size;
             memoryInfo.memoryTypeIndex = device.physical_device().find_memory_type_index(
