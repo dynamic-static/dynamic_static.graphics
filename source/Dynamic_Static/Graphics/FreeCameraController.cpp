@@ -32,13 +32,13 @@ namespace Graphics {
             float moveSpeed = speed * (input.keyboard().down(speedModifyKey) ? speedModifier : 1);
             camera->transform().translation += moveDirection * moveSpeed * dt;
 
-            if (input.mouse().scroll()) {
-                int breaker = 0;
-            }
             float fov = camera->field_of_view();
-            fov += static_cast<float>(input.mouse().scroll()) * zoomSpeed * dt;
-            fov = dst::clamp(fov, 16.0f, 128.0f);
+            fov -= static_cast<float>(input.mouse().scroll()) * zoomSpeed * dt;
+            fov = dst::clamp(fov, minFieldOfView, maxFieldOfView);
             camera->field_of_view(fov);
+            if (input.mouse().pressed(Mouse::Button::Middle)) {
+                camera->field_of_view(Camera::DefaultFieldOfView);
+            }
 
             float lookMax = dst::to_radians(90.0f);
             auto mouseDelta = input.mouse().delta() * sensitivity;

@@ -21,13 +21,19 @@ namespace Graphics {
     class Camera
     {
     public:
+        static constexpr float DefaultAspecRatio { 16.0f / 9.0f };
+        static constexpr float DefaultFieldOfView { 60 };
+        static constexpr float DefaultNearPlane { 0.001f };
+        static constexpr float DefaultFarPlane { 100.0f };
+
+    public:
         class Controller;
 
     private:
-        float mAspectRatio { 16.0f / 9.0f };
-        float mFieldOfView { 60 };
-        float mNearPlane { 0.001f };
-        float mFarPlane { 100.0f };
+        float mAspectRatio { DefaultAspecRatio };
+        float mFieldOfView { DefaultFieldOfView };
+        float mNearPlane { DefaultNearPlane };
+        float mFarPlane { DefaultFarPlane };
         Transform mTransform;
 
     public:

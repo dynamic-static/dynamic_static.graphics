@@ -1297,7 +1297,7 @@ int main()
             float swapChainWidth = static_cast<float>(swapchain->extent().width);
             float swapChainHeight = static_cast<float>(swapchain->extent().height);
             camera.aspect_ratio(swapChainWidth / swapChainHeight);
-            camera.field_of_view(30.0f);
+            // camera.field_of_view(30.0f);
             ubo.projection = camera.projection();
             
             ubo.world = cubeToWorld;

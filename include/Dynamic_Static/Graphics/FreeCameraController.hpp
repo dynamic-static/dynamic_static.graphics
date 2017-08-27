@@ -27,8 +27,10 @@ namespace Graphics {
     {
     public:
         float speed { 4.2f };
-        float zoomSpeed { 4096 };
+        float zoomSpeed { 16384 };
         float speedModifier { 2 };
+        float minFieldOfView { 16 };
+        float maxFieldOfView { 90 };
         dst::Vector2 sensitivity { 0.001f, 0.001f };
         Keyboard::Key upKey { Keyboard::Key::E };
         Keyboard::Key downKey { Keyboard::Key::Q };
