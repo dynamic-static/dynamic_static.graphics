@@ -47,7 +47,7 @@ namespace Vulkan {
     }
 
     void Command::Buffer::begin_render_pass(
-        const RenderPass::BeginInfo& renderPassBeginInfo,
+        const VkRenderPassBeginInfo& renderPassBeginInfo,
         VkSubpassContents subpassContents
     )
     {

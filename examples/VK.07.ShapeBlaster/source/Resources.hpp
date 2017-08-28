@@ -752,7 +752,8 @@ namespace ShapeBlaster {
             subpass.pDepthStencilAttachment = &depthAttachmentReference;
 
             std::array<VkAttachmentDescription, 2> attachments { colorAttachment, depthAttachment };
-            RenderPass::Info renderPassInfo;
+            // RenderPass::Info renderPassInfo;
+            auto renderPassInfo = RenderPass::CreateInfo;
             renderPassInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
             renderPassInfo.pAttachments = attachments.data();
             renderPassInfo.subpassCount = 1;

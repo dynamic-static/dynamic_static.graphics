@@ -78,7 +78,7 @@ namespace Vulkan {
          * TODO : Documentation.
          */
         void begin_render_pass(
-            const RenderPass::BeginInfo& renderPassBeginInfo,
+            const VkRenderPassBeginInfo& renderPassBeginInfo,
             VkSubpassContents subpassContents = VK_SUBPASS_CONTENTS_INLINE
         );
 

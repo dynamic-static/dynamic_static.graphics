@@ -251,7 +251,8 @@ int main()
         subpass.pDepthStencilAttachment = &depthAttachmentReference;
 
         std::array<VkAttachmentDescription, 2> attachments { colorAttachment, depthAttachment };
-        RenderPass::Info renderPassInfo;
+        // RenderPass::Info renderPassInfo;
+        auto renderPassInfo = RenderPass::CreateInfo;
         renderPassInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
         renderPassInfo.pAttachments = attachments.data();
         renderPassInfo.subpassCount = 1;
@@ -846,7 +847,8 @@ int main()
                         std::array<VkClearValue, 2> clearValues;
                         clearValues[0].color = { 0.2f, 0.2f, 0.2f, 1 };
                         clearValues[1].depthStencil = { 1, 0 };
-                        RenderPass::BeginInfo renderPassBeginInfo;
+                        // RenderPass::BeginInfo renderPassBeginInfo;
+                        auto renderPassBeginInfo = RenderPass::BeginInfo;
                         renderPassBeginInfo.renderPass = *renderPass;
                         renderPassBeginInfo.framebuffer = *framebuffers[i];
                         renderPassBeginInfo.renderArea.extent = swapchain->extent();

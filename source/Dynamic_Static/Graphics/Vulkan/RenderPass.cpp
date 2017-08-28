@@ -14,7 +14,10 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    RenderPass::RenderPass(const std::shared_ptr<Device>& device, const Info& info)
+    RenderPass::RenderPass(
+        const std::shared_ptr<Device>& device,
+        const VkRenderPassCreateInfo& info
+    )
         : DeviceChild(device)
     {
         validate(vkCreateRenderPass(DeviceChild::device(), &info, nullptr, &mHandle));

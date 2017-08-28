@@ -30,51 +30,38 @@ namespace Vulkan {
 
     public:
         /**
-         * Configuration paramaters for RenderPass construction.
+         * Default RenderPass creation parameters.
          */
-        struct Info final
-            : public VkRenderPassCreateInfo
-        {
-            /**
-             * Constructs an instance of RenderPass with default paramaters.
-             */
-            Info()
-            {
-                sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
-                pNext = nullptr;
-                flags = 0;
-                attachmentCount = 0;
-                pAttachments = nullptr;
-                subpassCount = 0;
-                pSubpasses = nullptr;
-                dependencyCount = 0;
-                pDependencies = nullptr;
-            }
+        static constexpr VkRenderPassCreateInfo CreateInfo {
+            /* sType           */ VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO,
+            /* pNext           */ nullptr,
+            /* flags           */ 0,
+            /* attachmentCount */ 0,
+            /* pAttachments    */ nullptr,
+            /* subpassCount    */ 0,
+            /* pSubpasses      */ nullptr,
+            /* dependencyCount */ 0,
+            /* pDependencies   */ nullptr,
         };
 
         /**
-         * TODO : Documentation.
+         * Default RenderPass begin parameters.
          */
-        struct BeginInfo final
-            : public VkRenderPassBeginInfo
-        {
-            /**
-             * TODO : Documentation.
-             */
-            BeginInfo()
-            {
-                sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-                pNext = nullptr;
-                renderPass = VK_NULL_HANDLE;
-                framebuffer = VK_NULL_HANDLE;
-                renderArea = { };
-                clearValueCount = 0;
-                pClearValues = nullptr;
-            }
+        static constexpr VkRenderPassBeginInfo BeginInfo {
+            /* sType           */ VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
+            /* pNext           */ nullptr,
+            /* renderPass      */ VK_NULL_HANDLE,
+            /* framebuffer     */ VK_NULL_HANDLE,
+            /* renderArea      */ { },
+            /* clearValueCount */ 0,
+            /* pClearValues    */ nullptr,
         };
 
     private:
-        RenderPass(const std::shared_ptr<Device>& device, const Info& info);
+        RenderPass(
+            const std::shared_ptr<Device>& device,
+            const VkRenderPassCreateInfo& info
+        );
 
     public:
         /**

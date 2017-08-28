@@ -251,7 +251,8 @@ int main()
                             std::array<VkClearValue, 2> clearValues;
                             clearValues[0].color = { 0, 0, 0, 1 };
                             clearValues[1].depthStencil = { 1, 0 };
-                            RenderPass::BeginInfo renderPassBeginInfo;
+                            // RenderPass::BeginInfo renderPassBeginInfo;
+                            auto renderPassBeginInfo = RenderPass::BeginInfo;
                             renderPassBeginInfo.renderPass = *resources.mRenderPass;
                             renderPassBeginInfo.framebuffer = *framebuffers[i];
                             renderPassBeginInfo.renderArea.extent = swapchain->extent();

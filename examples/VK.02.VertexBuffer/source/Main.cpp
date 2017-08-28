@@ -152,7 +152,8 @@ int main()
         subpass.colorAttachmentCount = 1;
         subpass.pColorAttachments = &colorAttachmentReference;
 
-        RenderPass::Info renderPassInfo;
+        // RenderPass::Info renderPassInfo;
+        auto renderPassInfo = RenderPass::CreateInfo;
         renderPassInfo.attachmentCount = 1;
         renderPassInfo.pAttachments = &colorAttachment;
         renderPassInfo.subpassCount = 1;
@@ -451,7 +452,8 @@ int main()
                         commandBuffer->begin(beginInfo);
 
                         VkClearValue clearColor { 0.2f, 0.2f, 0.2f, 1 };
-                        RenderPass::BeginInfo renderPassBeginInfo;
+                        // RenderPass::BeginInfo renderPassBeginInfo;
+                        auto renderPassBeginInfo = RenderPass::BeginInfo;
                         renderPassBeginInfo.renderPass = *renderPass;
                         renderPassBeginInfo.framebuffer = *framebuffers[i];
                         renderPassBeginInfo.renderArea.extent = swapchain->extent();

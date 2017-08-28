@@ -406,7 +406,8 @@ std::shared_ptr<RenderPass> create_non_reflective_render_pass(Device& device, Vk
     subpass.pDepthStencilAttachment = &depthAttachmentReference;
 
     std::array<VkAttachmentDescription, 2> attachments { colorAttachment, depthAttachment };
-    RenderPass::Info renderPassInfo;
+    // RenderPass::Info renderPassInfo;
+    auto renderPassInfo = RenderPass::CreateInfo;
     renderPassInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
     renderPassInfo.pAttachments = attachments.data();
     renderPassInfo.subpassCount = 1;
@@ -476,7 +477,8 @@ std::shared_ptr<RenderPass> create_reflective_render_pass(Device& device, VkForm
     subpass.pDepthStencilAttachment = &depthAttachmentReference;
 
     std::array<VkAttachmentDescription, 2> attachments { colorAttachment, depthAttachment };
-    RenderPass::Info renderPassInfo;
+    // RenderPass::Info renderPassInfo;
+    auto renderPassInfo = RenderPass::CreateInfo;
     renderPassInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
     renderPassInfo.pAttachments = attachments.data();
     renderPassInfo.subpassCount = 1;
@@ -961,7 +963,8 @@ std::shared_ptr<RenderPass> create_offscreen_render_pass(Device& device, VkForma
     dependencies[1].dstAccessMask = VK_ACCESS_MEMORY_READ_BIT;
     dependencies[1].dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT;
 
-    RenderPass::Info renderPassInfo;
+    // RenderPass::Info renderPassInfo;
+    auto renderPassInfo = RenderPass::CreateInfo;
     renderPassInfo.attachmentCount = static_cast<uint32_t>(attachmentDescriptions.size());
     renderPassInfo.pAttachments = attachmentDescriptions.data();
     renderPassInfo.subpassCount = 1;
@@ -1390,7 +1393,8 @@ int main()
                         std::array<VkClearValue, 2> clearValues;
                         clearValues[0].color = { 0, 0, 0, 0 };
                         clearValues[1].depthStencil = { 1, 0 };
-                        RenderPass::BeginInfo renderPassBeginInfo;
+                        // RenderPass::BeginInfo renderPassBeginInfo;
+                        auto renderPassBeginInfo = RenderPass::BeginInfo;
                         renderPassBeginInfo.renderPass = *offscreenRenderPass;
                         renderPassBeginInfo.framebuffer = *offscreenRenderTarget.framebuffer;
                         VkExtent2D extent;
@@ -1435,7 +1439,8 @@ int main()
                             std::array<VkClearValue, 2> clearValues;
                             clearValues[0].color = { 0.2f, 0.2f, 0.2f, 1 };
                             clearValues[1].depthStencil = { 1, 0 };
-                            RenderPass::BeginInfo renderPassBeginInfo;
+                            // RenderPass::BeginInfo renderPassBeginInfo;
+                            auto renderPassBeginInfo = RenderPass::BeginInfo;
                             renderPassBeginInfo.renderPass = *cubeRenderPass;
                             renderPassBeginInfo.framebuffer = *framebuffers[i];
                             renderPassBeginInfo.renderArea.extent = swapchain->extent();
