@@ -77,13 +77,14 @@ namespace Vulkan {
 
         auto queueFamilyFlags = VK_QUEUE_GRAPHICS_BIT;
         auto queueFamilyIndices = mPhysicalDevice->find_queue_families(queueFamilyFlags);
-        Queue::Info queueInfo { };
+        // Queue::Info queueInfo { };
+        auto queueInfo = Queue::CreateInfo;
         std::array<float, 1> queuePriorities { };
         queueInfo.pQueuePriorities = queuePriorities.data();
         // NOTE : We're assuming that we got at least one Queue capabale of
         //        graphics, in anything but a toy we want to validate that.
         queueInfo.queueFamilyIndex = static_cast<uint32_t>(queueFamilyIndices[0]);
-        std::array<dst::vlkn::Queue::Info, 1> queueInfos { queueInfo };
+        std::array<VkDeviceQueueCreateInfo, 1> queueInfos { queueInfo };
         mDevice = mPhysicalDevice->create<dst::vlkn::Device>(deviceLayers, deviceExtensions, queueInfos);
         // NOTE : We're assuming that the Queue we're choosing for graphics
         //        is capable of presenting, this may not always be the case.

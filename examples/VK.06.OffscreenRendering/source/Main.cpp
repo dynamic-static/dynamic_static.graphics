@@ -190,7 +190,8 @@ void process_transient_command_buffer(Command::Pool& commandPool, Queue& queue, 
     commandBuffer->begin(beginInfo);
     f(*commandBuffer);
     commandBuffer->end();
-    Queue::SubmitInfo submitInfo;
+    // Queue::SubmitInfo submitInfo;
+    auto submitInfo = Queue::SubmitInfo;
     submitInfo.commandBufferCount = 1;
     submitInfo.pCommandBuffers = &commandBuffer->handle();
     queue.submit(submitInfo);
@@ -1023,13 +1024,14 @@ int main()
 
         auto queueFamilyFlags = VK_QUEUE_GRAPHICS_BIT;
         auto queueFamilyIndices = physicalDevice.find_queue_families(queueFamilyFlags);
-        Queue::Info queueInfo { };
+        // Queue::Info queueInfo { };
+        auto queueInfo = Queue::CreateInfo;
         std::array<float, 1> queuePriorities { };
         queueInfo.pQueuePriorities = queuePriorities.data();
         // NOTE : We're assuming that we got at least one Queue capabale of
         //        graphics, in anything but a toy we want to validate that.
         queueInfo.queueFamilyIndex = static_cast<uint32_t>(queueFamilyIndices[0]);
-        std::array<Queue::Info, 1> queueInfos { queueInfo };
+        std::array<VkDeviceQueueCreateInfo, 1> queueInfos { queueInfo };
         auto device = physicalDevice.create<Device>(deviceLayers, deviceExtensions, queueInfos);
         // NOTE : We're assuming that the Queue we're choosing for graphics
         //        is capable of presenting, this may not always be the case.
@@ -1467,7 +1469,8 @@ int main()
                 }
 
                 {
-                    Queue::SubmitInfo submitInfo;
+                    // Queue::SubmitInfo submitInfo;
+                    auto submitInfo = Queue::SubmitInfo;
                     VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT };
                     submitInfo.waitSemaphoreCount = 0;
                     submitInfo.pWaitSemaphores = nullptr;
@@ -1486,7 +1489,8 @@ int main()
                         *imageSemaphore,
                     };
 
-                    Queue::SubmitInfo submitInfo;
+                    // Queue::SubmitInfo submitInfo;
+                    auto submitInfo = Queue::SubmitInfo;
                     VkPipelineStageFlags waitStages[] {
                         VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
                         VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT
@@ -1503,7 +1507,8 @@ int main()
                     int breaker = 0;
                 }
 
-                Queue::PresentInfoKHR presentInfo;
+                // Queue::PresentInfoKHR presentInfo;
+                auto presentInfo = Queue::PresentInfoKHR;
                 presentInfo.waitSemaphoreCount = 1;
                 presentInfo.pWaitSemaphores = &renderSemaphore->handle();
                 presentInfo.swapchainCount = 1;

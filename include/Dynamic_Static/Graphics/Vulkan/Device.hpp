@@ -81,14 +81,14 @@ namespace Vulkan {
             PhysicalDevice& physicalDevice,
             const gsl::span<std::string>& layers,
             const gsl::span<std::string>& extensions,
-            const gsl::span<Queue::Info>& queueInfos
+            const gsl::span<VkDeviceQueueCreateInfo>& queueInfos
         );
 
         Device(
             PhysicalDevice& physicalDevice,
             const gsl::span<std::string>& layers,
             const gsl::span<std::string>& extensions,
-            const gsl::span<Queue::Info>& queueInfos,
+            const gsl::span<VkDeviceQueueCreateInfo>& queueInfos,
             const VkPhysicalDeviceFeatures& features
         );
 

@@ -28,68 +28,44 @@ namespace Vulkan {
 
     public:
         /**
-         * Configuration paramaters for Queue construction.
+         * Default Queue creation parameters.
          */
-        struct Info final
-            : public VkDeviceQueueCreateInfo
-        {
-            /**
-             * Constructs an instance of Queue::Info with default paramaters.
-             */
-            Info()
-            {
-                sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-                pNext = nullptr;
-                flags = 0;
-                queueFamilyIndex = 0;
-                queueCount = 1;
-                pQueuePriorities = nullptr;
-            }
+        static constexpr VkDeviceQueueCreateInfo CreateInfo {
+            /* sType            */ VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO,
+            /* pNext            */ nullptr,
+            /* flags            */ 0,
+            /* queueFamilyIndex */ 0,
+            /* queueCount       */ 1,
+            /* pQueuePriorities */ nullptr,
         };
 
         /**
-         * TODO : Documentation.
+         * Default Queue submit parameters.
          */
-        struct SubmitInfo final
-            : public VkSubmitInfo
-        {
-            /**
-             * TODO : Documentation.
-             */
-            SubmitInfo()
-            {
-                sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-                pNext = nullptr;
-                waitSemaphoreCount = 0;
-                pWaitSemaphores = nullptr;
-                pWaitDstStageMask = nullptr;
-                commandBufferCount = 0;
-                pCommandBuffers = nullptr;
-                signalSemaphoreCount = 0;
-                pSignalSemaphores = nullptr;
-            }
+        static constexpr VkSubmitInfo SubmitInfo {
+            /* sType                */ VK_STRUCTURE_TYPE_SUBMIT_INFO,
+            /* pNext                */ nullptr,
+            /* waitSemaphoreCount   */ 0,
+            /* pWaitSemaphores      */ nullptr,
+            /* pWaitDstStageMask    */ nullptr,
+            /* commandBufferCount   */ 0,
+            /* pCommandBuffers      */ nullptr,
+            /* signalSemaphoreCount */ 0,
+            /* pSignalSemaphores    */ nullptr,
         };
 
         /**
-         * TODO : Documentation.
+         * Default Queue present parameters.
          */
-        struct PresentInfoKHR final
-            : public VkPresentInfoKHR
-        {
-            /**
-             * TODO : Documentation.
-             */
-            PresentInfoKHR()
-            {
-                sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
-                pNext = nullptr;
-                waitSemaphoreCount = 0;
-                pWaitSemaphores = nullptr;
-                swapchainCount = 0;
-                pSwapchains = nullptr;
-                pImageIndices = nullptr;
-                pResults = nullptr;
-            }
+        static constexpr VkPresentInfoKHR PresentInfoKHR {
+            /* sType              */ VK_STRUCTURE_TYPE_PRESENT_INFO_KHR,
+            /* pNext              */ nullptr,
+            /* waitSemaphoreCount */ 0,
+            /* pWaitSemaphores    */ nullptr,
+            /* swapchainCount     */ 0,
+            /* pSwapchains        */ nullptr,
+            /* pImageIndices      */ nullptr,
+            /* pResults           */ nullptr,
         };
 
     private:
@@ -98,7 +74,7 @@ namespace Vulkan {
         Device* mDevice { nullptr };
 
     private:
-        Queue(Device& device, const Info& info, size_t familyIndex);
+        Queue(Device& device, const VkDeviceQueueCreateInfo& info, size_t familyIndex);
 
     public:
         /**
@@ -128,12 +104,12 @@ namespace Vulkan {
         /**
          * TODO : Documentation.
          */
-        void submit(const SubmitInfo& submitInfo);
+        void submit(const VkSubmitInfo& submitInfo);
 
         /**
          * TODO : Documentation.
          */
-        void present(const PresentInfoKHR& presentInfo);
+        void present(const VkPresentInfoKHR& presentInfo);
 
         /**
          * TODO : Documentation.

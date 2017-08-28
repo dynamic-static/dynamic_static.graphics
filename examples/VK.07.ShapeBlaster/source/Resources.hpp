@@ -65,7 +65,8 @@ namespace ShapeBlaster {
         commandBuffer->begin(beginInfo);
         f(*commandBuffer);
         commandBuffer->end();
-        Queue::SubmitInfo submitInfo;
+        // Queue::SubmitInfo submitInfo;
+        auto submitInfo = Queue::SubmitInfo;
         submitInfo.commandBufferCount = 1;
         submitInfo.pCommandBuffers = &commandBuffer->handle();
         queue.submit(submitInfo);

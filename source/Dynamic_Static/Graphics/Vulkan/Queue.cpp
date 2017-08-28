@@ -14,7 +14,7 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    Queue::Queue(Device& device, const Info& info, size_t index)
+    Queue::Queue(Device& device, const VkDeviceQueueCreateInfo& info, size_t index)
         : mDevice { &device }
         , mFamilyIndex { info.queueFamilyIndex }
         , mPriority { info.pQueuePriorities[index] }
@@ -45,12 +45,12 @@ namespace Vulkan {
         return mPriority;
     }
 
-    void Queue::submit(const SubmitInfo& submitInfo)
+    void Queue::submit(const VkSubmitInfo& submitInfo)
     {
         validate(vkQueueSubmit(mHandle, 1, &submitInfo, VK_NULL_HANDLE));
     }
 
-    void Queue::present(const PresentInfoKHR& presentInfo)
+    void Queue::present(const VkPresentInfoKHR& presentInfo)
     {
         validate(vkQueuePresentKHR(mHandle, &presentInfo));
     }
