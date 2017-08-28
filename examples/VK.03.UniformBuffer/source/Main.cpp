@@ -294,7 +294,8 @@ int main()
         colorBlendStateInfo.attachmentCount = 1;
         colorBlendStateInfo.pAttachments = &colorBlendAttacment;
 
-        Pipeline::Layout::Info pipelineLayoutInfo;
+        // Pipeline::Layout::Info pipelineLayoutInfo;
+        auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
         pipelineLayoutInfo.setLayoutCount = 1;
         pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout->handle();
         auto pipelineLayout = device->create<Pipeline::Layout>(pipelineLayoutInfo);

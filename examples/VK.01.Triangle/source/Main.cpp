@@ -233,7 +233,8 @@ int main()
         colorBlendStateInfo.attachmentCount = 1;
         colorBlendStateInfo.pAttachments = &colorBlendAttacment;
 
-        dst::vlkn::Pipeline::Layout::Info pipelineLayoutInfo;
+        // dst::vlkn::Pipeline::Layout::Info pipelineLayoutInfo;
+        auto pipelineLayoutInfo = dst::vlkn::Pipeline::Layout::CreateInfo;
         auto pipelineLayout = device->create<dst::vlkn::Pipeline::Layout>(pipelineLayoutInfo);
 
         std::array<VkDynamicState, 2> dynamicStates {

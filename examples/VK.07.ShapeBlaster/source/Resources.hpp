@@ -918,7 +918,8 @@ namespace ShapeBlaster {
             colorBlendStateInfo.attachmentCount = 1;
             colorBlendStateInfo.pAttachments = &colorBlendAttachment;
 
-            Pipeline::Layout::Info pipelineLayoutInfo;
+            // Pipeline::Layout::Info pipelineLayoutInfo;
+            auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
             pipelineLayoutInfo.setLayoutCount = 1;
             pipelineLayoutInfo.pSetLayouts = &mDescriptorSetLayout->handle();
             mPipelineLayout = device.create<Pipeline::Layout>(pipelineLayoutInfo);

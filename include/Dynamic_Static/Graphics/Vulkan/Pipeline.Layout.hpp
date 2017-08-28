@@ -31,28 +31,23 @@ namespace Vulkan {
 
     public:
         /**
-         * Configuration paramaters for Pipeline::Layout construction.
+         * Default Pipeline::Layout creation parameters.
          */
-        struct Info final
-            : public VkPipelineLayoutCreateInfo
-        {
-            /**
-             * Constructs an instance of Pipeline::Layout::Info with default paramaters.
-             */
-            Info()
-            {
-                sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-                pNext = nullptr;
-                flags = 0;
-                setLayoutCount = 0;
-                pSetLayouts = nullptr;
-                pushConstantRangeCount = 0;
-                pPushConstantRanges = nullptr;
-            }
+        static constexpr VkPipelineLayoutCreateInfo CreateInfo {
+            /* sType                  */ VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO,
+            /* pNext                  */ nullptr,
+            /* flags                  */ 0,
+            /* setLayoutCount         */ 0,
+            /* pSetLayouts            */ nullptr,
+            /* pushConstantRangeCount */ 0,
+            /* pPushConstantRanges    */ nullptr,
         };
 
     private:
-        Layout(const std::shared_ptr<Device>& device, const Info& info);
+        Layout(
+            const std::shared_ptr<Device>& device,
+            const VkPipelineLayoutCreateInfo& info
+        );
 
     public:
         /**

@@ -14,7 +14,10 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    Pipeline::Layout::Layout(const std::shared_ptr<Device>& device, const Info& info)
+    Pipeline::Layout::Layout(
+        const std::shared_ptr<Device>& device,
+        const VkPipelineLayoutCreateInfo& info
+    )
         : DeviceChild(device)
     {
         validate(vkCreatePipelineLayout(DeviceChild::device(), &info, nullptr, &mHandle));
