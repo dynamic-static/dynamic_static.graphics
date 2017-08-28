@@ -14,7 +14,7 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    Command::Pool::Pool(const std::shared_ptr<Device>& device, const Info& info)
+    Command::Pool::Pool(const std::shared_ptr<Device>& device, const VkCommandPoolCreateInfo& info)
         : DeviceChild { device }
     {
         validate(vkCreateCommandPool(DeviceChild::device(), &info, nullptr, &mHandle));

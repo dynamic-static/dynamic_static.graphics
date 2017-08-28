@@ -34,28 +34,20 @@ namespace Vulkan {
 
     public:
         /**
-         * Configuration paramaters for Command::Pool construction.
+         * Default Command::Pool creation parameters.
          */
-        struct Info final
-            : public VkCommandPoolCreateInfo
-        {
-            /**
-             * Constructs an instance of Command::Pool::Info with default paramaters.
-             */
-            Info()
-            {
-                sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-                pNext = nullptr;
-                flags = 0;
-                queueFamilyIndex = 0;
-            }
+        static constexpr VkCommandPoolCreateInfo CreateInfo {
+            /* sType            */ VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
+            /* pNext            */ nullptr,
+            /* flags            */ 0,
+            /* queueFamilyIndex */ 0,
         };
 
     private:
         std::vector<std::unique_ptr<Command::Buffer>> mBuffers;
 
     private:
-        Pool(const std::shared_ptr<Device>& device, const Info& info);
+        Pool(const std::shared_ptr<Device>& device, const VkCommandPoolCreateInfo& info);
 
     public:
         /**

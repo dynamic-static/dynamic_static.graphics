@@ -263,7 +263,7 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Pool
-        dst::vlkn::Command::Pool::Info commandPoolInfo;
+        auto commandPoolInfo = dst::vlkn::Command::Pool::CreateInfo;
         commandPoolInfo.queueFamilyIndex = static_cast<uint32_t>(graphicsQueue.family_index());
         auto commandPool = device->create<dst::vlkn::Command::Pool>(commandPoolInfo);
 

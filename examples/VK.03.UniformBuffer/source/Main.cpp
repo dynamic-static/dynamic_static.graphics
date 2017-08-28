@@ -328,7 +328,8 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Command::Pool
-        Command::Pool::Info commandPoolInfo;
+        // Command::Pool::Info commandPoolInfo;
+        auto commandPoolInfo = Command::Pool::CreateInfo;
         commandPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
         commandPoolInfo.queueFamilyIndex = static_cast<uint32_t>(graphicsQueue.family_index());
         auto commandPool = device->create<Command::Pool>(commandPoolInfo);
