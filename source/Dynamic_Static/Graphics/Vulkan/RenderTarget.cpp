@@ -46,7 +46,8 @@ namespace Vulkan {
 
     const VkExtent3D& RenderTarget::extent() const
     {
-        return colorAttachment ? colorAttachment->extent() : VkExtent3D { };
+        static const VkExtent3D extent { };
+        return colorAttachment ? colorAttachment->extent() : extent;
     }
 
 } // namespace Vulkan

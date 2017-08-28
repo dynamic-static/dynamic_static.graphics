@@ -656,7 +656,8 @@ int main()
         descriptorPoolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
         descriptorPoolSizes[1].descriptorCount = 1;
 
-        Descriptor::Pool::Info descriptorPoolInfo;
+        // Descriptor::Pool::Info descriptorPoolInfo;
+        auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
         descriptorPoolInfo.poolSizeCount = static_cast<uint32_t>(descriptorPoolSizes.size());
         descriptorPoolInfo.pPoolSizes = descriptorPoolSizes.data();
         descriptorPoolInfo.maxSets = 1;

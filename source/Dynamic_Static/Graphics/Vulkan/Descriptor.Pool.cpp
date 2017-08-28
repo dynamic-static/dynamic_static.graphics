@@ -14,7 +14,7 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    Descriptor::Pool::Pool(const std::shared_ptr<Device>& device, const Info& info)
+    Descriptor::Pool::Pool(const std::shared_ptr<Device>& device, const VkDescriptorPoolCreateInfo& info)
         : DeviceChild(device)
     {
         validate(vkCreateDescriptorPool(DeviceChild::device(), &info, nullptr, &mHandle));

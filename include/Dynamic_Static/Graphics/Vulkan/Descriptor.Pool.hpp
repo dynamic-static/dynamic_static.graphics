@@ -32,30 +32,22 @@ namespace Vulkan {
 
     public:
         /**
-         * Configuration paramaters for Descriptor::Pool construction.
+         * Default Descriptor::Pool creation parameters.
          */
-        struct Info final
-            : public VkDescriptorPoolCreateInfo
-        {
-            /**
-             * Constructs an instance of Descriptor::Pool::Info with default paramaters.
-             */
-            Info()
-            {
-                sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-                pNext = nullptr;
-                flags = 0;
-                maxSets = 0;
-                poolSizeCount = 0;
-                pPoolSizes = nullptr;
-            }
+        static constexpr VkDescriptorPoolCreateInfo CreateInfo {
+            /* sType         */ VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO,
+            /* pNext         */ nullptr,
+            /* flags         */ 0,
+            /* maxSets       */ 0,
+            /* poolSizeCount */ 0,
+            /* pPoolSizes    */ nullptr,
         };
 
     private:
         std::vector<std::unique_ptr<Descriptor::Set>> mSets;
 
     private:
-        Pool(const std::shared_ptr<Device>& device, const Info& info);
+        Pool(const std::shared_ptr<Device>& device, const VkDescriptorPoolCreateInfo& info);
 
     public:
         /**

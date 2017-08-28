@@ -426,7 +426,8 @@ int main()
         VkDescriptorPoolSize descriptorPoolSize { };
         descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
         descriptorPoolSize.descriptorCount = 1;
-        Descriptor::Pool::Info descriptorPoolInfo;
+        // Descriptor::Pool::Info descriptorPoolInfo;
+        auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
         descriptorPoolInfo.poolSizeCount = 1;
         descriptorPoolInfo.pPoolSizes = &descriptorPoolSize;
         descriptorPoolInfo.maxSets = 1;
