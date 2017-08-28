@@ -430,7 +430,8 @@ std::shared_ptr<Descriptor::Set::Layout> create_non_reflective_descriptor_set_la
         samplerLayoutBinding
     };
 
-    Descriptor::Set::Layout::Info descriptorSetLayoutInfo;
+    // Descriptor::Set::Layout::Info descriptorSetLayoutInfo;
+    auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
     descriptorSetLayoutInfo.bindingCount = static_cast<uint32_t>(descriptorSetLayoutBinding.size());
     descriptorSetLayoutInfo.pBindings = descriptorSetLayoutBinding.data();
     return device.create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
@@ -499,7 +500,8 @@ std::shared_ptr<Descriptor::Set::Layout> create_reflective_descriptor_set_layout
         samplerLayoutBinding
     };
 
-    Descriptor::Set::Layout::Info descriptorSetLayoutInfo;
+    // Descriptor::Set::Layout::Info descriptorSetLayoutInfo;
+    auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
     descriptorSetLayoutInfo.bindingCount = static_cast<uint32_t>(descriptorSetLayoutBinding.size());
     descriptorSetLayoutInfo.pBindings = descriptorSetLayoutBinding.data();
     return device.create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);

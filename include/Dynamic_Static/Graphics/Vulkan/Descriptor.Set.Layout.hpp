@@ -29,26 +29,21 @@ namespace Vulkan {
 
     public:
         /**
-         * Configuration paramaters for Descriptor::Set::Layout construction.
+         * Default Descriptor::Set::Layout creation parameters.
          */
-        struct Info final
-            : public VkDescriptorSetLayoutCreateInfo
-        {
-            /**
-             * Constructs an instance of Descriptor::Set::Layout::Info with default paramaters.
-             */
-            Info()
-            {
-                sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-                pNext = nullptr;
-                flags = 0;
-                bindingCount = 0;
-                pBindings = nullptr;
-            }
+        static constexpr VkDescriptorSetLayoutCreateInfo CreateInfo {
+            /* sType        */ VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
+            /* pNext        */ nullptr,
+            /* flags        */ 0,
+            /* bindingCount */ 0,
+            /* pBindings    */ nullptr,
         };
 
     private:
-        Layout(const std::shared_ptr<Device>& device, const Info& info);
+        Layout(
+            const std::shared_ptr<Device>& device,
+            const VkDescriptorSetLayoutCreateInfo& info
+        );
 
     public:
         /**

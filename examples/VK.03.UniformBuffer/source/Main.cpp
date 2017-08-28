@@ -173,7 +173,8 @@ int main()
         uniformBufferLayoutBinding.descriptorCount = 1;
         uniformBufferLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
         uniformBufferLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-        Descriptor::Set::Layout::Info descriptorSetLayoutInfo;
+        // Descriptor::Set::Layout::Info descriptorSetLayoutInfo;
+        auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
         descriptorSetLayoutInfo.bindingCount = 1;
         descriptorSetLayoutInfo.pBindings = &uniformBufferLayoutBinding;
         auto descriptorSetLayout = device->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);

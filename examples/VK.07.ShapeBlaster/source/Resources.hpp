@@ -773,7 +773,8 @@ namespace ShapeBlaster {
             samplerLayoutBinding.pImmutableSamplers = nullptr;
             samplerLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
 
-            Descriptor::Set::Layout::Info descriptorSetLayoutInfo;
+            // Descriptor::Set::Layout::Info descriptorSetLayoutInfo;
+            auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
             std::array<VkDescriptorSetLayoutBinding, 2> descriptorSetLayoutBindings {
                 uniformBufferLayoutBinding,
                 samplerLayoutBinding,

@@ -14,7 +14,10 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    Descriptor::Set::Layout::Layout(const std::shared_ptr<Device>& device, const Info& info)
+    Descriptor::Set::Layout::Layout(
+        const std::shared_ptr<Device>& device,
+        const VkDescriptorSetLayoutCreateInfo& info
+    )
         : DeviceChild(device)
     {
         validate(vkCreateDescriptorSetLayout(DeviceChild::device(), &info, nullptr, &mHandle));
