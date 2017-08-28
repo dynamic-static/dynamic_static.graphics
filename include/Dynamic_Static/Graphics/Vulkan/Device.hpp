@@ -53,27 +53,19 @@ namespace Vulkan {
 
     public:
         /**
-         * Configuration paramaters for Device construction.
+         * Default Device creation parameters.
          */
-        struct Info final
-            : public VkDeviceCreateInfo
-        {
-            /**
-             * Constructs an instnace of Device::Info with default paramaters.
-             */
-            Info()
-            {
-                sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-                pNext = nullptr;
-                flags = 0;
-                queueCreateInfoCount = 0;
-                pQueueCreateInfos = nullptr;
-                enabledLayerCount = 0;
-                ppEnabledLayerNames = nullptr;
-                enabledExtensionCount = 0;
-                ppEnabledExtensionNames = nullptr;
-                pEnabledFeatures = nullptr;
-            }
+        static constexpr VkDeviceCreateInfo CreateInfo {
+            /* sType                   */ VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO,
+            /* pNext                   */ nullptr,
+            /* flags                   */ 0,
+            /* queueCreateInfoCount    */ 0,
+            /* pQueueCreateInfos       */ nullptr,
+            /* enabledLayerCount       */ 0,
+            /* ppEnabledLayerNames     */ nullptr,
+            /* enabledExtensionCount   */ 0,
+            /* ppEnabledExtensionNames */ nullptr,
+            /* pEnabledFeatures        */ nullptr,
         };
 
     private:

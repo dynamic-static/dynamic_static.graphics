@@ -58,7 +58,7 @@ namespace Vulkan {
         auto requestedLayers = validate_requests(mLayers);
         auto requestedExtensions = validate_requests(mExtensions);
 
-        Info info { };
+        auto info = CreateInfo;
         info.queueCreateInfoCount = static_cast<uint32_t>(queueInfos.size());
         info.pQueueCreateInfos = queueInfos.data();
         info.enabledLayerCount = static_cast<uint32_t>(requestedLayers.size());
