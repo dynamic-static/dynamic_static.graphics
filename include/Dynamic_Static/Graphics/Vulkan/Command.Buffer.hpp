@@ -32,8 +32,7 @@ namespace Vulkan {
         /**
          * Default Command::Buffer allocation parameters.
          */
-        static constexpr VkCommandBufferAllocateInfo AllocateInfo
-        {
+        static constexpr VkCommandBufferAllocateInfo AllocateInfo {
             /* sType              */ VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
             /* pNext              */ nullptr,
             /* commandPool        */ VK_NULL_HANDLE,
@@ -44,8 +43,7 @@ namespace Vulkan {
         /**
          * Default Command::Buffer begin parameters.
          */
-        static constexpr VkCommandBufferBeginInfo BeginInfo
-        {
+        static constexpr VkCommandBufferBeginInfo BeginInfo {
             /* sType            */ VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
             /* pNext            */ nullptr,
             /* flags            */ 0,

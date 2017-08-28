@@ -34,8 +34,7 @@ namespace Vulkan {
         /**
          * Default Buffer creation parameters.
          */
-        static constexpr VkBufferCreateInfo CreateInfo
-        {
+        static constexpr VkBufferCreateInfo CreateInfo {
             /* sType                 */ VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,
             /* pNext                 */ nullptr,
             /* flags                 */ 0,
