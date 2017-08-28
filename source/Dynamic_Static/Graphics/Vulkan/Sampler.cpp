@@ -14,7 +14,10 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    Sampler::Sampler(const std::shared_ptr<Device>& device, const Info& info)
+    Sampler::Sampler(
+        const std::shared_ptr<Device>& device,
+        const VkSamplerCreateInfo& info
+    )
         : DeviceChild(device)
     {
         validate(vkCreateSampler(DeviceChild::device(), &info, nullptr, &mHandle));

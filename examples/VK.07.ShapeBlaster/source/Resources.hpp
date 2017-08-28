@@ -472,7 +472,8 @@ namespace ShapeBlaster {
         )
         {
             using namespace dst::vlkn;
-            Sampler::Info samplerInfo;
+            // Sampler::Info samplerInfo;
+            auto samplerInfo = Sampler::CreateInfo;
             samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER;
             samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER;
             samplerInfo.magFilter = VK_FILTER_LINEAR;
