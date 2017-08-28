@@ -351,7 +351,8 @@ int main()
         dynamicStateInfo.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
         dynamicStateInfo.pDynamicStates = dynamicStates.data();
 
-        Pipeline::GraphicsInfo pipelineInfo;
+        // Pipeline::GraphicsInfo pipelineInfo;
+        auto pipelineInfo = Pipeline::GraphicsCreateInfo;
         pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
         pipelineInfo.pStages = shaderStages.data();
         pipelineInfo.pVertexInputState = &vertexInputInfo;

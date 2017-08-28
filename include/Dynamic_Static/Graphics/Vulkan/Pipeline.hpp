@@ -32,61 +32,48 @@ namespace Vulkan {
         class Layout;
 
         /**
-         * Configuration paramaters for Graphics Pipeline construction.
+         * Default graphics Pipeline creation parameters.
          */
-        struct GraphicsInfo final
-            : public VkGraphicsPipelineCreateInfo
-        {
-            /**
-             * Constructs an instance of Pipeline::GraphicsInfo with default paramaters.
-             */
-            GraphicsInfo()
-            {
-                sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-                pNext = nullptr;
-                flags = 0;
-                stageCount = 0;
-                pStages = nullptr;
-                pVertexInputState = nullptr;
-                pInputAssemblyState = nullptr;
-                pTessellationState = nullptr;
-                pViewportState = nullptr;
-                pRasterizationState = nullptr;
-                pMultisampleState = nullptr;
-                pDepthStencilState = nullptr;
-                pColorBlendState = nullptr;
-                pDynamicState = nullptr;
-                layout = VK_NULL_HANDLE;
-                renderPass = VK_NULL_HANDLE;
-                subpass = 0;
-                basePipelineHandle = VK_NULL_HANDLE;
-                basePipelineIndex = 0;
-            }
+        static constexpr VkGraphicsPipelineCreateInfo GraphicsCreateInfo {
+            /* sType               */ VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO,
+            /* pNext               */ nullptr,
+            /* flags               */ 0,
+            /* stageCount          */ 0,
+            /* pStages             */ nullptr,
+            /* pVertexInputState   */ nullptr,
+            /* pInputAssemblyState */ nullptr,
+            /* pTessellationState  */ nullptr,
+            /* pViewportState      */ nullptr,
+            /* pRasterizationState */ nullptr,
+            /* pMultisampleState   */ nullptr,
+            /* pDepthStencilState  */ nullptr,
+            /* pColorBlendState    */ nullptr,
+            /* pDynamicState       */ nullptr,
+            /* layout              */ VK_NULL_HANDLE,
+            /* renderPass          */ VK_NULL_HANDLE,
+            /* subpass             */ 0,
+            /* basePipelineHandle  */ VK_NULL_HANDLE,
+            /* basePipelineIndex   */ 0,
         };
 
         /**
-         * Configuration paramaters for Compute Pipeline construction.
+         * Default compute Pipeline creation parameters.
          */
-        struct ComputeInfo final
-            : public VkComputePipelineCreateInfo
-        {
-            /**
-             * Constructs an instance of Pipeline::ComputeInfo with default paramaters.
-             */
-            ComputeInfo()
-            {
-                sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
-                pNext = nullptr;
-                flags = 0;
-                stage = { };
-                layout = VK_NULL_HANDLE;
-                basePipelineHandle = VK_NULL_HANDLE;
-                basePipelineIndex = 0;
-            }
+        static constexpr VkComputePipelineCreateInfo ComputeCreateInfo {
+            /* sType              */ VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO,
+            /* pNext              */ nullptr,
+            /* flags              */ 0,
+            /* stage              */ { },
+            /* layout             */ VK_NULL_HANDLE,
+            /* basePipelineHandle */ VK_NULL_HANDLE,
+            /* basePipelineIndex  */ 0,
         };
 
     private:
-        Pipeline(const std::shared_ptr<Device>& device, const GraphicsInfo& info);
+        Pipeline(
+            const std::shared_ptr<Device>& device,
+            const VkGraphicsPipelineCreateInfo& info
+        );
 
     public:
         /**

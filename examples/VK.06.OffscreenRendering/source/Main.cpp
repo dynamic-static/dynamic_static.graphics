@@ -603,7 +603,8 @@ PipelinePair create_pipeline(
     auto pipelineLayout = device.create<Pipeline::Layout>(pipelineLayoutInfo);
 
     auto vertexInputInfo = Vertex::pipeline_input_state();
-    Pipeline::GraphicsInfo pipelineInfo;
+    // Pipeline::GraphicsInfo pipelineInfo;
+    auto pipelineInfo = Pipeline::GraphicsCreateInfo;
     pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
     pipelineInfo.pStages = shaderStages.data();
     pipelineInfo.pVertexInputState = &vertexInputInfo;
