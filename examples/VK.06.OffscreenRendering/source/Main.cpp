@@ -785,7 +785,8 @@ std::shared_ptr<Descriptor::Pool> create_non_reflective_descriptor_pool(Device& 
     descriptorPoolInfo.maxSets = 1;
     auto descriptorPool = device.create<Descriptor::Pool>(descriptorPoolInfo);
 
-    Descriptor::Set::Info descriptorSetInfo;
+    // Descriptor::Set::Info descriptorSetInfo;
+    auto descriptorSetInfo = Descriptor::Set::AllocateInfo;
     descriptorSetInfo.descriptorPool = *descriptorPool;
     descriptorSetInfo.descriptorSetCount = 1;
     descriptorSetInfo.pSetLayouts = &descriptorSetLayout.handle();
@@ -851,7 +852,8 @@ std::shared_ptr<Descriptor::Pool> create_reflective_descriptor_pool(Device& devi
     descriptorPoolInfo.maxSets = 1;
     auto descriptorPool = device.create<Descriptor::Pool>(descriptorPoolInfo);
 
-    Descriptor::Set::Info descriptorSetInfo;
+    // Descriptor::Set::Info descriptorSetInfo;
+    auto descriptorSetInfo = Descriptor::Set::AllocateInfo;
     descriptorSetInfo.descriptorPool = *descriptorPool;
     descriptorSetInfo.descriptorSetCount = 1;
     descriptorSetInfo.pSetLayouts = &descriptorSetLayout.handle();

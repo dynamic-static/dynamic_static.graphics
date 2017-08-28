@@ -15,7 +15,7 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    Descriptor::Set::Set(Descriptor::Pool& pool, const Info& info)
+    Descriptor::Set::Set(Descriptor::Pool& pool, const VkDescriptorSetAllocateInfo& info)
         : mPool { &pool }
     {
         validate(vkAllocateDescriptorSets(pool.device(), &info, &mHandle));

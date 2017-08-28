@@ -663,7 +663,8 @@ int main()
         descriptorPoolInfo.maxSets = 1;
         auto desciptorPool = device->create<Descriptor::Pool>(descriptorPoolInfo);
 
-        Descriptor::Set::Info descriptorSetInfo;
+        // Descriptor::Set::Info descriptorSetInfo;
+        auto descriptorSetInfo = Descriptor::Set::AllocateInfo;
         descriptorSetInfo.descriptorPool = *desciptorPool;
         descriptorSetInfo.descriptorSetCount = 1;
         descriptorSetInfo.pSetLayouts = &descriptorSetLayout->handle();

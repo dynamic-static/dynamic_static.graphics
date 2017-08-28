@@ -387,7 +387,8 @@ namespace ShapeBlaster {
         )
         {
             using namespace dst::vlkn;
-            Descriptor::Set::Info descriptorSetInfo;
+            // Descriptor::Set::Info descriptorSetInfo;
+            auto descriptorSetInfo = Descriptor::Set::AllocateInfo;
             descriptorSetInfo.descriptorPool = descriptorPool;
             descriptorSetInfo.descriptorSetCount = 1;
             descriptorSetInfo.pSetLayouts = &descriptorSetLayout.handle();
@@ -971,7 +972,8 @@ namespace ShapeBlaster {
         )
         {
             using namespace dst::vlkn;
-            Descriptor::Set::Info descriptorSetInfo;
+            // Descriptor::Set::Info descriptorSetInfo;
+            auto descriptorSetInfo = Descriptor::Set::AllocateInfo;
             descriptorSetInfo.descriptorPool = *mDescriptorPool;
             descriptorSetInfo.descriptorSetCount = 1;
             descriptorSetInfo.pSetLayouts = &mDescriptorSetLayout->handle();

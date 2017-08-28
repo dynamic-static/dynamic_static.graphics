@@ -31,29 +31,21 @@ namespace Vulkan {
         class Layout;
 
         /**
-         * Configuration paramaters for Descriptor::Set construction.
+         * Default Descriptor::Set allocation parameters.
          */
-        struct Info final
-            : public VkDescriptorSetAllocateInfo
-        {
-            /**
-             * Constructs an instance of Descriptor::Set::Info with default paramaters.
-             */
-            Info()
-            {
-                sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-                pNext = nullptr;
-                descriptorPool = VK_NULL_HANDLE;
-                descriptorSetCount = 0;
-                pSetLayouts = nullptr;
-            }
+        static constexpr VkDescriptorSetAllocateInfo AllocateInfo {
+            /* sType              */ VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO,
+            /* pNext              */ nullptr,
+            /* descriptorPool     */ VK_NULL_HANDLE,
+            /* descriptorSetCount */ 0,
+            /* pSetLayouts        */ nullptr,
         };
 
     private:
         Descriptor::Pool* mPool { nullptr };
 
     private:
-        Set(Descriptor::Pool& pool, const Info& info);
+        Set(Descriptor::Pool& pool, const VkDescriptorSetAllocateInfo& info);
 
     public:
         /**
