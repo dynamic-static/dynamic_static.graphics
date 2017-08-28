@@ -224,7 +224,8 @@ int main()
                             *depthBuffer->views()[0]
                         };
 
-                        Framebuffer::Info framebufferInfo;
+                        // Framebuffer::Info framebufferInfo;
+                        auto framebufferInfo = Framebuffer::CreateInfo;
                         framebufferInfo.renderPass = *resources.mRenderPass;
                         framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
                         framebufferInfo.pAttachments = attachments.data();

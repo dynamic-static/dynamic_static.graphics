@@ -312,7 +312,8 @@ int main()
                     framebuffers.clear();
                     framebuffers.reserve(swapchain->images().size());
                     for (const auto& image : swapchain->images()) {
-                        dst::vlkn::Framebuffer::Info framebufferInfo;
+                        // dst::vlkn::Framebuffer::Info framebufferInfo;
+                        auto framebufferInfo = dst::vlkn::Framebuffer::CreateInfo;
                         framebufferInfo.renderPass = *renderPass;
                         framebufferInfo.attachmentCount = 1;
                         framebufferInfo.pAttachments = &image->views()[0]->handle();

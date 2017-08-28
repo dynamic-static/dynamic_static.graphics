@@ -31,30 +31,25 @@ namespace Vulkan {
 
     public:
         /**
-         * Configuration paramaters for Framebuffer construction.
+         * Default Framebuffer creation parameters.
          */
-        struct Info final
-            : public VkFramebufferCreateInfo
-        {
-            /**
-             * Constructs an instance of Framebuffer::Info with default paramaters.
-             */
-            Info()
-            {
-                sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-                pNext = nullptr;
-                flags = 0;
-                renderPass = VK_NULL_HANDLE;
-                attachmentCount = 0;
-                pAttachments = nullptr;
-                width = 1;
-                height = 1;
-                layers = 1;
-            }
+        static constexpr VkFramebufferCreateInfo CreateInfo {
+            /* sType           */ VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO,
+            /* pNext           */ nullptr,
+            /* flags           */ 0,
+            /* renderPass      */ VK_NULL_HANDLE,
+            /* attachmentCount */ 0,
+            /* pAttachments    */ nullptr,
+            /* width           */ 1,
+            /* height          */ 1,
+            /* layers          */ 1,
         };
 
     private:
-        Framebuffer(const std::shared_ptr<Device>& device, const Info& info);
+        Framebuffer(
+            const std::shared_ptr<Device>& device,
+            const VkFramebufferCreateInfo& info
+        );
 
     public:
         /**

@@ -529,7 +529,8 @@ int main()
                     framebuffers.clear();
                     framebuffers.reserve(swapchain->images().size());
                     for (const auto& image : swapchain->images()) {
-                        Framebuffer::Info framebufferInfo;
+                        // Framebuffer::Info framebufferInfo;
+                        auto framebufferInfo = Framebuffer::CreateInfo;
                         framebufferInfo.renderPass = *renderPass;
                         framebufferInfo.attachmentCount = 1;
                         framebufferInfo.pAttachments = &image->views()[0]->handle();

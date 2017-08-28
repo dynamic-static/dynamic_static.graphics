@@ -99,7 +99,8 @@ public:
         attachments[0] = *colorAttachment->view();
         attachments[1] = *depthAttachment->view();
 
-        Framebuffer::Info framebufferInfo;
+        // Framebuffer::Info framebufferInfo;
+        auto framebufferInfo = Framebuffer::CreateInfo;
         framebufferInfo.renderPass = renderPass;
         framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
         framebufferInfo.pAttachments = attachments.data();
@@ -1364,7 +1365,8 @@ int main()
                             *depthBuffer->view()
                         };
 
-                        Framebuffer::Info framebufferInfo;
+                        // Framebuffer::Info framebufferInfo;
+                        auto framebufferInfo = Framebuffer::CreateInfo;
                         framebufferInfo.renderPass = *cubeRenderPass;
                         framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
                         framebufferInfo.pAttachments = attachments.data();
