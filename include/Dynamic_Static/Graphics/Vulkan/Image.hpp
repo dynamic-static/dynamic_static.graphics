@@ -42,32 +42,24 @@ namespace Vulkan {
 
         public:
             /**
-             * Configuration paramaters for Image::View construction.
+             * Default Image::View creation parameters.
              */
-            struct Info final
-                : public VkImageViewCreateInfo
-            {
-                /**
-                 * Constructs an instance of Image::View::Info with default paramaters.
-                 */
-                Info()
-                {
-                    sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-                    pNext = nullptr;
-                    flags = 0;
-                    image = VK_NULL_HANDLE;
-                    viewType = VK_IMAGE_VIEW_TYPE_1D;
-                    format = VK_FORMAT_UNDEFINED;
-                    components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
-                    components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
-                    components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
-                    components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
-                    subresourceRange.aspectMask = 0;
-                    subresourceRange.baseMipLevel = 0;
-                    subresourceRange.levelCount = 1;
-                    subresourceRange.baseArrayLayer = 0;
-                    subresourceRange.layerCount = 1;
-                }
+            static constexpr VkImageViewCreateInfo CreateInfo {
+                /* sType                           */ VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
+                /* pNext                           */ nullptr,
+                /* flags                           */ 0,
+                /* image                           */ VK_NULL_HANDLE,
+                /* viewType                        */ VK_IMAGE_VIEW_TYPE_1D,
+                /* format                          */ VK_FORMAT_UNDEFINED,
+                /* components.r                    */ VK_COMPONENT_SWIZZLE_IDENTITY,
+                /* components.g                    */ VK_COMPONENT_SWIZZLE_IDENTITY,
+                /* components.b                    */ VK_COMPONENT_SWIZZLE_IDENTITY,
+                /* components.a                    */ VK_COMPONENT_SWIZZLE_IDENTITY,
+                /* subresourceRange.aspectMask     */ VK_IMAGE_ASPECT_COLOR_BIT,
+                /* subresourceRange.baseMipLevel   */ 0,
+                /* subresourceRange.levelCount     */ 1,
+                /* subresourceRange.baseArrayLayer */ 0,
+                /* subresourceRange.layerCount     */ 1,
             };
 
         private:
@@ -97,8 +89,10 @@ namespace Vulkan {
         };
 
     public:
-        static constexpr VkImageCreateInfo CreateInfo
-        {
+        /**
+         * Default Image creation parameters.
+         */
+        static constexpr VkImageCreateInfo CreateInfo {
             /* sType                 */ VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO,
             /* pNext                 */ nullptr,
             /* flags                 */ 0,
@@ -118,37 +112,6 @@ namespace Vulkan {
             /* initialLayout         */ VK_IMAGE_LAYOUT_UNDEFINED,
         };
 
-        /**
-         * Configuration paramaters for Image construction.
-         */
-        struct Info final
-            : public VkImageCreateInfo
-        {
-            /**
-             * Constructs an instance of Image::Info with default paramaters.
-             */
-            Info()
-            {
-                sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
-                pNext = nullptr;
-                flags = 0;
-                imageType = VK_IMAGE_TYPE_1D;
-                format = VK_FORMAT_UNDEFINED;
-                extent.width = 1;
-                extent.height = 1;
-                extent.depth = 1;
-                mipLevels = 1;
-                arrayLayers = 1;
-                samples = VK_SAMPLE_COUNT_1_BIT;
-                tiling = VK_IMAGE_TILING_OPTIMAL;
-                usage = VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT;
-                sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-                queueFamilyIndexCount = 0;
-                pQueueFamilyIndices = nullptr;
-                initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-            }
-        };
-
     private:
         VkExtent3D mExtent { };
         VkFormat mFormat { VK_FORMAT_UNDEFINED };
@@ -159,7 +122,7 @@ namespace Vulkan {
         std::shared_ptr<Memory> mMemory;
 
     private:
-        Image(const std::shared_ptr<Device>& device, const Info& info);
+        Image(const std::shared_ptr<Device>& device, const VkImageCreateInfo& info);
         Image(SwapchainKHR& swapchain, VkImage handle);
 
     public:

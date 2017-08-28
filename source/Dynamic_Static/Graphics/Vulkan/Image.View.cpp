@@ -18,7 +18,7 @@ namespace Vulkan {
         : mImage { &image }
     {
         // TODO : This is extremely inflexible...
-        Info info { };
+        auto info = CreateInfo;
         info.image = image;
         info.viewType = VK_IMAGE_VIEW_TYPE_2D;
         info.format = mImage->format();

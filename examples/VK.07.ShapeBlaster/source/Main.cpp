@@ -193,7 +193,8 @@ int main()
 
                     extent = swapchain->extent();
 
-                    Image::Info depthBufferInfo;
+                    // Image::Info depthBufferInfo;
+                    auto depthBufferInfo = Image::CreateInfo;
                     depthBufferInfo.imageType = VK_IMAGE_TYPE_2D;
                     depthBufferInfo.extent.width = extent.width;
                     depthBufferInfo.extent.height = extent.height;

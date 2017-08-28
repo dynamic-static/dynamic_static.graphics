@@ -59,7 +59,8 @@ public:
     {
         auto& device = renderPass.device();
 
-        Image::Info imageInfo;
+        // Image::Info imageInfo;
+        auto imageInfo = Image::CreateInfo;
         imageInfo.imageType = VK_IMAGE_TYPE_2D;
         imageInfo.extent.width = width;
         imageInfo.extent.height = height;
@@ -1106,7 +1107,8 @@ int main()
         auto imageStagingBuffer = device->create<Buffer>(imageStagingBufferInfo, imageStagingMemoryProperties);
         imageStagingBuffer->write<uint8_t>(imageCache.data());
 
-        Image::Info imageInfo;
+        // Image::Info imageInfo;
+        auto imageInfo = Image::CreateInfo;
         imageInfo.imageType = VK_IMAGE_TYPE_2D;
         imageInfo.extent.width = imageCache.width();
         imageInfo.extent.height = imageCache.height();
@@ -1334,7 +1336,8 @@ int main()
 
                     auto extent = swapchain->extent();
 
-                    Image::Info depthBufferInfo;
+                    // Image::Info depthBufferInfo;
+                    auto depthBufferInfo = Image::CreateInfo;
                     depthBufferInfo.imageType = VK_IMAGE_TYPE_2D;
                     depthBufferInfo.extent.width = extent.width;
                     depthBufferInfo.extent.height = extent.height;
