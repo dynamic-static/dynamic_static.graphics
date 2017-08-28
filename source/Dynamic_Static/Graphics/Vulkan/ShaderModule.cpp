@@ -32,20 +32,20 @@ namespace Vulkan {
             std::string extension = dst::to_lower(dst::Path::extension(compile));
             if (extension == ".spv") {
                 auto spirv = dst::File::read_bytes(compile);
-                Info info;
+                auto info = CreateInfo;
                 info.codeSize = spirv.size() * sizeof(spirv[0]);
                 info.pCode = reinterpret_cast<uint32_t*>(spirv.data());
                 validate(vkCreateShaderModule(DeviceChild::device(), &info, nullptr, &mHandle));
             } else {
                 auto spirv = Compiler::compile_from_file(compile);
-                Info info;
+                auto info = CreateInfo;
                 info.codeSize = spirv.size();
                 info.pCode = spirv.data();
                 validate(vkCreateShaderModule(DeviceChild::device(), &info, nullptr, &mHandle));
             }
         } else {
             auto spirv = Compiler::compile_from_source(mStage, compile);
-            Info info;
+            auto info = CreateInfo;
             info.codeSize = spirv.size() * sizeof(spirv[0]);
             info.pCode = reinterpret_cast<uint32_t*>(spirv.data());
             validate(vkCreateShaderModule(DeviceChild::device(), &info, nullptr, &mHandle));

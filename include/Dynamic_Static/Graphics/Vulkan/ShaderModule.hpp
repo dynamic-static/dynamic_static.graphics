@@ -42,22 +42,14 @@ namespace Vulkan {
         };
 
         /**
-         * Configuration paramaters for ShaderModule construction.
+         * Default ShaderModule creation parameters.
          */
-        struct Info final
-            : VkShaderModuleCreateInfo
-        {
-            /**
-             * Constructs an instance of ShaderModule::Info with default paramaters.
-             */
-            Info()
-            {
-                sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-                pNext = nullptr;
-                flags = 0;
-                codeSize = 0;
-                pCode = nullptr;
-            }
+        static constexpr VkShaderModuleCreateInfo CreateInfo {
+            /* sType    */ VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,
+            /* pNext    */ nullptr,
+            /* flags    */ 0,
+            /* codeSize */ 0,
+            /* pCode    */ nullptr,
         };
 
     private:
