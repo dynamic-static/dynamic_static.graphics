@@ -36,12 +36,11 @@ namespace Vulkan {
         mInstance->get_function_pointer("vkCreateDebugReportCallbackEXT", vkCreateDebugReportCallbackEXT);
         mInstance->get_function_pointer("vkDestroyDebugReportCallbackEXT", vkDestroyDebugReportCallbackEXT);
 
-        Info info { };
+        auto info = CreateInfo;
         info.flags = flags;
         info.pfnCallback = debug_report_callback;
         info.pUserData = this;
         validate(vkCreateDebugReportCallbackEXT(*mInstance, &info, nullptr, &mHandle));
-
         name("DebugReport");
     }
 

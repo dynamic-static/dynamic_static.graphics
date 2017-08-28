@@ -28,22 +28,14 @@ namespace Vulkan {
 
     public:
         /**
-         * Configuration paramaters for DebugReport construction.
+         * Default parameters for DeubgReport creation.
          */
-        struct Info final
-            : public VkDebugReportCallbackCreateInfoEXT
-        {
-            /**
-             * Constructs an instnace of DebugReport::Info with default paramaters.
-             */
-            Info()
-            {
-                sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
-                pNext = nullptr;
-                flags = 0;
-                pfnCallback = nullptr;
-                pUserData = nullptr;
-            }
+        static constexpr VkDebugReportCallbackCreateInfoEXT CreateInfo {
+            /* sType       */ VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT,
+            /* pNext       */ nullptr,
+            /* flags       */ 0,
+            /* pfnCallback */ nullptr,
+            /* pUserData   */ nullptr,
         };
 
     private:
