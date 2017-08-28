@@ -33,7 +33,7 @@ namespace Vulkan {
 
     public:
         /**
-         * Default configuration parameters for Memory allocation.
+         * Default Memory allocation parameters.
          */
         static constexpr VkMemoryAllocateInfo AllocateInfo {
             /* sType           */ VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO,

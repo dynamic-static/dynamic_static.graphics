@@ -32,7 +32,7 @@ namespace Vulkan {
 
     public:
         /**
-         * Default configuration parameters for Buffer creation.
+         * Default Buffer creation parameters.
          */
         static constexpr VkBufferCreateInfo CreateInfo
         {
@@ -45,28 +45,6 @@ namespace Vulkan {
             /* queueFamilyIndexCount */ 0,
             /* pQueueFamilyIndices   */ nullptr,
         };
-
-        // /**
-        //  * Configuration parameters for Buffer construction.
-        //  */
-        // struct Info final
-        //     : public VkBufferCreateInfo
-        // {
-        //     /**
-        //      * Constructs an instance of Buffer::Info with default paramaters.
-        //      */
-        //     Info()
-        //     {
-        //         sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-        //         pNext = nullptr;
-        //         flags = 0;
-        //         size = 0;
-        //         usage = 0;
-        //         sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-        //         queueFamilyIndexCount = 0;
-        //         pQueueFamilyIndices = nullptr;
-        //     }
-        // };
 
     private:
         std::shared_ptr<Memory> mMemory;
