@@ -22,7 +22,7 @@ namespace Vulkan {
         : mPool { &pool }
     {
         assert(mPool);
-        Info info;
+        auto info = AllocateInfo;
         info.commandPool = *mPool;
         info.commandBufferCount = 1;
         validate(vkAllocateCommandBuffers(pool.device(), &info, &mHandle));
@@ -41,7 +41,7 @@ namespace Vulkan {
         return *mPool;
     }
 
-    void Command::Buffer::begin(const BeginInfo& beginInfo)
+    void Command::Buffer::begin(const VkCommandBufferBeginInfo& beginInfo)
     {
         validate(vkBeginCommandBuffer(mHandle, &beginInfo));
     }

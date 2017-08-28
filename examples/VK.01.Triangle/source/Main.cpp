@@ -328,7 +328,8 @@ int main()
                     for (size_t i = 0; i < framebuffers.size(); ++i) {
                         auto& commandBuffer = commandPool->buffers()[i];
 
-                        dst::vlkn::Command::Buffer::BeginInfo beginInfo;
+                        // dst::vlkn::Command::Buffer::BeginInfo beginInfo;
+                        auto beginInfo = dst::vlkn::Command::Buffer::BeginInfo;
                         beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
                         commandBuffer->begin(beginInfo);
 

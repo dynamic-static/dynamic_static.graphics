@@ -182,7 +182,8 @@ template <typename FuncType>
 void process_transient_command_buffer(Command::Pool& commandPool, Queue& queue, const FuncType& f)
 {
     auto commandBuffer = commandPool.allocate_transient<Command::Buffer>();
-    Command::Buffer::BeginInfo beginInfo;
+    // Command::Buffer::BeginInfo beginInfo;
+    auto beginInfo = Command::Buffer::BeginInfo;
     beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
     commandBuffer->begin(beginInfo);
     f(*commandBuffer);

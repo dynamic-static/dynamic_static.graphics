@@ -59,7 +59,8 @@ namespace ShapeBlaster {
     )
     {
         auto commandBuffer = commandPool.allocate_transient<Command::Buffer>();
-        Command::Buffer::BeginInfo beginInfo;
+        // Command::Buffer::BeginInfo beginInfo;
+        auto beginInfo = Command::Buffer::BeginInfo;
         beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
         commandBuffer->begin(beginInfo);
         f(*commandBuffer);

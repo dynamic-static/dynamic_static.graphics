@@ -361,7 +361,8 @@ int main()
 
         {
             auto copyCommandBuffer = commandPool->allocate_transient<Command::Buffer>();
-            Command::Buffer::BeginInfo copyBufferBeginInfo;
+            // Command::Buffer::BeginInfo copyBufferBeginInfo;
+            auto copyBufferBeginInfo = Command::Buffer::BeginInfo;
             copyBufferBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
             copyCommandBuffer->begin(copyBufferBeginInfo);
             VkBufferCopy copyInfo { };
@@ -393,7 +394,8 @@ int main()
 
         {
             auto copyCommandBuffer = commandPool->allocate_transient<Command::Buffer>();
-            Command::Buffer::BeginInfo copyBufferBeginInfo;
+            // Command::Buffer::BeginInfo copyBufferBeginInfo;
+            auto copyBufferBeginInfo = Command::Buffer::BeginInfo;
             copyBufferBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
             copyCommandBuffer->begin(copyBufferBeginInfo);
             VkBufferCopy copyInfo { };
@@ -539,7 +541,8 @@ int main()
                     for (size_t i = 0; i < framebuffers.size(); ++i) {
                         auto& commandBuffer = commandPool->buffers()[i];
 
-                        Command::Buffer::BeginInfo beginInfo;
+                        //Command::Buffer::BeginInfo beginInfo;
+                        auto beginInfo = Command::Buffer::BeginInfo;
                         beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
                         commandBuffer->begin(beginInfo);
 

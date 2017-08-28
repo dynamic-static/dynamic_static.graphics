@@ -239,7 +239,8 @@ int main()
                     for (size_t i = 0; i < framebuffers.size(); ++i) {
                         auto& commandBuffer = commandPool->buffers()[i];
 
-                        Command::Buffer::BeginInfo beginInfo;
+                        // Command::Buffer::BeginInfo beginInfo;
+                        auto beginInfo = Command::Buffer::BeginInfo;
                         beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
                         commandBuffer->begin(beginInfo);
 

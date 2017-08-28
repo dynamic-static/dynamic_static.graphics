@@ -30,40 +30,26 @@ namespace Vulkan {
 
     public:
         /**
-         * Configuration paramaters for Command::Buffer allocation.
+         * Default Command::Buffer allocation parameters.
          */
-        struct Info final
-            : public VkCommandBufferAllocateInfo
+        static constexpr VkCommandBufferAllocateInfo AllocateInfo
         {
-            /**
-             * Constructs an instance of Command::Buffer::Info with default paramaters.
-             */
-            Info()
-            {
-                sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-                pNext = nullptr;
-                commandPool = VK_NULL_HANDLE;
-                level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-                commandBufferCount = 1;
-            }
+            /* sType              */ VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
+            /* pNext              */ nullptr,
+            /* commandPool        */ VK_NULL_HANDLE,
+            /* level              */ VK_COMMAND_BUFFER_LEVEL_PRIMARY,
+            /* commandBufferCount */ 1,
         };
 
         /**
-         * TODO : Documentation.
+         * Default Command::Buffer begin parameters.
          */
-        struct BeginInfo final
-            : public VkCommandBufferBeginInfo
+        static constexpr VkCommandBufferBeginInfo BeginInfo
         {
-            /**
-             * TODO : Documentation.
-             */
-            BeginInfo()
-            {
-                sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-                pNext = nullptr;
-                flags = 0;
-                pInheritanceInfo = nullptr;
-            }
+            /* sType            */ VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
+            /* pNext            */ nullptr,
+            /* flags            */ 0,
+            /* pInheritanceInfo */ nullptr,
         };
 
     private:
@@ -88,7 +74,7 @@ namespace Vulkan {
         /**
          * TODO : Documentation.
          */
-        void begin(const BeginInfo& beginInfo = BeginInfo { });
+        void begin(const VkCommandBufferBeginInfo& beginInfo = BeginInfo);
 
         /**
          * TODO : Documentation.
