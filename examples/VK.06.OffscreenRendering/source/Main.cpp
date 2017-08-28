@@ -45,78 +45,6 @@ public:
     }
 };
 
-class RenderTarget_ex final
-{
-public:
-    std::shared_ptr<Framebuffer> framebuffer;
-    std::shared_ptr<Image> colorAttachment;
-    std::shared_ptr<Memory> colorAttachmentMemory;
-    std::shared_ptr<Image> depthAttachment;
-    std::shared_ptr<Memory> depthAttachmentMemory;
-
-public:
-    RenderTarget_ex(RenderPass& renderPass, uint32_t width, uint32_t height, VkFormat format, VkFormat depthFormat)
-    {
-        auto& device = renderPass.device();
-
-        // Image::Info imageInfo;
-        auto imageInfo = Image::CreateInfo;
-        imageInfo.imageType = VK_IMAGE_TYPE_2D;
-        imageInfo.extent.width = width;
-        imageInfo.extent.height = height;
-        imageInfo.format = format;
-        imageInfo.usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
-        colorAttachment = device.create<Image>(imageInfo);
-        auto memoryRequirements = colorAttachment->memory_requirements();
-
-        // Memory::Info memoryInfo;
-        auto memoryInfo = Memory::AllocateInfo;
-        memoryInfo.allocationSize = memoryRequirements.size;
-        memoryInfo.memoryTypeIndex = device.physical_device().find_memory_type_index(
-            memoryRequirements.memoryTypeBits,
-            VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
-        );
-
-        colorAttachmentMemory = device.allocate<Memory>(memoryInfo);
-        colorAttachment->bind_memory(colorAttachmentMemory);
-        colorAttachment->create<Image::View>();
-
-        imageInfo.format = depthFormat;
-        imageInfo.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
-        depthAttachment = device.create<Image>(imageInfo);
-        memoryRequirements = depthAttachment->memory_requirements();
-
-        memoryInfo.allocationSize = memoryRequirements.size;
-        memoryInfo.memoryTypeIndex = device.physical_device().find_memory_type_index(
-            memoryRequirements.memoryTypeBits,
-            VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
-        );
-
-        depthAttachmentMemory = device.allocate<Memory>(memoryInfo);
-        depthAttachment->bind_memory(depthAttachmentMemory);
-        depthAttachment->create<Image::View>();
-
-        std::array<VkImageView, 2> attachments;
-        attachments[0] = *colorAttachment->view();
-        attachments[1] = *depthAttachment->view();
-
-        // Framebuffer::Info framebufferInfo;
-        auto framebufferInfo = Framebuffer::CreateInfo;
-        framebufferInfo.renderPass = renderPass;
-        framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
-        framebufferInfo.pAttachments = attachments.data();
-        framebufferInfo.width = width;
-        framebufferInfo.height = height;
-        framebuffer = renderPass.device().create<Framebuffer>(framebufferInfo);
-    }
-
-public:
-    const VkExtent3D& extent() const
-    {
-        return colorAttachment->extent();
-    }
-};
-
 struct UniformBuffer final
 {
     dst::Matrix4x4 world;
@@ -1065,7 +993,7 @@ int main()
         );
 
         auto offscreenRenderPass = create_offscreen_render_pass(*device, VK_FORMAT_R8G8B8A8_UNORM, depthFormat);
-        RenderTarget_ex offscreenRenderTarget(*offscreenRenderPass, 1024, 1024, VK_FORMAT_R8G8B8A8_UNORM, depthFormat);
+        RenderTarget offscreenRenderTarget(*offscreenRenderPass, 1024, 1024, VK_FORMAT_R8G8B8A8_UNORM, depthFormat);
         auto cubeRenderPass = create_non_reflective_render_pass(*device, swapchain->format(), depthFormat);
         auto floorRenderPass = create_reflective_render_pass(*device, swapchain->format(), depthFormat);
 
