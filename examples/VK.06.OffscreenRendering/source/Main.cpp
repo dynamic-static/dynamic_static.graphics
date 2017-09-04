@@ -163,69 +163,7 @@ VkImageMemoryBarrier create_layout_transition_barrier(Image& image, VkImageLayou
     return barrier;
 }
 
-Mesh create_mesh(
-    Device& device,
-    Command::Pool& commandPool,
-    Queue& queue,
-    const std::vector<Vertex>& vertices,
-    const std::vector<uint16_t>& indices
-)
-{
-    Mesh mesh;
-
-    auto vertexBufferSize = static_cast<VkDeviceSize>(sizeof(vertices[0]) * vertices.size());
-    // Buffer::Info vertexBufferInfo;
-    auto vertexBufferInfo = Buffer::CreateInfo;
-    vertexBufferInfo.size = vertexBufferSize;
-    vertexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-    auto vertexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-    mesh.vertexBuffer = device.create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
-
-    // Buffer::Info stagingBufferInfo;
-    auto stagingBufferInfo = Buffer::CreateInfo;
-    stagingBufferInfo.size = vertexBufferSize;
-    stagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
-    auto stagingMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-    auto stagingBuffer = device.create<Buffer>(stagingBufferInfo, stagingMemoryProperties);
-    stagingBuffer->write<Vertex>(vertices);
-
-    process_transient_command_buffer(
-        commandPool,
-        queue,
-        [&](Command::Buffer& commandBuffer)
-        {
-            VkBufferCopy copyInfo { };
-            copyInfo.size = vertexBufferSize;
-            commandBuffer.copy_buffer(*stagingBuffer, *mesh.vertexBuffer, vertexBufferSize);
-        }
-    );
-
-    auto indexBufferSize = static_cast<VkDeviceSize>(sizeof(indices[0]) * indices.size());
-    // Buffer::Info indexBufferInfo;
-    auto indexBufferInfo = Buffer::CreateInfo;
-    indexBufferInfo.size = indexBufferSize;
-    indexBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
-    auto indexMemoryProperties = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
-    mesh.indexBuffer = device.create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
-    stagingBuffer->write<uint16_t>(indices);
-
-    process_transient_command_buffer(
-        commandPool,
-        queue,
-        [&](Command::Buffer& commandBuffer)
-        {
-            VkBufferCopy copyInfo { };
-            copyInfo.size = indexBufferSize;
-            commandBuffer.copy_buffer(*stagingBuffer, *mesh.indexBuffer, indexBufferSize);
-        }
-    );
-
-    mesh.indexCount = indices.size();
-    return mesh;
-}
-
-Mesh create_box(
-    Device& device,
+dst::vlkn::Mesh create_box(
     Command::Pool& commandPool,
     Queue& queue,
     float width,
@@ -238,7 +176,7 @@ Mesh create_box(
     float w = width * 0.5f;
     float h = height * 0.5f;
     float d = depth * 0.5f;
-    const std::vector<Vertex> vertices {
+    std::vector<Vertex> vertices {
         // Top
         { { -w,  h, -d }, { 0, 1 }, { color0 } },
         { {  w,  h, -d }, { 1, 1 }, { color0 } },
@@ -291,7 +229,9 @@ Mesh create_box(
         vertex_i += 4;
     }
 
-    return create_mesh(device, commandPool, queue, vertices, indices);
+    dst::vlkn::Mesh mesh;
+    mesh.write<Vertex, uint16_t>(commandPool, queue, vertices, indices);
+    return mesh;
 }
 
 VkAttachmentDescription default_attachment_description()
@@ -1076,9 +1016,10 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create meshes
-        auto cube = create_box(*device, *commandPool, graphicsQueue, 1, 1, 1, dst::Color::White, dst::Color::Black);
-        auto floor = create_box(*device, *commandPool, graphicsQueue, 6, 0.25f, 6, dst::Color::Transparent, dst::Color::Black);
-        auto quad = create_mesh(*device, *commandPool, graphicsQueue,
+        auto cube = create_box(*commandPool, graphicsQueue, 1, 1, 1, dst::Color::White, dst::Color::Black);
+        auto floor = create_box(*commandPool, graphicsQueue, 6, 0.25f, 6, dst::Color::Transparent, dst::Color::Black);
+        dst::vlkn::Mesh quad;
+        quad.write<Vertex, uint16_t>(*commandPool, graphicsQueue,
         std::vector<Vertex> {
                 { { -0.5f,  0.5f, 0 }, { 1, 0 }, { dst::Color::White } },
                 { {  0.5f,  0.5f, 0 }, { 0, 0 }, { dst::Color::White } },
@@ -1287,7 +1228,7 @@ int main()
 
                         offscreenCommandBuffer->bind_descriptor_set(*offscreenDescriptorSet, *offscreenPipelineLayout);
                         offscreenCommandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *offscreenPipeline);
-                        cube.render(*offscreenCommandBuffer);
+                        cube.draw(*offscreenCommandBuffer);
 
                         offscreenCommandBuffer->end_render_pass();
                         offscreenCommandBuffer->end();
@@ -1328,11 +1269,11 @@ int main()
 
                             commandBuffer->bind_descriptor_set(*cubeDescriptorSet, *cubePipelineLayout);
                             commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *cubePipeline);
-                            cube.render(*commandBuffer);
+                            cube.draw(*commandBuffer);
 
                             commandBuffer->bind_descriptor_set(*floorDescriptorSet, *floorPipelineLayout);
                             commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *floorPipeline);
-                            floor.render(*commandBuffer);
+                            floor.draw(*commandBuffer);
 
                             commandBuffer->end_render_pass();
                             commandBuffer->end();

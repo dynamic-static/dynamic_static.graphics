@@ -27,6 +27,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/Image.View.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Memory.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Mesh.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"

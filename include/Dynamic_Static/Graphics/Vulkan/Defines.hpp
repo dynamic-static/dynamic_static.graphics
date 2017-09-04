@@ -68,10 +68,12 @@ namespace Vulkan {
     class Image;
     class Instance;
     class Memory;
+    class Mesh;
     class PhysicalDevice;
     class Pipeline;
     class Queue;
     class RenderPass;
+    class RenderTarget;
     class Sampler;
     class Semaphore;
     class ShaderModule;

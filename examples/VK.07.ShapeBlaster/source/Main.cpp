@@ -11,6 +11,7 @@
 // Based on "Make a Neon Vector Shooter in XNA"
 // https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559
 
+#include "BloomComponent.hpp"
 #include "Bullet.hpp"
 #include "Cursor.hpp"
 #include "Entity.Manager.hpp"
@@ -166,6 +167,9 @@ int main()
         resources.load(*device, *commandPool, graphicsQueue, swapchain->format());
         ShapeBlaster::Game game(resources);
 
+        ShapeBlaster::BloomComponent bloomComponent;
+        bloomComponent.initialize(*device, *commandPool, graphicsQueue);
+
         dst::Clock clock;
         float angle = 0;
         float frameRate = 0;
@@ -194,7 +198,6 @@ int main()
 
                     extent = swapchain->extent();
 
-                    // Image::Info depthBufferInfo;
                     auto depthBufferInfo = Image::CreateInfo;
                     depthBufferInfo.imageType = VK_IMAGE_TYPE_2D;
                     depthBufferInfo.extent.width = extent.width;
@@ -205,7 +208,6 @@ int main()
                     depthBufferInfo.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
                     depthBuffer = device->create<Image>(depthBufferInfo);
 
-                    // Memory::Info depthBufferMemoryInfo;
                     auto depthBufferMemoryInfo = Memory::AllocateInfo;
                     auto depthBufferMemoryRequirements = depthBuffer->memory_requirements();
                     depthBufferMemoryInfo.allocationSize = depthBufferMemoryRequirements.size;
@@ -226,7 +228,6 @@ int main()
                             *depthBuffer->views()[0]
                         };
 
-                        // Framebuffer::Info framebufferInfo;
                         auto framebufferInfo = Framebuffer::CreateInfo;
                         framebufferInfo.renderPass = *resources.mRenderPass;
                         framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
@@ -240,10 +241,20 @@ int main()
 
                 if (recordCommandBuffers) {
                     recordCommandBuffers = false;
+
+                    {
+                        bloomComponent.begin();
+                        bloomComponent.mCommandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *resources.mPipeline);
+                        bloomComponent.mCommandBuffer->bind_vertex_buffer(*resources.quadVertexBuffer);
+                        bloomComponent.mCommandBuffer->bind_index_buffer(*resources.quadIndexBuffer);
+                        game.render(*bloomComponent.mCommandBuffer);
+                        bloomComponent.end();
+                    }
+
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
                     for (size_t i = 0; i < framebuffers.size(); ++i) {
                         auto& commandBuffer = commandPool->buffers()[i];
-
-                        // Command::Buffer::BeginInfo beginInfo;
                         auto beginInfo = Command::Buffer::BeginInfo;
                         beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
                         commandBuffer->begin(beginInfo);
@@ -251,7 +262,6 @@ int main()
                             std::array<VkClearValue, 2> clearValues;
                             clearValues[0].color = { 0, 0, 0, 1 };
                             clearValues[1].depthStencil = { 1, 0 };
-                            // RenderPass::BeginInfo renderPassBeginInfo;
                             auto renderPassBeginInfo = RenderPass::BeginInfo;
                             renderPassBeginInfo.renderPass = *resources.mRenderPass;
                             renderPassBeginInfo.framebuffer = *framebuffers[i];
@@ -280,7 +290,6 @@ int main()
                     }
                 }
 
-                // Queue::SubmitInfo submitInfo;
                 auto submitInfo = Queue::SubmitInfo;
                 VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
                 submitInfo.waitSemaphoreCount = 1;
@@ -292,7 +301,6 @@ int main()
                 submitInfo.pSignalSemaphores = &renderSemaphore->handle();
                 graphicsQueue.submit(submitInfo);
 
-                // Queue::PresentInfoKHR presentInfo;
                 auto presentInfo = Queue::PresentInfoKHR;
                 presentInfo.waitSemaphoreCount = 1;
                 presentInfo.pWaitSemaphores = &renderSemaphore->handle();

@@ -130,10 +130,11 @@ namespace ShapeBlaster {
                     samplerLayoutBinding,
                 };
 
-                auto descriptorSetLayoutInfo = dst::vlkn::Descriptor::Set::Layout::CreateInfo;
+                using namespace dst::vlkn;
+                auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
                 descriptorSetLayoutInfo.bindingCount = static_cast<uint32_t>(descriptorSetLayoutBinding.size());
                 descriptorSetLayoutInfo.pBindings = descriptorSetLayoutBinding.data();
-                descriptorSetLayout = device.create<dst::vlkn::Descriptor::Set::Layout>(descriptorSetLayoutInfo);
+                descriptorSetLayout = device.create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
             }
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,9 +162,13 @@ namespace ShapeBlaster {
                     fragmentShader->pipeline_stage_info()
                 };
 
-                VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo { };
-                inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-                inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+                auto rasterizationInfo = Pipeline::RasterizationStateCreateInfo;
+                rasterizationInfo.cullMode = VK_CULL_MODE_NONE;
+
+                auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
+                pipelineLayoutInfo.setLayoutCount = 1;
+                pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout->handle();
+                pipelineLayout = device.create<Pipeline::Layout>(pipelineLayoutInfo);
             }
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -185,7 +190,9 @@ namespace ShapeBlaster {
         Resources mVerticalBlurResources;
         Resources mBloomCombineResourecs;
 
+    public:
         dst::vlkn::Command::Buffer* mCommandBuffer { nullptr };
+
         std::shared_ptr<dst::vlkn::Semaphore> mSemaphore;
 
     public:
@@ -203,16 +210,25 @@ namespace ShapeBlaster {
             // create_offscreen_semaphores()
         }
 
-        ~BloomComponent()
-        {
-
-        }
-
     public:
-        void initialize(dst::vlkn::Device& device)
+        void initialize(
+            dst::vlkn::Device& device,
+            dst::vlkn::Command::Pool& commandPool,
+            dst::vlkn::Queue& queue
+        )
         {
-            VkFormat format = VK_FORMAT_R8G8B8A8_UNORM;
-            VkFormat depthFormat = VK_FORMAT_UNDEFINED;
+            mCommandBuffer = commandPool.allocate<dst::vlkn::Command::Buffer>();
+
+            VkFormat format = VK_FORMAT_B8G8R8A8_UNORM;
+            std::array<VkFormat, 3> depthFormats {
+                VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT
+            };
+
+            auto depthFormat = device.physical_device().find_supported_format(
+                depthFormats,
+                VK_IMAGE_TILING_OPTIMAL,
+                VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
+            );
 
             mBloomExtractionResources.initialize(
                 device, format, depthFormat,
@@ -273,12 +289,50 @@ namespace ShapeBlaster {
 
         void begin()
         {
+            using namespace dst::vlkn;
 
+            auto renderPassBeginInfo = RenderPass::BeginInfo;
+            const auto& renderTarget = *mBloomExtractionResources.renderTarget;
+            renderPassBeginInfo.renderPass = *mBloomExtractionResources.renderPass;
+            renderPassBeginInfo.framebuffer = *renderTarget.framebuffer;
+
+            VkExtent2D extent;
+            extent.width = renderTarget.extent().width;
+            extent.height = renderTarget.extent().height;
+            renderPassBeginInfo.renderArea.extent = extent;
+
+            std::array<VkClearValue, 2> clearValues;
+            clearValues[0].color = { 0, 0, 0, 0 };
+            clearValues[1].depthStencil = { 1, 0 };
+            renderPassBeginInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
+            renderPassBeginInfo.pClearValues = clearValues.data();
+
+            mCommandBuffer->begin();
+            mCommandBuffer->begin_render_pass(renderPassBeginInfo);
+
+            VkViewport viewport { };
+            viewport.width = static_cast<float>(extent.width);
+            viewport.height = static_cast<float>(extent.height);
+            viewport.minDepth = 0;
+            viewport.maxDepth = 1;
+            mCommandBuffer->set_viewport(viewport);
+
+            VkRect2D scissor { };
+            scissor.extent = extent;
+            mCommandBuffer->set_scissor(scissor);
         }
+
+        // void draw()
+        // {
+        //     // mCommandBuffer->bind_descriptor_set();
+        //     // mCommandBuffer->bind_pipeline();
+        //     // TODO : Draw...
+        // }
 
         void end()
         {
-
+            mCommandBuffer->end_render_pass();
+            mCommandBuffer->end();
         }
     };
 
