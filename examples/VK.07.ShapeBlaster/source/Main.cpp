@@ -270,7 +270,8 @@ int main()
                             renderPassBeginInfo.pClearValues = clearValues.data();
                             commandBuffer->begin_render_pass(renderPassBeginInfo);
 
-                                commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *resources.mPipeline);
+                                // commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *resources.mPipeline);
+                                commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *bloomComponent.mBloomExtractionResources.pipeline);
                                 VkViewport viewport { };
                                 viewport.width = static_cast<float>(swapchain->extent().width);
                                 viewport.height = static_cast<float>(swapchain->extent().height);
@@ -280,9 +281,16 @@ int main()
                                 VkRect2D scissor { };
                                 scissor.extent = swapchain->extent();
                                 commandBuffer->set_scissor(scissor);
-                                commandBuffer->bind_vertex_buffer(*resources.quadVertexBuffer);
-                                commandBuffer->bind_index_buffer(*resources.quadIndexBuffer);
-                                game.render(*commandBuffer);
+
+                                    // commandBuffer->bind_vertex_buffer(*resources.quadVertexBuffer);
+                                    // commandBuffer->bind_index_buffer(*resources.quadIndexBuffer);
+                                    // game.render(*commandBuffer);
+                                    commandBuffer->bind_descriptor_set(
+                                        *bloomComponent.mBloomExtractionResources.descriptorSet,
+                                        *bloomComponent.mBloomExtractionResources.pipelineLayout
+                                    );
+
+                                    bloomComponent.mQuad.draw(*commandBuffer);
 
                             commandBuffer->end_render_pass();
 
@@ -290,16 +298,37 @@ int main()
                     }
                 }
 
-                auto submitInfo = Queue::SubmitInfo;
-                VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
-                submitInfo.waitSemaphoreCount = 1;
-                submitInfo.pWaitSemaphores = &imageSemaphore->handle();
-                submitInfo.pWaitDstStageMask = waitStages;
-                submitInfo.commandBufferCount = 1;
-                submitInfo.pCommandBuffers = &commandPool->buffers()[imageIndex]->handle();
-                submitInfo.signalSemaphoreCount = 1;
-                submitInfo.pSignalSemaphores = &renderSemaphore->handle();
-                graphicsQueue.submit(submitInfo);
+                {
+                    auto submitInfo = Queue::SubmitInfo;
+                    VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT };
+                    submitInfo.commandBufferCount = 1;
+                    submitInfo.pCommandBuffers = &bloomComponent.mCommandBuffer->handle();
+                    submitInfo.signalSemaphoreCount = 1;
+                    submitInfo.pSignalSemaphores = &bloomComponent.mSemaphore->handle();
+                    graphicsQueue.submit(submitInfo);
+                }
+
+                {
+                    std::array<VkSemaphore, 2> waitSemaphores {
+                        *bloomComponent.mSemaphore,
+                        *imageSemaphore,
+                    };
+
+                    auto submitInfo = Queue::SubmitInfo;
+                    VkPipelineStageFlags waitStages[] {
+                        VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
+                        VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
+                    };
+
+                    submitInfo.waitSemaphoreCount = static_cast<uint32_t>(waitSemaphores.size());
+                    submitInfo.pWaitSemaphores = waitSemaphores.data();
+                    submitInfo.pWaitDstStageMask = waitStages;
+                    submitInfo.commandBufferCount = 1;
+                    submitInfo.pCommandBuffers = &commandPool->buffers()[imageIndex]->handle();
+                    submitInfo.signalSemaphoreCount = 1;
+                    submitInfo.pSignalSemaphores = &renderSemaphore->handle();
+                    graphicsQueue.submit(submitInfo);
+                }
 
                 auto presentInfo = Queue::PresentInfoKHR;
                 presentInfo.waitSemaphoreCount = 1;

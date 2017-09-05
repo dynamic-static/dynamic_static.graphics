@@ -28,7 +28,7 @@ namespace ShapeBlaster {
     public:
         BloomSettings settings;
 
-    private:
+    public:
         struct Resources final
         {
         public:
@@ -40,6 +40,7 @@ namespace ShapeBlaster {
             std::shared_ptr<dst::vlkn::Buffer> uniformBuffer;
             std::shared_ptr<dst::vlkn::Descriptor::Pool> descriptorPool;
             dst::vlkn::Descriptor::Set* descriptorSet { nullptr };
+            std::shared_ptr<dst::vlkn::Sampler> sampler;
 
         public:
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -145,6 +146,7 @@ namespace ShapeBlaster {
             {
                 using namespace dst::vlkn;
                 auto& device = renderPass->device();
+
                 auto vertexShader = device.create<ShaderModule>(
                     VK_SHADER_STAGE_VERTEX_BIT,
                     ShaderModule::Source::Code,
@@ -169,6 +171,69 @@ namespace ShapeBlaster {
                 pipelineLayoutInfo.setLayoutCount = 1;
                 pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout->handle();
                 pipelineLayout = device.create<Pipeline::Layout>(pipelineLayoutInfo);
+
+                auto vertexInputInfo = VertexPositionTexCoordColor::pipeline_input_state();
+                auto pipelineInfo = Pipeline::GraphicsCreateInfo;
+                pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
+                pipelineInfo.pStages = shaderStages.data();
+                pipelineInfo.pVertexInputState = &vertexInputInfo;
+                pipelineInfo.pRasterizationState = &rasterizationInfo;
+                pipelineInfo.layout = *pipelineLayout;
+                pipelineInfo.renderPass = *renderPass;
+                pipelineInfo.subpass = 0;
+                pipeline = device.create<Pipeline>(pipelineInfo);
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            void create_uniform_buffer()
+            {
+
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            void create_descriptor_pool()
+            {
+                using namespace dst::vlkn;
+                auto& device = renderPass->device();
+
+                VkDescriptorPoolSize poolSize;
+                poolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+                poolSize.descriptorCount = 1;
+                auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
+                descriptorPoolInfo.poolSizeCount = 1;
+                descriptorPoolInfo.pPoolSizes = &poolSize;
+                descriptorPoolInfo.maxSets = 1;
+                descriptorPool = device.create<Descriptor::Pool>(descriptorPoolInfo);
+
+                auto descriptorSetInfo = Descriptor::Set::AllocateInfo;
+                descriptorSetInfo.descriptorPool = *descriptorPool;
+                descriptorSetInfo.descriptorSetCount = 1;
+                descriptorSetInfo.pSetLayouts = &descriptorSetLayout->handle();
+                descriptorSet = descriptorPool->allocate<Descriptor::Set>(descriptorSetInfo);
+
+                // Update Descriptor::Set
+                sampler = device.create<Sampler>();
+
+                VkDescriptorImageInfo imageInfo { };
+                imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+                imageInfo.imageView = *renderTarget->colorAttachment->view();
+                imageInfo.sampler = *sampler;
+
+                VkWriteDescriptorSet write { };
+                write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+                write.dstSet = *descriptorSet;
+                write.dstBinding = 0;
+                write.dstArrayElement = 0;
+                write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+                write.descriptorCount = 1;
+                write.pImageInfo = &imageInfo;
+                vkUpdateDescriptorSets(
+                    device,
+                    1,
+                    &write,
+                    0,
+                    nullptr
+                );
             }
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -182,6 +247,9 @@ namespace ShapeBlaster {
             {
                 create_render_pass_and_target(device, format, depthFormat);
                 create_descriptor_set_layout(device);
+                create_pipeline(vertexShaderSource, fragmentShaderSource);
+                // TODO : create_uniform_buffer();
+                create_descriptor_pool();
             }
         };
 
@@ -191,8 +259,8 @@ namespace ShapeBlaster {
         Resources mBloomCombineResourecs;
 
     public:
+        dst::vlkn::Mesh mQuad;
         dst::vlkn::Command::Buffer* mCommandBuffer { nullptr };
-
         std::shared_ptr<dst::vlkn::Semaphore> mSemaphore;
 
     public:
@@ -217,7 +285,22 @@ namespace ShapeBlaster {
             dst::vlkn::Queue& queue
         )
         {
+            using namespace dst::vlkn;
+            mQuad.write<VertexPositionTexCoordColor, uint16_t>(
+                commandPool,
+                queue,
+                std::vector<VertexPositionTexCoordColor> {
+                    { { -1, -1, 0 }, { 0, 0 }, { dst::Color::White } },
+                    { {  1, -1, 0 }, { 1, 0 }, { dst::Color::White } },
+                    { {  1,  1, 0 }, { 1, 1 }, { dst::Color::White } },
+                    { { -1,  1, 0 }, { 0, 1 }, { dst::Color::White } },
+                },
+                std::vector<uint16_t> { 0, 1, 2, 2, 3, 0 }
+            );
+
             mCommandBuffer = commandPool.allocate<dst::vlkn::Command::Buffer>();
+
+            mSemaphore = device.create<dst::vlkn::Semaphore>();
 
             VkFormat format = VK_FORMAT_B8G8R8A8_UNORM;
             std::array<VkFormat, 3> depthFormats {
@@ -234,57 +317,92 @@ namespace ShapeBlaster {
                 device, format, depthFormat,
                 R"(
 
+                    #version 450
+                    #extension GL_ARB_separate_shader_objects : enable
 
+                    layout(location = 0) in vec3 vsPosition;
+                    layout(location = 1) in vec2 vsTexCoord;
+                    layout(location = 2) in vec4 vsColor;
 
-                )",
-                R"(
+                    layout(location = 0) out vec2 fsTexCoord;
+                    layout(location = 1) out vec4 fsColor;
 
+                    out gl_PerVertex
+                    {
+                        vec4 gl_Position;
+                    };
 
-
-                )"
-            );
-
-            mHorizontalBlurResources.initialize(
-                device, format, VK_FORMAT_UNDEFINED,
-                R"(
-
-
-
-                )",
-                R"(
-
-
-
-                )"
-            );
-
-            mVerticalBlurResources.initialize(
-                device, format, VK_FORMAT_UNDEFINED,
-                R"(
-
-
+                    void main()
+                    {
+                        gl_Position = vec4(vsPosition, 1);
+                        fsTexCoord = vsTexCoord;
+                        fsColor = vsColor;
+                    }
 
                 )",
                 R"(
 
+                    #version 450
+                    #extension GL_ARB_separate_shader_objects : enable
 
+                    layout(binding = 1) uniform sampler2D image;
+
+                    layout(location = 0) in vec2 fsTexCoord;
+                    layout(location = 1) in vec4 fsColor;
+
+                    layout(location = 0) out vec4 fragmentColor;
+
+                    void main()
+                    {
+                        float threshold = 0.25;
+                        fragmentColor = texture(image, fsTexCoord);
+                        fragmentColor.rgb = (fragmentColor.rgb - vec3(threshold)) / (vec3(1) - vec3(threshold));
+                    }
 
                 )"
             );
 
-            mBloomCombineResourecs.initialize(
-                device, format, VK_FORMAT_UNDEFINED,
-                R"(
+            // mHorizontalBlurResources.initialize(
+            //     device, format, VK_FORMAT_UNDEFINED,
+            //     R"(
+            // 
+            // 
+            // 
+            //     )",
+            //     R"(
+            // 
+            // 
+            // 
+            //     )"
+            // );
 
+            // mVerticalBlurResources.initialize(
+            //     device, format, VK_FORMAT_UNDEFINED,
+            //     R"(
+            // 
+            // 
+            // 
+            //     )",
+            //     R"(
+            // 
+            // 
+            // 
+            //     )"
+            // );
 
-
-                )",
-                R"(
-
-
-
-                )"
-            );
+            // mBloomCombineResourecs.initialize(
+            //     device, format, VK_FORMAT_UNDEFINED,
+            //     R"(
+            // 
+            // 
+            // 
+            //     )",
+            //     R"(
+            // 
+            // 
+            // 
+            //     )"
+            // );
         }
 
         void begin()
@@ -322,16 +440,14 @@ namespace ShapeBlaster {
             mCommandBuffer->set_scissor(scissor);
         }
 
-        // void draw()
-        // {
-        //     // mCommandBuffer->bind_descriptor_set();
-        //     // mCommandBuffer->bind_pipeline();
-        //     // TODO : Draw...
-        // }
-
         void end()
         {
             mCommandBuffer->end_render_pass();
+
+            // mCommandBuffer->begin_render_pass
+
+
+
             mCommandBuffer->end();
         }
     };

@@ -10,6 +10,8 @@ set(INCLUDE_FILES
 set(SOURCE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/source/)
 set(SOURCE_FILES
     ${SOURCE_DIRECTORY}/BlackHole.hpp
+    ${SOURCE_DIRECTORY}/BloomComponent.hpp
+    ${SOURCE_DIRECTORY}/BloomSettings.hpp
     ${SOURCE_DIRECTORY}/Bullet.hpp
     ${SOURCE_DIRECTORY}/Cursor.hpp
     ${SOURCE_DIRECTORY}/Enemy.hpp

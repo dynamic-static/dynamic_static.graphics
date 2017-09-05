@@ -660,14 +660,12 @@ std::shared_ptr<Descriptor::Pool> create_reflective_descriptor_pool(Device& devi
     descriptorPoolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
     descriptorPoolSizes[1].descriptorCount = 1;
 
-    // Descriptor::Pool::Info descriptorPoolInfo;
     auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
     descriptorPoolInfo.poolSizeCount = static_cast<uint32_t>(descriptorPoolSizes.size());
     descriptorPoolInfo.pPoolSizes = descriptorPoolSizes.data();
     descriptorPoolInfo.maxSets = 1;
     auto descriptorPool = device.create<Descriptor::Pool>(descriptorPoolInfo);
 
-    // Descriptor::Set::Info descriptorSetInfo;
     auto descriptorSetInfo = Descriptor::Set::AllocateInfo;
     descriptorSetInfo.descriptorPool = *descriptorPool;
     descriptorSetInfo.descriptorSetCount = 1;
@@ -1282,7 +1280,6 @@ int main()
                 }
 
                 {
-                    // Queue::SubmitInfo submitInfo;
                     auto submitInfo = Queue::SubmitInfo;
                     VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT };
                     submitInfo.waitSemaphoreCount = 0;
@@ -1293,7 +1290,6 @@ int main()
                     submitInfo.signalSemaphoreCount = 1;
                     submitInfo.pSignalSemaphores = &offscreenSemaphore->handle();
                     graphicsQueue.submit(submitInfo);
-                    int breaker = 0;
                 }
 
                 {
@@ -1302,7 +1298,6 @@ int main()
                         *imageSemaphore,
                     };
 
-                    // Queue::SubmitInfo submitInfo;
                     auto submitInfo = Queue::SubmitInfo;
                     VkPipelineStageFlags waitStages[] {
                         VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
@@ -1317,10 +1312,8 @@ int main()
                     submitInfo.signalSemaphoreCount = 1;
                     submitInfo.pSignalSemaphores = &renderSemaphore->handle();
                     graphicsQueue.submit(submitInfo);
-                    int breaker = 0;
                 }
 
-                // Queue::PresentInfoKHR presentInfo;
                 auto presentInfo = Queue::PresentInfoKHR;
                 presentInfo.waitSemaphoreCount = 1;
                 presentInfo.pWaitSemaphores = &renderSemaphore->handle();
