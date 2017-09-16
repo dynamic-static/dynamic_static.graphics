@@ -5,6 +5,7 @@ set(INCLUDE_PATH ${DST_GFX_INCLUDE}/Dynamic_Static/)
 set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/OpenGL/GLEWInclude.hpp
 
+    ${INCLUDE_PATH}/Graphics/Vulkan/Effects/GaussianBlur.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Application.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Buffer.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Command.hpp
@@ -18,6 +19,7 @@ set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/Vulkan/Descriptor.Set.Layout.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Device.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/DeviceChild.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Effect.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Framebuffer.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Image.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Image.View.hpp
@@ -58,6 +60,7 @@ set(INCLUDE_FILES
 
 set(SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/)
 set(SOURCE_FILES
+    ${SOURCE_PATH}/Graphics/Vulkan/Effects/GaussianBlur.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Application.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Buffer.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Command.cpp
@@ -69,6 +72,7 @@ set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/Vulkan/Descriptor.Set.Layout.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Device.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/DeviceChild.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/Effect.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Framebuffer.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Image.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Image.View.cpp

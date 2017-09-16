@@ -22,6 +22,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/Descriptor.Set.Layout.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Effect.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Framebuffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Image.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Image.View.hpp"

@@ -10,9 +10,10 @@
 #pragma once
 
 #include "Dynamic_Static/Core/Math.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Buffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Command.Buffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Buffer.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
 
 #include "gsl/gsl"
 
@@ -24,6 +25,8 @@ namespace Vulkan {
 
     struct VertexPositionTexCoordColor final
     {
+        // TODO : Find a home for this...
+
         dst::Vector3 position;
         dst::Vector2 texCoord;
         dst::Color color;
@@ -64,12 +67,11 @@ namespace Vulkan {
             };
         }
 
-        static VkPipelineVertexInputStateCreateInfo pipeline_input_state()
+        static VkPipelineVertexInputStateCreateInfo pipeline_input_state_create_info()
         {
             static auto bindindDescription = binding_description();
             static auto attributeDescriptions = attribute_descriptions();
-            VkPipelineVertexInputStateCreateInfo inputState { };
-            inputState.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+            VkPipelineVertexInputStateCreateInfo inputState = Pipeline::VertexInputStateCreateInfo;
             inputState.vertexBindingDescriptionCount = 1;
             inputState.pVertexBindingDescriptions = &bindindDescription;
             inputState.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());

@@ -855,8 +855,8 @@ namespace ShapeBlaster {
             );
 
             std::array<VkPipelineShaderStageCreateInfo, 2> shaderStages {
-                vertexShader->pipeline_stage_info(),
-                fragmentShader->pipeline_stage_info(),
+                vertexShader->pipeline_stage_create_info(),
+                fragmentShader->pipeline_stage_create_info(),
             };
 
             auto vertexBindingDescription = ShapeBlaster::QuadVertex::binding_description();

@@ -12,6 +12,7 @@
 #include "Dynamic_Static/Core/FileSystem/File.hpp"
 #include "Dynamic_Static/Core/FileSystem/Path.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/ShaderModule.Compiler.hpp"
 
 namespace Dynamic_Static {
@@ -61,16 +62,11 @@ namespace Vulkan {
         }
     }
 
-    VkPipelineShaderStageCreateInfo ShaderModule::pipeline_stage_info() const
+    VkPipelineShaderStageCreateInfo ShaderModule::pipeline_stage_create_info() const
     {
-        VkPipelineShaderStageCreateInfo info { };
-        info.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-        info.pNext = nullptr;
-        info.flags = 0;
+        auto info = Pipeline::ShaderStageCreateInfo;
         info.stage = mStage;
         info.module = mHandle;
-        info.pName = "main";
-        info.pSpecializationInfo = nullptr;
         return info;
     }
 

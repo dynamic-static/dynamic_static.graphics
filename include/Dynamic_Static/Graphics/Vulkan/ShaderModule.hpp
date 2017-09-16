@@ -74,7 +74,7 @@ namespace Vulkan {
          * Gets this ShaderModule's VkPipelineShaderStageCreateInfo.
          * @return This ShaderModule's VkPipelineShaderStageCreateInfo
          */
-        VkPipelineShaderStageCreateInfo pipeline_stage_info() const;
+        VkPipelineShaderStageCreateInfo pipeline_stage_create_info() const;
     };
 
 } // namespace Vulkan

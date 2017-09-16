@@ -89,7 +89,7 @@ namespace Vulkan {
          * TODO : Documentation.
          */
         template <typename T>
-        void write(const gsl::span<const T>& data)
+        void write(gsl::span<const T> data)
         {
             assert(mMemory);
             mMemory->write(data);

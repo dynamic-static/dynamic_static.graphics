@@ -40,8 +40,31 @@ namespace Vulkan {
     public:
         class Layout;
 
-        // TODO : Shader Stage Create Info...
-        // TODO : Vertex Input State Create Info...
+        /**
+         * Default graphics Pipeline shader stage creation parameters.
+         */
+        static constexpr VkPipelineShaderStageCreateInfo ShaderStageCreateInfo {
+            /* sType               */ VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
+            /* pNext               */ nullptr,
+            /* flags               */ 0,
+            /* stage               */ VK_SHADER_STAGE_ALL_GRAPHICS,
+            /* module              */ VK_NULL_HANDLE,
+            /* pName               */ "main",
+            /* pSpecializationInfo */ nullptr,
+        };
+
+        /**
+         * Default graphics Pipeline vertex input state creation parameters.
+         */
+        static constexpr VkPipelineVertexInputStateCreateInfo VertexInputStateCreateInfo {
+            /* sType                           */ VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO,
+            /* pNext                           */ nullptr,
+            /* flags                           */ 0,
+            /* vertexBindingDescriptionCount   */ 0,
+            /* pVertexBindingDescriptions      */ nullptr,
+            /* vertexAttributeDescriptionCount */ 0,
+            /* pVertexAttributeDescriptions    */ nullptr,
+        };
 
         /**
          * Default graphics Pipeline input assembly state creation parameters.

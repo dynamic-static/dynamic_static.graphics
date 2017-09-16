@@ -14,6 +14,7 @@
 
 #include "BloomSettings.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Effects/GaussianBlur.hpp"
 
 #include <memory>
 
@@ -160,8 +161,8 @@ namespace ShapeBlaster {
                 );
 
                 std::array<VkPipelineShaderStageCreateInfo, 2> shaderStages {
-                    vertexShader->pipeline_stage_info(),
-                    fragmentShader->pipeline_stage_info()
+                    vertexShader->pipeline_stage_create_info(),
+                    fragmentShader->pipeline_stage_create_info()
                 };
 
                 auto rasterizationInfo = Pipeline::RasterizationStateCreateInfo;
@@ -172,7 +173,7 @@ namespace ShapeBlaster {
                 pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout->handle();
                 pipelineLayout = device.create<Pipeline::Layout>(pipelineLayoutInfo);
 
-                auto vertexInputInfo = VertexPositionTexCoordColor::pipeline_input_state();
+                auto vertexInputInfo = VertexPositionTexCoordColor::pipeline_input_state_create_info();
                 auto pipelineInfo = Pipeline::GraphicsCreateInfo;
                 pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
                 pipelineInfo.pStages = shaderStages.data();
@@ -254,8 +255,7 @@ namespace ShapeBlaster {
         };
 
         Resources mBloomExtractionResources;
-        Resources mHorizontalBlurResources;
-        Resources mVerticalBlurResources;
+        Resources mGaussianBlurResources;
         Resources mBloomCombineResourecs;
 
     public:
@@ -362,30 +362,72 @@ namespace ShapeBlaster {
                 )"
             );
 
-            // mHorizontalBlurResources.initialize(
-            //     device, format, VK_FORMAT_UNDEFINED,
-            //     R"(
-            // 
-            // 
-            // 
-            //     )",
-            //     R"(
-            // 
-            // 
-            // 
-            //     )"
-            // );
 
-            // mVerticalBlurResources.initialize(
+            // 
+            // mGaussianBlurResources.initialize(
             //     device, format, VK_FORMAT_UNDEFINED,
             //     R"(
             // 
+            //         #version 450
+            //         #extension GL_ARB_separate_shader_objects : enable
             // 
+            //         layout(location = 0) in vec3 vsPosition;
+            //         layout(location = 1) in vec2 vsTexCoord;
+            //         layout(location = 2) in vec4 vsColor;
+            // 
+            //         layout(location = 0) out vec2 fsTexCoord;
+            //         layout(location = 1) out vec4 fsColor;
+            // 
+            //         out gl_PerVertex
+            //         {
+            //             vec4 gl_Position;
+            //         };
+            // 
+            //         void main()
+            //         {
+            //             gl_Position = vec4(vsPosition, 1);
+            //             fsTexCoord = vsTexCoord;
+            //             fsColor = vsColor;
+            //         }
             // 
             //     )",
             //     R"(
             // 
+            //         #version 450
+            //         #extension GL_ARB_separate_shader_objects : enable
             // 
+            //         layout(binding = 1) uniform sampler2D image;
+            // 
+            //         layout(location = 0) in vec2 fsTexCoord;
+            //         layout(location = 1) in vec4 fsColor;
+            // 
+            //         layout(location = 0) out vec4 fragmentColor;
+            // 
+            //         float weights[] {
+            //             0.227027,
+            //             0.1945946,
+            //             0.1216216,
+            //             0.054054,
+            //             0.016216,
+            //         };
+            // 
+            //         vec3 gaussian_sample(vec2 offset, int weightIndex)
+            //         {
+            //             float BLUR_STRENGTH = 1;
+            //             return
+            //                 (texture(image, fsTexCoord + offset) * weights[weightIndex] * BLUR_STRENGTH) +
+            //                 (texture(image, fsTexCoord - offset) * weights[weightIndex] * BLUR_STRENGTH);
+            //         }
+            // 
+            //         void main()
+            //         {
+            //             float BLUR_SCALE = 1;
+            //             vec2 offset = 1.0 textureSize(image, 0) * BLUR_SCALE;
+            // 
+            //             float threshold = 0.25;
+            //             fragmentColor = texture(image, fsTexCoord);
+            //             fragmentColor.rgb = (fragmentColor.rgb - vec3(threshold)) / (vec3(1) - vec3(threshold));
+            //         }
             // 
             //     )"
             // );
@@ -443,11 +485,6 @@ namespace ShapeBlaster {
         void end()
         {
             mCommandBuffer->end_render_pass();
-
-            // mCommandBuffer->begin_render_pass
-
-
-
             mCommandBuffer->end();
         }
     };

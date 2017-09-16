@@ -402,8 +402,8 @@ PipelinePair create_pipeline(
     );
 
     std::array<VkPipelineShaderStageCreateInfo, 2> shaderStages {
-        vertexShader->pipeline_stage_info(),
-        fragmentShader->pipeline_stage_info()
+        vertexShader->pipeline_stage_create_info(),
+        fragmentShader->pipeline_stage_create_info()
     };
 
     auto rasterizationInfo = Pipeline::RasterizationStateCreateInfo;
@@ -1132,11 +1132,11 @@ int main()
             ubo.projection = camera.projection();
             
             ubo.world = cubeToWorld;
-            cubeUniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
+            cubeUniformBuffer->write<UniformBuffer>(gsl::make_span(&ubo, 1));
             ubo.world = dst::Matrix4x4::Identity;
-            floorUniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
+            floorUniformBuffer->write<UniformBuffer>(gsl::make_span(&ubo, 1));
             ubo.world = dst::Matrix4x4::create_scale({ 1, -1, 1 }) * cubeToWorld;
-            offscreenUniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
+            offscreenUniformBuffer->write<UniformBuffer>(gsl::make_span(&ubo, 1));
 
             presentQueue.wait_idle();
             swapchain->update();

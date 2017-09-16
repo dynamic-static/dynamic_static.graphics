@@ -86,7 +86,7 @@ namespace Vulkan {
          * TODO : Documentation.
          */
         template <typename T>
-        void write(const gsl::span<const T>& data)
+        void write(gsl::span<const T> data)
         {
             write(data, 0);
         }
@@ -95,7 +95,7 @@ namespace Vulkan {
          * TODO : Documentation.
          */
         template <typename T>
-        void write(const gsl::span<const T>& data, size_t offset)
+        void write(gsl::span<const T> data, size_t offset)
         {
             auto mappedPtr = map(offset, data.size_bytes());
             memcpy(mappedPtr, data.data(), data.size_bytes());

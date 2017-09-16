@@ -349,8 +349,8 @@ int main()
         );
 
         std::array<VkPipelineShaderStageCreateInfo, 2> shaderStages {
-            vertexShader->pipeline_stage_info(),
-            fragmentShader->pipeline_stage_info(),
+            vertexShader->pipeline_stage_create_info(),
+            fragmentShader->pipeline_stage_create_info(),
         };
 
         auto vertexBindingDescription = Vertex::binding_description();

@@ -1,7 +1,7 @@
 
 /*
 ==========================================
-    Copyright (c) 2017 Dynamic_Static 
+    Copyright (c) 2017 Dynamic_Static
     Licensed under the MIT license
     http://opensource.org/licenses/MIT
 ==========================================
@@ -64,6 +64,7 @@ namespace Vulkan {
     class DebugReport;
     class Descriptor;
     class Device;
+    class Effect;
     class Framebuffer;
     class Image;
     class Instance;
@@ -79,6 +80,8 @@ namespace Vulkan {
     class ShaderModule;
     class SurfaceKHR;
     class SwapchainKHR;
+
+    class GaussianBlur;
 
     /**
      * TODO : Documentation.
