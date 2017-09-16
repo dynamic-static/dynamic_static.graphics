@@ -16,25 +16,6 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    class GaussianBlur final
-        : public Effect
-    {
-    public:
-        struct Settings final
-        {
-            float threshold { 0.25f };
-            float amount { 4 };
-            float bloomIntensity { 1.25f };
-            float baseIntensity { 1 };
-            float bloomSaturation { 1 };
-            float baseSaturation { 1 };
-        } settings;
-
-    public:
-        GaussianBlur() = default;
-        GaussianBlur(Device& device, uint32_t width, uint32_t height, VkFormat format);
-    };
-
 } // namespace Vulkan
 } // namespace Graphics
 } // namespace Dynamic_Static
