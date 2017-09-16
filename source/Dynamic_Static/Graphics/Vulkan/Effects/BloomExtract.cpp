@@ -66,6 +66,7 @@ namespace Vulkan {
         )
     {
         create_uniform_buffer<Settings>();
+        write_descriptor_set(*renderTarget->colorAttachment);
     }
 
 } // namespace Vulkan

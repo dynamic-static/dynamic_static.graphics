@@ -5,6 +5,8 @@ set(INCLUDE_PATH ${DST_GFX_INCLUDE}/Dynamic_Static/)
 set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/OpenGL/GLEWInclude.hpp
 
+    ${INCLUDE_PATH}/Graphics/Vulkan/Effects/Bloom.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Effects/BloomCombine.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Effects/BloomExtract.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Effects/GaussianBlur.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Application.hpp
@@ -61,6 +63,8 @@ set(INCLUDE_FILES
 
 set(SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/)
 set(SOURCE_FILES
+    ${SOURCE_PATH}/Graphics/Vulkan/Effects/Bloom.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/Effects/BloomCombine.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Effects/BloomExtract.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Effects/GaussianBlur.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Application.cpp

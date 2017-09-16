@@ -271,7 +271,11 @@ int main()
                             commandBuffer->begin_render_pass(renderPassBeginInfo);
 
                                 // commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *resources.mPipeline);
-                                commandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *bloomComponent.mBloomExtractionResources.pipeline);
+                                commandBuffer->bind_pipeline(
+                                    VK_PIPELINE_BIND_POINT_GRAPHICS,
+                                    *bloomComponent.bloomExtract.pipeline
+                                );
+
                                 VkViewport viewport { };
                                 viewport.width = static_cast<float>(swapchain->extent().width);
                                 viewport.height = static_cast<float>(swapchain->extent().height);
@@ -286,8 +290,8 @@ int main()
                                     // commandBuffer->bind_index_buffer(*resources.quadIndexBuffer);
                                     // game.render(*commandBuffer);
                                     commandBuffer->bind_descriptor_set(
-                                        *bloomComponent.mBloomExtractionResources.descriptorSet,
-                                        *bloomComponent.mBloomExtractionResources.pipelineLayout
+                                        *bloomComponent.bloomExtract.descriptorSet,
+                                        *bloomComponent.bloomExtract.pipelineLayout
                                     );
 
                                     bloomComponent.mQuad.draw(*commandBuffer);

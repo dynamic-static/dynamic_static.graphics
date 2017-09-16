@@ -27,8 +27,9 @@ namespace Vulkan {
     )
     {
         create_render_pass(device, format, depthFormat);
-        create_render_target(width, height);
+        create_render_target(width, height, format, depthFormat);
         create_descriptor_set_layout(device);
+        create_pipeline_layout(device);
         create_pipeline(device, vertexShaderSource, fragmentShaderSource);
         create_descriptor_pool(device);
         create_descriptor_set();
@@ -98,11 +99,9 @@ namespace Vulkan {
         renderPass = device.create<RenderPass>(renderPassInfo);
     }
 
-    void Effect::create_render_target(uint32_t width, uint32_t height)
+    void Effect::create_render_target(uint32_t width, uint32_t height, VkFormat format, VkFormat depthFormat)
     {
-        renderTarget = std::make_unique<RenderTarget>(
-            *renderPass, width, height, renderTarget->format(), renderTarget->depth_format()
-        );
+        renderTarget = std::make_unique<RenderTarget>(*renderPass, width, height, format, depthFormat);
     }
 
     void Effect::create_descriptor_set_layout(Device& device)
@@ -222,6 +221,15 @@ namespace Vulkan {
         descriptorWrites[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
         descriptorWrites[0].descriptorCount = 1;
         descriptorWrites[0].pBufferInfo = &descriptorBufferInfo;
+
+        descriptorWrites[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        descriptorWrites[1].dstSet = *descriptorSet;
+        descriptorWrites[1].dstBinding = 1;
+        descriptorWrites[1].dstArrayElement = 0;
+        descriptorWrites[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        descriptorWrites[1].descriptorCount = 1;
+        descriptorWrites[1].pImageInfo = &descriptorImageInfo;
+
         vkUpdateDescriptorSets(
             descriptorPool->device(),
             static_cast<uint32_t>(descriptorWrites.size()),

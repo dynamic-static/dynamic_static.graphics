@@ -75,7 +75,7 @@ namespace Vulkan {
 
     private:
         void create_render_pass(Device& device, VkFormat format, VkFormat depthFormat);
-        void create_render_target(uint32_t width, uint32_t height);
+        void create_render_target(uint32_t width, uint32_t height, VkFormat format, VkFormat depthFormat);
         void create_descriptor_set_layout(Device& device);
         void create_pipeline_layout(Device& device);
         void create_pipeline(Device& device, const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
