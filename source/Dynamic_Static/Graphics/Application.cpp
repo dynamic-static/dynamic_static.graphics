@@ -82,5 +82,10 @@ namespace Graphics {
     {
     }
 
+    void Application::stop()
+    {
+        mRunning = false;
+    }
+
 } // namespace Graphics
 } // namespace Dynamic_Static

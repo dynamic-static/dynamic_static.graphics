@@ -35,6 +35,7 @@ namespace Vulkan {
         Queue* mGraphicsQueue { nullptr };
         Queue* mPresentQueue { nullptr };
         std::shared_ptr<SwapchainKHR> mSwapchain;
+        std::shared_ptr<RenderPass> mRenderPass;
         std::shared_ptr<Command::Pool> mCommandPool;
         std::shared_ptr<Semaphore> mImageSemaphore;
         std::shared_ptr<Semaphore> mRenderSemaphore;

@@ -103,7 +103,7 @@ namespace Vulkan {
         if (!shader.parse(&BuiltInResource, 100, false, messages)) {
             std::string infoLog = shader.getInfoLog();
             std::string debugLog = shader.getInfoDebugLog();
-            throw std::runtime_error("PARSE : " + infoLog);
+            throw std::runtime_error("PARSE (" + dst::to_string(stage) + ") : " + infoLog);
         }
 
         glslang::TProgram program;
@@ -111,7 +111,7 @@ namespace Vulkan {
         if (!program.link(messages)) {
             std::string infoLog = shader.getInfoLog();
             std::string debugLog = shader.getInfoDebugLog();
-            throw std::runtime_error("LINK : " + infoLog);
+            throw std::runtime_error("LINK (" + dst::to_string(stage) + ") : " + infoLog);
         }
 
         std::vector<uint32_t> spirv;

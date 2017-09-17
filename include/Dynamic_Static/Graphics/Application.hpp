@@ -92,6 +92,11 @@ namespace Graphics {
          * TODO : Documentation.
          */
         virtual void shutdown();
+
+        /**
+         * TODO : Documentation.
+         */
+        void stop();
     };
 
 } // namespace Graphics

@@ -108,8 +108,37 @@ namespace Vulkan {
         mSwapchain->on_resized = std::bind(&Application::on_swapchain_resized, this, _1);
 
         ////////////////////////////////////////////////////////////////
+        // Create RenderPass
+        VkAttachmentDescription colorAttachmentDescription { };
+        colorAttachmentDescription.format = mSwapchain->format();
+        colorAttachmentDescription.samples = VK_SAMPLE_COUNT_1_BIT;
+        colorAttachmentDescription.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+        colorAttachmentDescription.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+        colorAttachmentDescription.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+        colorAttachmentDescription.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+        colorAttachmentDescription.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        colorAttachmentDescription.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+
+        VkAttachmentReference colorAttachmentReference { };
+        colorAttachmentReference.attachment = 0;
+        colorAttachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
+        VkSubpassDescription subpassDescription { };
+        subpassDescription.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+        subpassDescription.colorAttachmentCount = 1;
+        subpassDescription.pColorAttachments = &colorAttachmentReference;
+
+        auto renderPassInfo = RenderPass::CreateInfo;
+        renderPassInfo.attachmentCount = 1;
+        renderPassInfo.pAttachments = &colorAttachmentDescription;
+        renderPassInfo.subpassCount = 1;
+        renderPassInfo.pSubpasses = &subpassDescription;
+        mRenderPass = mDevice->create<RenderPass>(renderPassInfo);
+
+        ////////////////////////////////////////////////////////////////
         // Create Command::Pool
         auto commandPoolInfo = Command::Pool::CreateInfo;
+        commandPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
         commandPoolInfo.queueFamilyIndex = static_cast<uint32_t>(mGraphicsQueue->family_index());
         mCommandPool = mDevice->create<Command::Pool>(commandPoolInfo);
         for (size_t i = 0; i < mSwapchain->images().size(); ++i) {
@@ -148,7 +177,7 @@ namespace Vulkan {
                 mFramebuffers.reserve(mSwapchain->images().size());
                 for (const auto& image : mSwapchain->images()) {
                     auto framebufferInfo = Framebuffer::CreateInfo;
-                    framebufferInfo.renderPass = VK_NULL_HANDLE;
+                    framebufferInfo.renderPass = *mRenderPass;
                     framebufferInfo.attachmentCount = 1;
                     framebufferInfo.pAttachments = &image->view()->handle();
                     framebufferInfo.width = mSwapchain->extent().width;
@@ -178,7 +207,7 @@ namespace Vulkan {
 
                     VkClearValue clearColor { 0.2f, 0.2f, 0.2f, 1 };
                     auto renderPassBeginInfo = RenderPass::BeginInfo;
-                    renderPassBeginInfo.renderPass = VK_NULL_HANDLE;
+                    renderPassBeginInfo.renderPass = *mRenderPass;
                     renderPassBeginInfo.framebuffer = *mFramebuffers[i];
                     renderPassBeginInfo.renderArea.extent = extent;
                     renderPassBeginInfo.clearValueCount = 1;

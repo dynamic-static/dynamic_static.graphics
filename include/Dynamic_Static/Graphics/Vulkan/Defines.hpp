@@ -52,6 +52,24 @@ namespace Dynamic_Static {
         return str;
     }
 
+    inline std::string to_string(VkShaderStageFlagBits shaderStageFlagBits)
+    {
+        std::string str;
+        switch (shaderStageFlagBits) {
+            case VK_SHADER_STAGE_VERTEX_BIT:                  str = "Vertex"; break;
+            case VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT:    str = "Tesselation Control"; break;
+            case VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT: str = "Tesselation Evaluation"; break;
+            case VK_SHADER_STAGE_GEOMETRY_BIT:                str = "Geometry"; break;
+            case VK_SHADER_STAGE_FRAGMENT_BIT:                str = "Fragment"; break;
+            case VK_SHADER_STAGE_COMPUTE_BIT:                 str = "Compute"; break;
+            case VK_SHADER_STAGE_ALL_GRAPHICS:                str = "All Graphics"; break;
+            case VK_SHADER_STAGE_ALL:                         str = "All"; break;
+            default: str = "Unknown"; break;
+        }
+
+        return str;
+    }
+
 } // namespace Dynamic_Static
 
 namespace Dynamic_Static {

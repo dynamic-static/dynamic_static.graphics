@@ -203,7 +203,7 @@ namespace Vulkan {
             /* flags               */ 0,
             /* stageCount          */ 0,
             /* pStages             */ nullptr,
-            /* pVertexInputState   */ nullptr,
+            /* pVertexInputState   */ &VertexInputStateCreateInfo,
             /* pInputAssemblyState */ &InputAssemblyStateCreateInfo,
             /* pTessellationState  */ nullptr,
             /* pViewportState      */ &ViewportStateCreateInfo,
