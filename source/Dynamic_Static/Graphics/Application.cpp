@@ -8,7 +8,6 @@
 */
 
 #include "Dynamic_Static/Graphics/Application.hpp"
-#include "..\..\..\include\Dynamic_Static\Graphics\Vulkan\Application.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {

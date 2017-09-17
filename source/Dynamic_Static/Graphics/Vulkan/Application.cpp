@@ -10,8 +10,13 @@
 #pragma once
 
 #include "Dynamic_Static/Graphics/Vulkan/Application.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Command.Buffer.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Command.Pool.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Framebuffer.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Image.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Image.View.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
@@ -39,22 +44,21 @@ namespace Vulkan {
             #endif
         };
 
-        VkDebugReportFlagsEXT debugFlags =
-            0
-            #if defined(DYNAMIC_STATIC_WINDOWS)
-            | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
-            | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-            | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_ERROR_BIT_EXT
-            #endif
-            ;
+        // VkDebugReportFlagsEXT debugFlags =
+        //     0
+        //     #if defined(DYNAMIC_STATIC_WINDOWS)
+        //     | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+        //     | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+        //     | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+        //     | VK_DEBUG_REPORT_WARNING_BIT_EXT
+        //     | VK_DEBUG_REPORT_ERROR_BIT_EXT
+        //     #endif
+        //     ;
 
-        // auto instance = dst::vlkn::Instance::create(instanceLayers, instanceExtensions, debugFlags);
-        auto instance = create<Instance>(instanceLayers, instanceExtensions, debugFlags);
+        mInstance = create<Instance>(instanceLayers, instanceExtensions, mDebugFlags);
         // NOTE : We're just assuming that the first PhysicalDevice is the one we want.
         //        This won't always be the case, we should check for necessary features.
-        mPhysicalDevice = instance->physical_devices()[0].get();
+        mPhysicalDevice = mInstance->physical_devices()[0].get();
         auto apiVersion = mPhysicalDevice->properties().apiVersion;
 
         ////////////////////////////////////////////////////////////////
@@ -77,7 +81,6 @@ namespace Vulkan {
 
         auto queueFamilyFlags = VK_QUEUE_GRAPHICS_BIT;
         auto queueFamilyIndices = mPhysicalDevice->find_queue_families(queueFamilyFlags);
-        // Queue::Info queueInfo { };
         auto queueInfo = Queue::CreateInfo;
         std::array<float, 1> queuePriorities { };
         queueInfo.pQueuePriorities = queuePriorities.data();
@@ -101,6 +104,18 @@ namespace Vulkan {
             throw std::runtime_error("Surface doesn't support presentation");
         }
 
+        using namespace std::placeholders;
+        mSwapchain->on_resized = std::bind(&Application::on_swapchain_resized, this, _1);
+
+        ////////////////////////////////////////////////////////////////
+        // Create Command::Pool
+        auto commandPoolInfo = Command::Pool::CreateInfo;
+        commandPoolInfo.queueFamilyIndex = static_cast<uint32_t>(mGraphicsQueue->family_index());
+        mCommandPool = mDevice->create<Command::Pool>(commandPoolInfo);
+        for (size_t i = 0; i < mSwapchain->images().size(); ++i) {
+            mCommandPool->allocate<Command::Buffer>();
+        }
+
         ////////////////////////////////////////////////////////////////
         // Create Sempahores
         mImageSemaphore = mDevice->create<Semaphore>();
@@ -121,6 +136,28 @@ namespace Vulkan {
 
     void Application::pre_render(const dst::Clock& clock)
     {
+        gfx::Window::update();
+        mPresentQueue->wait_idle();
+        mSwapchain->update();
+        mImageIndex = static_cast<uint32_t>(mSwapchain->next_image(*mImageSemaphore));
+        if (mSwapchain->valid()) {
+            if (mCreateFramebuffers) {
+                mCreateFramebuffers = false;
+                mRecordCommandBuffers = true;
+                mFramebuffers.clear();
+                mFramebuffers.reserve(mSwapchain->images().size());
+                for (const auto& image : mSwapchain->images()) {
+                    auto framebufferInfo = Framebuffer::CreateInfo;
+                    framebufferInfo.renderPass = VK_NULL_HANDLE;
+                    framebufferInfo.attachmentCount = 1;
+                    framebufferInfo.pAttachments = &image->view()->handle();
+                    framebufferInfo.width = mSwapchain->extent().width;
+                    framebufferInfo.height = mSwapchain->extent().height;
+                    framebufferInfo.layers = 1;
+                    mFramebuffers.push_back(mDevice->create<Framebuffer>(framebufferInfo));
+                }
+            }
+        }
     }
 
     void Application::render(const dst::Clock& clock)
@@ -129,10 +166,77 @@ namespace Vulkan {
 
     void Application::post_render(const dst::Clock& clock)
     {
+        if (mSwapchain->valid()) {
+            if (mRecordCommandBuffers) {
+                mRecordCommandBuffers = false;
+                auto extent = mSwapchain->extent();
+                for (size_t i = 0; i < mFramebuffers.size(); ++i) {
+                    auto& commandBuffer = mCommandPool->buffers()[i];
+                    auto beginInfo = Command::Buffer::BeginInfo;
+                    beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+                    commandBuffer->begin(beginInfo);
+
+                    VkClearValue clearColor { 0.2f, 0.2f, 0.2f, 1 };
+                    auto renderPassBeginInfo = RenderPass::BeginInfo;
+                    renderPassBeginInfo.renderPass = VK_NULL_HANDLE;
+                    renderPassBeginInfo.framebuffer = *mFramebuffers[i];
+                    renderPassBeginInfo.renderArea.extent = extent;
+                    renderPassBeginInfo.clearValueCount = 1;
+                    renderPassBeginInfo.pClearValues = &clearColor;
+                    commandBuffer->begin_render_pass(renderPassBeginInfo);
+
+                    VkRect2D scissor { };
+                    VkViewport viewport { };
+                    viewport.width = static_cast<float>(extent.width);
+                    viewport.height = static_cast<float>(extent.height);
+                    viewport.minDepth = 0;
+                    viewport.maxDepth = 1;
+                    scissor.extent = extent;
+                    commandBuffer->set_viewport(viewport);
+                    commandBuffer->set_scissor(scissor);
+
+                    record_command_buffer(*commandBuffer, clock);
+                    commandBuffer->end_render_pass();
+                    commandBuffer->end();
+                }
+            }
+
+            auto submitInfo = Queue::SubmitInfo;
+            VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+            submitInfo.waitSemaphoreCount = 1;
+            submitInfo.pWaitSemaphores = &mImageSemaphore->handle();
+            submitInfo.pWaitDstStageMask = waitStages;
+            submitInfo.commandBufferCount = 1;
+            submitInfo.pCommandBuffers = &mCommandPool->buffers()[mImageIndex]->handle();
+            submitInfo.signalSemaphoreCount = 1;
+            submitInfo.pSignalSemaphores = &mRenderSemaphore->handle();
+            mGraphicsQueue->submit(submitInfo);
+
+            auto presentInfo = Queue::PresentInfoKHR;
+            presentInfo.waitSemaphoreCount = 1;
+            presentInfo.pWaitSemaphores = &mRenderSemaphore->handle();
+            presentInfo.swapchainCount = 1;
+            presentInfo.pSwapchains = &mSwapchain->handle();
+            presentInfo.pImageIndices = &mImageIndex;
+            mPresentQueue->present(presentInfo);
+        }
+
+        mWindow->swap_buffers();
     }
 
     void Application::shutdown()
     {
+        mDevice->wait_idle();
+    }
+
+    void Application::record_command_buffer(Command::Buffer& commandBuffer, const dst::Clock& clock)
+    {
+    }
+
+    void Application::on_swapchain_resized(const SwapchainKHR& swapChain)
+    {
+        mCreateFramebuffers = true;
+        mRecordCommandBuffers = true;
     }
 
 } // namespace Vulkan

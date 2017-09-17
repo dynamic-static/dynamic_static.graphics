@@ -11,8 +11,10 @@
 
 #include "Dynamic_Static/Graphics/Application.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Command.hpp"
 
 #include <memory>
+#include <vector>
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -25,6 +27,7 @@ namespace Vulkan {
         : public gfx::Application
     {
     protected:
+        VkDebugReportFlagsEXT mDebugFlags { 0 };
         std::shared_ptr<Instance> mInstance;
         PhysicalDevice* mPhysicalDevice { nullptr };
         std::shared_ptr<SurfaceKHR> mSurface;
@@ -32,8 +35,15 @@ namespace Vulkan {
         Queue* mGraphicsQueue { nullptr };
         Queue* mPresentQueue { nullptr };
         std::shared_ptr<SwapchainKHR> mSwapchain;
+        std::shared_ptr<Command::Pool> mCommandPool;
         std::shared_ptr<Semaphore> mImageSemaphore;
         std::shared_ptr<Semaphore> mRenderSemaphore;
+        std::vector<std::shared_ptr<Framebuffer>> mFramebuffers;
+
+    private:
+        bool mCreateFramebuffers { true };
+        bool mRecordCommandBuffers { true };
+        uint32_t mImageIndex { 0 };
 
     public:
         /**
@@ -75,6 +85,15 @@ namespace Vulkan {
          * TODO : Documentation.
          */
         virtual void shutdown() override;
+
+    protected:
+        /**
+         * TODO : Documentation.
+         */
+        virtual void record_command_buffer(Command::Buffer& commandBuffer, const dst::Clock& clock);
+
+    private:
+        void on_swapchain_resized(const SwapchainKHR& swapChain);
     };
 
 } // namespace Vulkan
