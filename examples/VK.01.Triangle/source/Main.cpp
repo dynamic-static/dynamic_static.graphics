@@ -46,9 +46,6 @@ private:
         using namespace dst::vlkn;
         dst::vlkn::Application::setup();
 
-        auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
-        mPipelineLayout = mDevice->create<Pipeline::Layout>(pipelineLayoutInfo);
-
         auto vertexShader = mDevice->create<ShaderModule>(
             VK_SHADER_STAGE_VERTEX_BIT,
             ShaderModule::Source::Code,
@@ -108,6 +105,7 @@ private:
             fragmentShader->pipeline_stage_create_info()
         };
 
+        mPipelineLayout = mDevice->create<Pipeline::Layout>();
         auto pipelineInfo = Pipeline::GraphicsCreateInfo;
         pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
         pipelineInfo.pStages = shaderStages.data();

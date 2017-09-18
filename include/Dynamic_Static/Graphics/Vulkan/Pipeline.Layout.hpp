@@ -46,7 +46,7 @@ namespace Vulkan {
     private:
         Layout(
             const std::shared_ptr<Device>& device,
-            const VkPipelineLayoutCreateInfo& info
+            const VkPipelineLayoutCreateInfo& info = CreateInfo
         );
 
     public:
