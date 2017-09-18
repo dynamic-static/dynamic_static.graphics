@@ -26,7 +26,7 @@ namespace Graphics {
     {
     }
 
-    void Application::run()
+    void Application::start()
     {
         setup();
         mRunning = true;

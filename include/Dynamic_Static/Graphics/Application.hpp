@@ -56,7 +56,7 @@ namespace Graphics {
         /**
          * TODO : Documentation.
          */
-        void run();
+        void start();
 
         /**
          * TODO : Documentation.

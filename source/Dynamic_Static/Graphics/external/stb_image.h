@@ -1754,7 +1754,7 @@ static void stbi__build_fast_ac(stbi__int16 *fast_ac, stbi__huffman *h)
       fast_ac[i] = 0;
       if (fast < 255) {
          int rs = h->values[fast];
-         int run = (rs >> 4) & 15;
+         int start = (rs >> 4) & 15;
          int magbits = rs & 15;
          int len = h->size[fast];
 
@@ -1765,7 +1765,7 @@ static void stbi__build_fast_ac(stbi__int16 *fast_ac, stbi__huffman *h)
             if (k < m) k += (~0U << magbits) + 1;
             // if the result is small enough, we can fit it in fast_ac table
             if (k >= -128 && k <= 127)
-               fast_ac[i] = (stbi__int16) ((k << 8) + (run << 4) + (len + magbits));
+               fast_ac[i] = (stbi__int16) ((k << 8) + (start << 4) + (len + magbits));
          }
       }
    }

@@ -44,17 +44,6 @@ namespace Vulkan {
             #endif
         };
 
-        // VkDebugReportFlagsEXT debugFlags =
-        //     0
-        //     #if defined(DYNAMIC_STATIC_WINDOWS)
-        //     | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
-        //     | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-        //     | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-        //     | VK_DEBUG_REPORT_WARNING_BIT_EXT
-        //     | VK_DEBUG_REPORT_ERROR_BIT_EXT
-        //     #endif
-        //     ;
-
         mInstance = create<Instance>(instanceLayers, instanceExtensions, mDebugFlags);
         // NOTE : We're just assuming that the first PhysicalDevice is the one we want.
         //        This won't always be the case, we should check for necessary features.
