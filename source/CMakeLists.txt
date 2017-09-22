@@ -43,6 +43,8 @@ set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/Vulkan/ShaderModule.Compiler.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/SurfaceKHR.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/SwapchainKHR.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Vertex.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/VertexTypes.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/VulkanHppInclude.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/VulkanInclude.hpp
 
@@ -68,7 +70,6 @@ set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/Vulkan/Effects/BloomCombine.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Effects/BloomExtract.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Effects/GaussianBlur.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/VertexTypes/VertexPositionColor.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Application.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Buffer.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Command.cpp

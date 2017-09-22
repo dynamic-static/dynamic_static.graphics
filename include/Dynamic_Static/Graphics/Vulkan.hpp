@@ -42,3 +42,5 @@
 #include "Dynamic_Static/Graphics/Vulkan/ShaderModule.Compiler.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/SurfaceKHR.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Vertex.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/VertexTypes.hpp"

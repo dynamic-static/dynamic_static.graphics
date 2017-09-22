@@ -196,7 +196,7 @@ private:
         pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
         pipelineInfo.pStages = shaderStages.data();
         pipelineInfo.pVertexInputState = &vertexInputState;
-        //pipelineInfo.pRasterizationState = &rasterizationInfo;
+        pipelineInfo.pRasterizationState = &rasterizationInfo;
         pipelineInfo.layout = *mPipelineLayout;
         pipelineInfo.renderPass = *mRenderPass;
         mPipeline = mDevice->create<Pipeline>(pipelineInfo);
