@@ -26,37 +26,37 @@ struct UniformBuffer final
     dst::Matrix4x4 projection;
 };
 
-struct Vertex final
-{
-    dst::Vector2 position;
-    dst::Color color;
-
-    static VkVertexInputBindingDescription binding_description()
-    {
-        VkVertexInputBindingDescription binding;
-        binding.binding = 0;
-        binding.stride = sizeof(Vertex);
-        binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-        return binding;
-    }
-
-    static std::array<VkVertexInputAttributeDescription, 2> attribute_descriptions()
-    {
-        VkVertexInputAttributeDescription positionAttribute;
-        positionAttribute.binding = 0;
-        positionAttribute.location = 0;
-        positionAttribute.format = VK_FORMAT_R32G32_SFLOAT;
-        positionAttribute.offset = offsetof(Vertex, position);
-
-        VkVertexInputAttributeDescription colorAttribute;
-        colorAttribute.binding = 0;
-        colorAttribute.location = 1;
-        colorAttribute.format = VK_FORMAT_R32G32B32A32_SFLOAT;
-        colorAttribute.offset = offsetof(Vertex, color);
-
-        return { positionAttribute, colorAttribute };
-    }
-};
+// struct Vertex final
+// {
+//     dst::Vector2 position;
+//     dst::Color color;
+// 
+//     static VkVertexInputBindingDescription binding_description()
+//     {
+//         VkVertexInputBindingDescription binding;
+//         binding.binding = 0;
+//         binding.stride = sizeof(Vertex);
+//         binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+//         return binding;
+//     }
+// 
+//     static std::array<VkVertexInputAttributeDescription, 2> attribute_descriptions()
+//     {
+//         VkVertexInputAttributeDescription positionAttribute;
+//         positionAttribute.binding = 0;
+//         positionAttribute.location = 0;
+//         positionAttribute.format = VK_FORMAT_R32G32_SFLOAT;
+//         positionAttribute.offset = offsetof(Vertex, position);
+// 
+//         VkVertexInputAttributeDescription colorAttribute;
+//         colorAttribute.binding = 0;
+//         colorAttribute.location = 1;
+//         colorAttribute.format = VK_FORMAT_R32G32B32A32_SFLOAT;
+//         colorAttribute.offset = offsetof(Vertex, color);
+// 
+//         return { positionAttribute, colorAttribute };
+//     }
+// };
 
 class VulkanExample03UniformBuffer final
     : public dst::vlkn::Application
@@ -133,7 +133,7 @@ private:
                     mat4 projection;
                 } ubo;
 
-                layout(location = 0) in vec2 vsPosition;
+                layout(location = 0) in vec3 vsPosition;
                 layout(location = 1) in vec4 vsColor;
 
                 layout(location = 0) out vec3 fsColor;
@@ -145,7 +145,7 @@ private:
 
                 void main()
                 {
-                    gl_Position = ubo.projection * ubo.view * ubo.world * vec4(vsPosition, 0, 1);
+                    gl_Position = ubo.projection * ubo.view * ubo.world * vec4(vsPosition, 1);
                     fsColor = vsColor.rgb;
                 }
 
@@ -176,8 +176,10 @@ private:
             fragmentShader->pipeline_stage_create_info()
         };
 
-        auto vertexBindingDescription = Vertex::binding_description();
-        auto vertexAttributeDescriptions = Vertex::attribute_descriptions();
+        // auto vertexBindingDescription = Vertex::binding_description();
+        // auto vertexAttributeDescriptions = Vertex::attribute_descriptions();
+        auto vertexBindingDescription = binding_description<VertexPositionColor>();
+        auto vertexAttributeDescriptions = attribute_descriptions<VertexPositionColor>();
         auto vertexInputState = Pipeline::VertexInputStateCreateInfo;
         vertexInputState.vertexBindingDescriptionCount = 1;
         vertexInputState.pVertexBindingDescriptions = &vertexBindingDescription;
@@ -206,11 +208,11 @@ private:
     {
         using namespace dst::vlkn;
 
-        const std::array<Vertex, 4> vertices {
-            Vertex { { -0.5f, -0.5f }, { dst::Color::OrangeRed } },
-            Vertex { {  0.5f, -0.5f }, { dst::Color::BlueViolet } },
-            Vertex { {  0.5f,  0.5f }, { dst::Color::DodgerBlue } },
-            Vertex { { -0.5f,  0.5f }, { dst::Color::Goldenrod } },
+        const std::array<VertexPositionColor, 4> vertices {
+            VertexPositionColor { { -0.5f, -0.5f, 0 }, { dst::Color::OrangeRed } },
+            VertexPositionColor { {  0.5f, -0.5f, 0 }, { dst::Color::BlueViolet } },
+            VertexPositionColor { {  0.5f,  0.5f, 0 }, { dst::Color::DodgerBlue } },
+            VertexPositionColor { { -0.5f,  0.5f, 0 }, { dst::Color::Goldenrod } },
         };
 
         const std::array<uint16_t, 6> indices {
@@ -257,7 +259,7 @@ private:
             mGraphicsQueue->wait_idle();
         };
 
-        stagingBuffer->write<Vertex>(vertices);
+        stagingBuffer->write<VertexPositionColor>(vertices);
         copyFromStagingBuffer(*mVertexBuffer, vertexBufferInfo.size);
 
         stagingBuffer->write<uint16_t>(indices);
@@ -506,7 +508,7 @@ int main()
                     mat4 projection;
                 } ubo;
 
-                layout(location = 0) in vec2 inPosition;
+                layout(location = 0) in vec3 inPosition;
                 layout(location = 1) in vec4 inColor;
 
                 layout(location = 0) out vec3 fragColor;
@@ -518,7 +520,7 @@ int main()
 
                 void main()
                 {
-                    gl_Position = ubo.projection * ubo.view * ubo.world * vec4(inPosition, 0, 1);
+                    gl_Position = ubo.projection * ubo.view * ubo.world * vec4(inPosition, 1);
                     fragColor = inColor.rgb;
                 }
 
@@ -550,8 +552,10 @@ int main()
             fragmentShader->pipeline_stage_create_info(),
         };
 
-        auto vertexBindingDescription = Vertex::binding_description();
-        auto vertexAttributeDescriptions = Vertex::attribute_descriptions();
+        // auto vertexBindingDescription = Vertex::binding_description();
+        // auto vertexAttributeDescriptions = Vertex::attribute_descriptions();
+        auto vertexBindingDescription = binding_description<VertexPositionColor>();
+        auto vertexAttributeDescriptions = attribute_descriptions<VertexPositionColor>();
         VkPipelineVertexInputStateCreateInfo vertexInputInfo { };
         vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
         vertexInputInfo.vertexBindingDescriptionCount = 1;
@@ -648,11 +652,11 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create vertex and index Buffers
-        const std::vector<Vertex> vertices {
-            { { -0.5f, -0.5f }, { dst::Color::OrangeRed } },
-            { {  0.5f, -0.5f }, { dst::Color::BlueViolet } },
-            { {  0.5f,  0.5f }, { dst::Color::DodgerBlue } },
-            { { -0.5f,  0.5f }, { dst::Color::Goldenrod } },
+        const std::vector<VertexPositionColor> vertices {
+            { { -0.5f, -0.5f, 0 }, { dst::Color::OrangeRed } },
+            { {  0.5f, -0.5f, 0 }, { dst::Color::BlueViolet } },
+            { {  0.5f,  0.5f, 0 }, { dst::Color::DodgerBlue } },
+            { { -0.5f,  0.5f, 0 }, { dst::Color::Goldenrod } },
         };
 
         auto vertexBufferSize = static_cast<VkDeviceSize>(sizeof(vertices[0]) * vertices.size());
@@ -670,7 +674,7 @@ int main()
         stagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
         auto stagingMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
         auto stagingBuffer = device->create<Buffer>(stagingBufferInfo, stagingMemoryProperties);
-        stagingBuffer->write<Vertex>(vertices);
+        stagingBuffer->write<VertexPositionColor>(vertices);
 
         {
             auto copyCommandBuffer = commandPool->allocate_transient<Command::Buffer>();
