@@ -40,6 +40,7 @@ namespace Vulkan {
 
     private:
         Instance* mInstance { nullptr };
+        bool mStandardErrorEnabled { false };
 
     private:
         PFN_vkDebugReportMessageEXT vkDebugReportMessageEXT { nullptr };
@@ -61,6 +62,18 @@ namespace Vulkan {
          * @return This DebugReport's Instance
          */
         const Instance& instance() const;
+
+        /**
+         * Gets a value indicating whether or not this DebugReport's standard error output is enabled.
+         * @return Whether or not this DebugReport's standard error output is enabled
+         */
+        bool standard_error_enabled() const;
+
+        /**
+         * Sets a value indicating whether or not this DebugReport's standard error output is enabled.
+         * @param [in] standardErrorEnabled Whether or not this DebugReport's standard error output is enabled
+         */
+        void standard_error_enabled(bool standardErrorEnabled);
     };
 
 } // namespace Vulkan

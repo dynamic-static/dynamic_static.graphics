@@ -9,6 +9,7 @@ set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/Vulkan/Effects/BloomCombine.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Effects/BloomExtract.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Effects/GaussianBlur.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/VertexTypes/VertexPositionColor.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Application.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Buffer.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Command.hpp
@@ -67,6 +68,7 @@ set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/Vulkan/Effects/BloomCombine.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Effects/BloomExtract.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Effects/GaussianBlur.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/VertexTypes/VertexPositionColor.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Application.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Buffer.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Command.cpp

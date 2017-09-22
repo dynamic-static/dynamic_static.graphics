@@ -214,6 +214,7 @@ namespace Vulkan {
                     commandBuffer->set_scissor(scissor);
 
                     record_command_buffer(*commandBuffer, clock);
+
                     commandBuffer->end_render_pass();
                     commandBuffer->end();
                 }

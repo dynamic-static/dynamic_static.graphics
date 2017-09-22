@@ -105,6 +105,16 @@ namespace Vulkan {
         return shared_from_this();
     }
 
+    DebugReport* Instance::debug_report()
+    {
+        return mDebugReport.get();
+    }
+
+    const DebugReport* Instance::debug_report() const
+    {
+        return mDebugReport.get();
+    }
+
     const std::vector<std::unique_ptr<PhysicalDevice>>& Instance::physical_devices() const
     {
         return mPhysicalDevices;

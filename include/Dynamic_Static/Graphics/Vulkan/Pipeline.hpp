@@ -31,7 +31,7 @@ namespace Vulkan {
 
     private:
         static constexpr VkRect2D EmptyScissor { };
-        static constexpr VkViewport EmptyViewport { };
+        static constexpr VkViewport EmptyViewport { 0, 0, 0, 0, 0, 1 };
         static constexpr std::array<VkDynamicState, 2> DynamicStates {
             VK_DYNAMIC_STATE_VIEWPORT,
             VK_DYNAMIC_STATE_SCISSOR,
@@ -143,7 +143,7 @@ namespace Vulkan {
             /* flags                 */ 0,
             /* depthTestEnable       */ VK_FALSE,
             /* depthWriteEnable      */ VK_FALSE,
-            /* depthCompareOp        */ VK_COMPARE_OP_LESS,
+            /* depthCompareOp        */ VK_COMPARE_OP_ALWAYS,
             /* depthBoundsTestEnable */ VK_FALSE,
             /* stencilTestEnable     */ VK_FALSE,
             /* front                 */ { },

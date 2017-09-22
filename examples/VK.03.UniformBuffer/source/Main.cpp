@@ -80,11 +80,11 @@ public:
         mDebugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
-            | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
-            | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-            | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_ERROR_BIT_EXT
+            // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+            // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+            // | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_ERROR_BIT_EXT
             #endif
             ;
     }
@@ -184,6 +184,9 @@ private:
         vertexInputState.vertexAttributeDescriptionCount = static_cast<uint32_t>(vertexAttributeDescriptions.size());
         vertexInputState.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
 
+        auto rasterizationInfo = Pipeline::RasterizationStateCreateInfo;
+        rasterizationInfo.cullMode = VK_CULL_MODE_NONE;
+
         auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
         pipelineLayoutInfo.setLayoutCount = 1;
         pipelineLayoutInfo.pSetLayouts = &mDescriptorSetLayout->handle();
@@ -193,6 +196,7 @@ private:
         pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
         pipelineInfo.pStages = shaderStages.data();
         pipelineInfo.pVertexInputState = &vertexInputState;
+        //pipelineInfo.pRasterizationState = &rasterizationInfo;
         pipelineInfo.layout = *mPipelineLayout;
         pipelineInfo.renderPass = *mRenderPass;
         mPipeline = mDevice->create<Pipeline>(pipelineInfo);
@@ -318,20 +322,21 @@ private:
         );
 
         ubo.view = dst::Matrix4x4::create_view(
-            { 2, 2, 2 },
+            { 0, 2, 2 },
             dst::Vector3::Zero,
-            dst::Vector3::UnitZ
+            dst::Vector3::UnitY
         );
 
         ubo.projection = dst::Matrix4x4::create_perspective(
             dst::to_radians(30.0f),
             static_cast<float>(mSwapchain->extent().width) /
             static_cast<float>(mSwapchain->extent().height),
-            0,
-            10
+            0.01f,
+            10.0f
         );
 
         ubo.projection[1][1] *= -1;
+
         mUniformBuffer->write<UniformBuffer>(gsl::make_span(&ubo, 1));
     }
 
@@ -382,11 +387,11 @@ int main()
         VkDebugReportFlagsEXT debugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
-            // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
-            // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-            // | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-            // | VK_DEBUG_REPORT_WARNING_BIT_EXT
-            // | VK_DEBUG_REPORT_ERROR_BIT_EXT
+            | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+            | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+            | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+            | VK_DEBUG_REPORT_WARNING_BIT_EXT
+            | VK_DEBUG_REPORT_ERROR_BIT_EXT
             #endif
             ;
 
@@ -800,7 +805,7 @@ int main()
             }
 
             clock.update();
-            angle += 90.0f * clock.elapsed<dst::Second<float>>();
+            // angle += 90.0f * clock.elapsed<dst::Second<float>>();
 
             UniformBuffer ubo;
             ubo.world = dst::Matrix4x4::create_rotation(
@@ -823,7 +828,9 @@ int main()
             );
 
             ubo.projection[1][1] *= -1;
-
+            // std::cout << ubo.world.to_string() << std::endl;
+            // std::cout << ubo.view.to_string() << std::endl;
+            // std::cout << ubo.projection.to_string() << std::endl;
             uniformBuffer->write<UniformBuffer>(std::array<UniformBuffer, 1> { ubo });
 
             presentQueue.wait_idle();

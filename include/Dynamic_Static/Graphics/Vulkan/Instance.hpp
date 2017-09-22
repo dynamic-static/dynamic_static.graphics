@@ -64,6 +64,18 @@ namespace Vulkan {
         std::shared_ptr<Instance> shared();
 
         /**
+         * Gets this Instance's DebugReport.
+         * @return This Instance's DebugReport
+         */
+        DebugReport* debug_report();
+
+        /**
+         * Gets this Instance's DebugReport.
+         * @return This Instance's DebugReport
+         */
+        const DebugReport* debug_report() const;
+
+        /**
          * Gets this Vulkan Instance's PhysicalDevices.
          * @return This Vulkan::Instance's PhysicalDevices
          */

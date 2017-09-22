@@ -56,6 +56,16 @@ namespace Vulkan {
         return *mInstance;
     }
 
+    bool DebugReport::standard_error_enabled() const
+    {
+        return mStandardErrorEnabled;
+    }
+
+    void DebugReport::standard_error_enabled(bool standardErrorEnabled)
+    {
+        mStandardErrorEnabled = standardErrorEnabled;
+    }
+
     #if defined(DYNAMIC_STATIC_MSVC)
     #pragma warning(push)
     #pragma warning(disable : 4100) // NOTE : unreferenced formal parameter
@@ -105,8 +115,11 @@ namespace Vulkan {
             tlStr = "----";
         }
 
-        tlStr = "{ " + tlStr + " } - " + std::string(layerPrefix) + "[" + dst::to_string(messageCode) + "]-" + std::string(message) + "\n";
-        std::cout << tlStr;
+        if (debugReport.standard_error_enabled()) {
+            tlStr = "{ " + tlStr + " } - " + std::string(layerPrefix) + "[" + dst::to_string(messageCode) + "]-" + std::string(message) + "\n";
+            std::cout << tlStr;
+        }
+
         return VK_FALSE;
     }
 
