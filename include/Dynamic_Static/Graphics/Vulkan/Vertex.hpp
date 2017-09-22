@@ -42,8 +42,8 @@ namespace Vulkan {
         std::array<VkVertexInputAttributeDescription, sizeof...(VertexAttributeTypes)> descriptions { };
         for (size_t i = 0; i < descriptions.size(); ++i) {
             descriptions[i].binding = binding;
-            descriptions[i].location = i;
-            descriptions[i].offset = offset;
+            descriptions[i].location = static_cast<uint32_t>(i);
+            descriptions[i].offset = static_cast<uint32_t>(offset);
             switch (sizes[i]) {
                 case sizeof(float) : descriptions[i].format = VK_FORMAT_R32_SFLOAT; break;
                 case sizeof(Vector2) : descriptions[i].format = VK_FORMAT_R32G32_SFLOAT; break;

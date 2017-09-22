@@ -19,38 +19,6 @@
 #include <iostream>
 #include <memory>
 
-struct Vertex final
-{
-    dst::Vector2 position;
-    dst::Color color;
-
-    static VkVertexInputBindingDescription binding_description()
-    {
-        VkVertexInputBindingDescription binding;
-        binding.binding = 0;
-        binding.stride = sizeof(Vertex);
-        binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-        return binding;
-    }
-
-    static std::array<VkVertexInputAttributeDescription, 2> attribute_descriptions()
-    {
-        VkVertexInputAttributeDescription positionAttribute;
-        positionAttribute.binding = 0;
-        positionAttribute.location = 0;
-        positionAttribute.format = VK_FORMAT_R32G32_SFLOAT;
-        positionAttribute.offset = offsetof(Vertex, position);
-
-        VkVertexInputAttributeDescription colorAttribute;
-        colorAttribute.binding = 0;
-        colorAttribute.location = 1;
-        colorAttribute.format = VK_FORMAT_R32G32B32A32_SFLOAT;
-        colorAttribute.offset = offsetof(Vertex, color);
-
-        return { positionAttribute, colorAttribute };
-    }
-};
-
 class VulkanExample01VertexBuffer final
     : public dst::vlkn::Application
 {
@@ -96,7 +64,7 @@ private:
 
                 #version 450
 
-                layout(location = 0) in vec2 vsPosition;
+                layout(location = 0) in vec3 vsPosition;
                 layout(location = 1) in vec4 vsColor;
 
                 layout(location = 0) out vec3 fsColor;
@@ -108,7 +76,7 @@ private:
 
                 void main()
                 {
-                    gl_Position = vec4(vsPosition, 0, 1);
+                    gl_Position = vec4(vsPosition, 1);
                     fsColor = vsColor.rgb;
                 }
 
@@ -139,8 +107,8 @@ private:
             fragmentShader->pipeline_stage_create_info()
         };
 
-        auto vertexBindingDescription = Vertex::binding_description();
-        auto vertexAttributeDescriptions = Vertex::attribute_descriptions();
+        auto vertexBindingDescription = binding_description<VertexPositionColor>();
+        auto vertexAttributeDescriptions = attribute_descriptions<VertexPositionColor>();
         auto vertexInputState = Pipeline::VertexInputStateCreateInfo;
         vertexInputState.vertexBindingDescriptionCount = 1;
         vertexInputState.pVertexBindingDescriptions = &vertexBindingDescription;
@@ -161,29 +129,11 @@ private:
     {
         using namespace dst::vlkn;
 
-        /*
-
-            Vulkan NDC is laid out as follows...
-
-            (-1, -1)                   (1, -1)
-                +-------------------------+
-                |                         |
-                |                         |
-                |                         |
-                |         (0, 0)          |
-                |                         |
-                |                         |
-                |                         |
-                +-------------------------+
-            (-1, 1)                    (1, 1)
-
-        */
-
-        const std::array<Vertex, 4> vertices {
-            Vertex { { -0.5f, -0.5f }, { dst::Color::OrangeRed } },
-            Vertex { {  0.5f, -0.5f }, { dst::Color::BlueViolet } },
-            Vertex { {  0.5f,  0.5f }, { dst::Color::DodgerBlue } },
-            Vertex { { -0.5f,  0.5f }, { dst::Color::Goldenrod } },
+        const std::array<VertexPositionColor, 4> vertices {
+            VertexPositionColor { { -0.5f, -0.5f, 0 }, { dst::Color::OrangeRed } },
+            VertexPositionColor { {  0.5f, -0.5f, 0 }, { dst::Color::BlueViolet } },
+            VertexPositionColor { {  0.5f,  0.5f, 0 }, { dst::Color::DodgerBlue } },
+            VertexPositionColor { { -0.5f,  0.5f, 0 }, { dst::Color::Goldenrod } },
         };
 
         const std::array<uint16_t, 6> indices {
@@ -230,7 +180,7 @@ private:
             mGraphicsQueue->wait_idle();
         };
 
-        stagingBuffer->write<Vertex>(vertices);
+        stagingBuffer->write<VertexPositionColor>(vertices);
         copyFromStagingBuffer(*mVertexBuffer, vertexBufferInfo.size);
 
         stagingBuffer->write<uint16_t>(indices);

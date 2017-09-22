@@ -44,7 +44,7 @@ private:
 public:
     VulkanExample03UniformBuffer()
     {
-        name("Dynamic_Static VK.02.VertexBuffer");
+        name("Dynamic_Static VK.03.UniformBuffer");
         mDebugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
@@ -152,9 +152,6 @@ private:
         vertexInputState.vertexAttributeDescriptionCount = static_cast<uint32_t>(vertexAttributeDescriptions.size());
         vertexInputState.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
 
-        auto rasterizationInfo = Pipeline::RasterizationStateCreateInfo;
-        rasterizationInfo.cullMode = VK_CULL_MODE_NONE;
-
         auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
         pipelineLayoutInfo.setLayoutCount = 1;
         pipelineLayoutInfo.pSetLayouts = &mDescriptorSetLayout->handle();
@@ -164,7 +161,6 @@ private:
         pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
         pipelineInfo.pStages = shaderStages.data();
         pipelineInfo.pVertexInputState = &vertexInputState;
-        pipelineInfo.pRasterizationState = &rasterizationInfo;
         pipelineInfo.layout = *mPipelineLayout;
         pipelineInfo.renderPass = *mRenderPass;
         mPipeline = mDevice->create<Pipeline>(pipelineInfo);
@@ -175,10 +171,10 @@ private:
         using namespace dst::vlkn;
 
         const std::array<VertexPositionColor, 4> vertices {
-            VertexPositionColor { { -0.5f, -0.5f, 0 }, { dst::Color::OrangeRed } },
-            VertexPositionColor { {  0.5f, -0.5f, 0 }, { dst::Color::BlueViolet } },
-            VertexPositionColor { {  0.5f,  0.5f, 0 }, { dst::Color::DodgerBlue } },
-            VertexPositionColor { { -0.5f,  0.5f, 0 }, { dst::Color::Goldenrod } },
+            VertexPositionColor { { -0.5f, 0, -0.5f }, { dst::Color::OrangeRed } },
+            VertexPositionColor { {  0.5f, 0, -0.5f }, { dst::Color::BlueViolet } },
+            VertexPositionColor { {  0.5f, 0,  0.5f }, { dst::Color::DodgerBlue } },
+            VertexPositionColor { { -0.5f, 0,  0.5f }, { dst::Color::Goldenrod } },
         };
 
         const std::array<uint16_t, 6> indices {
@@ -286,7 +282,7 @@ private:
         mRotation += 90.0f * clock.elapsed<dst::Second<float>>();
         ubo.world = dst::Matrix4x4::create_rotation(
             dst::to_radians(mRotation),
-            dst::Vector3::UnitZ
+            dst::Vector3::UnitY
         );
 
         ubo.view = dst::Matrix4x4::create_view(
@@ -318,7 +314,7 @@ private:
     }
 };
 
-int main_ex()
+int main()
 {
     try {
         VulkanExample03UniformBuffer app;
