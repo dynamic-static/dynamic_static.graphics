@@ -19,7 +19,7 @@
 #include <iostream>
 #include <memory>
 
-class VulkanExample01VertexBuffer final
+class VulkanExample02VertexBuffer final
     : public dst::vlkn::Application
 {
 private:
@@ -30,7 +30,7 @@ private:
     size_t mIndexCount { 0 };
 
 public:
-    VulkanExample01VertexBuffer()
+    VulkanExample02VertexBuffer()
     {
         name("Dynamic_Static VK.02.VertexBuffer");
         mDebugFlags =
@@ -161,30 +161,21 @@ private:
         auto stagingBufferMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
         auto stagingBuffer = mDevice->create<Buffer>(stagingBufferInfo, stagingBufferMemoryProperties);
 
-        auto copyFromStagingBuffer =
-        [&](Buffer& destination, VkDeviceSize copySize)
-        {
-            auto commandBuffer = mCommandPool->allocate_transient<Command::Buffer>();
-            auto beginInfo = Command::Buffer::BeginInfo;
-            beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-            commandBuffer->begin(beginInfo);
-
-            commandBuffer->copy_buffer(*stagingBuffer, destination, copySize);
-            commandBuffer->end();
-
-            auto copySubmitInfo = Queue::SubmitInfo;
-            copySubmitInfo.commandBufferCount = 1;
-            copySubmitInfo.pCommandBuffers = &commandBuffer->handle();
-            mGraphicsQueue->wait_idle();
-            mGraphicsQueue->submit(copySubmitInfo);
-            mGraphicsQueue->wait_idle();
-        };
-
         stagingBuffer->write<VertexPositionColor>(vertices);
-        copyFromStagingBuffer(*mVertexBuffer, vertexBufferInfo.size);
+        mGraphicsQueue->process_immediate(
+            [&](Command::Buffer& commandBuffer)
+            {
+                commandBuffer.copy_buffer(*stagingBuffer, *mVertexBuffer, vertexBufferInfo.size);
+            }
+        );
 
         stagingBuffer->write<uint16_t>(indices);
-        copyFromStagingBuffer(*mIndexBuffer, indexBufferInfo.size);
+        mGraphicsQueue->process_immediate(
+            [&](Command::Buffer& commandBuffer)
+            {
+                commandBuffer.copy_buffer(*stagingBuffer, *mIndexBuffer, vertexBufferInfo.size);
+            }
+        );
     }
 
     void update(const dst::Clock& clock, const dst::Input& input) override
@@ -206,7 +197,7 @@ private:
 int main()
 {
     try {
-        VulkanExample01VertexBuffer app;
+        VulkanExample02VertexBuffer app;
         app.start();
     } catch (const std::exception& e) {
         std::cerr << std::endl << "==========================================" << std::endl;

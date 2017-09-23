@@ -74,12 +74,14 @@ namespace Vulkan {
 
         auto beginInfo = Command::Buffer::BeginInfo;
         beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+        mImmediateCommandBuffer->begin(beginInfo);
     }
 
     void Queue::submit_immediate_command_buffer()
     {
         assert(mImmediateCommandPool);
         assert(mImmediateCommandBuffer);
+        mImmediateCommandBuffer->end();
         auto submitInfo = SubmitInfo;
         submitInfo.commandBufferCount = 1;
         submitInfo.pCommandBuffers = &mImmediateCommandBuffer->handle();
