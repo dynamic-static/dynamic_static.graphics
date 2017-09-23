@@ -104,7 +104,7 @@ private:
                 layout(location = 0) in vec3 vsPosition;
                 layout(location = 1) in vec4 vsColor;
 
-                layout(location = 0) out vec3 fsColor;
+                layout(location = 0) out vec4 fsColor;
 
                 out gl_PerVertex
                 {
@@ -114,7 +114,7 @@ private:
                 void main()
                 {
                     gl_Position = ubo.projection * ubo.view * ubo.world * vec4(vsPosition, 1);
-                    fsColor = vsColor.rgb;
+                    fsColor = vsColor;
                 }
 
             )"
@@ -127,13 +127,13 @@ private:
 
                 #version 450
 
-                layout(location = 0) in vec3 fsColor;
+                layout(location = 0) in vec4 fsColor;
 
                 layout(location = 0) out vec4 fragColor;
 
                 void main()
                 {
-                    fragColor = vec4(fsColor, 1);
+                    fragColor = fsColor;
                 }
 
             )"

@@ -28,48 +28,48 @@ struct UniformBuffer final
     dst::Matrix4x4 projection;
 };
 
-struct Vertex final
-{
-    dst::Vector2 position;
-    dst::Vector2 texCoord;
-    dst::Color color;
-
-    static VkVertexInputBindingDescription binding_description()
-    {
-        VkVertexInputBindingDescription binding;
-        binding.binding = 0;
-        binding.stride = sizeof(Vertex);
-        binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-        return binding;
-    }
-
-    static std::array<VkVertexInputAttributeDescription, 3> attribute_descriptions()
-    {
-        VkVertexInputAttributeDescription positionAttribute;
-        positionAttribute.binding = 0;
-        positionAttribute.location = 0;
-        positionAttribute.format = VK_FORMAT_R32G32_SFLOAT;
-        positionAttribute.offset = offsetof(Vertex, position);
-
-        VkVertexInputAttributeDescription texCoordAttribute;
-        texCoordAttribute.binding = 0;
-        texCoordAttribute.location = 1;
-        texCoordAttribute.format = VK_FORMAT_R32G32_SFLOAT;
-        texCoordAttribute.offset = offsetof(Vertex, texCoord);
-
-        VkVertexInputAttributeDescription colorAttribute;
-        colorAttribute.binding = 0;
-        colorAttribute.location = 2;
-        colorAttribute.format = VK_FORMAT_R32G32B32A32_SFLOAT;
-        colorAttribute.offset = offsetof(Vertex, color);
-
-        return {
-            positionAttribute,
-            texCoordAttribute,
-            colorAttribute
-        };
-    }
-};
+// struct Vertex final
+// {
+//     dst::Vector2 position;
+//     dst::Vector2 texCoord;
+//     dst::Color color;
+// 
+//     static VkVertexInputBindingDescription binding_description()
+//     {
+//         VkVertexInputBindingDescription binding;
+//         binding.binding = 0;
+//         binding.stride = sizeof(Vertex);
+//         binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+//         return binding;
+//     }
+// 
+//     static std::array<VkVertexInputAttributeDescription, 3> attribute_descriptions()
+//     {
+//         VkVertexInputAttributeDescription positionAttribute;
+//         positionAttribute.binding = 0;
+//         positionAttribute.location = 0;
+//         positionAttribute.format = VK_FORMAT_R32G32_SFLOAT;
+//         positionAttribute.offset = offsetof(Vertex, position);
+// 
+//         VkVertexInputAttributeDescription texCoordAttribute;
+//         texCoordAttribute.binding = 0;
+//         texCoordAttribute.location = 1;
+//         texCoordAttribute.format = VK_FORMAT_R32G32_SFLOAT;
+//         texCoordAttribute.offset = offsetof(Vertex, texCoord);
+// 
+//         VkVertexInputAttributeDescription colorAttribute;
+//         colorAttribute.binding = 0;
+//         colorAttribute.location = 2;
+//         colorAttribute.format = VK_FORMAT_R32G32B32A32_SFLOAT;
+//         colorAttribute.offset = offsetof(Vertex, color);
+// 
+//         return {
+//             positionAttribute,
+//             texCoordAttribute,
+//             colorAttribute
+//         };
+//     }
+// };
 
 int main()
 {
@@ -225,12 +225,10 @@ int main()
                     mat4 projection;
                 } ubo;
 
-                layout(location = 0) in vec2 inPosition;
+                layout(location = 0) in vec3 inPosition;
                 layout(location = 1) in vec2 inTexCoord;
-                layout(location = 2) in vec4 inColor;
 
                 layout(location = 0) out vec2 fragTexCoord;
-                layout(location = 1) out vec4 fragColor;
 
                 out gl_PerVertex
                 {
@@ -239,9 +237,8 @@ int main()
 
                 void main()
                 {
-                    gl_Position = ubo.projection * ubo.view * ubo.world * vec4(inPosition, 0, 1);
+                    gl_Position = ubo.projection * ubo.view * ubo.world * vec4(inPosition, 1);
                     fragTexCoord = inTexCoord;
-                    fragColor = inColor;
                 }
 
             )"
@@ -258,7 +255,6 @@ int main()
                 layout(binding = 1) uniform sampler2D imageSampler;
 
                 layout(location = 0) in vec2 fragTexCoord;
-                layout(location = 1) in vec4 fragColor;
 
                 layout(location = 0) out vec4 outColor;
 
@@ -275,8 +271,8 @@ int main()
             fragmentShader->pipeline_stage_create_info(),
         };
 
-        auto vertexBindingDescription = Vertex::binding_description();
-        auto vertexAttributeDescriptions = Vertex::attribute_descriptions();
+        auto vertexBindingDescription = binding_description<VertexPositionTexCoord>();
+        auto vertexAttributeDescriptions = attribute_descriptions<VertexPositionTexCoord>();
         VkPipelineVertexInputStateCreateInfo vertexInputInfo { };
         vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
         vertexInputInfo.vertexBindingDescriptionCount = 1;
@@ -309,7 +305,7 @@ int main()
         rasterizationInfo.polygonMode = VK_POLYGON_MODE_FILL;
         rasterizationInfo.lineWidth = 1;
         rasterizationInfo.cullMode = VK_CULL_MODE_BACK_BIT;
-        rasterizationInfo.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
+        rasterizationInfo.frontFace = VK_FRONT_FACE_CLOCKWISE;
 
         VkPipelineMultisampleStateCreateInfo multisampleInfo { };
         multisampleInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
@@ -510,11 +506,11 @@ int main()
         float a = 1.0f / std::max(w, h);
         w = w * a * 0.5f;
         h = h * a * 0.5f;
-        const std::vector<Vertex> vertices {
-            { { -w, -h }, { 0, 0 }, { dst::Color::OrangeRed } },
-            { {  w, -h }, { 1, 0 }, { dst::Color::BlueViolet } },
-            { {  w,  h }, { 1, 1 }, { dst::Color::DodgerBlue } },
-            { { -w,  h }, { 0, 1 }, { dst::Color::Goldenrod } },
+        const std::array<VertexPositionTexCoord, 4> vertices {
+            VertexPositionTexCoord { { -w, 0, -h }, { 0, 0 } },
+            VertexPositionTexCoord { {  w, 0, -h }, { 1, 0 } },
+            VertexPositionTexCoord { {  w, 0,  h }, { 1, 1 } },
+            VertexPositionTexCoord { { -w, 0,  h }, { 0, 1 } },
         };
 
         auto vertexBufferSize = static_cast<VkDeviceSize>(sizeof(vertices[0]) * vertices.size());
@@ -532,7 +528,7 @@ int main()
         stagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
         auto stagingMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
         auto stagingBuffer = device->create<Buffer>(stagingBufferInfo, stagingMemoryProperties);
-        stagingBuffer->write<Vertex>(vertices);
+        stagingBuffer->write<VertexPositionTexCoord>(vertices);
 
         {
             auto copyCommandBuffer = commandPool->allocate_transient<Command::Buffer>();
@@ -554,7 +550,8 @@ int main()
         }
 
         const std::vector<uint16_t> indices {
-            0, 1, 2, 2, 3, 0,
+            0, 1, 2,
+            2, 3, 0,
         };
 
         auto indexBufferSize = static_cast<VkDeviceSize>(sizeof(indices[0]) * indices.size());
@@ -694,13 +691,13 @@ int main()
             UniformBuffer ubo;
             ubo.world = dst::Matrix4x4::create_rotation(
                 dst::to_radians(angle),
-                dst::Vector3::UnitZ
+                dst::Vector3::UnitY
             );
 
             ubo.view = dst::Matrix4x4::create_view(
-                { 2, 2, 2 },
+                { 0, 2, 2 },
                 dst::Vector3::Zero,
-                dst::Vector3::UnitZ
+                dst::Vector3::UnitY
             );
 
             ubo.projection = dst::Matrix4x4::create_perspective(
