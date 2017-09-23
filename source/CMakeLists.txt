@@ -10,6 +10,7 @@ set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/Vulkan/Effects/BloomExtract.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Effects/GaussianBlur.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/VertexTypes/VertexPositionColor.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/VertexTypes/VertexPositionTexCoord.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Application.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Buffer.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Command.hpp
