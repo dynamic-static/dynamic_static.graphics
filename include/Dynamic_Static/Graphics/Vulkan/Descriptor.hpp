@@ -15,15 +15,15 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    /**
-     * TODO : Documentation.
-     */
-    class Descriptor final
-    {
-    public:
-        class Pool;
-        class Set;
-    };
+    // /**
+    //  * TODO : Documentation.
+    //  */
+    // class Descriptor final
+    // {
+    // public:
+    //     class Pool;
+    //     class Set;
+    // };
 
 } // namespace Vulkan
 } // namespace Graphics

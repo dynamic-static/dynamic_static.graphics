@@ -31,14 +31,14 @@ class VulkanExample03UniformBuffer final
 {
 private:
     std::shared_ptr<dst::vlkn::Descriptor::Set::Layout> mDescriptorSetLayout;
-    std::shared_ptr<dst::vlkn::Descriptor::Pool> mDescriptorPool;
-    dst::vlkn::Descriptor::Set* mDescriptorSet { nullptr };
     std::shared_ptr<dst::vlkn::Pipeline::Layout> mPipelineLayout;
     std::shared_ptr<dst::vlkn::Pipeline> mPipeline;
     std::shared_ptr<dst::vlkn::Buffer> mUniformBuffer;
     std::shared_ptr<dst::vlkn::Buffer> mVertexBuffer;
     std::shared_ptr<dst::vlkn::Buffer> mIndexBuffer;
     size_t mIndexCount { 0 };
+    std::shared_ptr<dst::vlkn::Descriptor::Pool> mDescriptorPool;
+    dst::vlkn::Descriptor::Set* mDescriptorSet { nullptr };
     float mRotation { 0 };
 
 public:
@@ -71,11 +71,13 @@ private:
     void create_descriptor_set_layout()
     {
         using namespace dst::vlkn;
+
         VkDescriptorSetLayoutBinding uniformBufferLayoutBinding { };
         uniformBufferLayoutBinding.binding = 0;
         uniformBufferLayoutBinding.descriptorCount = 1;
         uniformBufferLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
         uniformBufferLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+
         auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
         descriptorSetLayoutInfo.bindingCount = 1;
         descriptorSetLayoutInfo.pBindings = &uniformBufferLayoutBinding;
@@ -231,6 +233,7 @@ private:
     void create_uniform_buffer()
     {
         using namespace dst::vlkn;
+
         auto uniformBufferInfo = Buffer::CreateInfo;
         uniformBufferInfo.size = sizeof(UniformBuffer);
         uniformBufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
@@ -241,6 +244,7 @@ private:
     void create_descriptor_pool_and_set()
     {
         using namespace dst::vlkn;
+
         VkDescriptorPoolSize descriptorPoolSize { };
         descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
         descriptorPoolSize.descriptorCount = 1;

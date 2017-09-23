@@ -28,6 +28,7 @@ set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/Vulkan/Framebuffer.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Image.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Image.View.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/IndexBuffer.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Instance.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Memory.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Mesh.hpp
@@ -86,6 +87,7 @@ set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/Vulkan/Framebuffer.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Image.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Image.View.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/IndexBuffer.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Instance.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Memory.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Mesh.cpp

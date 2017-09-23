@@ -104,6 +104,26 @@ namespace Vulkan {
     /**
      * TODO : Documentation.
      */
+    class Command final
+    {
+    public:
+        class Buffer;
+        class Pool;
+    };
+
+    /**
+     * TODO : Documentation.
+     */
+    class Descriptor final
+    {
+    public:
+        class Pool;
+        class Set;
+    };
+
+    /**
+     * TODO : Documentation.
+     */
     class Exception final
         : public std::runtime_error
     {

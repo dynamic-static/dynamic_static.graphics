@@ -8,6 +8,8 @@
 */
 
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Command.Buffer.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Command.Pool.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 
 namespace Dynamic_Static {
@@ -58,6 +60,32 @@ namespace Vulkan {
     void Queue::wait_idle()
     {
         validate(vkQueueWaitIdle(mHandle));
+    }
+
+    void Queue::prepare_immediate_command_buffer()
+    {
+        if (!mImmediateCommandBuffer) {
+            auto commandPoolInfo = Command::Pool::CreateInfo;
+            commandPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+            commandPoolInfo.queueFamilyIndex = static_cast<uint32_t>(mFamilyIndex);
+            mImmediateCommandPool = mDevice->create<Command::Pool>(commandPoolInfo);
+            mImmediateCommandBuffer = mImmediateCommandPool->allocate<Command::Buffer>();
+        }
+
+        auto beginInfo = Command::Buffer::BeginInfo;
+        beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+    }
+
+    void Queue::submit_immediate_command_buffer()
+    {
+        assert(mImmediateCommandPool);
+        assert(mImmediateCommandBuffer);
+        auto submitInfo = SubmitInfo;
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &mImmediateCommandBuffer->handle();
+        wait_idle();
+        submit(submitInfo);
+        wait_idle();
     }
 
 } // namespace Vulkan

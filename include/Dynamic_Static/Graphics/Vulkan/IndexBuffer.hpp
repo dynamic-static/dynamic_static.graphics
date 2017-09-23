@@ -9,21 +9,20 @@
 
 #pragma once
 
+#include "Dynamic_Static/Graphics/Vulkan/Buffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    // /**
-    //  * TODO : Documentation.
-    //  */
-    // class Command final
-    // {
-    // public:
-    //     class Buffer;
-    //     class Pool;
-    // };
+    /**
+     * TODO : Documentation.
+     */
+    class IndexBuffer final
+        : public Buffer
+    {
+    };
 
 } // namespace Vulkan
 } // namespace Graphics

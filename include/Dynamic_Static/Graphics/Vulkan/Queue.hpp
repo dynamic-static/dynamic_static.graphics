@@ -26,6 +26,10 @@ namespace Vulkan {
     {
         friend class Device;
 
+    private:
+        std::shared_ptr<Command::Pool> mImmediateCommandPool;
+        Command::Buffer* mImmediateCommandBuffer { nullptr };
+
     public:
         /**
          * Default Queue creation parameters.
@@ -115,6 +119,23 @@ namespace Vulkan {
          * TODO : Documentation.
          */
         void wait_idle();
+
+        /**
+         * TODO : Documentation.
+         */
+        template <typename FunctionType>
+        void process_immediate(const FunctionType& function)
+        {
+            prepare_immediate_command_buffer();
+            assert(mImmediateCommandPool);
+            assert(mImmediateCommandBuffer);
+            function(*mImmediateCommandBuffer);
+            submit_immediate_command_buffer();
+        }
+
+    private:
+        void prepare_immediate_command_buffer();
+        void submit_immediate_command_buffer();
     };
 
 } // namespace Vulkan

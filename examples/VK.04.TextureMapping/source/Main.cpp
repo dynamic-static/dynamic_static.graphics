@@ -28,51 +28,141 @@ struct UniformBuffer final
     dst::Matrix4x4 projection;
 };
 
-// struct Vertex final
-// {
-//     dst::Vector2 position;
-//     dst::Vector2 texCoord;
-//     dst::Color color;
-// 
-//     static VkVertexInputBindingDescription binding_description()
-//     {
-//         VkVertexInputBindingDescription binding;
-//         binding.binding = 0;
-//         binding.stride = sizeof(Vertex);
-//         binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-//         return binding;
-//     }
-// 
-//     static std::array<VkVertexInputAttributeDescription, 3> attribute_descriptions()
-//     {
-//         VkVertexInputAttributeDescription positionAttribute;
-//         positionAttribute.binding = 0;
-//         positionAttribute.location = 0;
-//         positionAttribute.format = VK_FORMAT_R32G32_SFLOAT;
-//         positionAttribute.offset = offsetof(Vertex, position);
-// 
-//         VkVertexInputAttributeDescription texCoordAttribute;
-//         texCoordAttribute.binding = 0;
-//         texCoordAttribute.location = 1;
-//         texCoordAttribute.format = VK_FORMAT_R32G32_SFLOAT;
-//         texCoordAttribute.offset = offsetof(Vertex, texCoord);
-// 
-//         VkVertexInputAttributeDescription colorAttribute;
-//         colorAttribute.binding = 0;
-//         colorAttribute.location = 2;
-//         colorAttribute.format = VK_FORMAT_R32G32B32A32_SFLOAT;
-//         colorAttribute.offset = offsetof(Vertex, color);
-// 
-//         return {
-//             positionAttribute,
-//             texCoordAttribute,
-//             colorAttribute
-//         };
-//     }
-// };
+class VulkanExample04TextureMapping final
+    : public dst::vlkn::Application
+{
+private:
+    std::shared_ptr<dst::vlkn::Descriptor::Set::Layout> mDescriptorSetLayout;
+    std::shared_ptr<dst::vlkn::Pipeline::Layout> mPipelineLayout;
+    std::shared_ptr<dst::vlkn::Pipeline> mPipeline;
+
+public:
+    VulkanExample04TextureMapping()
+    {
+        name("Dynamic_Static VK.04.TextureMapping");
+        mDebugFlags =
+            0
+            #if defined(DYNAMIC_STATIC_WINDOWS)
+            // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+            // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+            // | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_ERROR_BIT_EXT
+            #endif
+            ;
+    }
+
+private:
+    void setup() override
+    {
+        dst::vlkn::Application::setup();
+        create_descriptor_set_layout();
+        create_pipeline();
+    }
+
+    void create_descriptor_set_layout()
+    {
+        using namespace dst::vlkn;
+
+        std::array<VkDescriptorSetLayoutBinding, 2> descriptorSetLayoutBindings;
+        descriptorSetLayoutBindings[0].binding = 0;
+        descriptorSetLayoutBindings[0].descriptorCount = 1;
+        descriptorSetLayoutBindings[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        descriptorSetLayoutBindings[0].stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+
+        descriptorSetLayoutBindings[1].binding = 1;
+        descriptorSetLayoutBindings[1].descriptorCount = 1;
+        descriptorSetLayoutBindings[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        descriptorSetLayoutBindings[1].stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+
+        auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
+        descriptorSetLayoutInfo.bindingCount = static_cast<uint32_t>(descriptorSetLayoutBindings.size());
+        descriptorSetLayoutInfo.pBindings = descriptorSetLayoutBindings.data();
+        mDescriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
+    }
+
+    void create_pipeline()
+    {
+        using namespace dst::vlkn;
+
+        Application::setup();
+
+        auto vertexShader = mDevice->create<ShaderModule>(
+            VK_SHADER_STAGE_VERTEX_BIT,
+            ShaderModule::Source::Code,
+            R"(
+
+                #version 450
+
+            )"
+        );
+
+        auto fragmentShader = mDevice->create<ShaderModule>(
+            VK_SHADER_STAGE_FRAGMENT_BIT,
+            ShaderModule::Source::Code,
+            R"(
+
+                #version 450
+
+            )"
+        );
+
+        std::array<VkPipelineShaderStageCreateInfo, 2> shaderStages {
+            vertexShader->pipeline_stage_create_info(),
+            fragmentShader->pipeline_stage_create_info(),
+        };
+
+        auto vertexBindingDescription = binding_description<VertexPositionTexCoord>();
+        auto vertexAttributeDescriptions = attribute_descriptions<VertexPositionTexCoord>();
+        auto vertexInputState = Pipeline::VertexInputStateCreateInfo;
+        vertexInputState.vertexBindingDescriptionCount = 1;
+        vertexInputState.pVertexBindingDescriptions = &vertexBindingDescription;
+        vertexInputState.vertexAttributeDescriptionCount = static_cast<uint32_t>(vertexAttributeDescriptions.size());
+        vertexInputState.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
+
+        auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
+        pipelineLayoutInfo.setLayoutCount = 1;
+        pipelineLayoutInfo.pSetLayouts = &mDescriptorSetLayout->handle();
+        mPipelineLayout = mDevice->create<Pipeline::Layout>(pipelineLayoutInfo);
+
+        auto pipelineInfo = Pipeline::GraphicsCreateInfo;
+        pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
+        pipelineInfo.pStages = shaderStages.data();
+        pipelineInfo.pVertexInputState = &vertexInputState;
+        pipelineInfo.layout = *mPipelineLayout;
+        pipelineInfo.renderPass = *mRenderPass;
+        mPipeline = mDevice->create<Pipeline>(pipelineInfo);
+    }
+
+    void update(const dst::Clock& clock, const dst::Input& input) override
+    {
+        if (input.keyboard().down(dst::Keyboard::Key::Escape)) {
+            stop();
+        }
+    }
+
+    void record_command_buffer(dst::vlkn::Command::Buffer& commandBuffer, const dst::Clock& clock)
+    {
+    }
+};
+
+int main_ex()
+{
+    try {
+        VulkanExample04TextureMapping app;
+        app.start();
+    } catch (const std::exception& e) {
+        std::cerr << std::endl << "==========================================" << std::endl;
+        std::cerr << e.what() << std::endl;
+        std::cerr << std::endl << "==========================================" << std::endl;
+    }
+
+    return 0;
+}
 
 int main()
 {
+    return main_ex();
     try
     {
         using namespace dst::gfx;

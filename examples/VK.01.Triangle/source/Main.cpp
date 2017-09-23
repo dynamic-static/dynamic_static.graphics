@@ -44,7 +44,8 @@ private:
     void setup() override
     {
         using namespace dst::vlkn;
-        dst::vlkn::Application::setup();
+
+        Application::setup();
 
         auto vertexShader = mDevice->create<ShaderModule>(
             VK_SHADER_STAGE_VERTEX_BIT,

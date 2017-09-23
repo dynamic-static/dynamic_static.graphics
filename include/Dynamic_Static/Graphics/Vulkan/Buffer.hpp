@@ -24,7 +24,7 @@ namespace Vulkan {
     /**
      * Provides high level control over a Vulkan Buffer.
      */
-    class Buffer final
+    class Buffer
         : public Object<VkBuffer>
         , public detail::DeviceChild
     {
