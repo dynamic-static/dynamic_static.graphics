@@ -32,24 +32,6 @@ struct UniformBuffer final
     dst::Matrix4x4 projection;
 };
 
-// template <typename FuncType>
-// void process_transient_command_buffer(Command::Pool& commandPool, Queue& queue, const FuncType& f)
-// {
-//     auto commandBuffer = commandPool.allocate_transient<Command::Buffer>();
-//     // Command::Buffer::BeginInfo beginInfo;
-//     auto beginInfo = Command::Buffer::BeginInfo;
-//     beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-//     commandBuffer->begin(beginInfo);
-//     f(*commandBuffer);
-//     commandBuffer->end();
-//     // Queue::SubmitInfo submitInfo;
-//     auto submitInfo = Queue::SubmitInfo;
-//     submitInfo.commandBufferCount = 1;
-//     submitInfo.pCommandBuffers = &commandBuffer->handle();
-//     queue.submit(submitInfo);
-//     queue.wait_idle();
-// }
-
 int main()
 {
     try
@@ -412,7 +394,6 @@ int main()
         imageInfo.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
         auto image = device->create<Image>(imageInfo);
 
-        // Memory::Info imageMemoryInfo;
         auto imageMemoryInfo = Memory::AllocateInfo;
         auto imageMemoryRequirements = image->memory_requirements();
         imageMemoryInfo.allocationSize = imageMemoryRequirements.size;
@@ -424,21 +405,12 @@ int main()
         auto imageMemory = device->allocate<Memory>(imageMemoryInfo);
         image->bind_memory(imageMemory);
 
-        //process_transient_command_buffer(
-        //    *commandPool,
-        //    graphicsQueue,
         graphicsQueue.process_immediate(
             [&](Command::Buffer& commandBuffer)
             {
                 auto oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
                 auto newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
                 auto layoutTransition = Image::create_layout_transition(*image, oldLayout, newLayout);
-                // auto imageMemoryBarrier = create_layout_transition_barrier(
-                //     *image,
-                //     VK_IMAGE_LAYOUT_PREINITIALIZED,
-                //     VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL
-                // );
-
                 vkCmdPipelineBarrier(
                     commandBuffer,
                     layoutTransition.srcStage,
@@ -476,12 +448,6 @@ int main()
                 oldLayout = newLayout;
                 newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
                 layoutTransition = Image::create_layout_transition(*image, oldLayout, newLayout);
-                // imageMemoryBarrier = create_layout_transition_barrier(
-                //     *image,
-                //     VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                //     VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL
-                // );
-
                 vkCmdPipelineBarrier(
                     commandBuffer,
                     layoutTransition.srcStage,
