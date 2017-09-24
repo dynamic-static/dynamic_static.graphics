@@ -122,6 +122,15 @@ namespace Vulkan {
             layoutTransition.barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
             layoutTransition.srcStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
             layoutTransition.dstStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+        } else
+        if (oldLayout == VK_IMAGE_LAYOUT_UNDEFINED &&
+            newLayout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL) {
+            layoutTransition.barrier.srcAccessMask = 0;
+            layoutTransition.barrier.dstAccessMask =
+                VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT |
+                VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+            layoutTransition.srcStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+            layoutTransition.dstStage = VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
         } else {
             throw std::invalid_argument("Unsupported layout transition");
         }
