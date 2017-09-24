@@ -218,20 +218,17 @@ private:
         mGraphicsQueue->process_immediate(
             [&](Command::Buffer& commandBuffer)
             {
-                auto barrier = Image::Barrier;
-                barrier.image = *mImage;
-                barrier.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-                barrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-                barrier.srcAccessMask = 0;
-                barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+                auto oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+                auto newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+                auto layoutTransition = Image::create_layout_transition(*mImage, oldLayout, newLayout);
                 vkCmdPipelineBarrier(
                     commandBuffer,
-                    VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
-                    VK_PIPELINE_STAGE_TRANSFER_BIT,
+                    layoutTransition.srcStage,
+                    layoutTransition.dstStage,
                     0,
                     0, nullptr,
                     0, nullptr,
-                    1, &barrier
+                    1, &layoutTransition.barrier
                 );
 
                 VkBufferImageCopy copyRegion { };
@@ -244,23 +241,22 @@ private:
                     commandBuffer,
                     *stagingBuffer,
                     *mImage,
-                    VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                    newLayout,
                     1,
                     &copyRegion
                 );
 
-                barrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-                barrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-                barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-                barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+                oldLayout = newLayout;
+                newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+                layoutTransition = Image::create_layout_transition(*mImage, oldLayout, newLayout);
                 vkCmdPipelineBarrier(
                     commandBuffer,
-                    VK_PIPELINE_STAGE_TRANSFER_BIT,
-                    VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,
+                    layoutTransition.srcStage,
+                    layoutTransition.dstStage,
                     0,
                     0, nullptr,
                     0, nullptr,
-                    1, &barrier
+                    1, &layoutTransition.barrier
                 );
             }
         );

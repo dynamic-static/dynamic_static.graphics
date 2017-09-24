@@ -33,6 +33,16 @@ namespace Vulkan {
 
     public:
         /**
+         * TODO : Documentation.
+         */
+        struct LayoutTransition final
+        {
+            VkImageMemoryBarrier barrier { Barrier };
+            VkPipelineStageFlags srcStage { VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT };
+            VkPipelineStageFlags dstStage { VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT };
+        };
+
+        /**
          * Provides high level control over a Vulkan Image View.
          */
         class View final
@@ -226,6 +236,15 @@ namespace Vulkan {
             mViews.push_back(std::move(image));
             return mViews.back().get();
         }
+
+        /**
+         * TODO : Documentation.
+         */
+        static LayoutTransition create_layout_transition(
+            Image& image,
+            VkImageLayout oldLayout,
+            VkImageLayout newLayout
+        );
     };
 
 } // namespace Vulkan

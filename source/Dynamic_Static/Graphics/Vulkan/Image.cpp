@@ -12,6 +12,8 @@
 #include "Dynamic_Static/Graphics/Vulkan/Memory.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp"
 
+#include <stdexcept>
+
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
@@ -95,6 +97,55 @@ namespace Vulkan {
             // NOTE : This is extremely inflexible...
             validate(vkBindImageMemory(device(), mHandle, *mMemory, 0));
         }
+    }
+
+    Image::LayoutTransition Image::create_layout_transition(
+        Image& image,
+        VkImageLayout oldLayout,
+        VkImageLayout newLayout
+    )
+    {
+        LayoutTransition layoutTransition;
+        layoutTransition.barrier.oldLayout = oldLayout;
+        layoutTransition.barrier.newLayout = newLayout;
+        layoutTransition.barrier.image = image;
+        if (oldLayout == VK_IMAGE_LAYOUT_UNDEFINED &&
+            newLayout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL) {
+            layoutTransition.barrier.srcAccessMask = 0;
+            layoutTransition.barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+            layoutTransition.srcStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+            layoutTransition.dstStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
+        } else
+        if (oldLayout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL &&
+            newLayout == VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL) {
+            layoutTransition.barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+            layoutTransition.barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+            layoutTransition.srcStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
+            layoutTransition.dstStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+        } else {
+            throw std::invalid_argument("Unsupported layout transition");
+        }
+
+        // if (oldLayout == VK_IMAGE_LAYOUT_PREINITIALIZED && newLayout == VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL) {
+        //     layoutTransition.barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
+        //     layoutTransition.barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+        // } else
+        // if (oldLayout == VK_IMAGE_LAYOUT_PREINITIALIZED && newLayout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL) {
+        //     layoutTransition.barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
+        //     layoutTransition.barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+        // } else
+        // if (oldLayout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL && newLayout == VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL) {
+        //     layoutTransition.barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+        //     layoutTransition.barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+        // } else
+        // if (oldLayout == VK_IMAGE_LAYOUT_UNDEFINED && newLayout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL) {
+        //     layoutTransition.barrier.srcAccessMask = 0;
+        //     layoutTransition.barrier.dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+        // } else {
+        //     throw std::invalid_argument("Unsupported layout transition");
+        // }
+
+        return layoutTransition;
     }
 
 } // namespace Vulkan
