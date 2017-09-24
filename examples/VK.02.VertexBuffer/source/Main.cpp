@@ -56,7 +56,6 @@ private:
     void create_pipeline()
     {
         using namespace dst::vlkn;
-
         auto vertexShader = mDevice->create<ShaderModule>(
             VK_SHADER_STAGE_VERTEX_BIT,
             ShaderModule::Source::Code,
@@ -128,7 +127,6 @@ private:
     void create_vertex_and_index_buffers()
     {
         using namespace dst::vlkn;
-
         const std::array<VertexPositionColor, 4> vertices {
             VertexPositionColor { { -0.5f, -0.5f, 0 }, { dst::Color::OrangeRed } },
             VertexPositionColor { {  0.5f, -0.5f, 0 }, { dst::Color::BlueViolet } },

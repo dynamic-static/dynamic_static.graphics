@@ -98,9 +98,7 @@ namespace Vulkan {
             /* flags                 */ 0,
             /* imageType             */ VK_IMAGE_TYPE_1D,
             /* format                */ VK_FORMAT_UNDEFINED,
-            /* extent.width          */ 1,
-            /* extent.height         */ 1,
-            /* extent.depth          */ 1,
+            /* extent                */ { 1, 1, 1 },
             /* mipLevels             */ 1,
             /* arrayLayers           */ 1,
             /* samples               */ VK_SAMPLE_COUNT_1_BIT,
@@ -110,6 +108,33 @@ namespace Vulkan {
             /* queueFamilyIndexCount */ 0,
             /* pQueueFamilyIndices   */ nullptr,
             /* initialLayout         */ VK_IMAGE_LAYOUT_UNDEFINED,
+        };
+
+        /**
+         * TODO : Documentation.
+         */
+        static constexpr VkImageSubresourceRange SubresourceRange {
+            /* aspectMask     */ VK_IMAGE_ASPECT_COLOR_BIT,
+            /* baseMipLevel   */ 0,
+            /* levelCount     */ 1,
+            /* baseArrayLayer */ 0,
+            /* layerCount     */ 1,
+        };
+
+        /**
+         * TODO : Documentation.
+         */
+        static constexpr VkImageMemoryBarrier Barrier {
+            /* sType               */ VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
+            /* pNext               */ nullptr,
+            /* srcAccessMask       */ 0,
+            /* dstAccessMask       */ 0,
+            /* oldLayout           */ VK_IMAGE_LAYOUT_UNDEFINED,
+            /* newLayout           */ VK_IMAGE_LAYOUT_UNDEFINED,
+            /* srcQueueFamilyIndex */ VK_QUEUE_FAMILY_IGNORED,
+            /* dstQueueFamilyIndex */ VK_QUEUE_FAMILY_IGNORED,
+            /* image               */ nullptr,
+            /* subresourceRange    */ SubresourceRange,
         };
 
     private:

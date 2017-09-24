@@ -115,10 +115,10 @@ namespace Vulkan {
             tlStr = "----";
         }
 
-        if (debugReport.standard_error_enabled()) {
+        //if (debugReport.standard_error_enabled()) {
             tlStr = "{ " + tlStr + " } - " + std::string(layerPrefix) + "[" + dst::to_string(messageCode) + "]-" + std::string(message) + "\n";
             std::cout << tlStr;
-        }
+        //}
 
         return VK_FALSE;
     }
