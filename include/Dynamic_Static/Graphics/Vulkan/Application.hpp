@@ -40,6 +40,9 @@ namespace Vulkan {
         std::shared_ptr<Semaphore> mImageSemaphore;
         std::shared_ptr<Semaphore> mRenderSemaphore;
         std::vector<std::shared_ptr<Framebuffer>> mFramebuffers;
+        std::shared_ptr<Image> mDepthBuffer;
+        VkFormat mDepthFormat { VK_FORMAT_UNDEFINED };
+        bool mDepthEnabled { false };
 
     private:
         bool mCreateFramebuffers { true };

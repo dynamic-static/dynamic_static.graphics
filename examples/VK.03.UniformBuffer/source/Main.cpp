@@ -15,6 +15,7 @@
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
 #include "Dynamic_Static/Graphics/Window.hpp"
 
+#include <algorithm>
 #include <array>
 #include <iostream>
 #include <memory>
@@ -65,7 +66,7 @@ private:
         create_pipeline();
         create_vertex_and_index_buffers();
         create_uniform_buffer();
-        create_descriptor_pool_and_set();
+        create_descriptor_set();
     }
 
     void create_descriptor_set_layout()
@@ -228,7 +229,7 @@ private:
         mUniformBuffer = mDevice->create<Buffer>(uniformBufferInfo, uniformMemoryProperties);
     }
 
-    void create_descriptor_pool_and_set()
+    void create_descriptor_set()
     {
         using namespace dst::vlkn;
         VkDescriptorPoolSize descriptorPoolSize { };
