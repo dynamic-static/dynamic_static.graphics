@@ -32,23 +32,23 @@ struct UniformBuffer final
     dst::Matrix4x4 projection;
 };
 
-template <typename FuncType>
-void process_transient_command_buffer(Command::Pool& commandPool, Queue& queue, const FuncType& f)
-{
-    auto commandBuffer = commandPool.allocate_transient<Command::Buffer>();
-    // Command::Buffer::BeginInfo beginInfo;
-    auto beginInfo = Command::Buffer::BeginInfo;
-    beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-    commandBuffer->begin(beginInfo);
-    f(*commandBuffer);
-    commandBuffer->end();
-    // Queue::SubmitInfo submitInfo;
-    auto submitInfo = Queue::SubmitInfo;
-    submitInfo.commandBufferCount = 1;
-    submitInfo.pCommandBuffers = &commandBuffer->handle();
-    queue.submit(submitInfo);
-    queue.wait_idle();
-}
+// template <typename FuncType>
+// void process_transient_command_buffer(Command::Pool& commandPool, Queue& queue, const FuncType& f)
+// {
+//     auto commandBuffer = commandPool.allocate_transient<Command::Buffer>();
+//     // Command::Buffer::BeginInfo beginInfo;
+//     auto beginInfo = Command::Buffer::BeginInfo;
+//     beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+//     commandBuffer->begin(beginInfo);
+//     f(*commandBuffer);
+//     commandBuffer->end();
+//     // Queue::SubmitInfo submitInfo;
+//     auto submitInfo = Queue::SubmitInfo;
+//     submitInfo.commandBufferCount = 1;
+//     submitInfo.pCommandBuffers = &commandBuffer->handle();
+//     queue.submit(submitInfo);
+//     queue.wait_idle();
+// }
 
 int main()
 {
@@ -69,11 +69,11 @@ int main()
         VkDebugReportFlagsEXT debugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
-            | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
-            | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-            | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_ERROR_BIT_EXT
+            // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+            // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+            // | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_ERROR_BIT_EXT
             #endif
             ;
 
@@ -424,9 +424,10 @@ int main()
         auto imageMemory = device->allocate<Memory>(imageMemoryInfo);
         image->bind_memory(imageMemory);
 
-        process_transient_command_buffer(
-            *commandPool,
-            graphicsQueue,
+        //process_transient_command_buffer(
+        //    *commandPool,
+        //    graphicsQueue,
+        graphicsQueue.process_immediate(
             [&](Command::Buffer& commandBuffer)
             {
                 auto oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
@@ -532,9 +533,10 @@ int main()
         auto stagingBuffer = device->create<Buffer>(stagingBufferInfo, stagingMemoryProperties);
         stagingBuffer->write<VertexPositionTexCoord>(vertices);
 
-        process_transient_command_buffer(
-            *commandPool,
-            graphicsQueue,
+        // process_transient_command_buffer(
+        //     *commandPool,
+        //     graphicsQueue,
+        graphicsQueue.process_immediate(
             [&](Command::Buffer& commandBuffer)
             {
                 VkBufferCopy copyInfo { };
@@ -558,9 +560,10 @@ int main()
         auto indexBuffer = device->create<Buffer>(vertexBufferInfo, vertexMemoryProperties);
         stagingBuffer->write<uint16_t>(indices);
 
-        process_transient_command_buffer(
-            *commandPool,
-            graphicsQueue,
+        // process_transient_command_buffer(
+        //     *commandPool,
+        //     graphicsQueue,
+        graphicsQueue.process_immediate(
             [&](Command::Buffer& commandBuffer)
             {
                 VkBufferCopy copyInfo { };
