@@ -22,9 +22,6 @@
 #include <iostream>
 #include <memory>
 
-using namespace dst::gfx;
-using namespace dst::gfx::vlkn;
-
 struct UniformBuffer final
 {
     dst::Matrix4x4 world;
@@ -68,7 +65,7 @@ public:
 private:
     void setup() override
     {
-        // NOTE : This is dumb...but it'll do for now.
+        // NOTE : This "configuration" is dumb...but it'll do for now.
         mDepthEnabled = true;
 
         dst::vlkn::Application::setup();

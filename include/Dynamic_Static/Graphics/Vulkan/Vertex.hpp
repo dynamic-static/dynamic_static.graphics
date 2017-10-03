@@ -10,6 +10,7 @@
 #pragma once
 
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
 
 #include <array>
 

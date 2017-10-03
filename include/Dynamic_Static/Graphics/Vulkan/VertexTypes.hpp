@@ -11,3 +11,4 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/VertexTypes/VertexPositionColor.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/VertexTypes/VertexPositionTexCoord.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/VertexTypes/VertexPositionTexCoordColor.hpp"

@@ -44,7 +44,7 @@ namespace Vulkan {
         VkFormat mDepthFormat { VK_FORMAT_UNDEFINED };
         bool mDepthEnabled { false };
 
-    private:
+    /* private: */
         bool mCreateFramebuffers { true };
         bool mRecordCommandBuffers { true };
         uint32_t mImageIndex { 0 };
@@ -95,6 +95,11 @@ namespace Vulkan {
          * TODO : Documentation.
          */
         virtual void record_command_buffer(Command::Buffer& commandBuffer, const dst::Clock& clock);
+
+        /**
+         * TODO : Documentation.
+         */
+        virtual void submit_command_buffer();
 
     private:
         void on_swapchain_resized(const SwapchainKHR& swapChain);

@@ -10,6 +10,8 @@
 #include "Dynamic_Static/Graphics/FreeCameraController.hpp"
 #include "Dynamic_Static/Core/Algorithm.hpp"
 
+#include <iostream>
+
 namespace Dynamic_Static {
 namespace Graphics {
 
@@ -25,7 +27,7 @@ namespace Graphics {
             moveDirection += input.keyboard().down(rightKey) ? camera->transform().right() : Vector3::Zero;
             moveDirection += input.keyboard().down(forwardKey) ? camera->transform().forward() : Vector3::Zero;
             moveDirection += input.keyboard().down(backwardKey) ? camera->transform().backward() : Vector3::Zero;
-            if (moveDirection.x || moveDirection.y) {
+            if (moveDirection.x || moveDirection.y || moveDirection.z) {
                 moveDirection.normalize();
             }
 
@@ -34,14 +36,15 @@ namespace Graphics {
 
             float fov = camera->field_of_view();
             fov -= static_cast<float>(input.mouse().scroll()) * zoomSpeed * dt;
-            fov = dst::clamp(fov, minFieldOfView, maxFieldOfView);
-            camera->field_of_view(fov);
+            camera->field_of_view(dst::clamp(fov, minFieldOfView, maxFieldOfView));
             if (input.mouse().pressed(Mouse::Button::Middle)) {
                 camera->field_of_view(Camera::DefaultFieldOfView);
             }
 
             float lookMax = dst::to_radians(90.0f);
-            auto mouseDelta = input.mouse().delta() * sensitivity;
+            auto mouseDelta = input.mouse().delta() /** sensitivity*/ * dt;
+            // std::cout << mouseDelta << std::endl;
+
             auto rotationX = Quaternion(-mouseDelta.y, Vector3::UnitX);
             auto rotationY = Quaternion(-mouseDelta.x, Vector3::UnitY);
             Quaternion rotation = rotationY * camera->transform().rotation * rotationX;

@@ -28,7 +28,26 @@ namespace Vulkan {
     {
         friend class Device;
 
+    private:
+        VkFormat mFormat { VK_FORMAT_UNDEFINED };
+        VkFormat mDepthFormat { VK_FORMAT_UNDEFINED };
+
     public:
+        /**
+         * Default VkAttachmentDescription parameters.
+         */
+        static constexpr VkAttachmentDescription AttachmentDescription {
+            /* flags          */ 0,
+            /* format         */ VK_FORMAT_UNDEFINED,
+            /* samples        */ VK_SAMPLE_COUNT_1_BIT,
+            /* loadOp         */ VK_ATTACHMENT_LOAD_OP_DONT_CARE,
+            /* storeOp        */ VK_ATTACHMENT_STORE_OP_DONT_CARE,
+            /* stencilLoadOp  */ VK_ATTACHMENT_LOAD_OP_DONT_CARE,
+            /* stencilStoreOp */ VK_ATTACHMENT_STORE_OP_DONT_CARE,
+            /* initialLayout  */ VK_IMAGE_LAYOUT_UNDEFINED,
+            /* finalLayout    */ VK_IMAGE_LAYOUT_UNDEFINED,
+        };
+
         /**
          * Default RenderPass creation parameters.
          */
@@ -68,6 +87,19 @@ namespace Vulkan {
          * Destroys this instance of RenderPass.
          */
         ~RenderPass();
+
+    public:
+        /**
+         * Gets this RenderPass's format.
+         * @return This RenderPass's format
+         */
+        VkFormat format() const;
+
+        /**
+         * Gets this RenderPass's depth format.
+         * @return This RenderPass's depth format
+         */
+        VkFormat depth_format() const;
     };
 
 } // namespace Vulkan

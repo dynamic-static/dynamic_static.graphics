@@ -18,6 +18,10 @@
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
+    RenderTarget::RenderTarget(RenderPass & renderPass, uint32_t width, uint32_t height)
+        : RenderTarget(renderPass, width, height, renderPass.format(), renderPass.depth_format())
+    {
+    }
 
     RenderTarget::RenderTarget(RenderPass& renderPass, uint32_t width, uint32_t height, VkFormat format, VkFormat depthFormat)
     {

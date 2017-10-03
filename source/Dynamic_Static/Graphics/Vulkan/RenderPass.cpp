@@ -20,6 +20,17 @@ namespace Vulkan {
     )
         : DeviceChild(device)
     {
+        // NOTE : This currently handles only very simple RenderPasses...
+        auto colorAttachments = info.pSubpasses->pColorAttachments;
+        if (colorAttachments && info.attachmentCount > colorAttachments[0].attachment) {
+            mFormat = info.pAttachments[colorAttachments[0].attachment].format;
+        }
+
+        auto depthAttachment = info.pSubpasses->pDepthStencilAttachment;
+        if (depthAttachment && info.attachmentCount > depthAttachment->attachment) {
+            mDepthFormat = info.pAttachments[depthAttachment->attachment].format;
+        }
+
         validate(vkCreateRenderPass(DeviceChild::device(), &info, nullptr, &mHandle));
         name("RenderPass");
     }
@@ -29,6 +40,16 @@ namespace Vulkan {
         if (mHandle) {
             vkDestroyRenderPass(device(), mHandle, nullptr);
         }
+    }
+
+    VkFormat RenderPass::format() const
+    {
+        return mFormat;
+    }
+
+    VkFormat RenderPass::depth_format() const
+    {
+        return mDepthFormat;
     }
 
 } // namespace Vulkan

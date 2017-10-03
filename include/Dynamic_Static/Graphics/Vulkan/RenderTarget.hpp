@@ -30,6 +30,14 @@ namespace Vulkan {
         std::shared_ptr<Memory> depthAttachmentMemory;
 
     public:
+        /**
+         * TODO : Documentation.
+         */
+        RenderTarget(RenderPass& renderPass, uint32_t width, uint32_t height);
+
+        /**
+         * TODO : Documentation.
+         */
         RenderTarget(RenderPass& renderPass, uint32_t width, uint32_t height, VkFormat format, VkFormat depthFormat = VK_FORMAT_UNDEFINED);
 
     public:

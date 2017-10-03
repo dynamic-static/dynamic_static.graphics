@@ -281,24 +281,7 @@ namespace Vulkan {
                 }
             }
 
-            auto submitInfo = Queue::SubmitInfo;
-            VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
-            submitInfo.waitSemaphoreCount = 1;
-            submitInfo.pWaitSemaphores = &mImageSemaphore->handle();
-            submitInfo.pWaitDstStageMask = waitStages;
-            submitInfo.commandBufferCount = 1;
-            submitInfo.pCommandBuffers = &mCommandPool->buffers()[mImageIndex]->handle();
-            submitInfo.signalSemaphoreCount = 1;
-            submitInfo.pSignalSemaphores = &mRenderSemaphore->handle();
-            mGraphicsQueue->submit(submitInfo);
-
-            auto presentInfo = Queue::PresentInfoKHR;
-            presentInfo.waitSemaphoreCount = 1;
-            presentInfo.pWaitSemaphores = &mRenderSemaphore->handle();
-            presentInfo.swapchainCount = 1;
-            presentInfo.pSwapchains = &mSwapchain->handle();
-            presentInfo.pImageIndices = &mImageIndex;
-            mPresentQueue->present(presentInfo);
+            submit_command_buffer();
         }
 
         mWindow->swap_buffers();
@@ -311,6 +294,28 @@ namespace Vulkan {
 
     void Application::record_command_buffer(Command::Buffer& commandBuffer, const dst::Clock& clock)
     {
+    }
+
+    void Application::submit_command_buffer()
+    {
+        auto submitInfo = Queue::SubmitInfo;
+        VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+        submitInfo.waitSemaphoreCount = 1;
+        submitInfo.pWaitSemaphores = &mImageSemaphore->handle();
+        submitInfo.pWaitDstStageMask = waitStages;
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &mCommandPool->buffers()[mImageIndex]->handle();
+        submitInfo.signalSemaphoreCount = 1;
+        submitInfo.pSignalSemaphores = &mRenderSemaphore->handle();
+        mGraphicsQueue->submit(submitInfo);
+
+        auto presentInfo = Queue::PresentInfoKHR;
+        presentInfo.waitSemaphoreCount = 1;
+        presentInfo.pWaitSemaphores = &mRenderSemaphore->handle();
+        presentInfo.swapchainCount = 1;
+        presentInfo.pSwapchains = &mSwapchain->handle();
+        presentInfo.pImageIndices = &mImageIndex;
+        mPresentQueue->present(presentInfo);
     }
 
     void Application::on_swapchain_resized(const SwapchainKHR& swapChain)

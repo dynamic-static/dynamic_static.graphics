@@ -9,6 +9,8 @@
 
 #include "Dynamic_Static/Graphics/Application.hpp"
 
+#include <iostream>
+
 namespace Dynamic_Static {
 namespace Graphics {
 
@@ -36,10 +38,6 @@ namespace Graphics {
             mClock.update();
 
             const auto& input = mWindow->input();
-            if (input.keyboard().pressed(Keyboard::Key::Escape)) {
-                mRunning = false;
-            }
-
             pre_update(mClock, input);
             update(mClock, input);
             post_update(mClock, input);

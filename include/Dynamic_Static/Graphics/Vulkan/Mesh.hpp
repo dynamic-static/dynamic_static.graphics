@@ -93,6 +93,9 @@ namespace Vulkan {
         size_t indexCount { 0 };
 
     public:
+        /**
+         * TODO : Documentation.
+         */
         template <typename VertexType, typename IndexType = uint32_t>
         void write(
             Command::Pool& commandPool,
@@ -144,6 +147,9 @@ namespace Vulkan {
             indexCount = indices.size();
         }
 
+        /**
+         * TODO : Documentation.
+         */
         void draw(Command::Buffer& commandBuffer);
     };
 
