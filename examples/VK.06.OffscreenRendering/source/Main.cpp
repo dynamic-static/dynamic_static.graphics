@@ -14,10 +14,11 @@
 #include "Dynamic_Static/Core/Time.hpp"
 #include "Dynamic_Static/Graphics/Camera.hpp"
 #include "Dynamic_Static/Graphics/FreeCameraController.hpp"
-#include "Dynamic_Static/Graphics/ImageCache.hpp"
-#include "Dynamic_Static/Graphics/ImageReader.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
 #include "Dynamic_Static/Graphics/Window.hpp"
+
+#include "Dynamic_Static/Graphics/ImageCache.hpp"
+#include "Dynamic_Static/Graphics/ImageReader.hpp"
 
 #include <algorithm>
 #include <array>
@@ -318,6 +319,10 @@ private:
 
                 #version 450
 
+                #define BLUR_SAMPLES (3)
+                #define BLUR ((BLUR_SAMPLES - 1) * 0.5)
+                #define BLUR_AVERAGE (BLUR_SAMPLES * BLUR_SAMPLES)
+
                 layout(binding = 1) uniform sampler2D reflectionImage;
 
                 layout(location = 0) in vec4 fsPosition;
@@ -328,7 +333,23 @@ private:
 
                 void main()
                 {
-                    vec4 reflection = texture(reflectionImage, fsTexCoord);
+                    vec4 position = fsPosition * (1.0 / fsPosition.w);
+                    position += vec4(1);
+                    position *= 0.5;
+
+                    vec4 reflection = vec4(0);
+                    vec2 size = 1.0 / textureSize(reflectionImage, 0);
+                    // NOTE : This blur is terrible...demonstration only
+                    for (float y = -BLUR; y <= BLUR; ++y) {
+                        for (float x = -BLUR; x <= BLUR; ++x) {
+                            vec2 uv = position.xy + vec2(x, y) * size;
+                            reflection += texture(reflectionImage, uv) / BLUR_AVERAGE;
+                        }
+                    }
+
+                    reflection.a *= 0.48;
+                    reflection.rgb *= reflection.a;
+                    reflection.rgb *= step(0.001, dot(fsTexCoord, vec2(0.5)));
 
                     fragColor.rb = fsTexCoord;
                     fragColor.g = dot(fragColor.rb, vec2(0.5));
