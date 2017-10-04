@@ -631,7 +631,7 @@ private:
 
     void update(const dst::Clock& clock, const dst::Input& input) override
     {
-        if (input.keyboard().pressed(dst::Keyboard::Key::Escape)) {
+        if (input.keyboard().down(dst::Keyboard::Key::Escape)) {
             stop();
         }
 
