@@ -17,9 +17,6 @@
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
 #include "Dynamic_Static/Graphics/Window.hpp"
 
-#include "Dynamic_Static/Graphics/ImageCache.hpp"
-#include "Dynamic_Static/Graphics/ImageReader.hpp"
-
 #include <algorithm>
 #include <array>
 #include <iostream>
@@ -319,10 +316,6 @@ private:
 
                 #version 450
 
-                #define BLUR_SAMPLES (3)
-                #define BLUR ((BLUR_SAMPLES - 1) * 0.5)
-                #define BLUR_AVERAGE (BLUR_SAMPLES * BLUR_SAMPLES)
-
                 layout(binding = 1) uniform sampler2D reflectionImage;
 
                 layout(location = 0) in vec4 fsPosition;
@@ -333,26 +326,17 @@ private:
 
                 void main()
                 {
-                    vec4 position = fsPosition * (1.0 / fsPosition.w);
-                    position += vec4(1);
-                    position *= 0.5;
+                    vec2 reflectionTexCoord = fsPosition.xy * (1.0 / fsPosition.w);
+                    reflectionTexCoord += vec2(1);
+                    reflectionTexCoord *= 0.5;
 
-                    vec4 reflection = vec4(0);
-                    vec2 size = 1.0 / textureSize(reflectionImage, 0);
-                    // NOTE : This blur is terrible...demonstration only
-                    for (float y = -BLUR; y <= BLUR; ++y) {
-                        for (float x = -BLUR; x <= BLUR; ++x) {
-                            vec2 uv = position.xy + vec2(x, y) * size;
-                            reflection += texture(reflectionImage, uv) / BLUR_AVERAGE;
-                        }
-                    }
-
-                    reflection.a *= 0.48;
+                    vec4 reflection = texture(reflectionImage, reflectionTexCoord);
+                    reflection.a *= 0.34;
                     reflection.rgb *= reflection.a;
                     reflection.rgb *= step(0.001, dot(fsTexCoord, vec2(0.5)));
 
-                    fragColor.rb = fsTexCoord;
-                    fragColor.g = dot(fragColor.rb, vec2(0.5));
+                    fragColor.rb = fsTexCoord * (1 - reflection.a);
+                    fragColor.g = dot(fragColor.rb, vec2(0.5)) * 0.5;
                     fragColor.rgb += reflection.rgb;
                     fragColor.a = 1;
                 }
@@ -771,7 +755,7 @@ private:
     }
 };
 
-int main_ex()
+int main()
 {
     try {
         VulkanExample06OffscreenRendering app;

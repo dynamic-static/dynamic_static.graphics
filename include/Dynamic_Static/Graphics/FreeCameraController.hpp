@@ -33,7 +33,7 @@ namespace Graphics {
         float speedModifier { 2 };
         float minFieldOfView { 16 };
         float maxFieldOfView { 90 };
-        dst::Vector2 sensitivity { 1.8f, 1.8f };
+        dst::Vector2 sensitivity { 2.4f, 2.4f };
         Keyboard::Key upKey { Keyboard::Key::E };
         Keyboard::Key downKey { Keyboard::Key::Q };
         Keyboard::Key leftKey { Keyboard::Key::A };
