@@ -185,7 +185,6 @@ namespace Vulkan {
 
     void Application::pre_render(const dst::Clock& clock)
     {
-        gfx::Window::update();
         mPresentQueue->wait_idle();
         mSwapchain->update();
         mImageIndex = static_cast<uint32_t>(mSwapchain->next_image(*mImageSemaphore));
@@ -283,8 +282,6 @@ namespace Vulkan {
 
             submit_command_buffer();
         }
-
-        mWindow->swap_buffers();
     }
 
     void Application::shutdown()

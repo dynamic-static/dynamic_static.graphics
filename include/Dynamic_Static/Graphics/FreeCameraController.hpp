@@ -26,12 +26,14 @@ namespace Graphics {
         : public Camera::Controller
     {
     public:
+        bool moveEnabled { true };
+        bool lookEnabled { true };
         float speed { 4.2f };
         float zoomSpeed { 16000 };
         float speedModifier { 2 };
         float minFieldOfView { 16 };
         float maxFieldOfView { 90 };
-        dst::Vector2 sensitivity { 0.001f, 0.001f };
+        dst::Vector2 sensitivity { 1.8f, 1.8f };
         Keyboard::Key upKey { Keyboard::Key::E };
         Keyboard::Key downKey { Keyboard::Key::Q };
         Keyboard::Key leftKey { Keyboard::Key::A };
@@ -39,6 +41,9 @@ namespace Graphics {
         Keyboard::Key forwardKey { Keyboard::Key::W };
         Keyboard::Key backwardKey { Keyboard::Key::S };
         Keyboard::Key speedModifyKey { Keyboard::Key::LeftShift };
+
+    private:
+        float mVerticalLook { 0 };
 
     public:
         /**

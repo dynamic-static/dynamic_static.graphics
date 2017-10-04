@@ -631,8 +631,16 @@ private:
 
     void update(const dst::Clock& clock, const dst::Input& input) override
     {
-        if (input.keyboard().down(dst::Keyboard::Key::Escape)) {
+        if (input.keyboard().pressed(dst::Keyboard::Key::Escape)) {
             stop();
+        }
+
+        if (input.mouse().down(dst::Mouse::Button::Left)) {
+            mWindow->cursor_mode(dst::gfx::Window::CursorMode::Disabled);
+            mCameraController.lookEnabled = true;
+        } else {
+            mWindow->cursor_mode(dst::gfx::Window::CursorMode::Normal);
+            mCameraController.lookEnabled = false;
         }
 
         mCameraController.update(clock, input);
@@ -1853,7 +1861,7 @@ int main()
             window->cursor_mode(Window::CursorMode::Disabled);
             const auto& input = window->input();
             auto quitKey = dst::Keyboard::Key::Escape;
-            if (input.keyboard().down(quitKey)) {
+            if (input.keyboard().pressed(quitKey)) {
                 running = false;
             }
 
