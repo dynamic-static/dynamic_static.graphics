@@ -11,6 +11,8 @@
 // Based on "Make a Neon Vector Shooter in XNA"
 // https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559
 
+#include "Main_ex.hpp"
+
 #include "BloomComponent.hpp"
 #include "Bullet.hpp"
 #include "Cursor.hpp"
@@ -39,6 +41,7 @@ using namespace dst::gfx::vlkn;
 
 int main()
 {
+    return main_ex();
     try {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
