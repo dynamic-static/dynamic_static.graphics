@@ -53,7 +53,8 @@ namespace Vulkan {
 
     bool SwapchainKHR::valid() const
     {
-        return !!mHandle;
+        auto currentExtent = extent();
+        return !!mHandle && currentExtent.width && currentExtent.height;
     }
 
     VkFormat SwapchainKHR::format() const
