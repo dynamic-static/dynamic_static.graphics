@@ -461,67 +461,68 @@ private:
     {
         using namespace dst::vlkn;
 
-        float w = width * 0.5f;
-        float h = height * 0.5f;
-        float d = depth * 0.5f;
-        static constexpr size_t sFaceCount = 6;
-        static constexpr size_t sVerticesPerFace = 4;
-        static constexpr size_t sVertexCount = sFaceCount * sVerticesPerFace;
-        std::array<VertexPositionTexCoordColor, sVertexCount> vertices {
-            // Top
-            VertexPositionTexCoordColor { { -w,  h, -d }, { 0, 1 }, { color0 } },
-            VertexPositionTexCoordColor { {  w,  h, -d }, { 1, 1 }, { color0 } },
-            VertexPositionTexCoordColor { {  w,  h,  d }, { 1, 0 }, { color0 } },
-            VertexPositionTexCoordColor { { -w,  h,  d }, { 0, 0 }, { color0 } },
-
-            // Left
-            VertexPositionTexCoordColor { { -w,  h, -d }, { 0, 0 }, { color0 } },
-            VertexPositionTexCoordColor { { -w,  h,  d }, { 0, 0 }, { color0 } },
-            VertexPositionTexCoordColor { { -w, -h,  d }, { 0, 0 }, { color1 } },
-            VertexPositionTexCoordColor { { -w, -h, -d }, { 0, 0 }, { color1 } },
-
-            // Front
-            VertexPositionTexCoordColor { { -w,  h,  w }, { 0, 0 }, { color0 } },
-            VertexPositionTexCoordColor { {  w,  h,  w }, { 0, 0 }, { color0 } },
-            VertexPositionTexCoordColor { {  w, -h,  w }, { 0, 0 }, { color1 } },
-            VertexPositionTexCoordColor { { -w, -h,  w }, { 0, 0 }, { color1 } },
-
-            // Right
-            VertexPositionTexCoordColor { {  w,  h,  d }, { 0, 0 }, { color0 } },
-            VertexPositionTexCoordColor { {  w,  h, -d }, { 0, 0 }, { color0 } },
-            VertexPositionTexCoordColor { {  w, -h, -d }, { 0, 0 }, { color1 } },
-            VertexPositionTexCoordColor { {  w, -h,  d }, { 0, 0 }, { color1 } },
-
-            // Back
-            VertexPositionTexCoordColor { {  w,  h, -d }, { 0, 0 }, { color0 } },
-            VertexPositionTexCoordColor { { -w,  h, -d }, { 0, 0 }, { color0 } },
-            VertexPositionTexCoordColor { { -w, -h, -d }, { 0, 0 }, { color1 } },
-            VertexPositionTexCoordColor { {  w, -h, -d }, { 0, 0 }, { color1 } },
-
-            // Bottom
-            VertexPositionTexCoordColor { { -w, -h,  d }, { 0, 0 }, { color1 } },
-            VertexPositionTexCoordColor { {  w, -h,  d }, { 0, 0 }, { color1 } },
-            VertexPositionTexCoordColor { {  w, -h, -d }, { 0, 0 }, { color1 } },
-            VertexPositionTexCoordColor { { -w, -h, -d }, { 0, 0 }, { color1 } },
-        };
-
-        size_t index_i = 0;
-        size_t vertex_i = 0;
-        static constexpr size_t sIndicesPerFace = 6;
-        static constexpr size_t sInexCount = sFaceCount * sIndicesPerFace;
-        std::array<uint16_t, sInexCount> indices;
-        for (size_t face_i = 0; face_i < sFaceCount; ++face_i) {
-            indices[index_i++] = static_cast<uint16_t>(vertex_i + 0);
-            indices[index_i++] = static_cast<uint16_t>(vertex_i + 1);
-            indices[index_i++] = static_cast<uint16_t>(vertex_i + 2);
-            indices[index_i++] = static_cast<uint16_t>(vertex_i + 2);
-            indices[index_i++] = static_cast<uint16_t>(vertex_i + 3);
-            indices[index_i++] = static_cast<uint16_t>(vertex_i + 0);
-            vertex_i += 4;
-        }
+        // float w = width * 0.5f;
+        // float h = height * 0.5f;
+        // float d = depth * 0.5f;
+        // static constexpr size_t sFaceCount = 6;
+        // static constexpr size_t sVerticesPerFace = 4;
+        // static constexpr size_t sVertexCount = sFaceCount * sVerticesPerFace;
+        // std::array<VertexPositionTexCoordColor, sVertexCount> vertices {
+        //     // Top
+        //     VertexPositionTexCoordColor { { -w,  h, -d }, { 0, 1 }, { color0 } },
+        //     VertexPositionTexCoordColor { {  w,  h, -d }, { 1, 1 }, { color0 } },
+        //     VertexPositionTexCoordColor { {  w,  h,  d }, { 1, 0 }, { color0 } },
+        //     VertexPositionTexCoordColor { { -w,  h,  d }, { 0, 0 }, { color0 } },
+        // 
+        //     // Left
+        //     VertexPositionTexCoordColor { { -w,  h, -d }, { 0, 0 }, { color0 } },
+        //     VertexPositionTexCoordColor { { -w,  h,  d }, { 0, 0 }, { color0 } },
+        //     VertexPositionTexCoordColor { { -w, -h,  d }, { 0, 0 }, { color1 } },
+        //     VertexPositionTexCoordColor { { -w, -h, -d }, { 0, 0 }, { color1 } },
+        // 
+        //     // Front
+        //     VertexPositionTexCoordColor { { -w,  h,  w }, { 0, 0 }, { color0 } },
+        //     VertexPositionTexCoordColor { {  w,  h,  w }, { 0, 0 }, { color0 } },
+        //     VertexPositionTexCoordColor { {  w, -h,  w }, { 0, 0 }, { color1 } },
+        //     VertexPositionTexCoordColor { { -w, -h,  w }, { 0, 0 }, { color1 } },
+        // 
+        //     // Right
+        //     VertexPositionTexCoordColor { {  w,  h,  d }, { 0, 0 }, { color0 } },
+        //     VertexPositionTexCoordColor { {  w,  h, -d }, { 0, 0 }, { color0 } },
+        //     VertexPositionTexCoordColor { {  w, -h, -d }, { 0, 0 }, { color1 } },
+        //     VertexPositionTexCoordColor { {  w, -h,  d }, { 0, 0 }, { color1 } },
+        // 
+        //     // Back
+        //     VertexPositionTexCoordColor { {  w,  h, -d }, { 0, 0 }, { color0 } },
+        //     VertexPositionTexCoordColor { { -w,  h, -d }, { 0, 0 }, { color0 } },
+        //     VertexPositionTexCoordColor { { -w, -h, -d }, { 0, 0 }, { color1 } },
+        //     VertexPositionTexCoordColor { {  w, -h, -d }, { 0, 0 }, { color1 } },
+        // 
+        //     // Bottom
+        //     VertexPositionTexCoordColor { { -w, -h,  d }, { 0, 0 }, { color1 } },
+        //     VertexPositionTexCoordColor { {  w, -h,  d }, { 0, 0 }, { color1 } },
+        //     VertexPositionTexCoordColor { {  w, -h, -d }, { 0, 0 }, { color1 } },
+        //     VertexPositionTexCoordColor { { -w, -h, -d }, { 0, 0 }, { color1 } },
+        // };
+        // 
+        // size_t index_i = 0;
+        // size_t vertex_i = 0;
+        // static constexpr size_t sIndicesPerFace = 6;
+        // static constexpr size_t sInexCount = sFaceCount * sIndicesPerFace;
+        // std::array<uint16_t, sInexCount> indices;
+        // for (size_t face_i = 0; face_i < sFaceCount; ++face_i) {
+        //     indices[index_i++] = static_cast<uint16_t>(vertex_i + 0);
+        //     indices[index_i++] = static_cast<uint16_t>(vertex_i + 1);
+        //     indices[index_i++] = static_cast<uint16_t>(vertex_i + 2);
+        //     indices[index_i++] = static_cast<uint16_t>(vertex_i + 2);
+        //     indices[index_i++] = static_cast<uint16_t>(vertex_i + 3);
+        //     indices[index_i++] = static_cast<uint16_t>(vertex_i + 0);
+        //     vertex_i += 4;
+        // }
 
         dst::vlkn::Mesh mesh;
-        mesh.write<VertexPositionTexCoordColor, uint16_t>(*mCommandPool, *mGraphicsQueue, vertices, indices);
+        auto boxBuffers = create_box_primitive({ width, height, depth }, color0, color1);
+        mesh.write<VertexPositionTexCoordColor, uint16_t>(*mCommandPool, *mGraphicsQueue, boxBuffers.first, boxBuffers.second);
         return mesh;
     }
 

@@ -44,3 +44,6 @@
 #include "Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Vertex.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/VertexTypes.hpp"
+
+#include "Dynamic_Static/Graphics/Vulkan/Primitives/Box.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Primitives/Quad.hpp"
