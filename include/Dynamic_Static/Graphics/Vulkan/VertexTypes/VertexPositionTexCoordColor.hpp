@@ -22,7 +22,7 @@ namespace Vulkan {
     /**
      * TODO : Documentation.
      */
-    struct VertexPositionTexCoordColor_ex final
+    struct VertexPositionTexCoordColor final
     {
         dst::Vector3 position;
         dst::Vector2 texCoord;
@@ -33,7 +33,7 @@ namespace Vulkan {
      * TODO : Documentation.
      */
     template <>
-    inline auto attribute_descriptions<VertexPositionTexCoordColor_ex>(uint32_t binding)
+    inline auto attribute_descriptions<VertexPositionTexCoordColor>(uint32_t binding)
     {
         return create_attribute_descriptions<dst::Vector3, dst::Vector2, dst::Color>(binding);
     }

@@ -9,6 +9,7 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/Effect.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/ShaderModule.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/VertexTypes/VertexPositionTexCoordColor.hpp"
 
 #include <array>
 
@@ -156,16 +157,18 @@ namespace Vulkan {
             fragmentShader->pipeline_stage_create_info(),
         };
 
-        auto vertexInputInfo = VertexPositionTexCoordColor::pipeline_input_state_create_info();
-
-        auto rasterizationInfo = Pipeline::RasterizationStateCreateInfo;
-        rasterizationInfo.cullMode = VK_CULL_MODE_BACK_BIT;
+        auto vertexBidingingDescription = binding_description<VertexPositionTexCoordColor>();
+        auto vertexAttributeDescriptions = attribute_descriptions<VertexPositionTexCoordColor>();
+        auto vertexInputInfo = Pipeline::VertexInputStateCreateInfo;
+        vertexInputInfo.vertexBindingDescriptionCount = 1;
+        vertexInputInfo.pVertexBindingDescriptions = &vertexBidingingDescription;
+        vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(vertexAttributeDescriptions.size());
+        vertexInputInfo.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
 
         auto pipelineInfo = Pipeline::GraphicsCreateInfo;
         pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
         pipelineInfo.pStages = shaderStages.data();
         pipelineInfo.pVertexInputState = &vertexInputInfo;
-        pipelineInfo.pRasterizationState = &rasterizationInfo;
         pipelineInfo.layout = *pipelineLayout;
         pipelineInfo.renderPass = *renderPass;
         pipelineInfo.subpass = 0;

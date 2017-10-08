@@ -374,8 +374,8 @@ private:
             fragmentShader->pipeline_stage_create_info(),
         };
 
-        auto vertexBindingDescription = binding_description<VertexPositionTexCoordColor_ex>();
-        auto vertexAttributeDescriptions = attribute_descriptions<VertexPositionTexCoordColor_ex>();
+        auto vertexBindingDescription = binding_description<VertexPositionTexCoordColor>();
+        auto vertexAttributeDescriptions = attribute_descriptions<VertexPositionTexCoordColor>();
         auto vertexInputState = Pipeline::VertexInputStateCreateInfo;
         vertexInputState.vertexBindingDescriptionCount = 1;
         vertexInputState.pVertexBindingDescriptions = &vertexBindingDescription;
@@ -467,42 +467,42 @@ private:
         static constexpr size_t sFaceCount = 6;
         static constexpr size_t sVerticesPerFace = 4;
         static constexpr size_t sVertexCount = sFaceCount * sVerticesPerFace;
-        std::array<VertexPositionTexCoordColor_ex, sVertexCount> vertices {
+        std::array<VertexPositionTexCoordColor, sVertexCount> vertices {
             // Top
-            VertexPositionTexCoordColor_ex { { -w,  h, -d }, { 0, 1 }, { color0 } },
-            VertexPositionTexCoordColor_ex { {  w,  h, -d }, { 1, 1 }, { color0 } },
-            VertexPositionTexCoordColor_ex { {  w,  h,  d }, { 1, 0 }, { color0 } },
-            VertexPositionTexCoordColor_ex { { -w,  h,  d }, { 0, 0 }, { color0 } },
+            VertexPositionTexCoordColor { { -w,  h, -d }, { 0, 1 }, { color0 } },
+            VertexPositionTexCoordColor { {  w,  h, -d }, { 1, 1 }, { color0 } },
+            VertexPositionTexCoordColor { {  w,  h,  d }, { 1, 0 }, { color0 } },
+            VertexPositionTexCoordColor { { -w,  h,  d }, { 0, 0 }, { color0 } },
 
             // Left
-            VertexPositionTexCoordColor_ex { { -w,  h, -d }, { 0, 0 }, { color0 } },
-            VertexPositionTexCoordColor_ex { { -w,  h,  d }, { 0, 0 }, { color0 } },
-            VertexPositionTexCoordColor_ex { { -w, -h,  d }, { 0, 0 }, { color1 } },
-            VertexPositionTexCoordColor_ex { { -w, -h, -d }, { 0, 0 }, { color1 } },
+            VertexPositionTexCoordColor { { -w,  h, -d }, { 0, 0 }, { color0 } },
+            VertexPositionTexCoordColor { { -w,  h,  d }, { 0, 0 }, { color0 } },
+            VertexPositionTexCoordColor { { -w, -h,  d }, { 0, 0 }, { color1 } },
+            VertexPositionTexCoordColor { { -w, -h, -d }, { 0, 0 }, { color1 } },
 
             // Front
-            VertexPositionTexCoordColor_ex { { -w,  h,  w }, { 0, 0 }, { color0 } },
-            VertexPositionTexCoordColor_ex { {  w,  h,  w }, { 0, 0 }, { color0 } },
-            VertexPositionTexCoordColor_ex { {  w, -h,  w }, { 0, 0 }, { color1 } },
-            VertexPositionTexCoordColor_ex { { -w, -h,  w }, { 0, 0 }, { color1 } },
+            VertexPositionTexCoordColor { { -w,  h,  w }, { 0, 0 }, { color0 } },
+            VertexPositionTexCoordColor { {  w,  h,  w }, { 0, 0 }, { color0 } },
+            VertexPositionTexCoordColor { {  w, -h,  w }, { 0, 0 }, { color1 } },
+            VertexPositionTexCoordColor { { -w, -h,  w }, { 0, 0 }, { color1 } },
 
             // Right
-            VertexPositionTexCoordColor_ex { {  w,  h,  d }, { 0, 0 }, { color0 } },
-            VertexPositionTexCoordColor_ex { {  w,  h, -d }, { 0, 0 }, { color0 } },
-            VertexPositionTexCoordColor_ex { {  w, -h, -d }, { 0, 0 }, { color1 } },
-            VertexPositionTexCoordColor_ex { {  w, -h,  d }, { 0, 0 }, { color1 } },
+            VertexPositionTexCoordColor { {  w,  h,  d }, { 0, 0 }, { color0 } },
+            VertexPositionTexCoordColor { {  w,  h, -d }, { 0, 0 }, { color0 } },
+            VertexPositionTexCoordColor { {  w, -h, -d }, { 0, 0 }, { color1 } },
+            VertexPositionTexCoordColor { {  w, -h,  d }, { 0, 0 }, { color1 } },
 
             // Back
-            VertexPositionTexCoordColor_ex { {  w,  h, -d }, { 0, 0 }, { color0 } },
-            VertexPositionTexCoordColor_ex { { -w,  h, -d }, { 0, 0 }, { color0 } },
-            VertexPositionTexCoordColor_ex { { -w, -h, -d }, { 0, 0 }, { color1 } },
-            VertexPositionTexCoordColor_ex { {  w, -h, -d }, { 0, 0 }, { color1 } },
+            VertexPositionTexCoordColor { {  w,  h, -d }, { 0, 0 }, { color0 } },
+            VertexPositionTexCoordColor { { -w,  h, -d }, { 0, 0 }, { color0 } },
+            VertexPositionTexCoordColor { { -w, -h, -d }, { 0, 0 }, { color1 } },
+            VertexPositionTexCoordColor { {  w, -h, -d }, { 0, 0 }, { color1 } },
 
             // Bottom
-            VertexPositionTexCoordColor_ex { { -w, -h,  d }, { 0, 0 }, { color1 } },
-            VertexPositionTexCoordColor_ex { {  w, -h,  d }, { 0, 0 }, { color1 } },
-            VertexPositionTexCoordColor_ex { {  w, -h, -d }, { 0, 0 }, { color1 } },
-            VertexPositionTexCoordColor_ex { { -w, -h, -d }, { 0, 0 }, { color1 } },
+            VertexPositionTexCoordColor { { -w, -h,  d }, { 0, 0 }, { color1 } },
+            VertexPositionTexCoordColor { {  w, -h,  d }, { 0, 0 }, { color1 } },
+            VertexPositionTexCoordColor { {  w, -h, -d }, { 0, 0 }, { color1 } },
+            VertexPositionTexCoordColor { { -w, -h, -d }, { 0, 0 }, { color1 } },
         };
 
         size_t index_i = 0;
@@ -521,7 +521,7 @@ private:
         }
 
         dst::vlkn::Mesh mesh;
-        mesh.write<VertexPositionTexCoordColor_ex, uint16_t>(*mCommandPool, *mGraphicsQueue, vertices, indices);
+        mesh.write<VertexPositionTexCoordColor, uint16_t>(*mCommandPool, *mGraphicsQueue, vertices, indices);
         return mesh;
     }
 

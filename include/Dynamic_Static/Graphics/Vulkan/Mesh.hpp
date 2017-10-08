@@ -23,63 +23,6 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    struct VertexPositionTexCoordColor final
-    {
-        // TODO : Find a home for this...
-
-        dst::Vector3 position;
-        dst::Vector2 texCoord;
-        dst::Color color;
-
-        static VkVertexInputBindingDescription binding_description()
-        {
-            VkVertexInputBindingDescription binding;
-            binding.binding = 0;
-            binding.stride = sizeof(VertexPositionTexCoordColor);
-            binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-            return binding;
-        }
-
-        static std::array<VkVertexInputAttributeDescription, 3> attribute_descriptions()
-        {
-            VkVertexInputAttributeDescription positionAttribute;
-            positionAttribute.binding = 0;
-            positionAttribute.location = 0;
-            positionAttribute.format = VK_FORMAT_R32G32B32_SFLOAT;
-            positionAttribute.offset = offsetof(VertexPositionTexCoordColor, position);
-
-            VkVertexInputAttributeDescription texCoordAttribute;
-            texCoordAttribute.binding = 0;
-            texCoordAttribute.location = 1;
-            texCoordAttribute.format = VK_FORMAT_R32G32_SFLOAT;
-            texCoordAttribute.offset = offsetof(VertexPositionTexCoordColor, texCoord);
-
-            VkVertexInputAttributeDescription colorAttribute;
-            colorAttribute.binding = 0;
-            colorAttribute.location = 2;
-            colorAttribute.format = VK_FORMAT_R32G32B32A32_SFLOAT;
-            colorAttribute.offset = offsetof(VertexPositionTexCoordColor, color);
-
-            return {
-                positionAttribute,
-                texCoordAttribute,
-                colorAttribute
-            };
-        }
-
-        static VkPipelineVertexInputStateCreateInfo pipeline_input_state_create_info()
-        {
-            static auto bindindDescription = binding_description();
-            static auto attributeDescriptions = attribute_descriptions();
-            VkPipelineVertexInputStateCreateInfo inputState = Pipeline::VertexInputStateCreateInfo;
-            inputState.vertexBindingDescriptionCount = 1;
-            inputState.pVertexBindingDescriptions = &bindindDescription;
-            inputState.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
-            inputState.pVertexAttributeDescriptions = attributeDescriptions.data();
-            return inputState;
-        }
-    };
-
     /**
      * TODO : Documentation.
      */
