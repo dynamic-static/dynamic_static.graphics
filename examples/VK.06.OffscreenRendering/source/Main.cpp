@@ -634,9 +634,13 @@ private:
 
         UniformBuffer ubo;
         ubo.view = mCamera.view();
-        float swapChainWidth = static_cast<float>(mSwapchain->extent().width);
-        float swapChainHeight = static_cast<float>(mSwapchain->extent().height);
-        mCamera.aspect_ratio(swapChainWidth / swapChainHeight);
+        auto swapChainExtent = mSwapchain->extent();
+        float swapChainWidth = static_cast<float>(swapChainExtent.width);
+        float swapChainHeight = static_cast<float>(swapChainExtent.height);
+        if (swapChainWidth && swapChainHeight) {
+            mCamera.aspect_ratio(swapChainWidth / swapChainHeight);
+        }
+
         ubo.projection = mCamera.projection();
 
         float dt = clock.elapsed<dst::Second<float>>();
