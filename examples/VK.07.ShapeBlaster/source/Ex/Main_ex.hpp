@@ -7,18 +7,18 @@
 ==========================================
 */
 
-#pragma once
-
 // Renders an action arcade game
 // Based on "Make a Neon Vector Shooter in XNA"
 // https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559s
+
+#pragma once
 
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
 
 #include <stdexcept>
 
-namespace ShapeBlaster_ex
-{
+namespace ShapeBlaster_ex {
+
     class Game final
         : public dst::vlkn::Application
     {
@@ -43,7 +43,7 @@ namespace ShapeBlaster_ex
     private:
         void setup() override
         {
-
+            dst::vlkn::Application::setup();
         }
 
         void update(const dst::Clock& clock, const dst::Input& input) override final
@@ -68,10 +68,11 @@ namespace ShapeBlaster_ex
 
         void submit_command_buffer() override final
         {
-            Application::submit_command_buffer();
+            dst::vlkn::Application::submit_command_buffer();
         }
     };
-};
+
+} // namespace ShapeBlaster_ex
 
 int main_ex()
 {

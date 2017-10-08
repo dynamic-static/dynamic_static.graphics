@@ -9,7 +9,10 @@ set(INCLUDE_FILES
 
 set(SOURCE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/source/)
 set(SOURCE_FILES
-    ${SOURCE_DIRECTORY}/Main_ex.hpp
+    ${SOURCE_DIRECTORY}/Ex/Entity_ex.hpp
+    ${SOURCE_DIRECTORY}/Ex/Main_ex.hpp
+    ${SOURCE_DIRECTORY}/Ex/Sprite_ex.hpp
+    ${SOURCE_DIRECTORY}/Ex/Sprite_ex.Pool.hpp
 
     ${SOURCE_DIRECTORY}/BlackHole.hpp
     ${SOURCE_DIRECTORY}/BloomComponent.hpp

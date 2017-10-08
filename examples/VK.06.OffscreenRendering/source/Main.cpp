@@ -194,6 +194,7 @@ private:
             *mRenderPass,
             *mNonReflectiveSurfaceDescriptorSetLayout,
             *mNonReflectiveSurfacePipelineLayout,
+            VK_CULL_MODE_NONE,
             R"(
 
                 #version 450
@@ -278,6 +279,7 @@ private:
             *mRenderPass,
             *mReflectiveSurfaceDescriptorSetLayout,
             *mReflectiveSurfacePipelineLayout,
+            VK_CULL_MODE_BACK_BIT,
             R"(
 
                 #version 450
@@ -349,6 +351,7 @@ private:
         dst::vlkn::RenderPass& renderPass,
         dst::vlkn::Descriptor::Set::Layout& descriptorSetLayout,
         dst::vlkn::Pipeline::Layout& pipelineLayout,
+        VkCullModeFlags cullMode,
         const std::string& vertexShaderSource,
         const std::string& fragmentShaderSource
     )
@@ -385,7 +388,7 @@ private:
         depthStencilInfo.depthCompareOp = VK_COMPARE_OP_LESS;
 
         auto rasterizationInfo = Pipeline::RasterizationStateCreateInfo;
-        rasterizationInfo.cullMode = VK_CULL_MODE_NONE;
+        rasterizationInfo.cullMode = cullMode;
 
         auto pipelineInfo = Pipeline::GraphicsCreateInfo;
         pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
