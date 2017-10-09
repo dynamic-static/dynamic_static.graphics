@@ -13,26 +13,311 @@
 #pragma once
 
 #include "Sprite_ex.hpp"
+#include "Sprite_ex.Pipeline.hpp"
 
+#include "Dynamic_Static/Core/Memory.hpp"
+#include "Dynamic_Static/Graphics/Camera.hpp"
+#include "Dynamic_Static/Graphics/ImageCache.hpp"
+#include "Dynamic_Static/Graphics/ImageReader.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
 
+#include <algorithm>
 #include <string>
+#include <utility>
 
 namespace ShapeBlaster_ex {
 
     class Sprite::Pool final
     {
     private:
+        struct Renderable final
+        {
+            Sprite sprite;
+            bool enabled { false };
+        };
 
+    private:
+        Sprite::Pipeline* mPipeline { nullptr };
+        std::shared_ptr<dst::vlkn::Buffer> mUniformBuffer;
+        size_t mHostStorageAlignment { 0 };
+        size_t mHostStorageSize { 0 };
+        Sprite::UniformBuffer* mHostStorage { nullptr };
+        std::shared_ptr<dst::vlkn::Image> mImage;
+        std::shared_ptr<dst::vlkn::Descriptor::Pool> mDescriptorPool;
+        dst::vlkn::Descriptor::Set* mDescriptorSet { nullptr };
+        std::vector<Renderable> mRenderables;
 
     public:
+        Pool() = default;
         Pool(
-            dst::vlkn::Device& device,
+            dst::vlkn::Queue& queue,
+            Sprite::Pipeline& pipeline,
             const std::string& filePath,
             size_t count
         )
+            : mPipeline { &pipeline }
+            , mRenderables(count)
         {
+            create_uniform_buffers();
+            create_image(queue, filePath);
+            create_descriptor_set();
+        }
 
+        ~Pool()
+        {
+            if (mHostStorage) {
+                dst::aligned_free(mHostStorage);
+            }
+        }
+
+    public:
+        Sprite* check_out()
+        {
+            Sprite* sprite = nullptr;
+            for (auto& renderable : mRenderables) {
+                if (!renderable.enabled) {
+                    sprite = &renderable.sprite;
+                    sprite->position = dst::Vector2::Zero;
+                    sprite->rotation = 0;
+                    sprite->scale = 1;
+                    sprite->color = dst::Color::White;
+                    renderable.enabled = true;
+                }
+            }
+
+            return sprite;
+        }
+
+        void check_in(Sprite* sprite)
+        {
+            auto target = reinterpret_cast<uint8_t*>(sprite);
+            auto start = reinterpret_cast<uint8_t*>(mRenderables.data());
+            auto index = target - start;
+            if (sprite && index >= 0 && index < mRenderables.size()) {
+                sprite->scale = 0;
+                sprite->color = dst::Color::Transparent;
+                mRenderables[index].enabled = false;
+            }
+        }
+
+        void update()
+        {
+            using namespace dst::vlkn;
+            auto& device = mPipeline->mPipeline->device();
+
+            for (size_t i = 0; i < mRenderables.size(); ++i) {
+                const auto& sprite = mRenderables[i].sprite;
+                auto translation = dst::Matrix4x4::create_translation(sprite.position);
+                auto rotation = dst::Matrix4x4::create_rotation(sprite.rotation, dst::Vector3::UnitZ);
+                auto scale = dst::Matrix4x4::create_scale({
+                    mImage->extent().width * sprite.scale,
+                    mImage->extent().height * sprite.scale,
+                    1
+                });
+
+                auto view = dst::Matrix4x4::create_view(
+                    { 0, 0, 1 }, dst::Vector3::Zero, dst::Vector3::UnitY
+                );
+
+                float w = 1280;
+                float h = 720;
+                auto projection = dst::Matrix4x4::create_orhtographic(
+                    0, w, 0, h, 0.01f, 10.0f
+                );
+
+                uint32_t offset = static_cast<uint32_t>(mHostStorageAlignment * i);
+                (mHostStorage + offset)->wvp = projection * view * translation * rotation * scale;
+                (mHostStorage + offset)->color = sprite.color;
+            }
+
+            memcpy(mUniformBuffer->mapped_ptr(), mHostStorage, mHostStorageSize);
+            VkMappedMemoryRange memoryRange { };
+            memoryRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
+            memoryRange.pNext = nullptr;
+            memoryRange.memory = *mUniformBuffer->memory();
+            memoryRange.offset = 0;
+            memoryRange.size = static_cast<VkDeviceSize>(mHostStorageSize);
+            vkFlushMappedMemoryRanges(device, 1, &memoryRange);
+        }
+
+        void draw(dst::vlkn::Command::Buffer& commandBuffer)
+        {
+            commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mPipeline->mPipeline);
+            for (size_t i = 0; i < mRenderables.size(); ++i) {
+                uint32_t offset = static_cast<uint32_t>(mHostStorageAlignment * i);
+                vkCmdBindDescriptorSets(
+                    commandBuffer,
+                    VK_PIPELINE_BIND_POINT_GRAPHICS,
+                    *mPipeline->mPipelineLayout,
+                    0,
+                    1,
+                    &mDescriptorSet->handle(),
+                    1,
+                    &offset
+                );
+
+                commandBuffer.draw(6, 1);
+            }
+        }
+
+    private:
+        void create_uniform_buffers()
+        {
+            using namespace dst::vlkn;
+            auto& device = mPipeline->mPipeline->device();
+
+            auto elementSize = sizeof(Sprite::UniformBuffer);
+            mHostStorageSize = elementSize * mRenderables.size();
+            mHostStorageAlignment = device.physical_device().uniform_buffer_alignment(elementSize);
+            mHostStorage = reinterpret_cast<Sprite::UniformBuffer*>(dst::aligned_alloc(mHostStorageSize, mHostStorageAlignment));
+
+            auto uniformBufferInfo = Buffer::CreateInfo;
+            uniformBufferInfo.size = static_cast<VkDeviceSize>(mHostStorageSize);
+            uniformBufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+            auto memoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+            mUniformBuffer = device.create<Buffer>(uniformBufferInfo, memoryProperties);
+            mUniformBuffer->map();
+        }
+
+        void create_image(dst::vlkn::Queue& queue, const std::string& filePath)
+        {
+            using namespace dst::vlkn;
+            auto& device = mPipeline->mPipeline->device();
+
+            auto imageCache = dst::gfx::ImageReader::read_file(filePath);
+            auto imageInfo = Image::CreateInfo;
+            imageInfo.imageType = VK_IMAGE_TYPE_2D;
+            imageInfo.extent.width = imageCache.width();
+            imageInfo.extent.height = imageCache.height();
+            imageInfo.format = VK_FORMAT_R8G8B8A8_UNORM;
+            imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+            imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+            imageInfo.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+            mImage = device.create<Image>(imageInfo);
+
+            auto memoryInfo = Memory::AllocateInfo;
+            auto memoryRequirements = mImage->memory_requirements();
+            memoryInfo.allocationSize = memoryRequirements.size;
+            memoryInfo.memoryTypeIndex = device.physical_device().find_memory_type_index(
+                memoryRequirements.memoryTypeBits,
+                VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
+            );
+
+            mImage->bind_memory(device.allocate<Memory>(memoryInfo));
+            mImage->create<Image::View>();
+
+            auto stagingBufferInfo = Buffer::CreateInfo;
+            stagingBufferInfo.size = static_cast<VkDeviceSize>(imageCache.data().size_bytes());
+            stagingBufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+            auto memoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+            auto stagingBuffer = device.create<Buffer>(stagingBufferInfo, memoryProperties);
+            stagingBuffer->write<uint8_t>(imageCache.data());
+            queue.process_immediate(
+                [&](Command::Buffer& commandBuffer)
+                {
+                    auto oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+                    auto newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+                    auto layoutTransition = Image::create_layout_transition(*mImage, oldLayout, newLayout);
+                    vkCmdPipelineBarrier(
+                        commandBuffer,
+                        layoutTransition.srcStage,
+                        layoutTransition.dstStage,
+                        0,
+                        0, nullptr,
+                        0, nullptr,
+                        1, &layoutTransition.barrier
+                    );
+
+                    VkBufferImageCopy copyRegion { };
+                    copyRegion.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+                    copyRegion.imageSubresource.layerCount = 1;
+                    copyRegion.imageExtent.width = imageCache.width();
+                    copyRegion.imageExtent.height = imageCache.height();
+                    copyRegion.imageExtent.depth = 1;
+                    vkCmdCopyBufferToImage(
+                        commandBuffer,
+                        *stagingBuffer,
+                        *mImage,
+                        newLayout,
+                        1,
+                        &copyRegion
+                    );
+
+                    oldLayout = newLayout;
+                    newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+                    layoutTransition = Image::create_layout_transition(*mImage, oldLayout, newLayout);
+                    vkCmdPipelineBarrier(
+                        commandBuffer,
+                        layoutTransition.srcStage,
+                        layoutTransition.dstStage,
+                        0,
+                        0, nullptr,
+                        0, nullptr,
+                        1, &layoutTransition.barrier
+                    );
+                }
+            );
+        }
+
+        void create_descriptor_set()
+        {
+            using namespace dst::vlkn;
+            auto& device = mPipeline->mPipeline->device();
+
+            std::array<VkDescriptorPoolSize, 2> descriptorPoolSizes { };
+            descriptorPoolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
+            descriptorPoolSizes[0].descriptorCount = mRenderables.size();
+            descriptorPoolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+            descriptorPoolSizes[1].descriptorCount = mRenderables.size();
+
+            auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
+            descriptorPoolInfo.poolSizeCount = static_cast<uint32_t>(descriptorPoolSizes.size());
+            descriptorPoolInfo.pPoolSizes = descriptorPoolSizes.data();
+            descriptorPoolInfo.maxSets = mRenderables.size();
+            mDescriptorPool = device.create<Descriptor::Pool>(descriptorPoolInfo);
+
+            auto descriptorSetInfo = Descriptor::Set::AllocateInfo;
+            descriptorSetInfo.descriptorPool = *mDescriptorPool;
+            descriptorSetInfo.descriptorSetCount = 1;
+            descriptorSetInfo.pSetLayouts = &mPipeline->mDescriptorSetLayout->handle();
+            mDescriptorSet = mDescriptorPool->allocate<Descriptor::Set>(descriptorSetInfo);
+
+            VkDescriptorBufferInfo descriptorBufferInfo { };
+            descriptorBufferInfo.buffer = *mUniformBuffer;
+            descriptorBufferInfo.offset = 0;
+            descriptorBufferInfo.range = VK_WHOLE_SIZE;
+            VkWriteDescriptorSet uniformBufferWrite { };
+            uniformBufferWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+            uniformBufferWrite.dstSet = *mDescriptorSet;
+            uniformBufferWrite.dstBinding = 0;
+            uniformBufferWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
+            uniformBufferWrite.descriptorCount = 1;
+            uniformBufferWrite.pBufferInfo = &descriptorBufferInfo;
+
+            VkDescriptorImageInfo descriptorImageInfo { };
+            descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+            descriptorImageInfo.imageView = *mImage->view();
+            descriptorImageInfo.sampler = *mPipeline->mSampler;
+            VkWriteDescriptorSet samplerWrite { };
+            samplerWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+            samplerWrite.dstSet = *mDescriptorSet;
+            samplerWrite.dstBinding = 1;
+            samplerWrite.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+            samplerWrite.descriptorCount = 1;
+            samplerWrite.pImageInfo = &descriptorImageInfo;
+
+            std::array<VkWriteDescriptorSet, 2> descriptorWrites {
+                uniformBufferWrite,
+                samplerWrite,
+            };
+
+            vkUpdateDescriptorSets(
+                device,
+                static_cast<uint32_t>(descriptorWrites.size()),
+                descriptorWrites.data(),
+                0,
+                nullptr
+            );
         }
     };
 

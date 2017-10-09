@@ -10,7 +10,10 @@
 #pragma once
 
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/VertexTypes/VertexPositionTexCoordColor.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/VertexTypes/VertexPositionTexCoord.hpp"
+
+#include <utility>
+#include <vector>
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -19,7 +22,11 @@ namespace Vulkan {
     /**
      * TODO : Generalize primitive creation...
      */
-    void create_quad_primitive();
+    std::pair<
+        std::vector<VertexPositionTexCoord>,
+        std::vector<uint16_t>
+    >
+    create_quad_primitive(const dst::Vector2& dimensions);
 
 } // namespace Vulkan
 } // namespace Graphics

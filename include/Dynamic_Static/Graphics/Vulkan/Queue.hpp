@@ -26,10 +26,6 @@ namespace Vulkan {
     {
         friend class Device;
 
-    private:
-        std::shared_ptr<Command::Pool> mImmediateCommandPool;
-        Command::Buffer* mImmediateCommandBuffer { nullptr };
-
     public:
         /**
          * Default Queue creation parameters.
@@ -75,6 +71,8 @@ namespace Vulkan {
     private:
         size_t mFamilyIndex { 0 };
         float mPriority { 0 };
+        std::shared_ptr<Command::Pool> mImmediateCommandPool;
+        Command::Buffer* mImmediateCommandBuffer { nullptr };
         Device* mDevice { nullptr };
 
     private:

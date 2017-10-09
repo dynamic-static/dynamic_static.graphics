@@ -12,6 +12,7 @@ set(SOURCE_FILES
     ${SOURCE_DIRECTORY}/Ex/Entity_ex.hpp
     ${SOURCE_DIRECTORY}/Ex/Main_ex.hpp
     ${SOURCE_DIRECTORY}/Ex/Sprite_ex.hpp
+    ${SOURCE_DIRECTORY}/Ex/Sprite_ex.Pipeline.hpp
     ${SOURCE_DIRECTORY}/Ex/Sprite_ex.Pool.hpp
 
     ${SOURCE_DIRECTORY}/BlackHole.hpp

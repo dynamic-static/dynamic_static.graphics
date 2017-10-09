@@ -13,6 +13,10 @@
 
 #pragma once
 
+#include "Sprite_ex.Pipeline.hpp"
+#include "Sprite_ex.Pool.hpp"
+
+#include "Dynamic_Static/Core/FileSystem.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
 
 #include <stdexcept>
@@ -24,6 +28,16 @@ namespace ShapeBlaster_ex {
     {
     private:
         std::string mGameInfo;
+
+        Sprite::Pipeline mSpritePipeline;
+        Sprite::Pool mPlayerSpritePool;
+        Sprite::Pool mBulletSpritePool;
+        Sprite::Pool mSeekerSpritePool;
+        Sprite::Pool mWandererSpritePool;
+        Sprite::Pool mPointerSpritePool;
+        Sprite::Pool mBlackHoleSpritePool;
+
+        Sprite* mPlayerSprite { nullptr };
 
     public:
         Game()
@@ -44,6 +58,23 @@ namespace ShapeBlaster_ex {
         void setup() override
         {
             dst::vlkn::Application::setup();
+
+            mSpritePipeline = Sprite::Pipeline(*mDevice, *mRenderPass);
+            std::string resourcePath = "../../../examples/resources/ShapeBlaster_AllParts/ShapeBlaster_Part5/ShapeBlaster_Part5Content/Art/";
+            auto playerFilePath = dst::Path::combine(resourcePath, "Player.png");
+            auto bulletFilePath = dst::Path::combine(resourcePath, "Bullet.png");
+            auto seekerFilePath = dst::Path::combine(resourcePath, "Seeker.png");
+            auto wandererFilePath = dst::Path::combine(resourcePath, "Wanderer.png");
+            auto pointerFilePath = dst::Path::combine(resourcePath, "Pointer.png");
+            auto blackHoleFilePath = dst::Path::combine(resourcePath, "Black Hole.png");
+            mPlayerSpritePool = Sprite::Pool(*mGraphicsQueue, mSpritePipeline, playerFilePath, 1);
+            mBulletSpritePool = Sprite::Pool(*mGraphicsQueue, mSpritePipeline, bulletFilePath, 1);
+            mSeekerSpritePool = Sprite::Pool(*mGraphicsQueue, mSpritePipeline, seekerFilePath, 1);
+            mWandererSpritePool = Sprite::Pool(*mGraphicsQueue, mSpritePipeline, wandererFilePath, 1);
+            mPointerSpritePool = Sprite::Pool(*mGraphicsQueue, mSpritePipeline, pointerFilePath, 1);
+            mBlackHoleSpritePool = Sprite::Pool(*mGraphicsQueue, mSpritePipeline, blackHoleFilePath, 1);
+
+            mPlayerSprite = mPlayerSpritePool.check_out();
         }
 
         void update(const dst::Clock& clock, const dst::Input& input) override final
@@ -54,21 +85,29 @@ namespace ShapeBlaster_ex {
 
             mGameInfo = "Hi Score : 0";
             mWindow->name("Dynamic_Static VK.07.ShapeBlaster " + mGameInfo);
-        }
+            auto move = dst::Vector2::Zero;
+            if (input.keyboard().down(dst::Keyboard::Key::RightArrow)) {
+                move.x += 0.5f;
+                move.y += 0.5f;
+            }
+            mPlayerSprite->position += move;
 
-        void render(const dst::Clock& clock) override final
-        {
-
+            mPlayerSpritePool.update();
+            mBulletSpritePool.update();
+            mSeekerSpritePool.update();
+            mWandererSpritePool.update();
+            mPointerSpritePool.update();
+            mBlackHoleSpritePool.update();
         }
 
         void record_command_buffer(dst::vlkn::Command::Buffer& commandBuffer, const dst::Clock& clock) override final
         {
-
-        }
-
-        void submit_command_buffer() override final
-        {
-            dst::vlkn::Application::submit_command_buffer();
+            mPlayerSpritePool.draw(commandBuffer);
+            mBulletSpritePool.draw(commandBuffer);
+            mSeekerSpritePool.draw(commandBuffer);
+            mWandererSpritePool.draw(commandBuffer);
+            mPointerSpritePool.draw(commandBuffer);
+            mBlackHoleSpritePool.draw(commandBuffer);
         }
     };
 

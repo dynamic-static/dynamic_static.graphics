@@ -20,21 +20,21 @@ namespace ShapeBlaster_ex {
     class Sprite final
     {
     public:
-        class Pool;
         class Pipeline;
+        class Pool;
 
-        struct Vertex final
+    private:
+        struct UniformBuffer final
         {
-            dst::Vector2 position;
-            float rotation { 0 };
-            float scale { 1 };
-            dst::Color color { dst::Color::White };
-
-            static auto attribute_descriptions()
-            {
-                return dst::vlkn::create_attribute_descriptions<dst::Vector2, dst::Color>();
-            }
+            dst::Matrix4x4 wvp;
+            dst::Color color;
         };
+
+    public:
+        dst::Vector2 position;
+        float rotation { 0 };
+        float scale { 0 };
+        dst::Color color;
     };
 
 } // namespace ShapeBlaster_ex

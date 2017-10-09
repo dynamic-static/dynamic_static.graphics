@@ -13,9 +13,17 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    void create_quad_primitive()
+    std::pair<
+        std::vector<VertexPositionTexCoord>,
+        std::vector<uint16_t>
+    >
+    create_quad_primitive(const dst::Vector2& dimensions)
     {
+        std::vector<VertexPositionTexCoord> vertices;
 
+        std::vector<uint16_t> indices;
+
+        return std::make_pair(std::move(vertices), std::move(indices));
     }
 
 } // namespace Vulkan
