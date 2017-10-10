@@ -14,6 +14,7 @@
 
 #include "Sprite_ex.hpp"
 
+#include "Dynamic_Static/Core/NonCopyable.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
 
 #include <string>
@@ -28,8 +29,6 @@ namespace ShapeBlaster_ex {
         std::shared_ptr<dst::vlkn::Descriptor::Set::Layout> mDescriptorSetLayout;
         std::shared_ptr<dst::vlkn::Pipeline::Layout> mPipelineLayout;
         std::shared_ptr<dst::vlkn::Pipeline> mPipeline;
-        std::shared_ptr<dst::vlkn::Descriptor::Pool> mDescriptorPool;
-        std::shared_ptr<dst::vlkn::Sampler> mSampler;
 
     public:
         Pipeline() = default;
@@ -157,7 +156,6 @@ namespace ShapeBlaster_ex {
             pipelineInfo.renderPass = renderPass;
             pipelineInfo.pColorBlendState = &colorBlendInfo;
             mPipeline = device.create<dst::vlkn::Pipeline>(pipelineInfo);
-            mSampler = device.create<Sampler>();
         }
     };
 

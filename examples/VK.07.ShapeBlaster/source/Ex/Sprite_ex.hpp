@@ -22,6 +22,7 @@ namespace ShapeBlaster_ex {
     public:
         class Pipeline;
         class Pool;
+        class Manager;
 
     private:
         struct UniformBuffer final
@@ -31,6 +32,7 @@ namespace ShapeBlaster_ex {
         };
 
     public:
+        bool enabled { false };
         dst::Vector2 position;
         float rotation { 0 };
         float scale { 0 };

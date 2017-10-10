@@ -11,7 +11,9 @@ set(SOURCE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/source/)
 set(SOURCE_FILES
     ${SOURCE_DIRECTORY}/Ex/Entity_ex.hpp
     ${SOURCE_DIRECTORY}/Ex/Main_ex.hpp
+    ${SOURCE_DIRECTORY}/Ex/PlayerShip_ex.hpp
     ${SOURCE_DIRECTORY}/Ex/Sprite_ex.hpp
+    ${SOURCE_DIRECTORY}/Ex/Sprite_ex.Manager.hpp
     ${SOURCE_DIRECTORY}/Ex/Sprite_ex.Pipeline.hpp
     ${SOURCE_DIRECTORY}/Ex/Sprite_ex.Pool.hpp
 

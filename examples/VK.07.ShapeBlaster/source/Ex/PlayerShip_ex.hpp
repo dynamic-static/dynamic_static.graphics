@@ -12,31 +12,24 @@
 
 #pragma once
 
-#include "Sprite_ex.hpp"
-
-#include "Dynamic_Static/Core/Input.hpp"
-#include "Dynamic_Static/Core/Math.hpp"
-#include "Dynamic_Static/Core/Time.hpp"
+#include "Entity_ex.hpp"
 
 namespace ShapeBlaster_ex {
 
-    class Entity
+    class PlayerShip final
+        : public Entity
     {
-    public:
-        class Manager;
-
-    protected:
-        Sprite* mSprite { nullptr };
-        dst::Vector2 mVelocity;
-        float mRadius { 20 };
-        float mEnabled { false };
+    private:
 
     public:
-        virtual void update(
+        void update(
             const dst::Clock& clock,
             const dst::Input& input,
             const dst::Vector2& playField
-        ) = 0;
+        ) override final
+        {
+
+        }
     };
 
 } // namespace ShapeBlaster_ex

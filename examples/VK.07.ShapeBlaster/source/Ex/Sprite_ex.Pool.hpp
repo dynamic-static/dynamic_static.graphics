@@ -16,6 +16,7 @@
 #include "Sprite_ex.Pipeline.hpp"
 
 #include "Dynamic_Static/Core/Memory.hpp"
+#include "Dynamic_Static/Core/NonCopyable.hpp"
 #include "Dynamic_Static/Graphics/Camera.hpp"
 #include "Dynamic_Static/Graphics/ImageCache.hpp"
 #include "Dynamic_Static/Graphics/ImageReader.hpp"
@@ -28,12 +29,13 @@
 namespace ShapeBlaster_ex {
 
     class Sprite::Pool final
+        : dst::NonCopyable
     {
     private:
         struct Renderable final
         {
             Sprite sprite;
-            bool enabled { false };
+            bool checkedOut { false };
         };
 
     private:
@@ -43,6 +45,7 @@ namespace ShapeBlaster_ex {
         size_t mHostStorageSize { 0 };
         Sprite::UniformBuffer* mHostStorage { nullptr };
         std::shared_ptr<dst::vlkn::Image> mImage;
+        std::shared_ptr<dst::vlkn::Sampler> mSampler;
         std::shared_ptr<dst::vlkn::Descriptor::Pool> mDescriptorPool;
         dst::vlkn::Descriptor::Set* mDescriptorSet { nullptr };
         std::vector<Renderable> mRenderables;
@@ -59,8 +62,33 @@ namespace ShapeBlaster_ex {
             , mRenderables(count)
         {
             create_uniform_buffers();
-            create_image(queue, filePath);
+            create_image_and_sampler(queue, filePath);
             create_descriptor_set();
+        }
+
+        Pool(Pool&& other)
+        {
+            *this = std::move(other);
+        }
+
+        Pool& operator=(Pool&& other)
+        {
+            if (this != &other) {
+                mPipeline = std::move(other.mPipeline);
+                mUniformBuffer = std::move(other.mUniformBuffer);
+                mHostStorageAlignment = std::move(other.mHostStorageAlignment);
+                mHostStorageSize = std::move(other.mHostStorageSize);
+                mHostStorage = std::move(other.mHostStorage);
+                mImage = std::move(other.mImage);
+                mDescriptorPool = std::move(other.mDescriptorPool);
+                mDescriptorSet = std::move(other.mDescriptorSet);
+                mRenderables = std::move(other.mRenderables);
+                other.mPipeline = nullptr;
+                other.mHostStorage = nullptr;
+                other.mDescriptorSet = nullptr;
+            }
+
+            return *this;
         }
 
         ~Pool()
@@ -75,13 +103,15 @@ namespace ShapeBlaster_ex {
         {
             Sprite* sprite = nullptr;
             for (auto& renderable : mRenderables) {
-                if (!renderable.enabled) {
+                if (!renderable.checkedOut) {
                     sprite = &renderable.sprite;
                     sprite->position = dst::Vector2::Zero;
                     sprite->rotation = 0;
                     sprite->scale = 1;
                     sprite->color = dst::Color::White;
-                    renderable.enabled = true;
+                    sprite->enabled = true;
+                    renderable.checkedOut = true;
+                    break;
                 }
             }
 
@@ -94,9 +124,7 @@ namespace ShapeBlaster_ex {
             auto start = reinterpret_cast<uint8_t*>(mRenderables.data());
             auto index = target - start;
             if (sprite && index >= 0 && index < mRenderables.size()) {
-                sprite->scale = 0;
-                sprite->color = dst::Color::Transparent;
-                mRenderables[index].enabled = false;
+                mRenderables[index].checkedOut = false;
             }
         }
 
@@ -107,11 +135,12 @@ namespace ShapeBlaster_ex {
 
             for (size_t i = 0; i < mRenderables.size(); ++i) {
                 const auto& sprite = mRenderables[i].sprite;
+                bool enabled = sprite.enabled && mRenderables[i].checkedOut;
                 auto translation = dst::Matrix4x4::create_translation(sprite.position);
                 auto rotation = dst::Matrix4x4::create_rotation(sprite.rotation, dst::Vector3::UnitZ);
                 auto scale = dst::Matrix4x4::create_scale({
-                    mImage->extent().width * sprite.scale,
-                    mImage->extent().height * sprite.scale,
+                    mImage->extent().width * (enabled ? sprite.scale : 0),
+                    mImage->extent().height * (enabled ? sprite.scale : 0),
                     1
                 });
 
@@ -126,8 +155,10 @@ namespace ShapeBlaster_ex {
                 );
 
                 uint32_t offset = static_cast<uint32_t>(mHostStorageAlignment * i);
-                (mHostStorage + offset)->wvp = projection * view * translation * rotation * scale;
-                (mHostStorage + offset)->color = sprite.color;
+                auto hostStorageEntry = reinterpret_cast<uint64_t>(mHostStorage) + offset;
+                auto uniformBufferEntry = reinterpret_cast<Sprite::UniformBuffer*>(hostStorageEntry);
+                uniformBufferEntry->wvp = projection * view * translation * rotation * scale;
+                uniformBufferEntry->color = (enabled ? sprite.color : dst::Color::Transparent);
             }
 
             memcpy(mUniformBuffer->mapped_ptr(), mHostStorage, mHostStorageSize);
@@ -167,8 +198,8 @@ namespace ShapeBlaster_ex {
             auto& device = mPipeline->mPipeline->device();
 
             auto elementSize = sizeof(Sprite::UniformBuffer);
-            mHostStorageSize = elementSize * mRenderables.size();
             mHostStorageAlignment = device.physical_device().uniform_buffer_alignment(elementSize);
+            mHostStorageSize = mHostStorageAlignment * mRenderables.size();
             mHostStorage = reinterpret_cast<Sprite::UniformBuffer*>(dst::aligned_alloc(mHostStorageSize, mHostStorageAlignment));
 
             auto uniformBufferInfo = Buffer::CreateInfo;
@@ -179,7 +210,7 @@ namespace ShapeBlaster_ex {
             mUniformBuffer->map();
         }
 
-        void create_image(dst::vlkn::Queue& queue, const std::string& filePath)
+        void create_image_and_sampler(dst::vlkn::Queue& queue, const std::string& filePath)
         {
             using namespace dst::vlkn;
             auto& device = mPipeline->mPipeline->device();
@@ -194,6 +225,7 @@ namespace ShapeBlaster_ex {
             imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
             imageInfo.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
             mImage = device.create<Image>(imageInfo);
+            mSampler = device.create<Sampler>();
 
             auto memoryInfo = Memory::AllocateInfo;
             auto memoryRequirements = mImage->memory_requirements();
@@ -297,7 +329,7 @@ namespace ShapeBlaster_ex {
             VkDescriptorImageInfo descriptorImageInfo { };
             descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
             descriptorImageInfo.imageView = *mImage->view();
-            descriptorImageInfo.sampler = *mPipeline->mSampler;
+            descriptorImageInfo.sampler = *mSampler;
             VkWriteDescriptorSet samplerWrite { };
             samplerWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
             samplerWrite.dstSet = *mDescriptorSet;
