@@ -37,6 +37,7 @@ namespace ShapeBlaster_ex {
         float rotation { 0 };
         float scale { 0 };
         dst::Color color;
+        dst::vlkn::Image* image { nullptr };
     };
 
 } // namespace ShapeBlaster_ex

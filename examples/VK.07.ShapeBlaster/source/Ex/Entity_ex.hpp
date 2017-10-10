@@ -28,10 +28,21 @@ namespace ShapeBlaster_ex {
     protected:
         Sprite* mSprite { nullptr };
         dst::Vector2 mVelocity;
-        float mRadius { 20 };
+        float mRadius { 0 };
         float mEnabled { false };
 
     public:
+        dst::Vector2 extent() const
+        {
+            return
+                mSprite && mSprite->image ?
+                dst::Vector2(
+                    mSprite->image->extent().width,
+                    mSprite->image->extent().height
+                ) :
+                dst::Vector2::Zero;
+        }
+
         virtual void update(
             const dst::Clock& clock,
             const dst::Input& input,

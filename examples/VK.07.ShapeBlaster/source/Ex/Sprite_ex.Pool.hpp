@@ -110,6 +110,7 @@ namespace ShapeBlaster_ex {
                     sprite->scale = 1;
                     sprite->color = dst::Color::White;
                     sprite->enabled = true;
+                    sprite->image = mImage.get();
                     renderable.checkedOut = true;
                     break;
                 }
@@ -225,7 +226,6 @@ namespace ShapeBlaster_ex {
             imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
             imageInfo.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
             mImage = device.create<Image>(imageInfo);
-            mSampler = device.create<Sampler>();
 
             auto memoryInfo = Memory::AllocateInfo;
             auto memoryRequirements = mImage->memory_requirements();
@@ -289,6 +289,11 @@ namespace ShapeBlaster_ex {
                     );
                 }
             );
+
+            auto samplerInfo = Sampler::CreateInfo;
+            samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+            samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+            mSampler = device.create<Sampler>(samplerInfo);
         }
 
         void create_descriptor_set()

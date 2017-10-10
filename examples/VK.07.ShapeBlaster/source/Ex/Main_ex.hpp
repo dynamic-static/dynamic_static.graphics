@@ -13,6 +13,8 @@
 
 #pragma once
 
+#include "Entity_ex.Manager.hpp"
+#include "PlayerShip_ex.hpp"
 #include "Sprite_ex.Manager.hpp"
 
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
@@ -26,7 +28,10 @@ namespace ShapeBlaster_ex {
     {
     private:
         std::string mGameInfo;
+        Entity::Manager mEntityManager;
         Sprite::Manager mSpriteManager;
+        PlayerShip mPlayerShip;
+
         Sprite* mPlayerSprite { nullptr };
         Sprite* mWanderer0 { nullptr };
         Sprite* mWanderer1 { nullptr };
@@ -51,11 +56,12 @@ namespace ShapeBlaster_ex {
         void setup() override
         {
             dst::vlkn::Application::setup();
-
             mSpriteManager = Sprite::Manager(*mDevice, *mRenderPass, *mGraphicsQueue);
-            mPlayerSprite = mSpriteManager.check_out("Player.png");
-            mWanderer0 = mSpriteManager.check_out("Wanderer.png");
-            mWanderer1 = mSpriteManager.check_out("Wanderer.png");
+            mPlayerShip = PlayerShip(mSpriteManager);
+            mEntityManager.add(&mPlayerShip);
+            // mPlayerSprite = mSpriteManager.check_out("Player.png");
+            // mWanderer0 = mSpriteManager.check_out("Wanderer.png");
+            // mWanderer1 = mSpriteManager.check_out("Wanderer.png");
         }
 
         void update(const dst::Clock& clock, const dst::Input& input) override final
@@ -65,16 +71,18 @@ namespace ShapeBlaster_ex {
             }
 
             mGameInfo = "Hi Score : 0";
-            mWindow->name("Dynamic_Static VK.07.ShapeBlaster " + mGameInfo);
-            auto move = dst::Vector2::Zero;
-            if (input.keyboard().down(dst::Keyboard::Key::RightArrow)) {
-                move.x += 0.5f;
-                move.y += 0.5f;
-            }
-            mPlayerSprite->position += move;
-            mWanderer0->position = mPlayerSprite->position + dst::Vector2::One * 4;
-            mWanderer1->position = mWanderer0->position + dst::Vector2::One * 4;
+            mWindow->name("Dynamic_Static VK.07.ShapeBlaster        " + mGameInfo);
+            // auto move = dst::Vector2::Zero;
+            // if (input.keyboard().down(dst::Keyboard::Key::RightArrow)) {
+            //     move.x += 0.5f;
+            //     move.y += 0.5f;
+            // }
+            // mPlayerSprite->position += move;
+            // mWanderer0->position = mPlayerSprite->position + dst::Vector2::One * 4;
+            // mWanderer1->position = mWanderer0->position + dst::Vector2::One * 4;
 
+            auto extent = mSwapchain->extent();
+            mEntityManager.update(clock, input, dst::Vector2(extent.width, extent.height));
             mSpriteManager.update();
         }
 
