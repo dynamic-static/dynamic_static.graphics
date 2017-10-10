@@ -24,6 +24,9 @@ namespace ShapeBlaster_ex {
     {
     private:
         static constexpr float Speed { 8.0f * 60.0f };
+        static constexpr float RateofFire { 1 };
+        dst::Vector2 mAimDirection;
+        float mShotTimer { 0 };
 
     public:
         PlayerShip() = default;
@@ -41,34 +44,50 @@ namespace ShapeBlaster_ex {
             const dst::Vector2& playField
         ) override final
         {
-            if (mSprite) {
-                auto moveDirection = dst::Vector2::Zero;
-                if (input.keyboard().down(dst::Keyboard::Key::W)) {
-                    ++moveDirection.y;
-                }
-
-                if (input.keyboard().down(dst::Keyboard::Key::S)) {
-                    --moveDirection.y;
-                }
-
-                if (input.keyboard().down(dst::Keyboard::Key::A)) {
-                    --moveDirection.x;
-                }
-
-                if (input.keyboard().down(dst::Keyboard::Key::D)) {
-                    ++moveDirection.x;
-                }
-
-                if (moveDirection != dst::Vector2::Zero) {
-                    moveDirection.normalize();
-                    mSprite->rotation = moveDirection.to_angle();
-                }
-
-                mVelocity = moveDirection * Speed * clock.elapsed<dst::Second<>>();
-                mSprite->position += mVelocity;
-                mSprite->position.x = dst::clamp(mSprite->position.x, 0.0f, playField.x);
-                mSprite->position.y = dst::clamp(mSprite->position.y, 0.0f, playField.y);
+            auto moveDirection = dst::Vector2::Zero;
+            if (input.keyboard().down(dst::Keyboard::Key::W)) {
+                ++moveDirection.y;
             }
+
+            if (input.keyboard().down(dst::Keyboard::Key::S)) {
+                --moveDirection.y;
+            }
+
+            if (input.keyboard().down(dst::Keyboard::Key::A)) {
+                --moveDirection.x;
+            }
+
+            if (input.keyboard().down(dst::Keyboard::Key::D)) {
+                ++moveDirection.x;
+            }
+
+            if (moveDirection != dst::Vector2::Zero) {
+                moveDirection.normalize();
+                mSprite->rotation = moveDirection.to_angle();
+            }
+
+            mVelocity = moveDirection * Speed * clock.elapsed<dst::Second<>>();
+            mSprite->position += mVelocity;
+            mSprite->position.x = dst::clamp(mSprite->position.x, 0.0f, playField.x);
+            mSprite->position.y = dst::clamp(mSprite->position.y, 0.0f, playField.y);
+
+            if (input.mouse().down(dst::Mouse::Button::Left)) {
+                auto pointerPosition = input.mouse().position();
+                pointerPosition.y = playField.y - pointerPosition.y;
+                mAimDirection = pointerPosition - mSprite->position;
+                if (mAimDirection != dst::Vector2::Zero && mShotTimer <= 0) {
+                    mAimDirection.normalize();
+                    mShotTimer = RateofFire;
+                    fire_bullet({ 0, 0 });
+                    fire_bullet({ 0, 0 });
+                }
+            }
+        }
+
+    private:
+        void fire_bullet(const dst::Vector2& offset)
+        {
+
         }
     };
 

@@ -129,7 +129,7 @@ namespace ShapeBlaster_ex {
             }
         }
 
-        void update()
+        void update(const dst::Vector2& playField)
         {
             using namespace dst::vlkn;
             auto& device = mPipeline->mPipeline->device();
@@ -149,10 +149,8 @@ namespace ShapeBlaster_ex {
                     { 0, 0, 1 }, dst::Vector3::Zero, dst::Vector3::UnitY
                 );
 
-                float w = 1280;
-                float h = 720;
                 auto projection = dst::Matrix4x4::create_orhtographic(
-                    0, w, 0, h, 0.01f, 10.0f
+                    0, playField.x, 0, playField.y, 0.01f, 10.0f
                 );
 
                 uint32_t offset = static_cast<uint32_t>(mHostStorageAlignment * i);

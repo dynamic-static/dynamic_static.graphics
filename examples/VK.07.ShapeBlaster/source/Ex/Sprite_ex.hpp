@@ -17,19 +17,13 @@
 
 namespace ShapeBlaster_ex {
 
-    class Sprite final
+    struct Sprite final
     {
     public:
+        struct UniformBuffer;
         class Pipeline;
         class Pool;
         class Manager;
-
-    private:
-        struct UniformBuffer final
-        {
-            dst::Matrix4x4 wvp;
-            dst::Color color;
-        };
 
     public:
         bool enabled { false };

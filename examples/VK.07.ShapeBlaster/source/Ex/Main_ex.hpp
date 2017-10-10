@@ -30,11 +30,8 @@ namespace ShapeBlaster_ex {
         std::string mGameInfo;
         Entity::Manager mEntityManager;
         Sprite::Manager mSpriteManager;
+        Sprite* mPointerSprite { nullptr };
         PlayerShip mPlayerShip;
-
-        Sprite* mPlayerSprite { nullptr };
-        Sprite* mWanderer0 { nullptr };
-        Sprite* mWanderer1 { nullptr };
 
     public:
         Game()
@@ -56,12 +53,11 @@ namespace ShapeBlaster_ex {
         void setup() override
         {
             dst::vlkn::Application::setup();
+            mWindow->cursor_mode(dst::gfx::Window::CursorMode::Hidden);
             mSpriteManager = Sprite::Manager(*mDevice, *mRenderPass, *mGraphicsQueue);
+            mPointerSprite = mSpriteManager.check_out("Pointer.png");
             mPlayerShip = PlayerShip(mSpriteManager);
             mEntityManager.add(&mPlayerShip);
-            // mPlayerSprite = mSpriteManager.check_out("Player.png");
-            // mWanderer0 = mSpriteManager.check_out("Wanderer.png");
-            // mWanderer1 = mSpriteManager.check_out("Wanderer.png");
         }
 
         void update(const dst::Clock& clock, const dst::Input& input) override final
@@ -72,18 +68,15 @@ namespace ShapeBlaster_ex {
 
             mGameInfo = "Hi Score : 0";
             mWindow->name("Dynamic_Static VK.07.ShapeBlaster        " + mGameInfo);
-            // auto move = dst::Vector2::Zero;
-            // if (input.keyboard().down(dst::Keyboard::Key::RightArrow)) {
-            //     move.x += 0.5f;
-            //     move.y += 0.5f;
-            // }
-            // mPlayerSprite->position += move;
-            // mWanderer0->position = mPlayerSprite->position + dst::Vector2::One * 4;
-            // mWanderer1->position = mWanderer0->position + dst::Vector2::One * 4;
 
             auto extent = mSwapchain->extent();
-            mEntityManager.update(clock, input, dst::Vector2(extent.width, extent.height));
-            mSpriteManager.update();
+            auto playField = dst::Vector2(extent.width, extent.height);
+
+            mPointerSprite->position = input.mouse().position();
+            mPointerSprite->position.y = playField.y - mPointerSprite->position.y;
+
+            mEntityManager.update(clock, input, playField);
+            mSpriteManager.update(playField);
         }
 
         void record_command_buffer(dst::vlkn::Command::Buffer& commandBuffer, const dst::Clock& clock) override final

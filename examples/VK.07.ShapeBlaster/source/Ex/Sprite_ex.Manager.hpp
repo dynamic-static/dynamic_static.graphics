@@ -84,10 +84,10 @@ namespace ShapeBlaster_ex {
             }
         }
 
-        void update()
+        void update(const dst::Vector2& playField)
         {
             for (auto& itr : mSpritePools) {
-                itr.second.update();
+                itr.second.update(playField);
             }
         }
 

@@ -21,6 +21,16 @@
 
 namespace ShapeBlaster_ex {
 
+    struct Sprite::UniformBuffer final
+    {
+        dst::Matrix4x4 wvp;
+        dst::Color color;
+    };
+
+} // namespace ShapeBlaster_ex
+
+namespace ShapeBlaster_ex {
+
     class Sprite::Pipeline final
     {
         friend class Sprite::Pool;

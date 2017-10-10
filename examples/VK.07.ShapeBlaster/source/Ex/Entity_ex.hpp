@@ -29,7 +29,7 @@ namespace ShapeBlaster_ex {
         Sprite* mSprite { nullptr };
         dst::Vector2 mVelocity;
         float mRadius { 0 };
-        float mEnabled { false };
+        float mAlive { true };
 
     public:
         dst::Vector2 extent() const
