@@ -14,6 +14,7 @@
 
 #include "Sprite_ex.hpp"
 
+#include "Dynamic_Static/Core/Algorithm.hpp"
 #include "Dynamic_Static/Core/Input.hpp"
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
@@ -23,15 +24,39 @@ namespace ShapeBlaster_ex {
     class Entity
     {
     public:
+        template <typename EntityType>
+        // class Pool;
         class Manager;
 
+        template <typename ...EntityTypes>
+        class Manager_ex;
+
     protected:
-        Sprite* mSprite { nullptr };
+        dst::Vector2 mPosition;
+        float mRotation { 0 };
+        dst::Vector2 mScale { dst::Vector2::One };
+        dst::Color mColor { dst::Color::White };
         dst::Vector2 mVelocity;
         float mRadius { 0 };
-        float mAlive { true };
+        bool mEnabled { false };
+
+    private:
+        Sprite* mSprite { nullptr };
 
     public:
+        Entity() = default;
+        Entity(Sprite* sprite)
+            : mSprite { sprite }
+        {
+            assert(mSprite);
+        }
+
+    public:
+        bool enabled() const
+        {
+            return mEnabled;
+        }
+
         dst::Vector2 extent() const
         {
             return
@@ -43,11 +68,67 @@ namespace ShapeBlaster_ex {
                 dst::Vector2::Zero;
         }
 
-        virtual void update(
+        void update(
             const dst::Clock& clock,
             const dst::Input& input,
             const dst::Vector2& playField
-        ) = 0;
+        )
+        {
+            on_update(clock, input, playField);
+            mPosition += mVelocity * clock.elapsed<dst::Second<>>();
+            if (mPosition.x < 0 || playField.x < mPosition.x ||
+                mPosition.y < 0 || playField.y < mPosition.y) {
+                on_out_of_bounds(playField);
+            }
+
+            mSprite->position = mPosition;
+            mSprite->rotation = mRotation;
+            mSprite->scale = mScale;
+            mSprite->color = mColor;
+        }
+
+        void kill()
+        {
+            mEnabled = false;
+            mSprite->enabled = false;
+            on_kill();
+        }
+
+    protected:
+        virtual void on_update(
+            const dst::Clock& clock,
+            const dst::Input& input,
+            const dst::Vector2& playField
+        )
+        {
+        }
+
+        virtual void on_out_of_bounds(const dst::Vector2& playField)
+        {
+            mPosition.x = dst::clamp(mPosition.x, 0.0f, playField.x);
+            mPosition.y = dst::clamp(mPosition.y, 0.0f, playField.y);
+        }
+
+        virtual void on_kill()
+        {
+        }
+
+    public:
+        static bool colliding(const Entity& lhs, const Entity& rhs)
+        {
+            float radius = lhs.mRadius + rhs.mRadius;
+            auto distanceSquared = lhs.mPosition.distance_squared(rhs.mPosition);
+            return lhs.mEnabled && rhs.mEnabled && distanceSquared < radius * radius;
+        }
     };
+
+} // namespace ShapeBlaster_ex
+
+namespace ShapeBlaster_ex {
+
+    inline dst::Vector2 polar_to_cartesian(float angle, float magnitude)
+    {
+        return dst::Vector2(std::cos(angle), std::sin(angle)) * magnitude;
+    }
 
 } // namespace ShapeBlaster_ex

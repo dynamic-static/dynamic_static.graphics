@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Graphics/Application.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Command.hpp"
@@ -43,6 +44,7 @@ namespace Vulkan {
         std::shared_ptr<Image> mDepthBuffer;
         VkFormat mDepthFormat { VK_FORMAT_UNDEFINED };
         bool mDepthEnabled { false };
+        dst::Color mClearColor { 0.2f, 0.2f, 0.2f, 1 };
 
     /* private: */
         bool mCreateFramebuffers { true };

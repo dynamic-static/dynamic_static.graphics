@@ -13,6 +13,7 @@
 #pragma once
 
 #include "Entity_ex.hpp"
+#include "Entity_ex.Pool.hpp"
 #include "Sprite_ex.Manager.hpp"
 
 namespace ShapeBlaster_ex {
@@ -20,36 +21,43 @@ namespace ShapeBlaster_ex {
     class Bullet final
         : public Entity
     {
+    private:
+        static constexpr float Speed { 660 }; // Pixels / second
+        static constexpr float Radius { 8 }; // Pixels
+
+    public:
+        class Manager;
+
     public:
         Bullet() = default;
-        Bullet(
-            Sprite::Manager& spriteManager,
-            const dst::Vector2& position,
-            const dst::Vector2& velocity
-        )
+        Bullet(Sprite* sprite)
+            : Entity(sprite)
         {
-            mSprite = spriteManager.check_out("Bullet.png");
-            mSprite->position = position;
-            mVelocity = velocity;
-            mRadius = 8;
+            mRadius = Radius;
         }
 
     public:
-        void update(
+        void fire(const dst::Vector2& direction)
+        {
+            if (direction != dst::Vector2::Zero) {
+                mVelocity = direction.normalized() * Speed;
+            }
+        }
+
+        void on_update(
             const dst::Clock& clock,
             const dst::Input& input,
             const dst::Vector2& playField
         ) override final
         {
             if (mVelocity != dst::Vector2::Zero) {
-                mSprite->rotation = mVelocity.to_angle();
+                mRotation = mVelocity.to_angle();
             }
+        }
 
-            mSprite->position += mVelocity * clock.elapsed<dst::Second<>>();
-            if (mSprite->position.x < 0 || playField.x < mSprite->position.x ||
-                mSprite->position.y < 0 || playField.y < mSprite->position.y) {
-                mAlive = false;
-            }
+        void on_out_of_bounds(const dst::Vector2& playField) override final
+        {
+            kill();
         }
     };
 

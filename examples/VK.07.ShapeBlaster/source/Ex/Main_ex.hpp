@@ -13,13 +13,17 @@
 
 #pragma once
 
+#include "Bullet_ex.Manager.hpp"
 #include "Entity_ex.Manager.hpp"
-#include "PlayerShip_ex.hpp"
+#include "Player_ex.hpp"
 #include "Sprite_ex.Manager.hpp"
 
+#include "Dynamic_Static/Core/FileSystem.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
 
+#include <memory>
 #include <stdexcept>
+#include <string>
 
 namespace ShapeBlaster_ex {
 
@@ -28,15 +32,25 @@ namespace ShapeBlaster_ex {
     {
     private:
         std::string mGameInfo;
-        Entity::Manager mEntityManager;
-        Sprite::Manager mSpriteManager;
+        Entity::Manager_ex<
+            Player,
+            Bullet
+        > mEntityManager_ex;
+        //Entity::Manager mEntityManager;
+        Sprite::Pipeline mSpritePipeline;
+        std::unique_ptr<Sprite::Pool> mPointerSpritePool;
+        std::unique_ptr<Sprite::Pool> mPlayerSpritePool;
+
+        //Entity::Pool<Bullet> mBulletPool;
+
         Sprite* mPointerSprite { nullptr };
-        PlayerShip mPlayerShip;
+        Player mPlayer;
 
     public:
         Game()
         {
             name("Dynamic_Static VK.07.ShapeBlaster");
+            mClearColor = dst::Color::Black;
             mDebugFlags =
                 0
                 #if defined(DYNAMIC_STATIC_WINDOWS)
@@ -54,10 +68,29 @@ namespace ShapeBlaster_ex {
         {
             dst::vlkn::Application::setup();
             mWindow->cursor_mode(dst::gfx::Window::CursorMode::Hidden);
-            mSpriteManager = Sprite::Manager(*mDevice, *mRenderPass, *mGraphicsQueue);
-            mPointerSprite = mSpriteManager.check_out("Pointer.png");
-            mPlayerShip = PlayerShip(mSpriteManager);
-            mEntityManager.add(&mPlayerShip);
+
+            mSpritePipeline = Sprite::Pipeline(*mDevice, *mRenderPass);
+            std::string resourcePath = "../../../examples/resources/ShapeBlaster_AllParts/ShapeBlaster_Part5/ShapeBlaster_Part5Content/Art/";
+            auto pointerSpriteFilePath = dst::Path::combine(resourcePath, "Pointer.png");
+            auto playerSpriteFilePath = dst::Path::combine(resourcePath, "Player.png");
+            mPointerSpritePool = std::make_unique<Sprite::Pool>(*mGraphicsQueue, mSpritePipeline, pointerSpriteFilePath, 1);
+            mPlayerSpritePool = std::make_unique<Sprite::Pool>(*mGraphicsQueue, mSpritePipeline, playerSpriteFilePath, 1);
+            mPointerSprite = mPointerSpritePool->check_out();
+
+            //mSpriteManager = Sprite::Manager(*mDevice, *mRenderPass, *mGraphicsQueue);
+            //mSpriteManager.create_pool("Pointer.png", 1);
+            //mSpriteManager.create_pool("Player.png", 1);
+            //mSpriteManager.create_pool("Seeker.png", 32);
+            //mSpriteManager.create_pool("Wanderer.png", 32);
+            //mSpriteManager.create_pool("Black Hole.png", 8);
+            //mPointerSprite = mSpriteManager.check_out("Pointer.png");
+            //mBulletManager = Bullet::Manager(mSpriteManager);
+
+            auto extent = mSwapchain->extent();
+            auto playField = dst::Vector2(extent.width, extent.height);
+            mPlayer = Player(mPlayerSpritePool->check_out());
+            //mEntityManager.add(&mPlayer);
+            //mPlayer.spawn(playField * 0.5f);
         }
 
         void update(const dst::Clock& clock, const dst::Input& input) override final
@@ -75,13 +108,21 @@ namespace ShapeBlaster_ex {
             mPointerSprite->position = input.mouse().position();
             mPointerSprite->position.y = playField.y - mPointerSprite->position.y;
 
-            mEntityManager.update(clock, input, playField);
-            mSpriteManager.update(playField);
+            mPlayer.update(clock, input, playField);
+            mEntityManager_ex.update(clock, input, playField);
+            //mEntityManager.update(clock, input, playField);
+            mPlayerSpritePool->update(playField);
+            mPointerSpritePool->update(playField);
+            //mSpriteManager.update(playField);
+
+            
         }
 
         void record_command_buffer(dst::vlkn::Command::Buffer& commandBuffer, const dst::Clock& clock) override final
         {
-            mSpriteManager.draw(commandBuffer);
+            mPlayerSpritePool->draw(commandBuffer);
+            mPointerSpritePool->draw(commandBuffer);
+            //mSpriteManager.draw(commandBuffer);
         }
     };
 

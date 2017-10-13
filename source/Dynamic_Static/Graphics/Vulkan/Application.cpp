@@ -253,7 +253,7 @@ namespace Vulkan {
                     commandBuffer->begin(beginInfo);
 
                     std::array<VkClearValue, 2> clearValues;
-                    clearValues[0].color = { 0.2f, 0.2f, 0.2f, 1 };
+                    clearValues[0].color = { mClearColor.r, mClearColor.g, mClearColor.b, mClearColor.a };
                     clearValues[1].depthStencil = { 1, 0 };
                     auto renderPassBeginInfo = RenderPass::BeginInfo;
                     renderPassBeginInfo.renderPass = *mRenderPass;

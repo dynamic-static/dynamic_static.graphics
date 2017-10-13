@@ -22,7 +22,7 @@
 #include "Dynamic_Static/Graphics/ImageReader.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
 
-#include <algorithm>
+#include <array>
 #include <string>
 #include <utility>
 
@@ -31,13 +31,6 @@ namespace ShapeBlaster_ex {
     class Sprite::Pool final
         : dst::NonCopyable
     {
-    private:
-        struct Renderable final
-        {
-            Sprite sprite;
-            bool checkedOut { false };
-        };
-
     private:
         Sprite::Pipeline* mPipeline { nullptr };
         std::shared_ptr<dst::vlkn::Buffer> mUniformBuffer;
@@ -48,7 +41,8 @@ namespace ShapeBlaster_ex {
         std::shared_ptr<dst::vlkn::Sampler> mSampler;
         std::shared_ptr<dst::vlkn::Descriptor::Pool> mDescriptorPool;
         dst::vlkn::Descriptor::Set* mDescriptorSet { nullptr };
-        std::vector<Renderable> mRenderables;
+        std::vector<Sprite> mSprites;
+        std::vector<Sprite*> mAvailableSprites;
 
     public:
         Pool() = default;
@@ -59,36 +53,15 @@ namespace ShapeBlaster_ex {
             size_t count
         )
             : mPipeline { &pipeline }
-            , mRenderables(count)
+            , mSprites(count)
         {
             create_uniform_buffers();
             create_image_and_sampler(queue, filePath);
             create_descriptor_set();
-        }
-
-        Pool(Pool&& other)
-        {
-            *this = std::move(other);
-        }
-
-        Pool& operator=(Pool&& other)
-        {
-            if (this != &other) {
-                mPipeline = std::move(other.mPipeline);
-                mUniformBuffer = std::move(other.mUniformBuffer);
-                mHostStorageAlignment = std::move(other.mHostStorageAlignment);
-                mHostStorageSize = std::move(other.mHostStorageSize);
-                mHostStorage = std::move(other.mHostStorage);
-                mImage = std::move(other.mImage);
-                mDescriptorPool = std::move(other.mDescriptorPool);
-                mDescriptorSet = std::move(other.mDescriptorSet);
-                mRenderables = std::move(other.mRenderables);
-                other.mPipeline = nullptr;
-                other.mHostStorage = nullptr;
-                other.mDescriptorSet = nullptr;
+            mAvailableSprites.reserve(mSprites.size());
+            for (auto& sprite : mSprites) {
+                check_in(&sprite);
             }
-
-            return *this;
         }
 
         ~Pool()
@@ -99,21 +72,32 @@ namespace ShapeBlaster_ex {
         }
 
     public:
+        size_t total_count() const
+        {
+            return mSprites.size();
+        }
+
+        size_t available_count() const
+        {
+            return mAvailableSprites.size();
+        }
+
+        size_t in_use_count() const
+        {
+            return total_count() - available_count();
+        }
+
         Sprite* check_out()
         {
             Sprite* sprite = nullptr;
-            for (auto& renderable : mRenderables) {
-                if (!renderable.checkedOut) {
-                    sprite = &renderable.sprite;
-                    sprite->position = dst::Vector2::Zero;
-                    sprite->rotation = 0;
-                    sprite->scale = 1;
-                    sprite->color = dst::Color::White;
-                    sprite->enabled = true;
-                    sprite->image = mImage.get();
-                    renderable.checkedOut = true;
-                    break;
-                }
+            if (!mAvailableSprites.empty()) {
+                sprite = mAvailableSprites.back();
+                sprite->enabled = true;
+                sprite->position = dst::Vector2::Zero;
+                sprite->rotation = 0;
+                sprite->scale = dst::Vector2::One;
+                sprite->color = dst::Color::White;
+                sprite->image = mImage.get();
             }
 
             return sprite;
@@ -121,45 +105,50 @@ namespace ShapeBlaster_ex {
 
         void check_in(Sprite* sprite)
         {
-            auto target = reinterpret_cast<uint8_t*>(sprite);
-            auto start = reinterpret_cast<uint8_t*>(mRenderables.data());
-            auto index = target - start;
-            if (sprite && index >= 0 && index < mRenderables.size()) {
-                mRenderables[index].checkedOut = false;
+            if (sprite) {
+                assert(
+                    mSprites.data() <= sprite && sprite < mSprites.data() + mSprites.size() &&
+                    "Attempted to check in Sprite that doesn't belong to this Sprite::Pool"
+                );
+
+                mAvailableSprites.push_back(sprite);
+                sprite->enabled = false;
             }
         }
 
-        void update(const dst::Vector2& playField)
+        void update(const dst::Vector2& renderArea)
         {
             using namespace dst::vlkn;
             auto& device = mPipeline->mPipeline->device();
 
-            for (size_t i = 0; i < mRenderables.size(); ++i) {
-                const auto& sprite = mRenderables[i].sprite;
-                bool enabled = sprite.enabled && mRenderables[i].checkedOut;
-                auto translation = dst::Matrix4x4::create_translation(sprite.position);
-                auto rotation = dst::Matrix4x4::create_rotation(sprite.rotation, dst::Vector3::UnitZ);
-                auto scale = dst::Matrix4x4::create_scale({
-                    mImage->extent().width * (enabled ? sprite.scale : 0),
-                    mImage->extent().height * (enabled ? sprite.scale : 0),
-                    1
-                });
+            for (size_t i = 0; i < mSprites.size(); ++i) {
+                if (mSprites[i].enabled) {
+                    const auto& sprite = mSprites[i];
+                    auto translation = dst::Matrix4x4::create_translation(sprite.position);
+                    auto rotation = dst::Matrix4x4::create_rotation(sprite.rotation, dst::Vector3::UnitZ);
+                    auto scale = dst::Matrix4x4::create_scale({
+                        mImage->extent().width * sprite.scale.x,
+                        mImage->extent().height * sprite.scale.y,
+                        1
+                    });
 
-                auto view = dst::Matrix4x4::create_view(
-                    { 0, 0, 1 }, dst::Vector3::Zero, dst::Vector3::UnitY
-                );
+                    auto view = dst::Matrix4x4::create_view(
+                        { 0, 0, 0.5f }, dst::Vector3::Zero, dst::Vector3::UnitY
+                    );
 
-                auto projection = dst::Matrix4x4::create_orhtographic(
-                    0, playField.x, 0, playField.y, 0.01f, 10.0f
-                );
+                    auto projection = dst::Matrix4x4::create_orhtographic(
+                        0, renderArea.x, 0, renderArea.y, -1.0f, 1.0f
+                    );
 
-                uint32_t offset = static_cast<uint32_t>(mHostStorageAlignment * i);
-                auto hostStorageEntry = reinterpret_cast<uint64_t>(mHostStorage) + offset;
-                auto uniformBufferEntry = reinterpret_cast<Sprite::UniformBuffer*>(hostStorageEntry);
-                uniformBufferEntry->wvp = projection * view * translation * rotation * scale;
-                uniformBufferEntry->color = (enabled ? sprite.color : dst::Color::Transparent);
+                    uint32_t offset = static_cast<uint32_t>(mHostStorageAlignment * i);
+                    auto hostStorageEntry = reinterpret_cast<uint64_t>(mHostStorage) + offset;
+                    auto uniformBufferEntry = reinterpret_cast<Sprite::UniformBuffer*>(hostStorageEntry);
+                    uniformBufferEntry->wvp = projection * view * translation * rotation * scale;
+                    uniformBufferEntry->color = sprite.color;
+                }
             }
 
+            // TODO : Move memcpy() into loop...
             memcpy(mUniformBuffer->mapped_ptr(), mHostStorage, mHostStorageSize);
             VkMappedMemoryRange memoryRange { };
             memoryRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
@@ -173,20 +162,22 @@ namespace ShapeBlaster_ex {
         void draw(dst::vlkn::Command::Buffer& commandBuffer)
         {
             commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mPipeline->mPipeline);
-            for (size_t i = 0; i < mRenderables.size(); ++i) {
-                uint32_t offset = static_cast<uint32_t>(mHostStorageAlignment * i);
-                vkCmdBindDescriptorSets(
-                    commandBuffer,
-                    VK_PIPELINE_BIND_POINT_GRAPHICS,
-                    *mPipeline->mPipelineLayout,
-                    0,
-                    1,
-                    &mDescriptorSet->handle(),
-                    1,
-                    &offset
-                );
+            for (size_t i = 0; i < mSprites.size(); ++i) {
+                if (mSprites[i].enabled) {
+                    uint32_t offset = static_cast<uint32_t>(mHostStorageAlignment * i);
+                    vkCmdBindDescriptorSets(
+                        commandBuffer,
+                        VK_PIPELINE_BIND_POINT_GRAPHICS,
+                        *mPipeline->mPipelineLayout,
+                        0,
+                        1,
+                        &mDescriptorSet->handle(),
+                        1,
+                        &offset
+                    );
 
-                commandBuffer.draw(6, 1);
+                    commandBuffer.draw(6, 1);
+                }
             }
         }
 
@@ -198,7 +189,7 @@ namespace ShapeBlaster_ex {
 
             auto elementSize = sizeof(Sprite::UniformBuffer);
             mHostStorageAlignment = device.physical_device().uniform_buffer_alignment(elementSize);
-            mHostStorageSize = mHostStorageAlignment * mRenderables.size();
+            mHostStorageSize = mHostStorageAlignment * mSprites.size();
             mHostStorage = reinterpret_cast<Sprite::UniformBuffer*>(dst::aligned_alloc(mHostStorageSize, mHostStorageAlignment));
 
             auto uniformBufferInfo = Buffer::CreateInfo;
@@ -301,14 +292,14 @@ namespace ShapeBlaster_ex {
 
             std::array<VkDescriptorPoolSize, 2> descriptorPoolSizes { };
             descriptorPoolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
-            descriptorPoolSizes[0].descriptorCount = mRenderables.size();
+            descriptorPoolSizes[0].descriptorCount = mSprites.size();
             descriptorPoolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            descriptorPoolSizes[1].descriptorCount = mRenderables.size();
+            descriptorPoolSizes[1].descriptorCount = mSprites.size();
 
             auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
             descriptorPoolInfo.poolSizeCount = static_cast<uint32_t>(descriptorPoolSizes.size());
             descriptorPoolInfo.pPoolSizes = descriptorPoolSizes.data();
-            descriptorPoolInfo.maxSets = mRenderables.size();
+            descriptorPoolInfo.maxSets = mSprites.size();
             mDescriptorPool = device.create<Descriptor::Pool>(descriptorPoolInfo);
 
             auto descriptorSetInfo = Descriptor::Set::AllocateInfo;

@@ -26,11 +26,11 @@ namespace ShapeBlaster_ex {
         class Manager;
 
     public:
-        bool enabled { false };
+        bool enabled { true };
         dst::Vector2 position;
         float rotation { 0 };
-        float scale { 0 };
-        dst::Color color;
+        dst::Vector2 scale { dst::Vector2::One };
+        dst::Color color { dst::Color::White };
         dst::vlkn::Image* image { nullptr };
     };
 
