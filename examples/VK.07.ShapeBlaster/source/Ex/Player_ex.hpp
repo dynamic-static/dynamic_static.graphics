@@ -12,11 +12,8 @@
 
 #pragma once
 
-#include "Bullet_ex.Manager.hpp"
+#include "Bullet_ex.hpp"
 #include "Entity_ex.hpp"
-#include "Entity_ex.Pool.hpp"
-#include "Sprite_ex.Manager.hpp"
-
 #include "Entity_ex.Manager.hpp"
 
 #include "Dynamic_Static/Core/Random.hpp"
@@ -33,7 +30,6 @@ namespace ShapeBlaster_ex {
         static constexpr float Speed { 480 }; // Pixels / second
         static constexpr float RateofFire { 10 }; // Rounds / second
         static constexpr float BulletSpread { 1 }; // Pixels
-        Bullet::Manager* mBulletPool;
         float mShotTimer { 0 };
 
     public:
@@ -80,7 +76,7 @@ namespace ShapeBlaster_ex {
 
             mVelocity = moveDirection * Speed;
 
-            mShotTimer -= clock.elapsed<dst::Second<>>();
+            mShotTimer -= clock.elapsed<dst::Second<float>>();
             if (input.mouse().down(dst::Mouse::Button::Left)) {
                 auto pointerPosition = input.mouse().position();
                 pointerPosition.y = playField.y - pointerPosition.y;

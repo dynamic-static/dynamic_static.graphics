@@ -13,8 +13,6 @@
 #pragma once
 
 #include "Entity_ex.hpp"
-#include "Entity_ex.Pool.hpp"
-#include "Sprite_ex.Manager.hpp"
 
 namespace ShapeBlaster_ex {
 
@@ -24,9 +22,6 @@ namespace ShapeBlaster_ex {
     private:
         static constexpr float Speed { 660 }; // Pixels / second
         static constexpr float Radius { 8 }; // Pixels
-
-    public:
-        class Manager;
 
     public:
         Bullet() = default;

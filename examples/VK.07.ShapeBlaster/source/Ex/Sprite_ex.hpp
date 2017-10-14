@@ -23,7 +23,6 @@ namespace ShapeBlaster_ex {
         struct UniformBuffer;
         class Pipeline;
         class Pool;
-        class Manager;
 
     public:
         bool enabled { true };

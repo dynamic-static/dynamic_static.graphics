@@ -17,7 +17,6 @@
 
 #include "Dynamic_Static/Core/Memory.hpp"
 #include "Dynamic_Static/Core/NonCopyable.hpp"
-#include "Dynamic_Static/Graphics/Camera.hpp"
 #include "Dynamic_Static/Graphics/ImageCache.hpp"
 #include "Dynamic_Static/Graphics/ImageReader.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"

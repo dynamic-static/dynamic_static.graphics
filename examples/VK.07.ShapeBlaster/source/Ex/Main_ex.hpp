@@ -13,10 +13,11 @@
 
 #pragma once
 
-#include "Bullet_ex.Manager.hpp"
 #include "Entity_ex.Manager.hpp"
 #include "Player_ex.hpp"
-#include "Sprite_ex.Manager.hpp"
+#include "Sprite_ex.hpp"
+#include "Sprite_ex.Pipeline.hpp"
+#include "Sprite_ex.Pool.hpp"
 
 #include "Dynamic_Static/Core/FileSystem.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
