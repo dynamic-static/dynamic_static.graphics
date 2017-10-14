@@ -25,7 +25,7 @@ namespace ShapeBlaster_ex {
     {
     public:
         template <typename ...EntityTypes>
-        class Manager_ex;
+        class Manager;
 
     protected:
         dst::Vector2 mPosition;

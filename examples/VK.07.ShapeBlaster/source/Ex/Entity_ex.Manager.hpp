@@ -48,7 +48,7 @@ namespace Dynamic_Static {
 namespace ShapeBlaster_ex {
 
     template <typename ...EntityTypes>
-    class Entity::Manager_ex final
+    class Entity::Manager final
     {
     private:
         template <typename EntityType>
