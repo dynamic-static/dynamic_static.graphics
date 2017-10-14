@@ -24,10 +24,6 @@ namespace ShapeBlaster_ex {
     class Entity
     {
     public:
-        template <typename EntityType>
-        // class Pool;
-        class Manager;
-
         template <typename ...EntityTypes>
         class Manager_ex;
 
@@ -113,6 +109,16 @@ namespace ShapeBlaster_ex {
         {
         }
 
+        void process_collision(Entity& entity)
+        {
+            on_collision(entity);
+        }
+
+    private:
+        virtual void on_collision(Entity& entity)
+        {
+        }
+
     public:
         static bool colliding(const Entity& lhs, const Entity& rhs)
         {
@@ -128,6 +134,7 @@ namespace ShapeBlaster_ex {
 
     inline dst::Vector2 polar_to_cartesian(float angle, float magnitude)
     {
+        // TODO : Move into dst::Core.
         return dst::Vector2(std::cos(angle), std::sin(angle)) * magnitude;
     }
 

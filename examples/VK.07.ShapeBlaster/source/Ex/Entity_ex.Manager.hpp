@@ -32,7 +32,6 @@ namespace Dynamic_Static {
     inline typename std::enable_if<TypeIndex == sizeof...(TupleTypes)>::type
     for_each_tuple(std::tuple<TupleTypes...>&, const FunctionType&)
     {
-        // FROM : https://stackoverflow.com/a/6894436/3453616
     }
    
     template <typename FunctionType, size_t TypeIndex = 0, typename ...TupleTypes>
@@ -61,6 +60,7 @@ namespace ShapeBlaster_ex {
         };
 
         std::tuple<Collection<EntityTypes>...> mEntities;
+        std::vector<Entity*> mColidables;
         bool mUpdating { false };
     
     public:
@@ -106,7 +106,39 @@ namespace ShapeBlaster_ex {
         )
         {
             mUpdating = true;
+            handle_collisions();
+            update_enabled_entities(clock, input, playField);
+            mUpdating = false;
+            enable_spawned_entities();
+            remove_disabled_entites();
+        }
 
+        void handle_collisions()
+        {
+            mColidables.clear();
+            dst::for_each_tuple(
+                mEntities,
+                [&](auto& entities)
+                {
+                    for (auto& entity : entities.enabled) {
+                        for (auto& colidable : mColidables) {
+                            if (colliding(*entity, *colidable)) {
+                                entity->on_collision(*colidable);
+                            }
+                        }
+
+                        mColidables.push_back(entity);
+                    }
+                }
+            );
+        }
+
+        void update_enabled_entities(
+            const dst::Clock& clock,
+            const dst::Input& input,
+            const dst::Vector2& playField
+        )
+        {
             dst::for_each_tuple(
                 mEntities,
                 [&](auto& entities)
@@ -116,9 +148,10 @@ namespace ShapeBlaster_ex {
                     }
                 }
             );
+        }
 
-            mUpdating = false;
-
+        void enable_spawned_entities()
+        {
             dst::for_each_tuple(
                 mEntities,
                 [&](auto& entities)
@@ -126,11 +159,14 @@ namespace ShapeBlaster_ex {
                     for (auto& entity : entities.spawning) {
                         entities.enabled.push_back(entity);
                     }
-            
+
                     entities.spawning.clear();
                 }
             );
+        }
 
+        void remove_disabled_entites()
+        {
             dst::for_each_tuple(
                 mEntities,
                 [&](auto& entities)

@@ -37,8 +37,6 @@ namespace ShapeBlaster_ex {
         // Entity::Pool<Bullet> mBullets;
         float mShotTimer { 0 };
 
-        
-
     public:
         Player() = default;
         Player(Sprite* sprite)
@@ -95,6 +93,10 @@ namespace ShapeBlaster_ex {
                     mShotTimer = 1.0f / RateofFire;
                 }
             }
+        }
+
+        void on_collision(Entity& other)
+        {
         }
 
     private:

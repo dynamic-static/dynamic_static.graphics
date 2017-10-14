@@ -56,6 +56,10 @@ namespace ShapeBlaster_ex {
             }
         }
 
+        void on_collision(Entity& other)
+        {
+        }
+
         void on_out_of_bounds(const dst::Vector2& playField) override final
         {
             kill();

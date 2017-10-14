@@ -32,11 +32,14 @@ namespace ShapeBlaster_ex {
         : dst::NonCopyable
     {
     private:
+        using UniformBufferDeleter = std::function<void(Sprite::UniformBuffer*)>;
+
+    private:
         Sprite::Pipeline* mPipeline { nullptr };
         std::shared_ptr<dst::vlkn::Buffer> mUniformBuffer;
         size_t mHostStorageAlignment { 0 };
         size_t mHostStorageSize { 0 };
-        Sprite::UniformBuffer* mHostStorage { nullptr };
+        std::unique_ptr<Sprite::UniformBuffer, UniformBufferDeleter> mHostStorage;
         std::shared_ptr<dst::vlkn::Image> mImage;
         std::shared_ptr<dst::vlkn::Sampler> mSampler;
         std::shared_ptr<dst::vlkn::Descriptor::Pool> mDescriptorPool;
@@ -45,7 +48,6 @@ namespace ShapeBlaster_ex {
         std::vector<Sprite*> mAvailableSprites;
 
     public:
-        Pool() = default;
         Pool(
             dst::vlkn::Queue& queue,
             Sprite::Pipeline& pipeline,
@@ -62,39 +64,6 @@ namespace ShapeBlaster_ex {
             for (auto& sprite : mSprites) {
                 check_in(&sprite);
             }
-        }
-
-        Pool(Pool&& other)
-        {
-            *this = std::move(other);
-        }
-
-        ~Pool()
-        {
-            if (mHostStorage) {
-                dst::aligned_free(mHostStorage);
-            }
-        }
-
-        Pool& operator=(Pool&& other)
-        {
-            if (this != &other) {
-                mPipeline = std::move(other.mPipeline);
-                mUniformBuffer = std::move(other.mUniformBuffer);
-                mHostStorageAlignment = std::move(other.mHostStorageAlignment);
-                mHostStorage = std::move(other.mHostStorage);
-                mImage = std::move(other.mImage);
-                mSampler = std::move(other.mSampler);
-                mDescriptorPool = std::move(other.mDescriptorPool);
-                mDescriptorSet = std::move(other.mDescriptorSet);
-                mSprites = std::move(other.mSprites);
-                mAvailableSprites = std::move(other.mAvailableSprites);
-                other.mPipeline = nullptr;
-                other.mHostStorage = nullptr;
-                other.mDescriptorSet = nullptr;
-            }
-
-            return *this;
         }
 
     public:
@@ -168,7 +137,7 @@ namespace ShapeBlaster_ex {
                     );
 
                     uint32_t offset = static_cast<uint32_t>(mHostStorageAlignment * i);
-                    auto hostStorageEntry = reinterpret_cast<uint64_t>(mHostStorage) + offset;
+                    auto hostStorageEntry = reinterpret_cast<uint64_t>(mHostStorage.get()) + offset;
                     auto uniformBufferEntry = reinterpret_cast<Sprite::UniformBuffer*>(hostStorageEntry);
                     uniformBufferEntry->wvp = projection * view * translation * rotation * scale;
                     uniformBufferEntry->color = sprite.color;
@@ -176,7 +145,7 @@ namespace ShapeBlaster_ex {
             }
 
             // TODO : Move memcpy() into loop...
-            memcpy(mUniformBuffer->mapped_ptr(), mHostStorage, mHostStorageSize);
+            memcpy(mUniformBuffer->mapped_ptr(), mHostStorage.get(), mHostStorageSize);
             VkMappedMemoryRange memoryRange { };
             memoryRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
             memoryRange.pNext = nullptr;
@@ -217,7 +186,16 @@ namespace ShapeBlaster_ex {
             auto elementSize = sizeof(Sprite::UniformBuffer);
             mHostStorageAlignment = device.physical_device().uniform_buffer_alignment(elementSize);
             mHostStorageSize = mHostStorageAlignment * mSprites.size();
-            mHostStorage = reinterpret_cast<Sprite::UniformBuffer*>(dst::aligned_alloc(mHostStorageSize, mHostStorageAlignment));
+            auto hostStorage = reinterpret_cast<Sprite::UniformBuffer*>(dst::aligned_alloc(mHostStorageSize, mHostStorageAlignment));
+            mHostStorage = std::unique_ptr<Sprite::UniformBuffer, UniformBufferDeleter>(
+                hostStorage,
+                [](Sprite::UniformBuffer* ptr)
+                {
+                    if (ptr) {
+                        dst::aligned_free(ptr);
+                    }
+                }
+            );
 
             auto uniformBufferInfo = Buffer::CreateInfo;
             uniformBufferInfo.size = static_cast<VkDeviceSize>(mHostStorageSize);
