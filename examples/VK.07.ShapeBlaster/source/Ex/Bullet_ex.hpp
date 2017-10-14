@@ -37,8 +37,9 @@ namespace ShapeBlaster_ex {
         }
 
     public:
-        void fire(const dst::Vector2& direction)
+        void spawn(const dst::Vector2& position, const dst::Vector2& direction)
         {
+            mPosition = position;
             if (direction != dst::Vector2::Zero) {
                 mVelocity = direction.normalized() * Speed;
             }

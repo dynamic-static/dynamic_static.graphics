@@ -64,11 +64,37 @@ namespace ShapeBlaster_ex {
             }
         }
 
+        Pool(Pool&& other)
+        {
+            *this = std::move(other);
+        }
+
         ~Pool()
         {
             if (mHostStorage) {
                 dst::aligned_free(mHostStorage);
             }
+        }
+
+        Pool& operator=(Pool&& other)
+        {
+            if (this != &other) {
+                mPipeline = std::move(other.mPipeline);
+                mUniformBuffer = std::move(other.mUniformBuffer);
+                mHostStorageAlignment = std::move(other.mHostStorageAlignment);
+                mHostStorage = std::move(other.mHostStorage);
+                mImage = std::move(other.mImage);
+                mSampler = std::move(other.mSampler);
+                mDescriptorPool = std::move(other.mDescriptorPool);
+                mDescriptorSet = std::move(other.mDescriptorSet);
+                mSprites = std::move(other.mSprites);
+                mAvailableSprites = std::move(other.mAvailableSprites);
+                other.mPipeline = nullptr;
+                other.mHostStorage = nullptr;
+                other.mDescriptorSet = nullptr;
+            }
+
+            return *this;
         }
 
     public:
@@ -98,6 +124,7 @@ namespace ShapeBlaster_ex {
                 sprite->scale = dst::Vector2::One;
                 sprite->color = dst::Color::White;
                 sprite->image = mImage.get();
+                mAvailableSprites.pop_back();
             }
 
             return sprite;

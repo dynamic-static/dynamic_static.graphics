@@ -89,8 +89,8 @@ namespace ShapeBlaster_ex {
 
         void kill()
         {
-            mEnabled = false;
             mSprite->enabled = false;
+            mEnabled = false;
             on_kill();
         }
 

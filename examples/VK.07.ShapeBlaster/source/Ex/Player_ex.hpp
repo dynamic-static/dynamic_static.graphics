@@ -17,6 +17,8 @@
 #include "Entity_ex.Pool.hpp"
 #include "Sprite_ex.Manager.hpp"
 
+#include "Entity_ex.Manager.hpp"
+
 #include "Dynamic_Static/Core/Random.hpp"
 
 namespace ShapeBlaster_ex {
@@ -24,6 +26,9 @@ namespace ShapeBlaster_ex {
     class Player final
         : public Entity
     {
+    public:
+        Entity::Manager_ex<Player, Bullet>* em { nullptr };
+
     private:
         static constexpr float Speed { 480 }; // Pixels / second
         static constexpr float RateofFire { 10 }; // Rounds / second
@@ -31,6 +36,8 @@ namespace ShapeBlaster_ex {
         Bullet::Manager* mBulletPool;
         // Entity::Pool<Bullet> mBullets;
         float mShotTimer { 0 };
+
+        
 
     public:
         Player() = default;
@@ -93,8 +100,8 @@ namespace ShapeBlaster_ex {
     private:
         void fire_bullet(const dst::Vector2& aimDirection, const dst::Vector2& offset)
         {
-            auto bullet = nullptr; // find_bullet();
-            if (bullet) {
+            //auto bullet = nullptr; // find_bullet();
+            //if (bullet) {
                 float angle = aimDirection.to_angle();
                 float spread =
                     dst::Random.range<float>(-BulletSpread, BulletSpread) +
@@ -105,7 +112,10 @@ namespace ShapeBlaster_ex {
                 auto m = rotation * translation;
                 auto o = m * dst::Vector4(offset.x, offset.y, 0, 1);
                 // bullet->spawn(mSprite->position + dst::Vector2(o), direction);
-            }
+                if (em) {
+                    em->spawn<Bullet>(mPosition + dst::Vector2(o), direction);
+                }
+            //}
         }
     };
 

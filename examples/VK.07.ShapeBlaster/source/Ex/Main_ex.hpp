@@ -24,6 +24,8 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <utility>
+#include <unordered_map>
 
 namespace ShapeBlaster_ex {
 
@@ -40,6 +42,9 @@ namespace ShapeBlaster_ex {
         Sprite::Pipeline mSpritePipeline;
         std::unique_ptr<Sprite::Pool> mPointerSpritePool;
         std::unique_ptr<Sprite::Pool> mPlayerSpritePool;
+        std::unique_ptr<Sprite::Pool> mBulletSpritePool;
+
+        std::unordered_map<std::string, Sprite::Pool> mSpritePools;
 
         //Entity::Pool<Bullet> mBulletPool;
 
@@ -70,12 +75,31 @@ namespace ShapeBlaster_ex {
             mWindow->cursor_mode(dst::gfx::Window::CursorMode::Hidden);
 
             mSpritePipeline = Sprite::Pipeline(*mDevice, *mRenderPass);
+
+
+
             std::string resourcePath = "../../../examples/resources/ShapeBlaster_AllParts/ShapeBlaster_Part5/ShapeBlaster_Part5Content/Art/";
             auto pointerSpriteFilePath = dst::Path::combine(resourcePath, "Pointer.png");
             auto playerSpriteFilePath = dst::Path::combine(resourcePath, "Player.png");
+            auto bulletSpriteFilePath = dst::Path::combine(resourcePath, "Bullet.png");
             mPointerSpritePool = std::make_unique<Sprite::Pool>(*mGraphicsQueue, mSpritePipeline, pointerSpriteFilePath, 1);
             mPlayerSpritePool = std::make_unique<Sprite::Pool>(*mGraphicsQueue, mSpritePipeline, playerSpriteFilePath, 1);
+            mBulletSpritePool = std::make_unique<Sprite::Pool>(*mGraphicsQueue, mSpritePipeline, bulletSpriteFilePath, 64);
             mPointerSprite = mPointerSpritePool->check_out();
+
+
+            // auto loadSpritePool =
+            // [&](const std::string& fileName, size_t count)
+            // {
+            //     // std::string resourcePath = "../../../examples/resources/ShapeBlaster_AllParts/ShapeBlaster_Part5/ShapeBlaster_Part5Content/Art/";
+            //     auto filePath = dst::Path::combine(resourcePath, fileName) + ".png";
+            //     auto spritePool = std::move(Sprite::Pool(*mGraphicsQueue, mSpritePipeline, filePath, count));
+            //     mSpritePools.insert(std::make_pair(fileName, spritePool));
+            // };
+            // 
+            // loadSpritePool("Pointer", 1);
+            // loadSpritePool("Player", 1);
+            // loadSpritePool("Bullet", 64);
 
             //mSpriteManager = Sprite::Manager(*mDevice, *mRenderPass, *mGraphicsQueue);
             //mSpriteManager.create_pool("Pointer.png", 1);
@@ -91,6 +115,13 @@ namespace ShapeBlaster_ex {
             mPlayer = Player(mPlayerSpritePool->check_out());
             //mEntityManager.add(&mPlayer);
             //mPlayer.spawn(playField * 0.5f);
+
+            mPlayer.em = &mEntityManager_ex;
+            while (mBulletSpritePool->available_count() > 0) {
+                mEntityManager_ex.create<Bullet>(mBulletSpritePool->check_out());
+            }
+
+            mEntityManager_ex.lock();
         }
 
         void update(const dst::Clock& clock, const dst::Input& input) override final
@@ -113,6 +144,7 @@ namespace ShapeBlaster_ex {
             //mEntityManager.update(clock, input, playField);
             mPlayerSpritePool->update(playField);
             mPointerSpritePool->update(playField);
+            mBulletSpritePool->update(playField);
             //mSpriteManager.update(playField);
 
             
@@ -122,6 +154,7 @@ namespace ShapeBlaster_ex {
         {
             mPlayerSpritePool->draw(commandBuffer);
             mPointerSpritePool->draw(commandBuffer);
+            mBulletSpritePool->draw(commandBuffer);
             //mSpriteManager.draw(commandBuffer);
         }
     };

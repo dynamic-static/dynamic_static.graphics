@@ -28,6 +28,7 @@ namespace ShapeBlaster_ex {
     private:
         std::vector<T> mObjects;
         std::vector<T*> mAvailableObjects;
+        bool mLocked { false };
 
     public:
         Pool() = default;
@@ -57,20 +58,32 @@ namespace ShapeBlaster_ex {
         template <typename ...Args>
         void create(Args&&... args)
         {
-            mObjects.push_back(std::forward<Args>(args)...);
-            mAvailableObjects.push_back(&mObjects.back());
+            if (!mLocked) {
+                mObjects.push_back(std::forward<Args>(args)...);
+            }
         }
 
         void add(const T& object)
         {
-            mObjects.push_back(std::move(object));
-            mAvailableObjects.push_back(&mObjects.back());
+            if (!mLocked) {
+                mObjects.push_back(std::move(object));
+            }
         }
 
         void add(T&& object)
         {
-            mObjects.push_back(std::move(object));
-            mAvailableObjects.push_back(&mObjects.back());
+            if (!mLocked) {
+                mObjects.push_back(std::move(object));
+            }
+        }
+
+        void lock()
+        {
+            mLocked = true;
+            mAvailableObjects.reserve(mObjects.size());
+            for (auto& object : mObjects) {
+                mAvailableObjects.push_back(&object);
+            }
         }
 
         T* check_out()
