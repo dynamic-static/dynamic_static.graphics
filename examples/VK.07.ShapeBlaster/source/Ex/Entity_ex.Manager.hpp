@@ -24,11 +24,10 @@
 #include <tuple>
 #include <vector>
 
-#include <iostream>
-
 namespace Dynamic_Static {
 
-    // TODO : Refine, test, and move into dst::Core.
+    // TODO : Move into dst::Core.
+
     template <typename FunctionType, size_t TypeIndex = 0, typename ...TupleTypes>
     inline typename std::enable_if<TypeIndex == sizeof...(TupleTypes)>::type
     for_each_tuple(std::tuple<TupleTypes...>&, const FunctionType&)
@@ -106,12 +105,6 @@ namespace ShapeBlaster_ex {
             const dst::Vector2& playField
         )
         {
-            // mUpdating = true;
-            // update(clock, input, playField, std::make_index_sequence<sizeof...(EntityTypes)>());
-            // mUpdating = false;
-            // enable_spawned_entities(std::make_index_sequence<sizeof...(EntityTypes)>());
-            // remove_disabled_entities(std::make_index_sequence<sizeof...(EntityTypes)>());
-
             mUpdating = true;
 
             dst::for_each_tuple(
@@ -161,140 +154,6 @@ namespace ShapeBlaster_ex {
                 }
             );
         }
-
-    private:
-        // auto index_sequence()
-        // {
-        //     return std::make_index_sequence<sizeof...(EntityTypes)>();
-        //     // return std::index_sequence_for<decltype(mEntityPools)>();
-        // }
-
-        // template <typename ...TupleTypes, typename FunctionType, std::size_t ...Indices>
-        // void for_each_tuple(
-        //     const std::tuple<TupleTypes...>& tuple,
-        //     const FunctionType& f,
-        //     std::index_sequence<Indices...>
-        // )
-        // {
-        //     // FROM : https://stackoverflow.com/a/26902803/3453616
-        //     using expander = int[];
-        //     expander { 0, f(std::get<Indices>(tuple), 0)... };
-        // }
-        // 
-        // template <typename ...TupleTypes, typename FunctionType>
-        // void tuple_for_each(
-        //     const std::tuple<TupleType...>& tuple,
-        //     const FunctionType& f,
-        // )
-        // {
-        //     tuple_for_each(tuple, f, std::make_index_sequence<sizeof...(TupleTypes)>());
-        // }
-
-       ////////////////////////template <size_t ...Indices>
-       ////////////////////////void lock(std::index_sequence<Indices...>)
-       ////////////////////////{
-       ////////////////////////    // std::get<Indices...>(mEntityPools).lock();
-       ////////////////////////}
-       ////////////////////////
-       ////////////////////////template <size_t ...IndexSequence>
-       ////////////////////////void update(
-       ////////////////////////    const dst::Clock& clock,
-       ////////////////////////    const dst::Input& input,
-       ////////////////////////    const dst::Vector2& playField,
-       ////////////////////////    std::index_sequence<IndexSequence...>
-       ////////////////////////)
-       ////////////////////////{
-       ////////////////////////    auto& enabledEntites = std::get<IndexSequence>(mEnabledEntities);
-       ////////////////////////    for (auto& entity : enabledEntites) {
-       ////////////////////////        entity->update(clock, input, playField);
-       ////////////////////////    }
-       ////////////////////////}
-       ////////////////////////
-       ////////////////////////template <size_t ...Indices>
-       ////////////////////////void enable_spawned_entities(std::index_sequence<Indices...>)
-       ////////////////////////{
-       ////////////////////////    auto& enabledEntities = std::get<Indices>(mEnabledEntities);
-       ////////////////////////    auto& spawningEntities = std::get<Indices>(mSpawningEntities);
-       ////////////////////////    for (auto& entity : spawningEntities) {
-       ////////////////////////        enabledEntities.push_back(entity);
-       ////////////////////////    }
-       ////////////////////////
-       ////////////////////////    spawningEntities.clear();
-       ////////////////////////}
-       ////////////////////////
-       ////////////////////////template <size_t ...Indices>
-       ////////////////////////void remove_disabled_entities(std::index_sequence<Indices...>)
-       ////////////////////////{
-       ////////////////////////    auto& entityPool = std::get<Indices>(mEntityPools);
-       ////////////////////////    auto& enabledEntities = std::get<Indices>(mEnabledEntities);
-       ////////////////////////    enabledEntities.erase(
-       ////////////////////////        std::remove_if(
-       ////////////////////////            enabledEntities.begin(),
-       ////////////////////////            enabledEntities.end(),
-       ////////////////////////            [&](auto entity)
-       ////////////////////////            {
-       ////////////////////////                bool enabled = entity->enabled();
-       ////////////////////////                if (!enabled) {
-       ////////////////////////                    entityPool.check_in(entity);
-       ////////////////////////                }
-       ////////////////////////
-       ////////////////////////                return enabled;
-       ////////////////////////            }
-       ////////////////////////        ),
-       ////////////////////////        enabledEntities.end()
-       ////////////////////////    );
-       ////////////////////////}
     };
-
-    // class Entity::Manager final
-    // {
-    // private:
-    //     Pool<Bullet> mBullets;
-    // 
-    //     std::vector<Entity*> mEntities;
-    //     std::vector<Entity*> mAddedEntites;
-    //     bool mUpdating { false };
-    // 
-    // public:
-    //     void add(Entity* entity)
-    //     {
-    //         if (entity) {
-    //             if (mUpdating) {
-    //                 mAddedEntites.push_back(entity);
-    //             } else {
-    //                 mEntities.push_back(entity);
-    //             }
-    //         }
-    //     }
-    // 
-    //     void update(
-    //         const dst::Clock& clock,
-    //         const dst::Input& input,
-    //         const dst::Vector2& playField
-    //     )
-    //     {
-    //         // mUpdating = true;
-    //         // 
-    //         // for (auto& entity : mEntities) {
-    //         //     entity->update(clock, input, playField);
-    //         // }
-    //         // 
-    //         // mUpdating = false;
-    //         // 
-    //         // for (auto& entity : mAddedEntites) {
-    //         //     mEntities.push_back(entity);
-    //         // }
-    //         // 
-    //         // mAddedEntites.clear();
-    //         // 
-    //         // mEntities.erase(
-    //         //     std::remove_if(
-    //         //         mEntities.begin(), mEntities.end(),
-    //         //         [](Entity* entity) { !entity->enabled(); }
-    //         //     ),
-    //         //     mEntities.end()
-    //         // );
-    //     }
-    // };
 
 } // namespace ShapeBlaster_ex

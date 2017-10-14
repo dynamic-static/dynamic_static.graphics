@@ -23,7 +23,7 @@ namespace ShapeBlaster_ex {
     class Pool final
         : dst::NonCopyable
     {
-        // TODO : Refine, test, and move into dst::Core.
+        // TODO : Move into dst::Core.
 
     private:
         std::vector<T> mObjects;
