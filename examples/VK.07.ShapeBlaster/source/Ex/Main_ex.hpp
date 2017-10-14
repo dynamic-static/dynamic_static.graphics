@@ -44,7 +44,7 @@ namespace ShapeBlaster_ex {
         std::unique_ptr<Sprite::Pool> mPlayerSpritePool;
         std::unique_ptr<Sprite::Pool> mBulletSpritePool;
 
-        std::unordered_map<std::string, Sprite::Pool> mSpritePools;
+        //std::unordered_map<std::string, Sprite::Pool> mSpritePools;
 
         //Entity::Pool<Bullet> mBulletPool;
 
@@ -76,8 +76,6 @@ namespace ShapeBlaster_ex {
 
             mSpritePipeline = Sprite::Pipeline(*mDevice, *mRenderPass);
 
-
-
             std::string resourcePath = "../../../examples/resources/ShapeBlaster_AllParts/ShapeBlaster_Part5/ShapeBlaster_Part5Content/Art/";
             auto pointerSpriteFilePath = dst::Path::combine(resourcePath, "Pointer.png");
             auto playerSpriteFilePath = dst::Path::combine(resourcePath, "Player.png");
@@ -85,8 +83,6 @@ namespace ShapeBlaster_ex {
             mPointerSpritePool = std::make_unique<Sprite::Pool>(*mGraphicsQueue, mSpritePipeline, pointerSpriteFilePath, 1);
             mPlayerSpritePool = std::make_unique<Sprite::Pool>(*mGraphicsQueue, mSpritePipeline, playerSpriteFilePath, 1);
             mBulletSpritePool = std::make_unique<Sprite::Pool>(*mGraphicsQueue, mSpritePipeline, bulletSpriteFilePath, 64);
-            mPointerSprite = mPointerSpritePool->check_out();
-
 
             // auto loadSpritePool =
             // [&](const std::string& fileName, size_t count)
@@ -94,31 +90,27 @@ namespace ShapeBlaster_ex {
             //     // std::string resourcePath = "../../../examples/resources/ShapeBlaster_AllParts/ShapeBlaster_Part5/ShapeBlaster_Part5Content/Art/";
             //     auto filePath = dst::Path::combine(resourcePath, fileName) + ".png";
             //     auto spritePool = std::move(Sprite::Pool(*mGraphicsQueue, mSpritePipeline, filePath, count));
-            //     mSpritePools.insert(std::make_pair(fileName, spritePool));
+            //     mSpritePools.insert(std::make_pair(fileName, std::move(spritePool)));
             // };
-            // 
+
             // loadSpritePool("Pointer", 1);
             // loadSpritePool("Player", 1);
             // loadSpritePool("Bullet", 64);
 
-            //mSpriteManager = Sprite::Manager(*mDevice, *mRenderPass, *mGraphicsQueue);
-            //mSpriteManager.create_pool("Pointer.png", 1);
-            //mSpriteManager.create_pool("Player.png", 1);
-            //mSpriteManager.create_pool("Seeker.png", 32);
-            //mSpriteManager.create_pool("Wanderer.png", 32);
-            //mSpriteManager.create_pool("Black Hole.png", 8);
-            //mPointerSprite = mSpriteManager.check_out("Pointer.png");
-            //mBulletManager = Bullet::Manager(mSpriteManager);
+            // mPointerSprite = mSpritePools.find("Pointer")->second.check_out();
+            mPointerSprite = mPointerSpritePool->check_out();
 
             auto extent = mSwapchain->extent();
             auto playField = dst::Vector2(extent.width, extent.height);
+            // mPlayer = Player(mSpritePools.find("Player")->second.check_out());
             mPlayer = Player(mPlayerSpritePool->check_out());
-            //mEntityManager.add(&mPlayer);
-            //mPlayer.spawn(playField * 0.5f);
+            mPlayer.spawn(playField * 0.5f);
 
             mPlayer.em = &mEntityManager_ex;
-            while (mBulletSpritePool->available_count() > 0) {
-                mEntityManager_ex.create<Bullet>(mBulletSpritePool->check_out());
+            // auto& bulletSpritePool = mSpritePools.find("Bullet")->second;
+            auto& bulletSpritePool = *mBulletSpritePool;
+            while (bulletSpritePool.available_count() > 0) {
+                mEntityManager_ex.create<Bullet>(bulletSpritePool.check_out());
             }
 
             mEntityManager_ex.lock();
@@ -141,21 +133,25 @@ namespace ShapeBlaster_ex {
 
             mPlayer.update(clock, input, playField);
             mEntityManager_ex.update(clock, input, playField);
-            //mEntityManager.update(clock, input, playField);
+
+            // for (auto& spritePool : mSpritePools) {
+            //     spritePool.second.update(playField);
+            // }
+
             mPlayerSpritePool->update(playField);
             mPointerSpritePool->update(playField);
             mBulletSpritePool->update(playField);
-            //mSpriteManager.update(playField);
-
-            
         }
 
         void record_command_buffer(dst::vlkn::Command::Buffer& commandBuffer, const dst::Clock& clock) override final
         {
+            // for (auto& spritePool : mSpritePools) {
+            //     spritePool.second.draw(commandBuffer);
+            // }
+
             mPlayerSpritePool->draw(commandBuffer);
             mPointerSpritePool->draw(commandBuffer);
             mBulletSpritePool->draw(commandBuffer);
-            //mSpriteManager.draw(commandBuffer);
         }
     };
 
