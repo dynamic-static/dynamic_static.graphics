@@ -23,6 +23,7 @@ namespace ShapeBlaster_ex {
         Enemy(Sprite* sprite)
             : Entity(sprite)
         {
+
         }
     };
 

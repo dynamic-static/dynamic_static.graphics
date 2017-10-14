@@ -12,10 +12,9 @@
 
 #pragma once
 
-#include "Bullet_ex.hpp"
 #include "Entity_ex.hpp"
-#include "Entity_ex.Manager.hpp"
 
+#include "Dynamic_Static/Core/Callback.hpp"
 #include "Dynamic_Static/Core/Random.hpp"
 
 namespace ShapeBlaster_ex {
@@ -23,17 +22,14 @@ namespace ShapeBlaster_ex {
     class Player final
         : public Entity
     {
-    public:
-        Entity::Manager<
-            Player,
-            Bullet
-        >* em { nullptr };
-
     private:
         static constexpr float Speed { 480 }; // Pixels / second
         static constexpr float RateofFire { 10 }; // Rounds / second
         static constexpr float BulletSpread { 1 }; // Pixels
         float mShotTimer { 0 };
+
+    public:
+        dst::Callback<Player, const dst::Vector2&, const dst::Vector2&> on_bullet_fired;
 
     public:
         Player() = default;
@@ -100,22 +96,16 @@ namespace ShapeBlaster_ex {
     private:
         void fire_bullet(const dst::Vector2& aimDirection, const dst::Vector2& offset)
         {
-            //auto bullet = nullptr; // find_bullet();
-            //if (bullet) {
-                float angle = aimDirection.to_angle();
-                float spread =
-                    dst::Random.range<float>(-BulletSpread, BulletSpread) +
-                    dst::Random.range<float>(-BulletSpread, BulletSpread);
-                auto direction = polar_to_cartesian(angle + spread, 1.0f);
-                auto translation = dst::Matrix4x4::create_translation(offset);
-                auto rotation = dst::Matrix4x4::create_rotation(angle, dst::Vector3::UnitZ);
-                auto m = rotation * translation;
-                auto o = m * dst::Vector4(offset.x, offset.y, 0, 1);
-                // bullet->spawn(mSprite->position + dst::Vector2(o), direction);
-                if (em) {
-                    em->spawn<Bullet>(mPosition + dst::Vector2(o), direction);
-                }
-            //}
+            float angle = aimDirection.to_angle();
+            float spread =
+                dst::Random.range<float>(-BulletSpread, BulletSpread) +
+                dst::Random.range<float>(-BulletSpread, BulletSpread);
+            auto direction = polar_to_cartesian(angle + spread, 1.0f);
+            auto translation = dst::Matrix4x4::create_translation(offset);
+            auto rotation = dst::Matrix4x4::create_rotation(angle, dst::Vector3::UnitZ);
+            auto m = rotation * translation;
+            auto o = m * dst::Vector4(offset.x, offset.y, 0, 1);
+            on_bullet_fired(mPosition + dst::Vector2(o), direction);
         }
     };
 
