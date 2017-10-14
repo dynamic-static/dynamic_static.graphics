@@ -1,0 +1,29 @@
+
+/*
+==========================================
+    Copyright (c) 2017 Dynamic_Static
+    Licensed under the MIT license
+    http://opensource.org/licenses/MIT
+==========================================
+*/
+
+// Based on "Make a Neon Vector Shooter in XNA"
+// https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559
+
+#pragma once
+
+#include "Entity_ex.hpp"
+
+namespace ShapeBlaster_ex {
+
+    class BlackHole final
+        : public Entity
+    {
+    public:
+        BlackHole(Sprite* sprite)
+            : Entity(sprite)
+        {
+        }
+    };
+
+} // namespace ShapeBlaster_ex

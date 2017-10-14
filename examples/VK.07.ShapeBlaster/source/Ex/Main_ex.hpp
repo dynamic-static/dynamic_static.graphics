@@ -13,11 +13,15 @@
 
 #pragma once
 
+#include "BlackHole_ex.hpp"
+#include "Bullet_ex.hpp"
 #include "Entity_ex.Manager.hpp"
 #include "Player_ex.hpp"
+#include "Seeker_ex.hpp"
 #include "Sprite_ex.hpp"
 #include "Sprite_ex.Pipeline.hpp"
 #include "Sprite_ex.Pool.hpp"
+#include "Wanderer_ex.hpp"
 
 #include "Dynamic_Static/Core/FileSystem.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"

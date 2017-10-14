@@ -24,7 +24,10 @@ namespace ShapeBlaster_ex {
         : public Entity
     {
     public:
-        Entity::Manager<Player, Bullet>* em { nullptr };
+        Entity::Manager<
+            Player,
+            Bullet
+        >* em { nullptr };
 
     private:
         static constexpr float Speed { 480 }; // Pixels / second

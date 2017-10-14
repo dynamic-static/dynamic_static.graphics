@@ -9,15 +9,19 @@ set(INCLUDE_FILES
 
 set(SOURCE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/source/)
 set(SOURCE_FILES
+    ${SOURCE_DIRECTORY}/Ex/BlackHole_ex.hpp
     ${SOURCE_DIRECTORY}/Ex/Bullet_ex.hpp
+    ${SOURCE_DIRECTORY}/Ex/Enemy_ex.hpp
     ${SOURCE_DIRECTORY}/Ex/Entity_ex.hpp
     ${SOURCE_DIRECTORY}/Ex/Entity_ex.Manager.hpp
     ${SOURCE_DIRECTORY}/Ex/Main_ex.hpp
     ${SOURCE_DIRECTORY}/Ex/Player_ex.hpp
     ${SOURCE_DIRECTORY}/Ex/Pool_ex.hpp
+    ${SOURCE_DIRECTORY}/Ex/Seeker_ex.hpp
     ${SOURCE_DIRECTORY}/Ex/Sprite_ex.hpp
     ${SOURCE_DIRECTORY}/Ex/Sprite_ex.Pipeline.hpp
     ${SOURCE_DIRECTORY}/Ex/Sprite_ex.Pool.hpp
+    ${SOURCE_DIRECTORY}/Ex/Wanderer_ex.hpp
 
     ${SOURCE_DIRECTORY}/BlackHole.hpp
     ${SOURCE_DIRECTORY}/BloomComponent.hpp
