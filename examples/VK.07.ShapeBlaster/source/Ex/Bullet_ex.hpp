@@ -24,7 +24,6 @@ namespace ShapeBlaster_ex {
         static constexpr float Radius { 8 }; // Pixels
 
     public:
-        Bullet() = default;
         Bullet(Sprite* sprite)
             : Entity(sprite)
         {
@@ -51,7 +50,7 @@ namespace ShapeBlaster_ex {
             }
         }
 
-        void on_collision(Entity& other)
+        void on_collision(const Entity& other, size_t typeId)
         {
         }
 

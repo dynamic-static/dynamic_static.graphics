@@ -30,6 +30,10 @@ namespace ShapeBlaster_ex {
         {
             mPosition = position;
         }
+
+        void on_collision(const Entity& other, size_t typeId)
+        {
+        }
     };
 
 } // namespace ShapeBlaster_ex

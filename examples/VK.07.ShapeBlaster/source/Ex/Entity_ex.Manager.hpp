@@ -22,6 +22,7 @@
 
 #include <algorithm>
 #include <tuple>
+#include <utility>
 #include <vector>
 
 namespace Dynamic_Static {
@@ -57,10 +58,14 @@ namespace ShapeBlaster_ex {
             Pool<EntityType> pool;
             std::vector<EntityType*> spawning;
             std::vector<EntityType*> enabled;
+            static size_t type_id()
+            {
+                return Entity::type_id<EntityType>();
+            }
         };
 
         std::tuple<Collection<EntityTypes>...> mEntities;
-        std::vector<Entity*> mColidables;
+        std::vector<std::pair<Entity*, size_t>> mCollidables;
         bool mUpdating { false };
 
     public:
@@ -132,19 +137,29 @@ namespace ShapeBlaster_ex {
 
         void handle_collisions()
         {
-            mColidables.clear();
+            mCollidables.clear();
             dst::for_each_tuple(
                 mEntities,
                 [&](auto& entities)
                 {
                     for (auto& entity : entities.enabled) {
-                        for (auto& colidable : mColidables) {
-                            if (colliding(*entity, *colidable)) {
-                                entity->on_collision(*colidable);
+                        mCollidables.push_back(std::make_pair(entity, entities.type_id()));
+                    }
+                }
+            );
+
+            dst::for_each_tuple(
+                mEntities,
+                [&](auto& entities)
+                {
+                    for (auto& entity : entities.enabled) {
+                        for (auto& collidable : mCollidables) {
+                            auto collidableEntity = collidable.first;
+                            auto collidableTypeId = collidable.second;
+                            if (colliding(*entity, *collidableEntity)) {
+                                entity->on_collision(*collidableEntity, collidableTypeId);
                             }
                         }
-
-                        mColidables.push_back(entity);
                     }
                 }
             );

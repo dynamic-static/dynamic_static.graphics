@@ -37,6 +37,10 @@ namespace ShapeBlaster_ex {
         {
             mVelocity *= Damping;
         }
+
+        void on_collision(const Entity& other, size_t typeId)
+        {
+        }
     };
 
 } // namespace ShapeBlaster_ex

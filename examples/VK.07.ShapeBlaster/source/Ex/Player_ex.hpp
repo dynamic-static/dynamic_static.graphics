@@ -13,6 +13,8 @@
 #pragma once
 
 #include "Entity_ex.hpp"
+#include "Seeker_ex.hpp"
+#include "Wanderer_ex.hpp"
 
 #include "Dynamic_Static/Core/Callback.hpp"
 #include "Dynamic_Static/Core/Random.hpp"
@@ -34,7 +36,6 @@ namespace ShapeBlaster_ex {
         dst::Callback<Player, const dst::Vector2&, const dst::Vector2&> on_bullet_fired;
 
     public:
-        Player() = default;
         Player(Sprite* sprite)
             : Entity(sprite)
         {
@@ -91,8 +92,11 @@ namespace ShapeBlaster_ex {
             }
         }
 
-        void on_collision(Entity& other)
+        void on_collision(const Entity& other, size_t typeId)
         {
+            if (typeId == type_id<Seeker>() ||
+                typeId == type_id<Wanderer>()) {
+            }
         }
 
     private:

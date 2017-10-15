@@ -120,22 +120,19 @@ namespace ShapeBlaster_ex {
         {
         }
 
-        void process_collision(Entity& entity)
-        {
-            on_collision(entity);
-        }
-
-    private:
-        virtual void on_collision(Entity& entity)
-        {
-        }
-
     public:
+        template <typename EntityType>
+        static size_t type_id()
+        {
+            static size_t sTypeId;
+            return reinterpret_cast<size_t>(&sTypeId);
+        }
+
         static bool colliding(const Entity& lhs, const Entity& rhs)
         {
             float radius = lhs.mRadius + rhs.mRadius;
             auto distanceSquared = lhs.mPosition.distance_squared(rhs.mPosition);
-            return lhs.mEnabled && rhs.mEnabled && distanceSquared < radius * radius;
+            return &lhs != &rhs && lhs.mEnabled && rhs.mEnabled && distanceSquared < radius * radius;
         }
     };
 
