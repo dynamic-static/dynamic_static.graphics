@@ -19,11 +19,23 @@ namespace ShapeBlaster_ex {
     class Enemy
         : public Entity
     {
+    private:
+        static constexpr float Damping { 0.8f };
+
     public:
         Enemy(Sprite* sprite)
             : Entity(sprite)
         {
+        }
 
+    public:
+        void on_update(
+            const dst::Clock& clock,
+            const dst::Input& input,
+            const dst::Vector2& playArea
+        ) override
+        {
+            mVelocity *= Damping;
         }
     };
 

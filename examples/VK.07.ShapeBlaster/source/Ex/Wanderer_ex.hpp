@@ -57,7 +57,7 @@ namespace ShapeBlaster_ex {
         void on_out_of_bounds(const dst::Vector2& playArea) override final
         {
             mDirection = (playArea * 0.5f - mPosition).to_angle();
-            mDirection += dst::Random.range<float>(-M_PI_2, M_PI_2);
+            mDirection += static_cast<float>(dst::Random.range(-M_PI_2, M_PI_2));
         }
     };
 

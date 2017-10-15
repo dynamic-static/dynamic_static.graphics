@@ -296,14 +296,14 @@ namespace ShapeBlaster_ex {
 
             std::array<VkDescriptorPoolSize, 2> descriptorPoolSizes { };
             descriptorPoolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
-            descriptorPoolSizes[0].descriptorCount = mSprites.size();
+            descriptorPoolSizes[0].descriptorCount = static_cast<uint32_t>(mSprites.size());
             descriptorPoolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            descriptorPoolSizes[1].descriptorCount = mSprites.size();
+            descriptorPoolSizes[1].descriptorCount = static_cast<uint32_t>(mSprites.size());
 
             auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
             descriptorPoolInfo.poolSizeCount = static_cast<uint32_t>(descriptorPoolSizes.size());
             descriptorPoolInfo.pPoolSizes = descriptorPoolSizes.data();
-            descriptorPoolInfo.maxSets = mSprites.size();
+            descriptorPoolInfo.maxSets = static_cast<uint32_t>(mSprites.size());
             mDescriptorPool = device.create<Descriptor::Pool>(descriptorPoolInfo);
 
             auto descriptorSetInfo = Descriptor::Set::AllocateInfo;

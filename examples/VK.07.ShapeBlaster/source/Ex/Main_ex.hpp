@@ -99,8 +99,8 @@ namespace ShapeBlaster_ex {
             mPointerSprite = create_sprite_pool("Pointer", 1)->check_out();
             create_entities<Player>("Player", 1);
             create_entities<Bullet>("Bullet", 64);
-            create_entities<Seeker>("Seeker", 32);
-            create_entities<Wanderer>("Wanderer", 32);
+            create_entities<Seeker>("Seeker", 8);
+            create_entities<Wanderer>("Wanderer", 8);
             create_entities<BlackHole>("Black Hole", 4);
             mEntityManager.lock();
 

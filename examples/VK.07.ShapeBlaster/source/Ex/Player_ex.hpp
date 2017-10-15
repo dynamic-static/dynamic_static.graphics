@@ -26,6 +26,8 @@ namespace ShapeBlaster_ex {
         static constexpr float Speed { 480 }; // Pixels / second
         static constexpr float RateofFire { 10 }; // Rounds / second
         static constexpr float BulletSpread { -0.04f }; // Pixels
+        static constexpr float BulletOffsetHorizontal { 35 }; // Pixels
+        static constexpr float BulletOffsetVertical { 8 }; // Pixels
         float mShotTimer { 0 };
 
     public:
@@ -82,8 +84,8 @@ namespace ShapeBlaster_ex {
                 auto aimDirection = pointerPosition - mPosition;
                 if (aimDirection != dst::Vector2::Zero && mShotTimer <= 0) {
                     aimDirection.normalize();
-                    fire_bullet(aimDirection, { 35,  8 });
-                    fire_bullet(aimDirection, { 35, -8 });
+                    fire_bullet(aimDirection, { BulletOffsetHorizontal,  BulletOffsetVertical });
+                    fire_bullet(aimDirection, { BulletOffsetHorizontal, -BulletOffsetVertical });
                     mShotTimer = 1.0f / RateofFire;
                 }
             }

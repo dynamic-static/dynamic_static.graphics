@@ -20,6 +20,7 @@ namespace ShapeBlaster_ex {
         : public Enemy
     {
     private:
+        static constexpr float Acceleration { 54 }; // Pixels / second
         Entity* mTarget { nullptr };
 
     public:
@@ -41,12 +42,15 @@ namespace ShapeBlaster_ex {
             const dst::Vector2& playArea
         ) override final
         {
+            Enemy::on_update(clock, input, playArea);
             if (mTarget) {
                 auto direction = mTarget->position() - mPosition;
                 if (direction != dst::Vector2::Zero) {
                     direction.normalize();
                     mRotation = direction.to_angle();
                 }
+
+                mVelocity += direction * Acceleration;
             }
         }
     };
