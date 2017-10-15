@@ -16,6 +16,7 @@
 #include "BlackHole_ex.hpp"
 #include "Bullet_ex.hpp"
 #include "Entity_ex.Manager.hpp"
+#include "Entity_ex.Spawner.hpp"
 #include "Player_ex.hpp"
 #include "Seeker_ex.hpp"
 #include "Sprite_ex.hpp"
@@ -42,9 +43,13 @@ namespace ShapeBlaster_ex {
         Sprite* mPointerSprite { nullptr };
         Sprite::Pipeline mSpritePipeline;
         std::unordered_map<std::string, std::unique_ptr<Sprite::Pool>> mSpritePools;
+        Entity::Spawner mEntitySpawner;
         Entity::Manager<
             Player,
-            Bullet
+            Bullet,
+            Seeker,
+            Wanderer,
+            BlackHole
         > mEntityManager;
 
     public:
@@ -94,18 +99,21 @@ namespace ShapeBlaster_ex {
             mPointerSprite = create_sprite_pool("Pointer", 1)->check_out();
             create_entities<Player>("Player", 1);
             create_entities<Bullet>("Bullet", 64);
+            create_entities<Seeker>("Seeker", 32);
+            create_entities<Wanderer>("Wanderer", 32);
+            create_entities<BlackHole>("Black Hole", 4);
             mEntityManager.lock();
 
-            auto extent = mSwapchain->extent();
-            auto playArea = dst::Vector2(extent.width, extent.height);
-            auto player = mEntityManager.spawn<Player>(playArea * 0.5f);
-            assert(player);
-            using namespace std::placeholders;
-            player->on_bullet_fired =
-            [&](const dst::Vector2& position, const dst::Vector2& direction)
-            {
-                mEntityManager.spawn<Bullet>(position, direction);
-            };
+            // auto extent = mSwapchain->extent();
+            // auto playArea = dst::Vector2(extent.width, extent.height);
+            // auto player = mEntityManager.spawn<Player>(playArea * 0.5f);
+            // assert(player);
+            // using namespace std::placeholders;
+            // player->on_bullet_fired =
+            // [&](const dst::Vector2& position, const dst::Vector2& direction)
+            // {
+            //     mEntityManager.spawn<Bullet>(position, direction);
+            // };
         }
 
         void update(const dst::Clock& clock, const dst::Input& input) override final
@@ -117,12 +125,13 @@ namespace ShapeBlaster_ex {
             mGameStatusMessage = "Hi Score : 0";
             mWindow->name("Dynamic_Static VK.07.ShapeBlaster        " + mGameStatusMessage);
             auto extent = mSwapchain->extent();
-            auto playField = dst::Vector2(extent.width, extent.height);
+            auto playArea = dst::Vector2(extent.width, extent.height);
             mPointerSprite->position = input.mouse().position();
-            mPointerSprite->position.y = playField.y - mPointerSprite->position.y;
-            mEntityManager.update(clock, input, playField);
+            mPointerSprite->position.y = playArea.y - mPointerSprite->position.y;
+            mEntityManager.update(clock, input, playArea);
+            mEntitySpawner.update(clock, playArea, mEntityManager);
             for (auto& spritePool : mSpritePools) {
-                spritePool.second->update(playField);
+                spritePool.second->update(playArea);
             }
         }
 

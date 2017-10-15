@@ -14,15 +14,50 @@
 
 #include "Enemy_ex.hpp"
 
+#include "Dynamic_Static/Core/Math.hpp"
+#include "Dynamic_Static/Core/Random.hpp"
+
 namespace ShapeBlaster_ex {
 
     class Wanderer final
         : public Enemy
     {
+    private:
+        static constexpr float RotationSpeed { 4 };
+
+        float mDirection { 0 };
+        float mRotationSpeed { RotationSpeed };
+
     public:
         Wanderer(Sprite* sprite)
             : Enemy(sprite)
         {
+        }
+
+    public:
+        void spawn(const dst::Vector2& position)
+        {
+            mPosition = position;
+            if (dst::Random.probability(0.5f)) {
+                mRotationSpeed *= -1;
+            }
+        }
+
+        void on_update(
+            const dst::Clock& clock,
+            const dst::Input& input,
+            const dst::Vector2& playArea
+        ) override final
+        {
+            auto dt = clock.elapsed<dst::Second<float>>();
+            // float direction = dst::Random.range<float>(0, M_PI * 2);
+            mRotation += mRotationSpeed * dt;
+        }
+
+        void on_out_of_bounds(const dst::Vector2& playArea) override final
+        {
+            mDirection = (playArea * 0.5f - mPosition).to_angle();
+            mDirection += dst::Random.range<float>(-M_PI_2, M_PI_2);
         }
     };
 

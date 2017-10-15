@@ -15,6 +15,7 @@
 #include "Sprite_ex.hpp"
 
 #include "Dynamic_Static/Core/Algorithm.hpp"
+#include "Dynamic_Static/Core/Callback.hpp"
 #include "Dynamic_Static/Core/Input.hpp"
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
@@ -26,6 +27,7 @@ namespace ShapeBlaster_ex {
     public:
         template <typename ...EntityTypes>
         class Manager;
+        class Spawner;
 
     protected:
         dst::Vector2 mPosition;
@@ -40,6 +42,9 @@ namespace ShapeBlaster_ex {
         Sprite* mSprite { nullptr };
 
     public:
+        dst::Callback<Entity, const Entity&> on_killed;
+
+    public:
         Entity() = default;
         Entity(Sprite* sprite)
             : mSprite { sprite }
@@ -48,6 +53,11 @@ namespace ShapeBlaster_ex {
         }
 
     public:
+        const dst::Vector2& position() const
+        {
+            return mPosition;
+        }
+
         bool enabled() const
         {
             return mEnabled;
@@ -67,14 +77,14 @@ namespace ShapeBlaster_ex {
         void update(
             const dst::Clock& clock,
             const dst::Input& input,
-            const dst::Vector2& playField
+            const dst::Vector2& playArea
         )
         {
-            on_update(clock, input, playField);
+            on_update(clock, input, playArea);
             mPosition += mVelocity * clock.elapsed<dst::Second<>>();
-            if (mPosition.x < 0 || playField.x < mPosition.x ||
-                mPosition.y < 0 || playField.y < mPosition.y) {
-                on_out_of_bounds(playField);
+            if (mPosition.x < 0 || playArea.x < mPosition.x ||
+                mPosition.y < 0 || playArea.y < mPosition.y) {
+                on_out_of_bounds(playArea);
             }
 
             mSprite->position = mPosition;
@@ -88,21 +98,22 @@ namespace ShapeBlaster_ex {
             mSprite->enabled = false;
             mEnabled = false;
             on_kill();
+            on_killed(*this);
         }
 
     protected:
         virtual void on_update(
             const dst::Clock& clock,
             const dst::Input& input,
-            const dst::Vector2& playField
+            const dst::Vector2& playArea
         )
         {
         }
 
-        virtual void on_out_of_bounds(const dst::Vector2& playField)
+        virtual void on_out_of_bounds(const dst::Vector2& playArea)
         {
-            mPosition.x = dst::clamp(mPosition.x, 0.0f, playField.x);
-            mPosition.y = dst::clamp(mPosition.y, 0.0f, playField.y);
+            mPosition.x = dst::clamp(mPosition.x, 0.0f, playArea.x);
+            mPosition.y = dst::clamp(mPosition.y, 0.0f, playArea.y);
         }
 
         virtual void on_kill()

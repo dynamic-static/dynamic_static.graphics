@@ -24,6 +24,12 @@ namespace ShapeBlaster_ex {
             : Entity(sprite)
         {
         }
+
+    public:
+        void spawn(const dst::Vector2& position)
+        {
+            mPosition = position;
+        }
     };
 
 } // namespace ShapeBlaster_ex

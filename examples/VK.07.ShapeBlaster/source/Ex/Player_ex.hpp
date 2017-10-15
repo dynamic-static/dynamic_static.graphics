@@ -25,7 +25,7 @@ namespace ShapeBlaster_ex {
     private:
         static constexpr float Speed { 480 }; // Pixels / second
         static constexpr float RateofFire { 10 }; // Rounds / second
-        static constexpr float BulletSpread { 1 }; // Pixels
+        static constexpr float BulletSpread { -0.04f }; // Pixels
         float mShotTimer { 0 };
 
     public:
@@ -82,8 +82,8 @@ namespace ShapeBlaster_ex {
                 auto aimDirection = pointerPosition - mPosition;
                 if (aimDirection != dst::Vector2::Zero && mShotTimer <= 0) {
                     aimDirection.normalize();
-                    fire_bullet(aimDirection, { 24,  7 });
-                    fire_bullet(aimDirection, { 24, -7 });
+                    fire_bullet(aimDirection, { 35,  8 });
+                    fire_bullet(aimDirection, { 35, -8 });
                     mShotTimer = 1.0f / RateofFire;
                 }
             }
@@ -94,18 +94,17 @@ namespace ShapeBlaster_ex {
         }
 
     private:
-        void fire_bullet(const dst::Vector2& aimDirection, const dst::Vector2& offset)
+        void fire_bullet(const dst::Vector2& aimDirection, dst::Vector2 offset)
         {
-            float angle = aimDirection.to_angle();
             float spread =
                 dst::Random.range<float>(-BulletSpread, BulletSpread) +
                 dst::Random.range<float>(-BulletSpread, BulletSpread);
+            float angle = aimDirection.to_angle();
             auto direction = polar_to_cartesian(angle + spread, 1.0f);
             auto translation = dst::Matrix4x4::create_translation(offset);
             auto rotation = dst::Matrix4x4::create_rotation(angle, dst::Vector3::UnitZ);
-            auto m = rotation * translation;
-            auto o = m * dst::Vector4(offset.x, offset.y, 0, 1);
-            on_bullet_fired(mPosition + dst::Vector2(o), direction);
+            offset = (rotation * translation) * dst::Vector4(offset.x, offset.y, 0, 1);
+            on_bullet_fired(mPosition + offset, direction);
         }
     };
 

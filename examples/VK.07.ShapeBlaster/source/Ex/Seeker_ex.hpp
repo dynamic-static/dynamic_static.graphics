@@ -19,10 +19,35 @@ namespace ShapeBlaster_ex {
     class Seeker final
         : public Enemy
     {
+    private:
+        Entity* mTarget { nullptr };
+
     public:
         Seeker(Sprite* sprite)
             : Enemy(sprite)
         {
+        }
+
+    public:
+        void spawn(const dst::Vector2& position, Entity& target)
+        {
+            mPosition = position;
+            mTarget = &target;
+        }
+
+        void on_update(
+            const dst::Clock& clock,
+            const dst::Input& input,
+            const dst::Vector2& playArea
+        ) override final
+        {
+            if (mTarget) {
+                auto direction = mTarget->position() - mPosition;
+                if (direction != dst::Vector2::Zero) {
+                    direction.normalize();
+                    mRotation = direction.to_angle();
+                }
+            }
         }
     };
 

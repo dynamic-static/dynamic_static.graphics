@@ -62,8 +62,22 @@ namespace ShapeBlaster_ex {
         std::tuple<Collection<EntityTypes>...> mEntities;
         std::vector<Entity*> mColidables;
         bool mUpdating { false };
-    
+
     public:
+        size_t enabled_count() const
+        {
+            size_t count = 0;
+            dst::for_each_tuple(
+                mEntities,
+                [&](auto& entities)
+                {
+                    count += entities.enabled.size();
+                }
+            );
+
+            return count;
+        }
+
         template <typename EntityType, typename ...Args>
         void create(Args&&... args)
         {
@@ -76,7 +90,10 @@ namespace ShapeBlaster_ex {
         {
             dst::for_each_tuple(
                 mEntities,
-                [&](auto& entities) { entities.pool.lock(); }
+                [&](auto& entities)
+                {
+                    entities.pool.lock();
+                }
             );
         }
 
