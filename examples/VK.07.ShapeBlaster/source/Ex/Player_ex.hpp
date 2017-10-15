@@ -27,9 +27,9 @@ namespace ShapeBlaster_ex {
     private:
         static constexpr float Speed { 480 }; // Pixels / second
         static constexpr float RateofFire { 10 }; // Rounds / second
-        static constexpr float BulletSpread { -0.04f }; // Pixels
-        static constexpr float BulletOffsetHorizontal { 35 }; // Pixels
-        static constexpr float BulletOffsetVertical { 8 }; // Pixels
+        static constexpr float BulletSpread { -0.025f }; // Pixels
+        static constexpr float BulletOffsetHorizontal { 24 }; // Pixels
+        static constexpr float BulletOffsetVertical { 7 }; // Pixels
         float mShotTimer { 0 };
 
     public:

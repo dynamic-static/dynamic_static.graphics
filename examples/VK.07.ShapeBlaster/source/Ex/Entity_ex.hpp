@@ -42,14 +42,15 @@ namespace ShapeBlaster_ex {
         Sprite* mSprite { nullptr };
 
     public:
+        dst::Callback<Entity, const Entity&> on_spawned;
         dst::Callback<Entity, const Entity&> on_killed;
 
     public:
-        Entity() = default;
         Entity(Sprite* sprite)
             : mSprite { sprite }
         {
             assert(mSprite);
+            mSprite->enabled = false;
         }
 
     public:
@@ -91,11 +92,12 @@ namespace ShapeBlaster_ex {
             mSprite->rotation = mRotation;
             mSprite->scale = mScale;
             mSprite->color = mColor;
+            mSprite->enabled = mEnabled;
         }
 
         void kill()
         {
-            mSprite->enabled = false;
+            // mSprite->enabled = false;
             mEnabled = false;
             on_kill();
             on_killed(*this);

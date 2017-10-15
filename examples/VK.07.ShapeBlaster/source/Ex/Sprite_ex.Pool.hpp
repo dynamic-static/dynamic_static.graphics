@@ -117,30 +117,29 @@ namespace ShapeBlaster_ex {
             auto& device = mPipeline->mPipeline->device();
 
             for (size_t i = 0; i < mSprites.size(); ++i) {
-                if (mSprites[i].enabled) {
-                    const auto& sprite = mSprites[i];
-                    auto translation = dst::Matrix4x4::create_translation(sprite.position);
-                    auto rotation = dst::Matrix4x4::create_rotation(sprite.rotation, dst::Vector3::UnitZ);
-                    auto scale = dst::Matrix4x4::create_scale({
-                        mImage->extent().width * sprite.scale.x,
-                        mImage->extent().height * sprite.scale.y,
-                        1
-                    });
+                const auto& sprite = mSprites[i];
+                auto spriteScale = sprite.enabled ? sprite.scale : dst::Vector2::Zero;
+                auto translation = dst::Matrix4x4::create_translation(sprite.position);
+                auto rotation = dst::Matrix4x4::create_rotation(sprite.rotation, dst::Vector3::UnitZ);
+                auto scale = dst::Matrix4x4::create_scale({
+                    mImage->extent().width * spriteScale.x,
+                    mImage->extent().height * spriteScale.y,
+                    1
+                });
 
-                    auto view = dst::Matrix4x4::create_view(
-                        { 0, 0, 0.5f }, dst::Vector3::Zero, dst::Vector3::UnitY
-                    );
+                auto view = dst::Matrix4x4::create_view(
+                    { 0, 0, 0.5f }, dst::Vector3::Zero, dst::Vector3::UnitY
+                );
 
-                    auto projection = dst::Matrix4x4::create_orhtographic(
-                        0, renderArea.x, 0, renderArea.y, -1.0f, 1.0f
-                    );
+                auto projection = dst::Matrix4x4::create_orhtographic(
+                    0, renderArea.x, 0, renderArea.y, -1.0f, 1.0f
+                );
 
-                    uint32_t offset = static_cast<uint32_t>(mHostStorageAlignment * i);
-                    auto hostStorageEntry = reinterpret_cast<uint64_t>(mHostStorage.get()) + offset;
-                    auto uniformBufferEntry = reinterpret_cast<Sprite::UniformBuffer*>(hostStorageEntry);
-                    uniformBufferEntry->wvp = projection * view * translation * rotation * scale;
-                    uniformBufferEntry->color = sprite.color;
-                }
+                uint32_t offset = static_cast<uint32_t>(mHostStorageAlignment * i);
+                auto hostStorageEntry = reinterpret_cast<uint64_t>(mHostStorage.get()) + offset;
+                auto uniformBufferEntry = reinterpret_cast<Sprite::UniformBuffer*>(hostStorageEntry);
+                uniformBufferEntry->wvp = projection * view * translation * rotation * scale;
+                uniformBufferEntry->color = sprite.enabled ? sprite.color : dst::Color::Transparent;
             }
 
             // TODO : Move memcpy() into loop...
@@ -158,21 +157,19 @@ namespace ShapeBlaster_ex {
         {
             commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mPipeline->mPipeline);
             for (size_t i = 0; i < mSprites.size(); ++i) {
-                if (mSprites[i].enabled) {
-                    uint32_t offset = static_cast<uint32_t>(mHostStorageAlignment * i);
-                    vkCmdBindDescriptorSets(
-                        commandBuffer,
-                        VK_PIPELINE_BIND_POINT_GRAPHICS,
-                        *mPipeline->mPipelineLayout,
-                        0,
-                        1,
-                        &mDescriptorSet->handle(),
-                        1,
-                        &offset
-                    );
+                uint32_t offset = static_cast<uint32_t>(mHostStorageAlignment * i);
+                vkCmdBindDescriptorSets(
+                    commandBuffer,
+                    VK_PIPELINE_BIND_POINT_GRAPHICS,
+                    *mPipeline->mPipelineLayout,
+                    0,
+                    1,
+                    &mDescriptorSet->handle(),
+                    1,
+                    &offset
+                );
 
-                    commandBuffer.draw(6, 1);
-                }
+                commandBuffer.draw(6, 1);
             }
         }
 

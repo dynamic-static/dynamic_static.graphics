@@ -103,17 +103,6 @@ namespace ShapeBlaster_ex {
             create_entities<Wanderer>("Wanderer", 8);
             create_entities<BlackHole>("Black Hole", 4);
             mEntityManager.lock();
-
-            // auto extent = mSwapchain->extent();
-            // auto playArea = dst::Vector2(extent.width, extent.height);
-            // auto player = mEntityManager.spawn<Player>(playArea * 0.5f);
-            // assert(player);
-            // using namespace std::placeholders;
-            // player->on_bullet_fired =
-            // [&](const dst::Vector2& position, const dst::Vector2& direction)
-            // {
-            //     mEntityManager.spawn<Bullet>(position, direction);
-            // };
         }
 
         void update(const dst::Clock& clock, const dst::Input& input) override final

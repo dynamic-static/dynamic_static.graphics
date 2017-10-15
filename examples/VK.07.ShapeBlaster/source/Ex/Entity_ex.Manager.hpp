@@ -108,10 +108,10 @@ namespace ShapeBlaster_ex {
             constexpr size_t index = dst::type_index<EntityType, EntityTypes...>();
             auto entity = std::get<index>(mEntities).pool.check_out();
             if (entity) {
-                entity->mEnabled = true;
-                entity->mSprite->enabled = true;
                 entity->spawn(std::forward<Args>(args)...);
                 if (mUpdating) {
+                    entity->mEnabled = true;
+                    entity->mSprite->enabled = true;
                     std::get<index>(mEntities).enabled.push_back(entity);
                 } else {
                     std::get<index>(mEntities).spawning.push_back(entity);
@@ -137,6 +137,8 @@ namespace ShapeBlaster_ex {
 
         void handle_collisions()
         {
+            std::cout << type_id<Bullet>() << std::endl;
+
             mCollidables.clear();
             dst::for_each_tuple(
                 mEntities,
@@ -156,7 +158,16 @@ namespace ShapeBlaster_ex {
                         for (auto& collidable : mCollidables) {
                             auto collidableEntity = collidable.first;
                             auto collidableTypeId = collidable.second;
+
+
+
                             if (colliding(*entity, *collidableEntity)) {
+
+                                if (collidableTypeId == type_id<Bullet>()) {
+                                    int breaker = 0;
+                                }
+
+
                                 entity->on_collision(*collidableEntity, collidableTypeId);
                             }
                         }
@@ -189,6 +200,8 @@ namespace ShapeBlaster_ex {
                 [&](auto& entities)
                 {
                     for (auto& entity : entities.spawning) {
+                        entity->mEnabled = true;
+                        entity->mSprite->enabled = true;
                         entities.enabled.push_back(entity);
                     }
 
@@ -209,9 +222,11 @@ namespace ShapeBlaster_ex {
                             entities.enabled.end(),
                             [&](auto entity)
                             {
-                                bool enabled = entity->enabled();
+                                bool enabled = entity->mEnabled;
                                 if (!enabled) {
+                                    entity->mSprite->enabled = false;
                                     entities.pool.check_in(entity);
+                                    int breaker = 0;
                                 }
 
                                 return !enabled;

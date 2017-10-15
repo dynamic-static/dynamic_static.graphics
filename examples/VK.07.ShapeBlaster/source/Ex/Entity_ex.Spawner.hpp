@@ -67,7 +67,7 @@ namespace ShapeBlaster_ex {
             mBulletSpawns.clear();
 
             if (dst::Random.probability(mEnemySpawnProbability)) {
-                entityManager.spawn<Seeker>(spawn_position(playArea), *mPlayer);
+                //entityManager.spawn<Seeker>(spawn_position(playArea), *mPlayer);
             }
 
             if (dst::Random.probability(mEnemySpawnProbability)) {

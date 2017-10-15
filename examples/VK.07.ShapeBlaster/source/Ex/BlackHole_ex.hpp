@@ -12,6 +12,7 @@
 
 #pragma once
 
+#include "Bullet_ex.hpp"
 #include "Entity_ex.hpp"
 
 namespace ShapeBlaster_ex {
@@ -23,6 +24,8 @@ namespace ShapeBlaster_ex {
         BlackHole(Sprite* sprite)
             : Entity(sprite)
         {
+            assert(sprite);
+            mRadius = sprite->image->extent().width * 0.5f;
         }
 
     public:
@@ -33,6 +36,9 @@ namespace ShapeBlaster_ex {
 
         void on_collision(const Entity& other, size_t typeId)
         {
+            if (typeId == type_id<Bullet>()) {
+                mEnabled = false;
+            }
         }
     };
 

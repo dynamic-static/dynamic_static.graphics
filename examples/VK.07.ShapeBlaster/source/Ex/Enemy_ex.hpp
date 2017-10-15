@@ -26,6 +26,8 @@ namespace ShapeBlaster_ex {
         Enemy(Sprite* sprite)
             : Entity(sprite)
         {
+            assert(sprite);
+            mRadius = sprite->image->extent().width * 0.5f;
         }
 
     public:
@@ -40,6 +42,10 @@ namespace ShapeBlaster_ex {
 
         void on_collision(const Entity& other, size_t typeId)
         {
+            auto t = type_id<Bullet>();
+            if (typeId == type_id<Bullet>()) {
+                mEnabled = false;
+            }
         }
     };
 

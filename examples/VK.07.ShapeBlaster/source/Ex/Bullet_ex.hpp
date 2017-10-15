@@ -52,6 +52,10 @@ namespace ShapeBlaster_ex {
 
         void on_collision(const Entity& other, size_t typeId)
         {
+            if (/*typeId != type_id<Player>() &&*/
+                typeId != type_id<Bullet>()) {
+                mEnabled = false;
+            }
         }
 
         void on_out_of_bounds(const dst::Vector2& playField) override final
