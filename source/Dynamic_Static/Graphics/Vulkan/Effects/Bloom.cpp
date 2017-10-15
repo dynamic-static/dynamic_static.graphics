@@ -13,6 +13,24 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    Bloom::Bloom(Device & device)
+    {
+    }
+
+    void Bloom::begin()
+    {
+    }
+
+    void Bloom::end()
+    {
+    }
+
+    void Bloom::submit()
+    {
+    }
+
+    
+
 } // namespace Vulkan
 } // namespace Graphics
 } // namespace Dynamic_Static

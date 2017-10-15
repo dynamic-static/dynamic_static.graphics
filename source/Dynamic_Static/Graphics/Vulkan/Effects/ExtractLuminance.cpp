@@ -7,13 +7,13 @@
 ==========================================
 */
 
-#include "Dynamic_Static/Graphics/Vulkan/Effects/BloomExtract.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Effects/ExtractLuminance.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    BloomExtract::BloomExtract(Device& device, uint32_t width, uint32_t height, VkFormat format)
+    ExtractLuminance::ExtractLuminance(Device& device, uint32_t width, uint32_t height, VkFormat format)
         : Effect(
             device, width, height, format,
             VK_FORMAT_UNDEFINED,

@@ -16,7 +16,7 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    class BloomExtract final
+    class ExtractLuminance final
         : public Effect
     {
     public:
@@ -31,8 +31,8 @@ namespace Vulkan {
         } settings;
 
     public:
-        BloomExtract() = default;
-        BloomExtract(Device& device, uint32_t width, uint32_t height, VkFormat format);
+        ExtractLuminance() = default;
+        ExtractLuminance(Device& device, uint32_t width, uint32_t height, VkFormat format);
     };
 
 } // namespace Vulkan

@@ -7,7 +7,7 @@ set(INCLUDE_FILES
 
     ${INCLUDE_PATH}/Graphics/Vulkan/Effects/Bloom.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Effects/BloomCombine.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Effects/BloomExtract.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/Effects/ExtractLuminance.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Effects/GaussianBlur.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Primitives/Box.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Primitives/Quad.hpp
@@ -73,7 +73,7 @@ set(SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/)
 set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/Vulkan/Effects/Bloom.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Effects/BloomCombine.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Effects/BloomExtract.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/Effects/ExtractLuminance.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Effects/GaussianBlur.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Primitives/Box.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Primitives/Quad.cpp

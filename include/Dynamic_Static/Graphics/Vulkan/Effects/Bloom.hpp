@@ -11,7 +11,7 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Effects/BloomCombine.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Effects/BloomExtract.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Effects/ExtractLuminance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Effects/GaussianBlur.hpp"
 
 namespace Dynamic_Static {
@@ -20,10 +20,26 @@ namespace Vulkan {
 
     class Bloom final
     {
+    public:
+        float threshold { 0.25f };
+        float amount { 4 };
+        float bloomIntensity { 1.25f };
+        float baseIntensity { 1 };
+        float bloomSaturation { 1 };
+        float baseSaturation { 1 };
+
+    public:
+        Bloom(Device& device);
+
     private:
-        BloomExtract mBloomExtract;
-        // GaussianBlur mGaussianBlur;
-        // BloomCombine mBloomCombine;
+        ExtractLuminance mExtract;
+        // GaussianBlur mBlur;
+        // BloomCombine mCombine;
+
+    public:
+        void begin();
+        void end();
+        void submit();
     };
 
 } // namespace Vulkan

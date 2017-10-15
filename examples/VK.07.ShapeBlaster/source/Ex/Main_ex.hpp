@@ -26,6 +26,7 @@
 
 #include "Dynamic_Static/Core/FileSystem.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Effects/Bloom.hpp"
 
 #include <memory>
 #include <stdexcept>
@@ -41,6 +42,7 @@ namespace ShapeBlaster_ex {
     private:
         std::string mGameStatusMessage;
         Sprite* mPointerSprite { nullptr };
+        std::unique_ptr<dst::vlkn::Bloom> mBloom;
         Sprite::Pipeline mSpritePipeline;
         std::unordered_map<std::string, std::unique_ptr<Sprite::Pool>> mSpritePools;
         Entity::Spawner mEntitySpawner;

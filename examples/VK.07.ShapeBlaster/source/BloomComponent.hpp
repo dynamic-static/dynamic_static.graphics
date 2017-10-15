@@ -14,7 +14,7 @@
 
 #include "BloomSettings.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Effects/BloomExtract.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Effects/ExtractLuminance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Effects/GaussianBlur.hpp"
 
 #include <memory>
@@ -35,7 +35,7 @@ namespace ShapeBlaster {
         dst::vlkn::Command::Buffer* mCommandBuffer { nullptr };
         std::shared_ptr<dst::vlkn::Semaphore> mSemaphore;
 
-        dst::vlkn::BloomExtract bloomExtract;
+        dst::vlkn::ExtractLuminance bloomExtract;
 
     public:
         BloomComponent()
@@ -87,7 +87,7 @@ namespace ShapeBlaster {
                 VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
             );
 
-            bloomExtract = BloomExtract(device, Width, Height, format);
+            bloomExtract = ExtractLuminance(device, Width, Height, format);
         }
 
         void begin()
