@@ -28,18 +28,23 @@ namespace Vulkan {
         float bloomSaturation { 1 };
         float baseSaturation { 1 };
 
-    public:
-        Bloom(Device& device);
-
-    private:
+    /* private: */
         ExtractLuminance mExtract;
         // GaussianBlur mBlur;
         // BloomCombine mCombine;
+        Command::Buffer* mCommandBuffer { nullptr };
 
     public:
-        void begin();
+        Bloom(Device& device, RenderPass& renderPass, uint32_t width, uint32_t height);
+
+    public:
+        void begin(Command::Buffer& commandBuffer, RenderPass& renderPass);
         void end();
-        void submit();
+
+    private:
+        std::array<VkClearValue, 2> clear_values() const;
+        VkViewport viewport() const;
+        VkRect2D scissor() const;
     };
 
 } // namespace Vulkan

@@ -40,9 +40,26 @@ namespace ShapeBlaster_ex {
         : public dst::vlkn::Application
     {
     private:
+        struct EffectPipeline final
+        {
+            std::shared_ptr<dst::vlkn::RenderTarget> renderTarget;
+            std::shared_ptr<dst::vlkn::Descriptor::Set::Layout> descriptorSetLayout;
+            std::shared_ptr<dst::vlkn::Pipeline::Layout> pipelineLayout;
+            std::shared_ptr<dst::vlkn::Pipeline> pipeline;
+            std::shared_ptr<dst::vlkn::Descriptor::Pool> descriptorPool;
+            dst::vlkn::Descriptor::Set* descriptorSet { nullptr };
+        };
+
+        std::shared_ptr<dst::vlkn::RenderPass> mEffectRenderPass;
+        std::shared_ptr<dst::vlkn::Sampler> mEffectSampler;
+        std::shared_ptr<dst::vlkn::Semaphore> mEffectSemaphore;
+        dst::vlkn::Command::Buffer* mEffectCommandBuffer { nullptr };
+        EffectPipeline mExtractLuminanceEffect;
+        float mExtractLuminanceThreshold { 0.25f };
+
         std::string mGameStatusMessage;
         Sprite* mPointerSprite { nullptr };
-        std::unique_ptr<dst::vlkn::Bloom> mBloom;
+        // std::unique_ptr<dst::vlkn::Bloom> mBloom;
         Sprite::Pipeline mSpritePipeline;
         std::unordered_map<std::string, std::unique_ptr<Sprite::Pool>> mSpritePools;
         Entity::Spawner mEntitySpawner;
@@ -105,6 +122,210 @@ namespace ShapeBlaster_ex {
             create_entities<Wanderer>("Wanderer", 8);
             create_entities<BlackHole>("Black Hole", 4);
             mEntityManager.lock();
+
+            // mBloom = std::make_unique<dst::vlkn::Bloom>(*mDevice, *mRenderPass, 1280, 720);
+            create_effect_passes();
+        }
+
+        void create_effect_passes()
+        {
+            using namespace dst::vlkn;
+            create_effect_render_pass();
+            mEffectSampler = mDevice->create<Sampler>();
+            mEffectSemaphore = mDevice->create<Semaphore>();
+            mEffectCommandBuffer = mCommandPool->allocate<Command::Buffer>();
+            mExtractLuminanceEffect = create_effect_pipline(
+                1280, 720,
+                R"(
+
+                    #version 450
+
+                    layout(binding = 0) uniform sampler2D image;
+
+                    layout(location = 0) in vec2 fsTexCoord;
+
+                    layout(location = 0) out vec4 fragmentColor;
+
+                    layout(push_constant) uniform PushConstants
+                    {
+                        float threshold;
+                    } pushConstants;
+
+                    void main()
+                    {
+                        fragmentColor = texture(image, fsTexCoord);
+                        // fragmentColor.rgb =
+                        //     (fragmentColor.rgb - vec3(pushConstants.threshold)) /
+                        //     (vec3(1)           - vec3(pushConstants.threshold));
+                        fragmentColor.g += 1;
+                    }
+
+                )"
+            );
+        }
+
+        void create_effect_render_pass()
+        {
+            using namespace dst::vlkn;
+            std::array<VkAttachmentDescription, 2> attachmentDescriptions { };
+            VkAttachmentReference colorAttachmentReference { };
+            VkAttachmentReference depthAttachmentReference { };
+
+            attachmentDescriptions[0].format = mRenderPass->format();
+            attachmentDescriptions[0].samples = VK_SAMPLE_COUNT_1_BIT;
+            attachmentDescriptions[0].loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+            attachmentDescriptions[0].storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+            attachmentDescriptions[0].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+            attachmentDescriptions[0].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+            attachmentDescriptions[0].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+            attachmentDescriptions[0].finalLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+            colorAttachmentReference.attachment = 0;
+            colorAttachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
+            if (mRenderPass->depth_format()) {
+                attachmentDescriptions[1].format = mRenderPass->depth_format();
+                attachmentDescriptions[1].samples = VK_SAMPLE_COUNT_1_BIT;
+                attachmentDescriptions[1].loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+                attachmentDescriptions[1].storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+                attachmentDescriptions[1].stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+                attachmentDescriptions[1].stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+                attachmentDescriptions[1].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+                attachmentDescriptions[1].finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+                depthAttachmentReference.attachment = 1;
+                depthAttachmentReference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+            }
+
+            VkSubpassDescription subpassDescription { };
+            subpassDescription.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+            subpassDescription.colorAttachmentCount = 1;
+            subpassDescription.pColorAttachments = &colorAttachmentReference;
+            subpassDescription.pDepthStencilAttachment = mRenderPass->depth_format() ? &depthAttachmentReference : nullptr;
+
+            std::array<VkSubpassDependency, 2> dependencies { };
+            dependencies[0].srcSubpass = VK_SUBPASS_EXTERNAL;
+            dependencies[0].dstSubpass = 0;
+            dependencies[0].srcStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
+            dependencies[0].dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+            dependencies[0].srcAccessMask = VK_ACCESS_MEMORY_READ_BIT;
+            dependencies[0].dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+            dependencies[0].dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT;
+
+            dependencies[1].srcSubpass = 0;
+            dependencies[1].dstSubpass = VK_SUBPASS_EXTERNAL;
+            dependencies[1].srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+            dependencies[1].dstStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
+            dependencies[1].srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+            dependencies[1].dstAccessMask = VK_ACCESS_MEMORY_READ_BIT;
+            dependencies[1].dependencyFlags = VK_DEPENDENCY_BY_REGION_BIT;
+
+            auto renderPassInfo = RenderPass::CreateInfo;
+            renderPassInfo.attachmentCount = mRenderPass->depth_format() ? 2 : 1;
+            renderPassInfo.pAttachments = attachmentDescriptions.data();
+            renderPassInfo.subpassCount = 1;
+            renderPassInfo.pSubpasses = &subpassDescription;
+            renderPassInfo.dependencyCount = static_cast<uint32_t>(dependencies.size());
+            renderPassInfo.pDependencies = dependencies.data();
+            mEffectRenderPass = mDevice->create<RenderPass>(renderPassInfo);
+        }
+
+        EffectPipeline create_effect_pipline(uint32_t width, uint32_t height, const std::string& fragmentShaderSource)
+        {
+            using namespace dst::vlkn;
+            EffectPipeline effectPass { };
+
+            VkDescriptorSetLayoutBinding samplerBinding { };
+            samplerBinding.binding = 0;
+            samplerBinding.descriptorCount = 1;
+            samplerBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+            samplerBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+
+            auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
+            descriptorSetLayoutInfo.bindingCount = 1;
+            descriptorSetLayoutInfo.pBindings = &samplerBinding;
+            effectPass.descriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
+
+            VkPushConstantRange pushConstantRange { };
+            pushConstantRange.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+            pushConstantRange.size = static_cast<uint32_t>(sizeof(float));
+
+            auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
+            pipelineLayoutInfo.setLayoutCount = 1;
+            pipelineLayoutInfo.pSetLayouts = &effectPass.descriptorSetLayout->handle();
+            pipelineLayoutInfo.pushConstantRangeCount = 1;
+            pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange;
+            effectPass.pipelineLayout = mDevice->create<Pipeline::Layout>(pipelineLayoutInfo);
+
+            auto vertexShader = mDevice->create<ShaderModule>(
+                VK_SHADER_STAGE_VERTEX_BIT,
+                ShaderModule::Source::Code,
+                R"(
+
+                    #version 450
+
+                    layout(location = 0) out vec2 fsTexCoord;
+
+                    out gl_PerVertex
+                    {
+                        vec4 gl_Position;
+                    };
+
+                    void main()
+                    {
+                        fsTexCoord = vec2((gl_VertexIndex << 1) & 2, gl_VertexIndex & 2);
+                        gl_Position = vec4(fsTexCoord * 2 - 1, 0, 1);
+                    }
+
+                )"
+            );
+
+            auto fragmentShader = mDevice->create<ShaderModule>(
+                VK_SHADER_STAGE_FRAGMENT_BIT,
+                ShaderModule::Source::Code,
+                fragmentShaderSource
+            );
+
+            std::array<VkPipelineShaderStageCreateInfo, 2> shaderStages {
+                vertexShader->pipeline_stage_create_info(),
+                fragmentShader->pipeline_stage_create_info()
+            };
+
+            auto pipelineInfo = Pipeline::GraphicsCreateInfo;
+            pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
+            pipelineInfo.pStages = shaderStages.data();
+            pipelineInfo.layout = *effectPass.pipelineLayout;
+            pipelineInfo.renderPass = *mEffectRenderPass;
+            effectPass.pipeline = mDevice->create<Pipeline>(pipelineInfo);
+
+            effectPass.renderTarget = std::make_unique<RenderTarget>(*mEffectRenderPass, width, height, mEffectRenderPass->format(), mEffectRenderPass->depth_format());
+
+            VkDescriptorPoolSize descriptorPoolSize { };
+            descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+            descriptorPoolSize.descriptorCount = 1;
+            auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
+            descriptorPoolInfo.poolSizeCount = 1;
+            descriptorPoolInfo.pPoolSizes = &descriptorPoolSize;
+            descriptorPoolInfo.maxSets = 1;
+            effectPass.descriptorPool = mDevice->create<Descriptor::Pool>(descriptorPoolInfo);
+
+            auto descriptorSetInfo = Descriptor::Set::AllocateInfo;
+            descriptorSetInfo.descriptorPool = *effectPass.descriptorPool;
+            descriptorSetInfo.descriptorSetCount = 1;
+            descriptorSetInfo.pSetLayouts = &effectPass.descriptorSetLayout->handle();
+            effectPass.descriptorSet = effectPass.descriptorPool->allocate<Descriptor::Set>(descriptorSetInfo);
+
+            VkDescriptorImageInfo descriptorImageInfo { };
+            descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+            descriptorImageInfo.imageView = *effectPass.renderTarget->colorAttachment->view();
+            descriptorImageInfo.sampler = *mEffectSampler;
+            VkWriteDescriptorSet descriptorWrite { };
+            descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+            descriptorWrite.dstSet = *effectPass.descriptorSet;
+            descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+            descriptorWrite.descriptorCount = 1;
+            descriptorWrite.pImageInfo = &descriptorImageInfo;
+            vkUpdateDescriptorSets(*mDevice, 1, &descriptorWrite, 0, nullptr);
+
+            return effectPass;
         }
 
         void update(const dst::Clock& clock, const dst::Input& input) override final
@@ -126,10 +347,96 @@ namespace ShapeBlaster_ex {
             }
         }
 
+        void render(const dst::Clock& clock) override final
+        {
+            // NOTE : render(), record_command_buffer(), and mRecordCommandBuffers are dumb...
+            //        Recording needs to be handled in a more sensible way.  Application needs
+            //        to be refactored in general anyway.
+            using namespace dst::vlkn;
+            if (mSwapchain->valid() && mRecordCommandBuffers) {
+                mEffectCommandBuffer->begin();
+
+                std::array<VkClearValue, 2> clearValues;
+                clearValues[0].color = { 0, 0, 0, 0 };
+                clearValues[1].depthStencil = { 1, 0 };
+                auto renderPassBeginInfo = RenderPass::BeginInfo;
+                renderPassBeginInfo.renderPass = *mEffectRenderPass;
+                renderPassBeginInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
+                renderPassBeginInfo.pClearValues = clearValues.data();
+
+                VkExtent2D extent { };
+                extent.width = mExtractLuminanceEffect.renderTarget->extent().width;
+                extent.height = mExtractLuminanceEffect.renderTarget->extent().height;
+                renderPassBeginInfo.renderArea.extent = extent;
+                renderPassBeginInfo.framebuffer = *mExtractLuminanceEffect.renderTarget->framebuffer;
+                VkViewport viewport { };
+                viewport.width = static_cast<float>(extent.width);
+                viewport.height = static_cast<float>(extent.height);
+                viewport.minDepth = 0;
+                viewport.maxDepth = 1;
+                VkRect2D scissor { };
+                scissor.extent = extent;
+                mEffectCommandBuffer->begin_render_pass(renderPassBeginInfo);
+                mEffectCommandBuffer->set_viewport(viewport);
+                mEffectCommandBuffer->set_scissor(scissor);
+
+                for (auto& spritePool : mSpritePools) {
+                    spritePool.second->draw(*mEffectCommandBuffer);
+                }
+
+                mEffectCommandBuffer->end_render_pass();
+                mEffectCommandBuffer->end();
+            }
+        }
+
         void record_command_buffer(dst::vlkn::Command::Buffer& commandBuffer, const dst::Clock& clock) override final
         {
-            for (auto& spritePool : mSpritePools) {
-                spritePool.second->draw(commandBuffer);
+            vkCmdPushConstants(commandBuffer, *mExtractLuminanceEffect.pipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(float), &mExtractLuminanceThreshold);
+            commandBuffer.bind_descriptor_set(*mExtractLuminanceEffect.descriptorSet, *mExtractLuminanceEffect.pipelineLayout);
+            commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mExtractLuminanceEffect.pipeline);
+            commandBuffer.draw(3);
+        }
+
+        void submit_command_buffer() override final
+        {
+            // NOTE : Like render() and record_command_buffer(), submit_command_buffer()
+            //        needs to be reworked when Application is refactored...
+            using namespace dst::vlkn;
+            if (mSwapchain->valid()) {
+                auto submitInfo = Queue::SubmitInfo;
+                submitInfo.commandBufferCount = 1;
+                submitInfo.pCommandBuffers = &mEffectCommandBuffer->handle();
+                submitInfo.signalSemaphoreCount = 1;
+                submitInfo.pSignalSemaphores = &mEffectSemaphore->handle();
+                mGraphicsQueue->submit(submitInfo);
+
+                std::array<VkSemaphore, 2> waitSemaphores {
+                    *mEffectSemaphore,
+                    *mImageSemaphore,
+                };
+
+                std::array<VkPipelineStageFlags, 2> waitStages {
+                    VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
+                    VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT,
+                };
+
+                submitInfo = Queue::SubmitInfo;
+                submitInfo.waitSemaphoreCount = static_cast<uint32_t>(waitSemaphores.size());
+                submitInfo.pWaitSemaphores = waitSemaphores.data();
+                submitInfo.pWaitDstStageMask = waitStages.data();
+                submitInfo.commandBufferCount = 1;
+                submitInfo.pCommandBuffers = &mCommandPool->buffers()[mImageIndex]->handle();
+                submitInfo.signalSemaphoreCount = 1;
+                submitInfo.pSignalSemaphores = &mRenderSemaphore->handle();
+                mGraphicsQueue->submit(submitInfo);
+
+                auto presentInfo = Queue::PresentInfoKHR;
+                presentInfo.waitSemaphoreCount = 1;
+                presentInfo.pWaitSemaphores = &mRenderSemaphore->handle();
+                presentInfo.swapchainCount = 1;
+                presentInfo.pSwapchains = &mSwapchain->handle();
+                presentInfo.pImageIndices = &mImageIndex;
+                mPresentQueue->present(presentInfo);
             }
         }
     };

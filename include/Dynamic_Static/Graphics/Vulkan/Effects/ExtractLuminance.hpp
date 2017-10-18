@@ -10,29 +10,38 @@
 #pragma once
 
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Effect.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Descriptor.Set.Layout.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Pipeline.Layout.hpp"
+
+#include <utility>
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
     class ExtractLuminance final
-        : public Effect
     {
     public:
-        struct Settings final
-        {
-            float threshold { 0.25f };
-            float amount { 4 };
-            float bloomIntensity { 1.25f };
-            float baseIntensity { 1 };
-            float bloomSaturation { 1 };
-            float baseSaturation { 1 };
-        } settings;
+        static constexpr float ThresholdDefault { 0.25f };
+        static constexpr std::pair<float, float> ThresholdLimits { 0.0f, 1.0f };
+        float threshold { ThresholdDefault };
+
+    /* private: */
+        std::shared_ptr<RenderPass> mRenderPass;
+        std::shared_ptr<Descriptor::Set::Layout> mDescriptorSetLayout;
+        std::shared_ptr<Pipeline::Layout> mPipelineLayout;
+        std::shared_ptr<Pipeline> mPipeline;
+        std::unique_ptr<RenderTarget> mRenderTarget;
+        std::shared_ptr<Sampler> mSampler;
+        std::shared_ptr<Descriptor::Pool> mDescriptorPool;
+        Descriptor::Set* mDescriptorSet { nullptr };
 
     public:
         ExtractLuminance() = default;
-        ExtractLuminance(Device& device, uint32_t width, uint32_t height, VkFormat format);
+        ExtractLuminance(Device& device, RenderPass& renderPass, uint32_t width, uint32_t height);
+
+    private:
+        void create_render_pass(Device& device, RenderPass& renderPass);
     };
 
 } // namespace Vulkan

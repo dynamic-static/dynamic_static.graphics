@@ -87,42 +87,42 @@ namespace ShapeBlaster {
                 VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
             );
 
-            bloomExtract = ExtractLuminance(device, Width, Height, format);
+            // bloomExtract = ExtractLuminance(device, Width, Height, format);
         }
 
         void begin()
         {
-            using namespace dst::vlkn;
-
-            auto renderPassBeginInfo = RenderPass::BeginInfo;
-            const auto& renderTarget = *bloomExtract.renderTarget;
-            renderPassBeginInfo.renderPass = *bloomExtract.renderPass;
-            renderPassBeginInfo.framebuffer = *renderTarget.framebuffer;
-
-            VkExtent2D extent;
-            extent.width = renderTarget.extent().width;
-            extent.height = renderTarget.extent().height;
-            renderPassBeginInfo.renderArea.extent = extent;
-
-            std::array<VkClearValue, 2> clearValues;
-            clearValues[0].color = { 0, 0, 0, 0 };
-            clearValues[1].depthStencil = { 1, 0 };
-            renderPassBeginInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
-            renderPassBeginInfo.pClearValues = clearValues.data();
-
-            mCommandBuffer->begin();
-            mCommandBuffer->begin_render_pass(renderPassBeginInfo);
-
-            VkViewport viewport { };
-            viewport.width = static_cast<float>(extent.width);
-            viewport.height = static_cast<float>(extent.height);
-            viewport.minDepth = 0;
-            viewport.maxDepth = 1;
-            mCommandBuffer->set_viewport(viewport);
-            
-            VkRect2D scissor { };
-            scissor.extent = extent;
-            mCommandBuffer->set_scissor(scissor);
+            // using namespace dst::vlkn;
+            // 
+            // auto renderPassBeginInfo = RenderPass::BeginInfo;
+            // const auto& renderTarget = *bloomExtract.renderTarget;
+            // renderPassBeginInfo.renderPass = *bloomExtract.renderPass;
+            // renderPassBeginInfo.framebuffer = *renderTarget.framebuffer;
+            // 
+            // VkExtent2D extent;
+            // extent.width = renderTarget.extent().width;
+            // extent.height = renderTarget.extent().height;
+            // renderPassBeginInfo.renderArea.extent = extent;
+            // 
+            // std::array<VkClearValue, 2> clearValues;
+            // clearValues[0].color = { 0, 0, 0, 0 };
+            // clearValues[1].depthStencil = { 1, 0 };
+            // renderPassBeginInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
+            // renderPassBeginInfo.pClearValues = clearValues.data();
+            // 
+            // mCommandBuffer->begin();
+            // mCommandBuffer->begin_render_pass(renderPassBeginInfo);
+            // 
+            // VkViewport viewport { };
+            // viewport.width = static_cast<float>(extent.width);
+            // viewport.height = static_cast<float>(extent.height);
+            // viewport.minDepth = 0;
+            // viewport.maxDepth = 1;
+            // mCommandBuffer->set_viewport(viewport);
+            // 
+            // VkRect2D scissor { };
+            // scissor.extent = extent;
+            // mCommandBuffer->set_scissor(scissor);
         }
 
         void end()

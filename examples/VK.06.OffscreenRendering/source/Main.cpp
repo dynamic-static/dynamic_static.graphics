@@ -167,7 +167,7 @@ private:
         renderPassInfo.dependencyCount = static_cast<uint32_t>(dependencies.size());
         renderPassInfo.pDependencies = dependencies.data();
         mReflectionRenderPass = mDevice->create<RenderPass>(renderPassInfo);
-        mReflectionRenderTarget = std::make_unique<RenderTarget>(*mRenderPass, 1024, 1024);
+        mReflectionRenderTarget = std::make_unique<RenderTarget>(*mReflectionRenderPass, 1024, 1024);
         mSampler = mDevice->create<Sampler>();
     }
 
@@ -596,10 +596,10 @@ private:
 
     void render(const dst::Clock& clock) override
     {
-        using namespace dst::vlkn;
         // NOTE : render(), record_command_buffer(), and mRecordCommandBuffers are dumb...
         //        Recording needs to be handled in a more sensible way.  Application needs
         //        to be refactored in general anyway.
+        using namespace dst::vlkn;
         if (mSwapchain->valid() && mRecordCommandBuffers) {
             std::array<VkClearValue, 2> clearValues;
             clearValues[0].color = { 0, 0, 0, 0 };
