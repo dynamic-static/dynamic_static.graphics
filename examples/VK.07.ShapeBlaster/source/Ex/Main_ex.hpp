@@ -50,22 +50,43 @@ namespace ShapeBlaster_ex {
             dst::vlkn::Descriptor::Set* descriptorSet { nullptr };
         };
 
-        struct BlurSettings final
+        struct GaussianBlurSettings final
         {
             dst::Vector2 axis;
             float weight { 1 };
             float strength { 1.5f };
         } mBlurSettings;
 
-        struct BloomSettings final
+        struct BloomCombineSettings final
         {
             float bloomIntensity { 1.25f };
-            float baseIntensity { 0 };
-            float bloomSaturation { 0 };
-            float baseSaturation { 0 };
-        } mBloomSettings;
+            float baseIntensity { 1 };
+            float bloomSaturation { 1 };
+            float baseSaturation { 1 };
+        } mBloomCombineSettings;
 
         float mExtractLuminanceThreshold { 0.25f };
+
+        struct BloomSettings final
+        {
+            float threshold { 0.25f };
+
+            struct GaussianBlurSettings final
+            {
+                dst::Vector2 axis;
+                float weight { 1 };
+                float strength { 1.5f };
+            } gaussianBlur;
+
+            struct Combine final
+            {
+                float baseIntensity { 1 };
+                float baseSaturation { 1 };
+                float bloomIntensity { 1.25f };
+                float bloomSaturation { 1 };
+            } combine;
+        } mBloomSettings;
+
         std::shared_ptr<dst::vlkn::RenderPass> mEffectRenderPass;
         std::shared_ptr<dst::vlkn::Sampler> mEffectSampler;
         std::shared_ptr<dst::vlkn::Semaphore> mEffectSemaphore;
@@ -77,7 +98,6 @@ namespace ShapeBlaster_ex {
 
         std::string mGameStatusMessage;
         Sprite* mPointerSprite { nullptr };
-        // std::unique_ptr<dst::vlkn::Bloom> mBloom;
         Sprite::Pipeline mSpritePipeline;
         std::unordered_map<std::string, std::unique_ptr<Sprite::Pool>> mSpritePools;
         Entity::Spawner mEntitySpawner;
@@ -97,11 +117,11 @@ namespace ShapeBlaster_ex {
             mDebugFlags =
                 0
                 #if defined(DYNAMIC_STATIC_WINDOWS)
-                | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
-                | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-                | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-                | VK_DEBUG_REPORT_WARNING_BIT_EXT
-                | VK_DEBUG_REPORT_ERROR_BIT_EXT
+                // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+                // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+                // | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+                // | VK_DEBUG_REPORT_WARNING_BIT_EXT
+                // | VK_DEBUG_REPORT_ERROR_BIT_EXT
                 #endif
                 ;
         }
@@ -183,7 +203,7 @@ namespace ShapeBlaster_ex {
                 )"
             );
 
-            mGaussianBlurHorizontalEffect = create_effect_pipline<BlurSettings>(
+            mGaussianBlurHorizontalEffect = create_effect_pipline<GaussianBlurSettings>(
                 width, height, nullptr,
                 R"(
 
@@ -222,7 +242,7 @@ namespace ShapeBlaster_ex {
                 )"
             );
 
-            mGaussianBlurVerticalEffect = create_effect_pipline<BlurSettings>(
+            mGaussianBlurVerticalEffect = create_effect_pipline<GaussianBlurSettings>(
                 width, height, nullptr,
                 R"(
 
@@ -261,8 +281,8 @@ namespace ShapeBlaster_ex {
                 )"
             );
 
-            mBloomCombineEffect = create_effect_pipline<BloomSettings>(
-                width, height, nullptr,
+            mBloomCombineEffect = create_effect_pipline<BloomCombineSettings>(
+                width, height, mExtractLuminanceEffect.inputTarget.get(),
                 R"(
 
                     #version 450
@@ -293,9 +313,11 @@ namespace ShapeBlaster_ex {
                     {
                         vec4 base = texture(image, fsTexCoord);
                         vec4 bloom = texture(blurredLuminance, fsTexCoord);
-                        bloom = adjust_saturation(bloom, pushConstants.bloomSaturation) * pushConstants.bloomIntensity;
-                        base = adjust_saturation(bloom, pushConstants.baseSaturation) * pushConstants.baseIntensity;
-                        base *= (1 - clamp(bloom, 0, 1));
+                        // bloom = adjust_saturation(bloom, pushConstants.bloomSaturation) * pushConstants.bloomIntensity;
+                        // base = adjust_saturation(base, pushConstants.baseSaturation) * pushConstants.baseIntensity;
+                        // base *= (1 - clamp(bloom, 0, 1));
+                        bloom *= 1 - base.a;
+                        bloom.a *= 0.48;
                         fragmentColor = base + bloom;
                     }
 
@@ -456,7 +478,7 @@ namespace ShapeBlaster_ex {
 
             VkDescriptorPoolSize descriptorPoolSize { };
             descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            descriptorPoolSize.descriptorCount = 1;
+            descriptorPoolSize.descriptorCount = (input ? 2 : 1);
             auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
             descriptorPoolInfo.poolSizeCount = 1;
             descriptorPoolInfo.pPoolSizes = &descriptorPoolSize;
@@ -549,14 +571,14 @@ namespace ShapeBlaster_ex {
                 mEffectCommandBuffer->end_render_pass();
 
                 begin_effect_render_pass(*mGaussianBlurVerticalEffect.inputTarget);
-                vkCmdPushConstants(*mEffectCommandBuffer, *mGaussianBlurHorizontalEffect.pipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(BlurSettings), &mBlurSettings);
+                vkCmdPushConstants(*mEffectCommandBuffer, *mGaussianBlurHorizontalEffect.pipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(GaussianBlurSettings), &mBlurSettings);
                 mEffectCommandBuffer->bind_descriptor_set(*mGaussianBlurHorizontalEffect.descriptorSet, *mGaussianBlurHorizontalEffect.pipelineLayout);
                 mEffectCommandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mGaussianBlurHorizontalEffect.pipeline);
                 mEffectCommandBuffer->draw(3);
                 mEffectCommandBuffer->end_render_pass();
 
                 begin_effect_render_pass(*mBloomCombineEffect.inputTarget);
-                vkCmdPushConstants(*mEffectCommandBuffer, *mGaussianBlurVerticalEffect.pipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(BlurSettings), &mBlurSettings);
+                vkCmdPushConstants(*mEffectCommandBuffer, *mGaussianBlurVerticalEffect.pipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(GaussianBlurSettings), &mBlurSettings);
                 mEffectCommandBuffer->bind_descriptor_set(*mGaussianBlurVerticalEffect.descriptorSet, *mGaussianBlurVerticalEffect.pipelineLayout);
                 mEffectCommandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mGaussianBlurVerticalEffect.pipeline);
                 mEffectCommandBuffer->draw(3);
@@ -596,7 +618,7 @@ namespace ShapeBlaster_ex {
 
         void record_command_buffer(dst::vlkn::Command::Buffer& commandBuffer, const dst::Clock& clock) override final
         {
-            vkCmdPushConstants(commandBuffer, *mBloomCombineEffect.pipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(BloomSettings), &mBloomSettings);
+            vkCmdPushConstants(commandBuffer, *mBloomCombineEffect.pipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(BloomCombineSettings), &mBloomCombineSettings);
             commandBuffer.bind_descriptor_set(*mBloomCombineEffect.descriptorSet, *mBloomCombineEffect.pipelineLayout);
             commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mBloomCombineEffect.pipeline);
             commandBuffer.draw(3);
