@@ -42,7 +42,7 @@ namespace ShapeBlaster_ex {
     private:
         struct EffectPipeline final
         {
-            std::shared_ptr<dst::vlkn::RenderTarget> renderTarget;
+            std::shared_ptr<dst::vlkn::RenderTarget> inputTarget;
             std::shared_ptr<dst::vlkn::Descriptor::Set::Layout> descriptorSetLayout;
             std::shared_ptr<dst::vlkn::Pipeline::Layout> pipelineLayout;
             std::shared_ptr<dst::vlkn::Pipeline> pipeline;
@@ -50,12 +50,30 @@ namespace ShapeBlaster_ex {
             dst::vlkn::Descriptor::Set* descriptorSet { nullptr };
         };
 
+        struct BlurSettings final
+        {
+            dst::Vector2 axis;
+            float weight { 1 };
+            float strength { 1.5f };
+        } mBlurSettings;
+
+        struct BloomSettings final
+        {
+            float bloomIntensity { 1.25f };
+            float baseIntensity { 0 };
+            float bloomSaturation { 0 };
+            float baseSaturation { 0 };
+        } mBloomSettings;
+
+        float mExtractLuminanceThreshold { 0.25f };
         std::shared_ptr<dst::vlkn::RenderPass> mEffectRenderPass;
         std::shared_ptr<dst::vlkn::Sampler> mEffectSampler;
         std::shared_ptr<dst::vlkn::Semaphore> mEffectSemaphore;
         dst::vlkn::Command::Buffer* mEffectCommandBuffer { nullptr };
         EffectPipeline mExtractLuminanceEffect;
-        float mExtractLuminanceThreshold { 0.25f };
+        EffectPipeline mGaussianBlurHorizontalEffect;
+        EffectPipeline mGaussianBlurVerticalEffect;
+        EffectPipeline mBloomCombineEffect;
 
         std::string mGameStatusMessage;
         Sprite* mPointerSprite { nullptr };
@@ -79,11 +97,11 @@ namespace ShapeBlaster_ex {
             mDebugFlags =
                 0
                 #if defined(DYNAMIC_STATIC_WINDOWS)
-                // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
-                // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-                // | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-                // | VK_DEBUG_REPORT_WARNING_BIT_EXT
-                // | VK_DEBUG_REPORT_ERROR_BIT_EXT
+                | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+                | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+                | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+                | VK_DEBUG_REPORT_WARNING_BIT_EXT
+                | VK_DEBUG_REPORT_ERROR_BIT_EXT
                 #endif
                 ;
         }
@@ -134,8 +152,11 @@ namespace ShapeBlaster_ex {
             mEffectSampler = mDevice->create<Sampler>();
             mEffectSemaphore = mDevice->create<Semaphore>();
             mEffectCommandBuffer = mCommandPool->allocate<Command::Buffer>();
-            mExtractLuminanceEffect = create_effect_pipline(
-                1280, 720,
+            uint32_t width = 1280;
+            uint32_t height = 720;
+
+            mExtractLuminanceEffect = create_effect_pipline<float>(
+                width, height, nullptr,
                 R"(
 
                     #version 450
@@ -154,10 +175,128 @@ namespace ShapeBlaster_ex {
                     void main()
                     {
                         fragmentColor = texture(image, fsTexCoord);
-                        // fragmentColor.rgb =
-                        //     (fragmentColor.rgb - vec3(pushConstants.threshold)) /
-                        //     (vec3(1)           - vec3(pushConstants.threshold));
-                        fragmentColor.g += 1;
+                        fragmentColor.rgb =
+                            (fragmentColor.rgb - vec3(pushConstants.threshold)) /
+                            (vec3(1)           - vec3(pushConstants.threshold));
+                    }
+
+                )"
+            );
+
+            mGaussianBlurHorizontalEffect = create_effect_pipline<BlurSettings>(
+                width, height, nullptr,
+                R"(
+
+                    #version 450
+
+                    layout(binding = 0) uniform sampler2D image;
+
+                    layout(location = 0) in vec2 fsTexCoord;
+
+                    layout(location = 0) out vec4 fragmentColor;
+
+                    layout(push_constant) uniform PushConstants
+                    {
+                        vec2 axis;
+                        float scale;
+                        float strength;
+                    } pushConstants;
+
+                    void main()
+                    {
+                        float weight[5];
+                        weight[0] = 0.227027;
+                        weight[1] = 0.1945946;
+                        weight[2] = 0.1216216;
+                        weight[3] = 0.054054;
+                        weight[4] = 0.016216;
+
+                        vec2 texelSize = 1.0 / textureSize(image, 0) * pushConstants.scale;
+                        fragmentColor = texture(image, fsTexCoord) * weight[0];
+                        for (int i = 1; i < 5; ++i) {
+                            fragmentColor += texture(image, fsTexCoord + vec2(texelSize.x * i, 0)) * weight[i] * pushConstants.strength;
+                            fragmentColor += texture(image, fsTexCoord - vec2(texelSize.x * i, 0)) * weight[i] * pushConstants.strength;
+                        }
+                    }
+
+                )"
+            );
+
+            mGaussianBlurVerticalEffect = create_effect_pipline<BlurSettings>(
+                width, height, nullptr,
+                R"(
+
+                    #version 450
+
+                    layout(binding = 0) uniform sampler2D image;
+
+                    layout(location = 0) in vec2 fsTexCoord;
+
+                    layout(location = 0) out vec4 fragmentColor;
+
+                    layout(push_constant) uniform PushConstants
+                    {
+                        vec2 axis;
+                        float scale;
+                        float strength;
+                    } pushConstants;
+
+                    void main()
+                    {
+                        float weight[5];
+                        weight[0] = 0.227027;
+                        weight[1] = 0.1945946;
+                        weight[2] = 0.1216216;
+                        weight[3] = 0.054054;
+                        weight[4] = 0.016216;
+
+                        vec2 texelSize = 1.0 / textureSize(image, 0) * pushConstants.scale;
+                        fragmentColor = texture(image, fsTexCoord) * weight[0];
+                        for (int i = 1; i < 5; ++i) {
+                            fragmentColor += texture(image, fsTexCoord + vec2(0, texelSize.x * i)) * weight[i] * pushConstants.strength;
+                            fragmentColor += texture(image, fsTexCoord - vec2(0, texelSize.x * i)) * weight[i] * pushConstants.strength;
+                        }
+                    }
+
+                )"
+            );
+
+            mBloomCombineEffect = create_effect_pipline<BloomSettings>(
+                width, height, nullptr,
+                R"(
+
+                    #version 450
+
+                    layout(binding = 0) uniform sampler2D image;
+                    layout(binding = 1) uniform sampler2D blurredLuminance;
+
+                    layout(location = 0) in vec2 fsTexCoord;
+
+                    layout(location = 0) out vec4 fragmentColor;
+
+                    layout(push_constant) uniform PushConstants
+                    {
+                        float bloomIntensity;
+                        float baseIntensity;
+                        float bloomSaturation;
+                        float baseSaturation;
+                    } pushConstants;
+
+                    vec4 adjust_saturation(vec4 color, float saturation)
+                    {
+                        float grey = dot(color.rgb, vec3(0.3, 0.59, 0.11));
+                        color.rgb = mix(vec3(grey), color.rgb, saturation);
+                        return color;
+                    }
+
+                    void main()
+                    {
+                        vec4 base = texture(image, fsTexCoord);
+                        vec4 bloom = texture(blurredLuminance, fsTexCoord);
+                        bloom = adjust_saturation(bloom, pushConstants.bloomSaturation) * pushConstants.bloomIntensity;
+                        base = adjust_saturation(bloom, pushConstants.baseSaturation) * pushConstants.baseIntensity;
+                        base *= (1 - clamp(bloom, 0, 1));
+                        fragmentColor = base + bloom;
                     }
 
                 )"
@@ -228,25 +367,42 @@ namespace ShapeBlaster_ex {
             mEffectRenderPass = mDevice->create<RenderPass>(renderPassInfo);
         }
 
-        EffectPipeline create_effect_pipline(uint32_t width, uint32_t height, const std::string& fragmentShaderSource)
+        template <typename PushConstantType>
+        EffectPipeline create_effect_pipline(
+            uint32_t width,
+            uint32_t height,
+            dst::vlkn::RenderTarget* input,
+            const std::string& fragmentShaderSource
+        )
         {
             using namespace dst::vlkn;
             EffectPipeline effectPass { };
 
-            VkDescriptorSetLayoutBinding samplerBinding { };
-            samplerBinding.binding = 0;
-            samplerBinding.descriptorCount = 1;
-            samplerBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            samplerBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+            VkDescriptorSetLayoutBinding samplerBinding0 { };
+            samplerBinding0.binding = 0;
+            samplerBinding0.descriptorCount = 1;
+            samplerBinding0.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+            samplerBinding0.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+
+            VkDescriptorSetLayoutBinding samplerBinding1 { };
+            samplerBinding1.binding = 1;
+            samplerBinding1.descriptorCount = 1;
+            samplerBinding1.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+            samplerBinding1.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+
+            std::array<VkDescriptorSetLayoutBinding, 2> samplerBindings {
+                samplerBinding0,
+                samplerBinding1,
+            };
 
             auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
-            descriptorSetLayoutInfo.bindingCount = 1;
-            descriptorSetLayoutInfo.pBindings = &samplerBinding;
+            descriptorSetLayoutInfo.bindingCount = (input ? 2 : 1);
+            descriptorSetLayoutInfo.pBindings = samplerBindings.data();
             effectPass.descriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
 
             VkPushConstantRange pushConstantRange { };
             pushConstantRange.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
-            pushConstantRange.size = static_cast<uint32_t>(sizeof(float));
+            pushConstantRange.size = static_cast<uint32_t>(sizeof(PushConstantType));
 
             auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
             pipelineLayoutInfo.setLayoutCount = 1;
@@ -296,7 +452,7 @@ namespace ShapeBlaster_ex {
             pipelineInfo.renderPass = *mEffectRenderPass;
             effectPass.pipeline = mDevice->create<Pipeline>(pipelineInfo);
 
-            effectPass.renderTarget = std::make_unique<RenderTarget>(*mEffectRenderPass, width, height, mEffectRenderPass->format(), mEffectRenderPass->depth_format());
+            effectPass.inputTarget = std::make_unique<RenderTarget>(*mEffectRenderPass, width, height, mEffectRenderPass->format(), mEffectRenderPass->depth_format());
 
             VkDescriptorPoolSize descriptorPoolSize { };
             descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
@@ -313,17 +469,40 @@ namespace ShapeBlaster_ex {
             descriptorSetInfo.pSetLayouts = &effectPass.descriptorSetLayout->handle();
             effectPass.descriptorSet = effectPass.descriptorPool->allocate<Descriptor::Set>(descriptorSetInfo);
 
-            VkDescriptorImageInfo descriptorImageInfo { };
-            descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-            descriptorImageInfo.imageView = *effectPass.renderTarget->colorAttachment->view();
-            descriptorImageInfo.sampler = *mEffectSampler;
-            VkWriteDescriptorSet descriptorWrite { };
-            descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-            descriptorWrite.dstSet = *effectPass.descriptorSet;
-            descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            descriptorWrite.descriptorCount = 1;
-            descriptorWrite.pImageInfo = &descriptorImageInfo;
-            vkUpdateDescriptorSets(*mDevice, 1, &descriptorWrite, 0, nullptr);
+            VkDescriptorImageInfo descriptorImageInfo0 { };
+            descriptorImageInfo0.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+            descriptorImageInfo0.imageView = *effectPass.inputTarget->colorAttachment->view();
+            descriptorImageInfo0.sampler = *mEffectSampler;
+
+            VkWriteDescriptorSet descriptorWrite0 { };
+            descriptorWrite0.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+            descriptorWrite0.dstBinding = 0;
+            descriptorWrite0.dstSet = *effectPass.descriptorSet;
+            descriptorWrite0.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+            descriptorWrite0.descriptorCount = 1;
+            descriptorWrite0.pImageInfo = &descriptorImageInfo0;
+
+            VkDescriptorImageInfo descriptorImageInfo1 { };
+            descriptorImageInfo1.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+            descriptorImageInfo1.sampler = *mEffectSampler;
+            if (input) {
+                descriptorImageInfo1.imageView = *input->colorAttachment->view();
+            }
+
+            VkWriteDescriptorSet descriptorWrite1 { };
+            descriptorWrite1.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+            descriptorWrite1.dstBinding = 1;
+            descriptorWrite1.dstSet = *effectPass.descriptorSet;
+            descriptorWrite1.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+            descriptorWrite1.descriptorCount = 1;
+            descriptorWrite1.pImageInfo = &descriptorImageInfo1;
+
+            std::array<VkWriteDescriptorSet, 2> descriptorWrites {
+                descriptorWrite0,
+                descriptorWrite1,
+            };
+
+            vkUpdateDescriptorSets(*mDevice, (input ? 2 : 1), descriptorWrites.data(), 0, nullptr);
 
             return effectPass;
         }
@@ -356,44 +535,70 @@ namespace ShapeBlaster_ex {
             if (mSwapchain->valid() && mRecordCommandBuffers) {
                 mEffectCommandBuffer->begin();
 
-                std::array<VkClearValue, 2> clearValues;
-                clearValues[0].color = { 0, 0, 0, 0 };
-                clearValues[1].depthStencil = { 1, 0 };
-                auto renderPassBeginInfo = RenderPass::BeginInfo;
-                renderPassBeginInfo.renderPass = *mEffectRenderPass;
-                renderPassBeginInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
-                renderPassBeginInfo.pClearValues = clearValues.data();
-
-                VkExtent2D extent { };
-                extent.width = mExtractLuminanceEffect.renderTarget->extent().width;
-                extent.height = mExtractLuminanceEffect.renderTarget->extent().height;
-                renderPassBeginInfo.renderArea.extent = extent;
-                renderPassBeginInfo.framebuffer = *mExtractLuminanceEffect.renderTarget->framebuffer;
-                VkViewport viewport { };
-                viewport.width = static_cast<float>(extent.width);
-                viewport.height = static_cast<float>(extent.height);
-                viewport.minDepth = 0;
-                viewport.maxDepth = 1;
-                VkRect2D scissor { };
-                scissor.extent = extent;
-                mEffectCommandBuffer->begin_render_pass(renderPassBeginInfo);
-                mEffectCommandBuffer->set_viewport(viewport);
-                mEffectCommandBuffer->set_scissor(scissor);
-
+                begin_effect_render_pass(*mExtractLuminanceEffect.inputTarget);
                 for (auto& spritePool : mSpritePools) {
                     spritePool.second->draw(*mEffectCommandBuffer);
                 }
-
                 mEffectCommandBuffer->end_render_pass();
+
+                begin_effect_render_pass(*mGaussianBlurHorizontalEffect.inputTarget);
+                vkCmdPushConstants(*mEffectCommandBuffer, *mExtractLuminanceEffect.pipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(float), &mExtractLuminanceThreshold);
+                mEffectCommandBuffer->bind_descriptor_set(*mExtractLuminanceEffect.descriptorSet, *mExtractLuminanceEffect.pipelineLayout);
+                mEffectCommandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mExtractLuminanceEffect.pipeline);
+                mEffectCommandBuffer->draw(3);
+                mEffectCommandBuffer->end_render_pass();
+
+                begin_effect_render_pass(*mGaussianBlurVerticalEffect.inputTarget);
+                vkCmdPushConstants(*mEffectCommandBuffer, *mGaussianBlurHorizontalEffect.pipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(BlurSettings), &mBlurSettings);
+                mEffectCommandBuffer->bind_descriptor_set(*mGaussianBlurHorizontalEffect.descriptorSet, *mGaussianBlurHorizontalEffect.pipelineLayout);
+                mEffectCommandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mGaussianBlurHorizontalEffect.pipeline);
+                mEffectCommandBuffer->draw(3);
+                mEffectCommandBuffer->end_render_pass();
+
+                begin_effect_render_pass(*mBloomCombineEffect.inputTarget);
+                vkCmdPushConstants(*mEffectCommandBuffer, *mGaussianBlurVerticalEffect.pipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(BlurSettings), &mBlurSettings);
+                mEffectCommandBuffer->bind_descriptor_set(*mGaussianBlurVerticalEffect.descriptorSet, *mGaussianBlurVerticalEffect.pipelineLayout);
+                mEffectCommandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mGaussianBlurVerticalEffect.pipeline);
+                mEffectCommandBuffer->draw(3);
+                mEffectCommandBuffer->end_render_pass();
+
                 mEffectCommandBuffer->end();
             }
         }
 
+        void begin_effect_render_pass(const dst::vlkn::RenderTarget& renderTarget)
+        {
+            using namespace dst::vlkn;
+            std::array<VkClearValue, 2> clearValues;
+            clearValues[0].color = { 0, 0, 0, 0 };
+            clearValues[1].depthStencil = { 1, 0 };
+            auto renderPassBeginInfo = RenderPass::BeginInfo;
+            renderPassBeginInfo.renderPass = *mEffectRenderPass;
+            renderPassBeginInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
+            renderPassBeginInfo.pClearValues = clearValues.data();
+
+            VkExtent2D extent { };
+            extent.width = renderTarget.extent().width;
+            extent.height = renderTarget.extent().height;
+            renderPassBeginInfo.renderArea.extent = extent;
+            renderPassBeginInfo.framebuffer = *renderTarget.framebuffer;
+            VkViewport viewport { };
+            viewport.width = static_cast<float>(extent.width);
+            viewport.height = static_cast<float>(extent.height);
+            viewport.minDepth = 0;
+            viewport.maxDepth = 1;
+            VkRect2D scissor { };
+            scissor.extent = extent;
+            mEffectCommandBuffer->begin_render_pass(renderPassBeginInfo);
+            mEffectCommandBuffer->set_viewport(viewport);
+            mEffectCommandBuffer->set_scissor(scissor);
+        }
+
         void record_command_buffer(dst::vlkn::Command::Buffer& commandBuffer, const dst::Clock& clock) override final
         {
-            vkCmdPushConstants(commandBuffer, *mExtractLuminanceEffect.pipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(float), &mExtractLuminanceThreshold);
-            commandBuffer.bind_descriptor_set(*mExtractLuminanceEffect.descriptorSet, *mExtractLuminanceEffect.pipelineLayout);
-            commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mExtractLuminanceEffect.pipeline);
+            vkCmdPushConstants(commandBuffer, *mBloomCombineEffect.pipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(BloomSettings), &mBloomSettings);
+            commandBuffer.bind_descriptor_set(*mBloomCombineEffect.descriptorSet, *mBloomCombineEffect.pipelineLayout);
+            commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mBloomCombineEffect.pipeline);
             commandBuffer.draw(3);
         }
 
