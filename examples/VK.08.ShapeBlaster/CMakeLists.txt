@@ -1,7 +1,7 @@
 
-# CMake configuration for Example.VK.07.ShapeBlaster
+# CMake configuration for Example.VK.08.ShapeBlaster
 
-set(DST_GFX_EXAMPLE Example.VK.07.ShapeBlaster)
+set(DST_GFX_EXAMPLE Example.VK.08.ShapeBlaster)
 
 set(INCLUDE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 set(INCLUDE_FILES

@@ -112,7 +112,7 @@ namespace ShapeBlaster_ex {
     public:
         Game()
         {
-            name("Dynamic_Static VK.07.ShapeBlaster");
+            name("Dynamic_Static VK.08.ShapeBlaster");
             mClearColor = dst::Color::Black;
             mDebugFlags =
                 0
@@ -273,8 +273,8 @@ namespace ShapeBlaster_ex {
                         vec2 texelSize = 1.0 / textureSize(image, 0) * pushConstants.scale;
                         fragmentColor = texture(image, fsTexCoord) * weight[0];
                         for (int i = 1; i < 5; ++i) {
-                            fragmentColor += texture(image, fsTexCoord + vec2(0, texelSize.x * i)) * weight[i] * pushConstants.strength;
-                            fragmentColor += texture(image, fsTexCoord - vec2(0, texelSize.x * i)) * weight[i] * pushConstants.strength;
+                            fragmentColor += texture(image, fsTexCoord + vec2(0, texelSize.y * i)) * weight[i] * pushConstants.strength;
+                            fragmentColor += texture(image, fsTexCoord - vec2(0, texelSize.y * i)) * weight[i] * pushConstants.strength;
                         }
                     }
 
@@ -536,7 +536,7 @@ namespace ShapeBlaster_ex {
             }
 
             mGameStatusMessage = "Hi Score : 0";
-            mWindow->name("Dynamic_Static VK.07.ShapeBlaster        " + mGameStatusMessage);
+            mWindow->name("Dynamic_Static VK.08.ShapeBlaster        " + mGameStatusMessage);
             auto extent = mSwapchain->extent();
             auto playArea = dst::Vector2(extent.width, extent.height);
             mPointerSprite->position = input.mouse().position();
