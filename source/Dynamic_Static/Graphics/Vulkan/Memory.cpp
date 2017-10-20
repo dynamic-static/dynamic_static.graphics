@@ -85,8 +85,10 @@ namespace Vulkan {
         //        coherent with VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, or calling
         //        vkFlushMappedMemoryRanges after writing the mapped memory and
         //        vkInvalidateMappedMemoryRanges() before reading from the mapped memory.
-        vkUnmapMemory(device(), mHandle);
-        mMappedPtr = nullptr;
+        if (mMappedPtr) {
+            vkUnmapMemory(device(), mHandle);
+            mMappedPtr = nullptr;
+        }
     }
 
 } // namespace Vulkan

@@ -105,6 +105,11 @@ namespace Vulkan {
          */
         void unmap();
 
+        /**
+         * TODO : Documentation.
+         */
+        void flush();
+
     private:
         void initialize(
             const VkBufferCreateInfo& info,

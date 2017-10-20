@@ -27,6 +27,7 @@
 #include "Dynamic_Static/Core/FileSystem.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Effects/Bloom.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/ImGui/ImGui.hpp"
 
 #include <memory>
 #include <stdexcept>
@@ -96,6 +97,7 @@ namespace ShapeBlaster_ex {
         EffectPipeline mGaussianBlurVerticalEffect;
         EffectPipeline mBloomCombineEffect;
 
+        dst::vlkn::ImGUI mGui;
         std::string mGameStatusMessage;
         Sprite* mPointerSprite { nullptr };
         Sprite::Pipeline mSpritePipeline;
@@ -151,6 +153,9 @@ namespace ShapeBlaster_ex {
         {
             dst::vlkn::Application::setup();
             mWindow->cursor_mode(dst::gfx::Window::CursorMode::Hidden);
+            mGui = dst::vlkn::ImGUI(*mDevice, *mRenderPass, *mGraphicsQueue);
+            ImGui::GetIO().DisplaySize = ImVec2(1280, 720);
+            ImGui::GetIO().DisplayFramebufferScale = ImVec2(1, 1);
 
             mSpritePipeline = Sprite::Pipeline(*mDevice, *mRenderPass);
             mPointerSprite = create_sprite_pool("Pointer", 1)->check_out();
@@ -539,12 +544,22 @@ namespace ShapeBlaster_ex {
             mWindow->name("Dynamic_Static VK.08.ShapeBlaster        " + mGameStatusMessage);
             auto extent = mSwapchain->extent();
             auto playArea = dst::Vector2(extent.width, extent.height);
+
+            mGui.begin_frame(clock, input, playArea);
             mPointerSprite->position = input.mouse().position();
             mPointerSprite->position.y = playArea.y - mPointerSprite->position.y;
+            mPointerSprite->position.x += mPointerSprite->image->extent().width * 0.5f;
+            mPointerSprite->position.y -= mPointerSprite->image->extent().height * 0.5f;
             mEntityManager.update(clock, input, playArea);
             mEntitySpawner.update(clock, playArea, mEntityManager);
             for (auto& spritePool : mSpritePools) {
                 spritePool.second->update(playArea);
+            }
+
+            ImGui::ShowTestWindow();
+
+            if (mGui.end_frame()) {
+                force_record_command_buffers();
             }
         }
 
@@ -559,7 +574,9 @@ namespace ShapeBlaster_ex {
 
                 begin_effect_render_pass(*mExtractLuminanceEffect.inputTarget);
                 for (auto& spritePool : mSpritePools) {
-                    spritePool.second->draw(*mEffectCommandBuffer);
+                    if (spritePool.first != "Pointer") {
+                        spritePool.second->draw(*mEffectCommandBuffer);
+                    }
                 }
                 mEffectCommandBuffer->end_render_pass();
 
@@ -622,6 +639,26 @@ namespace ShapeBlaster_ex {
             commandBuffer.bind_descriptor_set(*mBloomCombineEffect.descriptorSet, *mBloomCombineEffect.pipelineLayout);
             commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mBloomCombineEffect.pipeline);
             commandBuffer.draw(3);
+
+            mGui.draw(commandBuffer);
+
+            VkExtent2D extent { };
+            extent.width = mSwapchain->extent().width;
+            extent.height = mSwapchain->extent().height;
+            VkViewport viewport { };
+            viewport.width = static_cast<float>(extent.width);
+            viewport.height = static_cast<float>(extent.height);
+            viewport.minDepth = 0;
+            viewport.maxDepth = 1;
+            VkRect2D scissor { };
+            scissor.extent = extent;
+            commandBuffer.set_viewport(viewport);
+            commandBuffer.set_scissor(scissor);
+
+            auto itr = mSpritePools.find("Pointer");
+            if (itr != mSpritePools.end()) {
+                itr->second->draw(commandBuffer);
+            }
         }
 
         void submit_command_buffer() override final

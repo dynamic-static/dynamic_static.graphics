@@ -290,6 +290,11 @@ namespace Vulkan {
         mDevice->wait_idle();
     }
 
+    void Application::force_record_command_buffers()
+    {
+        mRecordCommandBuffers = true;
+    }
+
     void Application::create_device()
     {
         std::vector<std::string> deviceLayers;
@@ -315,6 +320,7 @@ namespace Vulkan {
 
     void Application::record_command_buffer(Command::Buffer& commandBuffer, const dst::Clock& clock)
     {
+
     }
 
     void Application::submit_command_buffer()

@@ -92,6 +92,11 @@ namespace Vulkan {
          */
         virtual void shutdown() override;
 
+        /**
+         * TODO : Documentation.
+         */
+        void force_record_command_buffers();
+
     protected:
         /**
          * TODO : Documentation.

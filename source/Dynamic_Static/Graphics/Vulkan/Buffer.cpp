@@ -66,9 +66,19 @@ namespace Vulkan {
         mMemory->unmap();
     }
 
+    void Buffer::flush()
+    {
+        VkMappedMemoryRange mappedRange { };
+        mappedRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
+        mappedRange.memory = *mMemory;
+        mappedRange.offset = 0;
+        mappedRange.size = mMemory->size();
+        validate(vkFlushMappedMemoryRanges(device(), 1, &mappedRange));
+    }
+
     void Buffer::initialize(const VkBufferCreateInfo& info, VkMemoryPropertyFlags memoryPropertyFlags)
     {
-        validate(vkCreateBuffer(DeviceChild::device(), &info, nullptr, &mHandle));
+        validate(vkCreateBuffer(device(), &info, nullptr, &mHandle));
         name("Buffer");
 
         auto memoryRequirements = memory_requirements();

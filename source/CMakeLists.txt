@@ -9,6 +9,7 @@ set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/Vulkan/Effects/BloomCombine.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Effects/ExtractLuminance.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Effects/GaussianBlur.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/ImGui/ImGui.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Primitives/Box.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Primitives/Quad.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/VertexTypes/VertexPositionColor.hpp
@@ -75,6 +76,7 @@ set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/Vulkan/Effects/BloomCombine.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Effects/ExtractLuminance.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Effects/GaussianBlur.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/ImGui/ImGui.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Primitives/Box.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Primitives/Quad.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/Application.cpp
@@ -133,6 +135,7 @@ include_directories(
     ${GLFW_INCLUDE}
     ${GLEW_INCLUDE}
     ${glslang_INCLUDE}
+    ${DST_GFX_EXTERNAL_INCLUDE_PATHS}
 )
 
 if (MSVC)
@@ -175,7 +178,16 @@ else()
     )
 endif()
 
-add_library(Dynamic_Static.Graphics ${INCLUDE_FILES} ${SOURCE_FILES})
+message("== EXTERNAL INCLUDE : ${DST_GFX_EXTERNAL_INCLUDE_FILES}")
+message("== EXTERNAL SOURCE : ${DST_GFX_EXTERNAL_SOURCE_FILES}")
+
+add_library(Dynamic_Static.Graphics
+    ${INCLUDE_FILES}
+    ${SOURCE_FILES}
+    ${DST_GFX_EXTERNAL_INCLUDE_FILES}
+    ${DST_GFX_EXTERNAL_SOURCE_FILES}
+)
+
 set_target_properties(Dynamic_Static.Graphics PROPERTIES PREFIX "")
 add_dependencies(Dynamic_Static.Graphics GLFW)
 add_dependencies(Dynamic_Static.Graphics glslang)

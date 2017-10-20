@@ -61,6 +61,42 @@ namespace Vulkan {
     /**
      * TODO : Documentation.
      */
+    template <typename T, size_t Size>
+    struct VertexAttribute final
+    {
+    };
+
+    /**
+     * TODO : Documentation.
+     */
+    template <typename ...VertexAttributeTypes>
+    inline std::array<VkVertexInputAttributeDescription, sizeof...(VertexAttributeTypes)>
+        create_attribute_descriptions_ex(uint32_t binding = 0)
+    {
+        // TODO : All uses of create_attribute_descriptions() need to be replaced with _ex().
+        size_t offset = 0;
+        std::array<size_t, sizeof...(VertexAttributeTypes)> sizes { sizeof(VertexAttributeTypes)... };
+        std::array<VkVertexInputAttributeDescription, sizeof...(VertexAttributeTypes)> descriptions { };
+        for (size_t i = 0; i < descriptions.size(); ++i) {
+            descriptions[i].binding = binding;
+            descriptions[i].location = static_cast<uint32_t>(i);
+            descriptions[i].offset = static_cast<uint32_t>(offset);
+            switch (sizes[i]) {
+                case sizeof(float) : descriptions[i].format = VK_FORMAT_R32_SFLOAT; break;
+                case sizeof(Vector2) : descriptions[i].format = VK_FORMAT_R32G32_SFLOAT; break;
+                case sizeof(Vector3) : descriptions[i].format = VK_FORMAT_R32G32B32_SFLOAT; break;
+                case sizeof(Vector4) : descriptions[i].format = VK_FORMAT_R32G32B32A32_SFLOAT; break;
+            }
+
+            offset += sizes[i];
+        }
+
+        return descriptions;
+    }
+
+    /**
+     * TODO : Documentation.
+     */
     template <typename VertexType>
     inline auto attribute_descriptions(uint32_t binding = 0)
     {
