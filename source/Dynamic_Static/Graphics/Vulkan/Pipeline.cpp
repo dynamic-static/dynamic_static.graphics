@@ -21,7 +21,17 @@ namespace Vulkan {
         : DeviceChild(device)
     {
         validate(vkCreateGraphicsPipelines(DeviceChild::device(), VK_NULL_HANDLE, 1, &info, nullptr, &mHandle));
-        name("Pipeline");
+        name("Graphics Pipeline");
+    }
+
+    Pipeline::Pipeline(
+        const std::shared_ptr<Device>& device,
+        const VkComputePipelineCreateInfo& info
+    )
+        : DeviceChild(device)
+    {
+        validate(vkCreateComputePipelines(DeviceChild::device(), VK_NULL_HANDLE, 1, &info, nullptr, &mHandle));
+        name("Compute Pipeline");
     }
 
     Pipeline::~Pipeline()

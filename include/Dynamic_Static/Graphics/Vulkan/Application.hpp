@@ -96,6 +96,11 @@ namespace Vulkan {
         /**
          * TODO : Documentation.
          */
+        virtual void create_device();
+
+        /**
+         * TODO : Documentation.
+         */
         virtual void record_command_buffer(Command::Buffer& commandBuffer, const dst::Clock& clock);
 
         /**

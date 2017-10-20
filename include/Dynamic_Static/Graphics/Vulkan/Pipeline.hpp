@@ -238,6 +238,11 @@ namespace Vulkan {
             const VkGraphicsPipelineCreateInfo& info
         );
 
+        Pipeline(
+            const std::shared_ptr<Device>& device,
+            const VkComputePipelineCreateInfo& info
+        );
+
     public:
         /**
          * Destroys this instance of Pipeline.

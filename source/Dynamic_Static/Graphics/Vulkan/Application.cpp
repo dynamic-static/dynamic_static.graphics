@@ -64,25 +64,26 @@ namespace Vulkan {
 
         ////////////////////////////////////////////////////////////////
         // Create Device and Queues
-        std::vector<std::string> deviceLayers;
-        std::vector<std::string> deviceExtensions {
-            VK_KHR_SWAPCHAIN_EXTENSION_NAME,
-        };
-
-        auto queueFamilyFlags = VK_QUEUE_GRAPHICS_BIT;
-        auto queueFamilyIndices = mPhysicalDevice->find_queue_families(queueFamilyFlags);
-        auto queueInfo = Queue::CreateInfo;
-        std::array<float, 1> queuePriorities { };
-        queueInfo.pQueuePriorities = queuePriorities.data();
-        // NOTE : We're assuming that we got at least one Queue capabale of
-        //        graphics, in anything but a toy we want to validate that.
-        queueInfo.queueFamilyIndex = static_cast<uint32_t>(queueFamilyIndices[0]);
-        std::array<VkDeviceQueueCreateInfo, 1> queueInfos { queueInfo };
-        mDevice = mPhysicalDevice->create<dst::vlkn::Device>(deviceLayers, deviceExtensions, queueInfos);
-        // NOTE : We're assuming that the Queue we're choosing for graphics
-        //        is capable of presenting, this may not always be the case.
-        mGraphicsQueue = mDevice->queues()[0][0].get();
-        mPresentQueue = mGraphicsQueue;
+        create_device();
+        // std::vector<std::string> deviceLayers;
+        // std::vector<std::string> deviceExtensions {
+        //     VK_KHR_SWAPCHAIN_EXTENSION_NAME,
+        // };
+        // 
+        // auto queueFamilyFlags = VK_QUEUE_GRAPHICS_BIT;
+        // auto queueFamilyIndices = mPhysicalDevice->find_queue_families(queueFamilyFlags);
+        // auto queueInfo = Queue::CreateInfo;
+        // std::array<float, 1> queuePriorities { };
+        // queueInfo.pQueuePriorities = queuePriorities.data();
+        // // NOTE : We're assuming that we got at least one Queue capabale of
+        // //        graphics, in anything but a toy we want to validate that.
+        // queueInfo.queueFamilyIndex = static_cast<uint32_t>(queueFamilyIndices[0]);
+        // std::array<VkDeviceQueueCreateInfo, 1> queueInfos { queueInfo };
+        // mDevice = mPhysicalDevice->create<dst::vlkn::Device>(deviceLayers, deviceExtensions, queueInfos);
+        // // NOTE : We're assuming that the Queue we're choosing for graphics
+        // //        is capable of presenting, this may not always be the case.
+        // mGraphicsQueue = mDevice->queues()[0][0].get();
+        // mPresentQueue = mGraphicsQueue;
 
         ////////////////////////////////////////////////////////////////
         // Create SwapChain
@@ -287,6 +288,29 @@ namespace Vulkan {
     void Application::shutdown()
     {
         mDevice->wait_idle();
+    }
+
+    void Application::create_device()
+    {
+        std::vector<std::string> deviceLayers;
+        std::vector<std::string> deviceExtensions {
+            VK_KHR_SWAPCHAIN_EXTENSION_NAME,
+        };
+
+        auto queueFamilyIndices = mPhysicalDevice->find_queue_families(VK_QUEUE_GRAPHICS_BIT);
+        auto queueInfo = Queue::CreateInfo;
+        std::array<float, 1> queuePriorities { };
+        queueInfo.queueCount = 1;
+        queueInfo.pQueuePriorities = queuePriorities.data();
+        // NOTE : We're assuming that we got at least one Queue capabale of
+        //        graphics, in anything but a toy we want to validate that.
+        queueInfo.queueFamilyIndex = static_cast<uint32_t>(queueFamilyIndices[0]);
+        std::array<VkDeviceQueueCreateInfo, 1> queueInfos { queueInfo };
+        mDevice = mPhysicalDevice->create<Device>(deviceLayers, deviceExtensions, queueInfos);
+        // NOTE : We're assuming that the Queue we're choosing for graphics
+        //        is capable of presenting, this may not always be the case.
+        mGraphicsQueue = mDevice->queues()[0][0].get();
+        mPresentQueue = mGraphicsQueue;
     }
 
     void Application::record_command_buffer(Command::Buffer& commandBuffer, const dst::Clock& clock)
