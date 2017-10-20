@@ -16,6 +16,8 @@
 
 #include "../external/imgui/imgui.h"
 
+#include <vector>
+
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {

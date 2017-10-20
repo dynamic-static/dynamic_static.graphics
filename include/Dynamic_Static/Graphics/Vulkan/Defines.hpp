@@ -177,6 +177,79 @@ namespace Vulkan {
             format == VK_FORMAT_D24_UNORM_S8_UINT;
     }
 
+    /**
+     * TODO : Documentation.
+     */
+    inline bool operator==(const VkOffset2D& lhs, const VkOffset2D& rhs)
+    {
+        return
+            lhs.x == rhs.x &&
+            lhs.y == rhs.y;
+    }
+
+    /**
+     * TODO : Documentation.
+     */
+    inline bool operator!=(const VkOffset2D& lhs, const VkOffset2D& rhs)
+    {
+        return !(lhs == rhs);
+    }
+
+    /**
+     * TODO : Documentation.
+     */
+    inline bool operator==(const VkExtent2D& lhs, const VkExtent2D& rhs)
+    {
+        return
+            lhs.width == rhs.width &&
+            lhs.height == rhs.height;
+    }
+
+    /**
+     * TODO : Documentation.
+     */
+    inline bool operator!=(const VkExtent2D& lhs, const VkExtent2D& rhs)
+    {
+        return !(lhs == rhs);
+    }
+
+    /**
+     * TODO : Documentation.
+     */
+    inline bool operator==(const VkExtent3D& lhs, const VkExtent3D& rhs)
+    {
+        return
+            lhs.width == rhs.width &&
+            lhs.height == rhs.height &&
+            lhs.depth == rhs.depth;
+    }
+
+    /**
+     * TODO : Documentation.
+     */
+    inline bool operator!=(const VkExtent3D& lhs, const VkExtent3D& rhs)
+    {
+        return !(lhs == rhs);
+    }
+
+    /**
+     * TODO : Documentation.
+     */
+    inline bool operator==(const VkRect2D& lhs, const VkRect2D& rhs)
+    {
+        return
+            lhs.offset == rhs.offset &&
+            lhs.extent == rhs.extent;
+    }
+
+    /**
+     * TODO : Documentation.
+     */
+    inline bool operator!=(const VkRect2D& lhs, const VkRect2D& rhs)
+    {
+        return !(lhs == rhs);
+    }
+
 } // namespace Vulkan
 namespace vlkn = Vulkan;
 } // namespace Graphics

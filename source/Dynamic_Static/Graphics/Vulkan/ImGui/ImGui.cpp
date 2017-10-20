@@ -59,14 +59,12 @@ namespace Vulkan {
 
     ImGUI::ImGUI(Device& device, RenderPass& renderPass, Queue& queue)
     {
-        auto& imGuiIo = ImGui::GetIO();
-
         ///////////////
         // Create Image
         int fontWidth = 0;
         int fontHeight = 0;
         unsigned char* fontData = nullptr;
-        imGuiIo.Fonts->GetTexDataAsRGBA32(&fontData, &fontWidth, &fontHeight);
+        ImGui::GetIO().Fonts->GetTexDataAsRGBA32(&fontData, &fontWidth, &fontHeight);
         VkDeviceSize fontSize = fontWidth * fontHeight * 4 * sizeof(unsigned char);
 
         auto imageInfo = Image::CreateInfo;
@@ -307,37 +305,46 @@ namespace Vulkan {
         io.DeltaTime = clock.elapsed<dst::Second<float>>();
         io.MousePos.x = input.mouse().position().x;
         io.MousePos.y = input.mouse().position().y;
+        io.MouseDown[0] = input.mouse().down(dst::Mouse::Button::Left);
+        io.MouseDown[1] = input.mouse().down(dst::Mouse::Button::Right);
+        io.MouseWheel += static_cast<float>(input.mouse().scroll());
+        io.KeyAlt = input.keyboard().down(dst::Keyboard::Key::Alt);
+        io.KeyCtrl =
+            input.keyboard().down(dst::Keyboard::Key::LeftControl) ||
+            input.keyboard().down(dst::Keyboard::Key::RightControl);
+        io.KeyShift =
+            input.keyboard().down(dst::Keyboard::Key::LeftShift) ||
+            input.keyboard().down(dst::Keyboard::Key::RightShift);
+        io.KeySuper =
+            input.keyboard().down(dst::Keyboard::Key::LeftWindow) ||
+            input.keyboard().down(dst::Keyboard::Key::RightWindow);
         ImGui::NewFrame();
     }
 
     bool ImGUI::end_frame()
     {
         ImGui::Render();
-        bool buffersReset = false;
+        bool recordCommandBuffers = false;
         ImDrawData* imDrawData = ImGui::GetDrawData();
         if (imDrawData) {
             if (!mVertexBuffer || mVertexCount < imDrawData->TotalVtxCount) {
-                mVertexBuffer.reset();
-                mVertexCount = imDrawData->TotalVtxCount;
                 auto bufferInfo = Buffer::CreateInfo;
+                mVertexCount = imDrawData->TotalVtxCount;
                 bufferInfo.size = mVertexCount * sizeof(ImDrawVert);
                 bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
                 auto memoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT;
                 mVertexBuffer = mPipeline->device().create<Buffer>(bufferInfo, memoryProperties);
-                mVertexBuffer->map();
-                buffersReset = true;
+                recordCommandBuffers = true;
             }
 
             if (!mIndexBuffer || mIndexCount < imDrawData->TotalIdxCount) {
-                mIndexBuffer.reset();
-                mIndexCount = imDrawData->TotalIdxCount;
                 auto bufferInfo = Buffer::CreateInfo;
+                mIndexCount = imDrawData->TotalIdxCount;
                 bufferInfo.size = mIndexCount * sizeof(ImDrawIdx);
                 bufferInfo.usage = VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
                 auto memoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT;
                 mIndexBuffer = mPipeline->device().create<Buffer>(bufferInfo, memoryProperties);
-                mIndexBuffer->map();
-                buffersReset = true;
+                recordCommandBuffers = true;
             }
 
             ImDrawVert* vertexPtr = reinterpret_cast<ImDrawVert*>(mVertexBuffer->map());
@@ -356,32 +363,33 @@ namespace Vulkan {
             mIndexBuffer->flush();
         }
 
-        return buffersReset;
+        return true; // recordCommandBuffers;
     }
 
     void ImGUI::draw(Command::Buffer& commandBuffer)
     {
         if (mVertexBuffer && mIndexBuffer) {
-            auto& imGuiIO = ImGui::GetIO();
+            auto& io = ImGui::GetIO();
             commandBuffer.bind_descriptor_set(*mDescriptorSet, *mPipelineLayout);
             commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mPipeline);
             commandBuffer.bind_vertex_buffer(*mVertexBuffer);
             commandBuffer.bind_index_buffer(*mIndexBuffer);
 
             VkViewport viewport { };
-            viewport.width = imGuiIO.DisplaySize.x;
-            viewport.height = imGuiIO.DisplaySize.y;
+            viewport.width = io.DisplaySize.x;
+            viewport.height = io.DisplaySize.y;
             viewport.minDepth = 0;
             viewport.maxDepth = 1;
             commandBuffer.set_viewport(viewport);
 
             mPushConstants.translation = dst::Vector2(-1);
-            mPushConstants.scale.x = 2.0f / imGuiIO.DisplaySize.x;
-            mPushConstants.scale.y = 2.0f / imGuiIO.DisplaySize.y;
+            mPushConstants.scale.x = 2.0f / io.DisplaySize.x;
+            mPushConstants.scale.y = 2.0f / io.DisplaySize.y;
             vkCmdPushConstants(commandBuffer, *mPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstants), &mPushConstants);
 
             ImDrawData* imDrawData = ImGui::GetDrawData();
             if (imDrawData) {
+                size_t scissorIndex = 0;
                 int32_t vertexOffset = 0;
                 int32_t indexOffset = 0;
                 for (int32_t i = 0; i < imDrawData->CmdListsCount; ++i) {
