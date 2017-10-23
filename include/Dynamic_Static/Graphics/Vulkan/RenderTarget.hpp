@@ -23,6 +23,16 @@ namespace Vulkan {
         // TODO : This thing needs alot of work, but it's doing the job for now.
 
     public:
+        struct CreateInfo final
+        {
+            RenderPass* renderPass { nullptr };
+            VkExtent3D extent { 1, 1, 1 };
+            VkFormat format { VK_FORMAT_UNDEFINED };
+            VkFormat depthFormat { VK_FORMAT_UNDEFINED };
+            VkImageUsageFlags usage { VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT };
+        };
+
+    public:
         std::shared_ptr<Framebuffer> framebuffer;
         std::shared_ptr<Image> colorAttachment;
         std::shared_ptr<Memory> colorAttachmentMemory;
@@ -39,6 +49,11 @@ namespace Vulkan {
          * TODO : Documentation.
          */
         RenderTarget(RenderPass& renderPass, uint32_t width, uint32_t height, VkFormat format, VkFormat depthFormat = VK_FORMAT_UNDEFINED);
+
+        /**
+         * TODO : Documentation.
+         */
+        RenderTarget(const CreateInfo& info);
 
     public:
         /**

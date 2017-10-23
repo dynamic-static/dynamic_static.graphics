@@ -395,7 +395,7 @@ namespace Vulkan {
                 for (int32_t i = 0; i < imDrawData->CmdListsCount; ++i) {
                     ImDrawList* cmdList = imDrawData->CmdLists[i];
                     for (int32_t j = 0; j < cmdList->CmdBuffer.Size; ++j) {
-                        const auto& cmd = cmdList->CmdBuffer[j];
+                        const ImDrawCmd& cmd = cmdList->CmdBuffer[j];
                         VkRect2D scissor { };
                         scissor.offset.x = std::max(static_cast<int32_t>(cmd.ClipRect.x), 0);
                         scissor.offset.y = std::max(static_cast<int32_t>(cmd.ClipRect.y), 0);

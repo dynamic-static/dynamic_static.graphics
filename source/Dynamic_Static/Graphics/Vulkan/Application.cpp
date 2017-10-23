@@ -31,6 +31,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    // TODO : This whole object needs a massive overhaul...
+
     void Application::setup()
     {
         ////////////////////////////////////////////////////////////////
@@ -262,6 +264,9 @@ namespace Vulkan {
                     renderPassBeginInfo.renderArea.extent = extent;
                     renderPassBeginInfo.clearValueCount = mDepthEnabled ? static_cast<uint32_t>(clearValues.size()) : 1;
                     renderPassBeginInfo.pClearValues = clearValues.data();
+
+                    create_barrier(*commandBuffer);
+
                     commandBuffer->begin_render_pass(renderPassBeginInfo);
 
                     VkRect2D scissor { };
@@ -318,9 +323,12 @@ namespace Vulkan {
         mPresentQueue = mGraphicsQueue;
     }
 
+    void Application::create_barrier(Command::Buffer& commandBuffer)
+    {
+    }
+
     void Application::record_command_buffer(Command::Buffer& commandBuffer, const dst::Clock& clock)
     {
-
     }
 
     void Application::submit_command_buffer()

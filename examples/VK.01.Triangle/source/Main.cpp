@@ -122,9 +122,9 @@ private:
 
     void record_command_buffer(dst::vlkn::Command::Buffer& commandBuffer, const dst::Clock& clock) override
     {
+        commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mPipeline);
         size_t vertexCount = 3;
         size_t instanceCount = 1;
-        commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mPipeline);
         commandBuffer.draw(vertexCount, instanceCount);
     }
 };

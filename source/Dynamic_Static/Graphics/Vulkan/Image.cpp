@@ -100,6 +100,136 @@ namespace Vulkan {
     }
 
     Image::LayoutTransition Image::create_layout_transition(
+        VkImageLayout oldLayout,
+        VkImageLayout newLayout
+    )
+    {
+        LayoutTransition layoutTransition { };
+        layoutTransition.barrier.image = mHandle;
+        layoutTransition.barrier.oldLayout = oldLayout;
+        layoutTransition.barrier.newLayout = newLayout;
+
+        // FROM : https://github.com/SaschaWillems/Vulkan/blob/master/base/VulkanTools.cpp
+        // NOTE : Source access mask specifies actions that must complete
+        //        before this Image transitions out of its old layout.
+        switch (oldLayout) {
+            case VK_IMAGE_LAYOUT_UNDEFINED:
+                // NOTE : Image layout is undefined (or doesn't matter).
+                //        Only valid as initial layout.
+                //        No flags required...listed for completeness.
+                layoutTransition.barrier.srcAccessMask = 0;
+                break;
+
+            case VK_IMAGE_LAYOUT_PREINITIALIZED:
+                // NOTE : Image is preinitialized by host.
+                //        Only valid as intial layout for linear images, preserves contents.
+                //        Barrier ensures any host writes are complete.
+                layoutTransition.barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
+                break;
+
+            case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
+                // NOTE : Image is a color attachment.
+                //        Barrier ensures any writes are complete.
+                layoutTransition.barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+                break;
+
+            case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
+                // NOTE : Image is a depth / stencil attachment.
+                //        Barrier ensures any writes to depth / stencil buffer are complete.
+                layoutTransition.barrier.srcAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+                break;
+
+            case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
+                // NOTE : Image is a transfer source.
+                //        Barrier ensures any reads are complete.
+                layoutTransition.barrier.srcAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+                break;
+
+            case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
+                // NOTE : Image is a transfer destination.
+                //        Barrier ensures any writes are complete.
+                layoutTransition.barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+                break;
+
+            case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
+                // NOTE : Image is read in a shader.
+                //        Barrier ensures any reads are complete.
+                layoutTransition.barrier.srcAccessMask = VK_ACCESS_SHADER_READ_BIT;
+                break;
+
+            case VK_IMAGE_LAYOUT_GENERAL:
+            case VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL:
+            case VK_IMAGE_LAYOUT_PRESENT_SRC_KHR:
+            case VK_IMAGE_LAYOUT_SHARED_PRESENT_KHR:
+            default:
+                break;
+        }
+
+        // NOTE : Destination access mask specifies actions that must wait
+        //        until this Image has transitioned into its new layout.
+        switch (newLayout) {
+            case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
+                // NOTE : Image is a color attachment.
+                //        Barrier ensures any writes are complete.
+                layoutTransition.barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+                break;
+
+            case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
+                // NOTE : Image is a depth / stencil attachment.
+                //        Barrier ensures any writes to depth / stencil buffer are complete.
+                layoutTransition.barrier.dstAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+                break;
+
+            case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
+                // NOTE : Image is a transfer source.
+                //        Barrier ensures any reads are complete.
+                layoutTransition.barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+                break;
+
+            case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
+                // NOTE : Image is a transfer destination.
+                //        Barrier ensures any writes are complete.
+                layoutTransition.barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+                break;
+
+            case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
+                // NOTE : Image is read in a shader.
+                //        Barrier ensures any reads or writes are complete.
+                if (!layoutTransition.barrier.srcAccessMask) {
+                    layoutTransition.barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT | VK_ACCESS_TRANSFER_WRITE_BIT;
+                }
+
+                layoutTransition.barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+                break;
+
+            case VK_IMAGE_LAYOUT_UNDEFINED:
+                assert(
+                    false &&
+                    "VK_IMAGE_LAYOUT_UNDEFINED must only be used as the initialLayout member of VkImageCreateInfo or VkAttachmentDescription, or as the oldLayout in an image transition"
+                    ":https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkImageLayout.html"
+                );
+                break;
+
+            case VK_IMAGE_LAYOUT_PREINITIALIZED:
+                assert(
+                    false &&
+                    "VK_IMAGE_LAYOUT_PREINITIALIZED must only be used as the initialLayout member of VkImageCreateInfo or VkAttachmentDescription, or as the oldLayout in an image transition"
+                    ":https://www.khronos.org/registry/vulkan/specs/1.0/man/html/VkImageLayout.html"
+                );
+                break;
+
+            case VK_IMAGE_LAYOUT_GENERAL:
+            case VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL:
+            case VK_IMAGE_LAYOUT_PRESENT_SRC_KHR:
+            case VK_IMAGE_LAYOUT_SHARED_PRESENT_KHR:
+            default:
+                break;
+        }
+
+        return layoutTransition;
+    }
+
+    Image::LayoutTransition Image::create_layout_transition(
         Image& image,
         VkImageLayout oldLayout,
         VkImageLayout newLayout

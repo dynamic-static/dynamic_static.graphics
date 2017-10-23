@@ -24,15 +24,29 @@ namespace Vulkan {
     }
 
     RenderTarget::RenderTarget(RenderPass& renderPass, uint32_t width, uint32_t height, VkFormat format, VkFormat depthFormat)
+        : RenderTarget(
+            CreateInfo {
+                &renderPass,
+                { width, height, 1 },
+                format,
+                depthFormat,
+                VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT
+            }
+        )
     {
-        auto& device = renderPass.device();
+    }
+
+    RenderTarget::RenderTarget(const CreateInfo& info)
+    {
+        assert(info.renderPass);
+        assert(info.format);
+        auto& device = info.renderPass->device();
 
         auto imageInfo = Image::CreateInfo;
         imageInfo.imageType = VK_IMAGE_TYPE_2D;
-        imageInfo.extent.width = width;
-        imageInfo.extent.height = height;
-        imageInfo.format = format;
-        imageInfo.usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+        imageInfo.extent = info.extent;
+        imageInfo.format = info.format;
+        imageInfo.usage = info.usage;
         colorAttachment = device.create<Image>(imageInfo);
 
         auto memoryRequirements = colorAttachment->memory_requirements();
@@ -47,8 +61,8 @@ namespace Vulkan {
         colorAttachment->bind_memory(colorAttachmentMemory);
         colorAttachment->create<Image::View>();
 
-        if (depthFormat != VK_FORMAT_UNDEFINED) {
-            imageInfo.format = depthFormat;
+        if (info.depthFormat != VK_FORMAT_UNDEFINED) {
+            imageInfo.format = info.depthFormat;
             imageInfo.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
             depthAttachment = device.create<Image>(imageInfo);
 
@@ -73,11 +87,11 @@ namespace Vulkan {
         }
 
         auto framebufferInfo = Framebuffer::CreateInfo;
-        framebufferInfo.renderPass = renderPass;
+        framebufferInfo.renderPass = *info.renderPass;
         framebufferInfo.attachmentCount = attachmentCount;
         framebufferInfo.pAttachments = attachments.data();
-        framebufferInfo.width = width;
-        framebufferInfo.height = height;
+        framebufferInfo.width = info.extent.width;
+        framebufferInfo.height = info.extent.height;
         framebuffer = device.create<Framebuffer>(framebufferInfo);
     }
 

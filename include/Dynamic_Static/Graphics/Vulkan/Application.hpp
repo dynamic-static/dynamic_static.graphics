@@ -102,6 +102,11 @@ namespace Vulkan {
          * TODO : Documentation.
          */
         virtual void create_device();
+        
+        /**
+         * TODO : Documentation.
+         */
+        virtual void create_barrier(Command::Buffer& commandBuffer);
 
         /**
          * TODO : Documentation.

@@ -16,6 +16,10 @@
 #include <memory>
 #include <stdexcept>
 
+#ifndef VK_FLAGS_NONE
+#define VK_FLAGS_NONE (0)
+#endif
+
 namespace Dynamic_Static {
 
     inline std::string to_string(VkResult result)

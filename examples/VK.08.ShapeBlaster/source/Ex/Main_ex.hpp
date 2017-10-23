@@ -87,6 +87,7 @@ namespace ShapeBlaster_ex {
                 float bloomSaturation { 1 };
             } combine;
         } mBloomSettings;
+        bool mAdjustBloomSettings { false };
 
         std::shared_ptr<dst::vlkn::RenderPass> mEffectRenderPass;
         std::shared_ptr<dst::vlkn::Sampler> mEffectSampler;
@@ -540,12 +541,24 @@ namespace ShapeBlaster_ex {
                 stop();
             }
 
+            if (input.keyboard().pressed(dst::Keyboard::Key::OEM_Tilde)) {
+                mAdjustBloomSettings = !mAdjustBloomSettings;
+                force_record_command_buffers();
+            }
+
             mGameStatusMessage = "Hi Score : 0";
             mWindow->name("Dynamic_Static VK.08.ShapeBlaster        " + mGameStatusMessage);
             auto extent = mSwapchain->extent();
             auto playArea = dst::Vector2(extent.width, extent.height);
 
-            mGui.begin_frame(clock, input, playArea);
+            if (mAdjustBloomSettings) {
+                mGui.begin_frame(clock, input, playArea);
+                ImGui::Begin("Bloom Settings", &mAdjustBloomSettings, ImGuiWindowFlags_ShowBorders);
+                ImGui::SliderFloat("Threshold", &mExtractLuminanceThreshold, 0, 1);
+                ImGui::End();
+                force_record_command_buffers();
+            }
+
             mPointerSprite->position = input.mouse().position();
             mPointerSprite->position.y = playArea.y - mPointerSprite->position.y;
             mPointerSprite->position.x += mPointerSprite->image->extent().width * 0.5f;
@@ -556,10 +569,11 @@ namespace ShapeBlaster_ex {
                 spritePool.second->update(playArea);
             }
 
-            ImGui::ShowTestWindow();
-
-            if (mGui.end_frame()) {
-                force_record_command_buffers();
+            if (mAdjustBloomSettings) {
+                // ImGui::ShowTestWindow();
+                if (mGui.end_frame()) {
+                    force_record_command_buffers();
+                }
             }
         }
 
@@ -640,7 +654,9 @@ namespace ShapeBlaster_ex {
             commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mBloomCombineEffect.pipeline);
             commandBuffer.draw(3);
 
-            mGui.draw(commandBuffer);
+            if (mAdjustBloomSettings) {
+                mGui.draw(commandBuffer);
+            }
 
             VkExtent2D extent { };
             extent.width = mSwapchain->extent().width;

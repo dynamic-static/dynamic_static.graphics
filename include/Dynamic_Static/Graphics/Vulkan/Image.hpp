@@ -38,8 +38,8 @@ namespace Vulkan {
         struct LayoutTransition final
         {
             VkImageMemoryBarrier barrier { Barrier };
-            VkPipelineStageFlags srcStage { VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT };
-            VkPipelineStageFlags dstStage { VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT };
+            VkPipelineStageFlags srcStage { VK_PIPELINE_STAGE_ALL_COMMANDS_BIT };
+            VkPipelineStageFlags dstStage { VK_PIPELINE_STAGE_ALL_COMMANDS_BIT };
         };
 
         /**
@@ -240,6 +240,15 @@ namespace Vulkan {
         /**
          * TODO : Documentation.
          */
+        LayoutTransition create_layout_transition(
+            VkImageLayout oldLayout,
+            VkImageLayout newLayout
+        );
+
+        /**
+         * Deprecated; use create_layout_transition().
+         */
+        [[deprecated]]
         static LayoutTransition create_layout_transition(
             Image& image,
             VkImageLayout oldLayout,
