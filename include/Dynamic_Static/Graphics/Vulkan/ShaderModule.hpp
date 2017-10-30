@@ -15,6 +15,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -31,6 +32,7 @@ namespace Vulkan {
 
     public:
         class Compiler;
+        class Reflector;
 
         /**
          * TODO : Documentation.
@@ -54,6 +56,7 @@ namespace Vulkan {
 
     private:
         VkShaderStageFlagBits mStage { VK_SHADER_STAGE_ALL_GRAPHICS };
+        std::vector<VkDescriptorSetLayoutBinding> mDescriptorSetLayoutBindings;
 
     private:
         ShaderModule(
@@ -75,6 +78,12 @@ namespace Vulkan {
          * @return This ShaderModule's VkPipelineShaderStageCreateInfo
          */
         VkPipelineShaderStageCreateInfo pipeline_stage_create_info() const;
+
+        /**
+         * Gets this ShaderModule's VkDescriptorSetLayoutCreateInfo.
+         * @return This ShaderModule's VkDescriptorSetLayoutCreateInfo
+         */
+        VkDescriptorSetLayoutCreateInfo descriptor_set_layout_create_info() const;
     };
 
 } // namespace Vulkan

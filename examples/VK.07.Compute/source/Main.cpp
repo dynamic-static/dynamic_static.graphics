@@ -33,6 +33,55 @@ class VulkanExample07Compute final
     : public dst::vlkn::Application
 {
 private:
+    class ComputePipeline final
+    {
+    private:
+        std::shared_ptr<dst::vlkn::Descriptor::Set::Layout> mDescriptorSetLayout;
+        std::shared_ptr<dst::vlkn::Pipeline::Layout> mPipelineLayout;
+        std::shared_ptr<dst::vlkn::Pipeline> mPipeline;
+
+    public:
+        ComputePipeline() = default;
+        ComputePipeline(dst::vlkn::Device& device, size_t inputCount, const std::string& shaderSource)
+        {
+            using namespace dst::vlkn;
+            auto shader = device.create<ShaderModule>(
+                VK_SHADER_STAGE_COMPUTE_BIT,
+                ShaderModule::Source::Code,
+                shaderSource
+            );
+
+            // VkDescriptorSetLayoutBinding binding { };
+            // binding.descriptorCount = 1;
+            // binding.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+            // binding.stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;
+            // 
+            // auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
+            // descriptorSetLayoutInfo.bindingCount = 1;
+            // descriptorSetLayoutInfo.pBindings = &binding;
+            mDescriptorSetLayout = device.create<Descriptor::Set::Layout>(shader->descriptor_set_layout_create_info());
+
+            auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
+            pipelineLayoutInfo.setLayoutCount = 1;
+            pipelineLayoutInfo.pSetLayouts = &mDescriptorSetLayout->handle();
+            mPipelineLayout = device.create<Pipeline::Layout>(pipelineLayoutInfo);
+
+            auto pipelineInfo = Pipeline::ComputeCreateInfo;
+            pipelineInfo.stage = shader->pipeline_stage_create_info();
+            pipelineInfo.layout = *mPipelineLayout;
+            mPipeline = device.create<Pipeline>(pipelineInfo);
+        }
+
+    public:
+        void dispatch(dst::vlkn::Command::Buffer& commandBuffer, dst::vlkn::Descriptor::Set& descriptorSet)
+        {
+            commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_COMPUTE, *mPipeline);
+            vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, *mPipelineLayout, 0, 1, &descriptorSet.handle(), 0, nullptr);
+            vkCmdDispatch(commandBuffer, 1280, 720, 1);
+        }
+    };
+
+private:
     std::shared_ptr<dst::vlkn::Image> mDensity0;
     std::shared_ptr<dst::vlkn::Image> mDensity1;
     std::shared_ptr<dst::vlkn::Image> mVelocityU0;
@@ -40,6 +89,13 @@ private:
     std::shared_ptr<dst::vlkn::Image> mVelocityV0;
     std::shared_ptr<dst::vlkn::Image> mVelocityV1;
     std::shared_ptr<dst::vlkn::Sampler> mSampler;
+
+    ComputePipeline mAddSourcePipeline;
+    ComputePipeline mSetBoundaryPipeline;
+    ComputePipeline mLinearSolvePipeline;
+    ComputePipeline mDiffusionPipeline;
+    ComputePipeline mAdvectionPipeline;
+    ComputePipeline mProjectionPipeline;
 
     dst::vlkn::Queue* mComputeQueue { nullptr };
     std::shared_ptr<dst::vlkn::Descriptor::Set::Layout> mComputeDescriptorSetLayout;
@@ -65,11 +121,11 @@ public:
         mDebugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
-            | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
-            | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-            | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_WARNING_BIT_EXT
-            | VK_DEBUG_REPORT_ERROR_BIT_EXT
+            // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+            // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+            // | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_WARNING_BIT_EXT
+            // | VK_DEBUG_REPORT_ERROR_BIT_EXT
             #endif
             ;
     }
@@ -180,6 +236,39 @@ private:
 
     void create_compute_resources()
     {
+        // std::string shaderCommon =
+        //     R"(
+        // 
+        //         layout(push_constant) uniform PushConstants
+        //         {
+        //             float dt;
+        //             float diffusion;
+        //             float viscosity;
+        //         } pushConstants;
+        // 
+        //     )";
+
+        mAddSourcePipeline = ComputePipeline(
+            *mDevice,
+            0,
+            R"(
+        
+                #version 450
+        
+                layout (local_size_x = 1, local_size_y = 1) in;
+                layout (binding = 0, r8) uniform writeonly image2D image;
+
+                void main()
+                {
+                    // vec4 color = imageLoad(image, texCoord);
+        
+                    float value = (gl_GlobalInvocationID.x / 1280.0 + gl_GlobalInvocationID.y / 720.0) * 0.5;
+                    imageStore(image, ivec2(gl_GlobalInvocationID.xy), vec4(value, 0, 0, 0));
+                }
+
+            )"
+        );
+
         using namespace dst::vlkn;
         VkDescriptorSetLayoutBinding binding { };
         binding.descriptorCount = 1;
@@ -200,18 +289,18 @@ private:
             VK_SHADER_STAGE_COMPUTE_BIT,
             ShaderModule::Source::Code,
             R"(
-
+        
                 #version 450
-
+        
                 layout (local_size_x = 1, local_size_y = 1) in;
                 layout (binding = 0, r8) uniform writeonly image2D image;
-
+        
                 void main()
                 {
                     float value = (gl_GlobalInvocationID.x / 1280.0 + gl_GlobalInvocationID.y / 720.0) * 0.5;
                     imageStore(image, ivec2(gl_GlobalInvocationID.xy), vec4(value, 0, 0, 0));
                 }
-
+        
             )"
         );
 
@@ -389,9 +478,12 @@ private:
         using namespace dst::vlkn;
         if (mSwapchain->valid() && mRecordCommandBuffers) {
             mComputeCommandBuffer->begin();
-            mComputeCommandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_COMPUTE, *mComputePipeline);
-            vkCmdBindDescriptorSets(*mComputeCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, *mComputePipelineLayout, 0, 1, &mComputeDescriptorSet->handle(), 0, nullptr);
-            vkCmdDispatch(*mComputeCommandBuffer, 1280, 720, 1);
+
+            // mComputeCommandBuffer->bind_pipeline(VK_PIPELINE_BIND_POINT_COMPUTE, *mComputePipeline);
+            // vkCmdBindDescriptorSets(*mComputeCommandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, *mComputePipelineLayout, 0, 1, &mComputeDescriptorSet->handle(), 0, nullptr);
+            // vkCmdDispatch(*mComputeCommandBuffer, 1280, 720, 1);
+
+            mAddSourcePipeline.dispatch(*mComputeCommandBuffer, *mComputeDescriptorSet);
             mComputeCommandBuffer->end();
         }
     }

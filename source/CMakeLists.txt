@@ -47,6 +47,7 @@ set(INCLUDE_FILES
     ${INCLUDE_PATH}/Graphics/Vulkan/Semaphore.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/ShaderModule.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/ShaderModule.Compiler.hpp
+    ${INCLUDE_PATH}/Graphics/Vulkan/ShaderModule.Reflector.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/SurfaceKHR.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/SwapchainKHR.hpp
     ${INCLUDE_PATH}/Graphics/Vulkan/Vertex.hpp
@@ -108,6 +109,7 @@ set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/Vulkan/Semaphore.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/ShaderModule.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/ShaderModule.Compiler.cpp
+    ${SOURCE_PATH}/Graphics/Vulkan/ShaderModule.Reflector.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/SurfaceKHR.cpp
     ${SOURCE_PATH}/Graphics/Vulkan/SwapchainKHR.cpp
 
@@ -135,6 +137,7 @@ include_directories(
     ${GLFW_INCLUDE}
     ${GLEW_INCLUDE}
     ${glslang_INCLUDE}
+    ${SPIRV-Cross_INCLUDE}
     ${DST_GFX_EXTERNAL_INCLUDE_PATHS}
 )
 
@@ -143,6 +146,7 @@ if (MSVC)
         ${DST_CORE_LIBRARY}
         ${GLFW_LIBRARY}
         ${GLEW_LIBRARY}
+        ${SPIRV-Cross_LIBRARY}
         $ENV{VULKAN_SDK}/Lib/vulkan-1.lib
         ${glslang_LIBRARY}
         opengl32.lib
@@ -191,6 +195,7 @@ add_library(Dynamic_Static.Graphics
 set_target_properties(Dynamic_Static.Graphics PROPERTIES PREFIX "")
 add_dependencies(Dynamic_Static.Graphics GLFW)
 add_dependencies(Dynamic_Static.Graphics glslang)
+add_dependencies(Dynamic_Static.Graphics SPIRV-Cross)
 add_dependencies(Dynamic_Static.Graphics Dynamic_Static.Core)
 create_file_group("${INCLUDE_FILES}")
 create_file_group("${SOURCE_FILES}")
