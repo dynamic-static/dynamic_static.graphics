@@ -64,5 +64,6 @@ target_link_libraries(
     ${DST_GFX_BINARY_DEPENDENCIES}
 )
 
+set_target_properties(${DST_GFX_EXAMPLE} PROPERTIES FOLDER Examples)
 create_file_group("${INCLUDE_FILES}")
 create_file_group("${SOURCE_FILES}")
