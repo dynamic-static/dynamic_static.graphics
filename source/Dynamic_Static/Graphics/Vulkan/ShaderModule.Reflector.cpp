@@ -41,6 +41,48 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    ShaderModule::Reflector::Reflector(gsl::span<const uint32_t> spirv)
+    {
+        spirv_cross::CompilerGLSL glsl(spirv.data(), spirv.size());
+        spirv_cross::ShaderResources resources = glsl.get_shader_resources();
+
+        auto appendBindings =
+        [&](const std::vector<VkDescriptorSetLayoutBinding>& reflectedBindings)
+        {
+            // TODO : Move this function into dst::core...
+            descriptorSetLayoutBindings.reserve(descriptorSetLayoutBindings.size() + reflectedBindings.size());
+            descriptorSetLayoutBindings.insert(std::end(descriptorSetLayoutBindings), std::begin(reflectedBindings), std::end(reflectedBindings));
+        };
+
+        // appendBindings(process_uniform_buffers(glsl, resources));
+        // appendBindings(process_storage_buffers(glsl, resources));
+        // appendBindings(process_stage_inputs(glsl, resources));
+        // appendBindings(process_stage_outputs(glsl, resources));
+        // appendBindings(process_subpass_inputs(glsl, resources));
+        appendBindings(process_storage_images(glsl, resources));
+        // appendBindings(process_sampled_images(glsl, resources));
+        // appendBindings(process_atomic_counters(glsl, resources));
+        // appendBindings(process_push_constant_buffers(glsl, resources));
+        // appendBindings(process_separate_images(glsl, resources));
+        // appendBindings(process_separate_samplers(glsl, resources));
+
+        // NOTE : There can only be one PushConstant block but we maintain the loop in case the
+        //        restriction is lifted in the future...this is also noted in spirv_cross.hpp.
+        for (auto& resource : resources.push_constant_buffers) {
+            process_shader_resource("PushConstantBuffer", glsl, resource);
+            if (glsl.get_storage_class(resource.id) == spv::StorageClassPushConstant) {
+                VkPushConstantRange pushConstantRange { };
+                pushConstantRange.offset = 0;
+                pushConstantRange.size = glsl.get_decoration(resource.id, spv::DecorationBinding);
+                // NOTE : We can also get struct member sizes...
+                pushConstantRange.size = static_cast<uint32_t>(glsl.get_declared_struct_size(glsl.get_type(resource.base_type_id)));
+                pushConstantRanges.push_back(pushConstantRange);
+            }
+        }
+
+        int breaker = 0;
+    }
+
     std::vector<VkDescriptorSetLayoutBinding> ShaderModule::Reflector::get_descriptor_set_layout_bindings(gsl::span<const uint32_t> spirv)
     {
         std::vector<VkDescriptorSetLayoutBinding> bindings;

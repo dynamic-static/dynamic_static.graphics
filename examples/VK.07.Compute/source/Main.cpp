@@ -56,6 +56,8 @@ private:
             auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
             pipelineLayoutInfo.setLayoutCount = 1;
             pipelineLayoutInfo.pSetLayouts = &mDescriptorSetLayout->handle();
+            pipelineLayoutInfo.pushConstantRangeCount = static_cast<uint32_t>(shader->push_constant_ranges().size());
+            pipelineLayoutInfo.pPushConstantRanges = shader->push_constant_ranges().data();
             mPipelineLayout = device.create<Pipeline::Layout>(pipelineLayoutInfo);
 
             auto pipelineInfo = Pipeline::ComputeCreateInfo;
@@ -228,38 +230,53 @@ private:
 
     void create_compute_resources()
     {
-        // std::string shaderCommon =
+        mAddSourcePipeline = ComputePipeline(
+            *mDevice,
+            0,
+            R"(
+        
+                #version 450
+        
+                layout (local_size_x = 1, local_size_y = 1) in;
+                layout (binding = 0, r8) uniform writeonly image2D image;
+        
+                void main()
+                {
+                    // vec4 color = imageLoad(image, texCoord);
+        
+                    float value = (gl_GlobalInvocationID.x / 1280.0 + gl_GlobalInvocationID.y / 720.0) * 0.5;
+                    imageStore(image, ivec2(gl_GlobalInvocationID.xy), vec4(value, 0, 0, 0));
+                }
+        
+            )"
+        );
+
+        // mAddSourcePipeline = ComputePipeline(
+        //     *mDevice,
+        //     0,
         //     R"(
         // 
-        //         layout(push_constant) uniform PushConstants
+        //         #version 450
+        // 
+        //         layout (local_size_x = 1, local_size_y = 1) in;
+        //         layout (binding = 0, r8) uniform readonly image2D source;
+        //         layout (binding = 1, r8) uniform image2D destination;
+        //         layout (push_constant) uniform PushConstants
         //         {
         //             float dt;
         //             float diffusion;
         //             float viscosity;
         //         } pushConstants;
         // 
-        //     )";
-
-        mAddSourcePipeline = ComputePipeline(
-            *mDevice,
-            0,
-            R"(
-
-                #version 450
-
-                layout (local_size_x = 1, local_size_y = 1) in;
-                layout (binding = 0, r8) uniform writeonly image2D image;
-
-                void main()
-                {
-                    // vec4 color = imageLoad(image, texCoord);
-
-                    float value = (gl_GlobalInvocationID.x / 1280.0 + gl_GlobalInvocationID.y / 720.0) * 0.5;
-                    imageStore(image, ivec2(gl_GlobalInvocationID.xy), vec4(value, 0, 0, 0));
-                }
-
-            )"
-        );
+        //         void main()
+        //         {
+        //             ivec2 xy = ivec2(gl_GlobalInvocationID.xy);
+        //             float value = imageLoad(destination, xy).r + imageLoad(source, xy).r * pushConstants.dt;
+        //             imageStore(destination, xy, vec4(value, 0, 0, 0));
+        //         }
+        // 
+        //     )"
+        // );
 
         using namespace dst::vlkn;
         auto computeShader = mDevice->create<ShaderModule>(

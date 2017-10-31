@@ -41,6 +41,7 @@ namespace Vulkan {
                 info.codeSize = spirv.size() * sizeof(spirv[0]);
                 info.pCode = reinterpret_cast<uint32_t*>(spirv.data());
                 validate(vkCreateShaderModule(DeviceChild::device(), &info, nullptr, &mHandle));
+
                 gsl::span<const uint32_t> span(info.pCode, info.codeSize / sizeof(uint32_t));
                 mDescriptorSetLayoutBindings = std::move(Reflector::get_descriptor_set_layout_bindings(span));
             } else {
@@ -48,6 +49,7 @@ namespace Vulkan {
                 info.codeSize = spirv.size();
                 info.pCode = spirv.data();
                 validate(vkCreateShaderModule(DeviceChild::device(), &info, nullptr, &mHandle));
+
                 gsl::span<const uint32_t> span(info.pCode, info.codeSize / sizeof(uint32_t));
                 mDescriptorSetLayoutBindings = std::move(Reflector::get_descriptor_set_layout_bindings(span));
             }
@@ -56,12 +58,20 @@ namespace Vulkan {
             info.codeSize = spirv.size() * sizeof(spirv[0]);
             info.pCode = reinterpret_cast<uint32_t*>(spirv.data());
             validate(vkCreateShaderModule(DeviceChild::device(), &info, nullptr, &mHandle));
+
             gsl::span<const uint32_t> span(info.pCode, info.codeSize / sizeof(uint32_t));
-            mDescriptorSetLayoutBindings = std::move(Reflector::get_descriptor_set_layout_bindings(span));
+            // mDescriptorSetLayoutBindings = std::move(Reflector::get_descriptor_set_layout_bindings(span));
+            Reflector reflector(span);
+            mDescriptorSetLayoutBindings = std::move(reflector.descriptorSetLayoutBindings);
+            mPushConstantRanges = std::move(reflector.pushConstantRanges);
         }
 
         for (auto& binding : mDescriptorSetLayoutBindings) {
             binding.stageFlags = stage;
+        }
+
+        for (auto& range : mPushConstantRanges) {
+            range.stageFlags = stage;
         }
 
         name("ShaderModule");
@@ -88,6 +98,11 @@ namespace Vulkan {
         info.bindingCount = static_cast<uint32_t>(mDescriptorSetLayoutBindings.size());
         info.pBindings = mDescriptorSetLayoutBindings.data();
         return info;
+    }
+
+    const std::vector<VkPushConstantRange>& ShaderModule::push_constant_ranges() const
+    {
+        return mPushConstantRanges;
     }
 
 } // namespace Vulkan

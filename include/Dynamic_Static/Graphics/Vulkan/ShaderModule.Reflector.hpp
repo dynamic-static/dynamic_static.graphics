@@ -26,6 +26,16 @@ namespace Vulkan {
     class ShaderModule::Reflector final
     {
     public:
+        std::vector<VkDescriptorSetLayoutBinding> descriptorSetLayoutBindings;
+        std::vector<VkPushConstantRange> pushConstantRanges;
+
+    public:
+        /**
+         * TODO : Documentation.
+         */
+        Reflector(gsl::span<const uint32_t> spirv);
+
+    public:
         static std::vector<VkDescriptorSetLayoutBinding> get_descriptor_set_layout_bindings(gsl::span<const uint32_t> spirv);
     };
 

@@ -57,6 +57,7 @@ namespace Vulkan {
     private:
         VkShaderStageFlagBits mStage { VK_SHADER_STAGE_ALL_GRAPHICS };
         std::vector<VkDescriptorSetLayoutBinding> mDescriptorSetLayoutBindings;
+        std::vector<VkPushConstantRange> mPushConstantRanges;
 
     private:
         ShaderModule(
@@ -84,6 +85,12 @@ namespace Vulkan {
          * @return This ShaderModule's VkDescriptorSetLayoutCreateInfo
          */
         VkDescriptorSetLayoutCreateInfo descriptor_set_layout_create_info() const;
+
+        /**
+         * Gets this ShaderModules's VkPushConstantRanges.
+         * @return This ShaderModule's VkPushConstantRanges
+         */
+        const std::vector<VkPushConstantRange>& push_constant_ranges() const;
     };
 
 } // namespace Vulkan
