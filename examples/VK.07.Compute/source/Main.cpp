@@ -51,14 +51,6 @@ private:
                 shaderSource
             );
 
-            // VkDescriptorSetLayoutBinding binding { };
-            // binding.descriptorCount = 1;
-            // binding.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
-            // binding.stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;
-            // 
-            // auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
-            // descriptorSetLayoutInfo.bindingCount = 1;
-            // descriptorSetLayoutInfo.pBindings = &binding;
             mDescriptorSetLayout = device.create<Descriptor::Set::Layout>(shader->descriptor_set_layout_create_info());
 
             auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
@@ -121,11 +113,11 @@ public:
         mDebugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
-            // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
-            // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-            // | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-            // | VK_DEBUG_REPORT_WARNING_BIT_EXT
-            // | VK_DEBUG_REPORT_ERROR_BIT_EXT
+            | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+            | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+            | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+            | VK_DEBUG_REPORT_WARNING_BIT_EXT
+            | VK_DEBUG_REPORT_ERROR_BIT_EXT
             #endif
             ;
     }
@@ -252,16 +244,16 @@ private:
             *mDevice,
             0,
             R"(
-        
+
                 #version 450
-        
+
                 layout (local_size_x = 1, local_size_y = 1) in;
                 layout (binding = 0, r8) uniform writeonly image2D image;
 
                 void main()
                 {
                     // vec4 color = imageLoad(image, texCoord);
-        
+
                     float value = (gl_GlobalInvocationID.x / 1280.0 + gl_GlobalInvocationID.y / 720.0) * 0.5;
                     imageStore(image, ivec2(gl_GlobalInvocationID.xy), vec4(value, 0, 0, 0));
                 }
@@ -270,21 +262,6 @@ private:
         );
 
         using namespace dst::vlkn;
-        VkDescriptorSetLayoutBinding binding { };
-        binding.descriptorCount = 1;
-        binding.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
-        binding.stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;
-
-        auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
-        descriptorSetLayoutInfo.bindingCount = 1;
-        descriptorSetLayoutInfo.pBindings = &binding;
-        mComputeDescriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
-
-        auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
-        pipelineLayoutInfo.setLayoutCount = 1;
-        pipelineLayoutInfo.pSetLayouts = &mComputeDescriptorSetLayout->handle();
-        mComputePipelineLayout = mDevice->create<Pipeline::Layout>(pipelineLayoutInfo);
-
         auto computeShader = mDevice->create<ShaderModule>(
             VK_SHADER_STAGE_COMPUTE_BIT,
             ShaderModule::Source::Code,
@@ -303,6 +280,23 @@ private:
         
             )"
         );
+
+        // VkDescriptorSetLayoutBinding binding { };
+        // binding.descriptorCount = 1;
+        // binding.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+        // binding.stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;
+        // 
+        // auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
+        // descriptorSetLayoutInfo.bindingCount = 1;
+        // descriptorSetLayoutInfo.pBindings = &binding;
+        // mComputeDescriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
+
+        mComputeDescriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(computeShader->descriptor_set_layout_create_info());
+
+        auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
+        pipelineLayoutInfo.setLayoutCount = 1;
+        pipelineLayoutInfo.pSetLayouts = &mComputeDescriptorSetLayout->handle();
+        mComputePipelineLayout = mDevice->create<Pipeline::Layout>(pipelineLayoutInfo);
 
         auto pipelineInfo = Pipeline::ComputeCreateInfo;
         pipelineInfo.stage = computeShader->pipeline_stage_create_info();
