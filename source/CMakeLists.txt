@@ -130,6 +130,8 @@ set(SOURCE_FILES
     ${SOURCE_PATH}/Graphics/TinyGLTFInclude.hpp
     ${SOURCE_PATH}/Graphics/TinyGLTFInclude.cpp
     ${SOURCE_PATH}/Graphics/Window.cpp
+
+    ${DST_GFX_EXTERNAL_SOURCE_FILES}
 )
 
 include_directories(
@@ -138,7 +140,7 @@ include_directories(
     ${GLEW_INCLUDE}
     ${glslang_INCLUDE}
     ${SPIRV-Cross_INCLUDE}
-    ${DST_GFX_EXTERNAL_INCLUDE_PATHS}
+    ${DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES}
 )
 
 if (MSVC)
@@ -182,14 +184,12 @@ else()
     )
 endif()
 
-message("== EXTERNAL INCLUDE : ${DST_GFX_EXTERNAL_INCLUDE_FILES}")
+message("== EXTERNAL INCLUDE : ${DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES}")
 message("== EXTERNAL SOURCE : ${DST_GFX_EXTERNAL_SOURCE_FILES}")
 
 add_library(Dynamic_Static.Graphics
     ${INCLUDE_FILES}
     ${SOURCE_FILES}
-    ${DST_GFX_EXTERNAL_INCLUDE_FILES}
-    ${DST_GFX_EXTERNAL_SOURCE_FILES}
 )
 
 set_target_properties(Dynamic_Static.Graphics PROPERTIES PREFIX "")
