@@ -19,17 +19,7 @@ ExternalProject_Add(
 )
 
 ExternalProject_Get_Property(Dynamic_Static.Core SOURCE_DIR)
-ExternalProject_Get_Property(Dynamic_Static.Core SOURCE_SUBDIR)
 ExternalProject_Get_Property(Dynamic_Static.Core BINARY_DIR)
-
-message("Dynamic_Static.Core SOURCE_DIR ${SOURCE_DIR}")
-message("Dynamic_Static.Core SOURCE_SUBDIR ${SOURCE_SUBDIR}")
-message("Dynamic_Static.Core BINARY_DIR ${BINARY_DIR}")
-
-# get_filename_component(PARENT_DIR "${FILE}" DIRECTORY)
-# string(REPLACE "${CMAKE_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
-get_filename_component(PARENT_DIR "${SOURCE_DIR}" DIRECTORY)
-
 set(DST_CORE_INCLUDE "${SOURCE_DIR}/include/")
 if (MSVC)
     set(DST_CORE_LIBRARY "${BINARY_DIR}/source/$(Configuration)/Dynamic_Static.Core.lib")

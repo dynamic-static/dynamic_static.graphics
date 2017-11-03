@@ -195,7 +195,7 @@ add_library(Dynamic_Static.Graphics
 target_include_directories(
     Dynamic_Static.Graphics PUBLIC
 
-    ${DYNAMIC_STATIC_CORE_INCLUDE_DIRECTORY}
+    ${DST_CORE_INCLUDE}
     ${GLFW_INCLUDE}
     ${GLEW_INCLUDE}
     ${glslang_INCLUDE}
@@ -203,7 +203,7 @@ target_include_directories(
     ${DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES}
 )
 
-message("DYNAMIC_STATIC_CORE_INCLUDE_DIRECTORY ${DYNAMIC_STATIC_CORE_INCLUDE_DIRECTORY}")
+message("DST_CORE_INCLUDE ${DST_CORE_INCLUDE}")
 message("GLFW_INCLUDE ${GLFW_INCLUDE}")
 message("GLEW_INCLUDE ${GLEW_INCLUDE}")
 message("glslang_INCLUDE ${glslang_INCLUDE}")
