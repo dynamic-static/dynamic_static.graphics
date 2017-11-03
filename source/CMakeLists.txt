@@ -192,8 +192,32 @@ add_library(Dynamic_Static.Graphics
     ${SOURCE_FILES}
 )
 
+# target_include_directories(
+#     Dynamic_Static.Graphics
+# 
+#     # ${DYNAMIC_STATIC_CORE_INCLUDE_DIRECTORY}
+#     ${GLFW_INCLUDE}
+#     ${GLEW_INCLUDE}
+#     ${glslang_INCLUDE}
+#     ${SPIRV-Cross_INCLUDE}
+#     ${DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES}
+# )
+
+message("DYNAMIC_STATIC_CORE_INCLUDE_DIRECTORY ${DYNAMIC_STATIC_CORE_INCLUDE_DIRECTORY}")
+message("GLFW_INCLUDE ${GLFW_INCLUDE}")
+message("GLEW_INCLUDE ${GLEW_INCLUDE}")
+message("glslang_INCLUDE ${glslang_INCLUDE}")
+message("SPIRV-Cross_INCLUDE ${SPIRV-Cross_INCLUDE}")
+message("DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES ${DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES}")
+
+target_link_libraries(
+    Dynamic_Static.Graphics
+    ${DST_GFX_BINARY_DEPENDENCIES}
+)
+
 set_target_properties(Dynamic_Static.Graphics PROPERTIES PREFIX "")
 add_dependencies(Dynamic_Static.Graphics GLFW)
+add_dependencies(Dynamic_Static.Graphics imgui)
 add_dependencies(Dynamic_Static.Graphics glslang)
 add_dependencies(Dynamic_Static.Graphics SPIRV-Cross)
 add_dependencies(Dynamic_Static.Graphics Dynamic_Static.Core)

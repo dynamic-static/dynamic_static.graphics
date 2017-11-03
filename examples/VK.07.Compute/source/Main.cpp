@@ -7,8 +7,10 @@
 ==========================================
 */
 
-// Renders a textured quad
-// Based on https://vulkan-tutorial.com/Texture_mapping
+// Renders an Eulerian fluid solver
+// Based on http://prideout.net/blog/?p=58
+//          http://developer.download.nvidia.com/books/HTML/gpugems/gpugems_ch38.html
+
 
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
@@ -21,6 +23,13 @@
 #include <array>
 #include <iostream>
 #include <memory>
+
+struct FluidCell final
+{
+    float density;
+    float temperature;
+    dst::Vector2 velocity;
+};
 
 struct UniformBuffer final
 {
