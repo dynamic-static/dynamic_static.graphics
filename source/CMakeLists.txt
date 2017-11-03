@@ -193,7 +193,7 @@ add_library(Dynamic_Static.Graphics
 )
 
 target_include_directories(
-    Dynamic_Static.Graphics PUBLIC
+    Dynamic_Static.Graphics PUBLIC # INTERFACE
 
     ${DST_CORE_INCLUDE}
     ${GLFW_INCLUDE}
