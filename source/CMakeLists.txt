@@ -1,229 +1,190 @@
 
 # CMake configuration for Dynamic_Static.Graphics
 
-set(INCLUDE_PATH ${DST_GFX_INCLUDE}/Dynamic_Static/)
+set(INCLUDE_PATH ${PROJECT_SOURCE_DIR}/include/Dynamic_Static/Graphics/)
 set(INCLUDE_FILES
-    ${INCLUDE_PATH}/Graphics/OpenGL/GLEWInclude.hpp
+    ${INCLUDE_PATH}/OpenGL/GLEWInclude.hpp
 
-    ${INCLUDE_PATH}/Graphics/Vulkan/Effects/Bloom.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Effects/BloomCombine.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Effects/ExtractLuminance.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Effects/GaussianBlur.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/ImGui/ImGui.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Primitives/Box.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Primitives/Quad.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/VertexTypes/VertexPositionColor.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/VertexTypes/VertexPositionTexCoord.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/VertexTypes/VertexPositionTexCoordColor.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Application.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Buffer.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Command.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Command.Buffer.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Command.Pool.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/DebugReport.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Defines.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Descriptor.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Descriptor.Pool.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Descriptor.Set.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Descriptor.Set.Layout.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Device.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/DeviceChild.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Effect.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Framebuffer.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Image.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Image.View.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/IndexBuffer.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Instance.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Memory.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Mesh.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Object.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/PhysicalDevice.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Pipeline.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Pipeline.Layout.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Queue.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/RenderPass.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/RenderTarget.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Sampler.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Semaphore.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/ShaderModule.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/ShaderModule.Compiler.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/ShaderModule.Reflector.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/SurfaceKHR.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/SwapchainKHR.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/Vertex.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/VertexTypes.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/VulkanHppInclude.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan/VulkanInclude.hpp
+    ${INCLUDE_PATH}/Vulkan/Effects/Bloom.hpp
+    ${INCLUDE_PATH}/Vulkan/Effects/BloomCombine.hpp
+    ${INCLUDE_PATH}/Vulkan/Effects/ExtractLuminance.hpp
+    ${INCLUDE_PATH}/Vulkan/Effects/GaussianBlur.hpp
+    ${INCLUDE_PATH}/Vulkan/ImGui/ImGui.hpp
+    ${INCLUDE_PATH}/Vulkan/Primitives/Box.hpp
+    ${INCLUDE_PATH}/Vulkan/Primitives/Quad.hpp
+    ${INCLUDE_PATH}/Vulkan/VertexTypes/VertexPositionColor.hpp
+    ${INCLUDE_PATH}/Vulkan/VertexTypes/VertexPositionTexCoord.hpp
+    ${INCLUDE_PATH}/Vulkan/VertexTypes/VertexPositionTexCoordColor.hpp
+    ${INCLUDE_PATH}/Vulkan/Application.hpp
+    ${INCLUDE_PATH}/Vulkan/Buffer.hpp
+    ${INCLUDE_PATH}/Vulkan/Command.hpp
+    ${INCLUDE_PATH}/Vulkan/Command.Buffer.hpp
+    ${INCLUDE_PATH}/Vulkan/Command.Pool.hpp
+    ${INCLUDE_PATH}/Vulkan/DebugReport.hpp
+    ${INCLUDE_PATH}/Vulkan/Defines.hpp
+    ${INCLUDE_PATH}/Vulkan/Descriptor.hpp
+    ${INCLUDE_PATH}/Vulkan/Descriptor.Pool.hpp
+    ${INCLUDE_PATH}/Vulkan/Descriptor.Set.hpp
+    ${INCLUDE_PATH}/Vulkan/Descriptor.Set.Layout.hpp
+    ${INCLUDE_PATH}/Vulkan/Device.hpp
+    ${INCLUDE_PATH}/Vulkan/DeviceChild.hpp
+    ${INCLUDE_PATH}/Vulkan/Effect.hpp
+    ${INCLUDE_PATH}/Vulkan/Framebuffer.hpp
+    ${INCLUDE_PATH}/Vulkan/Image.hpp
+    ${INCLUDE_PATH}/Vulkan/Image.View.hpp
+    ${INCLUDE_PATH}/Vulkan/IndexBuffer.hpp
+    ${INCLUDE_PATH}/Vulkan/Instance.hpp
+    ${INCLUDE_PATH}/Vulkan/Memory.hpp
+    ${INCLUDE_PATH}/Vulkan/Mesh.hpp
+    ${INCLUDE_PATH}/Vulkan/Object.hpp
+    ${INCLUDE_PATH}/Vulkan/PhysicalDevice.hpp
+    ${INCLUDE_PATH}/Vulkan/Pipeline.hpp
+    ${INCLUDE_PATH}/Vulkan/Pipeline.Layout.hpp
+    ${INCLUDE_PATH}/Vulkan/Queue.hpp
+    ${INCLUDE_PATH}/Vulkan/RenderPass.hpp
+    ${INCLUDE_PATH}/Vulkan/RenderTarget.hpp
+    ${INCLUDE_PATH}/Vulkan/Sampler.hpp
+    ${INCLUDE_PATH}/Vulkan/Semaphore.hpp
+    ${INCLUDE_PATH}/Vulkan/ShaderModule.hpp
+    ${INCLUDE_PATH}/Vulkan/ShaderModule.Compiler.hpp
+    ${INCLUDE_PATH}/Vulkan/ShaderModule.Reflector.hpp
+    ${INCLUDE_PATH}/Vulkan/SurfaceKHR.hpp
+    ${INCLUDE_PATH}/Vulkan/SwapchainKHR.hpp
+    ${INCLUDE_PATH}/Vulkan/Vertex.hpp
+    ${INCLUDE_PATH}/Vulkan/VertexTypes.hpp
+    ${INCLUDE_PATH}/Vulkan/VulkanHppInclude.hpp
+    ${INCLUDE_PATH}/Vulkan/VulkanInclude.hpp
 
-    ${INCLUDE_PATH}/Graphics/Application.hpp
-    ${INCLUDE_PATH}/Graphics/Camera.hpp
-    ${INCLUDE_PATH}/Graphics/Camera.Controller.hpp
-    ${INCLUDE_PATH}/Graphics/FreeCameraController.hpp
-    ${INCLUDE_PATH}/Graphics/Defines.hpp
-    ${INCLUDE_PATH}/Graphics/GLTFCache.hpp
-    ${INCLUDE_PATH}/Graphics/GLTFReader.hpp
-    ${INCLUDE_PATH}/Graphics/ImageCache.hpp
-    ${INCLUDE_PATH}/Graphics/ImageReader.hpp
-    ${INCLUDE_PATH}/Graphics/Monitor.hpp
-    ${INCLUDE_PATH}/Graphics/Object.hpp
-    ${INCLUDE_PATH}/Graphics/Resolution.hpp
-    ${INCLUDE_PATH}/Graphics/Vulkan.hpp
-    ${INCLUDE_PATH}/Graphics/Window.hpp
+    ${INCLUDE_PATH}/Application.hpp
+    ${INCLUDE_PATH}/Camera.hpp
+    ${INCLUDE_PATH}/Camera.Controller.hpp
+    ${INCLUDE_PATH}/FreeCameraController.hpp
+    ${INCLUDE_PATH}/Defines.hpp
+    ${INCLUDE_PATH}/GLTFCache.hpp
+    ${INCLUDE_PATH}/GLTFReader.hpp
+    ${INCLUDE_PATH}/ImageCache.hpp
+    ${INCLUDE_PATH}/ImageReader.hpp
+    ${INCLUDE_PATH}/Monitor.hpp
+    ${INCLUDE_PATH}/Object.hpp
+    ${INCLUDE_PATH}/Resolution.hpp
+    ${INCLUDE_PATH}/Vulkan.hpp
+    ${INCLUDE_PATH}/Window.hpp
 )
 
-set(SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/)
+set(SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static/Graphics)
 set(SOURCE_FILES
-    ${SOURCE_PATH}/Graphics/Vulkan/Effects/Bloom.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Effects/BloomCombine.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Effects/ExtractLuminance.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Effects/GaussianBlur.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/ImGui/ImGui.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Primitives/Box.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Primitives/Quad.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Application.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Buffer.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Command.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Command.Buffer.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Command.Pool.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/DebugReport.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Descriptor.Pool.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Descriptor.Set.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Descriptor.Set.Layout.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Device.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/DeviceChild.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Effect.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Framebuffer.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Image.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Image.View.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/IndexBuffer.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Instance.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Memory.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Mesh.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/PhysicalDevice.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Pipeline.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Pipeline.Layout.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Queue.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/RenderPass.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/RenderTarget.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Sampler.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/Semaphore.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/ShaderModule.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/ShaderModule.Compiler.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/ShaderModule.Reflector.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/SurfaceKHR.cpp
-    ${SOURCE_PATH}/Graphics/Vulkan/SwapchainKHR.cpp
+    ${SOURCE_PATH}/Vulkan/Effects/Bloom.cpp
+    ${SOURCE_PATH}/Vulkan/Effects/BloomCombine.cpp
+    ${SOURCE_PATH}/Vulkan/Effects/ExtractLuminance.cpp
+    ${SOURCE_PATH}/Vulkan/Effects/GaussianBlur.cpp
+    ${SOURCE_PATH}/Vulkan/ImGui/ImGui.cpp
+    ${SOURCE_PATH}/Vulkan/Primitives/Box.cpp
+    ${SOURCE_PATH}/Vulkan/Primitives/Quad.cpp
+    ${SOURCE_PATH}/Vulkan/Application.cpp
+    ${SOURCE_PATH}/Vulkan/Buffer.cpp
+    ${SOURCE_PATH}/Vulkan/Command.cpp
+    ${SOURCE_PATH}/Vulkan/Command.Buffer.cpp
+    ${SOURCE_PATH}/Vulkan/Command.Pool.cpp
+    ${SOURCE_PATH}/Vulkan/DebugReport.cpp
+    ${SOURCE_PATH}/Vulkan/Descriptor.Pool.cpp
+    ${SOURCE_PATH}/Vulkan/Descriptor.Set.cpp
+    ${SOURCE_PATH}/Vulkan/Descriptor.Set.Layout.cpp
+    ${SOURCE_PATH}/Vulkan/Device.cpp
+    ${SOURCE_PATH}/Vulkan/DeviceChild.cpp
+    ${SOURCE_PATH}/Vulkan/Effect.cpp
+    ${SOURCE_PATH}/Vulkan/Framebuffer.cpp
+    ${SOURCE_PATH}/Vulkan/Image.cpp
+    ${SOURCE_PATH}/Vulkan/Image.View.cpp
+    ${SOURCE_PATH}/Vulkan/IndexBuffer.cpp
+    ${SOURCE_PATH}/Vulkan/Instance.cpp
+    ${SOURCE_PATH}/Vulkan/Memory.cpp
+    ${SOURCE_PATH}/Vulkan/Mesh.cpp
+    ${SOURCE_PATH}/Vulkan/PhysicalDevice.cpp
+    ${SOURCE_PATH}/Vulkan/Pipeline.cpp
+    ${SOURCE_PATH}/Vulkan/Pipeline.Layout.cpp
+    ${SOURCE_PATH}/Vulkan/Queue.cpp
+    ${SOURCE_PATH}/Vulkan/RenderPass.cpp
+    ${SOURCE_PATH}/Vulkan/RenderTarget.cpp
+    ${SOURCE_PATH}/Vulkan/Sampler.cpp
+    ${SOURCE_PATH}/Vulkan/Semaphore.cpp
+    ${SOURCE_PATH}/Vulkan/ShaderModule.cpp
+    ${SOURCE_PATH}/Vulkan/ShaderModule.Compiler.cpp
+    ${SOURCE_PATH}/Vulkan/ShaderModule.Reflector.cpp
+    ${SOURCE_PATH}/Vulkan/SurfaceKHR.cpp
+    ${SOURCE_PATH}/Vulkan/SwapchainKHR.cpp
 
-    ${SOURCE_PATH}/Graphics/Application.cpp
-    ${SOURCE_PATH}/Graphics/Camera.cpp
-    ${SOURCE_PATH}/Graphics/Camera.Controller.cpp
-    ${SOURCE_PATH}/Graphics/FreeCameraController.cpp
-    ${SOURCE_PATH}/Graphics/GLFWInclude.hpp
-    ${SOURCE_PATH}/Graphics/GLTFCache.cpp
-    ${SOURCE_PATH}/Graphics/GLTFReader.cpp
-    ${SOURCE_PATH}/Graphics/ImageCache.cpp
-    ${SOURCE_PATH}/Graphics/ImageReader.cpp
-    ${SOURCE_PATH}/Graphics/Monitor.cpp
-    ${SOURCE_PATH}/Graphics/Object.cpp
-    ${SOURCE_PATH}/Graphics/Resolution.cpp
-    ${SOURCE_PATH}/Graphics/StbImageInclude.hpp
-    ${SOURCE_PATH}/Graphics/StbImageInclude.cpp
-    ${SOURCE_PATH}/Graphics/TinyGLTFInclude.hpp
-    ${SOURCE_PATH}/Graphics/TinyGLTFInclude.cpp
-    ${SOURCE_PATH}/Graphics/Window.cpp
+    ${SOURCE_PATH}/Application.cpp
+    ${SOURCE_PATH}/Camera.cpp
+    ${SOURCE_PATH}/Camera.Controller.cpp
+    ${SOURCE_PATH}/FreeCameraController.cpp
+    ${SOURCE_PATH}/GLFWInclude.hpp
+    ${SOURCE_PATH}/GLTFCache.cpp
+    ${SOURCE_PATH}/GLTFReader.cpp
+    ${SOURCE_PATH}/ImageCache.cpp
+    ${SOURCE_PATH}/ImageReader.cpp
+    ${SOURCE_PATH}/Monitor.cpp
+    ${SOURCE_PATH}/Object.cpp
+    ${SOURCE_PATH}/Resolution.cpp
+    ${SOURCE_PATH}/StbImageInclude.hpp
+    ${SOURCE_PATH}/StbImageInclude.cpp
+    ${SOURCE_PATH}/TinyGLTFInclude.hpp
+    ${SOURCE_PATH}/TinyGLTFInclude.cpp
+    ${SOURCE_PATH}/Window.cpp
 
-    ${DST_GFX_EXTERNAL_SOURCE_FILES}
+    ${imgui.SOURCE}
 )
-
-# include_directories(
-#     DYNAMIC_STATIC_CORE_INCLUDE_DIRECTORY
-#     ${GLFW_INCLUDE}
-#     ${GLEW_INCLUDE}
-#     ${glslang_INCLUDE}
-#     ${SPIRV-Cross_INCLUDE}
-#     ${DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES}
-# )
 
 if (MSVC)
-    set(DST_GFX_BINARY_DEPENDENCIES
-        # ${DST_CORE_LIBRARY}
-        ${GLFW_LIBRARY}
-        ${GLEW_LIBRARY}
-        ${SPIRV-Cross_LIBRARY}
-        $ENV{VULKAN_SDK}/Lib/vulkan-1.lib
-        ${glslang_LIBRARY}
-        opengl32.lib
-        glu32.lib
-        PARENT_SCOPE
+    set(SYSTEM_INSTALL_DEPENDENCIES
     )
 else()
-    set(DST_GFX_BINARY_DEPENDENCIES
-        # ${DST_CORE_LIBRARY}
-
-        GL
-        GLU
-        # GLEW
-        ${GLFW_LIBRARY}
-
+    set(SYSTEM_INSTALL_DEPENDENCIES
         EGL
-
         X11
         Xcursor
         Xi
         Xinerama
         Xrandr
         Xxf86vm
-
-        /usr/lib/aarch64-linux-gnu/libvulkan.so
-        ${glslang_LIBRARY}
-
         dl
         pthread
         stdc++fs
-
-        PARENT_SCOPE
     )
 endif()
 
-message("== EXTERNAL INCLUDE : ${DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES}")
-message("== EXTERNAL SOURCE : ${DST_GFX_EXTERNAL_SOURCE_FILES}")
-
-message("Dynamic_Static.Core.INCLUDE ${Dynamic_Static.Core.INCLUDE}")
-message("Dynamic_Static.Core.LIBRARY ${Dynamic_Static.Core.LIBRARY}")
-
-add_library(Dynamic_Static.Graphics
-    ${INCLUDE_FILES}
-    ${SOURCE_FILES}
-)
+set(TARGET Dynamic_Static.Graphics)
+add_library(${TARGET} ${INCLUDE_FILES} ${SOURCE_FILES})
+set_target_properties(Dynamic_Static.Graphics PROPERTIES PREFIX "")
 
 target_include_directories(
-    Dynamic_Static.Graphics PUBLIC
+    ${TARGET} PUBLIC
+    ${PROJECT_SOURCE_DIR}/include/
     ${Dynamic_Static.Core.INCLUDE}
-    # ${DST_CORE_INCLUDE}
-    ${GLFW_INCLUDE}
-    ${GLEW_INCLUDE}
-    ${glslang_INCLUDE}
-    ${SPIRV-Cross_INCLUDE}
-    ${DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES}
+    ${GLFW.INCLUDE}
+    ${glslang.INCLUDE}
+    ${imgui.INCLUDE}
+    ${SPIRV-Cross.INCLUDE}
+    ${VulkanSDK.INCLUDE}
 )
-
-# message("DST_CORE_INCLUDE ${DST_CORE_INCLUDE}")
-# message("GLFW_INCLUDE ${GLFW_INCLUDE}")
-# message("GLEW_INCLUDE ${GLEW_INCLUDE}")
-# message("glslang_INCLUDE ${glslang_INCLUDE}")
-# message("SPIRV-Cross_INCLUDE ${SPIRV-Cross_INCLUDE}")
-# message("DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES ${DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES}")
 
 target_link_libraries(
     Dynamic_Static.Graphics PUBLIC
+    ${SYSTEM_INSTALL_DEPENDENCIES}
     ${Dynamic_Static.Core.LIBRARY}
-    ${DST_GFX_BINARY_DEPENDENCIES}
+    ${GLFW.LIBRARY}
+    ${glslang.LIBRARY}
+    # NOTE : imgui's source is built as part of Dynamic_Static.Graphics' source tree
+    ${SPIRV-Cross.LIBRARY}
+    ${VulkanSDK.LIBRARY}
 )
 
-set_target_properties(Dynamic_Static.Graphics PROPERTIES PREFIX "")
-add_dependencies(Dynamic_Static.Graphics GLFW)
-add_dependencies(Dynamic_Static.Graphics imgui)
-add_dependencies(Dynamic_Static.Graphics glslang)
-add_dependencies(Dynamic_Static.Graphics SPIRV-Cross)
 add_dependencies(Dynamic_Static.Graphics Dynamic_Static.Core)
+add_dependencies(Dynamic_Static.Graphics GLFW)
+add_dependencies(Dynamic_Static.Graphics glslang)
+add_dependencies(Dynamic_Static.Graphics imgui)
+add_dependencies(Dynamic_Static.Graphics SPIRV-Cross)
+# NOTE : There's currently nothing for us to build for the VulkanSDK
+# add_dependencies(Dynamic_Static.Graphics VulkanSDK)
+
 create_file_group("${INCLUDE_FILES}")
 create_file_group("${SOURCE_FILES}")
