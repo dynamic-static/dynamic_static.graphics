@@ -2,7 +2,7 @@
 # CMake configuration for Dynamic_Static.Graphics
 
 cmake_minimum_required(VERSION 3.2)
-project(dst.gfx CXX)
+project(Dynamic_Static.Graphics CXX)
 option(DST_GFX_BUILD_EXAMPLES "Build Dynamic_Static.Graphics.Examples" ON)
 option(DST_GFX_BUILD_TESTS "Build Dynamic_Static.Graphics.Tests" ON)
 
