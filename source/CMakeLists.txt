@@ -188,8 +188,7 @@ add_dependencies(${TARGET} SPIRV-Cross)
 
 export(
     TARGETS ${TARGET}
-    # NAMESPACE "${CMAKE_PROJECT_NAME}"
-    FILE ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}-targets.cmake
+    FILE ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.package.cmake
 )
 
 create_file_group("${INCLUDE_FILES}")
