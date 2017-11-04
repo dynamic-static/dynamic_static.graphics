@@ -157,25 +157,25 @@ add_library(${TARGET} ${INCLUDE_FILES} ${SOURCE_FILES})
 set_target_properties(Dynamic_Static.Graphics PROPERTIES PREFIX "")
 
 target_include_directories(
-    ${TARGET} PUBLIC
-    ${PROJECT_SOURCE_DIR}/include/
-    ${Dynamic_Static.Core.INCLUDE}
-    ${GLFW.INCLUDE}
-    ${glslang.INCLUDE}
-    ${imgui.INCLUDE}
-    ${SPIRV-Cross.INCLUDE}
-    ${VulkanSDK.INCLUDE}
+    ${TARGET}
+    PUBLIC ${PROJECT_SOURCE_DIR}/include/
+    PUBLIC ${Dynamic_Static.Core.INCLUDE}
+    PUBLIC ${GLFW.INCLUDE}
+    PUBLIC ${glslang.INCLUDE}
+    PUBLIC ${imgui.INCLUDE}
+    PUBLIC ${SPIRV-Cross.INCLUDE}
+    PUBLIC ${VulkanSDK.INCLUDE}
 )
 
 target_link_libraries(
-    ${TARGET} PUBLIC
-    ${SYSTEM_INSTALL_DEPENDENCIES}
-    ${Dynamic_Static.Core.LIBRARY}
-    ${GLFW.LIBRARY}
-    ${glslang.LIBRARY}
+    ${TARGET}
+    PUBLIC ${SYSTEM_INSTALL_DEPENDENCIES}
+    PUBLIC ${Dynamic_Static.Core.LIBRARY}
+    PUBLIC ${GLFW.LIBRARY}
+    PUBLIC ${glslang.LIBRARY}
     # NOTE : imgui's source is built as part of Dynamic_Static.Graphics' source tree
-    ${SPIRV-Cross.LIBRARY}
-    ${VulkanSDK.LIBRARY}
+    PUBLIC ${SPIRV-Cross.LIBRARY}
+    PUBLIC ${VulkanSDK.LIBRARY}
 )
 
 add_dependencies(${TARGET} Dynamic_Static.Core)
