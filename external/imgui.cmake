@@ -14,9 +14,4 @@ ExternalProject_Add(
 ExternalProject_Get_Property(imgui SOURCE_DIR)
 ExternalProject_Get_Property(imgui BINARY_DIR)
 set(imgui.INCLUDE ${SOURCE_DIR})
-set(DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES
-    ${DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES}
-    ${SOURCE_DIR}
-)
-
 file(GLOB imgui.SOURCE ${SOURCE_DIR}/*.cpp)
