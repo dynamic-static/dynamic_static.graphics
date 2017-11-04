@@ -186,5 +186,11 @@ add_dependencies(${TARGET} SPIRV-Cross)
 # NOTE : We don't currently build anything in the VulkanSDK
 # add_dependencies(${TARGET} VulkanSDK)
 
+export(
+    TARGETS ${TARGET}
+    NAMESPACE "${CMAKE_PROJECT_NAME}"
+    APPEND FILE ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}-targets.cmake
+)
+
 create_file_group("${INCLUDE_FILES}")
 create_file_group("${SOURCE_FILES}")
