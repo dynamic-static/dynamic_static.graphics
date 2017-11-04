@@ -20,9 +20,9 @@ ExternalProject_Add(
 
 ExternalProject_Get_Property(Dynamic_Static.Core SOURCE_DIR)
 ExternalProject_Get_Property(Dynamic_Static.Core BINARY_DIR)
-set(DST_CORE_INCLUDE "${SOURCE_DIR}/include/")
+set(Dynamic_Static.Core.INCLUDE "${SOURCE_DIR}/include/")
 if (MSVC)
-    set(DST_CORE_LIBRARY "${BINARY_DIR}/source/$(Configuration)/Dynamic_Static.Core.lib")
+    set(Dynamic_Static.Core.LIBRARY "${BINARY_DIR}/source/$(Configuration)/Dynamic_Static.Core.lib")
 else()
-    set(DST_CORE_LIBRARY "${BINARY_DIR}/source/Dynamic_Static.Core.a")
+    set(Dynamic_Static.Core.LIBRARY "${BINARY_DIR}/source/Dynamic_Static.Core.a")
 endif()

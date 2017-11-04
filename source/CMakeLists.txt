@@ -145,7 +145,7 @@ set(SOURCE_FILES
 
 if (MSVC)
     set(DST_GFX_BINARY_DEPENDENCIES
-        ${DST_CORE_LIBRARY}
+        # ${DST_CORE_LIBRARY}
         ${GLFW_LIBRARY}
         ${GLEW_LIBRARY}
         ${SPIRV-Cross_LIBRARY}
@@ -157,7 +157,7 @@ if (MSVC)
     )
 else()
     set(DST_GFX_BINARY_DEPENDENCIES
-        ${DST_CORE_LIBRARY}
+        # ${DST_CORE_LIBRARY}
 
         GL
         GLU
@@ -187,15 +187,18 @@ endif()
 message("== EXTERNAL INCLUDE : ${DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES}")
 message("== EXTERNAL SOURCE : ${DST_GFX_EXTERNAL_SOURCE_FILES}")
 
+message("Dynamic_Static.Core.INCLUDE ${Dynamic_Static.Core.INCLUDE}")
+message("Dynamic_Static.Core.LIBRARY ${Dynamic_Static.Core.LIBRARY}")
+
 add_library(Dynamic_Static.Graphics
     ${INCLUDE_FILES}
     ${SOURCE_FILES}
 )
 
 target_include_directories(
-    Dynamic_Static.Graphics PUBLIC # INTERFACE
-
-    ${DST_CORE_INCLUDE}
+    Dynamic_Static.Graphics PUBLIC
+    ${Dynamic_Static.Core.INCLUDE}
+    # ${DST_CORE_INCLUDE}
     ${GLFW_INCLUDE}
     ${GLEW_INCLUDE}
     ${glslang_INCLUDE}
@@ -203,15 +206,16 @@ target_include_directories(
     ${DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES}
 )
 
-message("DST_CORE_INCLUDE ${DST_CORE_INCLUDE}")
-message("GLFW_INCLUDE ${GLFW_INCLUDE}")
-message("GLEW_INCLUDE ${GLEW_INCLUDE}")
-message("glslang_INCLUDE ${glslang_INCLUDE}")
-message("SPIRV-Cross_INCLUDE ${SPIRV-Cross_INCLUDE}")
-message("DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES ${DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES}")
+# message("DST_CORE_INCLUDE ${DST_CORE_INCLUDE}")
+# message("GLFW_INCLUDE ${GLFW_INCLUDE}")
+# message("GLEW_INCLUDE ${GLEW_INCLUDE}")
+# message("glslang_INCLUDE ${glslang_INCLUDE}")
+# message("SPIRV-Cross_INCLUDE ${SPIRV-Cross_INCLUDE}")
+# message("DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES ${DST_GFX_EXTERNAL_INCLUDE_DIRECTORIES}")
 
 target_link_libraries(
-    Dynamic_Static.Graphics
+    Dynamic_Static.Graphics PUBLIC
+    ${Dynamic_Static.Core.LIBRARY}
     ${DST_GFX_BINARY_DEPENDENCIES}
 )
 
