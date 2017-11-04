@@ -168,7 +168,7 @@ target_include_directories(
 )
 
 target_link_libraries(
-    Dynamic_Static.Graphics PUBLIC
+    ${TARGET} PUBLIC
     ${SYSTEM_INSTALL_DEPENDENCIES}
     ${Dynamic_Static.Core.LIBRARY}
     ${GLFW.LIBRARY}
@@ -178,13 +178,13 @@ target_link_libraries(
     ${VulkanSDK.LIBRARY}
 )
 
-add_dependencies(Dynamic_Static.Graphics Dynamic_Static.Core)
-add_dependencies(Dynamic_Static.Graphics GLFW)
-add_dependencies(Dynamic_Static.Graphics glslang)
-add_dependencies(Dynamic_Static.Graphics imgui)
-add_dependencies(Dynamic_Static.Graphics SPIRV-Cross)
-# NOTE : There's currently nothing for us to build for the VulkanSDK
-# add_dependencies(Dynamic_Static.Graphics VulkanSDK)
+add_dependencies(${TARGET} Dynamic_Static.Core)
+add_dependencies(${TARGET} GLFW)
+add_dependencies(${TARGET} glslang)
+add_dependencies(${TARGET} imgui)
+add_dependencies(${TARGET} SPIRV-Cross)
+# NOTE : We don't currently build anything in the VulkanSDK
+# add_dependencies(${TARGET} VulkanSDK)
 
 create_file_group("${INCLUDE_FILES}")
 create_file_group("${SOURCE_FILES}")

@@ -3,8 +3,6 @@
 
 cmake_minimum_required(VERSION 3.2)
 project(Dynamic_Static.Graphics CXX)
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 option(DST_GFX_BUILD_EXAMPLES "Build Dynamic_Static.Graphics.Examples" ON)
 option(DST_GFX_BUILD_TESTS "Build Dynamic_Static.Graphics.Tests" ON)
 
