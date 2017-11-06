@@ -3,8 +3,8 @@
 
 cmake_minimum_required(VERSION 3.2)
 project(Dynamic_Static.Graphics CXX)
-option(DST_GFX_BUILD_EXAMPLES "Build Dynamic_Static.Graphics.Examples" ON)
-option(DST_GFX_BUILD_TESTS "Build Dynamic_Static.Graphics.Tests" ON)
+option(BUILD_EXAMPLES "Build Dynamic_Static.Graphics.Examples" ON)
+option(BUILD_TESTS "Build Dynamic_Static.Graphics.Tests" ON)
 
 include(CheckCXXCompilerFlag)
 function(set_cxx_flag CXX_FLAG)
@@ -48,13 +48,9 @@ include("${CMAKE_SOURCE_DIR}/external/SPIRV-Cross.cmake")
 include("${CMAKE_SOURCE_DIR}/external/VulkanSDK.cmake")
 
 add_subdirectory("source/")
-if (DST_GFX_BUILD_EXAMPLES)
+if (BUILD_EXAMPLES)
     add_subdirectory("examples/")
 endif()
-if (DST_GFX_BUILD_TESTS)
+if (BUILD_TESTS)
     add_subdirectory("tests/")
 endif()
-
-# NOTE : This configuration will generate some files in the project's root directory...this is a known issue in VS2017.
-#        https://gitlab.kitware.com/cmake/cmake/issues/16458
-#        https://developercommunity.visualstudio.com/content/problem/25240/inconsistent-behaviour-with-output-directory-and-i.html

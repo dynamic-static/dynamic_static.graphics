@@ -1,8 +1,6 @@
 
 # CMake configuration for Example.VK.07.Compute
 
-set(DST_GFX_EXAMPLE Example.VK.07.Compute)
-
 set(INCLUDE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 set(INCLUDE_FILES
 )
@@ -12,24 +10,12 @@ set(SOURCE_FILES
     ${SOURCE_DIRECTORY}/Main.cpp
 )
 
-include_directories(
-    ${INCLUDE_DIRECTORY}
-    ${DST_GFX_INCLUDE}
-)
-
-add_executable(
-    ${DST_GFX_EXAMPLE}
-    ${INCLUDE_FILES}
-    ${SOURCE_FILES}
-)
-
-add_dependencies(${DST_GFX_EXAMPLE} Dynamic_Static.Graphics)
-target_link_libraries(
-    ${DST_GFX_EXAMPLE}
-    Dynamic_Static.Graphics
-    ${DST_GFX_BINARY_DEPENDENCIES}
-)
-
-set_target_properties(${DST_GFX_EXAMPLE} PROPERTIES FOLDER Examples)
 create_file_group("${INCLUDE_FILES}")
 create_file_group("${SOURCE_FILES}")
+
+set(TARGET Example.VK.07.Compute)
+add_executable(${TARGET} ${INCLUDE_FILES} ${SOURCE_FILES})
+target_include_directories(${TARGET} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(${TARGET} Dynamic_Static.Graphics)
+set_target_properties(${TARGET} PROPERTIES FOLDER Examples)
+add_dependencies(${TARGET} Dynamic_Static.Graphics)

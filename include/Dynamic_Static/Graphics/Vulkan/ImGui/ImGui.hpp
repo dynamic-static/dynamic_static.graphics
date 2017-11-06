@@ -14,7 +14,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/Descriptor.Set.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
 
-#include "../external/imgui/imgui.h"
+#include "imgui.h"
 
 #include <vector>
 

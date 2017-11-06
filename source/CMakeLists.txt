@@ -134,6 +134,9 @@ set(SOURCE_FILES
     ${imgui.SOURCE}
 )
 
+create_file_group("${INCLUDE_FILES}")
+create_file_group("${SOURCE_FILES}")
+
 if (MSVC)
     set(SYSTEM_INSTALL_DEPENDENCIES
     )
@@ -155,41 +158,38 @@ endif()
 set(TARGET Dynamic_Static.Graphics)
 add_library(${TARGET} ${INCLUDE_FILES} ${SOURCE_FILES})
 set_target_properties(Dynamic_Static.Graphics PROPERTIES PREFIX "")
+if (EXISTS ${Dynamic_Static.Core.PACKAGE})
+    target_include_directories(
+        ${TARGET}
+        PUBLIC ${PROJECT_SOURCE_DIR}/include/
+        PUBLIC ${GLFW.INCLUDE}
+        PUBLIC ${glslang.INCLUDE}
+        PUBLIC ${imgui.INCLUDE}
+        PUBLIC ${SPIRV-Cross.INCLUDE}
+        PUBLIC ${VulkanSDK.INCLUDE}
+    )
 
-target_include_directories(
-    ${TARGET}
-    PUBLIC ${PROJECT_SOURCE_DIR}/include/
-    PUBLIC ${Dynamic_Static.Core.INCLUDE}
-    PUBLIC ${GLFW.INCLUDE}
-    PUBLIC ${glslang.INCLUDE}
-    PUBLIC ${imgui.INCLUDE}
-    PUBLIC ${SPIRV-Cross.INCLUDE}
-    PUBLIC ${VulkanSDK.INCLUDE}
-)
+    target_link_libraries(
+        ${TARGET}
+        PUBLIC ${SYSTEM_INSTALL_DEPENDENCIES}
+        PUBLIC Dynamic_Static.Core
+        PUBLIC ${GLFW.LIBRARY}
+        PUBLIC ${glslang.LIBRARY}
+        # NOTE : imgui's source is built as part of Dynamic_Static.Graphics' source tree
+        PUBLIC ${SPIRV-Cross.LIBRARY}
+        PUBLIC ${VulkanSDK.LIBRARY}
+    )
 
-target_link_libraries(
-    ${TARGET}
-    PUBLIC ${SYSTEM_INSTALL_DEPENDENCIES}
-    PUBLIC ${Dynamic_Static.Core.LIBRARY}
-    PUBLIC ${GLFW.LIBRARY}
-    PUBLIC ${glslang.LIBRARY}
-    # NOTE : imgui's source is built as part of Dynamic_Static.Graphics' source tree
-    PUBLIC ${SPIRV-Cross.LIBRARY}
-    PUBLIC ${VulkanSDK.LIBRARY}
-)
+    add_dependencies(${TARGET} Dynamic_Static.Core)
+    add_dependencies(${TARGET} GLFW)
+    add_dependencies(${TARGET} glslang)
+    add_dependencies(${TARGET} imgui)
+    add_dependencies(${TARGET} SPIRV-Cross)
+    # NOTE : We don't currently build anything in the VulkanSDK
+    # add_dependencies(${TARGET} VulkanSDK)
 
-add_dependencies(${TARGET} Dynamic_Static.Core)
-add_dependencies(${TARGET} GLFW)
-add_dependencies(${TARGET} glslang)
-add_dependencies(${TARGET} imgui)
-add_dependencies(${TARGET} SPIRV-Cross)
-# NOTE : We don't currently build anything in the VulkanSDK
-# add_dependencies(${TARGET} VulkanSDK)
-
-export(
-    TARGETS ${TARGET}
-    FILE ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.package.cmake
-)
-
-create_file_group("${INCLUDE_FILES}")
-create_file_group("${SOURCE_FILES}")
+    export(
+        TARGETS ${TARGET}
+        FILE ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.package.cmake
+    )
+endif()

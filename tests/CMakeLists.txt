@@ -1,27 +1,15 @@
 
-# CMake configuration for Dynamic_Static.Core.Tests
+# CMake configuration for Dynamic_Static.Graphics.Tests
 
 set(SOURCE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/source/)
-set(SOURCE_PATH ${SOURCE_DIRECTORY}Dynamic_Static/Graphics/)
 set(SOURCE_FILES
     ${SOURCE_DIRECTORY}/Main.cpp
 )
 
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
-add_executable(
-    Dynamic_Static.Graphics.Tests
-    ${SOURCE_FILES}
-)
-
-add_dependencies(Dynamic_Static.Graphics.Tests Dynamic_Static.Graphics)
-target_link_libraries(
-    Dynamic_Static.Graphics.Tests
-    Dynamic_Static.Graphics
-    ${DST_GFX_BINARY_DEPENDENCIES}
-)
-
-create_file_group("${INCLUDE_FILES}")
 create_file_group("${SOURCE_FILES}")
+
+set(TARGET Dynamic_Static.Graphics.Tests)
+add_executable(${TARGET} ${SOURCE_FILES})
+target_include_directories(${TARGET} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(${TARGET} Dynamic_Static.Graphics)
+add_dependencies(${TARGET} Dynamic_Static.Graphics)
