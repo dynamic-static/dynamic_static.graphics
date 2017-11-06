@@ -158,10 +158,14 @@ endif()
 set(TARGET Dynamic_Static.Graphics)
 add_library(${TARGET} ${INCLUDE_FILES} ${SOURCE_FILES})
 set_target_properties(Dynamic_Static.Graphics PROPERTIES PREFIX "")
-if (EXISTS ${Dynamic_Static.Core.PACKAGE})
+# TODO : Why doesn't transitive linking work when we let CMake auto link and include Dynamic_Static.Core?
+#        It's OK to do it explicitly for now, but this will need to be addressed sooner or later.
+# NOTE : This comment is duplicated in Dynamic_Static.Core.cmake
+# if (EXISTS ${Dynamic_Static.Core.PACKAGE})
     target_include_directories(
         ${TARGET}
         PUBLIC ${PROJECT_SOURCE_DIR}/include/
+        PUBLIC ${Dynamic_Static.Core.INCLUDE}
         PUBLIC ${GLFW.INCLUDE}
         PUBLIC ${glslang.INCLUDE}
         PUBLIC ${imgui.INCLUDE}
@@ -172,7 +176,8 @@ if (EXISTS ${Dynamic_Static.Core.PACKAGE})
     target_link_libraries(
         ${TARGET}
         PUBLIC ${SYSTEM_INSTALL_DEPENDENCIES}
-        PUBLIC Dynamic_Static.Core
+        # PUBLIC Dynamic_Static.Core
+        PUBLIC ${Dynamic_Static.Core.LIBRARY}
         PUBLIC ${GLFW.LIBRARY}
         PUBLIC ${glslang.LIBRARY}
         # NOTE : imgui's source is built as part of Dynamic_Static.Graphics' source tree
@@ -180,7 +185,8 @@ if (EXISTS ${Dynamic_Static.Core.PACKAGE})
         PUBLIC ${VulkanSDK.LIBRARY}
     )
 
-    add_dependencies(${TARGET} Dynamic_Static.Core)
+    # add_dependencies(${TARGET} Dynamic_Static.Core)
+    add_dependencies(${TARGET} Dynamic_Static.Core.package)
     add_dependencies(${TARGET} GLFW)
     add_dependencies(${TARGET} glslang)
     add_dependencies(${TARGET} imgui)
@@ -192,4 +198,4 @@ if (EXISTS ${Dynamic_Static.Core.PACKAGE})
         TARGETS ${TARGET}
         FILE ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.package.cmake
     )
-endif()
+# endif()
