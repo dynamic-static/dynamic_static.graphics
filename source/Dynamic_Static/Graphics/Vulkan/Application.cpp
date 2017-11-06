@@ -7,8 +7,6 @@
 ==========================================
 */
 
-#pragma once
-
 #include "Dynamic_Static/Graphics/Vulkan/Application.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Command.Buffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Command.Pool.hpp"

@@ -11,6 +11,7 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Memory.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include "gsl/span"

@@ -179,6 +179,7 @@ set_target_properties(Dynamic_Static.Graphics PROPERTIES PREFIX "")
         # PUBLIC Dynamic_Static.Core
         PUBLIC ${Dynamic_Static.Core.LIBRARY}
         PUBLIC ${GLFW.LIBRARY}
+        PUBLIC ${SYSTEM_INSTALL_DEPENDENCIES}
         PUBLIC ${glslang.LIBRARY}
         # NOTE : imgui's source is built as part of Dynamic_Static.Graphics' source tree
         PUBLIC ${SPIRV-Cross.LIBRARY}

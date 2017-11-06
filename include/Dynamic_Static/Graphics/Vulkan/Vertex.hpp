@@ -100,7 +100,10 @@ namespace Vulkan {
     template <typename VertexType>
     inline auto attribute_descriptions(uint32_t binding = 0)
     {
-        static_assert("attribute_descriptions() must be specialized for the given vertex type.");
+        #if DYNAMIC_STATIC_MSVC
+        // TODO : Why is this triggering for ImDrawVert on gcc?
+        static_assert(false, "attribute_descriptions() must be specialized for the given vertex type.");
+        #endif
     }
 
 } // namespace Vulkan

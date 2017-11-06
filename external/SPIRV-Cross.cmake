@@ -22,10 +22,10 @@ if (MSVC)
     )
 else()
     set(SPIRV-Cross.LIBRARY
-        "${BINARY_DIR}/spirv-cross-core.a"
-        "${BINARY_DIR}/spirv-cross-cpp.a"
-        "${BINARY_DIR}/spirv-cross-glsl.a"
-        "${BINARY_DIR}/spirv-cross-hlsl.a"
-        "${BINARY_DIR}/spirv-cross-msl.a"
+        "${BINARY_DIR}/libspirv-cross-core.a"
+        "${BINARY_DIR}/libspirv-cross-cpp.a"
+        "${BINARY_DIR}/libspirv-cross-glsl.a"
+        "${BINARY_DIR}/libspirv-cross-hlsl.a"
+        "${BINARY_DIR}/libspirv-cross-msl.a"
     )
 endif()
