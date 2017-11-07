@@ -14,6 +14,9 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    constexpr VkRect2D Pipeline::EmptyScissor;
+    constexpr VkViewport Pipeline::EmptyViewport;
+    constexpr std::array<VkDynamicState, 2> Pipeline::DynamicStates;
     constexpr VkPipelineShaderStageCreateInfo Pipeline::ShaderStageCreateInfo;
     constexpr VkPipelineVertexInputStateCreateInfo Pipeline::VertexInputStateCreateInfo;
     constexpr VkPipelineInputAssemblyStateCreateInfo Pipeline::InputAssemblyStateCreateInfo;
