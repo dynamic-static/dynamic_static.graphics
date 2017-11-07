@@ -18,6 +18,9 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    constexpr VkCommandBufferAllocateInfo Command::Buffer::AllocateInfo;
+    constexpr VkCommandBufferBeginInfo Command::Buffer::BeginInfo;
+
     Command::Buffer::Buffer(Command::Pool& pool)
         : mPool { &pool }
     {

@@ -14,6 +14,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    constexpr VkMemoryAllocateInfo Memory::AllocateInfo;
+
     Memory::Memory(const std::shared_ptr<Device>& device, const VkMemoryAllocateInfo& info)
         : DeviceChild(device)
         , mSize { info.allocationSize }

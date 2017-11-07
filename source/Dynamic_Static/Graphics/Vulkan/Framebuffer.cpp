@@ -14,6 +14,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    constexpr VkFramebufferCreateInfo Framebuffer::CreateInfo;
+
     Framebuffer::Framebuffer(
         const std::shared_ptr<Device>& device,
         const VkFramebufferCreateInfo& info

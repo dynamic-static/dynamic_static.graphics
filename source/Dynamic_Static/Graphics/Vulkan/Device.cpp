@@ -18,6 +18,9 @@
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
+
+    constexpr VkDeviceCreateInfo Device::CreateInfo;
+
     Device::Device(
         PhysicalDevice& physicalDevice,
         const gsl::span<std::string>& layers,

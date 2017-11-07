@@ -16,6 +16,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    constexpr VkBufferCreateInfo Buffer::CreateInfo;
+
     Buffer::Buffer(
         const std::shared_ptr<Device>& device,
         const VkBufferCreateInfo& info,

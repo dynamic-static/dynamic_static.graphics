@@ -14,6 +14,10 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    constexpr VkAttachmentDescription RenderPass::AttachmentDescription;
+    constexpr VkRenderPassCreateInfo RenderPass::CreateInfo;
+    constexpr VkRenderPassBeginInfo RenderPass::BeginInfo;
+
     RenderPass::RenderPass(
         const std::shared_ptr<Device>& device,
         const VkRenderPassCreateInfo& info

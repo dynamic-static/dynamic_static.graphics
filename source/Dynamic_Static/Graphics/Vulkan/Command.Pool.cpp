@@ -14,6 +14,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    constexpr VkCommandPoolCreateInfo Command::Pool::CreateInfo;
+
     Command::Pool::Pool(const std::shared_ptr<Device>& device, const VkCommandPoolCreateInfo& info)
         : DeviceChild { device }
     {

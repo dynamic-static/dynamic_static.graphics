@@ -18,6 +18,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    constexpr VkDebugReportCallbackCreateInfoEXT DebugReport::CreateInfo;
+
     static VKAPI_ATTR VkBool32 VKAPI_CALL debug_report_callback(
         VkDebugReportFlagsEXT flags,
         VkDebugReportObjectTypeEXT objectType,

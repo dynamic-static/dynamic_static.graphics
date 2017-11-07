@@ -23,6 +23,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    constexpr VkShaderModuleCreateInfo ShaderModule::CreateInfo;
+
     ShaderModule::ShaderModule(
         const std::shared_ptr<Device>& device,
         VkShaderStageFlagBits stage,

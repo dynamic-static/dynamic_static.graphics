@@ -14,6 +14,20 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    constexpr VkPipelineShaderStageCreateInfo Pipeline::ShaderStageCreateInfo;
+    constexpr VkPipelineVertexInputStateCreateInfo Pipeline::VertexInputStateCreateInfo;
+    constexpr VkPipelineInputAssemblyStateCreateInfo Pipeline::InputAssemblyStateCreateInfo;
+    constexpr VkPipelineTessellationStateCreateInfo Pipeline::TesselationStateCreateInfo;
+    constexpr VkPipelineViewportStateCreateInfo Pipeline::ViewportStateCreateInfo;
+    constexpr VkPipelineRasterizationStateCreateInfo Pipeline::RasterizationStateCreateInfo;
+    constexpr VkPipelineMultisampleStateCreateInfo Pipeline::MultisampleStateCreateInfo;
+    constexpr VkPipelineDepthStencilStateCreateInfo Pipeline::DepthStencilStateCreateInfo;
+    constexpr VkPipelineColorBlendAttachmentState Pipeline::ColorBlendAttachmentState;
+    constexpr VkPipelineColorBlendStateCreateInfo Pipeline::ColorBlendStateCreateInfo;
+    constexpr VkPipelineDynamicStateCreateInfo Pipeline::DynamicStateCreateInfo;
+    constexpr VkGraphicsPipelineCreateInfo Pipeline::GraphicsCreateInfo;
+    constexpr VkComputePipelineCreateInfo Pipeline::ComputeCreateInfo;
+
     Pipeline::Pipeline(
         const std::shared_ptr<Device>& device,
         const VkGraphicsPipelineCreateInfo& info

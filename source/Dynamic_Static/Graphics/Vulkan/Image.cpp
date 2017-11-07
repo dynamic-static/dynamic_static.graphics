@@ -18,6 +18,10 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    constexpr VkImageCreateInfo Image::CreateInfo;
+    constexpr VkImageSubresourceRange Image::SubresourceRange;
+    constexpr VkImageMemoryBarrier Image::Barrier;
+
     Image::Image(const std::shared_ptr<Device>& device, const VkImageCreateInfo& info)
         : DeviceChild(device)
         , mFormat { info.format }

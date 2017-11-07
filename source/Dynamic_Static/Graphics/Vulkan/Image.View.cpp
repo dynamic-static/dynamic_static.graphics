@@ -14,6 +14,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    constexpr VkImageViewCreateInfo Image::View::CreateInfo;
+
     Image::View::View(Image& image)
         : mImage { &image }
     {

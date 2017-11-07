@@ -16,6 +16,10 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    constexpr VkDeviceQueueCreateInfo Queue::CreateInfo;
+    constexpr VkSubmitInfo Queue::SubmitInfo;
+    constexpr VkPresentInfoKHR Queue::PresentInfoKHR;
+
     Queue::Queue(Device& device, const VkDeviceQueueCreateInfo& info, size_t index)
         : mDevice { &device }
         , mFamilyIndex { info.queueFamilyIndex }

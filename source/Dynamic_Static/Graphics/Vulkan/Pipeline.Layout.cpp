@@ -14,6 +14,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    constexpr VkPipelineLayoutCreateInfo Pipeline::Layout::CreateInfo;
+
     Pipeline::Layout::Layout(
         const std::shared_ptr<Device>& device,
         const VkPipelineLayoutCreateInfo& info

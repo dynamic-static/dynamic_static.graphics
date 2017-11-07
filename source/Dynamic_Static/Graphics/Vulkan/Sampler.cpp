@@ -14,6 +14,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    constexpr VkSamplerCreateInfo Sampler::CreateInfo;
+
     Sampler::Sampler(
         const std::shared_ptr<Device>& device,
         const VkSamplerCreateInfo& info
