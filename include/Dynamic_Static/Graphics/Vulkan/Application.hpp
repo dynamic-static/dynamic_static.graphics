@@ -60,17 +60,17 @@ namespace Vulkan {
         /**
          * TODO : Documentation.
          */
-        virtual void pre_update(const dst::Clock& clock, const dst::Input& input) override;
+        virtual void pre_update(const dst::Clock& clock, const dst::sys::Input& input) override;
 
         /**
          * TODO : Documentation.
          */
-        virtual void update(const dst::Clock& clock, const dst::Input& input) override;
+        virtual void update(const dst::Clock& clock, const dst::sys::Input& input) override;
 
         /**
          * TODO : Documentation.
          */
-        virtual void post_update(const dst::Clock& clock, const dst::Input& input) override;
+        virtual void post_update(const dst::Clock& clock, const dst::sys::Input& input) override;
 
         /**
          * TODO : Documentation.

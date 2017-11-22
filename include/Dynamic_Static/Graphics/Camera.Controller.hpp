@@ -9,10 +9,10 @@
 
 #pragma once
 
-#include "Dynamic_Static/Core/Input.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
 #include "Dynamic_Static/Graphics/Camera.hpp"
 #include "Dynamic_Static/Graphics/Defines.hpp"
+#include "Dynamic_Static/System/Input.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -31,7 +31,7 @@ namespace Graphics {
          * @param [in] clock TODO : Documentation.
          * @param [in] input TODO : Documentation.
          */
-        virtual void update(const dst::Clock& clock, const dst::Input& input) = 0;
+        virtual void update(const dst::Clock& clock, const dst::sys::Input& input) = 0;
     };
 
 } // namespace Graphics

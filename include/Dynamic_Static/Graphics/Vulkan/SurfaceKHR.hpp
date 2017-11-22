@@ -12,6 +12,7 @@
 #include "Dynamic_Static/Core/Callback.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
+#include "Dynamic_Static/System/Window.hpp"
 
 #include "gsl/span"
 
@@ -20,9 +21,6 @@
 
 namespace Dynamic_Static {
 namespace Graphics {
-
-    class Window;
-
 namespace Vulkan {
 
     /**
@@ -40,12 +38,12 @@ namespace Vulkan {
         std::vector<VkPresentModeKHR> mPresentModes;
 
     private:
-        SurfaceKHR(PhysicalDevice& physicalDevice, std::shared_ptr<Window>& window);
+        SurfaceKHR(PhysicalDevice& physicalDevice, std::shared_ptr<dst::sys::Window>& window);
 
     private:
         PhysicalDevice* mPhysicalDevice { nullptr };
         std::shared_ptr<Instance> mInstance;
-        std::shared_ptr<Window> mWindow;
+        std::shared_ptr<dst::sys::Window> mWindow;
 
     public:
         /**
@@ -71,7 +69,7 @@ namespace Vulkan {
          * Gets this SurfaceKHR's Window.
          * @return This SurfaceKHR's Window
          */
-        const Window& window() const;
+        const dst::sys::Window& window() const;
 
         /**
          * Gets this SurfaceKHR's VkSurfaceCapabilitiesKHR.
@@ -115,7 +113,7 @@ namespace Vulkan {
         bool presentation_supported(size_t queueFamilyIndex) const;
 
     private:
-        void on_window_resized(const Window& window);
+        void on_window_resized(const dst::sys::Window& window);
     };
 
 } // namespace Vulkan

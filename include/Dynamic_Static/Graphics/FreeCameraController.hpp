@@ -9,12 +9,12 @@
 
 #pragma once
 
-#include "Dynamic_Static/Core/Input.hpp"
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
 #include "Dynamic_Static/Graphics/Camera.hpp"
 #include "Dynamic_Static/Graphics/Camera.Controller.hpp"
 #include "Dynamic_Static/Graphics/Defines.hpp"
+#include "Dynamic_Static/System/Input.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -26,21 +26,21 @@ namespace Graphics {
         : public Camera::Controller
     {
     public:
-        bool moveEnabled { true };
-        bool lookEnabled { true };
-        float speed { 4.2f };
-        float zoomSpeed { 16000 };
-        float speedModifier { 2 };
-        float minFieldOfView { 16 };
-        float maxFieldOfView { 90 };
-        dst::Vector2 sensitivity { 2.4f, 2.4f };
-        Keyboard::Key upKey { Keyboard::Key::E };
-        Keyboard::Key downKey { Keyboard::Key::Q };
-        Keyboard::Key leftKey { Keyboard::Key::A };
-        Keyboard::Key rightKey { Keyboard::Key::D };
-        Keyboard::Key forwardKey { Keyboard::Key::W };
-        Keyboard::Key backwardKey { Keyboard::Key::S };
-        Keyboard::Key speedModifyKey { Keyboard::Key::LeftShift };
+        bool moveEnabled { true };                                                     /*!< TODO : Documentation. */
+        bool lookEnabled { true };                                                     /*!< TODO : Documentation. */
+        float speed { 4.2f };                                                          /*!< TODO : Documentation. */
+        float zoomSpeed { 16000 };                                                     /*!< TODO : Documentation. */
+        float speedModifier { 2 };                                                     /*!< TODO : Documentation. */
+        float minFieldOfView { 16 };                                                   /*!< TODO : Documentation. */
+        float maxFieldOfView { 90 };                                                   /*!< TODO : Documentation. */
+        dst::Vector2 sensitivity { 2.4f, 2.4f };                                       /*!< TODO : Documentation. */
+        dst::sys::Keyboard::Key upKey { dst::sys::Keyboard::Key::E };                  /*!< TODO : Documentation. */
+        dst::sys::Keyboard::Key downKey { dst::sys::Keyboard::Key::Q };                /*!< TODO : Documentation. */
+        dst::sys::Keyboard::Key leftKey { dst::sys::Keyboard::Key::A };                /*!< TODO : Documentation. */
+        dst::sys::Keyboard::Key rightKey { dst::sys::Keyboard::Key::D };               /*!< TODO : Documentation. */
+        dst::sys::Keyboard::Key forwardKey { dst::sys::Keyboard::Key::W };             /*!< TODO : Documentation. */
+        dst::sys::Keyboard::Key backwardKey { dst::sys::Keyboard::Key::S };            /*!< TODO : Documentation. */
+        dst::sys::Keyboard::Key speedModifyKey { dst::sys::Keyboard::Key::LeftShift }; /*!< TODO : Documentation. */
 
     private:
         float mVerticalLook { 0 };
@@ -51,7 +51,7 @@ namespace Graphics {
          * @param [in] clock TODO : Documentation.
          * @param [in] input TODO : Documentation.
          */
-        void update(const dst::Clock& clock, const dst::Input& input) override final;
+        void update(const dst::Clock& clock, const dst::sys::Input& input) override final;
     };
 
 } // namespace Graphics

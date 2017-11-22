@@ -14,7 +14,7 @@ namespace Graphics {
 
     Object::Object()
     {
-        name("Dynamic_Static::Graphics::Object");
+        set_name("Dynamic_Static::Graphics::Object");
     }
 
     Object::Object(Object && other)

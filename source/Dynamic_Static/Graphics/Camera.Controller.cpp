@@ -12,7 +12,7 @@
 namespace Dynamic_Static {
 namespace Graphics {
 
-    void Camera::Controller::update(const dst::Clock& clock, const dst::Input& input)
+    void Camera::Controller::update(const dst::Clock& clock, const dst::sys::Input& input)
     {
     }
 

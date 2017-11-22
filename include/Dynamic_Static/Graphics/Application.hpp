@@ -10,11 +10,11 @@
 #pragma once
 
 #include "Dynamic_Static/Core/Time.hpp"
-#include "Dynamic_Static/Core/Input.hpp"
 #include "Dynamic_Static/Core/Object.hpp"
 #include "Dynamic_Static/Core/Version.hpp"
 #include "Dynamic_Static/Graphics/Defines.hpp"
-#include "Dynamic_Static/Graphics/Window.hpp"
+#include "Dynamic_Static/System/Input.hpp"
+#include "Dynamic_Static/System/Window.hpp"
 
 #include <memory>
 #include <string>
@@ -31,8 +31,8 @@ namespace Graphics {
     protected:
         dst::Clock mClock;
         dst::Version mVersion { 1, 0, 0 };
-        Window::Configuration mWindowConfiguration;
-        std::shared_ptr<Window> mWindow;
+        dst::sys::Window::Configuration mWindowConfiguration;
+        std::shared_ptr<dst::sys::Window> mWindow;
         bool mRunning { false };
 
     public:
@@ -61,17 +61,17 @@ namespace Graphics {
         /**
          * TODO : Documentation.
          */
-        virtual void pre_update(const dst::Clock& clock, const dst::Input& input);
+        virtual void pre_update(const dst::Clock& clock, const dst::sys::Input& input);
 
         /**
          * TODO : Documentation.
          */
-        virtual void update(const dst::Clock& clock, const dst::Input& input);
+        virtual void update(const dst::Clock& clock, const dst::sys::Input& input);
 
         /**
          * TODO : Documentation.
          */
-        virtual void post_update(const dst::Clock& clock, const dst::Input& input);
+        virtual void post_update(const dst::Clock& clock, const dst::sys::Input& input);
 
         /**
          * TODO : Documentation.

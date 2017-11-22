@@ -297,27 +297,27 @@ namespace Vulkan {
 
     void ImGUI::begin_frame(
         const dst::Clock& clock,
-        const dst::Input& input,
+        const dst::sys::Input& input,
         const dst::Vector2& displayArea
     )
     {
         ImGuiIO& io = ImGui::GetIO();
         io.DeltaTime = clock.elapsed<dst::Second<float>>();
-        io.MousePos.x = input.mouse().position().x;
-        io.MousePos.y = input.mouse().position().y;
-        io.MouseDown[0] = input.mouse().down(dst::Mouse::Button::Left);
-        io.MouseDown[1] = input.mouse().down(dst::Mouse::Button::Right);
-        io.MouseWheel += static_cast<float>(input.mouse().scroll());
-        io.KeyAlt = input.keyboard().down(dst::Keyboard::Key::Alt);
+        io.MousePos.x = input.get_mouse().position().x;
+        io.MousePos.y = input.get_mouse().position().y;
+        io.MouseDown[0] = input.get_mouse().down(dst::sys::Mouse::Button::Left);
+        io.MouseDown[1] = input.get_mouse().down(dst::sys::Mouse::Button::Right);
+        io.MouseWheel += static_cast<float>(input.get_mouse().scroll());
+        io.KeyAlt = input.get_keyboard().down(dst::sys::Keyboard::Key::Alt);
         io.KeyCtrl =
-            input.keyboard().down(dst::Keyboard::Key::LeftControl) ||
-            input.keyboard().down(dst::Keyboard::Key::RightControl);
+            input.get_keyboard().down(dst::sys::Keyboard::Key::LeftControl) ||
+            input.get_keyboard().down(dst::sys::Keyboard::Key::RightControl);
         io.KeyShift =
-            input.keyboard().down(dst::Keyboard::Key::LeftShift) ||
-            input.keyboard().down(dst::Keyboard::Key::RightShift);
+            input.get_keyboard().down(dst::sys::Keyboard::Key::LeftShift) ||
+            input.get_keyboard().down(dst::sys::Keyboard::Key::RightShift);
         io.KeySuper =
-            input.keyboard().down(dst::Keyboard::Key::LeftWindow) ||
-            input.keyboard().down(dst::Keyboard::Key::RightWindow);
+            input.get_keyboard().down(dst::sys::Keyboard::Key::LeftWindow) ||
+            input.get_keyboard().down(dst::sys::Keyboard::Key::RightWindow);
         ImGui::NewFrame();
     }
 

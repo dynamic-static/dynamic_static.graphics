@@ -7,12 +7,12 @@
 ==========================================
 */
 
-#include "Dynamic_Static/Core/Input.hpp"
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Descriptor.Set.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
+#include "Dynamic_Static/System/Input.hpp"
 
 #include "imgui.h"
 
@@ -65,7 +65,7 @@ namespace Vulkan {
          */
         void begin_frame(
             const dst::Clock& clock,
-            const dst::Input& input,
+            const dst::sys::Input& input,
             const dst::Vector2& displayArea
         );
 

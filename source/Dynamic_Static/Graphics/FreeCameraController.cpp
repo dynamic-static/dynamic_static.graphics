@@ -13,30 +13,30 @@
 namespace Dynamic_Static {
 namespace Graphics {
 
-    void FreeCameraController::update(const dst::Clock& clock, const dst::Input& input)
+    void FreeCameraController::update(const dst::Clock& clock, const dst::sys::Input& input)
     {
         if (camera) {
             float dt = clock.elapsed<Second<float>>();
 
             if (moveEnabled) {
                 Vector3 moveDirection;
-                moveDirection += input.keyboard().down(upKey) ? camera->transform().up() : Vector3::Zero;
-                moveDirection += input.keyboard().down(downKey) ? camera->transform().down() : Vector3::Zero;
-                moveDirection += input.keyboard().down(leftKey) ? camera->transform().left() : Vector3::Zero;
-                moveDirection += input.keyboard().down(rightKey) ? camera->transform().right() : Vector3::Zero;
-                moveDirection += input.keyboard().down(forwardKey) ? camera->transform().forward() : Vector3::Zero;
-                moveDirection += input.keyboard().down(backwardKey) ? camera->transform().backward() : Vector3::Zero;
+                moveDirection += input.get_keyboard().down(upKey) ? camera->transform().up() : Vector3::Zero;
+                moveDirection += input.get_keyboard().down(downKey) ? camera->transform().down() : Vector3::Zero;
+                moveDirection += input.get_keyboard().down(leftKey) ? camera->transform().left() : Vector3::Zero;
+                moveDirection += input.get_keyboard().down(rightKey) ? camera->transform().right() : Vector3::Zero;
+                moveDirection += input.get_keyboard().down(forwardKey) ? camera->transform().forward() : Vector3::Zero;
+                moveDirection += input.get_keyboard().down(backwardKey) ? camera->transform().backward() : Vector3::Zero;
                 if (moveDirection.x || moveDirection.y || moveDirection.z) {
                     moveDirection.normalize();
                 }
 
-                float moveSpeed = speed * (input.keyboard().down(speedModifyKey) ? speedModifier : 1);
+                float moveSpeed = speed * (input.get_keyboard().down(speedModifyKey) ? speedModifier : 1);
                 camera->transform().translation += moveDirection * moveSpeed * dt;
             }
 
             if (lookEnabled) {
                 float verticalLookMax = dst::to_radians(90.0f);
-                auto look = input.mouse().delta() * sensitivity * dt;
+                auto look = input.get_mouse().delta() * sensitivity * dt;
                 if (mVerticalLook + look.y > verticalLookMax) {
                     look.y = verticalLookMax - mVerticalLook;
                 } else
@@ -52,9 +52,9 @@ namespace Graphics {
             }
 
             float fov = camera->field_of_view();
-            fov -= static_cast<float>(input.mouse().scroll()) * zoomSpeed * dt;
+            fov -= static_cast<float>(input.get_mouse().scroll()) * zoomSpeed * dt;
             camera->field_of_view(dst::clamp(fov, minFieldOfView, maxFieldOfView));
-            if (input.mouse().pressed(Mouse::Button::Middle)) {
+            if (input.get_mouse().pressed(dst::sys::Mouse::Button::Middle)) {
                 camera->field_of_view(Camera::DefaultFieldOfView);
             }
         }

@@ -53,13 +53,13 @@ namespace Vulkan {
 
         ////////////////////////////////////////////////////////////////
         // Create Window and Surface
-        Window::Configuration windowConfiguration;
-        windowConfiguration.api = API::Vulkan;
+        dst::sys::Window::Configuration windowConfiguration;
+        windowConfiguration.api = dst::sys::API::Vulkan;
         windowConfiguration.apiVersion.major = VK_VERSION_MAJOR(apiVersion);
         windowConfiguration.apiVersion.minor = VK_VERSION_MAJOR(apiVersion);
         windowConfiguration.apiVersion.patch = VK_VERSION_MAJOR(apiVersion);
-        windowConfiguration.name = name();
-        mWindow = std::make_shared<Window>(windowConfiguration);
+        windowConfiguration.name = get_name();
+        mWindow = std::make_shared<dst::sys::Window>(windowConfiguration);
         mSurface = mPhysicalDevice->create<SurfaceKHR>(mWindow);
 
         ////////////////////////////////////////////////////////////////
@@ -172,15 +172,15 @@ namespace Vulkan {
         mRenderSemaphore = mDevice->create<Semaphore>();
     }
 
-    void Application::pre_update(const dst::Clock& clock, const dst::Input& input)
+    void Application::pre_update(const dst::Clock& clock, const dst::sys::Input& input)
     {
     }
 
-    void Application::update(const dst::Clock& clock, const dst::Input& input)
+    void Application::update(const dst::Clock& clock, const dst::sys::Input& input)
     {
     }
 
-    void Application::post_update(const dst::Clock& clock, const dst::Input& input)
+    void Application::post_update(const dst::Clock& clock, const dst::sys::Input& input)
     {
     }
 
