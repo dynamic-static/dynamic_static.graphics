@@ -52,7 +52,7 @@ namespace ShapeBlaster {
             enabled(true);
         }
 
-        void update(const dst::Input& input, const dst::Clock& clock, const VkExtent2D& playField) override
+        void update(const dst::sys::Input& input, const dst::Clock& clock, const VkExtent2D& playField) override
         {
             if (mSpawnTimer <= 0) {
                 if (enabled()) {

@@ -16,12 +16,12 @@
 #include "Entity.Manager.hpp"
 #include "Resources.hpp"
 
-#include "Dynamic_Static/Core/Input.hpp"
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
 #include "Dynamic_Static/Core/ToString.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
-#include "Dynamic_Static/Graphics/Window.hpp"
+#include "Dynamic_Static/System/Input.hpp"
+#include "Dynamic_Static/System/Window.hpp"
 
 #include <string>
 
@@ -42,14 +42,14 @@ namespace ShapeBlaster {
     public:
         void update(
             dst::vlkn::Device& device,
-            const dst::Input& input,
+            const dst::sys::Input& input,
             const dst::Clock& clock,
             const VkExtent2D& playField
         )
         {
             if (mGameStatus.over()) {
                 // TODO : Any key / button...
-                if (input.keyboard().pressed(dst::Keyboard::Key::SpaceBar)) {
+                if (input.get_keyboard().pressed(dst::sys::Keyboard::Key::SpaceBar)) {
                     mEntityManager.reset();
                     mGameStatus.reset();
                 }

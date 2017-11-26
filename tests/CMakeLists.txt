@@ -1,15 +1,19 @@
 
-# CMake configuration for Dynamic_Static.Graphics.Tests
-
-set(SOURCE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/source/)
-set(SOURCE_FILES
-    ${SOURCE_DIRECTORY}/Main.cpp
+set(sourcePath "${PROJECT_SOURCE_DIR}/tests/source/")
+set(sourceFiles
+    ${sourcePath}/Main.cpp
 )
 
-create_file_group("${SOURCE_FILES}")
+set(catch.include "${CMAKE_BINARY_DIR}/tests/external/catch/")
+file(
+    DOWNLOAD
+    https://github.com/catchorg/Catch2/releases/download/v2.0.1/catch.hpp
+    ${catch.include}/catch.hpp
+)
 
-set(TARGET Dynamic_Static.Graphics.Tests)
-add_executable(${TARGET} ${SOURCE_FILES})
-target_include_directories(${TARGET} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(${TARGET} Dynamic_Static.Graphics)
-add_dependencies(${TARGET} Dynamic_Static.Graphics)
+set(target Dynamic_Static.Graphics.Tests)
+add_executable(${target} "${sourceFiles}")
+add_dependencies(${target} Dynamic_Static.Graphics)
+dst_setup_target(${target} "" "${sourceFiles}")
+target_include_directories(${target} PUBLIC ${catch.include})
+target_link_libraries(${target} Dynamic_Static.Graphics)

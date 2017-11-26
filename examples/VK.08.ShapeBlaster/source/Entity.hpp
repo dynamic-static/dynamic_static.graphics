@@ -15,10 +15,10 @@
 #include "Resources.hpp"
 
 #include "Dynamic_Static/Core/Algorithm.hpp"
-#include "Dynamic_Static/Core/Input.hpp"
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
+#include "Dynamic_Static/System/Input.hpp"
 
 #include <array>
 
@@ -77,7 +77,7 @@ namespace ShapeBlaster {
             return translation * rotation * scale;
         }
 
-        virtual void update(const dst::Input& input, const dst::Clock& clock, const VkExtent2D& playField) = 0;
+        virtual void update(const dst::sys::Input& input, const dst::Clock& clock, const VkExtent2D& playField) = 0;
 
         void update_uniforms(dst::vlkn::Device& device, const dst::Matrix4x4& view, const dst::Matrix4x4& projection)
         {

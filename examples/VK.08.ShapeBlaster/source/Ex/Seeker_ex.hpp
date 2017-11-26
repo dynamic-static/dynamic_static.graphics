@@ -38,7 +38,7 @@ namespace ShapeBlaster_ex {
 
         void on_update(
             const dst::Clock& clock,
-            const dst::Input& input,
+            const dst::sys::Input& input,
             const dst::Vector2& playArea
         ) override final
         {

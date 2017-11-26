@@ -15,10 +15,10 @@
 #include "Entity_ex.hpp"
 #include "Pool_ex.hpp"
 
-#include "Dynamic_Static/Core/Input.hpp"
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
 #include "Dynamic_Static/Core/TypeUtilities.hpp"
+#include "Dynamic_Static/System/Input.hpp"
 
 #include <algorithm>
 #include <tuple>
@@ -123,7 +123,7 @@ namespace ShapeBlaster_ex {
 
         void update(
             const dst::Clock& clock,
-            const dst::Input& input,
+            const dst::sys::Input& input,
             const dst::Vector2& playField
         )
         {
@@ -178,7 +178,7 @@ namespace ShapeBlaster_ex {
 
         void update_enabled_entities(
             const dst::Clock& clock,
-            const dst::Input& input,
+            const dst::sys::Input& input,
             const dst::Vector2& playField
         )
         {

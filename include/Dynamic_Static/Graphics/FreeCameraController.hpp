@@ -33,7 +33,7 @@ namespace Graphics {
         float speedModifier { 2 };                                                     /*!< TODO : Documentation. */
         float minFieldOfView { 16 };                                                   /*!< TODO : Documentation. */
         float maxFieldOfView { 90 };                                                   /*!< TODO : Documentation. */
-        dst::Vector2 sensitivity { 2.4f, 2.4f };                                       /*!< TODO : Documentation. */
+        glm::vec2 sensitivity { 2.4f, 2.4f };                                          /*!< TODO : Documentation. */
         dst::sys::Keyboard::Key upKey { dst::sys::Keyboard::Key::E };                  /*!< TODO : Documentation. */
         dst::sys::Keyboard::Key downKey { dst::sys::Keyboard::Key::Q };                /*!< TODO : Documentation. */
         dst::sys::Keyboard::Key leftKey { dst::sys::Keyboard::Key::A };                /*!< TODO : Documentation. */

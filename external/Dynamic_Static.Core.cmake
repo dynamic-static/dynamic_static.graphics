@@ -4,8 +4,9 @@
 ExternalProject_Add(
     Dynamic_Static.Core.package
     PREFIX external
-    DOWNLOAD_DIR external/Dynamic_Static.Core
-    URL https://github.com/DynamicStatic/Dynamic_Static.Core/archive/master.zip
+    # DOWNLOAD_DIR external/Dynamic_Static.Core
+    # URL https://github.com/DynamicStatic/Dynamic_Static.Core/archive/master.zip
+    SOURCE_DIR "D:/Dynamic_Static/Dynamic_Static.Core"
     CMAKE_ARGS
         -DBUILD_SANDBOX=OFF
         -DBUILD_TESTS=OFF

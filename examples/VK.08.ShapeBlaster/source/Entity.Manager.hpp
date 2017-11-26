@@ -22,10 +22,10 @@
 #include "Wanderer.hpp"
 #include "Resources.hpp"
 
-#include "Dynamic_Static/Core/Input.hpp"
 #include "Dynamic_Static/Core/Random.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
+#include "Dynamic_Static/System/Input.hpp"
 
 #include <vector>
 
@@ -104,7 +104,7 @@ namespace ShapeBlaster {
 
     public:
         void udpate(
-            const dst::Input& input,
+            const dst::sys::Input& input,
             const dst::Clock& clock,
             const VkExtent2D& playField
         )

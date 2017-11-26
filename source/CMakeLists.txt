@@ -36,15 +36,15 @@ if (MSVC)
         "${CMAKE_BINARY_DIR}/glslang/external/src/glslang-build/SPIRV/$(Configuration)/SPVRemapper*.lib"
     )
 else()
-    set(glslang.linkLibraries
-        # TODO : ...
-        "${CMAKE_BINARY_DIR}/external/glslang/glslang/libglslang.a"
-        "${CMAKE_BINARY_DIR}/external/glslang/glslang/OSDependent/Unix/libOSDependent.a"
-        "${CMAKE_BINARY_DIR}/external/glslang/hlsl/libHLSL.a"
-        "${CMAKE_BINARY_DIR}/external/glslang/OGLCompilersDLL/libOGLCompiler.a"
-        "${CMAKE_BINARY_DIR}/external/glslang/SPIRV/libSPIRV.a"
-        "${CMAKE_BINARY_DIR}/external/glslang/SPIRV/libSPVRemapper.a"
-    )
+    # TODO : ...
+    # set(glslang.linkLibraries
+    #     "${CMAKE_BINARY_DIR}/external/glslang/glslang/libglslang.a"
+    #     "${CMAKE_BINARY_DIR}/external/glslang/glslang/OSDependent/Unix/libOSDependent.a"
+    #     "${CMAKE_BINARY_DIR}/external/glslang/hlsl/libHLSL.a"
+    #     "${CMAKE_BINARY_DIR}/external/glslang/OGLCompilersDLL/libOGLCompiler.a"
+    #     "${CMAKE_BINARY_DIR}/external/glslang/SPIRV/libSPIRV.a"
+    #     "${CMAKE_BINARY_DIR}/external/glslang/SPIRV/libSPVRemapper.a"
+    # )
 endif()
 
 dst_build_external_package(imgui "${PROJECT_SOURCE_DIR}/external/imgui.cmake")
@@ -55,28 +55,27 @@ dst_build_external_package(SPIRV-Cross "${PROJECT_SOURCE_DIR}/external/SPIRV-Cro
 set(SPIRV-Cross.includeDirectories "${CMAKE_BINARY_DIR}/SPIRV-Cross/external/src/SPIRV-Cross/")
 if (MSVC)
     set(SPIRV-Cross.linkLibraries
-        "${CMAKE_BINARY_DIR}/SPIRV-Cross/$(Configuration)/spirv-cross-core.lib"
-        "${CMAKE_BINARY_DIR}/SPIRV-Cross/$(Configuration)/spirv-cross-cpp.lib"
-        "${CMAKE_BINARY_DIR}/SPIRV-Cross/$(Configuration)/spirv-cross-glsl.lib"
-        "${CMAKE_BINARY_DIR}/SPIRV-Cross/$(Configuration)/spirv-cross-hlsl.lib"
-        "${CMAKE_BINARY_DIR}/SPIRV-Cross/$(Configuration)/spirv-cross-msl.lib"
+        "${CMAKE_BINARY_DIR}/SPIRV-Cross/external/src/SPIRV-Cross-build/$(Configuration)/spirv-cross-core.lib"
+        "${CMAKE_BINARY_DIR}/SPIRV-Cross/external/src/SPIRV-Cross-build/$(Configuration)/spirv-cross-cpp.lib"
+        "${CMAKE_BINARY_DIR}/SPIRV-Cross/external/src/SPIRV-Cross-build/$(Configuration)/spirv-cross-glsl.lib"
+        "${CMAKE_BINARY_DIR}/SPIRV-Cross/external/src/SPIRV-Cross-build/$(Configuration)/spirv-cross-hlsl.lib"
+        "${CMAKE_BINARY_DIR}/SPIRV-Cross/external/src/SPIRV-Cross-build/$(Configuration)/spirv-cross-msl.lib"
     )
 else()
-    set(SPIRV-Cross.linkLibraries
-        "${CMAKE_BINARY_DIR}/SPIRV-Cross/libspirv-cross-core.a"
-        "${CMAKE_BINARY_DIR}/SPIRV-Cross/libspirv-cross-cpp.a"
-        "${CMAKE_BINARY_DIR}/SPIRV-Cross/libspirv-cross-glsl.a"
-        "${CMAKE_BINARY_DIR}/SPIRV-Cross/libspirv-cross-hlsl.a"
-        "${CMAKE_BINARY_DIR}/SPIRV-Cross/libspirv-cross-msl.a"
-    )
+    # TODO : ...
+    # set(SPIRV-Cross.linkLibraries
+    #     "${CMAKE_BINARY_DIR}/SPIRV-Cross/libspirv-cross-core.a"
+    #     "${CMAKE_BINARY_DIR}/SPIRV-Cross/libspirv-cross-cpp.a"
+    #     "${CMAKE_BINARY_DIR}/SPIRV-Cross/libspirv-cross-glsl.a"
+    #     "${CMAKE_BINARY_DIR}/SPIRV-Cross/libspirv-cross-hlsl.a"
+    #     "${CMAKE_BINARY_DIR}/SPIRV-Cross/libspirv-cross-msl.a"
+    # )
 endif()
 
 include("${PROJECT_SOURCE_DIR}/external/VulkanSDK.cmake")
 
 set(includePath ${PROJECT_SOURCE_DIR}/include/Dynamic_Static/Graphics/)
 set(includeFiles
-    # ${includeFiles}/OpenGL/GLEWInclude.hpp
-
     ${includePath}/Vulkan/Effects/Bloom.hpp
     ${includePath}/Vulkan/Effects/BloomCombine.hpp
     ${includePath}/Vulkan/Effects/ExtractLuminance.hpp
@@ -127,7 +126,7 @@ set(includeFiles
     ${includePath}/Vulkan/VulkanHppInclude.hpp
     ${includePath}/Vulkan/VulkanInclude.hpp
 
-    # ${includePath}/Application.hpp
+    ${includePath}/Application.hpp
     ${includePath}/Camera.hpp
     ${includePath}/Camera.Controller.hpp
     ${includePath}/FreeCameraController.hpp
@@ -136,11 +135,8 @@ set(includeFiles
     ${includePath}/GLTFReader.hpp
     ${includePath}/ImageCache.hpp
     ${includePath}/ImageReader.hpp
-    # ${includePath}/Monitor.hpp
     ${includePath}/Object.hpp
-    # ${includePath}/Resolution.hpp
     ${includePath}/Vulkan.hpp
-    # ${includePath}/Window.hpp
 )
 
 set(sourcePath ${PROJECT_SOURCE_DIR}/source/Dynamic_Static/Graphics)
@@ -185,23 +181,19 @@ set(sourceFiles
     ${sourcePath}/Vulkan/SurfaceKHR.cpp
     ${sourcePath}/Vulkan/SwapchainKHR.cpp
 
-    # ${sourcePath}/Application.cpp
+    ${sourcePath}/Application.cpp
     ${sourcePath}/Camera.cpp
     ${sourcePath}/Camera.Controller.cpp
     ${sourcePath}/FreeCameraController.cpp
-    # ${sourcePath}/GLFWInclude.hpp
     ${sourcePath}/GLTFCache.cpp
     ${sourcePath}/GLTFReader.cpp
     ${sourcePath}/ImageCache.cpp
     ${sourcePath}/ImageReader.cpp
-    # ${sourcePath}/Monitor.cpp
     ${sourcePath}/Object.cpp
-    # ${sourcePath}/Resolution.cpp
     ${sourcePath}/StbImageInclude.hpp
     ${sourcePath}/StbImageInclude.cpp
     ${sourcePath}/TinyGLTFInclude.hpp
     ${sourcePath}/TinyGLTFInclude.cpp
-    # ${sourcePath}/Window.cpp
 
     ${imgui.source}
 )
@@ -213,7 +205,6 @@ add_dependencies(${CMAKE_PROJECT_NAME} Dynamic_Static.System)
 # add_dependencies(${CMAKE_PROJECT_NAME} SPIRV-Cross)
 dst_setup_target(${CMAKE_PROJECT_NAME} "${includeFiles}" "${sourceFiles}")
 
-message("VulkanSDK.includeDirectories=${VulkanSDK.includeDirectories}")
 target_include_directories(
     ${CMAKE_PROJECT_NAME}
     PUBLIC ${Dynamic_Static.System.includeDirectories}
@@ -232,71 +223,3 @@ target_link_libraries(
 )
 
 dst_export_target(${CMAKE_PROJECT_NAME})
-
-#### create_file_group("${INCLUDE_FILES}")
-#### create_file_group("${SOURCE_FILES}")
-#### 
-#### if (MSVC)
-####     set(SYSTEM_INSTALL_DEPENDENCIES
-####     )
-#### else()
-####     set(SYSTEM_INSTALL_DEPENDENCIES
-####         EGL
-####         X11
-####         Xcursor
-####         Xi
-####         Xinerama
-####         Xrandr
-####         Xxf86vm
-####         dl
-####         pthread
-####         stdc++fs
-####     )
-#### endif()
-#### 
-#### set(TARGET Dynamic_Static.Graphics)
-#### add_library(${TARGET} ${INCLUDE_FILES} ${SOURCE_FILES})
-#### set_target_properties(Dynamic_Static.Graphics PROPERTIES PREFIX "")
-#### # TODO : Why doesn't transitive linking work when we let CMake auto link and include Dynamic_Static.Core?
-#### #        It's OK to do it explicitly for now, but this will need to be addressed sooner or later.
-#### # NOTE : This comment is duplicated in Dynamic_Static.Core.cmake
-#### # if (EXISTS ${Dynamic_Static.Core.PACKAGE})
-####     target_include_directories(
-####         ${TARGET}
-####         PUBLIC ${PROJECT_SOURCE_DIR}/include/
-####         PUBLIC ${Dynamic_Static.Core.INCLUDE}
-####         PUBLIC ${GLFW.INCLUDE}
-####         PUBLIC ${glslang.INCLUDE}
-####         PUBLIC ${imgui.INCLUDE}
-####         PUBLIC ${SPIRV-Cross.INCLUDE}
-####         PUBLIC ${VulkanSDK.INCLUDE}
-####     )
-#### 
-####     target_link_libraries(
-####         ${TARGET}
-####         PUBLIC ${SYSTEM_INSTALL_DEPENDENCIES}
-####         # PUBLIC Dynamic_Static.Core
-####         PUBLIC ${Dynamic_Static.Core.LIBRARY}
-####         PUBLIC ${GLFW.LIBRARY}
-####         PUBLIC ${SYSTEM_INSTALL_DEPENDENCIES}
-####         PUBLIC ${glslang.LIBRARY}
-####         # NOTE : imgui's source is built as part of Dynamic_Static.Graphics' source tree
-####         PUBLIC ${SPIRV-Cross.LIBRARY}
-####         PUBLIC ${VulkanSDK.LIBRARY}
-####     )
-#### 
-####     # add_dependencies(${TARGET} Dynamic_Static.Core)
-####     add_dependencies(${TARGET} Dynamic_Static.Core.package)
-####     add_dependencies(${TARGET} GLFW)
-####     add_dependencies(${TARGET} glslang)
-####     add_dependencies(${TARGET} imgui)
-####     add_dependencies(${TARGET} SPIRV-Cross)
-####     # NOTE : We don't currently build anything in the VulkanSDK
-####     # add_dependencies(${TARGET} VulkanSDK)
-#### 
-####     export(
-####         TARGETS ${TARGET}
-####         FILE ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.package.cmake
-####     )
-#### # endif()
-#### 

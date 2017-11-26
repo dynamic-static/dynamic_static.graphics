@@ -303,11 +303,11 @@ namespace Vulkan {
     {
         ImGuiIO& io = ImGui::GetIO();
         io.DeltaTime = clock.elapsed<dst::Second<float>>();
-        io.MousePos.x = input.get_mouse().position().x;
-        io.MousePos.y = input.get_mouse().position().y;
+        io.MousePos.x = input.get_mouse().get_position().x;
+        io.MousePos.y = input.get_mouse().get_position().y;
         io.MouseDown[0] = input.get_mouse().down(dst::sys::Mouse::Button::Left);
         io.MouseDown[1] = input.get_mouse().down(dst::sys::Mouse::Button::Right);
-        io.MouseWheel += static_cast<float>(input.get_mouse().scroll());
+        io.MouseWheel += static_cast<float>(input.get_mouse().get_scroll());
         io.KeyAlt = input.get_keyboard().down(dst::sys::Keyboard::Key::Alt);
         io.KeyCtrl =
             input.get_keyboard().down(dst::sys::Keyboard::Key::LeftControl) ||

@@ -47,7 +47,7 @@ namespace ShapeBlaster {
             enabled(true);
         }
 
-        void update(const dst::Input& input, const dst::Clock& clock, const VkExtent2D& playField) override final
+        void update(const dst::sys::Input& input, const dst::Clock& clock, const VkExtent2D& playField) override final
         {
             if (mVelocity.x || mVelocity.y) {
                 mOrientation = mVelocity.to_angle();

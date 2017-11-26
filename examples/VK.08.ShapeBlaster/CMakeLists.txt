@@ -1,55 +1,50 @@
 
-# CMake configuration for Example.VK.08.ShapeBlaster
-
-set(INCLUDE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/)
-set(INCLUDE_FILES
+get_filename_component(target "${CMAKE_CURRENT_SOURCE_DIR}" NAME)
+set(includePath "${CMAKE_CURRENT_SOURCE_DIR}/include/")
+set(includeFiles
 )
 
-set(SOURCE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/source/)
-set(SOURCE_FILES
-    ${SOURCE_DIRECTORY}/Ex/BlackHole_ex.hpp
-    ${SOURCE_DIRECTORY}/Ex/Bullet_ex.hpp
-    ${SOURCE_DIRECTORY}/Ex/Enemy_ex.hpp
-    ${SOURCE_DIRECTORY}/Ex/Entity_ex.hpp
-    ${SOURCE_DIRECTORY}/Ex/Entity_ex.Manager.hpp
-    ${SOURCE_DIRECTORY}/Ex/Main_ex.hpp
-    ${SOURCE_DIRECTORY}/Ex/Player_ex.hpp
-    ${SOURCE_DIRECTORY}/Ex/Pool_ex.hpp
-    ${SOURCE_DIRECTORY}/Ex/Seeker_ex.hpp
-    ${SOURCE_DIRECTORY}/Ex/Sprite_ex.hpp
-    ${SOURCE_DIRECTORY}/Ex/Sprite_ex.Pipeline.hpp
-    ${SOURCE_DIRECTORY}/Ex/Sprite_ex.Pool.hpp
-    ${SOURCE_DIRECTORY}/Ex/Wanderer_ex.hpp
+set(sourcePath "${CMAKE_CURRENT_SOURCE_DIR}/source/")
+set(sourceFiles
+    ${sourcePath}/Ex/BlackHole_ex.hpp
+    ${sourcePath}/Ex/Bullet_ex.hpp
+    ${sourcePath}/Ex/Enemy_ex.hpp
+    ${sourcePath}/Ex/Entity_ex.hpp
+    ${sourcePath}/Ex/Entity_ex.Manager.hpp
+    ${sourcePath}/Ex/Main_ex.hpp
+    ${sourcePath}/Ex/Player_ex.hpp
+    ${sourcePath}/Ex/Pool_ex.hpp
+    ${sourcePath}/Ex/Seeker_ex.hpp
+    ${sourcePath}/Ex/Sprite_ex.hpp
+    ${sourcePath}/Ex/Sprite_ex.Pipeline.hpp
+    ${sourcePath}/Ex/Sprite_ex.Pool.hpp
+    ${sourcePath}/Ex/Wanderer_ex.hpp
 
-    ${SOURCE_DIRECTORY}/BlackHole.hpp
-    ${SOURCE_DIRECTORY}/BloomComponent.hpp
-    ${SOURCE_DIRECTORY}/BloomSettings.hpp
-    ${SOURCE_DIRECTORY}/Bullet.hpp
-    ${SOURCE_DIRECTORY}/Cursor.hpp
-    ${SOURCE_DIRECTORY}/Enemy.hpp
-    ${SOURCE_DIRECTORY}/Enemy.Behavior.hpp
-    # ${SOURCE_DIRECTORY}/Enemy.Spawner.hpp
-    ${SOURCE_DIRECTORY}/Entity.hpp
-    ${SOURCE_DIRECTORY}/Entity.Manager.hpp
-    ${SOURCE_DIRECTORY}/Game.hpp
-    ${SOURCE_DIRECTORY}/Game.Status.hpp
-    ${SOURCE_DIRECTORY}/Main.cpp
-    ${SOURCE_DIRECTORY}/PlayerShip.hpp
-    ${SOURCE_DIRECTORY}/Resources.hpp
-    ${SOURCE_DIRECTORY}/Seeker.hpp
-    ${SOURCE_DIRECTORY}/Sound.hpp
-    # ${SOURCE_DIRECTORY}/tinysound.h
-    # ${SOURCE_DIRECTORY}/TinySoundInclude.hpp
-    # ${SOURCE_DIRECTORY}/TinySoundInclude.cpp
-    ${SOURCE_DIRECTORY}/Wanderer.hpp
+    ${sourcePath}/BlackHole.hpp
+    ${sourcePath}/BloomComponent.hpp
+    ${sourcePath}/BloomSettings.hpp
+    ${sourcePath}/Bullet.hpp
+    ${sourcePath}/Cursor.hpp
+    ${sourcePath}/Enemy.hpp
+    ${sourcePath}/Enemy.Behavior.hpp
+    # ${sourcePath}/Enemy.Spawner.hpp
+    ${sourcePath}/Entity.hpp
+    ${sourcePath}/Entity.Manager.hpp
+    ${sourcePath}/Game.hpp
+    ${sourcePath}/Game.Status.hpp
+    ${sourcePath}/Main.cpp
+    ${sourcePath}/PlayerShip.hpp
+    ${sourcePath}/Resources.hpp
+    ${sourcePath}/Seeker.hpp
+    ${sourcePath}/Sound.hpp
+    # ${sourcePath}/tinysound.h
+    # ${sourcePath}/TinySoundInclude.hpp
+    # ${sourcePath}/TinySoundInclude.cpp
+    ${sourcePath}/Wanderer.hpp
 )
 
-create_file_group("${INCLUDE_FILES}")
-create_file_group("${SOURCE_FILES}")
-
-set(TARGET Example.VK.08.ShapeBlaster)
-add_executable(${TARGET} ${INCLUDE_FILES} ${SOURCE_FILES})
-target_include_directories(${TARGET} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(${TARGET} Dynamic_Static.Graphics)
-set_target_properties(${TARGET} PROPERTIES FOLDER Examples)
-add_dependencies(${TARGET} Dynamic_Static.Graphics)
+add_executable(${target} "${includeFiles}" "${sourceFiles}")
+dst_setup_target(${target} "${includeFiles}" "${sourceFiles}")
+target_link_libraries(${target} Dynamic_Static.Graphics)
+set_target_properties(${target} PROPERTIES FOLDER Examples)
+add_dependencies(${target} Dynamic_Static.Graphics)

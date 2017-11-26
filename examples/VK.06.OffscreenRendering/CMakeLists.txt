@@ -1,21 +1,16 @@
 
-# CMake configuration for Example.VK.06.OffscreenRendering
-
-set(INCLUDE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/)
-set(INCLUDE_FILES
+get_filename_component(target "${CMAKE_CURRENT_SOURCE_DIR}" NAME)
+set(includePath "${CMAKE_CURRENT_SOURCE_DIR}/include/")
+set(includeFiles
 )
 
-set(SOURCE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/source/)
-set(SOURCE_FILES
-    ${SOURCE_DIRECTORY}/Main.cpp
+set(sourcePath "${CMAKE_CURRENT_SOURCE_DIR}/source/")
+set(sourceFiles
+    ${sourcePath}/Main.cpp
 )
 
-create_file_group("${INCLUDE_FILES}")
-create_file_group("${SOURCE_FILES}")
-
-set(TARGET Example.VK.06.OffscreenRendering)
-add_executable(${TARGET} ${INCLUDE_FILES} ${SOURCE_FILES})
-target_include_directories(${TARGET} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(${TARGET} Dynamic_Static.Graphics)
-set_target_properties(${TARGET} PROPERTIES FOLDER Examples)
-add_dependencies(${TARGET} Dynamic_Static.Graphics)
+add_executable(${target} "${includeFiles}" "${sourceFiles}")
+dst_setup_target(${target} "${includeFiles}" "${sourceFiles}")
+target_link_libraries(${target} Dynamic_Static.Graphics)
+set_target_properties(${target} PROPERTIES FOLDER Examples)
+add_dependencies(${target} Dynamic_Static.Graphics)

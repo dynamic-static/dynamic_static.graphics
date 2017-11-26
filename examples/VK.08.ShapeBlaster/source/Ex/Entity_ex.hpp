@@ -16,9 +16,9 @@
 
 #include "Dynamic_Static/Core/Algorithm.hpp"
 #include "Dynamic_Static/Core/Callback.hpp"
-#include "Dynamic_Static/Core/Input.hpp"
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
+#include "Dynamic_Static/System/Input.hpp"
 
 namespace ShapeBlaster_ex {
 
@@ -77,7 +77,7 @@ namespace ShapeBlaster_ex {
 
         void update(
             const dst::Clock& clock,
-            const dst::Input& input,
+            const dst::sys::Input& input,
             const dst::Vector2& playArea
         )
         {
@@ -106,7 +106,7 @@ namespace ShapeBlaster_ex {
     protected:
         virtual void on_update(
             const dst::Clock& clock,
-            const dst::Input& input,
+            const dst::sys::Input& input,
             const dst::Vector2& playArea
         )
         {

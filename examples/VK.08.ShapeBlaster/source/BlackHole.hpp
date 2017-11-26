@@ -52,7 +52,7 @@ namespace ShapeBlaster {
             enabled(true);
         }
 
-        void update(const dst::Input& input, const dst::Clock& clock, const VkExtent2D& playField)
+        void update(const dst::sys::Input& input, const dst::Clock& clock, const VkExtent2D& playField)
         {            
             auto scale_to =
             [&](const dst::Vector2& v, float length)

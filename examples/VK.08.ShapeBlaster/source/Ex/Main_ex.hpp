@@ -29,6 +29,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/Effects/Bloom.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/ImGui/ImGui.hpp"
 
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -115,7 +116,7 @@ namespace ShapeBlaster_ex {
     public:
         Game()
         {
-            name("Dynamic_Static VK.08.ShapeBlaster");
+            set_name("Dynamic_Static VK.08.ShapeBlaster");
             mClearColor = dst::Color::Black;
             mDebugFlags =
                 0
@@ -153,7 +154,7 @@ namespace ShapeBlaster_ex {
         void setup() override
         {
             dst::vlkn::Application::setup();
-            mWindow->cursor_mode(dst::gfx::Window::CursorMode::Hidden);
+            mWindow->set_cursor_mode(dst::sys::Window::CursorMode::Hidden);
             mGui = dst::vlkn::ImGUI(*mDevice, *mRenderPass, *mGraphicsQueue);
             ImGui::GetIO().DisplaySize = ImVec2(1280, 720);
             ImGui::GetIO().DisplayFramebufferScale = ImVec2(1, 1);
@@ -535,19 +536,19 @@ namespace ShapeBlaster_ex {
             return effectPass;
         }
 
-        void update(const dst::Clock& clock, const dst::Input& input) override final
+        void update(const dst::Clock& clock, const dst::sys::Input& input) override final
         {
-            if (input.keyboard().down(dst::Keyboard::Key::Escape)) {
+            if (input.get_keyboard().down(dst::sys::Keyboard::Key::Escape)) {
                 stop();
             }
 
-            if (input.keyboard().pressed(dst::Keyboard::Key::OEM_Tilde)) {
+            if (input.get_keyboard().pressed(dst::sys::Keyboard::Key::OEM_Tilde)) {
                 mAdjustBloomSettings = !mAdjustBloomSettings;
                 force_record_command_buffers();
             }
 
             mGameStatusMessage = "Hi Score : 0";
-            mWindow->name("Dynamic_Static VK.08.ShapeBlaster        " + mGameStatusMessage);
+            mWindow->set_name("Dynamic_Static VK.08.ShapeBlaster        " + mGameStatusMessage);
             auto extent = mSwapchain->extent();
             auto playArea = dst::Vector2(extent.width, extent.height);
 
@@ -559,7 +560,7 @@ namespace ShapeBlaster_ex {
                 force_record_command_buffers();
             }
 
-            mPointerSprite->position = input.mouse().position();
+            mPointerSprite->position = (dst::Vector2)input.get_mouse().get_position();
             mPointerSprite->position.y = playArea.y - mPointerSprite->position.y;
             mPointerSprite->position.x += mPointerSprite->image->extent().width * 0.5f;
             mPointerSprite->position.y -= mPointerSprite->image->extent().height * 0.5f;

@@ -15,7 +15,7 @@
 #include "Dynamic_Static/Graphics/Camera.hpp"
 #include "Dynamic_Static/Graphics/FreeCameraController.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
-#include "Dynamic_Static/Graphics/Window.hpp"
+#include "Dynamic_Static/System/Window.hpp"
 
 #include <algorithm>
 #include <array>
@@ -67,7 +67,7 @@ private:
 public:
     VulkanExample06OffscreenRendering()
     {
-        name("Dynamic_Static VK.06.OffscreenRendering");
+        set_name("Dynamic_Static VK.06.OffscreenRendering");
         mDebugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
@@ -546,17 +546,17 @@ private:
         );
     }
 
-    void update(const dst::Clock& clock, const dst::Input& input) override
+    void update(const dst::Clock& clock, const dst::sys::Input& input) override
     {
-        if (input.keyboard().down(dst::Keyboard::Key::Escape)) {
+        if (input.get_keyboard().down(dst::sys::Keyboard::Key::Escape)) {
             stop();
         }
 
-        if (input.mouse().down(dst::Mouse::Button::Left)) {
-            mWindow->cursor_mode(dst::gfx::Window::CursorMode::Disabled);
+        if (input.get_mouse().down(dst::sys::Mouse::Button::Left)) {
+            mWindow->set_cursor_mode(dst::sys::Window::CursorMode::Disabled);
             mCameraController.lookEnabled = true;
         } else {
-            mWindow->cursor_mode(dst::gfx::Window::CursorMode::Normal);
+            mWindow->set_cursor_mode(dst::sys::Window::CursorMode::Normal);
             mCameraController.lookEnabled = false;
         }
 

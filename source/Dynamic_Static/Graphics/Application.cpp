@@ -34,10 +34,10 @@ namespace Graphics {
         mRunning = true;
         mClock.update();
         while (mRunning) {
-            Window::update();
+            dst::sys::Window::update();
             mClock.update();
 
-            const auto& input = mWindow->input();
+            const auto& input = mWindow->get_input();
             pre_update(mClock, input);
             update(mClock, input);
             post_update(mClock, input);
@@ -46,21 +46,21 @@ namespace Graphics {
             render(mClock);
             post_render(mClock);
 
-            mWindow->swap_buffers();
+            mWindow->swap();
         }
 
         shutdown();
     }
 
-    void Application::pre_update(const dst::Clock& clock, const dst::Input& input)
+    void Application::pre_update(const dst::Clock& clock, const dst::sys::Input& input)
     {
     }
 
-    void Application::update(const dst::Clock& clock, const dst::Input& input)
+    void Application::update(const dst::Clock& clock, const dst::sys::Input& input)
     {
     }
 
-    void Application::post_update(const dst::Clock& clock, const dst::Input& input)
+    void Application::post_update(const dst::Clock& clock, const dst::sys::Input& input)
     {
     }
 

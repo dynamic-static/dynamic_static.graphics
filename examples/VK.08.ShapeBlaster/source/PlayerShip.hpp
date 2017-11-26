@@ -18,10 +18,10 @@
 #include "Resources.hpp"
 
 #include "Dynamic_Static/Core/Algorithm.hpp"
-#include "Dynamic_Static/Core/Input.hpp"
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Core/Random.hpp"
 #include "Dynamic_Static/Core/Time.hpp"
+#include "Dynamic_Static/System/Input.hpp"
 
 #include "gsl/gsl"
 
@@ -71,7 +71,7 @@ namespace ShapeBlaster {
             mColor = dst::Color::White;
         }
 
-        void update(const dst::Input& input, const dst::Clock& clock, const VkExtent2D& playField) override final
+        void update(const dst::sys::Input& input, const dst::Clock& clock, const VkExtent2D& playField) override final
         {
             if (mSpawnTimer > 0) {
                 auto dt = clock.elapsed<dst::Second<float>>();
@@ -84,23 +84,23 @@ namespace ShapeBlaster {
             } else {
                 mColor = dst::Color::White;
                 auto moveDirection = dst::Vector2::Zero;
-                if (input.keyboard().down(dst::Keyboard::Key::W)) {
+                if (input.get_keyboard().down(dst::sys::Keyboard::Key::W)) {
                     ++moveDirection.y;
                 }
 
-                if (input.keyboard().down(dst::Keyboard::Key::S)) {
+                if (input.get_keyboard().down(dst::sys::Keyboard::Key::S)) {
                     --moveDirection.y;
                 }
 
-                if (input.keyboard().down(dst::Keyboard::Key::A)) {
+                if (input.get_keyboard().down(dst::sys::Keyboard::Key::A)) {
                     --moveDirection.x;
                 }
 
-                if (input.keyboard().down(dst::Keyboard::Key::D)) {
+                if (input.get_keyboard().down(dst::sys::Keyboard::Key::D)) {
                     ++moveDirection.x;
                 }
 
-                if (input.mouse().down(dst::Mouse::Button::Left)) {
+                if (input.get_mouse().down(dst::sys::Mouse::Button::Left)) {
                     mAimDirection = mCursor->position() - mPosition;
                 } else {
                     mAimDirection = dst::Vector2::Zero;

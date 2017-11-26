@@ -29,7 +29,7 @@
 #include "Dynamic_Static/Graphics/ImageCache.hpp"
 #include "Dynamic_Static/Graphics/ImageReader.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
-#include "Dynamic_Static/Graphics/Window.hpp"
+#include "Dynamic_Static/System/Window.hpp"
 
 #include <algorithm>
 #include <array>
@@ -75,14 +75,14 @@ int main()
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Create Window and Surface
-        Window::Configuration configuration;
-        configuration.api = dst::gfx::API::Vulkan;
+        dst::sys::Window::Configuration configuration;
+        configuration.api = dst::sys::API::Vulkan;
         configuration.apiVersion.major = VK_VERSION_MAJOR(apiVersion);
         configuration.apiVersion.minor = VK_VERSION_MAJOR(apiVersion);
         configuration.apiVersion.patch = VK_VERSION_MAJOR(apiVersion);
-        configuration.cursorMode = dst::gfx::Window::CursorMode::Hidden;
+        configuration.cursorMode = dst::sys::Window::CursorMode::Hidden;
         configuration.name = "Dynamic_Static VK.07.ShapeBlaster";
-        auto window = std::make_shared<Window>(configuration);
+        auto window = std::make_shared<dst::sys::Window>(configuration);
         auto surface = physicalDevice.create<SurfaceKHR>(window);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -178,17 +178,17 @@ int main()
         float frameRate = 0;
         bool running = true;
         while (running) {
-            window->name("Dynamic_Static VK.07.ShapeBlaster    " + game.label());
-            Window::update();
-            auto quitKey = dst::Keyboard::Key::Escape;
-            if (window->input().keyboard().down(quitKey)) {
+            window->set_name("Dynamic_Static VK.07.ShapeBlaster    " + game.label());
+            dst::sys::Window::update();
+            auto quitKey = dst::sys::Keyboard::Key::Escape;
+            if (window->get_input().get_keyboard().down(quitKey)) {
                 running = false;
                 break;
             }
 
             clock.update();
             auto extent = swapchain->extent();
-            game.update(*device, window->input(), clock, extent);
+            game.update(*device, window->get_input(), clock, extent);
 
             presentQueue.wait_idle();
             swapchain->update();
@@ -347,7 +347,7 @@ int main()
                 presentQueue.present(presentInfo);
             }
 
-            window->swap_buffers();
+            window->swap();
         }
 
         device->wait_idle();

@@ -50,24 +50,24 @@ namespace ShapeBlaster_ex {
 
         void on_update(
             const dst::Clock& clock,
-            const dst::Input& input,
+            const dst::sys::Input& input,
             const dst::Vector2& playField
         ) override final
         {
             auto moveDirection = dst::Vector2::Zero;
-            if (input.keyboard().down(dst::Keyboard::Key::W)) {
+            if (input.get_keyboard().down(dst::sys::Keyboard::Key::W)) {
                 ++moveDirection.y;
             }
 
-            if (input.keyboard().down(dst::Keyboard::Key::S)) {
+            if (input.get_keyboard().down(dst::sys::Keyboard::Key::S)) {
                 --moveDirection.y;
             }
 
-            if (input.keyboard().down(dst::Keyboard::Key::A)) {
+            if (input.get_keyboard().down(dst::sys::Keyboard::Key::A)) {
                 --moveDirection.x;
             }
 
-            if (input.keyboard().down(dst::Keyboard::Key::D)) {
+            if (input.get_keyboard().down(dst::sys::Keyboard::Key::D)) {
                 ++moveDirection.x;
             }
 
@@ -79,12 +79,12 @@ namespace ShapeBlaster_ex {
             mVelocity = moveDirection * Speed;
 
             mShotTimer -= clock.elapsed<dst::Second<float>>();
-            if (input.mouse().down(dst::Mouse::Button::Left)) {
-                auto pointerPosition = input.mouse().position();
+            if (input.get_mouse().down(dst::sys::Mouse::Button::Left)) {
+                auto pointerPosition = input.get_mouse().get_position();
                 pointerPosition.y = playField.y - pointerPosition.y;
                 auto aimDirection = pointerPosition - mPosition;
                 if (aimDirection != dst::Vector2::Zero && mShotTimer <= 0) {
-                    aimDirection.normalize();
+                    aimDirection = glm::normalize(aimDirection);
                     fire_bullet(aimDirection, { BulletOffsetHorizontal,  BulletOffsetVertical });
                     fire_bullet(aimDirection, { BulletOffsetHorizontal, -BulletOffsetVertical });
                     mShotTimer = 1.0f / RateofFire;

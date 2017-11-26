@@ -36,7 +36,7 @@ namespace Graphics {
 
             if (lookEnabled) {
                 float verticalLookMax = dst::to_radians(90.0f);
-                auto look = input.get_mouse().delta() * sensitivity * dt;
+                auto look = input.get_mouse().get_delta() * sensitivity * dt;
                 if (mVerticalLook + look.y > verticalLookMax) {
                     look.y = verticalLookMax - mVerticalLook;
                 } else
@@ -52,7 +52,7 @@ namespace Graphics {
             }
 
             float fov = camera->field_of_view();
-            fov -= static_cast<float>(input.get_mouse().scroll()) * zoomSpeed * dt;
+            fov -= static_cast<float>(input.get_mouse().get_scroll()) * zoomSpeed * dt;
             camera->field_of_view(dst::clamp(fov, minFieldOfView, maxFieldOfView));
             if (input.get_mouse().pressed(dst::sys::Mouse::Button::Middle)) {
                 camera->field_of_view(Camera::DefaultFieldOfView);
