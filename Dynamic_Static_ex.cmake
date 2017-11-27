@@ -8,6 +8,36 @@
 ################################################################################
 # TODO : Documentation
 ################################################################################
+include(CheckCXXCompilerFlag)
+function(dst_set_cxx_flag_ex cxxFlag)
+    CHECK_CXX_COMPILER_FLAG(cxxFlag CXX_FLAG_AVAILABLE)
+    if (CXX_FLAG_AVAILABLE)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} cxxFlag")
+    endif()
+endfunction()
+
+################################################################################
+# TODO : Documentation
+################################################################################
+macro(dst_create_project_ex projectName)
+    project(${projectName} CXX)
+    set(CMAKE_CXX_STANDARD 14)
+    dst_set_cxx_flag_ex(-W4)
+    dst_set_cxx_flag_ex(-Wall)
+    dst_set_cxx_flag_ex(-Wextra)
+    dst_set_cxx_flag_ex(-Wuninitialized)
+    dst_set_cxx_flag_ex(-Wwrite-strings)
+    dst_set_cxx_flag_ex(-Wpointer-arith)
+    dst_set_cxx_flag_ex(-Wunreachable-code)
+    dst_set_cxx_flag_ex(-Wstrict_prototypes)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+    add_definitions(-DUNICODE -D_UNICODE)
+    set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+endmacro()
+
+################################################################################
+# TODO : Documentation
+################################################################################
 function(dst_create_file_group_ex)
     set(options)
     set(loneArgs)
@@ -17,7 +47,7 @@ function(dst_create_file_group_ex)
         get_filename_component(parentDirectory "${file}" DIRECTORY)
         string(REPLACE "${CMAKE_SOURCE_DIR}" "" groupName "${parentDirectory}")
         if(MSVC)
-            string(REPLACE "/" "\\" groupName "${fileGroup}")
+            string(REPLACE "/" "\\" groupName "${groupName}")
         endif()
         source_group("${groupName}" FILES "${file}")
     endforeach()
@@ -29,14 +59,7 @@ endfunction()
 function(dst_setup_build_target_ex)
     set(options)
     set(loneArgs target folder)
-    set(listArgs
-        dependencies
-        includeDirectories
-        linkLibraries
-        includeFiles
-        sourceFiles
-    )
-
+    set(listArgs includeFiles sourceFiles externalSourceFiles)
     cmake_parse_arguments(args "${options}" "${loneArgs}" "${listArgs}" ${ARGN})
 
     set_target_properties(
@@ -57,8 +80,8 @@ function(dst_setup_build_target_ex)
         )
     endif()
 
-    dst_create_file_group_ex(${args_includeFiles})
-    dst_create_file_group_ex(${args_sourceFiles})
+    dst_create_file_group_ex(fileGroup ${args_includeFiles})
+    dst_create_file_group_ex(fileGroup ${args_sourceFiles})
 
     target_include_directories(
         ${args_target}
@@ -82,7 +105,7 @@ function(dst_add_static_library_ex)
     set(options)
     set(loneArgs target)
     set(listArgs
-        dependencies
+        buildDependencies
         includeDirectories
         linkLibraries
         includeFiles
@@ -90,17 +113,19 @@ function(dst_add_static_library_ex)
     )
 
     cmake_parse_arguments(args "${options}" "${loneArgs}" "${listArgs}" ${ARGN})
-    add_library(${target} STATIC ${args_includeFiles} ${args_sourceFiles})
+    add_library(${args_target} STATIC ${args_includeFiles} ${args_sourceFiles})
     target_include_directories(${args_target} PUBLIC ${args_includeDirectories})
     target_link_libraries(${args_target} PUBLIC INTERFACE ${args_linkLibraries})
-    add_dependencies(${args_target} ${args_dependencies})
+    add_dependencies(${args_target} ${args_buildDependencies})
     dst_setup_build_target_ex(
         target ${args_target}
-        dependencies ${args_dependencies}
-        includeDirectories ${args_includeDirectories}
-        linkLibraries ${args_linkLibraries}
         includeFiles ${args_includeFiles}
         sourceFiles ${args_sourceFiles}
+    )
+
+    export(
+        TARGETS ${args_target}
+        FILE ${CMAKE_BINARY_DIR}/${args_target}.package.cmake
     )
 endfunction()
 
@@ -111,7 +136,7 @@ function(dst_add_executable_ex)
     set(options)
     set(loneArgs target folder)
     set(listArgs
-        dependencies
+        buildDependencies
         includeDirectories
         linkLibraries
         includeFiles
@@ -122,13 +147,10 @@ function(dst_add_executable_ex)
     add_executable(${args_target} ${args_includeFiles} ${args_sourceFiles})
     target_include_directories(${args_target} PUBLIC ${args_includeDirectories})
     target_link_libraries(${args_target} PUBLIC ${args_linkLibraries})
-    add_dependencies(${args_target} ${args_dependencies})
+    add_dependencies(${args_target} ${args_buildDependencies})
     dst_setup_build_target_ex(
         target ${args_target}
         folder ${args_folder}
-        dependencies ${args_dependencies}
-        includeDirectories ${args_includeDirectories}
-        linkLibraries ${args_linkLibraries}
         includeFiles ${args_includeFiles}
         sourceFiles ${args_sourceFiles}
     )

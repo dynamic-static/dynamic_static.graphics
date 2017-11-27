@@ -4,7 +4,7 @@ set(sourcePath "${CMAKE_CURRENT_SOURCE_DIR}/source/")
 dst_add_executable_ex(
     target ${target}
     folder examples
-    dependencies Dynamic_Static.Graphics
+    buildDependencies Dynamic_Static.Graphics
     linkLibraries Dynamic_Static.Graphics
     sourceFiles
         ${sourcePath}/Main.cpp

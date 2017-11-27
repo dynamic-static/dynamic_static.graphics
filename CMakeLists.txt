@@ -11,8 +11,7 @@ file(
 
 include(${Dynamic_Static.cmake})
 include(${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static_ex.cmake)
-dst_create_project(Dynamic_Static.Graphics)
-set(CMAKE_CXX_STANDARD 14)
+dst_create_project_ex(Dynamic_Static.Graphics)
 add_subdirectory("source/")
 
 option(BUILD_EXAMPLES "Build Dynamic_Static.Graphics examples" ON)
