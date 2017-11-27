@@ -11,7 +11,7 @@
 // Based on https://vulkan-tutorial.com/Drawing_a_triangle
 
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
-#include "Dynamic_Static/Graphics/Window.hpp"
+#include "Dynamic_Static/System/Window.hpp"
 
 #include <array>
 #include <iostream>
@@ -27,7 +27,7 @@ private:
 public:
     VulkanExample01Triangle()
     {
-        name("Dynamic_Static VK.01.Triangle");
+        set_name("Dynamic_Static VK.01.Triangle");
         mDebugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
@@ -113,9 +113,9 @@ private:
         mPipeline = mDevice->create<Pipeline>(pipelineInfo);
     }
 
-    void update(const dst::Clock& clock, const dst::Input& input) override
+    void update(const dst::Clock& clock, const dst::sys::Input& input) override
     {
-        if (input.keyboard().down(dst::Keyboard::Key::Escape)) {
+        if (input.get_keyboard().down(dst::sys::Keyboard::Key::Escape)) {
             stop();
         }
     }

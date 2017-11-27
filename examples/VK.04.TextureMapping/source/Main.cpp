@@ -15,7 +15,7 @@
 #include "Dynamic_Static/Graphics/ImageCache.hpp"
 #include "Dynamic_Static/Graphics/ImageReader.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
-#include "Dynamic_Static/Graphics/Window.hpp"
+#include "Dynamic_Static/System/Window.hpp"
 
 #include <algorithm>
 #include <array>
@@ -49,7 +49,7 @@ private:
 public:
     VulkanExample04TextureMapping()
     {
-        name("Dynamic_Static VK.04.TextureMapping");
+        set_name("Dynamic_Static VK.04.TextureMapping");
         mDebugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
@@ -387,9 +387,9 @@ private:
         );
     }
 
-    void update(const dst::Clock& clock, const dst::Input& input) override
+    void update(const dst::Clock& clock, const dst::sys::Input& input) override
     {
-        if (input.keyboard().down(dst::Keyboard::Key::Escape)) {
+        if (input.get_keyboard().down(dst::sys::Keyboard::Key::Escape)) {
             stop();
         }
 
