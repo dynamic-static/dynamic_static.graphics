@@ -298,7 +298,7 @@ namespace Vulkan {
     void ImGUI::begin_frame(
         const dst::Clock& clock,
         const dst::sys::Input& input,
-        const dst::Vector2& displayArea
+        const glm::vec2& displayArea
     )
     {
         ImGuiIO& io = ImGui::GetIO();
