@@ -47,9 +47,9 @@ namespace Vulkan {
             descriptions[i].offset = static_cast<uint32_t>(offset);
             switch (sizes[i]) {
                 case sizeof(float) : descriptions[i].format = VK_FORMAT_R32_SFLOAT; break;
-                case sizeof(Vector2) : descriptions[i].format = VK_FORMAT_R32G32_SFLOAT; break;
-                case sizeof(Vector3) : descriptions[i].format = VK_FORMAT_R32G32B32_SFLOAT; break;
-                case sizeof(Vector4) : descriptions[i].format = VK_FORMAT_R32G32B32A32_SFLOAT; break;
+                case sizeof(glm::vec2) : descriptions[i].format = VK_FORMAT_R32G32_SFLOAT; break;
+                case sizeof(glm::vec3) : descriptions[i].format = VK_FORMAT_R32G32B32_SFLOAT; break;
+                case sizeof(glm::vec4) : descriptions[i].format = VK_FORMAT_R32G32B32A32_SFLOAT; break;
             }
 
             offset += sizes[i];
@@ -83,9 +83,9 @@ namespace Vulkan {
             descriptions[i].offset = static_cast<uint32_t>(offset);
             switch (sizes[i]) {
                 case sizeof(float) : descriptions[i].format = VK_FORMAT_R32_SFLOAT; break;
-                case sizeof(Vector2) : descriptions[i].format = VK_FORMAT_R32G32_SFLOAT; break;
-                case sizeof(Vector3) : descriptions[i].format = VK_FORMAT_R32G32B32_SFLOAT; break;
-                case sizeof(Vector4) : descriptions[i].format = VK_FORMAT_R32G32B32A32_SFLOAT; break;
+                case sizeof(glm::vec2) : descriptions[i].format = VK_FORMAT_R32G32_SFLOAT; break;
+                case sizeof(glm::vec3) : descriptions[i].format = VK_FORMAT_R32G32B32_SFLOAT; break;
+                case sizeof(glm::vec4) : descriptions[i].format = VK_FORMAT_R32G32B32A32_SFLOAT; break;
             }
 
             offset += sizes[i];

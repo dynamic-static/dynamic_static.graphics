@@ -24,8 +24,8 @@ namespace Vulkan {
      */
     struct VertexPositionColor final
     {
-        dst::Vector3 position;
-        dst::Color color;
+        glm::vec3 position;
+        glm::vec4 color;
     };
 
     /**
@@ -34,7 +34,7 @@ namespace Vulkan {
     template <>
     inline auto attribute_descriptions<VertexPositionColor>(uint32_t binding)
     {
-        return create_attribute_descriptions<dst::Vector3, dst::Color>(binding);
+        return create_attribute_descriptions<glm::vec3, glm::vec4>(binding);
     }
 
 } // namespace Vulkan
