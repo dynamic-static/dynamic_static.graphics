@@ -17,7 +17,7 @@ namespace Vulkan {
         std::vector<VertexPositionTexCoord>,
         std::vector<uint16_t>
     >
-    create_quad_primitive(const dst::Vector2& dimensions)
+    create_quad_primitive(const glm::vec2& dimensions)
     {
         std::vector<VertexPositionTexCoord> vertices;
 

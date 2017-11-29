@@ -18,9 +18,9 @@ namespace Vulkan {
         std::vector<uint16_t>
     >
     create_box_primitive(
-        const dst::Vector3& dimensions,
-        const dst::Color& topColor,
-        const dst::Color& bottomColor
+        const glm::vec3& dimensions,
+        const glm::vec4& topColor,
+        const glm::vec4& bottomColor
     )
     {
         float w = dimensions.x * 0.5f;
