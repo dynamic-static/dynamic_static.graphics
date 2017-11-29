@@ -28,7 +28,7 @@ namespace Vulkan {
         : public gfx::Application
     {
     protected:
-        VkDebugReportFlagsEXT mDebugFlags { 0 };
+        VkDebugReportFlagsEXT mDebugFlags { };
         std::shared_ptr<Instance> mInstance;
         PhysicalDevice* mPhysicalDevice { nullptr };
         std::shared_ptr<SurfaceKHR> mSurface;
@@ -44,12 +44,12 @@ namespace Vulkan {
         std::shared_ptr<Image> mDepthBuffer;
         VkFormat mDepthFormat { VK_FORMAT_UNDEFINED };
         bool mDepthEnabled { false };
-        dst::Color mClearColor { 0.2f, 0.2f, 0.2f, 1 };
+        glm::vec4 mClearColor { 0.2f, 0.2f, 0.2f, 1 };
 
     /* private: */
         bool mCreateFramebuffers { true };
         bool mRecordCommandBuffers { true };
-        uint32_t mImageIndex { 0 };
+        uint32_t mImageIndex { };
 
     public:
         /**

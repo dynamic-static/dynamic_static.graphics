@@ -35,7 +35,7 @@ namespace Graphics {
             }
 
             if (lookEnabled) {
-                float verticalLookMax = dst::to_radians(90.0f);
+                float verticalLookMax = glm::radians(90.0f);
                 auto look = input.get_mouse().get_delta() * sensitivity * dt;
                 if (mVerticalLook + look.y > verticalLookMax) {
                     look.y = verticalLookMax - mVerticalLook;

@@ -40,13 +40,13 @@ namespace ShapeBlaster_ex {
 
         float mEnemySpawnProbability { EnemySpawnProbabilityDefault };
         float mBlackHoleSpawnProbability { BlackHoleSpawnProbabilityDefault };
-        std::vector<std::pair<dst::Vector2, dst::Vector2>> mBulletSpawns;
+        std::vector<std::pair<glm::vec2, glm::vec2>> mBulletSpawns;
         Player* mPlayer { nullptr };
 
     public:
         void update(
             const dst::Clock& clock,
-            const dst::Vector2& playArea,
+            const glm::vec2& playArea,
             Entity::Manager<Player, Bullet, Seeker, Wanderer, BlackHole>& entityManager
         )
         {
@@ -54,7 +54,7 @@ namespace ShapeBlaster_ex {
                 mPlayer = entityManager.spawn<Player>(playArea * 0.5f);
                 assert(mPlayer);
                 mPlayer->on_bullet_fired =
-                [&](const dst::Vector2& position, const dst::Vector2& direction)
+                [&](const glm::vec2& position, const glm::vec2& direction)
                 {
                     mBulletSpawns.push_back(std::make_pair(position, direction));
                 };
@@ -94,9 +94,9 @@ namespace ShapeBlaster_ex {
         }
 
     private:
-        dst::Vector2 spawn_position(const dst::Vector2& playArea)
+        glm::vec2 spawn_position(const glm::vec2& playArea)
         {
-            return dst::Vector2(
+            return glm::vec2(
                 dst::Random.range(0.0f, playArea.x),
                 dst::Random.range(0.0f, playArea.y)
             );

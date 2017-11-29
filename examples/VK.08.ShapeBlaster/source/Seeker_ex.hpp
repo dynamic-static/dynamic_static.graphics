@@ -30,7 +30,7 @@ namespace ShapeBlaster_ex {
         }
 
     public:
-        void spawn(const dst::Vector2& position, Entity& target)
+        void spawn(const glm::vec2& position, Entity& target)
         {
             mPosition = position;
             mTarget = &target;
@@ -45,7 +45,7 @@ namespace ShapeBlaster_ex {
             Enemy::on_update(clock, input, playArea);
             if (mTarget) {
                 auto direction = mTarget->position() - mPosition;
-                if (direction != dst::Vector2::Zero) {
+                if (direction != glm::vec2 { }) {
                     direction = glm::normalize(direction);
                     mRotation = std::atan2(direction.y, direction.x);
                 }

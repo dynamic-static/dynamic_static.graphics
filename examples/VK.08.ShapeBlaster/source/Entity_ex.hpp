@@ -54,7 +54,7 @@ namespace ShapeBlaster_ex {
         }
 
     public:
-        const dst::Vector2& position() const
+        const glm::vec2& position() const
         {
             return mPosition;
         }

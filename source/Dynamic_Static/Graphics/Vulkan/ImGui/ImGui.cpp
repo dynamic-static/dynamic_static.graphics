@@ -382,7 +382,7 @@ namespace Vulkan {
             viewport.maxDepth = 1;
             commandBuffer.set_viewport(viewport);
 
-            mPushConstants.translation = dst::Vector2(-1);
+            mPushConstants.translation = glm::vec2(-1);
             mPushConstants.scale.x = 2.0f / io.DisplaySize.x;
             mPushConstants.scale.y = 2.0f / io.DisplaySize.y;
             vkCmdPushConstants(commandBuffer, *mPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstants), &mPushConstants);
