@@ -12,6 +12,8 @@
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Graphics/Defines.hpp"
 
+#include "Dynamic_Static/Graphics/Transform_ex.hpp"
+
 namespace Dynamic_Static {
 namespace Graphics {
 
@@ -34,80 +36,80 @@ namespace Graphics {
         float mFieldOfView { DefaultFieldOfView };
         float mNearPlane { DefaultNearPlane };
         float mFarPlane { DefaultFarPlane };
-        Transform mTransform;
+        Transform_ex mTransform;
 
     public:
         /**
          * Gets this Camera's Transform.
          * @return This Camera's Transform
          */
-        Transform& transform();
+        Transform_ex& get_transform();
 
         /**
          * Gets this Camera's Transform.
          * @return This Camera's Transform
          */
-        const Transform& transform() const;
+        const Transform_ex& get_transform() const;
 
         /**
          * Gets this Camera's aspect ratio.
          * @return This Camera's aspect ratio
          */
-        float aspect_ratio() const;
+        float get_aspect_ratio() const;
 
         /**
          * Sets this Camera's aspect ratio.
          * @param [in] aspectRatio This Camera's aspect ratio
          */
-        void aspect_ratio(float aspectRatio);
+        void set_aspect_ratio(float aspectRatio);
 
         /**
          * Gets this Camera's field of view.
          * @return This Camera's field of view
          */
-        float field_of_view() const;
+        float get_field_of_view() const;
 
         /**
          * Sets this Camera's field of view.
          * @param [in] fieldOfView This Camera's field of view
          */
-        void field_of_view(float fieldOfView);
+        void set_field_of_view(float fieldOfView);
 
         /**
          * Gets this Camera's near plane.
          * @return This Camera's near plane
          */
-        float near_plane() const;
+        float get_near_plane() const;
 
         /**
          * Sets this Camera's near plane.
          * @param [in] nearPlane This Camera's near plane
          */
-        void near_plane(float nearPlane);
+        void set_near_plane(float nearPlane);
 
         /**
          * Gets this Camera's far plane.
          * @param [in] This Camera's far plane
          */
-        float far_plane() const;
+        float get_far_plane() const;
 
         /**
          * Sets this Camera's far plane.
          * @param [in] farPlane This Camera's far plane
          */
-        void far_plane(float farPlane);
+        void set_far_plane(float farPlane);
 
         /**
          * Gets this Camera's view Matrix4x4.
          * @return This Camera's view Matrix4x4
          */
-        Matrix4x4 view() const;
+        glm::mat4 view() const;
 
         /**
          * Gets this Camera's projection Matrix4x4.
          * @return This Camera's projection Matrix4x4
          */
-        Matrix4x4 projection() const;
+        glm::mat4 projection() const;
     };
 
 } // namespace Graphics

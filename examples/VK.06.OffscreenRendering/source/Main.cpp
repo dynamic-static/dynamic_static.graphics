@@ -98,7 +98,7 @@ private:
         write_cube_descriptor_sets();
         write_floor_descriptor_set();
 
-        mCamera.transform().translation = dst::Vector3(0, 2, 7);
+        mCamera.get_transform().translation = dst::Vector3(0, 2, 7);
         mCameraController.camera = &mCamera;
     }
 
@@ -568,7 +568,7 @@ private:
         float swapChainWidth = static_cast<float>(swapChainExtent.width);
         float swapChainHeight = static_cast<float>(swapChainExtent.height);
         if (swapChainWidth && swapChainHeight) {
-            mCamera.aspect_ratio(swapChainWidth / swapChainHeight);
+            mCamera.set_aspect_ratio(swapChainWidth / swapChainHeight);
         }
 
         ubo.projection = mCamera.projection();

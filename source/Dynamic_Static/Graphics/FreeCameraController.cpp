@@ -19,19 +19,19 @@ namespace Graphics {
             float dt = clock.elapsed<Second<float>>();
 
             if (moveEnabled) {
-                Vector3 moveDirection;
-                moveDirection += input.get_keyboard().down(upKey) ? camera->transform().up() : Vector3::Zero;
-                moveDirection += input.get_keyboard().down(downKey) ? camera->transform().down() : Vector3::Zero;
-                moveDirection += input.get_keyboard().down(leftKey) ? camera->transform().left() : Vector3::Zero;
-                moveDirection += input.get_keyboard().down(rightKey) ? camera->transform().right() : Vector3::Zero;
-                moveDirection += input.get_keyboard().down(forwardKey) ? camera->transform().forward() : Vector3::Zero;
-                moveDirection += input.get_keyboard().down(backwardKey) ? camera->transform().backward() : Vector3::Zero;
+                glm::vec3 moveDirection { };
+                moveDirection += input.get_keyboard().down(upKey) ? camera->get_transform().up() : glm::vec3 { };
+                moveDirection += input.get_keyboard().down(downKey) ? camera->get_transform().down() : glm::vec3 { };
+                moveDirection += input.get_keyboard().down(leftKey) ? camera->get_transform().left() : glm::vec3 { };
+                moveDirection += input.get_keyboard().down(rightKey) ? camera->get_transform().right() : glm::vec3 { };
+                moveDirection += input.get_keyboard().down(forwardKey) ? camera->get_transform().forward() : glm::vec3 { };
+                moveDirection += input.get_keyboard().down(backwardKey) ? camera->get_transform().backward() : glm::vec3 { };
                 if (moveDirection.x || moveDirection.y || moveDirection.z) {
-                    moveDirection.normalize();
+                    moveDirection = glm::normalize(moveDirection);
                 }
 
                 float moveSpeed = speed * (input.get_keyboard().down(speedModifyKey) ? speedModifier : 1);
-                camera->transform().translation += moveDirection * moveSpeed * dt;
+                camera->get_transform().translation += moveDirection * moveSpeed * dt;
             }
 
             if (lookEnabled) {
@@ -45,17 +45,17 @@ namespace Graphics {
                 }
 
                 mVerticalLook += look.y;
-                auto rotationX = Quaternion(-look.y, Vector3::UnitX);
-                auto rotationY = Quaternion(-look.x, Vector3::UnitY);
-                Quaternion rotation = rotationY * camera->transform().rotation * rotationX;
-                camera->transform().rotation = rotation.normalized();
+                auto rotationX = glm::angleAxis(-look.y, glm::vec3 { 1, 0, 0 });
+                auto rotationY = glm::angleAxis(-look.x, glm::vec3 { 0, 1, 0 });
+                auto rotation = camera->get_transform().rotation;
+                camera->get_transform().rotation = glm::normalize(rotationY * camera->get_transform().rotation * rotationX);
             }
 
-            float fov = camera->field_of_view();
+            float fov = camera->get_field_of_view();
             fov -= static_cast<float>(input.get_mouse().get_scroll()) * zoomSpeed * dt;
-            camera->field_of_view(dst::clamp(fov, minFieldOfView, maxFieldOfView));
+            camera->set_field_of_view(dst::clamp(fov, minFieldOfView, maxFieldOfView));
             if (input.get_mouse().pressed(dst::sys::Mouse::Button::Middle)) {
-                camera->field_of_view(Camera::DefaultFieldOfView);
+                camera->set_field_of_view(Camera::DefaultFieldOfView);
             }
         }
     }
