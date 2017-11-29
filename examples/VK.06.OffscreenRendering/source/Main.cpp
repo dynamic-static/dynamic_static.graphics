@@ -25,9 +25,9 @@
 
 struct UniformBuffer final
 {
-    dst::Matrix4x4 world;
-    dst::Matrix4x4 view;
-    dst::Matrix4x4 projection;
+    glm::mat4 world;
+    glm::mat4 view;
+    glm::mat4 projection;
 };
 
 class VulkanExample06OffscreenRendering final
@@ -50,8 +50,10 @@ private:
     std::shared_ptr<dst::vlkn::Pipeline> mReflectiveSurfacePipeline;
     std::shared_ptr<dst::vlkn::Descriptor::Pool> mReflectiveSurfaceDescriptorPool;
 
+    float t { };
+    bool animate { true };
     dst::vlkn::Mesh mCubeMesh;
-    dst::Vector3 mCubeRotation;
+    glm::quat mCubeRotation { };
     std::shared_ptr<dst::vlkn::Buffer> mCubeUniformBuffer;
     dst::vlkn::Descriptor::Set* mCubeDescriptorSet { nullptr };
     std::shared_ptr<dst::vlkn::Buffer> mCubeReflectionUniformBuffer;
@@ -98,7 +100,7 @@ private:
         write_cube_descriptor_sets();
         write_floor_descriptor_set();
 
-        mCamera.get_transform().translation = dst::Vector3(0, 2, 7);
+        mCamera.get_transform().translation = glm::vec3 { 0, 2, 7 };
         mCameraController.camera = &mCamera;
     }
 
@@ -448,7 +450,7 @@ private:
     void create_meshes()
     {
         using namespace dst::vlkn;
-        auto cubeBuffers = create_box_primitive(dst::Vector3::One, dst::Color::White, dst::Color::Black);
+        auto cubeBuffers = create_box_primitive({ 1, 1, 1 }, dst::Color::White, dst::Color::Black);
         mCubeMesh.write<VertexPositionTexCoordColor, uint16_t>(*mCommandPool, *mGraphicsQueue, cubeBuffers.first, cubeBuffers.second);
 
         auto floorBuffers = create_box_primitive({ 6, 0.25f, 6 }, dst::Color::Transparent, dst::Color::Black);
@@ -562,8 +564,23 @@ private:
 
         mCameraController.update(clock, input);
 
+        if (input.get_keyboard().pressed(dst::sys::Keyboard::Key::OEM_Tilde)) {
+            animate = !animate;
+        }
+
+        float dt = 0;
+        if (input.get_keyboard().down(dst::sys::Keyboard::Key::RightArrow) || animate) {
+            dt = clock.elapsed<dst::Second<float>>();
+        } else
+        if (input.get_keyboard().down(dst::sys::Keyboard::Key::LeftArrow)) {
+            dt = -clock.elapsed<dst::Second<float>>();
+        }
+
+        t += dt;
+
         UniformBuffer ubo;
         ubo.view = mCamera.view();
+
         auto swapChainExtent = mSwapchain->extent();
         float swapChainWidth = static_cast<float>(swapChainExtent.width);
         float swapChainHeight = static_cast<float>(swapChainExtent.height);
@@ -573,24 +590,21 @@ private:
 
         ubo.projection = mCamera.projection();
 
-        float dt = clock.elapsed<dst::Second<float>>();
-        mCubeRotation.y += dst::to_radians(90.0f * dt);
-        mCubeRotation.z += dst::to_radians(45.0f * dt);
+        auto cubeRotationY = glm::angleAxis(glm::radians(90.0f * dt), glm::vec3 { 0, 1, 0 });
+        auto cubeRotationZ = glm::angleAxis(glm::radians(45.0f * dt), glm::vec3 { 0, 0, 1 });
+        mCubeRotation = glm::normalize(cubeRotationY * mCubeRotation * cubeRotationZ);
 
         float anchor = 1.5f;
         float amplitude = 0.5f;
         float frequency = 3;
-        float wobble = amplitude * std::sin(frequency * clock.total<dst::Second<float>>());
-        auto cubeToWorld =
-            dst::Matrix4x4::create_translation(dst::Vector3(0, anchor + wobble, 0)) *
-            dst::Matrix4x4::create_rotation(mCubeRotation.y, dst::Vector3::UnitY) *
-            dst::Matrix4x4::create_rotation(mCubeRotation.z, dst::Vector3::UnitZ);
+        float wobble = amplitude * std::sin(frequency * t);
+        auto cubeToWorld = glm::translate(glm::vec3 { 0, anchor + wobble, 0 }) * glm::toMat4(mCubeRotation);
 
         ubo.world = cubeToWorld;
         mCubeUniformBuffer->write<UniformBuffer>(gsl::make_span(&ubo, 1));
-        ubo.world = dst::Matrix4x4::Identity;
+        ubo.world = glm::mat4 { 1 };
         mFloorUniformBuffer->write<UniformBuffer>(gsl::make_span(&ubo, 1));
-        ubo.world = dst::Matrix4x4::create_scale({ 1, -1, 1 }) * cubeToWorld;
+        ubo.world = glm::scale(glm::vec3 { 1, -1, 1 }) * cubeToWorld;
         mCubeReflectionUniformBuffer->write<UniformBuffer>(gsl::make_span(&ubo, 1));
     }
 
