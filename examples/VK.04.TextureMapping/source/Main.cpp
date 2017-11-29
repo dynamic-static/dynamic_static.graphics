@@ -24,9 +24,9 @@
 
 struct UniformBuffer final
 {
-    dst::Matrix4x4 world;
-    dst::Matrix4x4 view;
-    dst::Matrix4x4 projection;
+    glm::mat4 world;
+    glm::mat4 view;
+    glm::mat4 projection;
 };
 
 class VulkanExample04TextureMapping final
@@ -395,19 +395,10 @@ private:
 
         UniformBuffer ubo;
         mRotation += 90.0f * clock.elapsed<dst::Second<float>>();
-        ubo.world = dst::Matrix4x4::create_rotation(
-            dst::to_radians(mRotation),
-            dst::Vector3::UnitY
-        );
-
-        ubo.view = dst::Matrix4x4::create_view(
-            { 0, 2, 2 },
-            dst::Vector3::Zero,
-            dst::Vector3::UnitY
-        );
-
-        ubo.projection = dst::Matrix4x4::create_perspective(
-            dst::to_radians(30.0f),
+        ubo.world = glm::toMat4(glm::angleAxis(glm::radians(mRotation), glm::vec3 { 0, 1, 0 }));
+        ubo.view = glm::lookAt({ 0, 2, 2 }, glm::vec3 { }, glm::vec3 { 0, 1, 0 });
+        ubo.projection = glm::perspective(
+            glm::radians(30.0f),
             static_cast<float>(mSwapchain->extent().width) /
             static_cast<float>(mSwapchain->extent().height),
             0.01f,
