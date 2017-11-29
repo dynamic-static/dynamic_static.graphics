@@ -87,9 +87,9 @@ namespace ShapeBlaster_ex {
             if (!mAvailableSprites.empty()) {
                 sprite = mAvailableSprites.back();
                 sprite->enabled = true;
-                sprite->position = dst::Vector2::Zero;
+                sprite->position = glm::vec2 { };
                 sprite->rotation = 0;
-                sprite->scale = dst::Vector2::One;
+                sprite->scale = glm::vec2 { 1 };
                 sprite->color = dst::Color::White;
                 sprite->image = mImage.get();
                 mAvailableSprites.pop_back();
@@ -111,33 +111,27 @@ namespace ShapeBlaster_ex {
             }
         }
 
-        void update(const dst::Vector2& renderArea)
+        void update(const glm::vec2& renderArea)
         {
             using namespace dst::vlkn;
             auto& device = mPipeline->mPipeline->device();
 
             for (size_t i = 0; i < mSprites.size(); ++i) {
                 const auto& sprite = mSprites[i];
-                auto spriteScale = sprite.enabled ? sprite.scale : dst::Vector2::Zero;
-                auto translation = dst::Matrix4x4::create_translation(sprite.position);
-                auto rotation = dst::Matrix4x4::create_rotation(sprite.rotation, dst::Vector3::UnitZ);
-                auto scale = dst::Matrix4x4::create_scale({
+                auto spriteScale = sprite.enabled ? sprite.scale : glm::vec2 { };
+                auto translation = glm::translate(glm::vec3 { sprite.position, 0 });
+                auto rotation = glm::toMat4(glm::angleAxis(sprite.rotation, glm::vec3 { 0, 0, 1 }));
+                auto scale = glm::scale(glm::vec3 {
                     mImage->extent().width * spriteScale.x,
                     mImage->extent().height * spriteScale.y,
                     1
                 });
 
-                auto view = dst::Matrix4x4::create_view(
-                    { 0, 0, 0.5f }, dst::Vector3::Zero, dst::Vector3::UnitY
-                );
-
-                auto projection = dst::Matrix4x4::create_orhtographic(
-                    0, renderArea.x, 0, renderArea.y, -1.0f, 1.0f
-                );
-
                 uint32_t offset = static_cast<uint32_t>(mHostStorageAlignment * i);
                 auto hostStorageEntry = reinterpret_cast<uint64_t>(mHostStorage.get()) + offset;
                 auto uniformBufferEntry = reinterpret_cast<Sprite::UniformBuffer*>(hostStorageEntry);
+                auto view = glm::lookAt({ 0, 0, 0.5f }, glm::vec3 { }, glm::vec3 { 0, 1, 0 });
+                auto projection = glm::ortho(0.0f, renderArea.x, renderArea.y, 0.0f, -1.0f, 1.0f);
                 uniformBufferEntry->wvp = projection * view * translation * rotation * scale;
                 uniformBufferEntry->color = sprite.enabled ? sprite.color : dst::Color::Transparent;
             }

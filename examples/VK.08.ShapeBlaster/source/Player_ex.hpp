@@ -33,7 +33,7 @@ namespace ShapeBlaster_ex {
         float mShotTimer { 0 };
 
     public:
-        dst::Callback<Player, const dst::Vector2&, const dst::Vector2&> on_bullet_fired;
+        dst::Callback<Player, const glm::vec2&, const glm::vec2&> on_bullet_fired;
 
     public:
         Player(Sprite* sprite)
@@ -43,7 +43,7 @@ namespace ShapeBlaster_ex {
         }
 
     public:
-        void spawn(const dst::Vector2& position)
+        void spawn(const glm::vec2& position)
         {
             mPosition = position;
         }
@@ -51,10 +51,10 @@ namespace ShapeBlaster_ex {
         void on_update(
             const dst::Clock& clock,
             const dst::sys::Input& input,
-            const dst::Vector2& playField
+            const glm::vec2& playField
         ) override final
         {
-            auto moveDirection = dst::Vector2::Zero;
+            auto moveDirection = glm::vec2 { };
             if (input.get_keyboard().down(dst::sys::Keyboard::Key::W)) {
                 ++moveDirection.y;
             }
@@ -71,9 +71,9 @@ namespace ShapeBlaster_ex {
                 ++moveDirection.x;
             }
 
-            if (moveDirection != dst::Vector2::Zero) {
-                moveDirection.normalize();
-                mRotation = moveDirection.to_angle();
+            if (moveDirection != glm::vec2 { }) {
+                moveDirection = glm::normalize(moveDirection);
+                mRotation = std::atan2(moveDirection.y, moveDirection.x);
             }
 
             mVelocity = moveDirection * Speed;
@@ -83,7 +83,7 @@ namespace ShapeBlaster_ex {
                 auto pointerPosition = input.get_mouse().get_position();
                 pointerPosition.y = playField.y - pointerPosition.y;
                 auto aimDirection = pointerPosition - mPosition;
-                if (aimDirection != dst::Vector2::Zero && mShotTimer <= 0) {
+                if (aimDirection != glm::vec2 { } && mShotTimer <= 0) {
                     aimDirection = glm::normalize(aimDirection);
                     fire_bullet(aimDirection, { BulletOffsetHorizontal,  BulletOffsetVertical });
                     fire_bullet(aimDirection, { BulletOffsetHorizontal, -BulletOffsetVertical });
@@ -100,17 +100,19 @@ namespace ShapeBlaster_ex {
         }
 
     private:
-        void fire_bullet(const dst::Vector2& aimDirection, dst::Vector2 offset)
+        void fire_bullet(const glm::vec2& aimDirection, const glm::vec2& offset)
         {
             float spread =
                 dst::Random.range<float>(-BulletSpread, BulletSpread) +
                 dst::Random.range<float>(-BulletSpread, BulletSpread);
-            float angle = aimDirection.to_angle();
+            float angle = std::atan2(aimDirection.y, aimDirection.x);
             auto direction = polar_to_cartesian(angle + spread, 1.0f);
-            auto translation = dst::Matrix4x4::create_translation(offset);
-            auto rotation = dst::Matrix4x4::create_rotation(angle, dst::Vector3::UnitZ);
-            offset = (rotation * translation) * dst::Vector4(offset.x, offset.y, 0, 1);
-            on_bullet_fired(mPosition + offset, direction);
+            auto translation = glm::translate(glm::vec3 { offset, 0 });
+            auto rotation = glm::toMat4(glm::angleAxis(angle, glm::vec3 { 0, 0, 1 }));
+            on_bullet_fired(
+                mPosition + glm::vec2 { (rotation * translation) * glm::vec4(offset.x, offset.y, 0, 1) },
+                direction
+            );
         }
     };
 

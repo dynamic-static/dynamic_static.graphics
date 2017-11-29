@@ -54,7 +54,7 @@ namespace ShapeBlaster_ex {
 
         struct GaussianBlurSettings final
         {
-            dst::Vector2 axis;
+            glm::vec2 axis { };
             float weight { 1 };
             float strength { 1.5f };
         } mBlurSettings;
@@ -75,7 +75,7 @@ namespace ShapeBlaster_ex {
 
             struct GaussianBlurSettings final
             {
-                dst::Vector2 axis;
+                glm::vec2 axis { };
                 float weight { 1 };
                 float strength { 1.5f };
             } gaussianBlur;
@@ -550,7 +550,7 @@ namespace ShapeBlaster_ex {
             mGameStatusMessage = "Hi Score : 0";
             mWindow->set_name("Dynamic_Static VK.08.ShapeBlaster        " + mGameStatusMessage);
             auto extent = mSwapchain->extent();
-            auto playArea = dst::Vector2(extent.width, extent.height);
+            auto playArea = glm::vec2(extent.width, extent.height);
 
             if (mAdjustBloomSettings) {
                 mGui.begin_frame(clock, input, playArea);
@@ -560,7 +560,7 @@ namespace ShapeBlaster_ex {
                 force_record_command_buffers();
             }
 
-            mPointerSprite->position = (dst::Vector2)input.get_mouse().get_position();
+            mPointerSprite->position = input.get_mouse().get_position();
             mPointerSprite->position.y = playArea.y - mPointerSprite->position.y;
             mPointerSprite->position.x += mPointerSprite->image->extent().width * 0.5f;
             mPointerSprite->position.y -= mPointerSprite->image->extent().height * 0.5f;

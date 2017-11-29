@@ -35,7 +35,7 @@ namespace ShapeBlaster_ex {
         }
 
     public:
-        void spawn(const dst::Vector2& position)
+        void spawn(const glm::vec2& position)
         {
             mPosition = position;
             if (dst::Random.probability(0.5f)) {
@@ -46,7 +46,7 @@ namespace ShapeBlaster_ex {
         void on_update(
             const dst::Clock& clock,
             const dst::sys::Input& input,
-            const dst::Vector2& playArea
+            const glm::vec2& playArea
         ) override final
         {
             auto dt = clock.elapsed<dst::Second<float>>();
@@ -54,9 +54,10 @@ namespace ShapeBlaster_ex {
             mRotation += mRotationSpeed * dt;
         }
 
-        void on_out_of_bounds(const dst::Vector2& playArea) override final
+        void on_out_of_bounds(const glm::vec2& playArea) override final
         {
-            mDirection = (playArea * 0.5f - mPosition).to_angle();
+            auto towardsCenter = playArea * 0.5f - mPosition;
+            mDirection = std::atan2(towardsCenter.y, towardsCenter.x);
             mDirection += static_cast<float>(dst::Random.range(-M_PI_2, M_PI_2));
         }
     };

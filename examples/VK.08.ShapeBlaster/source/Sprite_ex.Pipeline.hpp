@@ -23,8 +23,8 @@ namespace ShapeBlaster_ex {
 
     struct Sprite::UniformBuffer final
     {
-        dst::Matrix4x4 wvp;
-        dst::Color color;
+        glm::mat4 wvp;
+        glm::vec4 color;
     };
 
 } // namespace ShapeBlaster_ex

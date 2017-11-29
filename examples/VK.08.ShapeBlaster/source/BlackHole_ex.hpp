@@ -29,7 +29,7 @@ namespace ShapeBlaster_ex {
         }
 
     public:
-        void spawn(const dst::Vector2& position)
+        void spawn(const glm::vec2& position)
         {
             mPosition = position;
         }

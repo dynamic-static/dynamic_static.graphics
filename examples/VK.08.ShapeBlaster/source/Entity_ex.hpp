@@ -30,12 +30,12 @@ namespace ShapeBlaster_ex {
         class Spawner;
 
     protected:
-        dst::Vector2 mPosition;
-        float mRotation { 0 };
-        dst::Vector2 mScale { dst::Vector2::One };
-        dst::Color mColor { dst::Color::White };
-        dst::Vector2 mVelocity;
-        float mRadius { 0 };
+        glm::vec2 mPosition { };
+        float mRotation { };
+        glm::vec2 mScale { 1 };
+        glm::vec4 mColor { dst::Color::White };
+        glm::vec2 mVelocity { };
+        float mRadius { };
         bool mEnabled { false };
 
     private:
@@ -64,25 +64,25 @@ namespace ShapeBlaster_ex {
             return mEnabled;
         }
 
-        dst::Vector2 extent() const
+        glm::vec2 extent() const
         {
             return
                 mSprite && mSprite->image ?
-                dst::Vector2(
+                glm::vec2(
                     mSprite->image->extent().width,
                     mSprite->image->extent().height
                 ) :
-                dst::Vector2::Zero;
+                glm::vec2 { };
         }
 
         void update(
             const dst::Clock& clock,
             const dst::sys::Input& input,
-            const dst::Vector2& playArea
+            const glm::vec2& playArea
         )
         {
             on_update(clock, input, playArea);
-            mPosition += mVelocity * clock.elapsed<dst::Second<>>();
+            mPosition += mVelocity * clock.elapsed<dst::Second<float>>();
             if (mPosition.x < 0 || playArea.x < mPosition.x ||
                 mPosition.y < 0 || playArea.y < mPosition.y) {
                 on_out_of_bounds(playArea);
@@ -107,12 +107,12 @@ namespace ShapeBlaster_ex {
         virtual void on_update(
             const dst::Clock& clock,
             const dst::sys::Input& input,
-            const dst::Vector2& playArea
+            const glm::vec2& playArea
         )
         {
         }
 
-        virtual void on_out_of_bounds(const dst::Vector2& playArea)
+        virtual void on_out_of_bounds(const glm::vec2& playArea)
         {
             mPosition.x = dst::clamp(mPosition.x, 0.0f, playArea.x);
             mPosition.y = dst::clamp(mPosition.y, 0.0f, playArea.y);
@@ -133,7 +133,7 @@ namespace ShapeBlaster_ex {
         static bool colliding(const Entity& lhs, const Entity& rhs)
         {
             float radius = lhs.mRadius + rhs.mRadius;
-            auto distanceSquared = lhs.mPosition.distance_squared(rhs.mPosition);
+            auto distanceSquared = glm::distance2(lhs.mPosition, rhs.mPosition);
             return &lhs != &rhs && lhs.mEnabled && rhs.mEnabled && distanceSquared < radius * radius;
         }
     };
@@ -142,10 +142,10 @@ namespace ShapeBlaster_ex {
 
 namespace ShapeBlaster_ex {
 
-    inline dst::Vector2 polar_to_cartesian(float angle, float magnitude)
+    inline glm::vec2 polar_to_cartesian(float angle, float magnitude)
     {
         // TODO : Move into dst::Core.
-        return dst::Vector2(std::cos(angle), std::sin(angle)) * magnitude;
+        return glm::vec2(std::cos(angle), std::sin(angle)) * magnitude;
     }
 
 } // namespace ShapeBlaster_ex

@@ -124,7 +124,7 @@ namespace ShapeBlaster_ex {
         void update(
             const dst::Clock& clock,
             const dst::sys::Input& input,
-            const dst::Vector2& playField
+            const glm::vec2& playField
         )
         {
             mUpdating = true;
@@ -179,7 +179,7 @@ namespace ShapeBlaster_ex {
         void update_enabled_entities(
             const dst::Clock& clock,
             const dst::sys::Input& input,
-            const dst::Vector2& playField
+            const glm::vec2& playField
         )
         {
             dst::for_each_tuple(

@@ -31,22 +31,22 @@ namespace ShapeBlaster_ex {
         }
 
     public:
-        void spawn(const dst::Vector2& position, const dst::Vector2& direction)
+        void spawn(const glm::vec2& position, const glm::vec2& direction)
         {
             mPosition = position;
-            if (direction != dst::Vector2::Zero) {
-                mVelocity = direction.normalized() * Speed;
+            if (direction != glm::vec2 { }) {
+                mVelocity = glm::normalize(direction) * Speed;
             }
         }
 
         void on_update(
             const dst::Clock& clock,
             const dst::sys::Input& input,
-            const dst::Vector2& playField
+            const glm::vec2& playField
         ) override final
         {
-            if (mVelocity != dst::Vector2::Zero) {
-                mRotation = mVelocity.to_angle();
+            if (mVelocity != glm::vec2 { }) {
+                mRotation = std::atan2(mVelocity.y, mVelocity.x);
             }
         }
 
@@ -58,7 +58,7 @@ namespace ShapeBlaster_ex {
             }
         }
 
-        void on_out_of_bounds(const dst::Vector2& playField) override final
+        void on_out_of_bounds(const glm::vec2& playField) override final
         {
             kill();
         }

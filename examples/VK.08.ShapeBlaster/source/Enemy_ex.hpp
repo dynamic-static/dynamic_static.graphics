@@ -34,7 +34,7 @@ namespace ShapeBlaster_ex {
         void on_update(
             const dst::Clock& clock,
             const dst::sys::Input& input,
-            const dst::Vector2& playArea
+            const glm::vec2& playArea
         ) override
         {
             mVelocity *= Damping;

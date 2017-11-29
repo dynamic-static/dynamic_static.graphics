@@ -26,10 +26,10 @@ namespace ShapeBlaster_ex {
 
     public:
         bool enabled { true };
-        dst::Vector2 position;
-        float rotation { 0 };
-        dst::Vector2 scale { dst::Vector2::One };
-        dst::Color color { dst::Color::White };
+        glm::vec2 position { };
+        float rotation { };
+        glm::vec2 scale { 1 };
+        glm::vec4 color { dst::Color::White };
         dst::vlkn::Image* image { nullptr };
     };
 

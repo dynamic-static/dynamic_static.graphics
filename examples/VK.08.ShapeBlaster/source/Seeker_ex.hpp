@@ -39,15 +39,15 @@ namespace ShapeBlaster_ex {
         void on_update(
             const dst::Clock& clock,
             const dst::sys::Input& input,
-            const dst::Vector2& playArea
+            const glm::vec2& playArea
         ) override final
         {
             Enemy::on_update(clock, input, playArea);
             if (mTarget) {
                 auto direction = mTarget->position() - mPosition;
                 if (direction != dst::Vector2::Zero) {
-                    direction.normalize();
-                    mRotation = direction.to_angle();
+                    direction = glm::normalize(direction);
+                    mRotation = std::atan2(direction.y, direction.x);
                 }
 
                 mVelocity += direction * Acceleration;
