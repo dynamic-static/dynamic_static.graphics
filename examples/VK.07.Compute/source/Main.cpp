@@ -28,14 +28,14 @@ struct FluidCell final
 {
     float density;
     float temperature;
-    dst::Vector2 velocity;
+    glm::vec2 velocity;
 };
 
 struct UniformBuffer final
 {
-    dst::Matrix4x4 world;
-    dst::Matrix4x4 view;
-    dst::Matrix4x4 projection;
+    glm::mat4 world;
+    glm::mat4 view;
+    glm::mat4 projection;
 };
 
 class VulkanExample07Compute final
