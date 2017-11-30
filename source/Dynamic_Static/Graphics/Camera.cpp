@@ -14,12 +14,12 @@
 namespace Dynamic_Static {
 namespace Graphics {
 
-    Transform_ex& Camera::get_transform()
+    Transform& Camera::get_transform()
     {
         return mTransform;
     }
 
-    const Transform_ex& Camera::get_transform() const
+    const Transform& Camera::get_transform() const
     {
         return mTransform;
     }

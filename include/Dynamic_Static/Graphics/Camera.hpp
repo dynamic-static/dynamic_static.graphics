@@ -12,7 +12,7 @@
 #include "Dynamic_Static/Core/Math.hpp"
 #include "Dynamic_Static/Graphics/Defines.hpp"
 
-#include "Dynamic_Static/Graphics/Transform_ex.hpp"
+// #include "Dynamic_Static/Graphics/Transform_ex.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -36,20 +36,20 @@ namespace Graphics {
         float mFieldOfView { DefaultFieldOfView };
         float mNearPlane { DefaultNearPlane };
         float mFarPlane { DefaultFarPlane };
-        Transform_ex mTransform;
+        Transform mTransform;
 
     public:
         /**
          * Gets this Camera's Transform.
          * @return This Camera's Transform
          */
-        Transform_ex& get_transform();
+        Transform& get_transform();
 
         /**
          * Gets this Camera's Transform.
          * @return This Camera's Transform
          */
-        const Transform_ex& get_transform() const;
+        const Transform& get_transform() const;
 
         /**
          * Gets this Camera's aspect ratio.

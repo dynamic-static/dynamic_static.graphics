@@ -154,7 +154,6 @@ dst_add_static_library_ex(
         ${includePath}/ImageCache.hpp
         ${includePath}/ImageReader.hpp
         ${includePath}/Object.hpp
-        ${includePath}/Transform_ex.hpp
         ${includePath}/Vulkan.hpp
     
     sourceFiles
