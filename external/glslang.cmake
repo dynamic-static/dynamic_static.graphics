@@ -1,40 +1,33 @@
 
-cmake_minimum_required(VERSION 3.3)
-include(ExternalProject)
-ExternalProject_Add(
-    glslang
-    PREFIX external
-    DOWNLOAD_DIR external/glslang
+dst_add_external_project_ex(
+    target glslang
     URL https://github.com/KhronosGroup/glslang/archive/master.zip
     CMAKE_ARGS
-        -DSKIP_GLSLANG_INSTALL=ON
         -DENABLE_GLSLANG_BINARIES=OFF
-    INSTALL_COMMAND ""
+        -DSKIP_GLSLANG_INSTALL=ON
 )
 
-# ExternalProject_Get_Property(glslang SOURCE_DIR)
-# ExternalProject_Get_Property(glslang BINARY_DIR)
-# file(REMOVE_RECURSE "${SOURCE_DIR}/External")
-# file(REMOVE_RECURSE "${SOURCE_DIR}/StandAlone")
-# file(REMOVE_RECURSE "${SOURCE_DIR}/Test")
-# file(REMOVE_RECURSE "${SOURCE_DIR}/gtests")
-# set(glslang.include "${SOURCE_DIR}/")
-# if (MSVC)
-#     set(glslang.library
-#         "${BINARY_DIR}/glslang/$(Configuration)/glslang*.lib"
-#         "${BINARY_DIR}/glslang/OSDependent/Windows/$(Configuration)/OSDependent*.lib"
-#         "${BINARY_DIR}/hlsl/$(Configuration)/HLSL*.lib"
-#         "${BINARY_DIR}/OGLCompilersDLL/$(Configuration)/OGLCompiler*.lib"
-#         "${BINARY_DIR}/SPIRV/$(Configuration)/SPIRV*.lib"
-#         "${BINARY_DIR}/SPIRV/$(Configuration)/SPVRemapper*.lib"
-#     )
-# else()
-#     set(glslang.library
-#         "${BINARY_DIR}/glslang/libglslang.a"
-#         "${BINARY_DIR}/glslang/OSDependent/Unix/libOSDependent.a"
-#         "${BINARY_DIR}/hlsl/libHLSL.a"
-#         "${BINARY_DIR}/OGLCompilersDLL/libOGLCompiler.a"
-#         "${BINARY_DIR}/SPIRV/libSPIRV.a"
-#         "${BINARY_DIR}/SPIRV/libSPVRemapper.a"
-#     )
-# endif()
+file(REMOVE_RECURSE "${glslang.sourceDirectory}/External")
+file(REMOVE_RECURSE "${glslang.sourceDirectory}/gtests")
+file(REMOVE_RECURSE "${glslang.sourceDirectory}/StandAlone")
+file(REMOVE_RECURSE "${glslang.sourceDirectory}/Test")
+set(glslang.includeDirectories "${glslang.sourceDirectory}/")
+if (MSVC)
+    set(glslang.linkLibraries
+        "${glslang.buildDirectory}/glslang/$(Configuration)/glslang*.lib"
+        "${glslang.buildDirectory}/glslang/OSDependent/Windows/$(Configuration)/OSDependent*.lib"
+        "${glslang.buildDirectory}/hlsl/$(Configuration)/HLSL*.lib"
+        "${glslang.buildDirectory}/OGLCompilersDLL/$(Configuration)/OGLCompiler*.lib"
+        "${glslang.buildDirectory}/SPIRV/$(Configuration)/SPIRV*.lib"
+        "${glslang.buildDirectory}/SPIRV/$(Configuration)/SPVRemapper*.lib"
+    )
+else()
+    set(glslang.linkLibraries
+        "${glslang.buildDirectory}/glslang/libglslang.a"
+        "${glslang.buildDirectory}/glslang/OSDependent/Unix/libOSDependent.a"
+        "${glslang.buildDirectory}/hlsl/libHLSL.a"
+        "${glslang.buildDirectory}/OGLCompilersDLL/libOGLCompiler.a"
+        "${glslang.buildDirectory}/SPIRV/libSPIRV.a"
+        "${glslang.buildDirectory}/SPIRV/libSPVRemapper.a"
+    )
+endif()

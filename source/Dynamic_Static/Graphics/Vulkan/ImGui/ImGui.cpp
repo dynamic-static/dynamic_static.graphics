@@ -303,21 +303,21 @@ namespace Vulkan {
     {
         ImGuiIO& io = ImGui::GetIO();
         io.DeltaTime = clock.elapsed<dst::Second<float>>();
-        io.MousePos.x = input.get_mouse().get_position().x;
-        io.MousePos.y = input.get_mouse().get_position().y;
-        io.MouseDown[0] = input.get_mouse().down(dst::sys::Mouse::Button::Left);
-        io.MouseDown[1] = input.get_mouse().down(dst::sys::Mouse::Button::Right);
-        io.MouseWheel += static_cast<float>(input.get_mouse().get_scroll());
-        io.KeyAlt = input.get_keyboard().down(dst::sys::Keyboard::Key::Alt);
+        io.MousePos.x = input.mouse.current.position.x;
+        io.MousePos.y = input.mouse.current.position.y;
+        io.MouseDown[0] = input.mouse.down(dst::sys::Mouse::Button::Left);
+        io.MouseDown[1] = input.mouse.down(dst::sys::Mouse::Button::Right);
+        io.MouseWheel += static_cast<float>(input.mouse.get_scroll_delta());
+        io.KeyAlt = input.keyboard.down(dst::sys::Keyboard::Key::Alt);
         io.KeyCtrl =
-            input.get_keyboard().down(dst::sys::Keyboard::Key::LeftControl) ||
-            input.get_keyboard().down(dst::sys::Keyboard::Key::RightControl);
+            input.keyboard.down(dst::sys::Keyboard::Key::LeftControl) ||
+            input.keyboard.down(dst::sys::Keyboard::Key::RightControl);
         io.KeyShift =
-            input.get_keyboard().down(dst::sys::Keyboard::Key::LeftShift) ||
-            input.get_keyboard().down(dst::sys::Keyboard::Key::RightShift);
+            input.keyboard.down(dst::sys::Keyboard::Key::LeftShift) ||
+            input.keyboard.down(dst::sys::Keyboard::Key::RightShift);
         io.KeySuper =
-            input.get_keyboard().down(dst::sys::Keyboard::Key::LeftWindow) ||
-            input.get_keyboard().down(dst::sys::Keyboard::Key::RightWindow);
+            input.keyboard.down(dst::sys::Keyboard::Key::LeftWindow) ||
+            input.keyboard.down(dst::sys::Keyboard::Key::RightWindow);
         ImGui::NewFrame();
     }
 

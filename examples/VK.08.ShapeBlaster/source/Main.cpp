@@ -538,11 +538,11 @@ namespace ShapeBlaster_ex {
 
         void update(const dst::Clock& clock, const dst::sys::Input& input) override final
         {
-            if (input.get_keyboard().down(dst::sys::Keyboard::Key::Escape)) {
+            if (input.keyboard.down(dst::sys::Keyboard::Key::Escape)) {
                 stop();
             }
 
-            if (input.get_keyboard().pressed(dst::sys::Keyboard::Key::OEM_Tilde)) {
+            if (input.keyboard.pressed(dst::sys::Keyboard::Key::OEM_Tilde)) {
                 mAdjustBloomSettings = !mAdjustBloomSettings;
                 force_record_command_buffers();
             }
@@ -560,7 +560,7 @@ namespace ShapeBlaster_ex {
                 force_record_command_buffers();
             }
 
-            mPointerSprite->position = input.get_mouse().get_position();
+            mPointerSprite->position = input.mouse.current.position;
             mPointerSprite->position.y = playArea.y - mPointerSprite->position.y;
             mPointerSprite->position.x += mPointerSprite->image->extent().width * 0.5f;
             mPointerSprite->position.y -= mPointerSprite->image->extent().height * 0.5f;

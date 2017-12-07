@@ -55,19 +55,19 @@ namespace ShapeBlaster_ex {
         ) override final
         {
             auto moveDirection = glm::vec2 { };
-            if (input.get_keyboard().down(dst::sys::Keyboard::Key::W)) {
+            if (input.keyboard.down(dst::sys::Keyboard::Key::W)) {
                 ++moveDirection.y;
             }
 
-            if (input.get_keyboard().down(dst::sys::Keyboard::Key::S)) {
+            if (input.keyboard.down(dst::sys::Keyboard::Key::S)) {
                 --moveDirection.y;
             }
 
-            if (input.get_keyboard().down(dst::sys::Keyboard::Key::A)) {
+            if (input.keyboard.down(dst::sys::Keyboard::Key::A)) {
                 --moveDirection.x;
             }
 
-            if (input.get_keyboard().down(dst::sys::Keyboard::Key::D)) {
+            if (input.keyboard.down(dst::sys::Keyboard::Key::D)) {
                 ++moveDirection.x;
             }
 
@@ -79,8 +79,8 @@ namespace ShapeBlaster_ex {
             mVelocity = moveDirection * Speed;
 
             mShotTimer -= clock.elapsed<dst::Second<float>>();
-            if (input.get_mouse().down(dst::sys::Mouse::Button::Left)) {
-                auto pointerPosition = input.get_mouse().get_position();
+            if (input.mouse.down(dst::sys::Mouse::Button::Left)) {
+                auto pointerPosition = input.mouse.current.position;
                 pointerPosition.y = playField.y - pointerPosition.y;
                 auto aimDirection = pointerPosition - mPosition;
                 if (aimDirection != glm::vec2 { } && mShotTimer <= 0) {

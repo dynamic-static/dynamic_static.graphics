@@ -20,23 +20,23 @@ namespace Graphics {
 
             if (moveEnabled) {
                 glm::vec3 moveDirection { };
-                moveDirection += input.get_keyboard().down(upKey) ? camera->get_transform().up() : glm::vec3 { };
-                moveDirection += input.get_keyboard().down(downKey) ? camera->get_transform().down() : glm::vec3 { };
-                moveDirection += input.get_keyboard().down(leftKey) ? camera->get_transform().left() : glm::vec3 { };
-                moveDirection += input.get_keyboard().down(rightKey) ? camera->get_transform().right() : glm::vec3 { };
-                moveDirection += input.get_keyboard().down(forwardKey) ? camera->get_transform().forward() : glm::vec3 { };
-                moveDirection += input.get_keyboard().down(backwardKey) ? camera->get_transform().backward() : glm::vec3 { };
+                moveDirection += input.keyboard.down(upKey) ? camera->get_transform().up() : glm::vec3 { };
+                moveDirection += input.keyboard.down(downKey) ? camera->get_transform().down() : glm::vec3 { };
+                moveDirection += input.keyboard.down(leftKey) ? camera->get_transform().left() : glm::vec3 { };
+                moveDirection += input.keyboard.down(rightKey) ? camera->get_transform().right() : glm::vec3 { };
+                moveDirection += input.keyboard.down(forwardKey) ? camera->get_transform().forward() : glm::vec3 { };
+                moveDirection += input.keyboard.down(backwardKey) ? camera->get_transform().backward() : glm::vec3 { };
                 if (moveDirection.x || moveDirection.y || moveDirection.z) {
                     moveDirection = glm::normalize(moveDirection);
                 }
 
-                float moveSpeed = speed * (input.get_keyboard().down(speedModifyKey) ? speedModifier : 1);
+                float moveSpeed = speed * (input.keyboard.down(speedModifyKey) ? speedModifier : 1);
                 camera->get_transform().translation += moveDirection * moveSpeed * dt;
             }
 
             if (lookEnabled) {
                 float verticalLookMax = glm::radians(90.0f);
-                auto look = input.get_mouse().get_delta() * sensitivity * dt;
+                auto look = input.mouse.get_position_delta() * sensitivity * dt;
                 if (mVerticalLook + look.y > verticalLookMax) {
                     look.y = verticalLookMax - mVerticalLook;
                 } else
@@ -52,9 +52,9 @@ namespace Graphics {
             }
 
             float fov = camera->get_field_of_view();
-            fov -= static_cast<float>(input.get_mouse().get_scroll()) * zoomSpeed * dt;
+            fov -= static_cast<float>(input.mouse.get_scroll_delta()) * zoomSpeed * dt;
             camera->set_field_of_view(dst::clamp(fov, minFieldOfView, maxFieldOfView));
-            if (input.get_mouse().pressed(dst::sys::Mouse::Button::Middle)) {
+            if (input.mouse.pressed(dst::sys::Mouse::Button::Middle)) {
                 camera->set_field_of_view(Camera::DefaultFieldOfView);
             }
         }

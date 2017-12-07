@@ -550,11 +550,11 @@ private:
 
     void update(const dst::Clock& clock, const dst::sys::Input& input) override
     {
-        if (input.get_keyboard().down(dst::sys::Keyboard::Key::Escape)) {
+        if (input.keyboard.down(dst::sys::Keyboard::Key::Escape)) {
             stop();
         }
 
-        if (input.get_mouse().down(dst::sys::Mouse::Button::Left)) {
+        if (input.mouse.down(dst::sys::Mouse::Button::Left)) {
             mWindow->set_cursor_mode(dst::sys::Window::CursorMode::Disabled);
             mCameraController.lookEnabled = true;
         } else {
@@ -564,15 +564,15 @@ private:
 
         mCameraController.update(clock, input);
 
-        if (input.get_keyboard().pressed(dst::sys::Keyboard::Key::OEM_Tilde)) {
+        if (input.keyboard.pressed(dst::sys::Keyboard::Key::OEM_Tilde)) {
             animate = !animate;
         }
 
         float dt = 0;
-        if (input.get_keyboard().down(dst::sys::Keyboard::Key::RightArrow) || animate) {
+        if (input.keyboard.down(dst::sys::Keyboard::Key::RightArrow) || animate) {
             dt = clock.elapsed<dst::Second<float>>();
         } else
-        if (input.get_keyboard().down(dst::sys::Keyboard::Key::LeftArrow)) {
+        if (input.keyboard.down(dst::sys::Keyboard::Key::LeftArrow)) {
             dt = -clock.elapsed<dst::Second<float>>();
         }
 

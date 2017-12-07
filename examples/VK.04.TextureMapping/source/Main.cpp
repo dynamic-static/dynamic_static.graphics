@@ -389,7 +389,7 @@ private:
 
     void update(const dst::Clock& clock, const dst::sys::Input& input) override
     {
-        if (input.get_keyboard().down(dst::sys::Keyboard::Key::Escape)) {
+        if (input.keyboard.down(dst::sys::Keyboard::Key::Escape)) {
             stop();
         }
 

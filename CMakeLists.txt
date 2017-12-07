@@ -1,7 +1,6 @@
 
 # CMake configuration for Dynamic_Static.Graphics
 cmake_minimum_required(VERSION 3.3)
-
 set(Dynamic_Static.cmake "${CMAKE_BINARY_DIR}/Dynamic_Static.cmake")
 file(
     DOWNLOAD
@@ -10,16 +9,205 @@ file(
 )
 
 include(${Dynamic_Static.cmake})
-include(${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static_ex.cmake)
+include("D:/Dynamic_Static/Dynamic_Static.CMake/Dynamic_Static_ex.cmake")
+include("D:/Dynamic_Static/Dynamic_Static.CMake/Dynamic_Static.external.cmake")
 dst_create_project_ex(Dynamic_Static.Graphics)
-add_subdirectory("source/")
+################################################################################
+include("${CMAKE_CURRENT_SOURCE_DIR}/external/Dynamic_Static.System.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/external/glslang.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/external/imgui.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/external/SPIRV-Cross.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/external/VulkanSDK.cmake")
+set(includePath "${CMAKE_CURRENT_SOURCE_DIR}/include/Dynamic_Static/Graphics/")
+set(sourcePath "${CMAKE_CURRENT_SOURCE_DIR}/source/Dynamic_Static/Graphics/")
+dst_add_static_library_ex(
+    target Dynamic_Static.Graphics
+    includeDirectories
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/"
+        ${Dynamic_Static.System.includeDirectories}
+        ${glslang.includeDirectories}
+        ${imgui.includeDirectories}
+        ${SPIRV-Cross.includeDirectories}
+        ${VulkanSDK.includeDirectories}
 
-option(BUILD_EXAMPLES "Build Dynamic_Static.Graphics examples" ON)
-if (BUILD_EXAMPLES)
-    add_subdirectory("examples/")
-endif()
+    linkLibraries
+        ${Dynamic_Static.System.linkLibraries}
+        ${glslang.linkLibraries}
+        ${SPIRV-Cross.linkLibraries}
+        ${VulkanSDK.linkLibraries}
+
+    includeFiles
+        ${includePath}/Vulkan/Effects/Bloom.hpp
+        ${includePath}/Vulkan/Effects/BloomCombine.hpp
+        ${includePath}/Vulkan/Effects/ExtractLuminance.hpp
+        ${includePath}/Vulkan/Effects/GaussianBlur.hpp
+        ${includePath}/Vulkan/ImGui/ImGui.hpp
+        ${includePath}/Vulkan/Primitives/Box.hpp
+        ${includePath}/Vulkan/Primitives/Quad.hpp
+        ${includePath}/Vulkan/VertexTypes/VertexPositionColor.hpp
+        ${includePath}/Vulkan/VertexTypes/VertexPositionTexCoord.hpp
+        ${includePath}/Vulkan/VertexTypes/VertexPositionTexCoordColor.hpp
+        ${includePath}/Vulkan/Application.hpp
+        ${includePath}/Vulkan/Buffer.hpp
+        ${includePath}/Vulkan/Command.hpp
+        ${includePath}/Vulkan/Command.Buffer.hpp
+        ${includePath}/Vulkan/Command.Pool.hpp
+        ${includePath}/Vulkan/DebugReport.hpp
+        ${includePath}/Vulkan/Defines.hpp
+        ${includePath}/Vulkan/Descriptor.hpp
+        ${includePath}/Vulkan/Descriptor.Pool.hpp
+        ${includePath}/Vulkan/Descriptor.Set.hpp
+        ${includePath}/Vulkan/Descriptor.Set.Layout.hpp
+        ${includePath}/Vulkan/Device.hpp
+        ${includePath}/Vulkan/DeviceChild.hpp
+        ${includePath}/Vulkan/Effect.hpp
+        ${includePath}/Vulkan/Framebuffer.hpp
+        ${includePath}/Vulkan/Image.hpp
+        ${includePath}/Vulkan/Image.View.hpp
+        ${includePath}/Vulkan/IndexBuffer.hpp
+        ${includePath}/Vulkan/Instance.hpp
+        ${includePath}/Vulkan/Memory.hpp
+        ${includePath}/Vulkan/Mesh.hpp
+        ${includePath}/Vulkan/Object.hpp
+        ${includePath}/Vulkan/PhysicalDevice.hpp
+        ${includePath}/Vulkan/Pipeline.hpp
+        ${includePath}/Vulkan/Pipeline.Layout.hpp
+        ${includePath}/Vulkan/Queue.hpp
+        ${includePath}/Vulkan/RenderPass.hpp
+        ${includePath}/Vulkan/RenderTarget.hpp
+        ${includePath}/Vulkan/Sampler.hpp
+        ${includePath}/Vulkan/Semaphore.hpp
+        ${includePath}/Vulkan/ShaderModule.hpp
+        ${includePath}/Vulkan/ShaderModule.Compiler.hpp
+        ${includePath}/Vulkan/ShaderModule.Reflector.hpp
+        ${includePath}/Vulkan/SurfaceKHR.hpp
+        ${includePath}/Vulkan/SwapchainKHR.hpp
+        ${includePath}/Vulkan/Vertex.hpp
+        ${includePath}/Vulkan/VertexTypes.hpp
+        ${includePath}/Vulkan/VulkanHppInclude.hpp
+        ${includePath}/Vulkan/VulkanInclude.hpp
+
+        ${includePath}/Application.hpp
+        ${includePath}/Camera.hpp
+        ${includePath}/Camera.Controller.hpp
+        ${includePath}/FreeCameraController.hpp
+        ${includePath}/Defines.hpp
+        ${includePath}/GLTFCache.hpp
+        ${includePath}/GLTFReader.hpp
+        ${includePath}/ImageCache.hpp
+        ${includePath}/ImageReader.hpp
+        ${includePath}/Object.hpp
+        ${includePath}/Vulkan.hpp
+
+    sourceFiles
+        ${sourcePath}/Vulkan/Effects/Bloom.cpp
+        ${sourcePath}/Vulkan/Effects/BloomCombine.cpp
+        ${sourcePath}/Vulkan/Effects/ExtractLuminance.cpp
+        ${sourcePath}/Vulkan/Effects/GaussianBlur.cpp
+        ${sourcePath}/Vulkan/ImGui/ImGui.cpp
+        ${sourcePath}/Vulkan/Primitives/Box.cpp
+        ${sourcePath}/Vulkan/Primitives/Quad.cpp
+        ${sourcePath}/Vulkan/Application.cpp
+        ${sourcePath}/Vulkan/Buffer.cpp
+        ${sourcePath}/Vulkan/Command.cpp
+        ${sourcePath}/Vulkan/Command.Buffer.cpp
+        ${sourcePath}/Vulkan/Command.Pool.cpp
+        ${sourcePath}/Vulkan/DebugReport.cpp
+        ${sourcePath}/Vulkan/Descriptor.Pool.cpp
+        ${sourcePath}/Vulkan/Descriptor.Set.cpp
+        ${sourcePath}/Vulkan/Descriptor.Set.Layout.cpp
+        ${sourcePath}/Vulkan/Device.cpp
+        ${sourcePath}/Vulkan/DeviceChild.cpp
+        ${sourcePath}/Vulkan/Effect.cpp
+        ${sourcePath}/Vulkan/Framebuffer.cpp
+        ${sourcePath}/Vulkan/Image.cpp
+        ${sourcePath}/Vulkan/Image.View.cpp
+        ${sourcePath}/Vulkan/IndexBuffer.cpp
+        ${sourcePath}/Vulkan/Instance.cpp
+        ${sourcePath}/Vulkan/Memory.cpp
+        ${sourcePath}/Vulkan/Mesh.cpp
+        ${sourcePath}/Vulkan/PhysicalDevice.cpp
+        ${sourcePath}/Vulkan/Pipeline.cpp
+        ${sourcePath}/Vulkan/Pipeline.Layout.cpp
+        ${sourcePath}/Vulkan/Queue.cpp
+        ${sourcePath}/Vulkan/RenderPass.cpp
+        ${sourcePath}/Vulkan/RenderTarget.cpp
+        ${sourcePath}/Vulkan/Sampler.cpp
+        ${sourcePath}/Vulkan/Semaphore.cpp
+        ${sourcePath}/Vulkan/ShaderModule.cpp
+        ${sourcePath}/Vulkan/ShaderModule.Compiler.cpp
+        ${sourcePath}/Vulkan/ShaderModule.Reflector.cpp
+        ${sourcePath}/Vulkan/SurfaceKHR.cpp
+        ${sourcePath}/Vulkan/SwapchainKHR.cpp
+
+        ${sourcePath}/Application.cpp
+        ${sourcePath}/Camera.cpp
+        ${sourcePath}/Camera.Controller.cpp
+        ${sourcePath}/FreeCameraController.cpp
+        ${sourcePath}/GLTFCache.cpp
+        ${sourcePath}/GLTFReader.cpp
+        ${sourcePath}/ImageCache.cpp
+        ${sourcePath}/ImageReader.cpp
+        ${sourcePath}/Object.cpp
+        ${sourcePath}/StbImageInclude.hpp
+        ${sourcePath}/StbImageInclude.cpp
+        ${sourcePath}/TinyGLTFInclude.hpp
+        ${sourcePath}/TinyGLTFInclude.cpp
+
+        ${imgui.sourceFiles}
+)
 
 option(BUILD_TESTS "Build Dynamic_Static.Graphics tests" ON)
-if (BUILD_TESTS)
-    add_subdirectory("tests/")
+if(BUILD_TESTS)
+    set(testsPath "${CMAKE_CURRENT_SOURCE_DIR}/tests/")
+    dst_add_tests_ex(
+        target Dynamic_Static.Graphics
+        sourceFiles
+            ${testsPath}/Dummy.Tests.cpp
+    )
 endif()
+
+option(BUILD_EXAMPLES "Build Dynamic_Static.Graphics examples" ON)
+if(BUILD_EXAMPLES)
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/examples/")
+endif()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 
+# # CMake configuration for Dynamic_Static.Graphics
+# cmake_minimum_required(VERSION 3.3)
+# 
+# set(Dynamic_Static.cmake "${CMAKE_BINARY_DIR}/Dynamic_Static.cmake")
+# file(
+#     DOWNLOAD
+#     https://raw.githubusercontent.com/DynamicStatic/Dynamic_Static.CMake/master/Dynamic_Static.cmake
+#     ${Dynamic_Static.cmake}
+# )
+# 
+# include(${Dynamic_Static.cmake})
+# include(${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static_ex.cmake)
+# dst_create_project_ex(Dynamic_Static.Graphics)
+# add_subdirectory("source/")
+# 
+# option(BUILD_EXAMPLES "Build Dynamic_Static.Graphics examples" ON)
+# if (BUILD_EXAMPLES)
+#     add_subdirectory("examples/")
+# endif()
+# 
+# option(BUILD_TESTS "Build Dynamic_Static.Graphics tests" ON)
+# if (BUILD_TESTS)
+#     add_subdirectory("tests/")
+# endif()
+# 
