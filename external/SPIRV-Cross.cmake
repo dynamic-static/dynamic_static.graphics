@@ -5,7 +5,6 @@ dst_add_external_project(
 )
 
 set(SPIRV-Cross.includeDirectories "${SPIRV-Cross.sourceDirectory}/")
-# set(SPIRV-Cross.includeDirectories "${SPIRV-Cross.sourceDirectory}/include/")
 if (MSVC)
     set(SPIRV-Cross.linkLibraries
         "${SPIRV-Cross.buildDirectory}/$(Configuration)/spirv-cross-core.lib"
