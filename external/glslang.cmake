@@ -1,5 +1,5 @@
 
-dst_add_external_project_ex(
+dst_add_external_project(
     target glslang
     URL https://github.com/KhronosGroup/glslang/archive/master.zip
     CMAKE_ARGS

@@ -1,5 +1,5 @@
 
-dst_add_external_project_ex(
+dst_add_external_project(
     target SPIRV-Cross
     URL https://github.com/KhronosGroup/SPIRV-Cross/archive/master.zip
 )

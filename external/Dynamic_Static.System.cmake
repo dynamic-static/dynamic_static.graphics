@@ -1,5 +1,5 @@
 
-dst_add_external_project_ex(
+dst_add_external_project(
     target Dynamic_Static.System
     URL https://github.com/DynamicStatic/Dynamic_Static.System/archive/refactor/build-system.zip
     CMAKE_ARGS
@@ -30,7 +30,7 @@ if (MSVC)
         "${Dynamic_Static.System.buildDirectory}/$(Configuration)/Dynamic_Static.System.lib"
     )
 else()
-    # TODO : Make this work generically for all build configurations...
+    # TODO : Make sure this works generically for all build configurations...
     get_target_property(
         Dynamic_Static.System.importedLocation
         Dynamic_Static.System

@@ -1,18 +1,16 @@
 
 # CMake configuration for Dynamic_Static.Graphics
 cmake_minimum_required(VERSION 3.3)
+################################################################################
 set(Dynamic_Static.cmake "${CMAKE_BINARY_DIR}/Dynamic_Static.cmake")
 file(
     DOWNLOAD
-    https://raw.githubusercontent.com/DynamicStatic/Dynamic_Static.CMake/master/Dynamic_Static.cmake
+    https://raw.githubusercontent.com/DynamicStatic/Dynamic_Static.CMake/refactor/build-system/Dynamic_Static.cmake
     ${Dynamic_Static.cmake}
 )
-
 include(${Dynamic_Static.cmake})
-include("D:/Dynamic_Static/Dynamic_Static.CMake/Dynamic_Static_ex.cmake")
-include("D:/Dynamic_Static/Dynamic_Static.CMake/Dynamic_Static.external.cmake")
-dst_create_project_ex(Dynamic_Static.Graphics)
 ################################################################################
+dst_create_project(Dynamic_Static.Graphics)
 include("${CMAKE_CURRENT_SOURCE_DIR}/external/Dynamic_Static.System.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/external/glslang.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/external/imgui.cmake")
@@ -20,7 +18,7 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/external/SPIRV-Cross.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/external/VulkanSDK.cmake")
 set(includePath "${CMAKE_CURRENT_SOURCE_DIR}/include/Dynamic_Static/Graphics/")
 set(sourcePath "${CMAKE_CURRENT_SOURCE_DIR}/source/Dynamic_Static/Graphics/")
-dst_add_static_library_ex(
+dst_add_static_library(
     target Dynamic_Static.Graphics
     includeDirectories
         "${CMAKE_CURRENT_SOURCE_DIR}/include/"
@@ -157,57 +155,7 @@ dst_add_static_library_ex(
         ${imgui.sourceFiles}
 )
 
-option(BUILD_TESTS "Build Dynamic_Static.Graphics tests" ON)
-if(BUILD_TESTS)
-    set(testsPath "${CMAKE_CURRENT_SOURCE_DIR}/tests/")
-    dst_add_tests_ex(
-        target Dynamic_Static.Graphics
-        sourceFiles
-            ${testsPath}/Dummy.Tests.cpp
-    )
-endif()
-
 option(BUILD_EXAMPLES "Build Dynamic_Static.Graphics examples" ON)
 if(BUILD_EXAMPLES)
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/examples/")
 endif()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 
-# # CMake configuration for Dynamic_Static.Graphics
-# cmake_minimum_required(VERSION 3.3)
-# 
-# set(Dynamic_Static.cmake "${CMAKE_BINARY_DIR}/Dynamic_Static.cmake")
-# file(
-#     DOWNLOAD
-#     https://raw.githubusercontent.com/DynamicStatic/Dynamic_Static.CMake/master/Dynamic_Static.cmake
-#     ${Dynamic_Static.cmake}
-# )
-# 
-# include(${Dynamic_Static.cmake})
-# include(${CMAKE_CURRENT_SOURCE_DIR}/Dynamic_Static_ex.cmake)
-# dst_create_project_ex(Dynamic_Static.Graphics)
-# add_subdirectory("source/")
-# 
-# option(BUILD_EXAMPLES "Build Dynamic_Static.Graphics examples" ON)
-# if (BUILD_EXAMPLES)
-#     add_subdirectory("examples/")
-# endif()
-# 
-# option(BUILD_TESTS "Build Dynamic_Static.Graphics tests" ON)
-# if (BUILD_TESTS)
-#     add_subdirectory("tests/")
-# endif()
-# 
