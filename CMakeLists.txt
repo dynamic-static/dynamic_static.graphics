@@ -1,4 +1,11 @@
 
+#==========================================
+#    Licensed under the MIT license
+#    Copyright (c) 2017 Dynamic_Static
+#       Patrick Purcell
+#    http://opensource.org/licenses/MIT
+#==========================================
+
 # CMake configuration for Dynamic_Static.Graphics
 cmake_minimum_required(VERSION 3.3)
 ################################################################################
