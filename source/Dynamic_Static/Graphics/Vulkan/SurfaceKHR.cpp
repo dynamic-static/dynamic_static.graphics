@@ -40,8 +40,8 @@ namespace Vulkan {
         #if defined(DYNAMIC_STATIC_LINUX)
         VkXlibSurfaceCreateInfoKHR info { };
         info.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
-        info.dpy = static_cast<Display*>(window->display());
-        info.window = static_cast<::Window>(window->x11_window());
+        info.dpy = static_cast<Display*>(window->get_display());
+        info.window = static_cast<::Window>(window->get_x11_window());
         validate(vkCreateXlibSurfaceKHR(*mInstance, &info, nullptr, &mHandle));
         #endif
 

@@ -7,8 +7,6 @@
 ==========================================
 */
 
-#pragma once
-
 #include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
 
 namespace Dynamic_Static {
