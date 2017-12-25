@@ -12,7 +12,7 @@ cmake_minimum_required(VERSION 3.3)
 set(Dynamic_Static.cmake "${CMAKE_BINARY_DIR}/Dynamic_Static.cmake")
 file(
     DOWNLOAD
-    https://raw.githubusercontent.com/DynamicStatic/Dynamic_Static.CMake/refactor/build-system/Dynamic_Static.cmake
+    https://raw.githubusercontent.com/DynamicStatic/Dynamic_Static.CMake/master/Dynamic_Static.cmake
     ${Dynamic_Static.cmake}
 )
 include(${Dynamic_Static.cmake})
