@@ -9,12 +9,14 @@
 # CMake configuration for Dynamic_Static.Graphics
 cmake_minimum_required(VERSION 3.3)
 ################################################################################
-set(Dynamic_Static.cmake "${CMAKE_BINARY_DIR}/Dynamic_Static.cmake")
-file(
-    DOWNLOAD
-    https://raw.githubusercontent.com/DynamicStatic/Dynamic_Static.CMake/master/Dynamic_Static.cmake
-    ${Dynamic_Static.cmake}
-)
+if(NOT EXISTS Dynamic_Static.cmake)
+    set(Dynamic_Static.cmake "${CMAKE_BINARY_DIR}/Dynamic_Static.cmake")
+    file(
+        DOWNLOAD
+        https://raw.githubusercontent.com/DynamicStatic/Dynamic_Static.CMake/master/Dynamic_Static.cmake
+        ${Dynamic_Static.cmake}
+    )
+endif()
 include(${Dynamic_Static.cmake})
 ################################################################################
 dst_create_project(Dynamic_Static.Graphics)
