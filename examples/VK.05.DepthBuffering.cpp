@@ -1,8 +1,9 @@
 
 /*
 ==========================================
-    Copyright (c) 2017 Dynamic_Static
     Licensed under the MIT license
+    Copyright (c) 2017 Dynamic_Static
+        Patrick Purcell
     http://opensource.org/licenses/MIT
 ==========================================
 */
@@ -201,7 +202,7 @@ private:
     void create_image_and_sampler()
     {
         using namespace dst::vlkn;
-        auto filePath = "../../../examples/resources/images/turtle.jpg";
+        auto filePath = "../../examples/resources/images/turtle.jpg";
         auto imageCache = dst::gfx::ImageReader::read_file(filePath);
 
         auto imageInfo = Image::CreateInfo;
