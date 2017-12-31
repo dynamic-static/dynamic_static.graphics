@@ -28,7 +28,7 @@ struct UniformBuffer final
     glm::mat4 projection;
 };
 
-class VulkanExample03UniformBuffer final
+class ExampleUniformBuffer final
     : public dst::vlkn::Application
 {
 private:
@@ -44,9 +44,9 @@ private:
     float mRotation { 0 };
 
 public:
-    VulkanExample03UniformBuffer()
+    ExampleUniformBuffer()
     {
-        set_name("Dynamic_Static VK.03.UniformBuffer");
+        set_name("Dynamic_Static Vulkan UniformBuffer");
         mDebugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
@@ -300,7 +300,7 @@ private:
 int main()
 {
     try {
-        VulkanExample03UniformBuffer app;
+        ExampleUniformBuffer app;
         app.start();
     } catch (const std::exception& e) {
         std::cerr << std::endl << "==========================================" << std::endl;

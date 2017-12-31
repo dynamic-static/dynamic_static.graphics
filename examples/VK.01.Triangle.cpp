@@ -18,7 +18,7 @@
 #include <iostream>
 #include <memory>
 
-class VulkanExample01Triangle final
+class ExampleTriangle final
     : public dst::vlkn::Application
 {
 private:
@@ -26,9 +26,9 @@ private:
     std::shared_ptr<dst::vlkn::Pipeline> mPipeline;
 
 public:
-    VulkanExample01Triangle()
+    ExampleTriangle()
     {
-        set_name("Dynamic_Static VK.01.Triangle");
+        set_name("Dynamic_Static Vulkan Triangle");
         mDebugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
@@ -133,7 +133,7 @@ private:
 int main()
 {
     try {
-        VulkanExample01Triangle app;
+        ExampleTriangle app;
         app.start();
     } catch (const std::exception& e) {
         std::cerr << std::endl << "==========================================" << std::endl;

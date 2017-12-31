@@ -20,7 +20,7 @@
 #include <iostream>
 #include <memory>
 
-class VulkanExample02VertexBuffer final
+class ExampleVertexBuffer final
     : public dst::vlkn::Application
 {
 private:
@@ -31,9 +31,9 @@ private:
     size_t mIndexCount { 0 };
 
 public:
-    VulkanExample02VertexBuffer()
+    ExampleVertexBuffer()
     {
-        set_name("Dynamic_Static VK.02.VertexBuffer");
+        set_name("Dynamic_Static Vulkan VertexBuffer");
         mDebugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
@@ -196,7 +196,7 @@ private:
 int main()
 {
     try {
-        VulkanExample02VertexBuffer app;
+        ExampleVertexBuffer app;
         app.start();
     } catch (const std::exception& e) {
         std::cerr << std::endl << "==========================================" << std::endl;

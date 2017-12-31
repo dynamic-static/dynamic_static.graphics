@@ -96,7 +96,7 @@ namespace Vulkan {
 
             if (flags & VK_DEBUG_REPORT_DEBUG_BIT_EXT) {
                 tlStr += tlStr.empty() ? std::string() : "|";
-                tlStr += "Debug      ";
+                tlStr += "Debug";
             }
 
             if (flags & VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT) {
@@ -106,21 +106,35 @@ namespace Vulkan {
 
             if (flags & VK_DEBUG_REPORT_WARNING_BIT_EXT) {
                 tlStr += tlStr.empty() ? std::string() : "|";
-                tlStr += "Warning    ";
+                tlStr += "Warning";
             }
 
             if (flags & VK_DEBUG_REPORT_ERROR_BIT_EXT) {
                 tlStr += tlStr.empty() ? std::string() : "|";
-                tlStr += "Error      ";
+                tlStr += "Error";
             }
         } else {
             tlStr = "----";
         }
 
         //if (debugReport.standard_error_enabled()) {
-            tlStr = "{ " + tlStr + " } - " + std::string(layerPrefix) + "[" + dst::to_string(messageCode) + "]-" + std::string(message) + "\n";
-            std::cout << tlStr;
+        tlStr = "{ " + tlStr + " } - " + std::string(layerPrefix) + "[" + dst::to_string(messageCode) + "]-" + std::string(message) + "\n";
+        std::cout << tlStr;
         //}
+
+        #if DYNAMIC_STATIC_MSVC
+        if (flags & VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT) {
+            __debugbreak();
+        }
+
+        if (flags & VK_DEBUG_REPORT_WARNING_BIT_EXT) {
+            __debugbreak();
+        }
+
+        if (flags & VK_DEBUG_REPORT_ERROR_BIT_EXT) {
+            __debugbreak();
+        }
+        #endif
 
         return VK_FALSE;
     }

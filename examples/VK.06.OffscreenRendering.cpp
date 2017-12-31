@@ -31,7 +31,7 @@ struct UniformBuffer final
     glm::mat4 projection;
 };
 
-class VulkanExample06OffscreenRendering final
+class ExampleOffscreenRendering final
     : public dst::vlkn::Application
 {
 private:
@@ -68,9 +68,9 @@ private:
     dst::gfx::FreeCameraController mCameraController;
 
 public:
-    VulkanExample06OffscreenRendering()
+    ExampleOffscreenRendering()
     {
-        set_name("Dynamic_Static VK.06.OffscreenRendering");
+        set_name("Dynamic_Static Vulkan OffscreenRendering");
         mDebugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
@@ -710,7 +710,7 @@ private:
 int main()
 {
     try {
-        VulkanExample06OffscreenRendering app;
+        ExampleOffscreenRendering app;
         app.start();
     } catch (const std::exception& e) {
         std::cerr << std::endl << "==========================================" << std::endl;

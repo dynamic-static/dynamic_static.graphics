@@ -30,7 +30,7 @@ struct UniformBuffer final
     glm::mat4 projection;
 };
 
-class VulkanExample05DepthBuffering final
+class ExampleDepthBuffering final
     : public dst::vlkn::Application
 {
 private:
@@ -48,9 +48,9 @@ private:
     float mRotation { 0 };
 
 public:
-    VulkanExample05DepthBuffering()
+    ExampleDepthBuffering()
     {
-        set_name("Dynamic_Static VK.05.DepthBuffering");
+        set_name("Dynamic_Static Vulkan DepthBuffering");
         mDebugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
@@ -438,7 +438,7 @@ private:
 int main()
 {
     try {
-        VulkanExample05DepthBuffering app;
+        ExampleDepthBuffering app;
         app.start();
     } catch (const std::exception& e) {
         std::cerr << std::endl << "==========================================" << std::endl;

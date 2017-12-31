@@ -30,7 +30,7 @@ struct UniformBuffer final
     glm::mat4 projection;
 };
 
-class VulkanExample04TextureMapping final
+class ExampleTextureMapping final
     : public dst::vlkn::Application
 {
 private:
@@ -48,9 +48,9 @@ private:
     float mRotation { 0 };
 
 public:
-    VulkanExample04TextureMapping()
+    ExampleTextureMapping()
     {
-        set_name("Dynamic_Static VK.04.TextureMapping");
+        set_name("Dynamic_Static Vulkan TextureMapping");
         mDebugFlags =
             0
             #if defined(DYNAMIC_STATIC_WINDOWS)
@@ -424,7 +424,7 @@ private:
 int main()
 {
     try {
-        VulkanExample04TextureMapping app;
+        ExampleTextureMapping app;
         app.start();
     } catch (const std::exception& e) {
         std::cerr << std::endl << "==========================================" << std::endl;
