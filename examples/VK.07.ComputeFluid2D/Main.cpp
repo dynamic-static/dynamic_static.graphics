@@ -45,6 +45,7 @@ namespace ComputeFluid2D {
         std::shared_ptr<dst::vlkn::Command::Pool> mComputeCommandPool;
         dst::vlkn::Command::Buffer* mComputeCommandBuffer;
         std::shared_ptr<dst::vlkn::Semaphore> mComputeSemaphore;
+        std::shared_ptr<dst::vlkn::Descriptor::Pool> mComputeDescriptorPool;
 
         ComputePipeline mAdvectPipeline;
         ComputePipeline mJacobiPipeline;
@@ -65,7 +66,8 @@ namespace ComputeFluid2D {
         std::shared_ptr<dst::vlkn::Pipeline::Layout> mGraphicsPipelineLayout;
         std::shared_ptr<dst::vlkn::Pipeline> mGraphicsPipeline;
         std::shared_ptr<dst::vlkn::Descriptor::Pool> mGraphicsDescriptorPool;
-        dst::vlkn::Descriptor::Set* mGraphicsDescriptorSet { nullptr };
+        std::vector<dst::vlkn::Descriptor::Set*> mGraphicsDescriptorSets;
+        std::shared_ptr<dst::vlkn::Sampler> mSampler;
 
     public:
         Application()
@@ -139,24 +141,36 @@ namespace ComputeFluid2D {
             mDivergence = create_compute_image(extent, 3);
             mObstacles = create_compute_image(extent, 3);
 
+            using namespace dst::vlkn;
+            VkDescriptorPoolSize poolSize { };
+            poolSize.type = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+            poolSize.descriptorCount = 1;
+            auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
+            descriptorPoolInfo.poolSizeCount = 1;
+            descriptorPoolInfo.pPoolSizes = &poolSize;
+            descriptorPoolInfo.maxSets = 1;
+            mComputeDescriptorPool = mDevice->create<Descriptor::Pool>(descriptorPoolInfo);
+
             mAdvectPipeline = ComputePipeline(
                 *mDevice,
+                mComputeDescriptorPool,
                 R"(
                     #version 450
 
                     layout(local_size_x = 1, local_size_y = 1) in;
-                    layout(binding = 0, r8) uniform writeonly image2D image;
+                    layout(binding = 0) uniform writeonly image2D image;
 
                     void main()
                     {
                         float value = (gl_GlobalInvocationID.x / 1280.0 + gl_GlobalInvocationID.y / 720.0) * 0.5;
-                        imageStore(image, ivec2(gl_GlobalInvocationID.xy), vec4(value, 0, 0, 0));
+                        imageStore(image, ivec2(gl_GlobalInvocationID.xy), vec4(value, value, 0, 0));
                     }
                 )"
             );
 
             // mJacobiPipeline = ComputePipeline(
             //     *mDevice,
+            //     mComputeDescriptorPool,
             //     R"(
             //         #version 450
             // 
@@ -171,6 +185,7 @@ namespace ComputeFluid2D {
 
             // mSubtractGradientPipeline = ComputePipeline(
             //     *mDevice,
+            //     mComputeDescriptorPool,
             //     R"(
             //         #version 450
             // 
@@ -185,6 +200,7 @@ namespace ComputeFluid2D {
 
             // mComputeDivergencePipeline = ComputePipeline(
             //     *mDevice,
+            //     mComputeDescriptorPool,
             //     R"(
             //         #version 450
             // 
@@ -199,6 +215,7 @@ namespace ComputeFluid2D {
 
             // mApplyImpulsePipeline = ComputePipeline(
             //     *mDevice,
+            //     mComputeDescriptorPool,
             //     R"(
             //         #version 450
             // 
@@ -213,6 +230,7 @@ namespace ComputeFluid2D {
 
             // mApplyBuoyancyPipeline = ComputePipeline(
             //     *mDevice,
+            //     mComputeDescriptorPool,
             //     R"(
             //         #version 450
             // 
@@ -225,7 +243,6 @@ namespace ComputeFluid2D {
             //     )"
             // );
 
-            using namespace dst::vlkn;
             auto commandPoolInfo = Command::Pool::CreateInfo;
             commandPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
             commandPoolInfo.queueFamilyIndex = static_cast<uint32_t>(mComputeQueue->family_index());
@@ -255,8 +272,7 @@ namespace ComputeFluid2D {
             switch (channels) {
                 case 1: imageInfo.format = VK_FORMAT_R8_UNORM; break;
                 case 2: imageInfo.format = VK_FORMAT_R8G8_UNORM; break;
-                case 3: imageInfo.format = VK_FORMAT_R8G8B8A8_UNORM; break;
-                default: break;
+                default: imageInfo.format = VK_FORMAT_R8G8B8A8_UNORM; break;
             }
 
             auto image = mDevice->create<Image>(imageInfo);
@@ -338,19 +354,19 @@ namespace ComputeFluid2D {
                 R"(
                     #version 450
 
-                    // layout(binding = 0) uniform sampler2D image;
+                    layout(binding = 0) uniform sampler2D image;
                     layout(location = 0) in vec2 fsTexCoord;
                     layout(location = 0) out vec4 fragColor;
 
                     void main()
                     {
-                        fragColor.r = fsTexCoord.x;
-                        fragColor.g = fsTexCoord.y;
-                        fragColor.b = 0;
-                        fragColor.a = 1;
-                        // fragColor.r = texture(image, fsTexCoord).r;
-                        // fragColor.gb = vec2(0);
+                        // fragColor.r = fsTexCoord.x;
+                        // fragColor.g = fsTexCoord.y;
+                        // fragColor.b = 0;
                         // fragColor.a = 1;
+                        fragColor.rgb = texture(image, fsTexCoord).rgb;
+                        // fragColor.gb = vec2(0);
+                        fragColor.a = 1;
                     }
                 )"
             );
@@ -366,6 +382,17 @@ namespace ComputeFluid2D {
             pipelineInfo.layout = *mGraphicsPipelineLayout;
             pipelineInfo.renderPass = *mRenderPass;
             mGraphicsPipeline = mDevice->create<Pipeline>(pipelineInfo);
+
+            VkDescriptorPoolSize poolSize { };
+            poolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+            poolSize.descriptorCount = 1;
+            auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
+            descriptorPoolInfo.poolSizeCount = 1;
+            descriptorPoolInfo.pPoolSizes = &poolSize;
+            descriptorPoolInfo.maxSets = 1;
+            mGraphicsDescriptorPool = mDevice->create<Descriptor::Pool>(descriptorPoolInfo);
+
+            mSampler = mDevice->create<Sampler>();
         }
 
         void update(const dst::Clock& clock, const dst::sys::Input& input) override
@@ -417,6 +444,9 @@ namespace ComputeFluid2D {
             if (mSwapchain->valid() && mRecordCommandBuffers) {
                 mComputeCommandBuffer->begin();
 
+                mAdvectPipeline.bind_images(*mVelocity[0]);
+                mAdvectPipeline.dispatch(*mComputeCommandBuffer);
+
                 // advect(*mVelocity[0], mVelocity, *mObstacles, mVelocityDissipation);
                 // swap(mVelocity);
                 // 
@@ -449,9 +479,29 @@ namespace ComputeFluid2D {
 
         void record_command_buffer(dst::vlkn::Command::Buffer& commandBuffer, const dst::Clock& clock) override final
         {
-            using namespace dst::vlkn;
+            if (mGraphicsDescriptorSets.empty()) {
+                using namespace dst::vlkn;
+                auto descriptorSetAllocateInfo = Descriptor::Set::AllocateInfo;
+                descriptorSetAllocateInfo.descriptorPool = *mGraphicsDescriptorPool;
+                descriptorSetAllocateInfo.descriptorSetCount = 1;
+                descriptorSetAllocateInfo.pSetLayouts = &mGraphicsDescriptorSetLayout->handle();
+                mGraphicsDescriptorSets.push_back(mGraphicsDescriptorPool->allocate<Descriptor::Set>(descriptorSetAllocateInfo));
+                ////
+                VkDescriptorImageInfo imageInfo { };
+                imageInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
+                imageInfo.imageView = *mVelocity[0]->view();
+                imageInfo.sampler = *mSampler;
+                VkWriteDescriptorSet write { };
+                write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+                write.dstSet = *mGraphicsDescriptorSets.back();
+                write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+                write.descriptorCount = 1;
+                write.pImageInfo = &imageInfo;
+                vkUpdateDescriptorSets(*mDevice, 1, &write, 0, nullptr);
+            }
+
             commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mGraphicsPipeline);
-            // commandBuffer.bind_descriptor_set(*mGraphicsDescriptorSet, *mGraphicsPipelineLayout);
+            commandBuffer.bind_descriptor_set(*mGraphicsDescriptorSets[0], *mGraphicsPipelineLayout);
             commandBuffer.draw(3);
         }
 

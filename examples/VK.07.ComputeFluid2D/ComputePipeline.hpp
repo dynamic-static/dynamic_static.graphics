@@ -13,6 +13,7 @@
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
 
 #include <memory>
+#include <vector>
 
 namespace ComputeFluid2D {
 
@@ -20,12 +21,19 @@ namespace ComputeFluid2D {
     {
     private:
         std::shared_ptr<dst::vlkn::Descriptor::Set::Layout> mDescriptorSetLayout;
+        std::shared_ptr<dst::vlkn::Descriptor::Pool> mDescriptorPool;
+        std::vector<dst::vlkn::Descriptor::Set*> mDescriptorSets;
         std::shared_ptr<dst::vlkn::Pipeline::Layout> mPipelineLayout;
         std::shared_ptr<dst::vlkn::Pipeline> mPipeline;
 
     public:
         ComputePipeline() = default;
-        ComputePipeline(dst::vlkn::Device& device, const std::string& shaderSource)
+        ComputePipeline(
+            dst::vlkn::Device& device,
+            const std::shared_ptr<dst::vlkn::Descriptor::Pool>& descriptorPool,
+            const std::string& shaderSource
+        )
+            : mDescriptorPool { descriptorPool }
         {
             using namespace dst::vlkn;
             auto shader = device.create<ShaderModule>(
@@ -50,10 +58,34 @@ namespace ComputeFluid2D {
         }
 
     public:
-        void dispatch(dst::vlkn::Command::Buffer& commandBuffer, dst::vlkn::Descriptor::Set& descriptorSet)
+        void bind_images(dst::vlkn::Image& image)
+        {
+            if (mDescriptorSets.empty()) {
+                using namespace dst::vlkn;
+                auto descriptorSetAllocateInfo = Descriptor::Set::AllocateInfo;
+                descriptorSetAllocateInfo.descriptorPool = *mDescriptorPool;
+                descriptorSetAllocateInfo.descriptorSetCount = 1;
+                descriptorSetAllocateInfo.pSetLayouts = &mDescriptorSetLayout->handle();
+                mDescriptorSets.push_back(mDescriptorPool->allocate<Descriptor::Set>(descriptorSetAllocateInfo));
+                ////
+                VkDescriptorImageInfo imageInfo { };
+                imageInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
+                imageInfo.imageView = *image.view();
+                VkWriteDescriptorSet write { };
+                write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+                write.dstSet = *mDescriptorSets.back();
+                write.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+                write.descriptorCount = 1;
+                write.pImageInfo = &imageInfo;
+                vkUpdateDescriptorSets(mDescriptorPool->device(), 1, &write, 0, nullptr);
+            }
+        }
+
+        void dispatch(dst::vlkn::Command::Buffer& commandBuffer)
         {
             commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_COMPUTE, *mPipeline);
-            vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, *mPipelineLayout, 0, 1, &descriptorSet.handle(), 0, nullptr);
+            auto descriptorSet = &mDescriptorSets[0]->handle();
+            vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, *mPipelineLayout, 0, 1, descriptorSet, 0, nullptr);
             vkCmdDispatch(commandBuffer, 1280, 720, 1);
         }
     };
