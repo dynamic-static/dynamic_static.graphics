@@ -183,7 +183,7 @@ private:
         uniformBufferLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
         uniformBufferLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
 
-        auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
+        Descriptor::Set::Layout::CreateInfo descriptorSetLayoutInfo;
         descriptorSetLayoutInfo.bindingCount = 1;
         descriptorSetLayoutInfo.pBindings = &uniformBufferLayoutBinding;
         mNonReflectiveSurfaceDescriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
@@ -268,7 +268,7 @@ private:
             samplerLayoutBinding,
         };
 
-        auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
+        Descriptor::Set::Layout::CreateInfo descriptorSetLayoutInfo;
         descriptorSetLayoutInfo.bindingCount = static_cast<uint32_t>(descriptorSetLayoutBindings.size());
         descriptorSetLayoutInfo.pBindings = descriptorSetLayoutBindings.data();
         mReflectiveSurfaceDescriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);

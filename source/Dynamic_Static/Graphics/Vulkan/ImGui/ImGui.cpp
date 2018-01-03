@@ -164,7 +164,7 @@ namespace Vulkan {
         binding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
         binding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
         binding.descriptorCount = 1;
-        auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
+        Descriptor::Set::Layout::CreateInfo descriptorSetLayoutInfo;
         descriptorSetLayoutInfo.bindingCount = 1;
         descriptorSetLayoutInfo.pBindings = &binding;
         mDescriptorSetLayout = device.create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);

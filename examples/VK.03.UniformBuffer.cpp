@@ -79,7 +79,7 @@ private:
         uniformBufferLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
         uniformBufferLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
 
-        auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
+        Descriptor::Set::Layout::CreateInfo descriptorSetLayoutInfo;
         descriptorSetLayoutInfo.bindingCount = 1;
         descriptorSetLayoutInfo.pBindings = &uniformBufferLayoutBinding;
         mDescriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);

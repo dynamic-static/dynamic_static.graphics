@@ -61,6 +61,7 @@ namespace ComputeFluid2D {
         ImageBuffer mTemperature;
         std::shared_ptr<dst::vlkn::Image> mDivergence;
         std::shared_ptr<dst::vlkn::Image> mObstacles;
+        std::vector<dst::vlkn::Image*> mComputeImages;
 
         std::shared_ptr<dst::vlkn::Descriptor::Set::Layout> mGraphicsDescriptorSetLayout;
         std::shared_ptr<dst::vlkn::Pipeline::Layout> mGraphicsPipelineLayout;
@@ -165,6 +166,25 @@ namespace ComputeFluid2D {
                         float value = (gl_GlobalInvocationID.x / 1280.0 + gl_GlobalInvocationID.y / 720.0) * 0.5;
                         imageStore(image, ivec2(gl_GlobalInvocationID.xy), vec4(value, value, 0, 0));
                     }
+
+                    // #version 450
+                    // 
+                    // layout(local_size_x = 1, local_size_y = 1) in;
+                    // layout(binding = 0) uniform readonly image2D Velocity;
+                    // layout(binding = 1) uniform writeonly image2D Source;
+                    // layout(binding = 2) uniform writeonly image2D Destination;
+                    // layout(binding = 3) uniform readonly image2D Obstacles;
+                    // 
+                    // #define InverseSize (vec2(0, 0))
+                    // #define TimeStep (0)
+                    // #define Dissipation (0)
+                    // 
+                    // void main()
+                    // {
+                    //     ivec2 texCoord = ivec2(gl_GlobalInvocationID.xy / vec2(1280.0, 720.0));
+                    //     imageStore(Destination, texCoord, vec4(texCoord, texCoord, 0, 0));
+                    // }
+
                 )"
             );
 
@@ -276,6 +296,8 @@ namespace ComputeFluid2D {
             }
 
             auto image = mDevice->create<Image>(imageInfo);
+            mComputeImages.push_back(image.get());
+
             auto memoryRequirements = image->memory_requirements();
             auto memoryInfo = Memory::AllocateInfo;
             memoryInfo.allocationSize = memoryRequirements.size;
@@ -308,6 +330,13 @@ namespace ComputeFluid2D {
             return image;
         }
 
+        void prepare_compute_images()
+        {
+            for (auto& image : mComputeImages) {
+
+            }
+        }
+
         void create_graphics_resources()
         {
             using namespace dst::vlkn;
@@ -317,7 +346,7 @@ namespace ComputeFluid2D {
             samplerBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
             samplerBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
 
-            auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
+            Descriptor::Set::Layout::CreateInfo descriptorSetLayoutInfo;
             descriptorSetLayoutInfo.bindingCount = 1;
             descriptorSetLayoutInfo.pBindings = &samplerBinding;
             mGraphicsDescriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
@@ -393,6 +422,37 @@ namespace ComputeFluid2D {
             mGraphicsDescriptorPool = mDevice->create<Descriptor::Pool>(descriptorPoolInfo);
 
             mSampler = mDevice->create<Sampler>();
+
+            //// VkDescriptorPoolSize descriptorPoolSize;
+            //// descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+            //// descriptorPoolSize.descriptorCount = 10; // NOTE : This is our number of compute images.
+            //// auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
+            //// descriptorPoolInfo.poolSizeCount = 1;
+            //// descriptorPoolInfo.pPoolSizes = &descriptorPoolSize;
+            //// descriptorPoolInfo.maxSets = 1;
+            //// mGraphicsDescriptorPool = mDevice->create<Descriptor::Pool>(descriptorPoolInfo);
+            //// 
+            //// auto descriptorSetAllocateInfo = Descriptor::Set::AllocateInfo;
+            //// descriptorSetAllocateInfo.descriptorPool = *mComputeDescriptorPool;
+            //// 
+            //// // size_t descriptorSetCount = 0;
+            //// // std::vector<VkDescriptorSetLayoutBinding> bindings;
+            //// // auto aggregateBindings =
+            //// //     [&](ComputePipeline& computePipeline)
+            //// // {
+            //// // 
+            //// // };
+            //// // 
+            //// // aggregateBindings(mAdvectPipeline);
+            //// // aggregateBindings(mAdvectPipeline);
+            //// // aggregateBindings(mAdvectPipeline);
+            //// // aggregateBindings(mApplyBuoyancyPipeline);
+            //// // aggregateBindings(mApplyImpulsePipeline);
+            //// // aggregateBindings(mApplyImpulsePipeline);
+            //// // aggregateBindings(mComputeDivergencePipeline);
+            //// // aggregateBindings(mJacobiPipeline);
+            //// // aggregateBindings(mJacobiPipeline);
+            //// // aggregateBindings(mSubtractGradientPipeline);
         }
 
         void update(const dst::Clock& clock, const dst::sys::Input& input) override
@@ -413,6 +473,15 @@ namespace ComputeFluid2D {
 
         void advect(dst::vlkn::Image& velocity, ImageBuffer& imageBuffer, dst::vlkn::Image& obstacles, float dissipation)
         {
+            // std::array<dst::vlkn::Image*, 4> images {
+            //     &velocity,
+            //     imageBuffer[0].get(),
+            //     imageBuffer[1].get(),
+            //     &obstacles
+            // };
+            // 
+            // mAdvectPipeline.bind_images(images);
+            // mAdvectPipeline.dispatch(*mComputeCommandBuffer);
         }
 
         void jacobi(dst::vlkn::Image& velocity, dst::vlkn::Image& divergence, dst::vlkn::Image& obstacles, dst::vlkn::Image& destination)

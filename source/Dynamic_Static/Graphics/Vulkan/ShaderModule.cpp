@@ -96,7 +96,7 @@ namespace Vulkan {
 
     VkDescriptorSetLayoutCreateInfo ShaderModule::descriptor_set_layout_create_info() const
     {
-        auto info = Descriptor::Set::Layout::CreateInfo;
+        Descriptor::Set::Layout::CreateInfo info;
         info.bindingCount = static_cast<uint32_t>(mDescriptorSetLayoutBindings.size());
         info.pBindings = mDescriptorSetLayoutBindings.data();
         return info;

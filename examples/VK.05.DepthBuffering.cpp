@@ -92,7 +92,7 @@ private:
         descriptorSetLayoutBindings[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
         descriptorSetLayoutBindings[1].stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
 
-        auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
+        Descriptor::Set::Layout::CreateInfo descriptorSetLayoutInfo;
         descriptorSetLayoutInfo.bindingCount = static_cast<uint32_t>(descriptorSetLayoutBindings.size());
         descriptorSetLayoutInfo.pBindings = descriptorSetLayoutBindings.data();
         mDescriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);

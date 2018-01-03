@@ -1,8 +1,9 @@
 
 /*
 ==========================================
-    Copyright (c) 2017 Dynamic_Static
     Licensed under the MIT license
+    Copyright (c) 2017 Dynamic_Static
+        Patrick Purcell
     http://opensource.org/licenses/MIT
 ==========================================
 */
@@ -13,6 +14,10 @@
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
+
+#include "gsl/span"
+
+#include <vector>
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -29,15 +34,33 @@ namespace Vulkan {
 
     public:
         /**
-         * Default Descriptor::Set::Layout creation parameters.
+         * Specifies Descriptor::Set::Layout creation parameters.
          */
-        static constexpr VkDescriptorSetLayoutCreateInfo CreateInfo {
-            /* sType        */ VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
-            /* pNext        */ nullptr,
-            /* flags        */ 0,
-            /* bindingCount */ 0,
-            /* pBindings    */ nullptr,
+        struct CreateInfo final
+            : public VkDescriptorSetLayoutCreateInfo
+        {
+            /**
+             * Constructs an instance of Descriptor::Set::Layout::CreateInfo.
+             */
+            CreateInfo()
+                : VkDescriptorSetLayoutCreateInfo {
+                    /* sType        */ VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
+                    /* pNext        */ nullptr,
+                    /* flags        */ 0,
+                    /* bindingCount */ 0,
+                    /* pBindings    */ nullptr,
+                }
+            {
+            }
         };
+
+        static_assert(
+            sizeof(Descriptor::Set::Layout::CreateInfo) == sizeof(VkDescriptorSetLayoutCreateInfo),
+            "sizeof(Descriptor::Set::Layout::CreateInfo) != sizeof(VkDescriptorSetLayoutCreateInfo)"
+        );
+
+    private:
+        std::vector<VkDescriptorSetLayoutBinding> mBindings;
 
     private:
         Layout(
@@ -55,6 +78,13 @@ namespace Vulkan {
          * Destroys this instance of Descriptor::Set::Layout.
          */
         ~Layout();
+
+    public:
+        /**
+         * Gets this Descriptor::Set::Layout's VkDescriptorSetLayoutBindings.
+         * @return This Descriptor::Set::Layout's VkDescriptorSetLayoutBindings
+         */
+        gsl::span<const VkDescriptorSetLayoutBinding> get_bindings() const;
     };
 
 } // namespace Vulkan

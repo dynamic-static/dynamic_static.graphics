@@ -65,7 +65,7 @@ namespace ShapeBlaster_ex {
                 samplerBinding,
             };
 
-            auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
+            Descriptor::Set::Layout::CreateInfo descriptorSetLayoutInfo;
             descriptorSetLayoutInfo.bindingCount = static_cast<uint32_t>(bindings.size());
             descriptorSetLayoutInfo.pBindings = bindings.data();
             mDescriptorSetLayout = device.create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);

@@ -1,8 +1,9 @@
 
 /*
 ==========================================
-    Copyright (c) 2017 Dynamic_Static
     Licensed under the MIT license
+    Copyright (c) 2017 Dynamic_Static
+        Patrick Purcell
     http://opensource.org/licenses/MIT
 ==========================================
 */
@@ -14,8 +15,6 @@
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
-
-    constexpr VkDescriptorSetLayoutCreateInfo Descriptor::Set::Layout::CreateInfo;
 
     Descriptor::Set::Layout::Layout(
         const std::shared_ptr<Device>& device,
@@ -32,6 +31,11 @@ namespace Vulkan {
         : DeviceChild(device)
     {
         validate(vkCreateDescriptorSetLayout(DeviceChild::device(), &info, nullptr, &mHandle));
+        mBindings.resize(info.bindingCount);
+        for (size_t i = 0; i < info.bindingCount; ++i) {
+            mBindings[i] = info.pBindings[i];
+        }
+
         name("Descriptor::Set::Layout");
     }
 
@@ -40,6 +44,11 @@ namespace Vulkan {
         if (mHandle) {
             vkDestroyDescriptorSetLayout(device(), mHandle, nullptr);
         }
+    }
+
+    gsl::span<const VkDescriptorSetLayoutBinding> Descriptor::Set::Layout::get_bindings() const
+    {
+        return mBindings;
     }
 
 } // namespace Vulkan

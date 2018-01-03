@@ -424,7 +424,7 @@ namespace ShapeBlaster_ex {
                 samplerBinding1,
             };
 
-            auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
+            Descriptor::Set::Layout::CreateInfo descriptorSetLayoutInfo;
             descriptorSetLayoutInfo.bindingCount = (input ? 2 : 1);
             descriptorSetLayoutInfo.pBindings = samplerBindings.data();
             effectPass.descriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);

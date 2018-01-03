@@ -124,7 +124,7 @@ namespace Vulkan {
             samplerLayoutBinding,
         };
 
-        auto descriptorSetLayoutInfo = Descriptor::Set::Layout::CreateInfo;
+        Descriptor::Set::Layout::CreateInfo descriptorSetLayoutInfo;
         descriptorSetLayoutInfo.bindingCount = static_cast<uint32_t>(descriptorSetLayoutBindings.size());
         descriptorSetLayoutInfo.pBindings = descriptorSetLayoutBindings.data();
         descriptorSetLayout = device.create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);

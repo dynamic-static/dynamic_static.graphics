@@ -12,6 +12,8 @@
 
 #include "Dynamic_Static/Graphics/Vulkan.hpp"
 
+#include "gsl/span"
+
 #include <memory>
 #include <vector>
 
@@ -19,8 +21,8 @@ namespace ComputeFluid2D {
 
     class ComputePipeline final
     {
-    private:
-        std::shared_ptr<dst::vlkn::Descriptor::Set::Layout> mDescriptorSetLayout;
+    public:
+        std::shared_ptr<dst::vlkn::Descriptor::Set::Layout> descriptorSetLayout;
         std::shared_ptr<dst::vlkn::Descriptor::Pool> mDescriptorPool;
         std::vector<dst::vlkn::Descriptor::Set*> mDescriptorSets;
         std::shared_ptr<dst::vlkn::Pipeline::Layout> mPipelineLayout;
@@ -42,11 +44,11 @@ namespace ComputeFluid2D {
                 shaderSource
             );
 
-            mDescriptorSetLayout = device.create<Descriptor::Set::Layout>(*shader);
+            descriptorSetLayout = device.create<Descriptor::Set::Layout>(*shader);
 
             auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
             pipelineLayoutInfo.setLayoutCount = 1;
-            pipelineLayoutInfo.pSetLayouts = &mDescriptorSetLayout->handle();
+            pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout->handle();
             pipelineLayoutInfo.pushConstantRangeCount = static_cast<uint32_t>(shader->push_constant_ranges().size());
             pipelineLayoutInfo.pPushConstantRanges = shader->push_constant_ranges().data();
             mPipelineLayout = device.create<Pipeline::Layout>(pipelineLayoutInfo);
@@ -58,6 +60,10 @@ namespace ComputeFluid2D {
         }
 
     public:
+        void bind_images(gsl::span<dst::vlkn::Image*> images)
+        {
+        }
+
         void bind_images(dst::vlkn::Image& image)
         {
             if (mDescriptorSets.empty()) {
@@ -65,7 +71,7 @@ namespace ComputeFluid2D {
                 auto descriptorSetAllocateInfo = Descriptor::Set::AllocateInfo;
                 descriptorSetAllocateInfo.descriptorPool = *mDescriptorPool;
                 descriptorSetAllocateInfo.descriptorSetCount = 1;
-                descriptorSetAllocateInfo.pSetLayouts = &mDescriptorSetLayout->handle();
+                descriptorSetAllocateInfo.pSetLayouts = &descriptorSetLayout->handle();
                 mDescriptorSets.push_back(mDescriptorPool->allocate<Descriptor::Set>(descriptorSetAllocateInfo));
                 ////
                 VkDescriptorImageInfo imageInfo { };
