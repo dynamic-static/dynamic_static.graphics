@@ -298,36 +298,6 @@ namespace ComputeFluid2D {
 
             auto image = mDevice->create<Image>(imageInfo);
             mComputeImages.push_back(image.get());
-
-            // auto memoryRequirements = image->memory_requirements();
-            // auto memoryInfo = Memory::AllocateInfo;
-            // memoryInfo.allocationSize = memoryRequirements.size;
-            // memoryInfo.memoryTypeIndex = mPhysicalDevice->find_memory_type_index(
-            //     memoryRequirements.memoryTypeBits,
-            //     VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
-            // );
-            // 
-            // image->bind_memory(mDevice->allocate<Memory>(memoryInfo));
-            // 
-            // mGraphicsQueue->process_immediate(
-            //     [&](Command::Buffer& commandBuffer)
-            //     {
-            //         auto oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-            //         auto newLayout = VK_IMAGE_LAYOUT_GENERAL;
-            //         auto layoutTransition = image->create_layout_transition(oldLayout, newLayout);
-            //         vkCmdPipelineBarrier(
-            //             commandBuffer,
-            //             layoutTransition.srcStage,
-            //             layoutTransition.dstStage,
-            //             0,
-            //             0, nullptr,
-            //             0, nullptr,
-            //             1, &layoutTransition.barrier
-            //         );
-            //     }
-            // );
-            // 
-            // image->create<Image::View>();
             return image;
         }
 
@@ -362,17 +332,14 @@ namespace ComputeFluid2D {
             );
 
             auto memory = mDevice->allocate<Memory>(memoryInfo);
-            for (size_t i = 0; i < mComputeImages.size(); ++i) {
-                mComputeImages[i]->bind_memory(memory, offsets[i]);
-            }
-
             mGraphicsQueue->process_immediate(
                 [&](Command::Buffer& commandBuffer)
                 {
-                    for (auto& image : mComputeImages) {
+                    for (size_t i = 0; i < mComputeImages.size(); ++i) {
+                        mComputeImages[i]->bind_memory(memory, offsets[i]);
                         auto oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
                         auto newLayout = VK_IMAGE_LAYOUT_GENERAL;
-                        auto layoutTransition = image->create_layout_transition(oldLayout, newLayout);
+                        auto layoutTransition = mComputeImages[i]->create_layout_transition(oldLayout, newLayout);
                         vkCmdPipelineBarrier(
                             commandBuffer,
                             layoutTransition.srcStage,
