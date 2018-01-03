@@ -141,6 +141,7 @@ namespace ComputeFluid2D {
             mTemperature = create_image_buffer(extent, 1);
             mDivergence = create_compute_image(extent, 3);
             mObstacles = create_compute_image(extent, 3);
+            prepare_compute_images();
 
             using namespace dst::vlkn;
             VkDescriptorPoolSize poolSize { };
@@ -298,7 +299,61 @@ namespace ComputeFluid2D {
             auto image = mDevice->create<Image>(imageInfo);
             mComputeImages.push_back(image.get());
 
-            auto memoryRequirements = image->memory_requirements();
+            // auto memoryRequirements = image->memory_requirements();
+            // auto memoryInfo = Memory::AllocateInfo;
+            // memoryInfo.allocationSize = memoryRequirements.size;
+            // memoryInfo.memoryTypeIndex = mPhysicalDevice->find_memory_type_index(
+            //     memoryRequirements.memoryTypeBits,
+            //     VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
+            // );
+            // 
+            // image->bind_memory(mDevice->allocate<Memory>(memoryInfo));
+            // 
+            // mGraphicsQueue->process_immediate(
+            //     [&](Command::Buffer& commandBuffer)
+            //     {
+            //         auto oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+            //         auto newLayout = VK_IMAGE_LAYOUT_GENERAL;
+            //         auto layoutTransition = image->create_layout_transition(oldLayout, newLayout);
+            //         vkCmdPipelineBarrier(
+            //             commandBuffer,
+            //             layoutTransition.srcStage,
+            //             layoutTransition.dstStage,
+            //             0,
+            //             0, nullptr,
+            //             0, nullptr,
+            //             1, &layoutTransition.barrier
+            //         );
+            //     }
+            // );
+            // 
+            // image->create<Image::View>();
+            return image;
+        }
+
+        void prepare_compute_images()
+        {
+            using namespace dst::vlkn;
+            std::vector<VkDeviceSize> offsets;
+            offsets.reserve(mComputeImages.size());
+            VkMemoryRequirements memoryRequirements { };
+            for (auto& image : mComputeImages) {
+                auto imageMemoryRequirements = image->get_memory_requirements();
+                memoryRequirements.memoryTypeBits |= imageMemoryRequirements.memoryTypeBits;
+                // NOTE : There should be some validation around memoryTypeBits
+                //        and alignment to make sure that similarly aligned and
+                //        typed memory gets allocated together...
+                offsets.push_back(memoryRequirements.size);
+                if (imageMemoryRequirements.size && imageMemoryRequirements.alignment) {
+                    imageMemoryRequirements.size +=
+                        imageMemoryRequirements.alignment -
+                        imageMemoryRequirements.size %
+                        imageMemoryRequirements.alignment;
+                }
+
+                memoryRequirements.size += imageMemoryRequirements.size;
+            }
+
             auto memoryInfo = Memory::AllocateInfo;
             memoryInfo.allocationSize = memoryRequirements.size;
             memoryInfo.memoryTypeIndex = mPhysicalDevice->find_memory_type_index(
@@ -306,34 +361,33 @@ namespace ComputeFluid2D {
                 VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
             );
 
-            image->bind_memory(mDevice->allocate<Memory>(memoryInfo));
+            auto memory = mDevice->allocate<Memory>(memoryInfo);
+            for (size_t i = 0; i < mComputeImages.size(); ++i) {
+                mComputeImages[i]->bind_memory(memory, offsets[i]);
+            }
 
             mGraphicsQueue->process_immediate(
                 [&](Command::Buffer& commandBuffer)
                 {
-                    auto oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-                    auto newLayout = VK_IMAGE_LAYOUT_GENERAL;
-                    auto layoutTransition = image->create_layout_transition(oldLayout, newLayout);
-                    vkCmdPipelineBarrier(
-                        commandBuffer,
-                        layoutTransition.srcStage,
-                        layoutTransition.dstStage,
-                        0,
-                        0, nullptr,
-                        0, nullptr,
-                        1, &layoutTransition.barrier
-                    );
+                    for (auto& image : mComputeImages) {
+                        auto oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+                        auto newLayout = VK_IMAGE_LAYOUT_GENERAL;
+                        auto layoutTransition = image->create_layout_transition(oldLayout, newLayout);
+                        vkCmdPipelineBarrier(
+                            commandBuffer,
+                            layoutTransition.srcStage,
+                            layoutTransition.dstStage,
+                            0,
+                            0, nullptr,
+                            0, nullptr,
+                            1, &layoutTransition.barrier
+                        );
+                    }
                 }
             );
 
-            image->create<Image::View>();
-            return image;
-        }
-
-        void prepare_compute_images()
-        {
             for (auto& image : mComputeImages) {
-
+                image->create<Image::View>();
             }
         }
 
@@ -629,6 +683,9 @@ int main()
         std::cerr << std::endl << "==========================================" << std::endl;
         std::cerr << e.what() << std::endl;
         std::cerr << std::endl << "==========================================" << std::endl;
+        #if DYNAMIC_STATIC_MSVC
+        __debugbreak();
+        #endif
     }
 
     return 0;

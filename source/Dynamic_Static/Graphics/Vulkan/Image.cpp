@@ -79,6 +79,11 @@ namespace Vulkan {
 
     VkMemoryRequirements Image::memory_requirements() const
     {
+        return get_memory_requirements();
+    }
+
+    VkMemoryRequirements Image::get_memory_requirements() const
+    {
         VkMemoryRequirements memoryRequirements;
         vkGetImageMemoryRequirements(device(), mHandle, &memoryRequirements);
         return memoryRequirements;
@@ -94,13 +99,11 @@ namespace Vulkan {
         return mViews;
     }
 
-    void Image::bind_memory(const std::shared_ptr<Memory>& memory)
+    void Image::bind_memory(const std::shared_ptr<Memory>& memory, VkDeviceSize offset)
     {
+        assert(memory && "Image::bind_memory(!memory)");
         mMemory = memory;
-        if (mMemory) {
-            // NOTE : This is extremely inflexible...
-            validate(vkBindImageMemory(device(), mHandle, *mMemory, 0));
-        }
+        validate(vkBindImageMemory(device(), mHandle, *mMemory, offset));
     }
 
     Image::LayoutTransition Image::create_layout_transition(

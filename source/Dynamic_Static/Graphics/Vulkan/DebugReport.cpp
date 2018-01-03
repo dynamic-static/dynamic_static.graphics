@@ -20,6 +20,8 @@ namespace Vulkan {
 
     constexpr VkDebugReportCallbackCreateInfoEXT DebugReport::CreateInfo;
 
+    void debug_report_message(const std::string& label, const char* layerPrefix, const int32_t& messageCode, const char* message);
+
     static VKAPI_ATTR VkBool32 VKAPI_CALL debug_report_callback(
         VkDebugReportFlagsEXT flags,
         VkDebugReportObjectTypeEXT objectType,
@@ -68,6 +70,13 @@ namespace Vulkan {
         mStandardErrorEnabled = standardErrorEnabled;
     }
 
+    void debug_report_message(const std::string& tlStr, const char* layerPrefix, const int32_t& messageCode, const char* message)
+    {
+        // if (debugReport.standard_error_enabled()) {
+        std::cout << "{ " + tlStr + " } - " + std::string(layerPrefix) + "[" + dst::to_string(messageCode) + "]-" + std::string(message) << std::endl;
+        // }
+    }
+
     #if defined(DYNAMIC_STATIC_MSVC)
     #pragma warning(push)
     #pragma warning(disable : 4100) // NOTE : unreferenced formal parameter
@@ -90,51 +99,36 @@ namespace Vulkan {
         tlStr.clear();
         if (flags) {
             if (flags & VK_DEBUG_REPORT_INFORMATION_BIT_EXT) {
-                tlStr += tlStr.empty() ? std::string() : "|";
-                tlStr += "Information";
+                debug_report_message("Information", layerPrefix, messageCode, message);
             }
 
             if (flags & VK_DEBUG_REPORT_DEBUG_BIT_EXT) {
-                tlStr += tlStr.empty() ? std::string() : "|";
-                tlStr += "Debug";
+                debug_report_message("Debug", layerPrefix, messageCode, message);
             }
 
             if (flags & VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT) {
-                tlStr += tlStr.empty() ? std::string() : "|";
-                tlStr += "Performance";
+                debug_report_message("Performance", layerPrefix, messageCode, message);
+                #if DYNAMIC_STATIC_MSVC
+                __debugbreak();
+                #endif
             }
 
             if (flags & VK_DEBUG_REPORT_WARNING_BIT_EXT) {
-                tlStr += tlStr.empty() ? std::string() : "|";
-                tlStr += "Warning";
+                debug_report_message("Warning", layerPrefix, messageCode, message);
+                #if DYNAMIC_STATIC_MSVC
+                __debugbreak();
+                #endif
             }
 
             if (flags & VK_DEBUG_REPORT_ERROR_BIT_EXT) {
-                tlStr += tlStr.empty() ? std::string() : "|";
-                tlStr += "Error";
+                debug_report_message("Error", layerPrefix, messageCode, message);
+                #if DYNAMIC_STATIC_MSVC
+                __debugbreak();
+                #endif
             }
         } else {
-            tlStr = "----";
+            std::cout << "----" << std::endl;
         }
-
-        //if (debugReport.standard_error_enabled()) {
-        tlStr = "{ " + tlStr + " } - " + std::string(layerPrefix) + "[" + dst::to_string(messageCode) + "]-" + std::string(message) + "\n";
-        std::cout << tlStr;
-        //}
-
-        #if DYNAMIC_STATIC_MSVC
-        if (flags & VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT) {
-            __debugbreak();
-        }
-
-        if (flags & VK_DEBUG_REPORT_WARNING_BIT_EXT) {
-            __debugbreak();
-        }
-
-        if (flags & VK_DEBUG_REPORT_ERROR_BIT_EXT) {
-            __debugbreak();
-        }
-        #endif
 
         return VK_FALSE;
     }

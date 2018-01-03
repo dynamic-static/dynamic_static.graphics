@@ -198,10 +198,16 @@ namespace Vulkan {
         VkImageUsageFlags usage() const;
 
         /**
+        * Deprecated - use get_memory_requirements().
+        */
+        [[deprecated]]
+        VkMemoryRequirements memory_requirements() const;
+
+        /**
          * Gets this Image's memory requirements.
          * @return This Image's memory requirements
          */
-        VkMemoryRequirements memory_requirements() const;
+        VkMemoryRequirements get_memory_requirements() const;
 
         /**
          * Gets this Image's Image::View.
@@ -218,7 +224,7 @@ namespace Vulkan {
         /**
          * TODO : Documentation.
          */
-        void bind_memory(const std::shared_ptr<Memory>& memory);
+        void bind_memory(const std::shared_ptr<Memory>& memory, VkDeviceSize offset = 0);
 
         /**
          * TODO : Documentation.
@@ -246,7 +252,7 @@ namespace Vulkan {
         );
 
         /**
-         * Deprecated; use create_layout_transition().
+         * Deprecated - use create_layout_transition().
          */
         [[deprecated]]
         static LayoutTransition create_layout_transition(
