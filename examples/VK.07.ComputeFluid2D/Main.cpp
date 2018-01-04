@@ -168,7 +168,7 @@ namespace ComputeFluid2D {
                     void main()
                     {
                         float value = (gl_GlobalInvocationID.x / 1280.0 + gl_GlobalInvocationID.y / 720.0) * 0.5;
-                        imageStore(images[0], ivec2(gl_GlobalInvocationID.xy), vec4(value, value, 0, 0));
+                        imageStore(images[9], ivec2(gl_GlobalInvocationID.xy), vec4(value, 0, value, 0));
                     }
 
                     // #version 450
@@ -582,7 +582,7 @@ namespace ComputeFluid2D {
             if (mSwapchain->valid() && mRecordCommandBuffers) {
                 mComputeCommandBuffer->begin();
 
-                mAdvectPipeline.bind_images(*mVelocity[0]);
+                // mAdvectPipeline.bind_images(*mVelocity[0]);
                 mAdvectPipeline.dispatch(*mComputeCommandBuffer, *mComputeDescriptorSet);
 
                 // advect(*mVelocity[0], mVelocity, *mObstacles, mVelocityDissipation);
@@ -627,7 +627,7 @@ namespace ComputeFluid2D {
                 ////
                 VkDescriptorImageInfo imageInfo { };
                 imageInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
-                imageInfo.imageView = *mVelocity[0]->view();
+                imageInfo.imageView = *mObstacles->view(); // *mVelocity[0]->view();
                 imageInfo.sampler = *mSampler;
                 VkWriteDescriptorSet write { };
                 write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
