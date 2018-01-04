@@ -45,7 +45,9 @@ namespace ComputeFluid2D {
         std::shared_ptr<dst::vlkn::Command::Pool> mComputeCommandPool;
         dst::vlkn::Command::Buffer* mComputeCommandBuffer;
         std::shared_ptr<dst::vlkn::Semaphore> mComputeSemaphore;
+        std::shared_ptr<dst::vlkn::Descriptor::Set::Layout> mComputeDescriptorSetLayout;
         std::shared_ptr<dst::vlkn::Descriptor::Pool> mComputeDescriptorPool;
+        dst::vlkn::Descriptor::Set* mComputeDescriptorSet { nullptr };
 
         ComputePipeline mAdvectPipeline;
         ComputePipeline mJacobiPipeline;
@@ -144,28 +146,29 @@ namespace ComputeFluid2D {
             prepare_compute_images();
 
             using namespace dst::vlkn;
-            VkDescriptorPoolSize poolSize { };
-            poolSize.type = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
-            poolSize.descriptorCount = 1;
-            auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
-            descriptorPoolInfo.poolSizeCount = 1;
-            descriptorPoolInfo.pPoolSizes = &poolSize;
-            descriptorPoolInfo.maxSets = 1;
-            mComputeDescriptorPool = mDevice->create<Descriptor::Pool>(descriptorPoolInfo);
+            // VkDescriptorPoolSize poolSize { };
+            // poolSize.type = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+            // poolSize.descriptorCount = 1;
+            // auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
+            // descriptorPoolInfo.poolSizeCount = 1;
+            // descriptorPoolInfo.pPoolSizes = &poolSize;
+            // descriptorPoolInfo.maxSets = 1;
+            // mComputeDescriptorPool = mDevice->create<Descriptor::Pool>(descriptorPoolInfo);
 
             mAdvectPipeline = ComputePipeline(
                 *mDevice,
-                mComputeDescriptorPool,
+                mComputeDescriptorSetLayout,
+                // mComputeDescriptorPool,
                 R"(
                     #version 450
 
                     layout(local_size_x = 1, local_size_y = 1) in;
-                    layout(binding = 0) uniform writeonly image2D image;
+                    layout(binding = 0) uniform writeonly image2D images[10];
 
                     void main()
                     {
                         float value = (gl_GlobalInvocationID.x / 1280.0 + gl_GlobalInvocationID.y / 720.0) * 0.5;
-                        imageStore(image, ivec2(gl_GlobalInvocationID.xy), vec4(value, value, 0, 0));
+                        imageStore(images[0], ivec2(gl_GlobalInvocationID.xy), vec4(value, value, 0, 0));
                     }
 
                     // #version 450
@@ -353,9 +356,54 @@ namespace ComputeFluid2D {
                 }
             );
 
-            for (auto& image : mComputeImages) {
-                image->create<Image::View>();
+            for (size_t i = 0; i < mComputeImages.size(); ++i) {
+                mComputeImages[i]->create<Image::View>();
             }
+
+            ////////////////////////////////////////////////////////////////////
+
+            VkDescriptorSetLayoutBinding descriptorSetLayoutBinding { };
+            descriptorSetLayoutBinding.binding = 0;
+            descriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+            descriptorSetLayoutBinding.descriptorCount = static_cast<uint32_t>(mComputeImages.size());
+            descriptorSetLayoutBinding.stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;
+            Descriptor::Set::Layout::CreateInfo descriptorSetLayoutInfo { };
+            descriptorSetLayoutInfo.bindingCount = 1;
+            descriptorSetLayoutInfo.pBindings = &descriptorSetLayoutBinding;
+            mComputeDescriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
+
+            VkDescriptorPoolSize descriptorPoolSize { };
+            descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+            descriptorPoolSize.descriptorCount = static_cast<uint32_t>(mComputeImages.size());
+            auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
+            descriptorPoolInfo.maxSets = 1;
+            descriptorPoolInfo.poolSizeCount = 1;
+            descriptorPoolInfo.pPoolSizes = &descriptorPoolSize;
+            mComputeDescriptorPool = mDevice->create<Descriptor::Pool>(descriptorPoolInfo);
+
+            ////////////////////////////////////////////////////////////////////
+
+            auto descriptorSetInfo = Descriptor::Set::AllocateInfo;
+            descriptorSetInfo.descriptorSetCount = 1;
+            descriptorSetInfo.descriptorPool = *mComputeDescriptorPool;
+            descriptorSetInfo.pSetLayouts = &mComputeDescriptorSetLayout->handle();
+            mComputeDescriptorSet = mComputeDescriptorPool->allocate<Descriptor::Set>(descriptorSetInfo);
+
+            std::vector<VkDescriptorImageInfo> descriptorImageInfos(mComputeImages.size());
+            for (size_t i = 0; i < mComputeImages.size(); ++i) {
+                VkDescriptorImageInfo descriptorImageInfo { };
+                descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
+                descriptorImageInfo.imageView = *mComputeImages[i]->view();
+                descriptorImageInfos[i] = descriptorImageInfo;
+            }
+
+            VkWriteDescriptorSet write { };
+            write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+            write.dstSet = *mComputeDescriptorSet;
+            write.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+            write.descriptorCount = static_cast<uint32_t>(descriptorImageInfos.size());
+            write.pImageInfo = descriptorImageInfos.data();
+            vkUpdateDescriptorSets(*mDevice, 1, &write, 0, nullptr);
         }
 
         void create_graphics_resources()
@@ -535,7 +583,7 @@ namespace ComputeFluid2D {
                 mComputeCommandBuffer->begin();
 
                 mAdvectPipeline.bind_images(*mVelocity[0]);
-                mAdvectPipeline.dispatch(*mComputeCommandBuffer);
+                mAdvectPipeline.dispatch(*mComputeCommandBuffer, *mComputeDescriptorSet);
 
                 // advect(*mVelocity[0], mVelocity, *mObstacles, mVelocityDissipation);
                 // swap(mVelocity);
