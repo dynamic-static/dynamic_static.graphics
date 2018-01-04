@@ -136,6 +136,14 @@ namespace ComputeFluid2D {
 
         void create_compute_resources()
         {
+            using namespace dst::vlkn;
+            auto commandPoolInfo = Command::Pool::CreateInfo;
+            commandPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+            commandPoolInfo.queueFamilyIndex = static_cast<uint32_t>(mComputeQueue->family_index());
+            mComputeCommandPool = mDevice->create<Command::Pool>(commandPoolInfo);
+            mComputeCommandBuffer = mComputeCommandPool->allocate<Command::Buffer>();
+            mComputeSemaphore = mDevice->create<Semaphore>();
+
             const auto& extent = mSwapchain->extent();
             mVelocity = create_image_buffer(extent, 2);
             mDensity = create_image_buffer(extent, 1);
@@ -145,20 +153,9 @@ namespace ComputeFluid2D {
             mObstacles = create_compute_image(extent, 3);
             prepare_compute_images();
 
-            using namespace dst::vlkn;
-            // VkDescriptorPoolSize poolSize { };
-            // poolSize.type = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
-            // poolSize.descriptorCount = 1;
-            // auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
-            // descriptorPoolInfo.poolSizeCount = 1;
-            // descriptorPoolInfo.pPoolSizes = &poolSize;
-            // descriptorPoolInfo.maxSets = 1;
-            // mComputeDescriptorPool = mDevice->create<Descriptor::Pool>(descriptorPoolInfo);
-
             mAdvectPipeline = ComputePipeline(
                 *mDevice,
                 mComputeDescriptorSetLayout,
-                // mComputeDescriptorPool,
                 R"(
                     #version 450
 
@@ -168,7 +165,7 @@ namespace ComputeFluid2D {
                     void main()
                     {
                         float value = (gl_GlobalInvocationID.x / 1280.0 + gl_GlobalInvocationID.y / 720.0) * 0.5;
-                        imageStore(images[9], ivec2(gl_GlobalInvocationID.xy), vec4(value, 0, value, 0));
+                        imageStore(images[0], ivec2(gl_GlobalInvocationID.xy), vec4(value, 0, value, 0));
                     }
 
                     // #version 450
@@ -194,7 +191,7 @@ namespace ComputeFluid2D {
 
             // mJacobiPipeline = ComputePipeline(
             //     *mDevice,
-            //     mComputeDescriptorPool,
+            //     mComputeDescriptorSetLayout,
             //     R"(
             //         #version 450
             // 
@@ -209,7 +206,7 @@ namespace ComputeFluid2D {
 
             // mSubtractGradientPipeline = ComputePipeline(
             //     *mDevice,
-            //     mComputeDescriptorPool,
+            //     mComputeDescriptorSetLayout,
             //     R"(
             //         #version 450
             // 
@@ -224,7 +221,7 @@ namespace ComputeFluid2D {
 
             // mComputeDivergencePipeline = ComputePipeline(
             //     *mDevice,
-            //     mComputeDescriptorPool,
+            //     mComputeDescriptorSetLayout,
             //     R"(
             //         #version 450
             // 
@@ -239,7 +236,7 @@ namespace ComputeFluid2D {
 
             // mApplyImpulsePipeline = ComputePipeline(
             //     *mDevice,
-            //     mComputeDescriptorPool,
+            //     mComputeDescriptorSetLayout,
             //     R"(
             //         #version 450
             // 
@@ -254,7 +251,7 @@ namespace ComputeFluid2D {
 
             // mApplyBuoyancyPipeline = ComputePipeline(
             //     *mDevice,
-            //     mComputeDescriptorPool,
+            //     mComputeDescriptorSetLayout,
             //     R"(
             //         #version 450
             // 
@@ -266,13 +263,6 @@ namespace ComputeFluid2D {
             //         }
             //     )"
             // );
-
-            auto commandPoolInfo = Command::Pool::CreateInfo;
-            commandPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-            commandPoolInfo.queueFamilyIndex = static_cast<uint32_t>(mComputeQueue->family_index());
-            mComputeCommandPool = mDevice->create<Command::Pool>(commandPoolInfo);
-            mComputeCommandBuffer = mComputeCommandPool->allocate<Command::Buffer>();
-            mComputeSemaphore = mDevice->create<Semaphore>();
         }
 
         ImageBuffer create_image_buffer(const VkExtent2D& extent, uint32_t channels)
@@ -491,37 +481,6 @@ namespace ComputeFluid2D {
             mGraphicsDescriptorPool = mDevice->create<Descriptor::Pool>(descriptorPoolInfo);
 
             mSampler = mDevice->create<Sampler>();
-
-            //// VkDescriptorPoolSize descriptorPoolSize;
-            //// descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            //// descriptorPoolSize.descriptorCount = 10; // NOTE : This is our number of compute images.
-            //// auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
-            //// descriptorPoolInfo.poolSizeCount = 1;
-            //// descriptorPoolInfo.pPoolSizes = &descriptorPoolSize;
-            //// descriptorPoolInfo.maxSets = 1;
-            //// mGraphicsDescriptorPool = mDevice->create<Descriptor::Pool>(descriptorPoolInfo);
-            //// 
-            //// auto descriptorSetAllocateInfo = Descriptor::Set::AllocateInfo;
-            //// descriptorSetAllocateInfo.descriptorPool = *mComputeDescriptorPool;
-            //// 
-            //// // size_t descriptorSetCount = 0;
-            //// // std::vector<VkDescriptorSetLayoutBinding> bindings;
-            //// // auto aggregateBindings =
-            //// //     [&](ComputePipeline& computePipeline)
-            //// // {
-            //// // 
-            //// // };
-            //// // 
-            //// // aggregateBindings(mAdvectPipeline);
-            //// // aggregateBindings(mAdvectPipeline);
-            //// // aggregateBindings(mAdvectPipeline);
-            //// // aggregateBindings(mApplyBuoyancyPipeline);
-            //// // aggregateBindings(mApplyImpulsePipeline);
-            //// // aggregateBindings(mApplyImpulsePipeline);
-            //// // aggregateBindings(mComputeDivergencePipeline);
-            //// // aggregateBindings(mJacobiPipeline);
-            //// // aggregateBindings(mJacobiPipeline);
-            //// // aggregateBindings(mSubtractGradientPipeline);
         }
 
         void update(const dst::Clock& clock, const dst::sys::Input& input) override
@@ -582,7 +541,6 @@ namespace ComputeFluid2D {
             if (mSwapchain->valid() && mRecordCommandBuffers) {
                 mComputeCommandBuffer->begin();
 
-                // mAdvectPipeline.bind_images(*mVelocity[0]);
                 mAdvectPipeline.dispatch(*mComputeCommandBuffer, *mComputeDescriptorSet);
 
                 // advect(*mVelocity[0], mVelocity, *mObstacles, mVelocityDissipation);
@@ -627,7 +585,7 @@ namespace ComputeFluid2D {
                 ////
                 VkDescriptorImageInfo imageInfo { };
                 imageInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
-                imageInfo.imageView = *mObstacles->view(); // *mVelocity[0]->view();
+                imageInfo.imageView = *mVelocity[0]->view();
                 imageInfo.sampler = *mSampler;
                 VkWriteDescriptorSet write { };
                 write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
