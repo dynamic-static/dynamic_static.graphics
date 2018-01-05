@@ -43,6 +43,9 @@ namespace Vulkan {
 
     ShaderModule::Reflector::Reflector(gsl::span<const uint32_t> spirv)
     {
+        // NOTE : More info on reflection with SPIRV-Cross...
+        //        https://www.khronos.org/assets/uploads/developers/library/2016-vulkan-devday-uk/4-Using-spir-v-with-spirv-cross.pdf
+
         spirv_cross::CompilerGLSL glsl(spirv.data(), spirv.size());
         spirv_cross::ShaderResources resources = glsl.get_shader_resources();
 
@@ -66,21 +69,28 @@ namespace Vulkan {
         // appendBindings(process_separate_images(glsl, resources));
         // appendBindings(process_separate_samplers(glsl, resources));
 
-        // NOTE : There can only be one PushConstant block but we maintain the loop in case the
-        //        restriction is lifted in the future...this is also noted in spirv_cross.hpp.
-        for (auto& resource : resources.push_constant_buffers) {
-            process_shader_resource("PushConstantBuffer", glsl, resource);
-            if (glsl.get_storage_class(resource.id) == spv::StorageClassPushConstant) {
-                VkPushConstantRange pushConstantRange { };
-                pushConstantRange.offset = 0;
-                pushConstantRange.size = glsl.get_decoration(resource.id, spv::DecorationBinding);
-                // NOTE : We can also get struct member sizes...
-                pushConstantRange.size = static_cast<uint32_t>(glsl.get_declared_struct_size(glsl.get_type(resource.base_type_id)));
-                pushConstantRanges.push_back(pushConstantRange);
+        if (!resources.push_constant_buffers.empty()) {
+            auto id = resources.push_constant_buffers[0].id;
+            auto ranges = glsl.get_active_buffer_ranges(id);
+            pushConstantRanges.push_back({ });
+            for (const auto& range : ranges) {
+                pushConstantRanges.back().size += static_cast<uint32_t>(range.range);
             }
         }
 
-        int breaker = 0;
+        // // NOTE : There can only be one PushConstant block but we maintain the loop in case the
+        // //        restriction is lifted in the future...this is also noted in spirv_cross.hpp.
+        // for (auto& resource : resources.push_constant_buffers) {
+        //     process_shader_resource("PushConstantBuffer", glsl, resource);
+        //     if (glsl.get_storage_class(resource.id) == spv::StorageClassPushConstant) {
+        //         VkPushConstantRange pushConstantRange { };
+        //         pushConstantRange.offset = 0;
+        //         pushConstantRange.size = glsl.get_decoration(resource.id, spv::DecorationBinding);
+        //         // NOTE : We can also get struct member sizes...
+        //         pushConstantRange.size = static_cast<uint32_t>(glsl.get_declared_struct_size(glsl.get_type(resource.base_type_id)));
+        //         pushConstantRanges.push_back(pushConstantRange);
+        //     }
+        // }
     }
 
     std::vector<VkDescriptorSetLayoutBinding> ShaderModule::Reflector::get_descriptor_set_layout_bindings(gsl::span<const uint32_t> spirv)

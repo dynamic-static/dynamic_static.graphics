@@ -49,6 +49,7 @@ namespace ComputeFluid2D {
         std::shared_ptr<dst::vlkn::Descriptor::Pool> mComputeDescriptorPool;
         dst::vlkn::Descriptor::Set* mComputeDescriptorSet { nullptr };
 
+        ComputePipeline mClearPipeline;
         ComputePipeline mAdvectPipeline;
         ComputePipeline mJacobiPipeline;
         ComputePipeline mSubtractGradientPipeline;
@@ -153,6 +154,33 @@ namespace ComputeFluid2D {
             mObstacles = create_compute_image(extent, 3);
             prepare_compute_images();
 
+            mClearPipeline = ComputePipeline(
+                *mDevice,
+                mComputeDescriptorSetLayout,
+                R"(
+                    #version 450
+
+                    layout(local_size_x = 1, local_size_y = 1) in;
+                    layout(binding = 0) uniform writeonly image2D images[10];
+
+                    layout(push_constant)
+                    uniform PushConstants
+                    {
+                        vec3 value;
+                        int imageIndex;
+                    } push;
+
+                    void main()
+                    {
+                        imageStore(
+                            images[push.imageIndex],
+                            ivec2(gl_GlobalInvocationID.xy),
+                            vec4(push.value, 1)
+                        );
+                    }
+                )"
+            );
+
             mAdvectPipeline = ComputePipeline(
                 *mDevice,
                 mComputeDescriptorSetLayout,
@@ -165,7 +193,7 @@ namespace ComputeFluid2D {
                     void main()
                     {
                         float value = (gl_GlobalInvocationID.x / 1280.0 + gl_GlobalInvocationID.y / 720.0) * 0.5;
-                        imageStore(images[0], ivec2(gl_GlobalInvocationID.xy), vec4(value, 0, value, 0));
+                        // imageStore(images[0], ivec2(gl_GlobalInvocationID.xy), vec4(value, 0, value, 0));
                     }
 
                     // #version 450
@@ -188,6 +216,23 @@ namespace ComputeFluid2D {
 
                 )"
             );
+
+            /*
+
+            auto value =
+                x[i - 1, j    ] +
+                x[i + 1, j    ] +
+                x[i,     j - 1] +
+                x[i,     j + 1];
+            x[i, j] = x0[i, j] + a * value / c;
+
+                x0(vec2(i,     j    )) +
+            a * x (vec2(i - 1, j    )) +
+                x (vec2(i + 1, j    )) +
+                x (vec2(i,     j - 1)) +
+                x (vec2(i,     j + 1))
+
+            */
 
             // mJacobiPipeline = ComputePipeline(
             //     *mDevice,
@@ -541,7 +586,15 @@ namespace ComputeFluid2D {
             if (mSwapchain->valid() && mRecordCommandBuffers) {
                 mComputeCommandBuffer->begin();
 
-                mAdvectPipeline.dispatch(*mComputeCommandBuffer, *mComputeDescriptorSet);
+                struct Foo final
+                {
+                    glm::vec3 value { 0.5f, 1, 0 };
+                    int imageIndex { 0 };
+                };
+
+                mClearPipeline.dispatch<Foo>(*mComputeCommandBuffer, *mComputeDescriptorSet, Foo());
+
+                // mAdvectPipeline.dispatch(*mComputeCommandBuffer, *mComputeDescriptorSet);
 
                 // advect(*mVelocity[0], mVelocity, *mObstacles, mVelocityDissipation);
                 // swap(mVelocity);
