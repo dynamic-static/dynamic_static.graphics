@@ -32,11 +32,22 @@ namespace ComputeFluid2D {
             const std::shared_ptr<dst::vlkn::Descriptor::Set::Layout>& descriptorSetLayout,
             const std::string& shaderSource
         )
+            : ComputePipeline(device, descriptorSetLayout, 0, shaderSource)
+        {
+        }
+
+        ComputePipeline(
+            dst::vlkn::Device& device,
+            const std::shared_ptr<dst::vlkn::Descriptor::Set::Layout>& descriptorSetLayout,
+            int lineOffset,
+            const std::string& shaderSource
+        )
         {
             using namespace dst::vlkn;
             auto shader = device.create<ShaderModule>(
                 VK_SHADER_STAGE_COMPUTE_BIT,
                 ShaderModule::Source::Code,
+                lineOffset,
                 shaderSource
             );
 

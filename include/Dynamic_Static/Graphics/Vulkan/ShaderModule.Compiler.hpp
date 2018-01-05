@@ -43,6 +43,19 @@ namespace Vulkan {
             VkShaderStageFlagBits stage,
             const std::string& source
         );
+
+        /**
+         * Compiles a shader from source.
+         * @param [in] stage      The shader stage
+         * @param [in] lineOffset The number of lines to offset the shader source
+         * @param [in] source     The shader source to compile
+         * @return The compiled SPIR-V bytecode
+         */
+        static std::vector<uint32_t> compile_from_source(
+            VkShaderStageFlagBits stage,
+            int lineOffset,
+            const std::string& source
+        );
     };
 
 } // namespace Vulkan

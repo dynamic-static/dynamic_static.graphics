@@ -81,6 +81,15 @@ namespace Vulkan {
         const std::string& source
     )
     {
+        return compile_from_source(stage, 0, source);
+    }
+
+    std::vector<uint32_t> ShaderModule::Compiler::compile_from_source(
+        VkShaderStageFlagBits stage,
+        int lineOffset,
+        const std::string& source
+    )
+    {
         if (!GLSLangInitializer::validate()) {
             throw std::runtime_error("TODO : what : GLSLangInitializer::validate()");
         }
@@ -97,7 +106,12 @@ namespace Vulkan {
         }
 
         glslang::TShader shader(eshStage);
-        const char* sourceCStr[] { source.c_str() };
+        // TODO : This lineOffset is dumb...fix it...
+        std::string modifiedSource;
+        modifiedSource.reserve(lineOffset + source.size());
+        modifiedSource.resize(lineOffset, '\n');
+        modifiedSource.append(source);
+        const char* sourceCStr[] { modifiedSource.c_str() };
         shader.setStrings(sourceCStr, 1);
         auto messages = static_cast<EShMessages>(EShMsgSpvRules | EShMsgVulkanRules);
         if (!shader.parse(&BuiltInResource, 100, false, messages)) {

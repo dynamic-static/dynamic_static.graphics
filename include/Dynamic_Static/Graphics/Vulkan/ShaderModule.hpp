@@ -67,6 +67,14 @@ namespace Vulkan {
             const std::string& compile
         );
 
+        ShaderModule(
+            const std::shared_ptr<Device>& device,
+            VkShaderStageFlagBits stage,
+            Source source,
+            int lineOffset,
+            const std::string& compile
+        );
+
     public:
         /**
          * Destroys this instance of ShaderModule.

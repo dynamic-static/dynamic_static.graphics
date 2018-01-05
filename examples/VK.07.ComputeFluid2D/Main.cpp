@@ -23,6 +23,9 @@
 
 namespace ComputeFluid2D {
 
+    static bool gMouseDown;
+    static glm::vec2 gMousePosition;
+
     class Application final
         : public dst::vlkn::Application
     {
@@ -50,6 +53,8 @@ namespace ComputeFluid2D {
         dst::vlkn::Descriptor::Set* mComputeDescriptorSet { nullptr };
 
         ComputePipeline mClearPipeline;
+        ComputePipeline mAddFluidPipeline;
+
         ComputePipeline mAdvectPipeline;
         ComputePipeline mJacobiPipeline;
         ComputePipeline mSubtractGradientPipeline;
@@ -79,13 +84,13 @@ namespace ComputeFluid2D {
             set_name("Dynamic_Static ComputeFluid2D");
             mDebugFlags =
                 0
-                #if defined(DYNAMIC_STATIC_WINDOWS)
-                | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
-                | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-                | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-                | VK_DEBUG_REPORT_WARNING_BIT_EXT
-                | VK_DEBUG_REPORT_ERROR_BIT_EXT
-                #endif
+                // #if defined(DYNAMIC_STATIC_WINDOWS)
+                // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
+                // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
+                // | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+                // | VK_DEBUG_REPORT_WARNING_BIT_EXT
+                // | VK_DEBUG_REPORT_ERROR_BIT_EXT
+                // #endif
                 ;
         }
 
@@ -181,6 +186,43 @@ namespace ComputeFluid2D {
                 )"
             );
 
+            mAddFluidPipeline = ComputePipeline(
+                *mDevice,
+                mComputeDescriptorSetLayout,
+                __LINE__,
+                R"(
+                    #version 450
+
+                    layout(local_size_x = 1, local_size_y = 1) in;
+                    layout(binding = 0, rgba8) uniform image2D images[10];
+
+                    layout(push_constant)
+                    uniform PushConstants
+                    {
+                        vec3 value;
+                        int imageIndex;
+                        vec2 position;
+                        float radius;
+                    } push;
+
+                    void main()
+                    {
+                        if (distance(push.position, gl_GlobalInvocationID.xy) <= push.radius) {
+                            vec4 value = imageLoad(
+                                images[push.imageIndex],
+                                ivec2(gl_GlobalInvocationID.xy)
+                            );
+
+                            imageStore(
+                                images[push.imageIndex],
+                                ivec2(gl_GlobalInvocationID.xy),
+                                vec4(value.rgb + push.value, 1)
+                            );
+                        }
+                    }
+                )"
+            );
+
             mAdvectPipeline = ComputePipeline(
                 *mDevice,
                 mComputeDescriptorSetLayout,
@@ -225,12 +267,6 @@ namespace ComputeFluid2D {
                 x[i,     j - 1] +
                 x[i,     j + 1];
             x[i, j] = x0[i, j] + a * value / c;
-
-                x0(vec2(i,     j    )) +
-            a * x (vec2(i - 1, j    )) +
-                x (vec2(i + 1, j    )) +
-                x (vec2(i,     j - 1)) +
-                x (vec2(i,     j + 1))
 
             */
 
@@ -533,6 +569,10 @@ namespace ComputeFluid2D {
             if (input.keyboard.down(dst::sys::Keyboard::Key::Escape)) {
                 stop();
             }
+
+            gMousePosition = input.mouse.current.position;
+            gMouseDown = input.mouse.down(dst::sys::Mouse::Button::Left);
+            mRecordCommandBuffers = true;
         }
 
         void swap(ImageBuffer& imageBuffer)
@@ -592,7 +632,25 @@ namespace ComputeFluid2D {
                     int imageIndex { 0 };
                 };
 
-                mClearPipeline.dispatch<Foo>(*mComputeCommandBuffer, *mComputeDescriptorSet, Foo());
+                // mClearPipeline.dispatch<Foo>(*mComputeCommandBuffer, *mComputeDescriptorSet, Foo());
+
+                struct AddFluidPushConstants final
+                {
+                    glm::vec3 value;
+                    int imageIndex;
+                    glm::vec2 position;
+                    float radius;
+                } addFluidPushConstants;
+
+                if (gMouseDown) {
+                    addFluidPushConstants.value = glm::vec3(0.025f, 0.015f, 0);
+                    addFluidPushConstants.imageIndex = 0;
+                    addFluidPushConstants.position = gMousePosition;
+                    addFluidPushConstants.radius = 16;
+                    mAddFluidPipeline.dispatch<AddFluidPushConstants>(*mComputeCommandBuffer, *mComputeDescriptorSet, addFluidPushConstants);
+                }
+
+                ////////////////////////////////////////////////////////////////
 
                 // mAdvectPipeline.dispatch(*mComputeCommandBuffer, *mComputeDescriptorSet);
 

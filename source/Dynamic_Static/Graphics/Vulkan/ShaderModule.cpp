@@ -31,6 +31,17 @@ namespace Vulkan {
         Source source,
         const std::string& compile
     )
+        : ShaderModule(device, stage, source, 0, compile)
+    {
+    }
+
+    ShaderModule::ShaderModule(
+        const std::shared_ptr<Device>& device,
+        VkShaderStageFlagBits stage,
+        Source source,
+        int lineOffset,
+        const std::string& compile
+    )
         : DeviceChild(device)
         , mStage { stage }
     {
@@ -56,7 +67,7 @@ namespace Vulkan {
                 mDescriptorSetLayoutBindings = std::move(Reflector::get_descriptor_set_layout_bindings(span));
             }
         } else {
-            auto spirv = Compiler::compile_from_source(mStage, compile);
+            auto spirv = Compiler::compile_from_source(mStage, lineOffset, compile);
             info.codeSize = spirv.size() * sizeof(spirv[0]);
             info.pCode = reinterpret_cast<uint32_t*>(spirv.data());
             validate(vkCreateShaderModule(DeviceChild::device(), &info, nullptr, &mHandle));
