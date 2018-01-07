@@ -35,15 +35,17 @@ namespace ComputeFluid2D {
         float mAmbientTemperature { 0 };
         float mImpulseTemperature { 10.0f };
         float mImpulseDensity { 1.0f };
-        uint32_t mJacobiIterations { 40 };
+        uint32_t mJacobiIterations { 4 };
         float mTimeStep { 0.125f };
         float mSmokeBuoyancy { 1.0f };
         float mSmokeWeight { 0.05f };
         float mGradientScale { 1.125f / CellSize };
-        float mVelocityDissipation { 0.99f };
-        float mDensityDissipation { 0.9999f };
+        float mVelocityDissipation { 100 }; // { 0.99f };
+        float mDensityDissipation { 1000 }; // { 0.9999f };
         float mTemperatureDissipation { 0.99f };
         glm::vec2 mImpulsePosition { 0, 0 };
+
+        int drawTexture { 0 };
 
         dst::vlkn::ImGUI mGui;
 
@@ -83,6 +85,11 @@ namespace ComputeFluid2D {
         std::shared_ptr<dst::vlkn::Pipeline::Layout> mGraphicsPipelineLayout;
         std::shared_ptr<dst::vlkn::Pipeline> mGraphicsPipeline;
         dst::vlkn::Descriptor::Set* mGraphicsDescriptorSet { nullptr };
+
+        struct FragmentShaderPushConstants final
+        {
+            int32_t src_idx;
+        };
 
     public:
         Application()
@@ -159,12 +166,12 @@ namespace ComputeFluid2D {
             //        pain in the ass to make everything work out correctly with
             //        mismatched texture formats in compute shaders...
             // TODO : Use compute buffers aliased to the same texture memory.
-            mVelocity = create_image_buffer(extent, 2);
-            mDensity = create_image_buffer(extent, 2);
-            mPressure = create_image_buffer(extent, 2);
-            mTemperature = create_image_buffer(extent, 2);
-            mDivergence = create_image(extent, 2);
-            mObstacles = create_image(extent, 2);
+            mVelocity = create_image_buffer(extent);
+            mDensity = create_image_buffer(extent);
+            mPressure = create_image_buffer(extent);
+            mTemperature = create_image_buffer(extent);
+            mDivergence = create_image(extent);
+            mObstacles = create_image(extent);
 
             std::vector<VkDeviceSize> offsets;
             offsets.reserve(mImages.size());
@@ -222,31 +229,30 @@ namespace ComputeFluid2D {
             mSampler = mDevice->create<Sampler>();
         }
 
-        ImageBuffer create_image_buffer(const VkExtent2D& extent, uint32_t channels)
+        ImageBuffer create_image_buffer(const VkExtent2D& extent)
         {
             ImageBuffer imageBuffer;
-            imageBuffer[0] = create_image(extent, channels);
-            imageBuffer[1] = create_image(extent, channels);
+            imageBuffer[0] = create_image(extent);
+            imageBuffer[1] = create_image(extent);
             return imageBuffer;
         }
 
-        std::shared_ptr<dst::vlkn::Image> create_image(const VkExtent2D& extent, uint32_t channels)
+        std::shared_ptr<dst::vlkn::Image> create_image(const VkExtent2D& extent)
         {
             using namespace dst::vlkn;
             auto imageInfo = Image::CreateInfo;
             imageInfo.imageType = VK_IMAGE_TYPE_2D;
             imageInfo.extent.width = extent.width;
             imageInfo.extent.height = extent.height;
+            imageInfo.format = VK_FORMAT_R8G8_UNORM;
             imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
             imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
             imageInfo.usage = VK_IMAGE_USAGE_STORAGE_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
-            switch (channels) {
-                case 1: imageInfo.format = VK_FORMAT_R8_UNORM; break;
-                case 2: imageInfo.format = VK_FORMAT_R8G8_UNORM; break;
-                default: imageInfo.format = VK_FORMAT_R8G8B8A8_UNORM; break;
-            }
-
             auto image = mDevice->create<Image>(imageInfo);
+            std::string name;
+            name.resize(1);
+            name[0] = static_cast<char>(mImages.size());
+            image->name(name);
             mImages.push_back(image.get());
             return image;
         }
@@ -369,16 +375,16 @@ namespace ComputeFluid2D {
                     layout(push_constant)
                     uniform PushConstants
                     {
-                        vec3 value;
-                        int imageIndex;
+                        vec2 value;
+                        int dst_idx;
                     } push;
 
                     void main()
                     {
                         imageStore(
-                            images[push.imageIndex],
+                            images[push.dst_idx],
                             ivec2(gl_GlobalInvocationID.xy),
-                            vec4(push.value, 1)
+                            vec4(push.value, 0, 0)
                         );
                     }
                 )"
@@ -397,24 +403,24 @@ namespace ComputeFluid2D {
                     layout(push_constant)
                     uniform PushConstants
                     {
-                        vec3 value;
-                        int imageIndex;
+                        vec2 value;
                         vec2 position;
                         float radius;
+                        int dst_idx;
                     } push;
 
                     void main()
                     {
                         if (distance(push.position, gl_GlobalInvocationID.xy) <= push.radius) {
-                            vec4 value = imageLoad(
-                                images[push.imageIndex],
+                            vec2 value = imageLoad(
+                                images[push.dst_idx],
                                 ivec2(gl_GlobalInvocationID.xy)
-                            );
+                            ).xy;
 
                             imageStore(
-                                images[push.imageIndex],
+                                images[push.dst_idx],
                                 ivec2(gl_GlobalInvocationID.xy),
-                                vec4(value.rgb + push.value, 1)
+                                vec4(value + push.value, 0, 0)
                             );
                         }
                     }
@@ -429,93 +435,175 @@ namespace ComputeFluid2D {
                     #version 450
 
                     layout(local_size_x = 1, local_size_y = 1) in;
-                    layout(binding = 0) uniform writeonly image2D images[10];
+                    layout(binding = 0, rg8) uniform image2D images[10];
+
+                    layout(push_constant)
+                    uniform PushConstants
+                    {
+                        float timeStep;
+                        float dissipation;
+                        int velocity_idx;
+                        int src_idx;
+                        int dst_idx;
+                    } push;
 
                     void main()
                     {
-                        float value = (gl_GlobalInvocationID.x / 1280.0 + gl_GlobalInvocationID.y / 720.0) * 0.5;
-                        // imageStore(images[0], ivec2(gl_GlobalInvocationID.xy), vec4(value, 0, value, 0));
-                    }
+                        vec2 velocity = imageLoad(
+                            images[push.velocity_idx],
+                            ivec2(gl_GlobalInvocationID.xy)
+                        ).xy;
 
-                    // #version 450
-                    // 
-                    // layout(local_size_x = 1, local_size_y = 1) in;
-                    // layout(binding = 0) uniform readonly image2D Velocity;
-                    // layout(binding = 1) uniform writeonly image2D Source;
-                    // layout(binding = 2) uniform writeonly image2D Destination;
-                    // layout(binding = 3) uniform readonly image2D Obstacles;
-                    // 
-                    // #define InverseSize (vec2(0, 0))
-                    // #define TimeStep (0)
-                    // #define Dissipation (0)
-                    // 
-                    // void main()
-                    // {
-                    //     ivec2 texCoord = ivec2(gl_GlobalInvocationID.xy / vec2(1280.0, 720.0));
-                    //     imageStore(Destination, texCoord, vec4(texCoord, texCoord, 0, 0));
-                    // }
+                        vec2 srcTexCoord = gl_GlobalInvocationID.xy;
+                        srcTexCoord -= velocity * push.timeStep;
+                        vec2 value = imageLoad(
+                            images[push.src_idx],
+                            ivec2(round(srcTexCoord))
+                        ).xy;
+
+                        imageStore(
+                            images[push.dst_idx],
+                            ivec2(gl_GlobalInvocationID.xy),
+                            vec4(value * push.dissipation, 0, 0)
+                        );
+                    }
 
                 )"
             );
 
-            /*
+            // Apply buoyancy
 
-            auto value =
-                x[i - 1, j    ] +
-                x[i + 1, j    ] +
-                x[i,     j - 1] +
-                x[i,     j + 1];
-            x[i, j] = x0[i, j] + a * value / c;
+            mComputeDivergencePipeline = ComputePipeline(
+                *mDevice,
+                mComputeDescriptorSetLayout,
+                __LINE__,
+                R"(
+                    #version 450
 
-            */
+                    layout(local_size_x = 1, local_size_y = 1) in;
+                    layout(binding = 0, rg8) uniform image2D images[10];
 
-            // mJacobiPipeline = ComputePipeline(
-            //     *mDevice,
-            //     mComputeDescriptorSetLayout,
-            //     __LINE__,
-            //     R"(
-            //         #version 450
-            // 
-            //         layout(local_size_x = 1, local_size_y = 1) in;
-            //         layout(binding = 0, r8) uniform writeonly image2D image;
-            // 
-            //         void main()
-            //         {
-            //         }
-            //     )"
-            // );
+                    layout(push_constant)
+                    uniform PushConstants
+                    {
+                        int velocity_idx;
+                        int dst_idx;
+                    } push;
 
-            // mSubtractGradientPipeline = ComputePipeline(
-            //     *mDevice,
-            //     mComputeDescriptorSetLayout,
-            //     __LINE__,
-            //     R"(
-            //         #version 450
-            // 
-            //         layout(local_size_x = 1, local_size_y = 1) in;
-            //         layout(binding = 0, r8) uniform writeonly image2D image;
-            // 
-            //         void main()
-            //         {
-            //         }
-            //     )"
-            // );
+                    vec2 image_load_offset(int idx, ivec2 offset)
+                    {
+                        return imageLoad(
+                            images[idx],
+                            ivec2(gl_GlobalInvocationID.xy) + offset
+                        ).xy;
+                    }
 
-            // mComputeDivergencePipeline = ComputePipeline(
-            //     *mDevice,
-            //     mComputeDescriptorSetLayout,
-            //     __LINE__,
-            //     R"(
-            //         #version 450
-            // 
-            //         layout(local_size_x = 1, local_size_y = 1) in;
-            //         layout(binding = 0, r8) uniform writeonly image2D image;
-            // 
-            //         void main()
-            //         {
-            //         }
-            //     )"
-            // );
+                    void main()
+                    {
+                        vec2 vN = image_load_offset(push.velocity_idx, ivec2( 0,  1));
+                        vec2 vS = image_load_offset(push.velocity_idx, ivec2( 0, -1));
+                        vec2 vE = image_load_offset(push.velocity_idx, ivec2( 1,  0));
+                        vec2 vW = image_load_offset(push.velocity_idx, ivec2(-1,  0));
+                        imageStore(
+                            images[push.dst_idx],
+                            ivec2(gl_GlobalInvocationID.xy),
+                            vec4(vE.x - vW.x + vN.y - vS.y, 0, 0, 0) * 0.4
+                        );
+                    }
+                )"
+            );
+
+            mJacobiPipeline = ComputePipeline(
+                *mDevice,
+                mComputeDescriptorSetLayout,
+                __LINE__,
+                R"(
+                    #version 450
+
+                    layout(local_size_x = 1, local_size_y = 1) in;
+                    layout(binding = 0, rg8) uniform image2D images[10];
+
+                    layout(push_constant)
+                    uniform PushConstants
+                    {
+                        float alpha;
+                        float inverseBeta;
+                        int pressure_idx;
+                        int divergence_idx;
+                        int dst_idx;
+                    } push;
+
+                    vec2 image_load_offset(int idx, ivec2 offset)
+                    {
+                        return imageLoad(
+                            images[idx],
+                            ivec2(gl_GlobalInvocationID.xy) + offset
+                        ).xy;
+                    }
+
+                    void main()
+                    {
+                        float pN = image_load_offset(push.pressure_idx, ivec2( 0,  1)).r;
+                        float pS = image_load_offset(push.pressure_idx, ivec2( 0, -1)).r;
+                        float pE = image_load_offset(push.pressure_idx, ivec2( 1,  0)).r;
+                        float pW = image_load_offset(push.pressure_idx, ivec2(-1,  0)).r;
+                        float pC = image_load_offset(push.pressure_idx, ivec2( 0,  0)).r;
+
+                        float bC = image_load_offset(push.divergence_idx, ivec2(0, 0)).r;
+                        imageStore(
+                            images[push.dst_idx],
+                            ivec2(gl_GlobalInvocationID.xy),
+                            vec4(pW + pE + pS + pN + push.alpha * bC, 0, 0, 0) * push.inverseBeta
+                        );
+                    }
+                )"
+            );
+
+            mSubtractGradientPipeline = ComputePipeline(
+                *mDevice,
+                mComputeDescriptorSetLayout,
+                __LINE__,
+                R"(
+                    #version 450
+            
+                    layout(local_size_x = 1, local_size_y = 1) in;
+                    layout(binding = 0, rg8) uniform image2D images[10];
+
+                    layout(push_constant)
+                    uniform PushConstants
+                    {
+                        float gradientScale;
+                        int velocity_idx;
+                        int pressure_idx;
+                        int dst_idx;
+                    } push;
+
+                    vec2 image_load_offset(int idx, ivec2 offset)
+                    {
+                        return imageLoad(
+                            images[idx],
+                            ivec2(gl_GlobalInvocationID.xy) + offset
+                        ).xy;
+                    }
+            
+                    void main()
+                    {
+                        float pN = image_load_offset(push.pressure_idx, ivec2( 0,  1)).r;
+                        float pS = image_load_offset(push.pressure_idx, ivec2( 0, -1)).r;
+                        float pE = image_load_offset(push.pressure_idx, ivec2( 1,  0)).r;
+                        float pW = image_load_offset(push.pressure_idx, ivec2(-1,  0)).r;
+                        float pC = image_load_offset(push.pressure_idx, ivec2( 0,  0)).r;
+
+                        vec2 velocity = image_load_offset(push.velocity_idx, ivec2(0, 0));
+                        vec2 gradient = vec2(pE - pW, pN - pS) * push.gradientScale;
+                        imageStore(
+                            images[push.dst_idx],
+                            ivec2(gl_GlobalInvocationID.xy),
+                            vec4(velocity - gradient, 0, 0)
+                        );
+                    }
+                )"
+            );
 
             // mApplyImpulsePipeline = ComputePipeline(
             //     *mDevice,
@@ -553,11 +641,6 @@ namespace ComputeFluid2D {
         void create_graphics_resources()
         {
             using namespace dst::vlkn;
-            auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
-            pipelineLayoutInfo.setLayoutCount = 1;
-            pipelineLayoutInfo.pSetLayouts = &mGraphicsDescriptorSetLayout->handle();
-            mGraphicsPipelineLayout = mDevice->create<Pipeline::Layout>(pipelineLayoutInfo);
-
             auto vertexShader = mDevice->create<ShaderModule>(
                 VK_SHADER_STAGE_VERTEX_BIT,
                 ShaderModule::Source::Code,
@@ -591,11 +674,11 @@ namespace ComputeFluid2D {
                     layout(location = 0) in vec2 fsTexCoord;
                     layout(location = 0) out vec4 fragColor;
 
-                    // layout(push_constant)
-                    // uniform PushConstants
-                    // {
-                    //     int imageIndex;
-                    // } push;
+                    layout(push_constant)
+                    uniform PushConstants
+                    {
+                        int src_idx;
+                    } push;
 
                     void main()
                     {
@@ -603,7 +686,7 @@ namespace ComputeFluid2D {
                         // fragColor.g = fsTexCoord.y;
                         // fragColor.b = 0;
                         // fragColor.a = 1;
-                        fragColor.rgb = texture(images[0/*push.imageIndex*/], fsTexCoord).rgb;
+                        fragColor.rgb = texture(images[push.src_idx], fsTexCoord).rgb;
                         // fragColor.gb = vec2(0);
                         fragColor.a = 1;
                     }
@@ -615,6 +698,13 @@ namespace ComputeFluid2D {
                 fragmentShader->pipeline_stage_create_info(),
             };
 
+            auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
+            pipelineLayoutInfo.setLayoutCount = 1;
+            pipelineLayoutInfo.pSetLayouts = &mGraphicsDescriptorSetLayout->handle();
+            pipelineLayoutInfo.pushConstantRangeCount = static_cast<uint32_t>(fragmentShader->push_constant_ranges().size());
+            pipelineLayoutInfo.pPushConstantRanges = fragmentShader->push_constant_ranges().data();
+            mGraphicsPipelineLayout = mDevice->create<Pipeline::Layout>(pipelineLayoutInfo);
+
             auto pipelineInfo = Pipeline::GraphicsCreateInfo;
             pipelineInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
             pipelineInfo.pStages = shaderStages.data();
@@ -625,16 +715,17 @@ namespace ComputeFluid2D {
 
         void update(const dst::Clock& clock, const dst::sys::Input& input) override
         {
+            if (input.keyboard.down(dst::sys::Keyboard::Key::Escape)) {
+                stop();
+            }
+
             mGui.begin_frame(clock, input, glm::vec2(1280, 720));
             ImGui::Begin("Settings", nullptr, ImGuiWindowFlags_ShowBorders);
+            ImGui::SliderInt("TextureIndex", &drawTexture, 0, static_cast<int>(mImages.size()) - 1);
             ImGui::End();
             mGui.end_frame();
 
             if (!ImGui::GetIO().WantCaptureMouse) {
-                if (input.keyboard.down(dst::sys::Keyboard::Key::Escape)) {
-                    stop();
-                }
-
                 gMousePosition = input.mouse.current.position;
                 gMouseDown = input.mouse.down(dst::sys::Mouse::Button::Left);
             }
@@ -647,43 +738,6 @@ namespace ComputeFluid2D {
             std::swap(imageBuffer[0], imageBuffer[1]);
         }
 
-        void clear(dst::vlkn::Image& image, float value)
-        {
-        }
-
-        void advect(dst::vlkn::Image& velocity, ImageBuffer& imageBuffer, dst::vlkn::Image& obstacles, float dissipation)
-        {
-            // std::array<dst::vlkn::Image*, 4> images {
-            //     &velocity,
-            //     imageBuffer[0].get(),
-            //     imageBuffer[1].get(),
-            //     &obstacles
-            // };
-            // 
-            // mAdvectPipeline.bind_images(images);
-            // mAdvectPipeline.dispatch(*mComputeCommandBuffer);
-        }
-
-        void jacobi(dst::vlkn::Image& velocity, dst::vlkn::Image& divergence, dst::vlkn::Image& obstacles, dst::vlkn::Image& destination)
-        {
-        }
-
-        void subtract_gradient(dst::vlkn::Image& velocity, dst::vlkn::Image& pressure, dst::vlkn::Image& obstacles, dst::vlkn::Image& destination)
-        {
-        }
-
-        void compute_divergence(dst::vlkn::Image& velocity, dst::vlkn::Image& obstacles, dst::vlkn::Image& destination)
-        {
-        }
-
-        void apply_impulse(dst::vlkn::Image& destination, const glm::vec2& position, float value)
-        {
-        }
-
-        void apply_buoyancy(dst::vlkn::Image& velocity, dst::vlkn::Image& temperature, dst::vlkn::Image& density, dst::vlkn::Image& destination)
-        {
-        }
-
         void render(const dst::Clock& clock) override final
         {
             // NOTE : render(), record_command_buffer(), and mRecordCommandBuffers are dumb...
@@ -693,59 +747,88 @@ namespace ComputeFluid2D {
             if (mSwapchain->valid() && mRecordCommandBuffers) {
                 mComputeCommandBuffer->begin();
 
-                struct Foo final
+                auto create_barrier =
+                [&]()
                 {
-                    glm::vec3 value { 0.5f, 1, 0 };
-                    int imageIndex { 0 };
+                    VkImageMemoryBarrier barrier { };
+                    barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+                    barrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+                    barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+                    vkCmdPipelineBarrier(
+                        *mComputeCommandBuffer,
+                        VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+                        VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+                        VK_FLAGS_NONE,
+                        0, nullptr,
+                        0, nullptr,
+                        0, nullptr
+                    );
                 };
 
-                // mClearPipeline.dispatch<Foo>(*mComputeCommandBuffer, *mComputeDescriptorSet, Foo());
+                AdvectPushConstants advectPushConstants { };
+                advectPushConstants.timeStep = clock.elapsed<dst::Millisecond<float>>();
+                advectPushConstants.dissipation = mVelocityDissipation;
+                advectPushConstants.velocity_idx = mVelocity[0]->name()[0];
+                advectPushConstants.src_idx = mVelocity[0]->name()[0];
+                advectPushConstants.dst_idx = mVelocity[1]->name()[0];
+                mAdvectPipeline.dispatch(*mComputeCommandBuffer, *mComputeDescriptorSet, advectPushConstants);
+                create_barrier();
+                swap(mVelocity);
 
-                struct AddFluidPushConstants final
-                {
-                    glm::vec3 value;
-                    int imageIndex;
-                    glm::vec2 position;
-                    float radius;
-                } addFluidPushConstants;
+                // Advect temperature...
+
+                advectPushConstants.dissipation = mDensityDissipation;
+                advectPushConstants.velocity_idx = mVelocity[0]->name()[0];
+                advectPushConstants.src_idx = mDensity[0]->name()[0];
+                advectPushConstants.dst_idx = mDensity[1]->name()[0];
+                mAdvectPipeline.dispatch(*mComputeCommandBuffer, *mComputeDescriptorSet, advectPushConstants);
+                create_barrier();
+                swap(mDensity);
+
+                // Apply buoyancy...
 
                 if (gMouseDown) {
-                    addFluidPushConstants.value = glm::vec3(0.025f, 0.015f, 0);
-                    addFluidPushConstants.imageIndex = 0;
+                    AddFluidPushConstants addFluidPushConstants { };
+                    addFluidPushConstants.value = glm::vec2(1, 1);
                     addFluidPushConstants.position = gMousePosition;
                     addFluidPushConstants.radius = 16;
-                    mAddFluidPipeline.dispatch<AddFluidPushConstants>(*mComputeCommandBuffer, *mComputeDescriptorSet, addFluidPushConstants);
+                    addFluidPushConstants.dst_idx = mDensity[0]->name()[0];
+                    mAddFluidPipeline.dispatch(*mComputeCommandBuffer, *mComputeDescriptorSet, addFluidPushConstants);
+                    create_barrier();
                 }
 
-                ////////////////////////////////////////////////////////////////
+                ComputDivergencePushConstants computeDivergencePushConstants { };
+                computeDivergencePushConstants.velocity_idx = mVelocity[0]->name()[0];
+                computeDivergencePushConstants.dst_idx = mDivergence->name()[0];
+                mComputeDivergencePipeline.dispatch(*mComputeCommandBuffer, *mComputeDescriptorSet, computeDivergencePushConstants);
+                create_barrier();
 
-                // mAdvectPipeline.dispatch(*mComputeCommandBuffer, *mComputeDescriptorSet);
+                ClearPushConstants clearPushConstants { };
+                clearPushConstants.value = glm::vec2(0);
+                clearPushConstants.dst_idx = mPressure[0]->name()[0];
+                mClearPipeline.dispatch(*mComputeCommandBuffer, *mComputeDescriptorSet, clearPushConstants);
+                create_barrier();
 
-                // advect(*mVelocity[0], mVelocity, *mObstacles, mVelocityDissipation);
-                // swap(mVelocity);
-                // 
-                // advect(*mVelocity[0], mDensity, *mObstacles, mDensityDissipation);
-                // swap(mDensity);
-                // 
-                // advect(*mVelocity[0], mTemperature, *mObstacles, mTemperatureDissipation);
-                // swap(mTemperature);
-                // 
-                // apply_buoyancy(*mVelocity[0], *mTemperature[0], *mDensity[0], *mVelocity[1]);
-                // swap(mVelocity);
-                // 
-                // apply_impulse(*mTemperature[0], mImpulsePosition, mImpulseTemperature);
-                // apply_impulse(*mDensity[0], mImpulsePosition, mImpulseDensity);
-                // 
-                // compute_divergence(*mVelocity[0], *mObstacles, *mDivergence);
-                // 
-                // clear(*mPressure[0], 0);
-                // for (uint32_t i = 0; i < mJacobiIterations; ++i) {
-                //     jacobi(*mPressure[0], *mDivergence, *mObstacles, *mPressure[1]);
-                //     swap(mPressure);
-                // }
-                // 
-                // subtract_gradient(*mVelocity[0], *mPressure[0], *mObstacles, *mVelocity[1]);
-                // swap(mVelocity);
+                for (uint32_t i = 0; i < mJacobiIterations; ++i) {
+                    JacobiPushConstants jacobiPushConstants { };
+                    jacobiPushConstants.alpha = -CellSize * CellSize;
+                    jacobiPushConstants.inverseBeta = 0.25f;
+                    jacobiPushConstants.pressure_idx = mPressure[0]->name()[0];
+                    jacobiPushConstants.divergence_idx = mDivergence->name()[0];
+                    jacobiPushConstants.dst_idx = mPressure[1]->name()[0];
+                    mJacobiPipeline.dispatch(*mComputeCommandBuffer, *mComputeDescriptorSet, jacobiPushConstants);
+                    create_barrier();
+                    swap(mPressure);
+                }
+
+                SubtractGradientPushConstants subtractGradientPushConstants { };
+                subtractGradientPushConstants.gradientScale = mGradientScale;
+                subtractGradientPushConstants.velocity_idx = mVelocity[0]->name()[0];
+                subtractGradientPushConstants.pressure_idx = mPressure[0]->name()[0];
+                subtractGradientPushConstants.dst_idx = mVelocity[1]->name()[0];
+                mSubtractGradientPipeline.dispatch(*mComputeCommandBuffer, *mComputeDescriptorSet, subtractGradientPushConstants);
+                create_barrier();
+                swap(mVelocity);
 
                 mComputeCommandBuffer->end();
             }
@@ -753,10 +836,11 @@ namespace ComputeFluid2D {
 
         void record_command_buffer(dst::vlkn::Command::Buffer& commandBuffer, const dst::Clock& clock) override final
         {
-            struct Foo final { int imageIndex { }; } foo;
+            FragmentShaderPushConstants fragmentShaderPushConstants { };
+            fragmentShaderPushConstants.src_idx = drawTexture; // mDensity[0]->name()[0];
             commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mGraphicsPipeline);
             vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mGraphicsPipelineLayout, 0, 1, &mGraphicsDescriptorSet->handle(), 0, nullptr);
-            // vkCmdPushConstants(commandBuffer, *mGraphicsPipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(foo), &foo);
+            vkCmdPushConstants(commandBuffer, *mGraphicsPipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(fragmentShaderPushConstants), &fragmentShaderPushConstants);
             commandBuffer.draw(3);
             mGui.draw(commandBuffer);
         }
