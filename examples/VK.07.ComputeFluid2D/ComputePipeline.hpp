@@ -74,7 +74,6 @@ namespace ComputeFluid2D {
         {
             commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_COMPUTE, *mPipeline);
             vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, *mPipelineLayout, 0, 1, &descriptorSet.handle(), 0, nullptr);
-            auto s = sizeof(PushConstantsType);
             vkCmdPushConstants(commandBuffer, *mPipelineLayout, VK_SHADER_STAGE_COMPUTE_BIT, 0, sizeof(PushConstantsType), &pushConstants);
             vkCmdDispatch(commandBuffer, 1280, 720, 1);
         }
