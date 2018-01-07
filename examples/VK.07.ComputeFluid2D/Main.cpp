@@ -47,24 +47,6 @@ namespace ComputeFluid2D {
 
         dst::vlkn::ImGUI mGui;
 
-        dst::vlkn::Queue* mComputeQueue { nullptr };
-        std::shared_ptr<dst::vlkn::Command::Pool> mComputeCommandPool;
-        dst::vlkn::Command::Buffer* mComputeCommandBuffer;
-        std::shared_ptr<dst::vlkn::Semaphore> mComputeSemaphore;
-        std::shared_ptr<dst::vlkn::Descriptor::Set::Layout> mComputeDescriptorSetLayout;
-        std::shared_ptr<dst::vlkn::Descriptor::Pool> mDescriptorPool;
-        dst::vlkn::Descriptor::Set* mComputeDescriptorSet { nullptr };
-
-        ComputePipeline mClearPipeline;
-        ComputePipeline mAddFluidPipeline;
-
-        ComputePipeline mAdvectPipeline;
-        ComputePipeline mJacobiPipeline;
-        ComputePipeline mSubtractGradientPipeline;
-        ComputePipeline mComputeDivergencePipeline;
-        ComputePipeline mApplyImpulsePipeline;
-        ComputePipeline mApplyBuoyancyPipeline;
-
         using ImageBuffer = std::array<std::shared_ptr<dst::vlkn::Image>, 2>;
         ImageBuffer mVelocity;
         ImageBuffer mDensity;
@@ -74,15 +56,33 @@ namespace ComputeFluid2D {
         std::shared_ptr<dst::vlkn::Image> mDivergence;
         std::shared_ptr<dst::vlkn::Image> mObstacles;
         std::shared_ptr<dst::vlkn::Image> mObstaclesVelocity;
-        std::vector<dst::vlkn::Image*> mComputeImages;
+        std::vector<dst::vlkn::Image*> mImages;
+        std::shared_ptr<dst::vlkn::Sampler> mSampler;
+
+        dst::vlkn::Queue* mComputeQueue { nullptr };
+        std::shared_ptr<dst::vlkn::Command::Pool> mComputeCommandPool;
+        dst::vlkn::Command::Buffer* mComputeCommandBuffer;
+        std::shared_ptr<dst::vlkn::Semaphore> mComputeSemaphore;
+        std::shared_ptr<dst::vlkn::Descriptor::Set::Layout> mComputeDescriptorSetLayout;
+        std::shared_ptr<dst::vlkn::Descriptor::Pool> mDescriptorPool;
+        dst::vlkn::Descriptor::Set* mComputeDescriptorSet { nullptr };
+
+        ////////////////////////////////////////////////////////////////////////
+        ComputePipeline mClearPipeline;
+        ComputePipeline mAddFluidPipeline;
+
+        ComputePipeline mAdvectPipeline;
+        ComputePipeline mJacobiPipeline;
+        ComputePipeline mSubtractGradientPipeline;
+        ComputePipeline mComputeDivergencePipeline;
+        ComputePipeline mApplyImpulsePipeline;
+        ComputePipeline mApplyBuoyancyPipeline;
+        ////////////////////////////////////////////////////////////////////////
 
         std::shared_ptr<dst::vlkn::Descriptor::Set::Layout> mGraphicsDescriptorSetLayout;
         std::shared_ptr<dst::vlkn::Pipeline::Layout> mGraphicsPipelineLayout;
         std::shared_ptr<dst::vlkn::Pipeline> mGraphicsPipeline;
-        // std::shared_ptr<dst::vlkn::Descriptor::Pool> mGraphicsDescriptorPool;
-        // std::vector<dst::vlkn::Descriptor::Set*> mGraphicsDescriptorSets;
         dst::vlkn::Descriptor::Set* mGraphicsDescriptorSet { nullptr };
-        std::shared_ptr<dst::vlkn::Sampler> mSampler;
 
     public:
         Application()
@@ -145,8 +145,205 @@ namespace ComputeFluid2D {
             mGui = dst::vlkn::ImGUI(*mDevice, *mRenderPass, *mGraphicsQueue);
             ImGui::GetIO().DisplaySize = ImVec2(1280, 720);
             ImGui::GetIO().DisplayFramebufferScale = ImVec2(1, 1);
+            create_images();
+            create_descriptors();
             create_compute_resources();
             create_graphics_resources();
+        }
+
+        void create_images()
+        {
+            using namespace dst::vlkn;
+            const auto& extent = mSwapchain->extent();
+            // NOTE : All of these are 2 channel textures because it's a major
+            //        pain in the ass to make everything work out correctly with
+            //        mismatched texture formats in compute shaders...
+            // TODO : Use compute buffers aliased to the same texture memory.
+            mVelocity = create_image_buffer(extent, 2);
+            mDensity = create_image_buffer(extent, 2);
+            mPressure = create_image_buffer(extent, 2);
+            mTemperature = create_image_buffer(extent, 2);
+            mDivergence = create_image(extent, 2);
+            mObstacles = create_image(extent, 2);
+
+            std::vector<VkDeviceSize> offsets;
+            offsets.reserve(mImages.size());
+            VkMemoryRequirements memoryRequirements { };
+            for (auto& image : mImages) {
+                auto imageMemoryRequirements = image->get_memory_requirements();
+                memoryRequirements.memoryTypeBits |= imageMemoryRequirements.memoryTypeBits;
+                // NOTE : There should be some validation around memoryTypeBits
+                //        and alignment to make sure that similarly aligned and
+                //        typed memory gets allocated together...
+                offsets.push_back(memoryRequirements.size);
+                if (imageMemoryRequirements.size && imageMemoryRequirements.alignment) {
+                    imageMemoryRequirements.size +=
+                        imageMemoryRequirements.alignment -
+                        imageMemoryRequirements.size %
+                        imageMemoryRequirements.alignment;
+                }
+
+                memoryRequirements.size += imageMemoryRequirements.size;
+            }
+
+            auto memoryInfo = Memory::AllocateInfo;
+            memoryInfo.allocationSize = memoryRequirements.size;
+            memoryInfo.memoryTypeIndex = mPhysicalDevice->find_memory_type_index(
+                memoryRequirements.memoryTypeBits,
+                VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
+            );
+
+            auto memory = mDevice->allocate<Memory>(memoryInfo);
+            mGraphicsQueue->process_immediate(
+                [&](Command::Buffer& commandBuffer)
+                {
+                    for (size_t i = 0; i < mImages.size(); ++i) {
+                        mImages[i]->bind_memory(memory, offsets[i]);
+                        auto oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+                        auto newLayout = VK_IMAGE_LAYOUT_GENERAL;
+                        auto layoutTransition = mImages[i]->create_layout_transition(oldLayout, newLayout);
+                        vkCmdPipelineBarrier(
+                            commandBuffer,
+                            layoutTransition.srcStage,
+                            layoutTransition.dstStage,
+                            0,
+                            0, nullptr,
+                            0, nullptr,
+                            1, &layoutTransition.barrier
+                        );
+                    }
+                }
+            );
+
+            for (size_t i = 0; i < mImages.size(); ++i) {
+                mImages[i]->create<Image::View>();
+            }
+
+            mSampler = mDevice->create<Sampler>();
+        }
+
+        ImageBuffer create_image_buffer(const VkExtent2D& extent, uint32_t channels)
+        {
+            ImageBuffer imageBuffer;
+            imageBuffer[0] = create_image(extent, channels);
+            imageBuffer[1] = create_image(extent, channels);
+            return imageBuffer;
+        }
+
+        std::shared_ptr<dst::vlkn::Image> create_image(const VkExtent2D& extent, uint32_t channels)
+        {
+            using namespace dst::vlkn;
+            auto imageInfo = Image::CreateInfo;
+            imageInfo.imageType = VK_IMAGE_TYPE_2D;
+            imageInfo.extent.width = extent.width;
+            imageInfo.extent.height = extent.height;
+            imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+            imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+            imageInfo.usage = VK_IMAGE_USAGE_STORAGE_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+            switch (channels) {
+                case 1: imageInfo.format = VK_FORMAT_R8_UNORM; break;
+                case 2: imageInfo.format = VK_FORMAT_R8G8_UNORM; break;
+                default: imageInfo.format = VK_FORMAT_R8G8B8A8_UNORM; break;
+            }
+
+            auto image = mDevice->create<Image>(imageInfo);
+            mImages.push_back(image.get());
+            return image;
+        }
+
+        void create_descriptors()
+        {
+            using namespace dst::vlkn;
+            ////////////////////////////////////////////////////////////////////
+            // Descriptor::Set::Layout and Descriptor::Pool
+            {
+                VkDescriptorSetLayoutBinding descriptorSetLayoutBinding { };
+                descriptorSetLayoutBinding.binding = 0;
+                descriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+                descriptorSetLayoutBinding.descriptorCount = static_cast<uint32_t>(mImages.size());
+                descriptorSetLayoutBinding.stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;
+                Descriptor::Set::Layout::CreateInfo descriptorSetLayoutInfo { };
+                descriptorSetLayoutInfo.bindingCount = 1;
+                descriptorSetLayoutInfo.pBindings = &descriptorSetLayoutBinding;
+                mComputeDescriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
+            }
+
+            {
+                VkDescriptorSetLayoutBinding descriptorSetLayoutBinding { };
+                descriptorSetLayoutBinding.binding = 0;
+                descriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+                descriptorSetLayoutBinding.descriptorCount = static_cast<uint32_t>(mImages.size());
+                descriptorSetLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
+                Descriptor::Set::Layout::CreateInfo descriptorSetLayoutInfo { };
+                descriptorSetLayoutInfo.bindingCount = 1;
+                descriptorSetLayoutInfo.pBindings = &descriptorSetLayoutBinding;
+                mGraphicsDescriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
+            }
+
+            std::array<VkDescriptorPoolSize, 2> descriptorPoolSizes { };
+            descriptorPoolSizes[0].type = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+            descriptorPoolSizes[0].descriptorCount = static_cast<uint32_t>(mImages.size());
+            descriptorPoolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+            descriptorPoolSizes[1].descriptorCount = static_cast<uint32_t>(mImages.size());
+            auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
+            descriptorPoolInfo.maxSets = 2;
+            descriptorPoolInfo.poolSizeCount = static_cast<uint32_t>(descriptorPoolSizes.size());
+            descriptorPoolInfo.pPoolSizes = descriptorPoolSizes.data();
+            mDescriptorPool = mDevice->create<Descriptor::Pool>(descriptorPoolInfo);
+
+            ////////////////////////////////////////////////////////////////////
+            // Compute Descriptor::Set
+            {
+                auto descriptorSetInfo = Descriptor::Set::AllocateInfo;
+                descriptorSetInfo.descriptorSetCount = 1;
+                descriptorSetInfo.descriptorPool = *mDescriptorPool;
+                descriptorSetInfo.pSetLayouts = &mComputeDescriptorSetLayout->handle();
+                mComputeDescriptorSet = mDescriptorPool->allocate<Descriptor::Set>(descriptorSetInfo);
+                mDevice->wait_idle();
+
+                std::vector<VkDescriptorImageInfo> descriptorImageInfos(mImages.size());
+                for (size_t i = 0; i < mImages.size(); ++i) {
+                    descriptorImageInfos[i].imageLayout = VK_IMAGE_LAYOUT_GENERAL;
+                    descriptorImageInfos[i].imageView = *mImages[i]->view();
+                }
+
+                VkWriteDescriptorSet write { };
+                write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+                write.dstSet = *mComputeDescriptorSet;
+                write.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+                write.descriptorCount = static_cast<uint32_t>(descriptorImageInfos.size());
+                write.pImageInfo = descriptorImageInfos.data();
+                vkUpdateDescriptorSets(*mDevice, 1, &write, 0, nullptr);
+                mDevice->wait_idle();
+            }
+
+            ////////////////////////////////////////////////////////////////////
+            // Graphics Descriptor::Set and Sampler
+            {
+                auto descriptorSetInfo = Descriptor::Set::AllocateInfo;
+                descriptorSetInfo.descriptorSetCount = 1;
+                descriptorSetInfo.descriptorPool = *mDescriptorPool;
+                descriptorSetInfo.pSetLayouts = &mGraphicsDescriptorSetLayout->handle();
+                mGraphicsDescriptorSet = mDescriptorPool->allocate<Descriptor::Set>(descriptorSetInfo);
+                mDevice->wait_idle();
+
+                mSampler = mDevice->create<Sampler>();
+                std::vector<VkDescriptorImageInfo> descriptorImageInfos(mImages.size());
+                for (size_t i = 0; i < mImages.size(); ++i) {
+                    descriptorImageInfos[i].imageLayout = VK_IMAGE_LAYOUT_GENERAL;
+                    descriptorImageInfos[i].imageView = *mImages[i]->view();
+                    descriptorImageInfos[i].sampler = *mSampler;
+                }
+
+                VkWriteDescriptorSet write = { };
+                write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+                write.dstSet = *mGraphicsDescriptorSet;
+                write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+                write.descriptorCount = static_cast<uint32_t>(descriptorImageInfos.size());
+                write.pImageInfo = descriptorImageInfos.data();
+                vkUpdateDescriptorSets(*mDevice, 1, &write, 0, nullptr);
+                mDevice->wait_idle();
+            }
         }
 
         void create_compute_resources()
@@ -159,24 +356,10 @@ namespace ComputeFluid2D {
             mComputeCommandBuffer = mComputeCommandPool->allocate<Command::Buffer>();
             mComputeSemaphore = mDevice->create<Semaphore>();
 
-            const auto& extent = mSwapchain->extent();
-            // NOTE : All of these are 2 channel textures because it's a major
-            //        pain in the ass to make everything work out correctly with
-            //        mismatched texture formats in compute shaders...
-            // TODO : Use compute buffers aliased to the same texture memory.
-            mVelocity = create_image_buffer(extent, 2);
-            mDensity = create_image_buffer(extent, 2);
-            mPressure = create_image_buffer(extent, 2);
-            mTemperature = create_image_buffer(extent, 2);
-
-            mDivergence = create_compute_image(extent, 2);
-            mObstacles = create_compute_image(extent, 2);
-
-            prepare_compute_images();
-
             mClearPipeline = ComputePipeline(
                 *mDevice,
                 mComputeDescriptorSetLayout,
+                __LINE__,
                 R"(
                     #version 450
 
@@ -241,6 +424,7 @@ namespace ComputeFluid2D {
             mAdvectPipeline = ComputePipeline(
                 *mDevice,
                 mComputeDescriptorSetLayout,
+                __LINE__,
                 R"(
                     #version 450
 
@@ -288,6 +472,7 @@ namespace ComputeFluid2D {
             // mJacobiPipeline = ComputePipeline(
             //     *mDevice,
             //     mComputeDescriptorSetLayout,
+            //     __LINE__,
             //     R"(
             //         #version 450
             // 
@@ -303,6 +488,7 @@ namespace ComputeFluid2D {
             // mSubtractGradientPipeline = ComputePipeline(
             //     *mDevice,
             //     mComputeDescriptorSetLayout,
+            //     __LINE__,
             //     R"(
             //         #version 450
             // 
@@ -318,6 +504,7 @@ namespace ComputeFluid2D {
             // mComputeDivergencePipeline = ComputePipeline(
             //     *mDevice,
             //     mComputeDescriptorSetLayout,
+            //     __LINE__,
             //     R"(
             //         #version 450
             // 
@@ -333,6 +520,7 @@ namespace ComputeFluid2D {
             // mApplyImpulsePipeline = ComputePipeline(
             //     *mDevice,
             //     mComputeDescriptorSetLayout,
+            //     __LINE__,
             //     R"(
             //         #version 450
             // 
@@ -348,6 +536,7 @@ namespace ComputeFluid2D {
             // mApplyBuoyancyPipeline = ComputePipeline(
             //     *mDevice,
             //     mComputeDescriptorSetLayout,
+            //     __LINE__,
             //     R"(
             //         #version 450
             // 
@@ -361,205 +550,18 @@ namespace ComputeFluid2D {
             // );
         }
 
-        ImageBuffer create_image_buffer(const VkExtent2D& extent, uint32_t channels)
-        {
-            ImageBuffer imageBuffer;
-            imageBuffer[0] = create_compute_image(extent, channels);
-            imageBuffer[1] = create_compute_image(extent, channels);
-            return imageBuffer;
-        }
-
-        std::shared_ptr<dst::vlkn::Image> create_compute_image(const VkExtent2D& extent, uint32_t channels)
-        {
-            using namespace dst::vlkn;
-            auto imageInfo = Image::CreateInfo;
-            imageInfo.imageType = VK_IMAGE_TYPE_2D;
-            imageInfo.extent.width = extent.width;
-            imageInfo.extent.height = extent.height;
-            imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
-            imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-            imageInfo.usage = VK_IMAGE_USAGE_STORAGE_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
-            switch (channels) {
-                case 1: imageInfo.format = VK_FORMAT_R8_UNORM; break;
-                case 2: imageInfo.format = VK_FORMAT_R8G8_UNORM; break;
-                default: imageInfo.format = VK_FORMAT_R8G8B8A8_UNORM; break;
-            }
-
-            auto image = mDevice->create<Image>(imageInfo);
-            mComputeImages.push_back(image.get());
-            return image;
-        }
-
-        void prepare_compute_images()
-        {
-            using namespace dst::vlkn;
-            std::vector<VkDeviceSize> offsets;
-            offsets.reserve(mComputeImages.size());
-            VkMemoryRequirements memoryRequirements { };
-            for (auto& image : mComputeImages) {
-                auto imageMemoryRequirements = image->get_memory_requirements();
-                memoryRequirements.memoryTypeBits |= imageMemoryRequirements.memoryTypeBits;
-                // NOTE : There should be some validation around memoryTypeBits
-                //        and alignment to make sure that similarly aligned and
-                //        typed memory gets allocated together...
-                offsets.push_back(memoryRequirements.size);
-                if (imageMemoryRequirements.size && imageMemoryRequirements.alignment) {
-                    imageMemoryRequirements.size +=
-                        imageMemoryRequirements.alignment -
-                        imageMemoryRequirements.size %
-                        imageMemoryRequirements.alignment;
-                }
-
-                memoryRequirements.size += imageMemoryRequirements.size;
-            }
-
-            auto memoryInfo = Memory::AllocateInfo;
-            memoryInfo.allocationSize = memoryRequirements.size;
-            memoryInfo.memoryTypeIndex = mPhysicalDevice->find_memory_type_index(
-                memoryRequirements.memoryTypeBits,
-                VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
-            );
-
-            auto memory = mDevice->allocate<Memory>(memoryInfo);
-            mGraphicsQueue->process_immediate(
-                [&](Command::Buffer& commandBuffer)
-                {
-                    for (size_t i = 0; i < mComputeImages.size(); ++i) {
-                        mComputeImages[i]->bind_memory(memory, offsets[i]);
-                        auto oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-                        auto newLayout = VK_IMAGE_LAYOUT_GENERAL;
-                        auto layoutTransition = mComputeImages[i]->create_layout_transition(oldLayout, newLayout);
-                        vkCmdPipelineBarrier(
-                            commandBuffer,
-                            layoutTransition.srcStage,
-                            layoutTransition.dstStage,
-                            0,
-                            0, nullptr,
-                            0, nullptr,
-                            1, &layoutTransition.barrier
-                        );
-                    }
-                }
-            );
-
-            for (size_t i = 0; i < mComputeImages.size(); ++i) {
-                mComputeImages[i]->create<Image::View>();
-            }
-
-            ////////////////////////////////////////////////////////////////////
-            // Descriptor::Set::Layout and Descriptor::Pool
-            {
-                VkDescriptorSetLayoutBinding descriptorSetLayoutBinding { };
-                descriptorSetLayoutBinding.binding = 0;
-                descriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
-                descriptorSetLayoutBinding.descriptorCount = static_cast<uint32_t>(mComputeImages.size());
-                descriptorSetLayoutBinding.stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;
-                Descriptor::Set::Layout::CreateInfo descriptorSetLayoutInfo { };
-                descriptorSetLayoutInfo.bindingCount = 1;
-                descriptorSetLayoutInfo.pBindings = &descriptorSetLayoutBinding;
-                mComputeDescriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
-            }
-
-            {
-                VkDescriptorSetLayoutBinding descriptorSetLayoutBinding { };
-                descriptorSetLayoutBinding.binding = 0;
-                descriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-                descriptorSetLayoutBinding.descriptorCount = static_cast<uint32_t>(mComputeImages.size());
-                descriptorSetLayoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
-                Descriptor::Set::Layout::CreateInfo descriptorSetLayoutInfo { };
-                descriptorSetLayoutInfo.bindingCount = 1;
-                descriptorSetLayoutInfo.pBindings = &descriptorSetLayoutBinding;
-                mGraphicsDescriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
-            }
-
-            std::array<VkDescriptorPoolSize, 2> descriptorPoolSizes { };
-            descriptorPoolSizes[0].type = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
-            descriptorPoolSizes[0].descriptorCount = static_cast<uint32_t>(mComputeImages.size());
-            descriptorPoolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            descriptorPoolSizes[1].descriptorCount = static_cast<uint32_t>(mComputeImages.size());
-            auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
-            descriptorPoolInfo.maxSets = 2;
-            descriptorPoolInfo.poolSizeCount = static_cast<uint32_t>(descriptorPoolSizes.size());
-            descriptorPoolInfo.pPoolSizes = descriptorPoolSizes.data();
-            mDescriptorPool = mDevice->create<Descriptor::Pool>(descriptorPoolInfo);
-
-            ////////////////////////////////////////////////////////////////////
-            // Compute Descriptor::Set
-            {
-                auto descriptorSetInfo = Descriptor::Set::AllocateInfo;
-                descriptorSetInfo.descriptorSetCount = 1;
-                descriptorSetInfo.descriptorPool = *mDescriptorPool;
-                descriptorSetInfo.pSetLayouts = &mComputeDescriptorSetLayout->handle();
-                mComputeDescriptorSet = mDescriptorPool->allocate<Descriptor::Set>(descriptorSetInfo);
-                mDevice->wait_idle();
-
-                std::vector<VkDescriptorImageInfo> descriptorImageInfos(mComputeImages.size());
-                for (size_t i = 0; i < mComputeImages.size(); ++i) {
-                    descriptorImageInfos[i].imageLayout = VK_IMAGE_LAYOUT_GENERAL;
-                    descriptorImageInfos[i].imageView = *mComputeImages[i]->view();
-                }
-
-                VkWriteDescriptorSet write { };
-                write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-                write.dstSet = *mComputeDescriptorSet;
-                write.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
-                write.descriptorCount = static_cast<uint32_t>(descriptorImageInfos.size());
-                write.pImageInfo = descriptorImageInfos.data();
-                vkUpdateDescriptorSets(*mDevice, 1, &write, 0, nullptr);
-                mDevice->wait_idle();
-            }
-
-            ////////////////////////////////////////////////////////////////////
-            // Graphics Descriptor::Set and Sampler
-            {
-                auto descriptorSetInfo = Descriptor::Set::AllocateInfo;
-                descriptorSetInfo.descriptorSetCount = 1;
-                descriptorSetInfo.descriptorPool = *mDescriptorPool;
-                descriptorSetInfo.pSetLayouts = &mGraphicsDescriptorSetLayout->handle();
-                mGraphicsDescriptorSet = mDescriptorPool->allocate<Descriptor::Set>(descriptorSetInfo);
-                mDevice->wait_idle();
-
-                mSampler = mDevice->create<Sampler>();
-                std::vector<VkDescriptorImageInfo> descriptorImageInfos(mComputeImages.size());
-                for (size_t i = 0; i < mComputeImages.size(); ++i) {
-                    descriptorImageInfos[i].imageLayout = VK_IMAGE_LAYOUT_GENERAL;
-                    descriptorImageInfos[i].imageView = *mComputeImages[i]->view();
-                    descriptorImageInfos[i].sampler = *mSampler;
-                }
-
-                VkWriteDescriptorSet write = { };
-                write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-                write.dstSet = *mGraphicsDescriptorSet;
-                write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-                write.descriptorCount = static_cast<uint32_t>(descriptorImageInfos.size());
-                write.pImageInfo = descriptorImageInfos.data();
-                vkUpdateDescriptorSets(*mDevice, 1, &write, 0, nullptr);
-                mDevice->wait_idle();
-            }
-        }
-
         void create_graphics_resources()
         {
             using namespace dst::vlkn;
-            // VkDescriptorSetLayoutBinding samplerBinding { };
-            // samplerBinding.binding = 0;
-            // samplerBinding.descriptorCount = 1;
-            // samplerBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            // samplerBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
-            // 
-            // Descriptor::Set::Layout::CreateInfo descriptorSetLayoutInfo;
-            // descriptorSetLayoutInfo.bindingCount = 1;
-            // descriptorSetLayoutInfo.pBindings = &samplerBinding;
-            // mGraphicsDescriptorSetLayout = mDevice->create<Descriptor::Set::Layout>(descriptorSetLayoutInfo);
-
             auto pipelineLayoutInfo = Pipeline::Layout::CreateInfo;
             pipelineLayoutInfo.setLayoutCount = 1;
-            pipelineLayoutInfo.pSetLayouts = &mGraphicsDescriptorSetLayout->handle(); // &mGraphicsDescriptorSetLayout->handle();
+            pipelineLayoutInfo.pSetLayouts = &mGraphicsDescriptorSetLayout->handle();
             mGraphicsPipelineLayout = mDevice->create<Pipeline::Layout>(pipelineLayoutInfo);
 
             auto vertexShader = mDevice->create<ShaderModule>(
                 VK_SHADER_STAGE_VERTEX_BIT,
                 ShaderModule::Source::Code,
+                __LINE__,
                 R"(
                     #version 450
 
@@ -581,6 +583,7 @@ namespace ComputeFluid2D {
             auto fragmentShader = mDevice->create<ShaderModule>(
                 VK_SHADER_STAGE_FRAGMENT_BIT,
                 ShaderModule::Source::Code,
+                __LINE__,
                 R"(
                     #version 450
 
@@ -618,39 +621,6 @@ namespace ComputeFluid2D {
             pipelineInfo.layout = *mGraphicsPipelineLayout;
             pipelineInfo.renderPass = *mRenderPass;
             mGraphicsPipeline = mDevice->create<Pipeline>(pipelineInfo);
-
-            // VkDescriptorPoolSize poolSize { };
-            // poolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            // poolSize.descriptorCount = 1;
-            // auto descriptorPoolInfo = Descriptor::Pool::CreateInfo;
-            // descriptorPoolInfo.poolSizeCount = 1;
-            // descriptorPoolInfo.pPoolSizes = &poolSize;
-            // descriptorPoolInfo.maxSets = 1;
-            // mGraphicsDescriptorPool = mDevice->create<Descriptor::Pool>(descriptorPoolInfo);
-
-            // mSampler = mDevice->create<Sampler>();
-
-
-            // if (mGraphicsDescriptorSets.empty()) {
-            //     using namespace dst::vlkn;
-            //     auto descriptorSetAllocateInfo = Descriptor::Set::AllocateInfo;
-            //     descriptorSetAllocateInfo.descriptorPool = *mGraphicsDescriptorPool;
-            //     descriptorSetAllocateInfo.descriptorSetCount = 1;
-            //     descriptorSetAllocateInfo.pSetLayouts = &mGraphicsDescriptorSetLayout->handle();
-            //     mGraphicsDescriptorSets.push_back(mGraphicsDescriptorPool->allocate<Descriptor::Set>(descriptorSetAllocateInfo));
-            //     ////
-            //     VkDescriptorImageInfo imageInfo { };
-            //     imageInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
-            //     imageInfo.imageView = *mVelocity[0]->view();
-            //     imageInfo.sampler = *mSampler;
-            //     VkWriteDescriptorSet write { };
-            //     write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-            //     write.dstSet = *mGraphicsDescriptorSets.back();
-            //     write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            //     write.descriptorCount = 1;
-            //     write.pImageInfo = &imageInfo;
-            //     vkUpdateDescriptorSets(*mDevice, 1, &write, 0, nullptr);
-            // }
         }
 
         void update(const dst::Clock& clock, const dst::sys::Input& input) override
@@ -783,35 +753,11 @@ namespace ComputeFluid2D {
 
         void record_command_buffer(dst::vlkn::Command::Buffer& commandBuffer, const dst::Clock& clock) override final
         {
-            // if (mGraphicsDescriptorSets.empty()) {
-            //     using namespace dst::vlkn;
-            //     auto descriptorSetAllocateInfo = Descriptor::Set::AllocateInfo;
-            //     descriptorSetAllocateInfo.descriptorPool = *mGraphicsDescriptorPool;
-            //     descriptorSetAllocateInfo.descriptorSetCount = 1;
-            //     descriptorSetAllocateInfo.pSetLayouts = &mGraphicsDescriptorSetLayout->handle();
-            //     mGraphicsDescriptorSets.push_back(mGraphicsDescriptorPool->allocate<Descriptor::Set>(descriptorSetAllocateInfo));
-            //     ////
-            //     VkDescriptorImageInfo imageInfo { };
-            //     imageInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
-            //     imageInfo.imageView = *mVelocity[0]->view();
-            //     imageInfo.sampler = *mSampler;
-            //     VkWriteDescriptorSet write { };
-            //     write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-            //     write.dstSet = *mGraphicsDescriptorSets.back();
-            //     write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            //     write.descriptorCount = 1;
-            //     write.pImageInfo = &imageInfo;
-            //     vkUpdateDescriptorSets(*mDevice, 1, &write, 0, nullptr);
-            // }
-
-            commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mGraphicsPipeline);
-            // commandBuffer.bind_descriptor_set(*mGraphicsDescriptorSets[0], *mGraphicsPipelineLayout);
-
             struct Foo final { int imageIndex { }; } foo;
+            commandBuffer.bind_pipeline(VK_PIPELINE_BIND_POINT_GRAPHICS, *mGraphicsPipeline);
             vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mGraphicsPipelineLayout, 0, 1, &mGraphicsDescriptorSet->handle(), 0, nullptr);
             // vkCmdPushConstants(commandBuffer, *mGraphicsPipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(foo), &foo);
             commandBuffer.draw(3);
-
             mGui.draw(commandBuffer);
         }
 
