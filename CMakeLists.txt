@@ -23,6 +23,7 @@ set(includePath "${CMAKE_CURRENT_LIST_DIR}/include.ex/Dynamic_Static/Graphics/")
 set(sourcePath "${CMAKE_CURRENT_LIST_DIR}/source.ex/Dynamic_Static/Graphics/")
 DstCreateStaticLibrary(
     target Dynamic_Static.Graphics
+    folder Dynamic_Static.Graphics/
     includeDirectories
         "${CMAKE_CURRENT_LIST_DIR}/include.ex/"
 
@@ -43,6 +44,7 @@ if(BUILD_TESTS)
     set(testsPath "${CMAKE_CURRENT_LIST_DIR}/tests.ex/")
     DstCreateTests(
         target Dynamic_Static.Graphics
+        folder Dynamic_Static.Graphics/
         sourceFiles
     )
 endif()

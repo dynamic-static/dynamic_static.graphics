@@ -8,13 +8,12 @@
 int main()
 {
     dst::gfx::Application application;
-    dst::sys::Window window;
+    using namespace dst::sys;
+    Window::Info windowInfo { };
+    windowInfo.api = GraphicsApi::OpenGL;
+    windowInfo.apiVersion = { 4, 0 };
+    Window window(windowInfo);
     std::cout << "hello gfx" << std::endl;
-
-    glewExperimental = true;
-    auto error = glewInit();
-    auto str = glewGetErrorString(error);
-    std::cout << str << std::endl;
 
     GLuint buffer = 0;
     dst_gl(glCreateBuffers(1, &buffer));
