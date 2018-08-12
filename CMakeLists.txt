@@ -1,35 +1,38 @@
 
-#==========================================
-#    Copyright 2011-2018 Dynamic_Static
-#        Patrick Purcell
-#    Licensed under the MIT license
-#    http://opensource.org/licenses/MIT
-#==========================================
+# ==========================================
+#   Copyright (c) 2016-2018 Dynamic_Static
+#     Patrick Purcell
+#       Licensed under the MIT license
+#     http://opensource.org/licenses/MIT
+# ==========================================
 
 # CMake configuration for Dynamic_Static.Graphics
+
 cmake_minimum_required(VERSION 3.3)
-option(SDK_BUILD "TODO : This shouldn't be the default" ON)
-if(SDK_BUILD)
-    include("$ENV{DYNAMIC_STATIC_SDK}/Dynamic_Static.CMake/.cmake")
+if(DEFINED ENV{DYNAMIC_STATIC_SDK})
+    include("$ENV{DYNAMIC_STATIC_SDK}/Dynamic_Static.Cmake/.cmake")
 else()
-    include("external/Dynamic_Static.CMake/.cmake")
+    include("external/Dynamic_Static.cmake/.cmake")
 endif()
-DstCreateProject(Dynamic_Static.Graphics)
+
+DstCreateProject(Dynamic_Static.Core)
 
 include("external/Dynamic_Static.Core.cmake")
 include("external/Dynamic_Static.System.cmake")
+include("external/Vulkan.cmake")
 
 set(includePath "${CMAKE_CURRENT_LIST_DIR}/include.ex/Dynamic_Static/Graphics/")
 set(sourcePath "${CMAKE_CURRENT_LIST_DIR}/source.ex/Dynamic_Static/Graphics/")
 DstCreateStaticLibrary(
     target Dynamic_Static.Graphics
     folder Dynamic_Static.Graphics/
+
+    staticLibraries
+        Dynamic_Static.System
+
     includeDirectories
         "${CMAKE_CURRENT_LIST_DIR}/include.ex/"
-
-    staticLinkLibraries
-        Dynamic_Static.Core
-        Dynamic_Static.System
+        ${Dynamic_Static.Core.includeDirectories}
 
     includeFiles
         ${includePath}/Application.hpp
@@ -39,17 +42,7 @@ DstCreateStaticLibrary(
         ${sourcePath}/Application.cpp
 )
 
-option(BUILD_TESTS "Build Dynamic_Static.Graphics.Tests" OFF)
-if(BUILD_TESTS)
-    set(testsPath "${CMAKE_CURRENT_LIST_DIR}/tests.ex/")
-    DstCreateTests(
-        target Dynamic_Static.Graphics
-        folder Dynamic_Static.Graphics/
-        sourceFiles
-    )
-endif()
-
-option(BUILD_EXAMPLES "" ON)
+option(BUILD_EXAMPLES "Build Dynamic_Static.Graphics.Examples" ON)
 if(BUILD_EXAMPLES)
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/examples.ex/")
 endif()

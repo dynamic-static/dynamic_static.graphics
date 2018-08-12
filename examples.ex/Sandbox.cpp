@@ -1,7 +1,6 @@
 
 #include "Dynamic_Static/Graphics/Application.hpp"
-#include "Dynamic_Static/System/OpenGL.hpp"
-#include "Dynamic_Static/System/Window.hpp"
+#include "Dynamic_Static.System.hpp"
 
 #include <iostream>
 
@@ -10,8 +9,8 @@ int main()
     dst::gfx::Application application;
     using namespace dst::sys;
     Window::Info windowInfo { };
-    windowInfo.api = GraphicsApi::OpenGL;
-    windowInfo.apiVersion = { 4, 0 };
+    windowInfo.graphicsApi = GraphicsApi::OpenGL;
+    windowInfo.glContextInfo.version = { 4, 0 };
     Window window(windowInfo);
     std::cout << "hello gfx" << std::endl;
 

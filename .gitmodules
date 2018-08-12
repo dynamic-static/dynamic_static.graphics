@@ -1,0 +1,9 @@
+[submodule "external/Dynamic_Static.CMake"]
+	path = external/Dynamic_Static.CMake
+	url = https://github.com/DynamicStatic/Dynamic_Static.CMake.git
+[submodule "external/Dynamic_Static.System"]
+	path = external/Dynamic_Static.System
+	url = https://github.com/DynamicStatic/Dynamic_Static.System.git
+[submodule "external/Dynamic_Static.Core"]
+	path = external/Dynamic_Static.Core
+	url = https://github.com/DynamicStatic/Dynamic_Static.Core.git
