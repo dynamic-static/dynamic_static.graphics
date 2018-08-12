@@ -8,5 +8,5 @@
 
 find_package(Vulkan REQUIRED)
 set(Vulkan.includeDirectories "${Vulkan_INCLUDE_DIRS}")
-set(Vulkan.libraries "${Vulkan_LIBRARIES}")
+set(Vulkan.staticLibraries "${Vulkan_LIBRARIES}")
 set(Vulkan.sdk.directory "${Vulkan.includeDirectories}/../")

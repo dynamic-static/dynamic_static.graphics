@@ -29,17 +29,23 @@ DstCreateStaticLibrary(
 
     staticLibraries
         Dynamic_Static.System
+        ${Vulkan.staticLibraries}
 
     includeDirectories
         "${CMAKE_CURRENT_LIST_DIR}/include.ex/"
         ${Dynamic_Static.Core.includeDirectories}
+        ${Vulkan.includeDirectories}
 
     includeFiles
-        ${includePath}/Application.hpp
-        ${includePath}/Defines.hpp
+        "${includePath}/Vulkan/Defines.hpp"
+        "${includePath}/Vulkan/Instance.hpp"
+        "${includePath}/Vulkan/Object.hpp"
+        "${includePath}/Vulkan/PhysicalDevice.hpp"
+        "${includePath}/Application.hpp"
+        "${includePath}/Defines.hpp"
 
     sourceFiles
-        ${sourcePath}/Application.cpp
+        "${CMAKE_CURRENT_LIST_DIR}/ForceCMakeBuild.cpp"
 )
 
 option(BUILD_EXAMPLES "Build Dynamic_Static.Graphics.Examples" ON)

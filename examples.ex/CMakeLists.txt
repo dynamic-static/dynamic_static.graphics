@@ -23,3 +23,4 @@ macro(CreateExample target)
 endmacro()
 
 CreateExample(Sandbox)
+CreateExample(Vk.00.PhysicalDevice)

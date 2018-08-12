@@ -16,8 +16,15 @@ namespace Graphics {
     class Application
     {
     public:
-        Application();
-        ~Application();
+        inline Application()
+        {
+
+        }
+
+        inline ~Application()
+        {
+
+        }
     };
 
 } // namespace Graphics
