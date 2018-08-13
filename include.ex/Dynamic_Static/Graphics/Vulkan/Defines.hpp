@@ -12,6 +12,9 @@
 
 #include "Dynamic_Static/Graphics/Defines.hpp"
 
+#ifdef DYNAMIC_STATIC_WINDOWS
+#define VK_USE_PLATFORM_WIN32_KHR
+#endif
 #include "vulkan/vulkan.h"
 
 #include <iostream>
@@ -41,6 +44,7 @@ namespace Vulkan {
     class DescriptorSetLayout;
     class DescriptorPool;
     class Device;
+    class DeviceChild;
     class Framebuffer;
     class Image;
     class ImageView;
@@ -48,9 +52,11 @@ namespace Vulkan {
     class InstanceChild;
     class DeviceMemory;
     class PhysicalDevice;
+    class PhysicalDeviceChild;
     class Pipeline;
     class PipelineLayout;
     class Queue;
+    class QueueFamily;
     class RenderPass;
     class Sampler;
     class Semaphore;

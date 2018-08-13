@@ -12,7 +12,6 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/DebugReportCallbackEXT.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 
 #include <set>
 
@@ -64,9 +63,7 @@ namespace Vulkan {
         dst_vk(vkEnumeratePhysicalDevices(mHandle, &physicalDeviceCount, physicalDevices.data()));
         mPhysicalDevices.reserve(physicalDeviceCount);
         for (const auto& physicalDevice : physicalDevices) {
-            mPhysicalDevices.push_back(
-                std::unique_ptr<PhysicalDevice>(new PhysicalDevice(this, physicalDevice))
-            );
+            mPhysicalDevices.push_back(PhysicalDevice(this, physicalDevice));
         }
     }
 
@@ -79,6 +76,16 @@ namespace Vulkan {
         }
     }
 
+    const std::vector<std::string>& Instance::get_enabled_layers() const
+    {
+        return mEnabledLayers;
+    }
+
+    const std::vector<std::string>& Instance::get_enabled_extensions() const
+    {
+        return mEnabledExtensions;
+    }
+
     DebugReportCallbackEXT* Instance::get_debug_report()
     {
         return mDebugReport.get();
@@ -89,7 +96,12 @@ namespace Vulkan {
         return mDebugReport.get();
     }
 
-    const std::vector<std::unique_ptr<PhysicalDevice>>& Instance::get_physical_devices() const
+    Span<PhysicalDevice> Instance::get_physical_devices()
+    {
+        return mPhysicalDevices;
+    }
+
+    Span<const PhysicalDevice> Instance::get_physical_devices() const
     {
         return mPhysicalDevices;
     }

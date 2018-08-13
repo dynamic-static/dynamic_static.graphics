@@ -10,6 +10,5 @@
 
 #pragma once
 
-#include "Dynamic_Static/Graphics/Application.hpp"
 #include "Dynamic_Static/Graphics/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan.hpp"

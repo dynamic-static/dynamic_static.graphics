@@ -8,11 +8,16 @@
 ==========================================
 */
 
-#include "Dynamic_Static/Graphics/Defines.hpp"
+#include "Dynamic_Static.Graphics.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
+class ExampleTriangle final
+    : public dst::vk::Application
+{
+};
 
-
-} // namespace Graphics
-} // namespace Dynamic_Static
+int main()
+{
+    ExampleTriangle app;
+    app.start();
+    return 0;
+}

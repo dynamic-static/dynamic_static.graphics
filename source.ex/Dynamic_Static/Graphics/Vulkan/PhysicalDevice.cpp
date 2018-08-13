@@ -47,6 +47,18 @@ namespace Vulkan {
         return mMemoryProperties;
     }
 
+    std::vector<uint32_t> PhysicalDevice::get_queue_families(VkQueueFlags queueFlags) const
+    {
+        std::vector<uint32_t> queueFamilyIndices;
+        for (uint32_t i = 0; i < mQueueFamilyProperties.size(); ++i) {
+            if (mQueueFamilyProperties[i].queueFlags & queueFlags &&
+                mQueueFamilyProperties[i].queueCount > 0) {
+                queueFamilyIndices.push_back(i);
+            }
+        }
+        return queueFamilyIndices;
+    }
+
 } // namespace Vulkan
 } // namespace Graphics
 } // namespace Dynamic_Static

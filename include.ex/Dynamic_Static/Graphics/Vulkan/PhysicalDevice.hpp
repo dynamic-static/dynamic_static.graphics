@@ -27,6 +27,9 @@ namespace Vulkan {
         : public Object<VkPhysicalDevice>
         , public InstanceChild
     {
+    public:
+        using Child = PhysicalDeviceChild;
+
     private:
         VkPhysicalDeviceFeatures mFeatures { };
         VkPhysicalDeviceProperties mProperties { };
@@ -64,13 +67,20 @@ namespace Vulkan {
         const VkPhysicalDeviceMemoryProperties& get_memory_properties() const;
 
         /*
+        * Gets the indices of all of this PhysicalDevice's queue families that support the given VkQueueFlags.
+        * @param [in] queueFlags The VkQueueFlags to test for support
+        * @return The indices of all this PhysicalDevice's queue families that support the given VkQueueFlags
+        */
+        std::vector<uint32_t> get_queue_families(VkQueueFlags queueFlags) const;
+
+        /*
         * Creates a new object of a given type.
         * @param <ObjectType> The type of object to create
         * @param <Args> The construction arguments for the object to create
         * @return The newly created object
         */
         template <typename ObjectType, typename ...Args>
-        inline std::shared_ptr<ObjectType> create(Args&&... args) const
+        inline std::shared_ptr<ObjectType> create(Args&&... args)
         {
             return std::shared_ptr<ObjectType>(new ObjectType(this, std::forward<Args>(args)...));
         }

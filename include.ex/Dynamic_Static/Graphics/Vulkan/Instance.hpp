@@ -14,6 +14,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/InstanceChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 
 #include <memory>
 #include <string>
@@ -60,7 +61,7 @@ namespace Vulkan {
         std::vector<std::string> mEnabledLayers;
         std::vector<std::string> mEnabledExtensions;
         std::unique_ptr<DebugReportCallbackEXT> mDebugReport;
-        std::vector<std::unique_ptr<PhysicalDevice>> mPhysicalDevices;
+        std::vector<PhysicalDevice> mPhysicalDevices;
 
     private:
         /*
@@ -81,6 +82,18 @@ namespace Vulkan {
 
     public:
         /*
+        * Gets this Instance's enabled layers.
+        * @return This Instance's enabled layers
+        */
+        const std::vector<std::string>& get_enabled_layers() const;
+
+        /*
+        * Gets this Instance's enabled extensions.
+        * @return This Instance's enabled extensions
+        */
+        const std::vector<std::string>& get_enabled_extensions() const;
+
+        /*
         * Gets this Instance's DebugReportCallbackEXT.
         * @return This Instance's DebugReportCallbackEXT
         */
@@ -96,7 +109,13 @@ namespace Vulkan {
         * Gets this Instance's PhysicalDevices.
         * @return This Instance's PhysicalDevices
         */
-        const std::vector<std::unique_ptr<PhysicalDevice>>& get_physical_devices() const;
+        Span<PhysicalDevice> Instance::get_physical_devices();
+
+        /*
+        * Gets this Instance's PhysicalDevices.
+        * @return This Instance's PhysicalDevices
+        */
+        Span<const PhysicalDevice> Instance::get_physical_devices() const;
 
         /*
         * Gets a function pointer from this Vulkan Instance.

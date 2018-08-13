@@ -65,8 +65,8 @@ int main()
     for (const auto& physicalDevice : physicalDevices) {
         int tab = 1;
         std::cout << "===============================================================================" << std::endl;
-        std::cout << create_tab(tab++) << physicalDevice->get_name() << std::endl;
-        const auto& properties = physicalDevice->get_properties();
+        std::cout << create_tab(tab++) << physicalDevice.get_name() << std::endl;
+        const auto& properties = physicalDevice.get_properties();
         dst::Version apiVersion {
             VK_VERSION_MAJOR(properties.apiVersion),
             VK_VERSION_MINOR(properties.apiVersion),
@@ -201,7 +201,7 @@ int main()
         std::cout << create_tab(tab) << "optimalBufferCopyRowPitchAlignment             : " << limits.optimalBufferCopyRowPitchAlignment << std::endl;
         std::cout << create_tab(tab--) << "nonCoherentAtomSize                            : " << limits.nonCoherentAtomSize << std::endl;
         std::cout << std::endl;
-        const auto& features = physicalDevice->get_features();
+        const auto& features = physicalDevice.get_features();
         std::cout << create_tab(tab++) << "Features -" << std::endl;
         std::cout << create_tab(tab) << "robustBufferAccess                      : " << features.robustBufferAccess << std::endl;
         std::cout << create_tab(tab) << "fullDrawIndexUint32                     : " << features.fullDrawIndexUint32 << std::endl;
@@ -259,7 +259,7 @@ int main()
         std::cout << create_tab(tab) << "variableMultisampleRate                 : " << features.variableMultisampleRate << std::endl;
         std::cout << create_tab(tab--) << "inheritedQueries                        : " << features.inheritedQueries << std::endl;
         std::cout << std::endl;
-        const auto& memoryProperties = physicalDevice->get_memory_properties();
+        const auto& memoryProperties = physicalDevice.get_memory_properties();
         std::cout << create_tab(tab++) << "Memory Properties -" << std::endl;
         std::cout << create_tab(tab++) << "memoryTypeCount : " << memoryProperties.memoryTypeCount << std::endl;
         for (uint32_t i = 0; i < memoryProperties.memoryTypeCount; ++i) {
