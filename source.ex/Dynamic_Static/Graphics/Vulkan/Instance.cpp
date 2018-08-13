@@ -32,12 +32,6 @@ namespace Vulkan {
                 mEnabledLayers.push_back(createInfo.ppEnabledLayerNames[i]);
             }
         }
-        if (debugReportFlags) {
-            auto standardValidation = "VK_LAYER_LUNARG_standard_validation";
-            if (enabledLayersSet.find(standardValidation) == enabledLayersSet.end()) {
-                mEnabledLayers.push_back(standardValidation);
-            }
-        }
         std::set<std::string> enabledExtensionsSet;
         mEnabledExtensions.reserve(createInfo.enabledExtensionCount);
         for (uint32_t i = 0; i < createInfo.enabledExtensionCount; ++i) {
@@ -45,11 +39,23 @@ namespace Vulkan {
                 mEnabledExtensions.push_back(createInfo.ppEnabledExtensionNames[i]);
             }
         }
+        if (debugReportFlags) {
+            auto standardValidationLayerName = "VK_LAYER_LUNARG_standard_validation";
+            if (enabledLayersSet.find(standardValidationLayerName) == enabledLayersSet.end()) {
+                mEnabledLayers.push_back(standardValidationLayerName);
+            }
+            if (enabledExtensionsSet.find(VK_EXT_DEBUG_REPORT_EXTENSION_NAME) == enabledExtensionsSet.end()) {
+                mEnabledExtensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
+            }
+        }
 
         auto StrToCStr = [](const std::string& str) { return str.c_str(); };
         auto requestedLayers = dst::convert<std::string, const char*>(mEnabledLayers, StrToCStr);
+        auto requestedExtensions = dst::convert<std::string, const char*>(mEnabledExtensions, StrToCStr);
         createInfo.enabledLayerCount = static_cast<uint32_t>(requestedLayers.size());
         createInfo.ppEnabledLayerNames = requestedLayers.data();
+        createInfo.enabledExtensionCount = static_cast<uint32_t>(requestedExtensions.size());
+        createInfo.ppEnabledExtensionNames = requestedExtensions.data();
         dst_vk(vkCreateInstance(&createInfo, nullptr, &mHandle));
         if (debugReportFlags) {
             DebugReportCallbackEXT::CreateInfo debugReportCreateInfo { };

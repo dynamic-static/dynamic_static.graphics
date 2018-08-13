@@ -32,33 +32,32 @@ namespace Vulkan {
         void* userData
     )
     {
-        std::cout << "{";
-        bool flagCombo = false;
+        bool triggerBreak = false;
+        std::cout << "{ ";
         if (flags & VK_DEBUG_REPORT_INFORMATION_BIT_EXT) {
             std::cout << "INFORMATION";
-        }
-        if (flags & VK_DEBUG_REPORT_WARNING_BIT_EXT) {
-            std::cout << "WARNING";
-            #ifdef DYNAMIC_STATIC_MSVC
-            __debugbreak();
-            #endif
-        }
-        if (flags & VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT) {
-            std::cout << "PERFORMANCE_WARNING";
-            #ifdef DYNAMIC_STATIC_MSVC
-            __debugbreak();
-            #endif
-        }
-        if (flags & VK_DEBUG_REPORT_ERROR_BIT_EXT) {
-            std::cout << "ERROR";
-            #ifdef DYNAMIC_STATIC_MSVC
-            __debugbreak();
-            #endif
         }
         if (flags & VK_DEBUG_REPORT_DEBUG_BIT_EXT) {
             std::cout << "DEBUG";
         }
-        std::cout << "} - " << layerPrefix << "[" << std::to_string(messageCode) << "] - " << message << std::endl;
+        if (flags & VK_DEBUG_REPORT_WARNING_BIT_EXT) {
+            std::cout << "WARNING";
+            triggerBreak = true;
+        }
+        if (flags & VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT) {
+            std::cout << "PERFORMANCE_WARNING";
+            triggerBreak = true;
+        }
+        if (flags & VK_DEBUG_REPORT_ERROR_BIT_EXT) {
+            std::cout << "ERROR";
+            triggerBreak = true;
+        }
+        std::cout << " } - " << layerPrefix << "[" << std::to_string(messageCode) << "] - " << message << std::endl;
+        if (triggerBreak) {
+            #ifdef DYNAMIC_STATIC_MSVC
+            __debugbreak();
+            #endif
+        }
         return VK_FALSE;
     }
 
@@ -73,18 +72,18 @@ namespace Vulkan {
         : InstanceChild(instance)
     {
         set_name("DebugReportCallbackEXT");
-        get_instance().get_function_pointer("vkDebugReportMessageEXT", mPfnVkDebugReportMessageEXT);
-        get_instance().get_function_pointer("vkCreateDebugReportCallbackEXT", mPfnVkCreateDebugReportCallbackEXT);
-        get_instance().get_function_pointer("vkDestroyDebugReportCallbackEXT", mPfnVkDestroyDebugReportCallbackEXT);
+        get_instance().get_function_pointer("vkDebugReportMessageEXT", vkDebugReportMessageEXT);
+        get_instance().get_function_pointer("vkCreateDebugReportCallbackEXT", vkCreateDebugReportCallbackEXT);
+        get_instance().get_function_pointer("vkDestroyDebugReportCallbackEXT", vkDestroyDebugReportCallbackEXT);
         createInfo.pfnCallback = debug_report_callback;
         createInfo.pUserData = this;
-        dst_vk(mPfnVkCreateDebugReportCallbackEXT(get_instance(), &createInfo, nullptr, &mHandle));
+        dst_vk(vkCreateDebugReportCallbackEXT(get_instance(), &createInfo, nullptr, &mHandle));
     }
 
     DebugReportCallbackEXT::~DebugReportCallbackEXT()
     {
         if (mHandle) {
-            mPfnVkDestroyDebugReportCallbackEXT(get_instance(), mHandle, nullptr);
+            vkDestroyDebugReportCallbackEXT(get_instance(), mHandle, nullptr);
         }
     }
 

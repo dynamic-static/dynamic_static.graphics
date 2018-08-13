@@ -83,10 +83,12 @@ namespace Vulkan {
         * Constructs an instance of Queue.
         * @param [in] device This Queue's Queue::Family
         * @param [in] createInfo This Queue's Queue::CreateInfo
+        * @param [in] handle This Queue's handle
         */
         Queue(
             QueueFamily* queueFamily,
-            CreateInfo createInfo
+            CreateInfo createInfo,
+            VkQueue handle
         );
 
     public:

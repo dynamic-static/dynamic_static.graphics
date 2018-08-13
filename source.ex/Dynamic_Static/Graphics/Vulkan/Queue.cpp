@@ -21,11 +21,14 @@ namespace Vulkan {
 
     Queue::Queue(
         QueueFamily* queueFamily,
-        CreateInfo createInfo
+        CreateInfo createInfo,
+        VkQueue handle
     )
         : mFamily { queueFamily }
         , mPriority { *createInfo.pQueuePriorities }
     {
+        set_name("Queue");
+        mHandle = handle;
     }
 
     Device& Queue::get_device()

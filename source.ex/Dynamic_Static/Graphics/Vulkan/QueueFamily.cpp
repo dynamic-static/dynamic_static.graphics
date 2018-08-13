@@ -11,6 +11,7 @@
 #pragma once
 
 #include "Dynamic_Static/Graphics/Vulkan/QueueFamily.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 
 #include <vector>
 
@@ -27,7 +28,9 @@ namespace Vulkan {
     {
         mQueues.reserve(createInfo.queueCount);
         for (uint32_t i = 0; i < createInfo.queueCount; ++i) {
-            mQueues.push_back(Queue(this, createInfo));
+            VkQueue queue = VK_NULL_HANDLE;
+            vkGetDeviceQueue(get_device(), mIndex, i, &queue);
+            mQueues.push_back(Queue(this, createInfo, queue));
             ++createInfo.pQueuePriorities;
         }
     }

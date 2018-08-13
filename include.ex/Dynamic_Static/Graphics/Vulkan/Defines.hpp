@@ -24,10 +24,10 @@
 #define DYNAMIC_STATIC_VALIDATE_VK_CALLS
 #ifdef DYNAMIC_STATIC_VALIDATE_VK_CALLS
 #define dst_vk(VK_CALL) \
-dst::gfx::vk::validate_vk_result(VK_CALL, dst_file_line, #VK_CALL);
+dst::gfx::vk::validate_vk_result(VK_CALL, dst_file_line, #VK_CALL)
 #else
 #define dst_vk(VK_CALL) \
-VK_CALL;
+VK_CALL
 #endif
 
 namespace Dynamic_Static {

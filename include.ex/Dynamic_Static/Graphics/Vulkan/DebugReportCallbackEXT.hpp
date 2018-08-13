@@ -43,9 +43,9 @@ namespace Vulkan {
         };
 
     private:
-        PFN_vkDebugReportMessageEXT mPfnVkDebugReportMessageEXT { nullptr };
-        PFN_vkCreateDebugReportCallbackEXT mPfnVkCreateDebugReportCallbackEXT { nullptr };
-        PFN_vkDestroyDebugReportCallbackEXT mPfnVkDestroyDebugReportCallbackEXT { nullptr };
+        PFN_vkDebugReportMessageEXT vkDebugReportMessageEXT { nullptr };
+        PFN_vkCreateDebugReportCallbackEXT vkCreateDebugReportCallbackEXT { nullptr };
+        PFN_vkDestroyDebugReportCallbackEXT vkDestroyDebugReportCallbackEXT { nullptr };
 
     private:
         /*
