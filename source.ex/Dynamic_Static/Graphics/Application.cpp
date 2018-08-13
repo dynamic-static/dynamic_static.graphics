@@ -8,26 +8,11 @@
 ==========================================
 */
 
-#pragma once
-
 #include "Dynamic_Static/Graphics/Defines.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
 
-    class Application
-    {
-    public:
-        inline Application()
-        {
-
-        }
-
-        inline ~Application()
-        {
-
-        }
-    };
 
 } // namespace Graphics
 } // namespace Dynamic_Static

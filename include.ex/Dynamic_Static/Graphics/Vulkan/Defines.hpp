@@ -12,7 +12,7 @@
 
 #include "Dynamic_Static/Graphics/Defines.hpp"
 
-#include "vulkan/vulkan.hpp"
+#include "vulkan/vulkan.h"
 
 #include <iostream>
 #include <string>
@@ -33,19 +33,25 @@ namespace Vulkan {
 
     class Application;
     class Buffer;
-    class Command;
-    class DebugReport;
-    class Descriptor;
+    class BufferView;
+    class CommandBuffer;
+    class CommandPool;
+    class DebugReportCallbackEXT;
+    class DescriptorSet;
+    class DescriptorSetLayout;
+    class DescriptorPool;
     class Device;
     class Framebuffer;
     class Image;
+    class ImageView;
     class Instance;
-    class Memory;
+    class InstanceChild;
+    class DeviceMemory;
     class PhysicalDevice;
     class Pipeline;
+    class PipelineLayout;
     class Queue;
     class RenderPass;
-    class RenderTarget;
     class Sampler;
     class Semaphore;
     class ShaderModule;

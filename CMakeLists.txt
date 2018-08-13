@@ -15,7 +15,7 @@ else()
     include("external/Dynamic_Static.cmake/.cmake")
 endif()
 
-DstCreateProject(Dynamic_Static.Core)
+DstCreateProject(Dynamic_Static.Graphics)
 
 include("external/Dynamic_Static.Core.cmake")
 include("external/Dynamic_Static.System.cmake")
@@ -37,15 +37,24 @@ DstCreateStaticLibrary(
         ${Vulkan.includeDirectories}
 
     includeFiles
+        "${includePath}/Vulkan/Application.hpp"
+        "${includePath}/Vulkan/DebugReportCallbackEXT.hpp"
         "${includePath}/Vulkan/Defines.hpp"
         "${includePath}/Vulkan/Instance.hpp"
+        "${includePath}/Vulkan/InstanceChild.hpp"
         "${includePath}/Vulkan/Object.hpp"
         "${includePath}/Vulkan/PhysicalDevice.hpp"
         "${includePath}/Application.hpp"
         "${includePath}/Defines.hpp"
+        "${includePath}/Vulkan.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/include.ex/Dynamic_Static.Graphics.hpp"
 
     sourceFiles
-        "${CMAKE_CURRENT_LIST_DIR}/ForceCMakeBuild.cpp"
+        "${sourcePath}/Vulkan/DebugReportCallbackEXT.cpp"
+        "${sourcePath}/Vulkan/Instance.cpp"
+        "${sourcePath}/Vulkan/InstanceChild.cpp"
+        "${sourcePath}/Vulkan/PhysicalDevice.cpp"
+        "${sourcePath}/Application.cpp"
 )
 
 option(BUILD_EXAMPLES "Build Dynamic_Static.Graphics.Examples" ON)
