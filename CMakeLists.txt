@@ -49,6 +49,7 @@ DstCreateStaticLibrary(
         "${includePath}/Vulkan/PhysicalDeviceChild.hpp"
         "${includePath}/Vulkan/Queue.hpp"
         "${includePath}/Vulkan/QueueFamily.hpp"
+        "${includePath}/Vulkan/SurfaceKHR.hpp"
         "${includePath}/Defines.hpp"
         "${includePath}/Vulkan.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/include.ex/Dynamic_Static.Graphics.hpp"
@@ -64,6 +65,7 @@ DstCreateStaticLibrary(
         "${sourcePath}/Vulkan/PhysicalDeviceChild.cpp"
         "${sourcePath}/Vulkan/Queue.cpp"
         "${sourcePath}/Vulkan/QueueFamily.cpp"
+        "${sourcePath}/Vulkan/SurfaceKHR.cpp"
 )
 
 option(BUILD_EXAMPLES "Build Dynamic_Static.Graphics.Examples" ON)

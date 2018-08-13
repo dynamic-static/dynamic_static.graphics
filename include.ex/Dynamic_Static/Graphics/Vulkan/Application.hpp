@@ -54,6 +54,7 @@ namespace Vulkan {
         glm::vec4 mClearColor { Color::QuarterGray };
         std::shared_ptr<Instance> mInstance;
         std::shared_ptr<sys::Window> mWindow;
+        std::shared_ptr<SurfaceKHR> mSurface;
         std::shared_ptr<Device> mDevice;
 
     protected:
@@ -89,6 +90,11 @@ namespace Vulkan {
         * Creates this Application's Window.
         */
         virtual void create_window();
+
+        /*
+        * Creates this Application's Surface.
+        */
+        virtual void create_surface();
 
         /*
         * Creates this Application's Device.

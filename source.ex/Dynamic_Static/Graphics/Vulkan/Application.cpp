@@ -15,6 +15,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/SurfaceKHR.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -42,6 +43,7 @@ namespace Vulkan {
         };
         create_instance(layers, instanceExtensions);
         create_window();
+        create_surface();
         create_device(deviceExtensions);
         create_swapchain();
         create_render_pass();
@@ -76,6 +78,12 @@ namespace Vulkan {
         sys::Window::Info windowInfo;
         windowInfo.name = mInfo.pApplicationName;
         mWindow = std::make_shared<sys::Window>(windowInfo);
+    }
+
+    void Application::create_surface()
+    {
+        auto& physicalDevice = mInstance->get_physical_devices()[0];
+        mSurface = physicalDevice.create<SurfaceKHR>(mWindow);
     }
 
     void Application::create_device(std::vector<const char*> extensions)
