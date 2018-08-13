@@ -62,6 +62,7 @@ namespace Vulkan {
     class Semaphore;
     class ShaderModule;
     class SurfaceKHR;
+    class SurfaceKHRChild;
     class SwapchainKHR;
 
     /*

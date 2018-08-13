@@ -23,3 +23,5 @@
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/QueueFamily.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/SurfaceKHR.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/SurfaceKHRChild.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp"

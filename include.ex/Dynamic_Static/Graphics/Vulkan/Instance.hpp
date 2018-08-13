@@ -33,8 +33,6 @@ namespace Vulkan {
         , public SharedObject<Instance>
     {
     public:
-        using Child = InstanceChild;
-
         /*
         * Configuration parameters for Instance construction.
         */

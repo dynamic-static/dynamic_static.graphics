@@ -26,27 +26,27 @@ namespace Vulkan {
 
     protected:
         /*
-        * Constructs an instance of Instance::Child.
-        * @param [in] instance This Instance::Child's Instance
+        * Constructs an instance of InstanceChild.
+        * @param [in] instance This InstanceChild's Instance
         */
         InstanceChild(Instance* instance);
 
     public:
         /*
-        * Destroys this instance of Instance::Child.
+        * Destroys this instance of InstanceChild.
         */
         virtual ~InstanceChild() = 0;
 
     public:
         /*
-        * Gets this Instance::Child's Instance.
-        * @return This Instance::Child's Instance
+        * Gets this InstanceChild's Instance.
+        * @return This InstanceChild's Instance
         */
         Instance& get_instance();
 
         /*
-        * Gets this Instance::Child's Instance.
-        * @return This Instance::Child's Instance
+        * Gets this InstanceChild's Instance.
+        * @return This InstanceChild's Instance
         */
         const Instance& get_instance() const;
     };

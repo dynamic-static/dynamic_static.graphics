@@ -27,9 +27,6 @@ namespace Vulkan {
         : public Object<VkPhysicalDevice>
         , public InstanceChild
     {
-    public:
-        using Child = PhysicalDeviceChild;
-
     private:
         VkPhysicalDeviceFeatures mFeatures { };
         VkPhysicalDeviceProperties mProperties { };

@@ -27,39 +27,39 @@ namespace Vulkan {
 
     protected:
         /*
-        * Constructs an instance of PhysicalDevice::Child.
-        * @param [in] physicalDevice This PhysicalDevice::Child's PhysicalDevice
+        * Constructs an instance of PhysicalDeviceChild.
+        * @param [in] physicalDevice This PhysicalDeviceChild's PhysicalDevice
         */
         PhysicalDeviceChild(PhysicalDevice* physicalDevice);
 
     public:
         /*
-        * Destroys this instance of PhysicalDevice::Child.
+        * Destroys this instance of PhysicalDeviceChild.
         */
         virtual ~PhysicalDeviceChild() = 0;
 
     public:
         /*
-        * Gets this PhysicalDevice::Child's Instance.
-        * @return This PhysicalDevice::Child's Instance
+        * Gets this PhysicalDeviceChild's Instance.
+        * @return This PhysicalDeviceChild's Instance
         */
         Instance& get_instance();
 
         /*
-        * Gets this PhysicalDevice::Child's Instance.
-        * @return This PhysicalDevice::Child's Instance
+        * Gets this PhysicalDeviceChild's Instance.
+        * @return This PhysicalDeviceChild's Instance
         */
         const Instance& get_instance() const;
 
         /*
-        * Gets this PhysicalDevice::Child's PhysicalDevice.
-        * @return This PhysicalDevice::Child's PhysicalDevice
+        * Gets this PhysicalDeviceChild's PhysicalDevice.
+        * @return This PhysicalDeviceChild's PhysicalDevice
         */
         PhysicalDevice& get_physical_device();
 
         /*
-        * Gets this PhysicalDevice::Child's PhysicalDevice.
-        * @return This PhysicalDevice::Child's PhysicalDevice
+        * Gets this PhysicalDeviceChild's PhysicalDevice.
+        * @return This PhysicalDeviceChild's PhysicalDevice
         */
         const PhysicalDevice& get_physical_device() const;
     };
