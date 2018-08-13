@@ -12,6 +12,8 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 
+#include <memory>
+
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
