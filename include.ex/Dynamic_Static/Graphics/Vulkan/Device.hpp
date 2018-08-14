@@ -15,6 +15,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDeviceChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/QueueFamily.hpp"
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -95,6 +96,19 @@ namespace Vulkan {
         * @return This Device's enabled VkPhysicalDeviceFeatures
         */
         const VkPhysicalDeviceFeatures& get_enabled_features() const;
+
+        /*
+        * Creates a new object of a given type.
+        * @param <ObjectType> The type of object to create
+        * @param <Args> The construction arguments for the object to create
+        * @return The newly created object
+        */
+        template <typename ObjectType, typename ...Args>
+        inline std::shared_ptr<ObjectType> create(Args&&... args)
+        {
+            ObjectType* ptr = new ObjectType(get_shared_ptr(), std::forward<Args>(args)...);
+            return std::shared_ptr<ObjectType>();
+        }
 
     private:
         friend class PhysicalDevice;

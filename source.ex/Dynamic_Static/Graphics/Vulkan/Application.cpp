@@ -16,6 +16,9 @@
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/SurfaceKHR.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp"
+
+#include <stdexcept>
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -106,7 +109,14 @@ namespace Vulkan {
 
     void Application::create_swapchain()
     {
-
+        auto& physicalDevice = mInstance->get_physical_devices()[0];
+        auto queueFamilyIndex = mDevice->get_queue_families()[0].get_index();
+        VkBool32 presentationSupported = VK_FALSE;
+        dst_vk(vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, queueFamilyIndex, *mSurface, &presentationSupported));
+        if (!presentationSupported) {
+            throw std::runtime_error("\"" + mSurface->get_name() + "\" doesn't support presentation");
+        }
+        mSwapchain = mDevice->create<SwapchainKHR>(mSurface);
     }
 
     void Application::create_render_pass()

@@ -38,7 +38,7 @@ namespace Vulkan {
             /*
             * Constructs an instance of SwapchainKHR::CreateInfo.
             */
-            CreateInfo()
+            inline CreateInfo()
             {
                 sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
                 pNext = nullptr;
@@ -57,23 +57,106 @@ namespace Vulkan {
                 preTransform = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR;
                 compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
                 presentMode = VK_PRESENT_MODE_MAILBOX_KHR;
-                clipped = VK_TRUE;
+                clipped = VK_FALSE;
                 oldSwapchain = VK_NULL_HANDLE;
+                static_assert(
+                    sizeof(SwapchainKHR::CreateInfo) == sizeof(VkSwapchainCreateInfoKHR),
+                    "sizeof(SwapchainKHR::CreateInfo) != sizeof(VkSwapchainCreateInfoKHR)"
+                );
             }
         };
+
+    private:
+        CreateInfo mCreateInfo { };
+        bool mVsyncEnabled { false };
+
+    public:
+        /*
+        * Callback executed when this SwapchainKHR is resized.
+        * @param [in] This SwapchainKHR
+        */
+        Callback<SwapchainKHR, const SwapchainKHR&> on_resize;
 
     private:
         /*
         * Constructs an instance of SwapchainKHR.
         * @param [in] device This SwapchainKHR's Device
         * @param [in] surface This SwapchainKHR's SurfaceKHR
-        * @param [in] createInfo This SwapchainKHR's SwapchainKHR::CreateInfo
+        * @param [in] createInfo This SwapchainKHR's SwapchainKHR::CreateInfo (optional = { })
+        * @param [in] vsyncEnabled Whether or not to enable vsync (optional = false)
         */
         SwapchainKHR(
             const std::shared_ptr<Device>& device,
             const std::shared_ptr<SurfaceKHR>& surface,
-            CreateInfo createInfo
+            CreateInfo createInfo = { },
+            bool vsyncEnabled = false
         );
+
+        /*
+        * Destroys this instance of SwapchainKHR.
+        */
+        ~SwapchainKHR();
+
+    public:
+        /*
+        * Gets this SwapchainKHR's VkExtent2D.
+        * @return This SwapchainKHR's VkExtent2D.
+        */
+        const VkExtent2D& get_extent() const;
+
+        /*
+        * Gets this SwapchainKHR's VkFormat.
+        * @return This SwapchainKHR's VkFormat
+        */
+        VkFormat get_format() const;
+
+        /*
+        * Gets this SwapchainKHR's VkColorSpaceKHR.
+        * @return This SwapchainKHR's VkColorSpaceKHR
+        */
+        VkColorSpaceKHR get_color_space() const;
+
+        /*
+        * Gets this SwapchainKHR's VkPresentModeKHR.
+        * @return This SwapchainKHR's VkPresentModeKHR
+        */
+        VkPresentModeKHR get_present_mode() const;
+
+        /*
+        * Gets this SwapchainKHR's VkSurfaceTransformFlagBitsKHR.
+        * @return This SwapchainKHR's VkSurfaceTransformFlagBitsKHR
+        */
+        VkSurfaceTransformFlagBitsKHR get_surface_transform_flag() const;
+
+        /*
+        * Gets this SwapchainKHR's VkCompositeAlphaFlagBitsKHR.
+        * @return This SwapchainKHR's VkCompositeAlphaFlagBitsKHR
+        */
+        VkCompositeAlphaFlagBitsKHR get_composite_alpha_flag() const;
+
+        /*
+        * Gets this SwapchainKHR's VkImageUsageFlags.
+        * @return This SwapchainKHR's VkImageUsageFlags
+        */
+        VkImageUsageFlags get_image_usage_flags() const;
+
+        /*
+        * Gets a value indicating whether or not this SwapchainKHR has vsync enabled.
+        * @return A value indicating whether or not this SwapchainKHR has vsync enabled
+        */
+        bool vsync_enabled() const;
+
+        /*
+        * Sets a value indicating whether or not this SwapchainKHR has vsync enabled.
+        * @param [in] vsyncEnabled Whether or not this SwapchainKHR has vsync enabled
+        */
+        void vsync_enabled(bool vsyncEnabled);
+
+    private:
+        void create_swapchain();
+        void destroy_swapchain();
+        void on_surface_resize(const SurfaceKHR& surface);
+        friend class Device;
     };
 
 } // namespace Vulkan

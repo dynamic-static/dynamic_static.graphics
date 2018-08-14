@@ -56,6 +56,7 @@ namespace Vulkan {
         std::shared_ptr<sys::Window> mWindow;
         std::shared_ptr<SurfaceKHR> mSurface;
         std::shared_ptr<Device> mDevice;
+        std::shared_ptr<SwapchainKHR> mSwapchain;
 
     protected:
         /*

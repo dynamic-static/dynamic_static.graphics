@@ -40,7 +40,7 @@ namespace Vulkan {
             /*
             * Constructs an instance of Queue::CreateInfo.
             */
-            CreateInfo()
+            inline CreateInfo()
             {
                 sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
                 pNext = nullptr;
@@ -48,13 +48,17 @@ namespace Vulkan {
                 queueFamilyIndex = 0;
                 queueCount = 0;
                 pQueuePriorities = nullptr;
+                static_assert(
+                    sizeof(Queue::CreateInfo) == sizeof(VkDeviceQueueCreateInfo),
+                    "sizeof(Queue::CreateInfo) != sizeof(VkDeviceQueueCreateInfo)"
+                );
             }
 
             /*
             * Copies an instance of Queue::CreateInfo.
             * @param [in] other The VkDeviceQueueCreateInfo to copy from
             */
-            CreateInfo(const VkDeviceQueueCreateInfo& other)
+            inline CreateInfo(const VkDeviceQueueCreateInfo& other)
             {
                 *this = other;
             }
@@ -63,7 +67,7 @@ namespace Vulkan {
             * Copies an instance of Queue::CreateInfo.
             * @param [in] other The VkDeviceQueueCreateInfo to copy from
             */
-            CreateInfo& operator=(const VkDeviceQueueCreateInfo& other)
+            inline CreateInfo& operator=(const VkDeviceQueueCreateInfo& other)
             {
                 if (this != &other) {
                     memcpy(this, &other, sizeof(*this));
@@ -125,11 +129,6 @@ namespace Vulkan {
     private:
         friend class QueueFamily;
     };
-
-    static_assert(
-        sizeof(Queue::CreateInfo) == sizeof(VkDeviceQueueCreateInfo),
-        "sizeof(Queue::CreateInfo) != sizeof(VkDeviceQueueCreateInfo)"
-    );
 
 } // namespace Vulkan
 } // namespace Graphics
