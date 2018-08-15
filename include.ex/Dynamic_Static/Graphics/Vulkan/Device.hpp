@@ -53,6 +53,10 @@ namespace Vulkan {
                 enabledExtensionCount = 0;
                 ppEnabledExtensionNames = nullptr;
                 pEnabledFeatures = nullptr;
+                static_assert(
+                    sizeof(Device::CreateInfo) == sizeof(VkDeviceCreateInfo),
+                    "sizeof(Device::CreateInfo) != sizeof(VkDeviceCreateInfo)"
+                );
             }
         };
 
@@ -69,7 +73,7 @@ namespace Vulkan {
         */
         Device(
             PhysicalDevice* physicalDevice,
-            CreateInfo createInfo
+            Device::CreateInfo createInfo
         );
 
     public:
@@ -106,8 +110,7 @@ namespace Vulkan {
         template <typename ObjectType, typename ...Args>
         inline std::shared_ptr<ObjectType> create(Args&&... args)
         {
-            ObjectType* ptr = new ObjectType(get_shared_ptr(), std::forward<Args>(args)...);
-            return std::shared_ptr<ObjectType>();
+            return std::shared_ptr<ObjectType>(new ObjectType(get_shared_ptr(), std::forward<Args>(args)...));
         }
 
     private:

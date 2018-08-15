@@ -92,6 +92,7 @@ namespace Vulkan {
             bool vsyncEnabled = false
         );
 
+    public:
         /*
         * Destroys this instance of SwapchainKHR.
         */
