@@ -11,6 +11,13 @@
 #pragma once
 
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/SurfaceKHR.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/RenderPass.hpp"
 
 #include <string>
 #include <vector>
@@ -57,6 +64,7 @@ namespace Vulkan {
         std::shared_ptr<SurfaceKHR> mSurface;
         std::shared_ptr<Device> mDevice;
         std::shared_ptr<SwapchainKHR> mSwapchain;
+        std::shared_ptr<RenderPass> mRenderPass;
 
     protected:
         /*

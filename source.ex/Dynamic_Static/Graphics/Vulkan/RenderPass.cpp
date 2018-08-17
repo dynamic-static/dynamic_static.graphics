@@ -24,6 +24,11 @@ namespace Vulkan {
         : DeviceChild(device)
     {
         set_name("RenderPass");
+        dst_vk(vkCreateRenderPass(get_device(), &createInfo, nullptr, &mHandle));
+        mAttachmentDescriptions.reserve(createInfo.attachmentCount);
+        for (uint32_t i = 0; i < createInfo.attachmentCount; ++i) {
+            mAttachmentDescriptions.push_back(createInfo.pAttachments[i]);
+        }
     }
 
     RenderPass::~RenderPass()
@@ -31,6 +36,11 @@ namespace Vulkan {
         if (mHandle) {
             vkDestroyRenderPass(get_device(), mHandle, nullptr);
         }
+    }
+
+    const std::vector<VkAttachmentDescription>& RenderPass::get_attachment_descriptions() const
+    {
+        return mAttachmentDescriptions;
     }
 
 } // namespace Vulkan

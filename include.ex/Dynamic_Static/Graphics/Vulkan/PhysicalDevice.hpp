@@ -66,9 +66,33 @@ namespace Vulkan {
         /*
         * Gets the indices of all of this PhysicalDevice's queue families that support the given VkQueueFlags.
         * @param [in] queueFlags The VkQueueFlags to test for support
-        * @return The indices of all this PhysicalDevice's queue families that support the given VkQueueFlags
+        * @return The indices of all of this PhysicalDevice's queue families that support the given VkQueueFlags
         */
-        std::vector<uint32_t> get_queue_families(VkQueueFlags queueFlags) const;
+        std::vector<uint32_t> get_supported_queue_family_indices(VkQueueFlags queueFlags) const;
+
+        /*
+        * Gets a value indicating whether or not this PhysicalDevice supports a given VkFormat, VkImageTiling, and VkFormatFeatureFlags.
+        * @param [in] format The VkFormat to test for support
+        * @param [in] imageTiling The VkImageTiling to test for support
+        * @param [in] foramtFeatureFlags The VkFormatFeatureFlags to test for support
+        * @return Whether or not this PhysicalDevice supports the given VkFormat, VkImageTiling, and VkFormatFeatureFlags.
+        */
+        bool get_image_format_support(
+            VkFormat format,
+            VkImageTiling imageTiling,
+            VkFormatFeatureFlags formatFeatureFlags
+        ) const;
+
+        /*
+        * Gets all of this PhysicalDevice's VkFormat that support the given VkImageTiling and VkFormatFeatureFlags.
+        * @param [in] imageTiling The VkImageTiling to test for support
+        * @param [in] formatFeatureFlags The VkFormatFeatureFlags to test for support
+        * @return All of this PhysicalDevice's VkFormats that support the given VkImageTiling and VkFormatFeatureFlags
+        */
+        std::vector<VkFormat> get_supported_image_formats(
+            VkImageTiling imageTiling,
+            VkFormatFeatureFlags formatFeatureFlags
+        ) const;
 
         /*
         * Creates a new object of a given type.

@@ -47,7 +47,7 @@ namespace Vulkan {
         return mMemoryProperties;
     }
 
-    std::vector<uint32_t> PhysicalDevice::get_queue_families(VkQueueFlags queueFlags) const
+    std::vector<uint32_t> PhysicalDevice::get_supported_queue_family_indices(VkQueueFlags queueFlags) const
     {
         std::vector<uint32_t> queueFamilyIndices;
         for (uint32_t i = 0; i < mQueueFamilyProperties.size(); ++i) {
@@ -57,6 +57,35 @@ namespace Vulkan {
             }
         }
         return queueFamilyIndices;
+    }
+
+    bool PhysicalDevice::get_image_format_support(
+        VkFormat format,
+        VkImageTiling imageTiling,
+        VkFormatFeatureFlags formatFeatureFlags
+    ) const
+    {
+        VkFormatProperties formatProperties { };
+        vkGetPhysicalDeviceFormatProperties(mHandle, format, &formatProperties);
+        return
+            imageTiling == VK_IMAGE_TILING_LINEAR ?
+            formatFeatureFlags & formatProperties.linearTilingFeatures :
+            formatFeatureFlags & formatProperties.optimalTilingFeatures;
+    }
+
+    std::vector<VkFormat> PhysicalDevice::get_supported_image_formats(
+        VkImageTiling imageTiling,
+        VkFormatFeatureFlags formatFeatureFlags
+    ) const
+    {
+        std::vector<VkFormat> formats;
+        for (int i = VK_FORMAT_BEGIN_RANGE; i < VK_FORMAT_RANGE_SIZE; ++i) {
+            auto format = static_cast<VkFormat>(i);
+            if (get_image_format_support(format, imageTiling, formatFeatureFlags)) {
+                formats.push_back(format);
+            }
+        }
+        return formats;
     }
 
 } // namespace Vulkan

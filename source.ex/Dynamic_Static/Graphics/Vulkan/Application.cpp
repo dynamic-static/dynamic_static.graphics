@@ -11,13 +11,8 @@
 #pragma once
 
 #include "Dynamic_Static/Graphics/Vulkan/Application.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/SurfaceKHR.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp"
 
+#include <array>
 #include <stdexcept>
 
 namespace Dynamic_Static {
@@ -67,7 +62,7 @@ namespace Vulkan {
         std::vector<const char*> extensions
     )
     {
-        Instance::CreateInfo instanceCreateInfo;
+        Instance::CreateInfo instanceCreateInfo { };
         instanceCreateInfo.pApplicationInfo = &mInfo;
         instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(layers.size());
         instanceCreateInfo.ppEnabledLayerNames = layers.data();
@@ -78,7 +73,7 @@ namespace Vulkan {
 
     void Application::create_window()
     {
-        sys::Window::Info windowInfo;
+        sys::Window::Info windowInfo { };
         windowInfo.name = mInfo.pApplicationName;
         mWindow = std::make_shared<sys::Window>(windowInfo);
     }
@@ -92,13 +87,13 @@ namespace Vulkan {
     void Application::create_device(std::vector<const char*> extensions)
     {
         auto& physicalDevice = mInstance->get_physical_devices()[0];
-        auto queueFamilyIndices = physicalDevice.get_queue_families(VK_QUEUE_GRAPHICS_BIT);
+        auto queueFamilyIndices = physicalDevice.get_supported_queue_family_indices(VK_QUEUE_GRAPHICS_BIT);
         float priority = 0;
-        Queue::CreateInfo queueCreateInfo;
+        Queue::CreateInfo queueCreateInfo { };
         queueCreateInfo.queueCount = 1;
         queueCreateInfo.pQueuePriorities = &priority;
         queueCreateInfo.queueFamilyIndex = queueFamilyIndices[0];
-        Device::CreateInfo deviceCreateInfo;
+        Device::CreateInfo deviceCreateInfo { };
         deviceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         deviceCreateInfo.ppEnabledExtensionNames = extensions.data();
         deviceCreateInfo.queueCreateInfoCount = 1;
@@ -121,7 +116,63 @@ namespace Vulkan {
 
     void Application::create_render_pass()
     {
+        VkAttachmentDescription colorAttachmentDescription { };
+        colorAttachmentDescription.format = mSwapchain->get_format();
+        colorAttachmentDescription.samples = VK_SAMPLE_COUNT_1_BIT;
+        colorAttachmentDescription.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+        colorAttachmentDescription.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+        colorAttachmentDescription.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+        colorAttachmentDescription.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+        colorAttachmentDescription.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        colorAttachmentDescription.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+        VkAttachmentReference colorAttachmentReference { };
+        colorAttachmentReference.attachment = 0;
+        colorAttachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
+        std::array<VkFormat, 3> depthFormats {
+            VK_FORMAT_D32_SFLOAT,
+            VK_FORMAT_D32_SFLOAT_S8_UINT,
+            VK_FORMAT_D24_UNORM_S8_UINT,
+        };
+        auto depthFormat = VK_FORMAT_UNDEFINED;
+        for (auto format : depthFormats) {
+            if (mInstance->get_physical_devices()[0].get_image_format_support(
+                format,
+                VK_IMAGE_TILING_OPTIMAL,
+                VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT)) {
+                depthFormat = format;
+                break;
+            }
+        }
+        VkAttachmentDescription depthAttachmentDescription { };
+        depthAttachmentDescription.format = depthFormat;
+        depthAttachmentDescription.samples = VK_SAMPLE_COUNT_1_BIT;
+        depthAttachmentDescription.loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+        depthAttachmentDescription.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+        depthAttachmentDescription.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+        depthAttachmentDescription.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+        depthAttachmentDescription.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        depthAttachmentDescription.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+        VkAttachmentReference depthAttachmentReference { };
+        depthAttachmentReference.attachment = 1;
+        depthAttachmentReference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+
+        std::array<VkAttachmentDescription, 2> attachmentDescriptions {
+            colorAttachmentDescription,
+            depthAttachmentDescription,
+        };
+        VkSubpassDescription subpassDescription { };
+        subpassDescription.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+        subpassDescription.colorAttachmentCount = 1;
+        subpassDescription.pColorAttachments = &colorAttachmentReference;
+        subpassDescription.pDepthStencilAttachment = &depthAttachmentReference;
+
+        RenderPass::CreateInfo renderPassCreateInfo { };
+        renderPassCreateInfo.attachmentCount = static_cast<uint32_t>(attachmentDescriptions.size());
+        renderPassCreateInfo.pAttachments = attachmentDescriptions.data();
+        renderPassCreateInfo.subpassCount = 1;
+        renderPassCreateInfo.pSubpasses = &subpassDescription;
+        mRenderPass = mDevice->create<RenderPass>(renderPassCreateInfo);
     }
 
     void Application::create_command_pool()

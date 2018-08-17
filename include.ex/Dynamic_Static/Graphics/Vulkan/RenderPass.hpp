@@ -15,6 +15,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
+#include <vector>
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -57,6 +58,9 @@ namespace Vulkan {
         };
 
     private:
+        std::vector<VkAttachmentDescription> mAttachmentDescriptions;
+
+    private:
         /*
         * Constructs an instance of RenderPass.
         * @param [in] device This RenderPass's Device
@@ -73,6 +77,12 @@ namespace Vulkan {
         */
         ~RenderPass();
 
+    public:
+        /*
+        * Gets this RenderPass's VkAttachmentDescriptions.
+        * @return This RenderPass's VkAttachmentDescriptions
+        */
+        const std::vector<VkAttachmentDescription>& get_attachment_descriptions() const;
 
     private:
         friend class Device;
