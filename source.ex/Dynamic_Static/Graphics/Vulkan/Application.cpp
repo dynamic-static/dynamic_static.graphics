@@ -8,8 +8,6 @@
 ==========================================
 */
 
-#pragma once
-
 #include "Dynamic_Static/Graphics/Vulkan/Application.hpp"
 
 #include <array>
@@ -44,9 +42,10 @@ namespace Vulkan {
         create_surface();
         create_device(deviceExtensions);
         create_swapchain();
-        create_render_pass();
-        create_command_pool();
-        create_semaphores();
+        create_swapchain_render_pass();
+        create_swapchain_command_buffers();
+        create_swapchain_semaphores();
+        create_resources();
         mRunning = true;
         while (mRunning) {
             mClock.update();
@@ -54,7 +53,12 @@ namespace Vulkan {
             update(mClock, mWindow->get_input());
             draw(mClock);
         }
-        shutdown();
+        destroy_resources();
+    }
+
+    void Application::stop()
+    {
+        mRunning = false;
     }
 
     void Application::create_instance(
@@ -114,7 +118,7 @@ namespace Vulkan {
         mSwapchain = mDevice->create<SwapchainKHR>(mSurface);
     }
 
-    void Application::create_render_pass()
+    void Application::create_swapchain_render_pass()
     {
         VkAttachmentDescription colorAttachmentDescription { };
         colorAttachmentDescription.format = mSwapchain->get_format();
@@ -172,17 +176,28 @@ namespace Vulkan {
         renderPassCreateInfo.pAttachments = attachmentDescriptions.data();
         renderPassCreateInfo.subpassCount = 1;
         renderPassCreateInfo.pSubpasses = &subpassDescription;
-        mRenderPass = mDevice->create<RenderPass>(renderPassCreateInfo);
+        mSwapchainRenderPass = mDevice->create<RenderPass>(renderPassCreateInfo);
     }
 
-    void Application::create_command_pool()
+    void Application::create_swapchain_command_buffers()
     {
-
+        auto commandPool = mDevice->create<CommandPool>();
+        auto imageCount = mSwapchain->get_images().size();
+        mSwapchainCommandBuffers.reserve(imageCount);
+        for (int i = 0; i < imageCount; ++i) {
+            auto commandBuffer = commandPool->allocate<CommandBuffer>();
+            mSwapchainCommandBuffers.push_back(commandBuffer);
+        }
     }
 
-    void Application::create_semaphores()
+    void Application::create_swapchain_semaphores()
     {
+        mDrawCompleteSemphore = mDevice->create<Semaphore>();
+        mPresentCompleteSemaphore = mDevice->create<Semaphore>();
+    }
 
+    void Application::create_resources()
+    {
     }
 
     void Application::update(
@@ -196,7 +211,7 @@ namespace Vulkan {
     {
     }
 
-    void Application::shutdown()
+    void Application::destroy_resources()
     {
     }
 

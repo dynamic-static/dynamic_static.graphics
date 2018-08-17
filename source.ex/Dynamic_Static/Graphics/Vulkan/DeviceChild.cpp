@@ -12,6 +12,8 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
 
+#include <utility>
+
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
@@ -19,6 +21,19 @@ namespace Vulkan {
     DeviceChild::DeviceChild(const std::shared_ptr<Device>& device)
         : mDevice { device }
     {
+    }
+
+    DeviceChild::DeviceChild(DeviceChild&& other)
+    {
+        *this = std::move(other);
+    }
+
+    DeviceChild& DeviceChild::operator=(DeviceChild&& other)
+    {
+        if (this != &other) {
+            mDevice = std::move(other.mDevice);
+        }
+        return *this;
     }
 
     DeviceChild::~DeviceChild()

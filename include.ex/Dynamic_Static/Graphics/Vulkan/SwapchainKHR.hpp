@@ -13,7 +13,10 @@
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Image.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/SurfaceKHRChild.hpp"
+
+#include <vector>
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -68,6 +71,7 @@ namespace Vulkan {
 
     private:
         CreateInfo mCreateInfo { };
+        std::vector<Image> mImages;
         bool mVsyncEnabled { false };
 
     public:
@@ -100,16 +104,16 @@ namespace Vulkan {
 
     public:
         /*
-        * Gets this SwapchainKHR's VkExtent2D.
-        * @return This SwapchainKHR's VkExtent2D.
-        */
-        const VkExtent2D& get_extent() const;
-
-        /*
         * Gets this SwapchainKHR's VkFormat.
         * @return This SwapchainKHR's VkFormat
         */
         VkFormat get_format() const;
+
+        /*
+        * Gets this SwapchainKHR's VkExtent2D.
+        * @return This SwapchainKHR's VkExtent2D.
+        */
+        const VkExtent2D& get_extent() const;
 
         /*
         * Gets this SwapchainKHR's VkColorSpaceKHR.
@@ -140,6 +144,12 @@ namespace Vulkan {
         * @return This SwapchainKHR's VkImageUsageFlags
         */
         VkImageUsageFlags get_image_usage_flags() const;
+
+        /*
+        * Gets this SwapchainKHR's Images.
+        * @return This SwapchainKHR's Images.
+        */
+        const std::vector<Image>& get_images() const;
 
         /*
         * Gets a value indicating whether or not this SwapchainKHR has vsync enabled.

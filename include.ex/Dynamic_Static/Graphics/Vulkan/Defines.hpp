@@ -39,6 +39,7 @@ namespace Vulkan {
     class BufferView;
     class CommandBuffer;
     class CommandPool;
+    class CommandPoolChild;
     class DebugReportCallbackEXT;
     class DescriptorSet;
     class DescriptorSetLayout;

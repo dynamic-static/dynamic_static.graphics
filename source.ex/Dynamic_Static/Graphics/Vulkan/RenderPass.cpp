@@ -8,8 +8,6 @@
 ==========================================
 */
 
-#pragma once
-
 #include "Dynamic_Static/Graphics/Vulkan/RenderPass.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 

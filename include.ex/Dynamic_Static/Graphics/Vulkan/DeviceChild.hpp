@@ -19,7 +19,7 @@ namespace Graphics {
 namespace Vulkan {
 
     /*
-    * Common base for all Vulkan Device child objects.
+    * Common base for Vulkan Device child objects.
     */
     class DeviceChild
     {
@@ -32,6 +32,19 @@ namespace Vulkan {
         * @param [in] device This DeviceChild's Device
         */
         DeviceChild(const std::shared_ptr<Device>& device);
+
+        /*
+        * Moves an instance of DeviceChild.
+        * @param [in] other The DeviceChild to move from
+        */
+        DeviceChild(DeviceChild&& other);
+
+        /*
+        * Moves an instance of DeviceChild.
+        * @param [in] other The DeviceChild to move from
+        * @return This DeviceChild
+        */
+        DeviceChild& operator=(DeviceChild&& other);
 
     public:
         /*

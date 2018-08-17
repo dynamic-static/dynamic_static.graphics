@@ -110,7 +110,9 @@ namespace Vulkan {
         template <typename ObjectType, typename ...Args>
         inline std::shared_ptr<ObjectType> create(Args&&... args)
         {
-            return std::shared_ptr<ObjectType>(new ObjectType(get_shared_ptr(), std::forward<Args>(args)...));
+            return std::shared_ptr<ObjectType>(
+                new ObjectType(get_shared_ptr(), std::forward<Args>(args)...)
+            );
         }
 
     private:

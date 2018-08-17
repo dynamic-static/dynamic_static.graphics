@@ -26,6 +26,23 @@ public:
             | VK_DEBUG_REPORT_ERROR_BIT_EXT
             ;
     }
+
+private:
+    void update(
+        const dst::Clock& clock,
+        const dst::sys::Input& input
+    ) override
+    {
+        using namespace dst::sys;
+        if (input.keyboard.down(Keyboard::Key::Escape)) {
+            stop();
+        }
+    }
+
+    void draw(const dst::Clock& clock) override
+    {
+
+    }
 };
 
 int main()

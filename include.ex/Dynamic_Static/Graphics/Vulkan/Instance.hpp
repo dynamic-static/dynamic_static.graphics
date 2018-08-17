@@ -147,7 +147,9 @@ namespace Vulkan {
             std::is_same<ObjectType, Instance>::value,
             "dst::vk::create<> can only create dst::vk::Instance"
         );
-        return std::shared_ptr<Instance>(new Instance(std::forward<Args>(args)...));
+        return std::shared_ptr<Instance>(
+            new Instance(std::forward<Args>(args)...)
+        );
     }
 
 } // namespace Vulkan

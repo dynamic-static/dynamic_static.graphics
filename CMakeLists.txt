@@ -38,6 +38,9 @@ DstCreateStaticLibrary(
 
     includeFiles
         "${includePath}/Vulkan/Application.hpp"
+        "${includePath}/Vulkan/CommandBuffer.hpp"
+        "${includePath}/Vulkan/CommandPool.hpp"
+        "${includePath}/Vulkan/CommandPoolChild.hpp"
         "${includePath}/Vulkan/DebugReportCallbackEXT.hpp"
         "${includePath}/Vulkan/Defines.hpp"
         "${includePath}/Vulkan/Device.hpp"
@@ -54,6 +57,7 @@ DstCreateStaticLibrary(
         "${includePath}/Vulkan/Queue.hpp"
         "${includePath}/Vulkan/QueueFamily.hpp"
         "${includePath}/Vulkan/RenderPass.hpp"
+        "${includePath}/Vulkan/Semaphore.hpp"
         "${includePath}/Vulkan/SurfaceKHR.hpp"
         "${includePath}/Vulkan/SurfaceKHRChild.hpp"
         "${includePath}/Vulkan/SwapchainKHR.hpp"
@@ -63,6 +67,9 @@ DstCreateStaticLibrary(
 
     sourceFiles
         "${sourcePath}/Vulkan/Application.cpp"
+        "${sourcePath}/Vulkan/CommandBuffer.cpp"
+        "${sourcePath}/Vulkan/CommandPool.cpp"
+        "${sourcePath}/Vulkan/CommandPoolChild.cpp"
         "${sourcePath}/Vulkan/DebugReportCallbackEXT.cpp"
         "${sourcePath}/Vulkan/Device.cpp"
         "${sourcePath}/Vulkan/DeviceChild.cpp"
@@ -77,6 +84,7 @@ DstCreateStaticLibrary(
         "${sourcePath}/Vulkan/Queue.cpp"
         "${sourcePath}/Vulkan/QueueFamily.cpp"
         "${sourcePath}/Vulkan/RenderPass.cpp"
+        "${sourcePath}/Vulkan/Semaphore.cpp"
         "${sourcePath}/Vulkan/SurfaceKHR.cpp"
         "${sourcePath}/Vulkan/SurfaceKHRChild.cpp"
         "${sourcePath}/Vulkan/SwapchainKHR.cpp"

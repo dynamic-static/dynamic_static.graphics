@@ -10,14 +10,17 @@
 
 #pragma once
 
+#include "Dynamic_Static/Graphics/Vulkan/CommandBuffer.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/CommandPool.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/RenderPass.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Semaphore.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/SurfaceKHR.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/RenderPass.hpp"
 
 #include <string>
 #include <vector>
@@ -55,8 +58,6 @@ namespace Vulkan {
 
     protected:
         Info mInfo { };
-        Clock mClock;
-        bool mRunning { false };
         VkDebugReportFlagsEXT mDebugReportFlags { };
         glm::vec4 mClearColor { Color::QuarterGray };
         std::shared_ptr<Instance> mInstance;
@@ -64,7 +65,14 @@ namespace Vulkan {
         std::shared_ptr<SurfaceKHR> mSurface;
         std::shared_ptr<Device> mDevice;
         std::shared_ptr<SwapchainKHR> mSwapchain;
-        std::shared_ptr<RenderPass> mRenderPass;
+        std::shared_ptr<RenderPass> mSwapchainRenderPass;
+        std::vector<std::shared_ptr<CommandBuffer>> mSwapchainCommandBuffers;
+        std::shared_ptr<Semaphore> mDrawCompleteSemphore;
+        std::shared_ptr<Semaphore> mPresentCompleteSemaphore;
+
+    private:
+        Clock mClock;
+        bool mRunning { false };
 
     protected:
         /*
@@ -83,6 +91,11 @@ namespace Vulkan {
         * Starts this Application.
         */
         void start();
+
+        /*
+        * Stops this Application.
+        */
+        void stop();
 
     protected:
         /*
@@ -117,19 +130,24 @@ namespace Vulkan {
         virtual void create_swapchain();
 
         /*
-        * Creates this Application's RenderPass.
+        * Creates this Application's Swapchain RenderPass.
         */
-        virtual void create_render_pass();
+        virtual void create_swapchain_render_pass();
 
         /*
-        * Create this Application's main CommandPool.
+        * Create this Application's Swapchain CommandBuffers.
         */
-        virtual void create_command_pool();
+        virtual void create_swapchain_command_buffers();
 
         /*
         * Creates this Application's Swapchain Semaphores.
         */
-        virtual void create_semaphores();
+        virtual void create_swapchain_semaphores();
+
+        /*
+        * Creates this Application's resources.
+        */
+        virtual void create_resources();
 
         /*
         * Updates this Application.
@@ -148,9 +166,9 @@ namespace Vulkan {
         virtual void draw(const Clock& clock);
 
         /*
-        * Shutsdown this Application.
+        * Destroys this Application's resources.
         */
-        virtual void shutdown();
+        virtual void destroy_resources();
     };
 
 } // namespace Vulkan

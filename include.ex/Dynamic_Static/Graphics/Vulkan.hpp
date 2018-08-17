@@ -11,6 +11,9 @@
 #pragma once
 
 #include "Dynamic_Static/Graphics/Vulkan/Application.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/CommandBuffer.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/CommandPool.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/CommandPoolChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/DebugReportCallbackEXT.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
@@ -27,6 +30,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/QueueFamily.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/RenderPass.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Semaphore.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/SurfaceKHR.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/SurfaceKHRChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp"

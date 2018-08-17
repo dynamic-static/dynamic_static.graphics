@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <array>
 #include <functional>
+#include <string>
 #include <vector>
 
 namespace Dynamic_Static {
@@ -76,6 +77,11 @@ namespace Vulkan {
     VkImageUsageFlags SwapchainKHR::get_image_usage_flags() const
     {
         return mCreateInfo.imageUsage;
+    }
+
+    const std::vector<Image>& SwapchainKHR::get_images() const
+    {
+        return mImages;
     }
 
     bool SwapchainKHR::vsync_enabled() const
@@ -172,13 +178,26 @@ namespace Vulkan {
         dst_vk(vkGetSwapchainImagesKHR(get_device(), mHandle, &imageCount, nullptr));
         std::vector<VkImage> images(imageCount);
         dst_vk(vkGetSwapchainImagesKHR(get_device(), mHandle, &imageCount, images.data()));
-        for (auto image : images) {
-            // TODO :
+        Image::CreateInfo imageCreateInfo { };
+        imageCreateInfo.format = mCreateInfo.imageFormat;
+        imageCreateInfo.extent.width = mCreateInfo.imageExtent.width;
+        imageCreateInfo.extent.height = mCreateInfo.imageExtent.height;
+        imageCreateInfo.arrayLayers = mCreateInfo.imageArrayLayers;
+        imageCreateInfo.usage = mCreateInfo.imageUsage;
+        imageCreateInfo.sharingMode = mCreateInfo.imageSharingMode;
+        mImages.clear();
+        mImages.reserve(images.size());
+        for (int i = 0; i < images.size(); ++i) {
+            mImages.push_back(Image(get_device().get_shared_ptr(), imageCreateInfo, images[i]));
+            mImages.back().set_name(get_name() + " Image[" + std::to_string(i) + "]");
         }
     }
 
     void SwapchainKHR::destroy_swapchain()
     {
+        for (auto& image : mImages) {
+            image.mHandle = VK_NULL_HANDLE;
+        }
         if (mHandle) {
             vkDestroySwapchainKHR(get_device(), mHandle, nullptr);
             mHandle = VK_NULL_HANDLE;
