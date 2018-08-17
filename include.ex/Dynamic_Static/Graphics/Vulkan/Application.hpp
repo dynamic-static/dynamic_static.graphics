@@ -42,7 +42,7 @@ namespace Vulkan {
             : public VkApplicationInfo
         {
             /*
-            * Consructs an instance of Application::Info.
+            * Constructs an instance of Application::Info.
             */
             Info()
             {
