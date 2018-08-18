@@ -51,7 +51,7 @@ namespace Vulkan {
             mClock.update();
             sys::Window::poll_events();
             update(mClock, mWindow->get_input());
-            draw(mClock);
+            update_graphics(mClock);
         }
         destroy_resources();
     }
@@ -207,7 +207,19 @@ namespace Vulkan {
     {
     }
 
-    void Application::draw(const Clock& clock)
+    void Application::validate_swapchain_framebuffers()
+    {
+        bool swapchainValid = true;
+        if (!swapchainValid || mSwapchainFramebuffers.empty()) {
+
+        }
+    }
+
+    void Application::update_graphics(const Clock& clock)
+    {
+    }
+
+    void Application::submit_swapchain_command_buffers()
     {
     }
 

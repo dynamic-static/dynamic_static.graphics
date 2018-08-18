@@ -30,7 +30,6 @@ namespace Vulkan {
         std::shared_ptr<sys::Window> mWindow;
         std::vector<VkSurfaceFormatKHR> mFormats;
         std::vector<VkPresentModeKHR> mPresentModes;
-        VkSurfaceCapabilitiesKHR mCapabilities { };
 
     public:
         /*
@@ -85,7 +84,7 @@ namespace Vulkan {
         * Gets this SurfaceKHR's VkSurfaceCapabilitiesKHR.
         * @return This SurfaceKHR's VkSurfaceCapabilitiesKHR
         */
-        const VkSurfaceCapabilitiesKHR& get_capabilities() const;
+        VkSurfaceCapabilitiesKHR get_capabilities() const;
 
     private:
         void on_window_resize(const sys::IWindow& window) const;

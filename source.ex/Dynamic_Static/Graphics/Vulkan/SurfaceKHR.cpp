@@ -44,8 +44,6 @@ namespace Vulkan {
         dst_vk(vkGetPhysicalDeviceSurfacePresentModesKHR(get_physical_device(), mHandle, &presentModeCount, nullptr));
         mPresentModes.resize(presentModeCount);
         dst_vk(vkGetPhysicalDeviceSurfacePresentModesKHR(get_physical_device(), mHandle, &presentModeCount, mPresentModes.data()));
-
-        dst_vk(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(get_physical_device(), mHandle, &mCapabilities));
     }
 
     SurfaceKHR::~SurfaceKHR()
@@ -77,9 +75,11 @@ namespace Vulkan {
         return mPresentModes;
     }
 
-    const VkSurfaceCapabilitiesKHR& SurfaceKHR::get_capabilities() const
+    VkSurfaceCapabilitiesKHR SurfaceKHR::get_capabilities() const
     {
-        return mCapabilities;
+        VkSurfaceCapabilitiesKHR capabilities { };
+        dst_vk(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(get_physical_device(), mHandle, &capabilities));
+        return capabilities;
     }
 
     void SurfaceKHR::on_window_resize(const sys::IWindow& window) const

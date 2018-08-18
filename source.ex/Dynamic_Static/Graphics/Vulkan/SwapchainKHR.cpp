@@ -36,17 +36,23 @@ namespace Vulkan {
     {
         set_name(get_surface().get_window().get_name() + " SwapchainKHR");
         get_surface().on_resize = std::bind(&SwapchainKHR::on_surface_resize, this, std::placeholders::_1);
-        create_swapchain();
+        create_vk_resources();
     }
 
     SwapchainKHR::~SwapchainKHR()
     {
-        destroy_swapchain();
+        destroy_vk_resources();
     }
 
     const VkExtent2D& SwapchainKHR::get_extent() const
     {
         return mCreateInfo.imageExtent;
+    }
+
+    bool SwapchainKHR::is_valid() const
+    {
+        // BOOKMARK
+        return false;
     }
 
     VkFormat SwapchainKHR::get_format() const
@@ -96,7 +102,7 @@ namespace Vulkan {
         }
     }
 
-    void SwapchainKHR::create_swapchain()
+    void SwapchainKHR::create_vk_resources()
     {
         const auto& surfaceCapabilites = get_surface().get_capabilities();
         if (surfaceCapabilites.currentExtent.width == (uint32_t)-1) {
@@ -171,7 +177,7 @@ namespace Vulkan {
         mCreateInfo.oldSwapchain = mHandle;
         VkSwapchainKHR swapchain = VK_NULL_HANDLE;
         dst_vk(vkCreateSwapchainKHR(get_device(), &mCreateInfo, nullptr, &swapchain));
-        destroy_swapchain();
+        destroy_vk_resources();
         mHandle = swapchain;
 
         uint32_t imageCount = 0;
@@ -193,7 +199,7 @@ namespace Vulkan {
         }
     }
 
-    void SwapchainKHR::destroy_swapchain()
+    void SwapchainKHR::destroy_vk_resources()
     {
         for (auto& image : mImages) {
             image.mHandle = VK_NULL_HANDLE;

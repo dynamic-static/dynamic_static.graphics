@@ -10,9 +10,14 @@
 
 #include "Dynamic_Static.Graphics.hpp"
 
+#include <memory>
+
 class ExampleTriangle final
     : public dst::vk::Application
 {
+private:
+    std::shared_ptr<dst::vk::Pipeline> mPipeline;
+
 public:
     ExampleTriangle()
     {
@@ -28,6 +33,11 @@ public:
     }
 
 private:
+    void create_resources() override
+    {
+
+    }
+
     void update(
         const dst::Clock& clock,
         const dst::sys::Input& input

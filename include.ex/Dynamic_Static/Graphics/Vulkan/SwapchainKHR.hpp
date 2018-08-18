@@ -104,6 +104,12 @@ namespace Vulkan {
 
     public:
         /*
+        * Gets a value indicating whether or not this SwapchainKHR is valid.
+        * @return A value indicating whether or not this SwapchainKHR is valid
+        */
+        bool is_valid() const;
+
+        /*
         * Gets this SwapchainKHR's VkFormat.
         * @return This SwapchainKHR's VkFormat
         */
@@ -164,8 +170,8 @@ namespace Vulkan {
         void vsync_enabled(bool vsyncEnabled);
 
     private:
-        void create_swapchain();
-        void destroy_swapchain();
+        void create_vk_resources();
+        void destroy_vk_resources();
         void on_surface_resize(const SurfaceKHR& surface);
         friend class Device;
     };

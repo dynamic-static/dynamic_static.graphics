@@ -69,6 +69,8 @@ namespace Vulkan {
         std::vector<std::shared_ptr<CommandBuffer>> mSwapchainCommandBuffers;
         std::shared_ptr<Semaphore> mDrawCompleteSemphore;
         std::shared_ptr<Semaphore> mPresentCompleteSemaphore;
+        std::vector<std::shared_ptr<Framebuffer>> mSwapchainFramebuffers;
+        std::shared_ptr<Image> mSwapchainDepthImage;
 
     private:
         Clock mClock;
@@ -160,10 +162,20 @@ namespace Vulkan {
         );
 
         /*
-        * Draws this Application.
+        * Validates this Application's Swapchain Framebuffers.
+        */
+        virtual void validate_swapchain_framebuffers();
+
+        /*
+        * Updates this Application's graphics.
         * @param [in] clock This Application's Clock
         */
-        virtual void draw(const Clock& clock);
+        virtual void update_graphics(const Clock& clock);
+
+        /*
+        * Submits this Application's Swapchain CommandBuffers.
+        */
+        virtual void submit_swapchain_command_buffers();
 
         /*
         * Destroys this Application's resources.
