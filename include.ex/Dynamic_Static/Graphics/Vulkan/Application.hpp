@@ -164,7 +164,7 @@ namespace Vulkan {
         /*
         * Validates this Application's Swapchain Framebuffers.
         */
-        virtual void validate_swapchain_framebuffers();
+        virtual void validate_swapchain();
 
         /*
         * Updates this Application's graphics.

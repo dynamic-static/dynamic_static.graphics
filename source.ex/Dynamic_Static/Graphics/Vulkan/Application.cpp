@@ -207,10 +207,9 @@ namespace Vulkan {
     {
     }
 
-    void Application::validate_swapchain_framebuffers()
+    void Application::validate_swapchain()
     {
-        bool swapchainValid = true;
-        if (!swapchainValid || mSwapchainFramebuffers.empty()) {
+        if (!mSwapchain->is_valid() || mSwapchainFramebuffers.empty()) {
 
         }
     }

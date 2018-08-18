@@ -12,6 +12,7 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/ImageView.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
@@ -64,6 +65,7 @@ namespace Vulkan {
 
     private:
         CreateInfo mCreateInfo { };
+        std::vector<ImageView> mImageViews;
 
     private:
         /*
@@ -73,7 +75,7 @@ namespace Vulkan {
         */
         Image(
             const std::shared_ptr<Device>& device,
-            CreateInfo createInfo = { }
+            Image::CreateInfo createInfo
         );
 
         /*
@@ -84,7 +86,7 @@ namespace Vulkan {
         */
         Image(
             const std::shared_ptr<Device>& device,
-            CreateInfo createInfo,
+            Image::CreateInfo createInfo,
             VkImage handle
         );
 
@@ -108,6 +110,12 @@ namespace Vulkan {
         Image& operator=(Image&& other);
 
     public:
+        /*
+        * Gets this Image's VkImageCreateFlags.
+        * @return This Image's VkImageCreateFlags
+        */
+        VkImageCreateFlags get_create_flags() const;
+
         /*
         * Gets this Image's VkImageType.
         * @return This Image's VkImageType
@@ -154,13 +162,61 @@ namespace Vulkan {
         * Gets this Image's VkImageUsageFlags.
         * @return This Image's VkImageUsageFlags
         */
-        VkImageUsageFlags get_image_usage_flags() const;
+        VkImageUsageFlags get_usage_flags() const;
 
         /*
         * Gets this Image's VkSharingMode.
         * @return This Image's VkSharingMode
         */
         VkSharingMode get_sharing_mode() const;
+
+        /*
+        * Gets this Image's first ImageView.
+        * \n NOTE : If no ImageViews are available this method will create one
+        * @return This Image's first ImageView
+        */
+        ImageView& get_view();
+
+        /*
+        * Gets this Image's ImageViews.
+        * @return This Image's ImageViews
+        */
+        Span<ImageView> get_views();
+
+        /*
+        * Gets this Image's ImageViews.
+        * @return This Image's ImageViews
+        */
+        Span<const ImageView> get_views() const;
+
+        /*
+        * Creates a new object of a given type.
+        * @param <ObjectType> The type of object to create
+        * @param <Args> The construction arguments for the object to create
+        * @return The newly created object
+        */
+        template <typename ObjectType, typename ...Args>
+        inline ObjectType& create(Args&&... args)
+        {
+            mImageViews.push_back(ObjectType(this, std::forward<Args>(args)...));
+            return mImageViews.back();
+        }
+
+        /*
+        * Destroys an object of a given type.
+        * @param <ObjectType> The type of object to destroy
+        * @param [in] object The object to destroy
+        */
+        template <typename ObjectType>
+        inline void destroy(const ObjectType& object)
+        {
+            for (auto itr = mImageViews.begin(); itr != mImageViews.end(); ++itr) {
+                if (itr->get_handle() == object.get_handle()) {
+                    mImageViews.erase(itr);
+                    break;
+                }
+            }
+        }
 
     private:
         friend class Device;

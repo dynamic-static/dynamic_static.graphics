@@ -19,9 +19,10 @@ namespace Vulkan {
 
     Image::Image(
         const std::shared_ptr<Device>& device,
-        CreateInfo createInfo
+        Image::CreateInfo createInfo
     )
         : DeviceChild(device)
+        , mCreateInfo { createInfo }
     {
         set_name("Image");
         dst_vk(vkCreateImage(get_device(), &createInfo, nullptr, &mHandle));
@@ -29,10 +30,11 @@ namespace Vulkan {
 
     Image::Image(
         const std::shared_ptr<Device>& device,
-        CreateInfo createInfo,
+        Image::CreateInfo createInfo,
         VkImage handle
     )
         : DeviceChild(device)
+        , mCreateInfo { createInfo }
     {
         set_name("Image");
         mHandle = handle;
@@ -60,6 +62,11 @@ namespace Vulkan {
             mCreateInfo = std::move(other.mCreateInfo);
         }
         return *this;
+    }
+
+    VkImageCreateFlags Image::get_create_flags() const
+    {
+        return mCreateInfo.flags;
     }
 
     VkImageType Image::get_type() const
@@ -97,7 +104,7 @@ namespace Vulkan {
         return mCreateInfo.tiling;
     }
 
-    VkImageUsageFlags Image::get_image_usage_flags() const
+    VkImageUsageFlags Image::get_usage_flags() const
     {
         return mCreateInfo.usage;
     }
@@ -105,6 +112,25 @@ namespace Vulkan {
     VkSharingMode Image::get_sharing_mode() const
     {
         return mCreateInfo.sharingMode;
+    }
+
+    ImageView& Image::get_view()
+    {
+        if (mImageViews.empty()) {
+            create<ImageView>();
+        }
+        assert(!mImageViews.empty());
+        return mImageViews.front();
+    }
+
+    Span<ImageView> Image::get_views()
+    {
+        return mImageViews;
+    }
+
+    Span<const ImageView> Image::get_views() const
+    {
+        return mImageViews;
     }
 
 } // namespace Vulkan

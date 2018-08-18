@@ -24,14 +24,14 @@ namespace Vulkan {
     class CommandPoolChild
     {
     private:
-        std::shared_ptr<CommandPool> mCommandPool;
+        CommandPool * mCommandPool { nullptr };
 
     protected:
         /*
         * Constructs an instance of CommandPoolChild.
         * @param [in] commandPool This CommandPoolChild's CommandPool
         */
-        CommandPoolChild(const std::shared_ptr<CommandPool>& commandPool);
+        CommandPoolChild(CommandPool* commandPool);
 
     public:
         /*

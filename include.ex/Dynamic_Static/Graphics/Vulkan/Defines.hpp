@@ -48,6 +48,7 @@ namespace Vulkan {
     class DeviceChild;
     class Framebuffer;
     class Image;
+    class ImageChild;
     class ImageView;
     class Instance;
     class InstanceChild;

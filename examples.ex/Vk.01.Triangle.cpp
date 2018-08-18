@@ -49,7 +49,7 @@ private:
         }
     }
 
-    void draw(const dst::Clock& clock) override
+    void update_graphics(const dst::Clock& clock) override
     {
 
     }

@@ -21,6 +21,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/DeviceMemory.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Framebuffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Image.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/ImageChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/ImageView.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/InstanceChild.hpp"

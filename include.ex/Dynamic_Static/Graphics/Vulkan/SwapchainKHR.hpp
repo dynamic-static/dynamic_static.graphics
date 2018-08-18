@@ -169,6 +169,11 @@ namespace Vulkan {
         */
         void vsync_enabled(bool vsyncEnabled);
 
+        /*
+        * Validates this SwapchainKHR.
+        */
+        void validate();
+
     private:
         void create_vk_resources();
         void destroy_vk_resources();

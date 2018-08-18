@@ -70,16 +70,16 @@ namespace Vulkan {
 
     public:
         /*
-        * Creates a new object of a given type.
-        * @param <ObjectType> The type of object to create
-        * @param <Args> The construction arguments for the object to create
-        * @return The newly created object
+        * Allocates a new object of a given type.
+        * @param <ObjectType> The type of object to allocate
+        * @param <Args> The construction arguments for the object to allocate
+        * @return The newly allocated object
         */
         template <typename ObjectType, typename ...Args>
         inline std::shared_ptr<ObjectType> allocate(Args&&... args)
         {
             return std::shared_ptr<ObjectType>(
-                new ObjectType(get_shared_ptr(), std::forward<Args>(args)...)
+                new ObjectType(this, std::forward<Args>(args)...)
             );
         }
 

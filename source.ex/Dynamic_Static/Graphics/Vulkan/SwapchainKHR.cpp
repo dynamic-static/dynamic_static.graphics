@@ -51,8 +51,8 @@ namespace Vulkan {
 
     bool SwapchainKHR::is_valid() const
     {
-        // BOOKMARK
-        return false;
+
+        return true;
     }
 
     VkFormat SwapchainKHR::get_format() const
@@ -99,6 +99,14 @@ namespace Vulkan {
     {
         if (mVsyncEnabled != vsyncEnabled) {
             mVsyncEnabled = vsyncEnabled;
+        }
+    }
+
+    void SwapchainKHR::validate()
+    {
+        // TODO : This method needs to go away.
+        if (!is_valid()) {
+            create_vk_resources();
         }
     }
 
@@ -185,6 +193,7 @@ namespace Vulkan {
         std::vector<VkImage> images(imageCount);
         dst_vk(vkGetSwapchainImagesKHR(get_device(), mHandle, &imageCount, images.data()));
         Image::CreateInfo imageCreateInfo { };
+        imageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
         imageCreateInfo.format = mCreateInfo.imageFormat;
         imageCreateInfo.extent.width = mCreateInfo.imageExtent.width;
         imageCreateInfo.extent.height = mCreateInfo.imageExtent.height;
@@ -196,6 +205,7 @@ namespace Vulkan {
         for (int i = 0; i < images.size(); ++i) {
             mImages.push_back(Image(get_device().get_shared_ptr(), imageCreateInfo, images[i]));
             mImages.back().set_name(get_name() + " Image[" + std::to_string(i) + "]");
+            mImages.back().create<ImageView>();
         }
     }
 
