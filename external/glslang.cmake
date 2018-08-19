@@ -14,44 +14,6 @@ DstBuildExternalCMakeProject(
     sourceDirectory "${glslang.sourceDirectory}"
     buildDirectory "${glslang.buildDirectory}"
 )
-#### # =============================================================================
-#### # TODO : Refactor this into Dynamic_Static.CMake
-#### set(glslang.sourceDirectory "${CMAKE_CURRENT_LIST_DIR}/glslang/")
-#### set(glslang.buildDirectory "${CMAKE_BINARY_DIR}/external/glslang/")
-#### file(MAKE_DIRECTORY "${glslang.buildDirectory}")
-#### execute_process(
-####     COMMAND
-####         ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" "${glslang.sourceDirectory}"
-####     WORKING_DIRECTORY "${glslang.buildDirectory}"
-####     RESULT_VARIABLE error
-#### )
-#### if(error)
-####     message(FATAL_ERROR "CMake step for glslang failed [${error}]")
-#### endif()
-#### execute_process(
-####     # TODO : /verbosity:minimal is for MSBUILD, this will have to be handled on other platforms
-####     COMMAND "${CMAKE_COMMAND}" --build . -- /verbosity:minimal
-####     WORKING_DIRECTORY "${glslang.buildDirectory}"
-####     RESULT_VARIABLE error
-#### )
-#### if(error)
-####     message(FATAL_ERROR "Build step for glslang failed [${error}]")
-#### endif()
-#### if(MSVC)
-####     if(NOT TARGET glslang.build)
-####         add_custom_target(glslang.build ALL)
-####         set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-####         set_target_properties(glslang.build PROPERTIES FOLDER external)
-####         add_custom_command(
-####             PRE_BUILD
-####             TARGET glslang.build
-####             COMMAND "${CMAKE_COMMAND}" --build . --config $<CONFIG> -- /verbosity:minimal
-####             WORKING_DIRECTORY "${glslang.buildDirectory}"
-####         )
-####     endif()
-#### endif()
-#### # =============================================================================
-
 # file(REMOVE_RECURSE "${glslang.sourceDirectory}/External")
 # file(REMOVE_RECURSE "${glslang.sourceDirectory}/gtests")
 # file(REMOVE_RECURSE "${glslang.sourceDirectory}/StandAlone")
