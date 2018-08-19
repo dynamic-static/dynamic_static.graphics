@@ -46,6 +46,7 @@ namespace Vulkan {
     class DescriptorPool;
     class Device;
     class DeviceChild;
+    class Fence;
     class Framebuffer;
     class Image;
     class ImageChild;
@@ -149,6 +150,16 @@ namespace Vulkan {
             } break;
         }
         return vkResult;
+    }
+
+    /*
+    * TODO : Documentation.
+    */
+    inline bool operator==(const VkExtent2D& lhs, const VkExtent2D& rhs)
+    {
+        return
+            lhs.width == rhs.width &&
+            lhs.height == rhs.height;
     }
 
 } // namespace Vulkan

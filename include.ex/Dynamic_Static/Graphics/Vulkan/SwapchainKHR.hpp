@@ -155,7 +155,42 @@ namespace Vulkan {
         * Gets this SwapchainKHR's Images.
         * @return This SwapchainKHR's Images.
         */
-        const std::vector<Image>& get_images() const;
+        Span<Image> get_images();
+
+        /*
+        * Gets this SwapchainKHR's Images.
+        * @return This SwapchainKHR's Images.
+        */
+        Span<const Image> get_images() const;
+
+        /*
+        * Acquires and gets the index of this SwapchainKHR's next presentable Image.
+        * @param [in] timeout How long this method should wait, in nanoseconds, for an Image to become available
+        * \n NOTE : UINT64_MAX will result in this method blocking until an Image is acquired or an error occurs
+        * @param [in] semaphore The Semaphore to signal
+        * \n NOTE : If semaphore is not nullptr, the Semaphore must be unsignaled, with no signal or wait operations pending
+        * \n        If semaphore is not nullptr, the Semaphore will become signaled when the application can use the Image
+        * @param [in] fence The Fence to signal
+        * \n NOTE : If fence is not nullptr, the Fence must be unsignaled, with no signal or wait operations pending
+        * \n        If fence is not nullptr, the Fence will become signaled when the application can use the Image
+        * @param [out] pImageIndex The index of the acquired Image
+        * @return A value indicating the result of this operation
+        * \n NOTE : VK_SUCCESS indicates that an Image was successfully acquired
+        * \n        VK_TIMEOUT indicates that the timeout value was reached before an Image was acquired
+        * \n        VK_NOT_READY indicates that the timeout value was zero and no Image was acquired
+        * \n        VK_SUBOPTIMAL_KHR indicates that an Image was acquired but that this SwapchainKHR and its SurfaceKHR no longer match
+        * \n        VK_ERROR_OUT_OF_HOST_MEMORY indicates that a host memory allocation failed
+        * \n        VK_ERROR_OUT_OF_DEVICE_MEMORY indicates that a device memory allocation failed
+        * \n        VK_ERROR_DEVICE_LOST The logical or physical device has been lost
+        * \n        VK_ERROR_OUT_OF_DATE_KHR indicates that this SwapchainKHR and its SurfaceKHR are no longer compatible
+        * \n        VK_ERROR_SURFACE_LOST_KHR indicates that this SwapchainKHR's SurfaceKHR is no longer available
+        */
+        VkResult acquire_next_image(
+            uint64_t timeout,
+            Semaphore* semaphore,
+            Fence* fence,
+            uint32_t* pImageIndex
+        ) const;
 
         /*
         * Gets a value indicating whether or not this SwapchainKHR has vsync enabled.

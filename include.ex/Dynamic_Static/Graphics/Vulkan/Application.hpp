@@ -14,6 +14,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/CommandPool.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Framebuffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
@@ -163,8 +164,9 @@ namespace Vulkan {
 
         /*
         * Validates this Application's Swapchain Framebuffers.
+        * @param [in] clock This Application's Clock
         */
-        virtual void validate_swapchain();
+        virtual void validate_swapchain(const Clock& clock);
 
         /*
         * Updates this Application's graphics.
@@ -173,9 +175,30 @@ namespace Vulkan {
         virtual void update_graphics(const Clock& clock);
 
         /*
-        * Submits this Application's Swapchain CommandBuffers.
+        * Updates this Application's Swapchain CommandBuffers.
+        * @param [in] clock This Application's Clock
         */
-        virtual void submit_swapchain_command_buffers();
+        virtual void update_swapchain_command_buffers(const Clock& clock);
+
+        /*
+        * Records this Application's Swapchain CommandBuffer.
+        * @param [in] clock This Application's Clock
+        * @param [in] commandBuffer The CommandBuffer to record
+        */
+        virtual void record_swapchain_command_buffer(
+            const Clock& clock,
+            CommandBuffer& commandBuffer
+        );
+
+        /*
+        * Submits this Application's Swapchain CommandBuffer.
+        * @param [in] clock This Application's Clock
+        * @param [in] commandBuffer The CommandBuffer to submit
+        */
+        virtual void submit_swapchain_command_buffer(
+            const Clock& clock,
+            CommandBuffer& commandBuffer
+        );
 
         /*
         * Destroys this Application's resources.

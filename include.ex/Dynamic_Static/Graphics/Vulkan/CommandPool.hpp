@@ -79,7 +79,7 @@ namespace Vulkan {
         inline std::shared_ptr<ObjectType> allocate(Args&&... args)
         {
             return std::shared_ptr<ObjectType>(
-                new ObjectType(this, std::forward<Args>(args)...)
+                new ObjectType(get_shared_ptr(), std::forward<Args>(args)...)
             );
         }
 

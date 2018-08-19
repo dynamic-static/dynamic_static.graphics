@@ -8,28 +8,34 @@
 ==========================================
 */
 
-#include "Dynamic_Static/Graphics/Vulkan/Framebuffer.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Fence.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    Framebuffer::Framebuffer(
+    Fence::Fence(
         const std::shared_ptr<Device>& device,
-        Framebuffer::CreateInfo createInfo
+        Fence::CreateInfo createInfo
     )
         : DeviceChild(device)
     {
-        set_name("Framebuffer");
-        dst_vk(vkCreateFramebuffer(get_device(), &createInfo, nullptr, &mHandle));
+        set_name("Fence");
+        mCreateFlags = createInfo.flags;
+        dst_vk(vkCreateFence(get_device(), &createInfo, nullptr, &mHandle));
     }
 
-    Framebuffer::~Framebuffer()
+    Fence::~Fence()
     {
         if (mHandle) {
-            vkDestroyFramebuffer(get_device(), mHandle, nullptr);
+            vkDestroyFence(get_device(), mHandle, nullptr);
         }
+    }
+
+    VkFenceCreateFlags Fence::get_create_flags() const
+    {
+        return mCreateFlags;
     }
 
 } // namespace Vulkan

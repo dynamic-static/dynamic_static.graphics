@@ -59,8 +59,8 @@ namespace Vulkan {
         * @param [in] allocateInfo This CommandBuffer's CommandBuffer::AllocateInfo
         */
         CommandBuffer(
-            CommandPool* commandPool,
-            AllocateInfo allocateInfo = { }
+            const std::shared_ptr<CommandPool>& commandPool,
+            CommandBuffer::AllocateInfo allocateInfo = { }
         );
 
     public:

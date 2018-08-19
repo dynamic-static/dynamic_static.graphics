@@ -14,7 +14,7 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    CommandPoolChild::CommandPoolChild(CommandPool* commandPool)
+    CommandPoolChild::CommandPoolChild(const std::shared_ptr<CommandPool>& commandPool)
         : mCommandPool { commandPool }
     {
     }

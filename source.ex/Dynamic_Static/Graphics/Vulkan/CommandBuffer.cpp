@@ -18,8 +18,8 @@ namespace Vulkan {
 
 
     CommandBuffer::CommandBuffer(
-        CommandPool* commandPool,
-        AllocateInfo allocateInfo
+        const std::shared_ptr<CommandPool>& commandPool,
+        CommandBuffer::AllocateInfo allocateInfo
     )
         : CommandPoolChild(commandPool)
     {

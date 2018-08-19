@@ -51,7 +51,9 @@ namespace Vulkan {
             mClock.update();
             sys::Window::poll_events();
             update(mClock, mWindow->get_input());
+            validate_swapchain(mClock);
             update_graphics(mClock);
+            update_swapchain_command_buffers(mClock);
         }
         destroy_resources();
     }
@@ -169,10 +171,10 @@ namespace Vulkan {
         subpassDescription.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
         subpassDescription.colorAttachmentCount = 1;
         subpassDescription.pColorAttachments = &colorAttachmentReference;
-        subpassDescription.pDepthStencilAttachment = &depthAttachmentReference;
+        subpassDescription.pDepthStencilAttachment = nullptr; // &depthAttachmentReference;
 
         RenderPass::CreateInfo renderPassCreateInfo { };
-        renderPassCreateInfo.attachmentCount = static_cast<uint32_t>(attachmentDescriptions.size());
+        renderPassCreateInfo.attachmentCount = 1; // static_cast<uint32_t>(attachmentDescriptions.size());
         renderPassCreateInfo.pAttachments = attachmentDescriptions.data();
         renderPassCreateInfo.subpassCount = 1;
         renderPassCreateInfo.pSubpasses = &subpassDescription;
@@ -207,10 +209,28 @@ namespace Vulkan {
     {
     }
 
-    void Application::validate_swapchain()
+    void Application::validate_swapchain(const Clock& clock)
     {
+        // TODO : Testing for validation, then doing validation is kind of an
+        //        annoying little dance, but Framebuffer recreation needs to be
+        //        triggered somehow...there's an Event for resize...probably
+        //        move Framebuffer recreation there.
         if (!mSwapchain->is_valid() || mSwapchainFramebuffers.empty()) {
-
+            mSwapchain->validate();
+            mSwapchainFramebuffers.clear();
+            if (mSwapchain->is_valid()) {
+                mSwapchainFramebuffers.reserve(mSwapchain->get_images().size());
+                for (auto& image : mSwapchain->get_images()) {
+                    Framebuffer::CreateInfo framebufferCreateInfo { };
+                    framebufferCreateInfo.renderPass = *mSwapchainRenderPass;
+                    framebufferCreateInfo.attachmentCount = 1;
+                    framebufferCreateInfo.pAttachments = &image.get_view().get_handle();
+                    framebufferCreateInfo.width = image.get_extent().width;
+                    framebufferCreateInfo.height = image.get_extent().height;
+                    framebufferCreateInfo.layers = 1;
+                    mSwapchainFramebuffers.push_back(mDevice->create<Framebuffer>(framebufferCreateInfo));
+                }
+            }
         }
     }
 
@@ -218,8 +238,26 @@ namespace Vulkan {
     {
     }
 
-    void Application::submit_swapchain_command_buffers()
+    void Application::update_swapchain_command_buffers(const Clock& clock)
     {
+        
+    }
+
+    void Application::record_swapchain_command_buffer(
+        const Clock& clock,
+        CommandBuffer& commandBuffer
+    )
+    {
+    }
+
+    void Application::submit_swapchain_command_buffer(
+        const Clock& clock,
+        CommandBuffer& commandBuffer
+    )
+    {
+        if (mSwapchain->is_valid()) {
+
+        }
     }
 
     void Application::destroy_resources()

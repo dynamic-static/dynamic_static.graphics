@@ -107,7 +107,7 @@ namespace Vulkan {
         * Gets this Object's Vulkan handle.
         * @return This Object's Vulkan handle
         */
-        inline VkHandleType get_handle() const
+        inline const VkHandleType& get_handle() const
         {
             return mHandle;
         }
