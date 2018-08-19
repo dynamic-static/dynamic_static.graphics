@@ -61,6 +61,11 @@ namespace Vulkan {
         return mEnabledFeatures;
     }
 
+    void Device::wait_idle() const
+    {
+        dst_vk(vkDeviceWaitIdle(mHandle));
+    }
+
 } // namespace Vulkan
 } // namespace Graphics
 } // namespace Dynamic_Static

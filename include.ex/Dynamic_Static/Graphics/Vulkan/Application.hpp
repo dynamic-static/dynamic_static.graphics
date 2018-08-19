@@ -14,6 +14,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/CommandPool.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Fence.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Framebuffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
@@ -68,8 +69,9 @@ namespace Vulkan {
         std::shared_ptr<SwapchainKHR> mSwapchain;
         std::shared_ptr<RenderPass> mSwapchainRenderPass;
         std::vector<std::shared_ptr<CommandBuffer>> mSwapchainCommandBuffers;
-        std::shared_ptr<Semaphore> mDrawCompleteSemphore;
-        std::shared_ptr<Semaphore> mPresentCompleteSemaphore;
+        std::vector<std::shared_ptr<Fence>> mSwapchainFences;
+        std::shared_ptr<Semaphore> mSwapchainImageAcquiredSemaphore;
+        std::shared_ptr<Semaphore> mSwapchainRenderCompleteSemphore;
         std::vector<std::shared_ptr<Framebuffer>> mSwapchainFramebuffers;
         std::shared_ptr<Image> mSwapchainDepthImage;
 
@@ -148,6 +150,11 @@ namespace Vulkan {
         virtual void create_swapchain_semaphores();
 
         /*
+        * Creates this Application's Swapchain Fences.
+        */
+        virtual void create_swapchain_fences();
+
+        /*
         * Creates this Application's resources.
         */
         virtual void create_resources();
@@ -183,11 +190,21 @@ namespace Vulkan {
         /*
         * Records this Application's Swapchain CommandBuffer.
         * @param [in] clock This Application's Clock
-        * @param [in] commandBuffer The CommandBuffer to record
+        * @param [in] commandBuffer The CommandBuffer to issue commands to
         */
         virtual void record_swapchain_command_buffer(
             const Clock& clock,
-            CommandBuffer& commandBuffer
+            const CommandBuffer& commandBuffer
+        );
+
+        /*
+        * Records this Application's Swapchain RenderPass.
+        * @param [in] clock This Application's Clock
+        * @param [in] commandBuffer The CommandBuffer to issue commands to
+        */
+        virtual void record_swapchain_render_pass(
+            const Clock& clock,
+            const CommandBuffer& commandBuffer
         );
 
         /*
@@ -197,8 +214,14 @@ namespace Vulkan {
         */
         virtual void submit_swapchain_command_buffer(
             const Clock& clock,
-            CommandBuffer& commandBuffer
+            const CommandBuffer& commandBuffer
         );
+
+        /*
+        * Presents this Application's Swapchain.
+        * @param [in] clock This Application's Clock
+        */
+        virtual void present_swapchain(const Clock& clock);
 
         /*
         * Destroys this Application's resources.

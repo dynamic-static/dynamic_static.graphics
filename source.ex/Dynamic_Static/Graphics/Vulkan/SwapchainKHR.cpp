@@ -99,19 +99,23 @@ namespace Vulkan {
 
     VkResult SwapchainKHR::acquire_next_image(
         uint64_t timeout,
-        Semaphore* semaphore,
-        Fence* fence,
+        VkSemaphore semaphore,
+        VkFence fence,
         uint32_t* pImageIndex
-    ) const
+    )
     {
-        return dst_vk(vkAcquireNextImageKHR(
-            get_device(),
-            mHandle,
-            timeout,
-            semaphore ? semaphore->get_handle() : VK_NULL_HANDLE,
-            fence ? fence->get_handle() : VK_NULL_HANDLE,
-            pImageIndex
+        auto result = dst_vk(vkAcquireNextImageKHR(
+            get_device(), mHandle, timeout, semaphore, fence, &mCurrentImageIndex
         ));
+        if (pImageIndex) {
+            *pImageIndex = mCurrentImageIndex;
+        }
+        return result;
+    }
+
+    uint32_t SwapchainKHR::get_current_image_index() const
+    {
+        return mCurrentImageIndex;
     }
 
     bool SwapchainKHR::vsync_enabled() const

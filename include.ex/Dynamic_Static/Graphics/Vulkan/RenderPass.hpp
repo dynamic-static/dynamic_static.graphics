@@ -39,7 +39,7 @@ namespace Vulkan {
             /*
             * Constructs an instance of RenderPass::CreateInfo.
             */
-            CreateInfo()
+            inline CreateInfo()
             {
                 sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
                 pNext = nullptr;
@@ -53,6 +53,31 @@ namespace Vulkan {
                 static_assert(
                     sizeof(RenderPass::CreateInfo) == sizeof(VkRenderPassCreateInfo),
                     "sizeof(RenderPass::CreateInfo) != sizeof(VkRenderPassCreateInfo)"
+                );
+            }
+        };
+
+        /*
+        * Configuration parameters for beginning RenderPass recording.
+        */
+        struct BeginInfo final
+            : public VkRenderPassBeginInfo
+        {
+            /*
+            * Constructs an instance of RenderPass::BeginInfo.
+            */
+            inline BeginInfo()
+            {
+                sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+                pNext = nullptr;
+                renderPass = VK_NULL_HANDLE;
+                framebuffer = VK_NULL_HANDLE;
+                renderArea = { };
+                clearValueCount = 0;
+                pClearValues = nullptr;
+                static_assert(
+                    sizeof(RenderPass::BeginInfo) == sizeof(VkRenderPassBeginInfo),
+                    "sizeof(RenderPass::BeginInfo) != sizeof(VkRenderPassBeginInfo)"
                 );
             }
         };

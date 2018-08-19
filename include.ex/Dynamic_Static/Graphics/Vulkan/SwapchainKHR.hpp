@@ -72,6 +72,7 @@ namespace Vulkan {
     private:
         CreateInfo mCreateInfo { };
         std::vector<Image> mImages;
+        uint32_t mCurrentImageIndex;
         bool mVsyncEnabled { false };
 
     public:
@@ -166,14 +167,14 @@ namespace Vulkan {
         /*
         * Acquires and gets the index of this SwapchainKHR's next presentable Image.
         * @param [in] timeout How long this method should wait, in nanoseconds, for an Image to become available
-        * \n NOTE : UINT64_MAX will result in this method blocking until an Image is acquired or an error occurs
-        * @param [in] semaphore The Semaphore to signal
+        * \n NOTE : UINT64_MAX will result in this method blocking until an Image is acquired or an error occurs (optional = UINT64_MAX)
+        * @param [in] semaphore The Semaphore to signal (optional = VK_NULL_HANDLE)
         * \n NOTE : If semaphore is not nullptr, the Semaphore must be unsignaled, with no signal or wait operations pending
         * \n        If semaphore is not nullptr, the Semaphore will become signaled when the application can use the Image
-        * @param [in] fence The Fence to signal
+        * @param [in] fence The Fence to signal (optional = VK_NULL_HANDLE)
         * \n NOTE : If fence is not nullptr, the Fence must be unsignaled, with no signal or wait operations pending
         * \n        If fence is not nullptr, the Fence will become signaled when the application can use the Image
-        * @param [out] pImageIndex The index of the acquired Image
+        * @param [out] pImageIndex The index of the acquired Image (optional = nullptr)
         * @return A value indicating the result of this operation
         * \n NOTE : VK_SUCCESS indicates that an Image was successfully acquired
         * \n        VK_TIMEOUT indicates that the timeout value was reached before an Image was acquired
@@ -186,11 +187,17 @@ namespace Vulkan {
         * \n        VK_ERROR_SURFACE_LOST_KHR indicates that this SwapchainKHR's SurfaceKHR is no longer available
         */
         VkResult acquire_next_image(
-            uint64_t timeout,
-            Semaphore* semaphore,
-            Fence* fence,
-            uint32_t* pImageIndex
-        ) const;
+            uint64_t timeout = UINT64_MAX,
+            VkSemaphore semaphore = VK_NULL_HANDLE,
+            VkFence fence = VK_NULL_HANDLE,
+            uint32_t* pImageIndex = nullptr
+        );
+
+        /*
+        * Gets the index of this SwapchainKHR's current presentable Image.
+        * @return The index of this SwapchainKHR's current presentable Image
+        */
+        uint32_t get_current_image_index() const;
 
         /*
         * Gets a value indicating whether or not this SwapchainKHR has vsync enabled.

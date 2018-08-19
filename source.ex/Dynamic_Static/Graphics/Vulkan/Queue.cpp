@@ -19,9 +19,22 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    Queue::CreateInfo::CreateInfo(const VkDeviceQueueCreateInfo& other)
+    {
+        *this = other;
+    }
+
+    Queue::CreateInfo& Queue::CreateInfo::operator=(const VkDeviceQueueCreateInfo& other)
+    {
+        if (this != &other) {
+            memcpy(this, &other, sizeof(*this));
+        }
+        return *this;
+    }
+
     Queue::Queue(
         QueueFamily* queueFamily,
-        CreateInfo createInfo,
+        Queue::CreateInfo createInfo,
         VkQueue handle
     )
         : mFamily { queueFamily }
@@ -56,6 +69,11 @@ namespace Vulkan {
     float Queue::get_priority() const
     {
         return mPriority;
+    }
+
+    void Queue::wait_idle() const
+    {
+        dst_vk(vkQueueWaitIdle(mHandle));
     }
 
 } // namespace Vulkan

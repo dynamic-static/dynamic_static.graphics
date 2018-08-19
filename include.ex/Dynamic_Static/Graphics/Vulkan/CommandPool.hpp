@@ -59,7 +59,7 @@ namespace Vulkan {
         */
         CommandPool(
             const std::shared_ptr<Device>& device,
-            CreateInfo createInfo = { }
+            CommandPool::CreateInfo createInfo
         );
 
     public:

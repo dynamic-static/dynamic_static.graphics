@@ -58,21 +58,65 @@ namespace Vulkan {
             * Copies an instance of Queue::CreateInfo.
             * @param [in] other The VkDeviceQueueCreateInfo to copy from
             */
-            inline CreateInfo(const VkDeviceQueueCreateInfo& other)
-            {
-                *this = other;
-            }
+            CreateInfo(const VkDeviceQueueCreateInfo& other);
 
             /*
             * Copies an instance of Queue::CreateInfo.
             * @param [in] other The VkDeviceQueueCreateInfo to copy from
             */
-            inline CreateInfo& operator=(const VkDeviceQueueCreateInfo& other)
+            CreateInfo& operator=(const VkDeviceQueueCreateInfo& other);
+        };
+
+        /*
+        * Configuration parameters for Queue submission.
+        */
+        struct SubmitInfo final
+            : public VkSubmitInfo
+        {
+            /*
+            * Constructs an instance of Queue::SubmitInfo.
+            */
+            inline SubmitInfo()
             {
-                if (this != &other) {
-                    memcpy(this, &other, sizeof(*this));
-                }
-                return *this;
+                sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+                pNext = nullptr;
+                waitSemaphoreCount = 0;
+                pWaitSemaphores = nullptr;
+                pWaitDstStageMask = nullptr;
+                commandBufferCount = 0;
+                pCommandBuffers = nullptr;
+                signalSemaphoreCount = 0;
+                pSignalSemaphores = nullptr;
+                static_assert(
+                    sizeof(Queue::SubmitInfo) == sizeof(VkSubmitInfo),
+                    "sizeof(Queue::SubmitInfo) != sizeof(VkSubmitInfo)"
+                );
+            }
+        };
+
+        /*
+        * Configuration parameters for Queue presentation.
+        */
+        struct PresentInfoKHR final
+            : public VkPresentInfoKHR
+        {
+            /*
+            * Constructs an instance of Queue::PresentInfoKHR.
+            */
+            inline PresentInfoKHR()
+            {
+                sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+                pNext = nullptr;
+                waitSemaphoreCount = 0;
+                pWaitSemaphores = nullptr;
+                swapchainCount = 0;
+                pSwapchains = nullptr;
+                pImageIndices = nullptr;
+                pResults = nullptr;
+                static_assert(
+                    sizeof(Queue::PresentInfoKHR) == sizeof(VkPresentInfoKHR),
+                    "sizeof(Queue::PresentInfoKHR) != sizeof(VkPresentInfoKHR)"
+                );
             }
         };
 
@@ -91,7 +135,7 @@ namespace Vulkan {
         */
         Queue(
             QueueFamily* queueFamily,
-            CreateInfo createInfo,
+            Queue::CreateInfo createInfo,
             VkQueue handle
         );
 
@@ -125,6 +169,11 @@ namespace Vulkan {
         * @return This Queue's priority
         */
         float get_priority() const;
+
+        /*
+        * Blocks the calling thread until this Queue has completed all pending operations.
+        */
+        void wait_idle() const;
 
     private:
         friend class QueueFamily;

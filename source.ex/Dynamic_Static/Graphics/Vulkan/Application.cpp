@@ -45,8 +45,11 @@ namespace Vulkan {
         create_swapchain_render_pass();
         create_swapchain_command_buffers();
         create_swapchain_semaphores();
+        create_swapchain_fences();
         create_resources();
+        mDevice->wait_idle();
         mRunning = true;
+        mWindow->on_close = [&](const auto&) { mRunning = false; };
         while (mRunning) {
             mClock.update();
             sys::Window::poll_events();
@@ -54,8 +57,11 @@ namespace Vulkan {
             validate_swapchain(mClock);
             update_graphics(mClock);
             update_swapchain_command_buffers(mClock);
+            present_swapchain(mClock);
         }
+        mDevice->wait_idle();
         destroy_resources();
+        mDevice->wait_idle();
     }
 
     void Application::stop()
@@ -183,7 +189,10 @@ namespace Vulkan {
 
     void Application::create_swapchain_command_buffers()
     {
-        auto commandPool = mDevice->create<CommandPool>();
+        CommandPool::CreateInfo commandPoolCreateInfo { };
+        commandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+        commandPoolCreateInfo.queueFamilyIndex = mDevice->get_queue_families()[0].get_index();
+        auto commandPool = mDevice->create<CommandPool>(commandPoolCreateInfo);
         auto imageCount = mSwapchain->get_images().size();
         mSwapchainCommandBuffers.reserve(imageCount);
         for (int i = 0; i < imageCount; ++i) {
@@ -194,8 +203,17 @@ namespace Vulkan {
 
     void Application::create_swapchain_semaphores()
     {
-        mDrawCompleteSemphore = mDevice->create<Semaphore>();
-        mPresentCompleteSemaphore = mDevice->create<Semaphore>();
+        mSwapchainImageAcquiredSemaphore = mDevice->create<Semaphore>();
+        mSwapchainRenderCompleteSemphore = mDevice->create<Semaphore>();
+    }
+
+    void Application::create_swapchain_fences()
+    {
+        Fence::CreateInfo fenceCreateInfo { };
+        fenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+        for (int i = 0; i < mSwapchain->get_images().size(); ++i) {
+            mSwapchainFences.push_back(mDevice->create<Fence>(fenceCreateInfo));
+        }
     }
 
     void Application::create_resources()
@@ -216,6 +234,7 @@ namespace Vulkan {
         //        triggered somehow...there's an Event for resize...probably
         //        move Framebuffer recreation there.
         if (!mSwapchain->is_valid() || mSwapchainFramebuffers.empty()) {
+            mDevice->get_queue_families()[0].get_queues()[0].wait_idle();
             mSwapchain->validate();
             mSwapchainFramebuffers.clear();
             if (mSwapchain->is_valid()) {
@@ -240,24 +259,91 @@ namespace Vulkan {
 
     void Application::update_swapchain_command_buffers(const Clock& clock)
     {
-        
+        if (mSwapchain->is_valid()) {
+            auto result = mSwapchain->acquire_next_image(UINT64_MAX, *mSwapchainImageAcquiredSemaphore);
+            if (result == VK_SUCCESS || result == VK_SUBOPTIMAL_KHR) {
+                auto imageIndex = mSwapchain->get_current_image_index();
+                const auto& fence = mSwapchainFences[imageIndex];
+                dst_vk(vkWaitForFences(*mDevice, 1, &fence->get_handle(), VK_TRUE, UINT64_MAX));
+                dst_vk(vkResetFences(*mDevice, 1, &fence->get_handle()));
+                const auto& commandBuffer = *mSwapchainCommandBuffers[imageIndex];
+                record_swapchain_command_buffer(clock, commandBuffer);
+                submit_swapchain_command_buffer(clock, commandBuffer);
+            }
+        }
     }
 
     void Application::record_swapchain_command_buffer(
         const Clock& clock,
-        CommandBuffer& commandBuffer
+        const CommandBuffer& commandBuffer
+    )
+    {
+        const auto& extent = mSwapchain->get_extent();
+        CommandBuffer::BeginInfo commandBufferBeginInfo { };
+        commandBufferBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+        dst_vk(vkBeginCommandBuffer(commandBuffer, &commandBufferBeginInfo));
+
+        std::array<VkClearValue, 2> clearValues { };
+        memcpy(&clearValues[0].color, &mClearColor, sizeof(VkClearColorValue));
+        clearValues[1].depthStencil = { 1, 0 };
+        RenderPass::BeginInfo renderPassBeginInfo { };
+        renderPassBeginInfo.renderPass = *mSwapchainRenderPass;
+        renderPassBeginInfo.framebuffer = *mSwapchainFramebuffers[mSwapchain->get_current_image_index()];
+        renderPassBeginInfo.renderArea.extent = extent;
+        renderPassBeginInfo.clearValueCount = 1; // depth
+        renderPassBeginInfo.pClearValues = clearValues.data();
+        vkCmdBeginRenderPass(commandBuffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+        VkViewport viewport { };
+        viewport.width = static_cast<float>(extent.width);
+        viewport.height = static_cast<float>(extent.height);
+        viewport.minDepth = 0;
+        viewport.maxDepth = 1;
+        VkRect2D scissor { };
+        scissor.extent = extent;
+        vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
+        vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
+        record_swapchain_render_pass(clock, commandBuffer);
+        vkCmdEndRenderPass(commandBuffer);
+        dst_vk(vkEndCommandBuffer(commandBuffer));
+    }
+
+    void Application::record_swapchain_render_pass(
+        const Clock& clock,
+        const CommandBuffer& commandBuffer
     )
     {
     }
 
     void Application::submit_swapchain_command_buffer(
         const Clock& clock,
-        CommandBuffer& commandBuffer
+        const CommandBuffer& commandBuffer
     )
     {
-        if (mSwapchain->is_valid()) {
+        VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+        Queue::SubmitInfo submitInfo { };
+        submitInfo.waitSemaphoreCount = 1;
+        submitInfo.pWaitSemaphores = &mSwapchainImageAcquiredSemaphore->get_handle();
+        submitInfo.pWaitDstStageMask = waitStages;
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &commandBuffer.get_handle();
+        submitInfo.signalSemaphoreCount = 1;
+        submitInfo.pSignalSemaphores = &mSwapchainRenderCompleteSemphore->get_handle();
+        const auto& queue = mDevice->get_queue_families()[0].get_queues()[0];
+        dst_vk(vkQueueSubmit(queue, 1, &submitInfo, *mSwapchainFences[mSwapchain->get_current_image_index()]));
+    }
 
-        }
+    void Application::present_swapchain(const Clock& clock)
+    {
+        auto imageIndex = mSwapchain->get_current_image_index();
+        Queue::PresentInfoKHR presentInfo { };
+        presentInfo.waitSemaphoreCount = 1;
+        presentInfo.pWaitSemaphores = &mSwapchainRenderCompleteSemphore->get_handle();
+        presentInfo.swapchainCount = 1;
+        presentInfo.pSwapchains = &mSwapchain->get_handle();
+        presentInfo.pImageIndices = &imageIndex;
+        const auto& queue = mDevice->get_queue_families()[0].get_queues()[0];
+        dst_vk(vkQueuePresentKHR(queue, &presentInfo));
     }
 
     void Application::destroy_resources()

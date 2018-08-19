@@ -38,7 +38,7 @@ namespace Vulkan {
             /*
             * Constructs an instance of CommandBuffer::AllocateInfo.
             */
-            AllocateInfo()
+            inline AllocateInfo()
             {
                 sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
                 pNext = nullptr;
@@ -48,6 +48,28 @@ namespace Vulkan {
                 static_assert(
                     sizeof(CommandBuffer::AllocateInfo) == sizeof(VkCommandBufferAllocateInfo),
                     "sizeof(CommandBuffer::AllocateInfo) != sizeof(VkCommandBufferAllocateInfo)"
+                );
+            }
+        };
+
+        /*
+        * Configuration parameters for beginning CommandBuffer recording.
+        */
+        struct BeginInfo final
+            : public VkCommandBufferBeginInfo
+        {
+            /*
+            * Constructs an instance of CommandBuffer::BeginInfo.
+            */
+            inline BeginInfo()
+            {
+                sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+                pNext = nullptr;
+                flags = 0;
+                pInheritanceInfo = nullptr;
+                static_assert(
+                    sizeof(CommandBuffer::BeginInfo) == sizeof(VkCommandBufferBeginInfo),
+                    "sizeof(CommandBuffer::BeginInfo) != sizeof(VkCommandBufferBeginInfo)"
                 );
             }
         };

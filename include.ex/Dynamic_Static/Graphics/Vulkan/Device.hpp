@@ -102,6 +102,11 @@ namespace Vulkan {
         const VkPhysicalDeviceFeatures& get_enabled_features() const;
 
         /*
+        * Blocks the calling thread until of this Device's Queues have completed all pending operations.
+        */
+        void wait_idle() const;
+
+        /*
         * Creates a new object of a given type.
         * @param <ObjectType> The type of object to create
         * @param <Args> The construction arguments for the object to create
