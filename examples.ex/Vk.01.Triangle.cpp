@@ -12,14 +12,14 @@
 
 #include <memory>
 
-class ExampleTriangle final
+class Vk01Triangle final
     : public dst::vk::Application
 {
 private:
     std::shared_ptr<dst::vk::Pipeline> mPipeline;
 
 public:
-    ExampleTriangle()
+    Vk01Triangle()
     {
         mInfo.pApplicationName = "Dynamic_Static Vk.01.Triangle";
     }
@@ -31,20 +31,52 @@ private:
         VkDebugReportFlagsEXT debugReportFlags
     ) override
     {
-        debugReportFlags =
-            0
+        dst::vk::Application::create_instance(
+            layers,
+            extensions,
+            debugReportFlags
             // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
             // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
             | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
             | VK_DEBUG_REPORT_WARNING_BIT_EXT
             | VK_DEBUG_REPORT_ERROR_BIT_EXT
-            ;
-        dst::vk::Application::create_instance(layers, extensions, debugReportFlags);
+        );
     }
 
     void create_resources() override
     {
+        using namespace dst::vk;
+        auto shader = mDevice->create<ShaderModule>(
+            VK_SHADER_STAGE_VERTEX_BIT,
+            __LINE__,
+            R"(
+                #version 450
+                layout(location = 0) out vec4 fsColor;
 
+                out gl_PerVertex
+                {
+                    vec4 gl_Position;
+                };
+
+                vec2 positions[3] = vec2[](
+                    vec2( 0.0, -0.5),
+                    vec2( 0.5,  0.5),
+                    vec2(-0.5,  0.5)
+                );
+
+                vec4 colors[3] = vec4[](
+                    vec4(1, 0, 0, 1),
+                    vec4(0, 1, 0, 1),
+                    vec4(0, 0, 1, 1)
+                );
+
+                void main()
+                {
+                    gl_Position = vec4(positions[gl_VertexIndex], 0, 1);
+                    fsColor = colors[gl_VertexIndex];
+                }
+            )"
+        );
     }
 
     void update(
@@ -70,7 +102,7 @@ private:
 
 int main()
 {
-    ExampleTriangle app;
+    Vk01Triangle app;
     app.start();
     return 0;
 }
