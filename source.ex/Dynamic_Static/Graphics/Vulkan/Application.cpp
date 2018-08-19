@@ -70,8 +70,9 @@ namespace Vulkan {
     }
 
     void Application::create_instance(
-        std::vector<const char*> layers,
-        std::vector<const char*> extensions
+        std::vector<const char*>& layers,
+        std::vector<const char*>& extensions,
+        VkDebugReportFlagsEXT debugReportFlags
     )
     {
         Instance::CreateInfo instanceCreateInfo { };
@@ -80,7 +81,7 @@ namespace Vulkan {
         instanceCreateInfo.ppEnabledLayerNames = layers.data();
         instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         instanceCreateInfo.ppEnabledExtensionNames = extensions.data();
-        mInstance = create<Instance>(instanceCreateInfo, mDebugReportFlags);
+        mInstance = create<Instance>(instanceCreateInfo, debugReportFlags);
     }
 
     void Application::create_window()
@@ -335,15 +336,17 @@ namespace Vulkan {
 
     void Application::present_swapchain(const Clock& clock)
     {
-        auto imageIndex = mSwapchain->get_current_image_index();
-        Queue::PresentInfoKHR presentInfo { };
-        presentInfo.waitSemaphoreCount = 1;
-        presentInfo.pWaitSemaphores = &mSwapchainRenderCompleteSemphore->get_handle();
-        presentInfo.swapchainCount = 1;
-        presentInfo.pSwapchains = &mSwapchain->get_handle();
-        presentInfo.pImageIndices = &imageIndex;
-        const auto& queue = mDevice->get_queue_families()[0].get_queues()[0];
-        dst_vk(vkQueuePresentKHR(queue, &presentInfo));
+        if (mSwapchain->is_valid()) {
+            auto imageIndex = mSwapchain->get_current_image_index();
+            Queue::PresentInfoKHR presentInfo { };
+            presentInfo.waitSemaphoreCount = 1;
+            presentInfo.pWaitSemaphores = &mSwapchainRenderCompleteSemphore->get_handle();
+            presentInfo.swapchainCount = 1;
+            presentInfo.pSwapchains = &mSwapchain->get_handle();
+            presentInfo.pImageIndices = &imageIndex;
+            const auto& queue = mDevice->get_queue_families()[0].get_queues()[0];
+            dst_vk(vkQueuePresentKHR(queue, &presentInfo));
+        }
     }
 
     void Application::destroy_resources()

@@ -22,7 +22,16 @@ public:
     ExampleTriangle()
     {
         mInfo.pApplicationName = "Dynamic_Static Vk.01.Triangle";
-        mDebugReportFlags =
+    }
+
+private:
+    void create_instance(
+        std::vector<const char*>& layers,
+        std::vector<const char*>& extensions,
+        VkDebugReportFlagsEXT debugReportFlags
+    ) override
+    {
+        debugReportFlags =
             0
             // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
             // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
@@ -30,9 +39,9 @@ public:
             | VK_DEBUG_REPORT_WARNING_BIT_EXT
             | VK_DEBUG_REPORT_ERROR_BIT_EXT
             ;
+        dst::vk::Application::create_instance(layers, extensions, debugReportFlags);
     }
 
-private:
     void create_resources() override
     {
 
@@ -49,9 +58,13 @@ private:
         }
     }
 
-    void update_graphics(const dst::Clock& clock) override
+    void record_swapchain_render_pass(
+        const dst::Clock& clock,
+        const dst::vk::CommandBuffer& commandBuffer
+    ) override
     {
-
+        // vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, VK_NULL_HANDLE);
+        // vkCmdDraw(commandBuffer, 3, 1, 0, 0);
     }
 };
 

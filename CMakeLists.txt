@@ -19,6 +19,8 @@ DstCreateProject(Dynamic_Static.Graphics)
 
 include("external/Dynamic_Static.Core.cmake")
 include("external/Dynamic_Static.System.cmake")
+include("external/glslang.cmake")
+include("external/SPIRV-Cross.cmake")
 include("external/Vulkan.cmake")
 
 set(includePath "${CMAKE_CURRENT_LIST_DIR}/include.ex/Dynamic_Static/Graphics/")
@@ -29,11 +31,15 @@ DstCreateStaticLibrary(
 
     staticLibraries
         Dynamic_Static.System
+        ${glslang.staticLibraries}
+        ${SPIRV-Cross.staticLibraries}
         ${Vulkan.staticLibraries}
 
     includeDirectories
         "${CMAKE_CURRENT_LIST_DIR}/include.ex/"
         ${Dynamic_Static.Core.includeDirectories}
+        ${glslang.includeDirectories}
+        ${SPIRV-Cross.includeDirectories}
         ${Vulkan.includeDirectories}
 
     includeFiles
@@ -60,6 +66,7 @@ DstCreateStaticLibrary(
         "${includePath}/Vulkan/QueueFamily.hpp"
         "${includePath}/Vulkan/RenderPass.hpp"
         "${includePath}/Vulkan/Semaphore.hpp"
+        "${includePath}/Vulkan/ShaderModule.hpp"
         "${includePath}/Vulkan/SurfaceKHR.hpp"
         "${includePath}/Vulkan/SurfaceKHRChild.hpp"
         "${includePath}/Vulkan/SwapchainKHR.hpp"
@@ -89,6 +96,7 @@ DstCreateStaticLibrary(
         "${sourcePath}/Vulkan/QueueFamily.cpp"
         "${sourcePath}/Vulkan/RenderPass.cpp"
         "${sourcePath}/Vulkan/Semaphore.cpp"
+        "${sourcePath}/Vulkan/ShaderModule.cpp"
         "${sourcePath}/Vulkan/SurfaceKHR.cpp"
         "${sourcePath}/Vulkan/SurfaceKHRChild.cpp"
         "${sourcePath}/Vulkan/SwapchainKHR.cpp"

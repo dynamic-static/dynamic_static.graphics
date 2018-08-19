@@ -31,20 +31,20 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    /*
-    * Provides high level control over a Vulkan application.
+    /*!
+    Provides high level control over a Vulkan application.
     */
     class Application
     {
     public:
-        /*
-        * Configuration parameters for an Application.
+        /*!
+        Configuration parameters for an Application.
         */
         struct Info final
             : public VkApplicationInfo
         {
-            /*
-            * Constructs an instance of Application::Info.
+            /*!
+            Constructs an instance of Application::Info.
             */
             Info()
             {
@@ -60,7 +60,6 @@ namespace Vulkan {
 
     protected:
         Info mInfo { };
-        VkDebugReportFlagsEXT mDebugReportFlags { };
         glm::vec4 mClearColor { Color::QuarterGray };
         std::shared_ptr<Instance> mInstance;
         std::shared_ptr<sys::Window> mWindow;
@@ -80,151 +79,153 @@ namespace Vulkan {
         bool mRunning { false };
 
     protected:
-        /*
-        * Creates an instance of Application.
+        /*!
+        Creates an instance of Application.
         */
         Application();
 
     public:
-        /*
-        * Destroys this instance of Application.
+        /*!
+        Destroys this instance of Application.
         */
         virtual ~Application() = 0;
 
     public:
-        /*
-        * Starts this Application.
+        /*!
+        Starts this Application.
         */
         void start();
 
-        /*
-        * Stops this Application.
+        /*!
+        Stops this Application.
         */
         void stop();
 
     protected:
-        /*
-        * Creates this Application's Instance.
-        * @param [in] layers This Application's requested layers
-        * @param [in] extensions This Application's requested Instance extensions
+        /*!
+        Creates this Application's Instance.
+        @param [in] layers This Application's requested layers
+        @param [in] extensions This Application's requested Instance extensions
+        @param [in] debugReportFlags This Application's requested VkDebugReportFlagsEXT (optional = 0)
         */
         virtual void create_instance(
-            std::vector<const char*> layers,
-            std::vector<const char*> extensions
+            std::vector<const char*>& layers,
+            std::vector<const char*>& extensions,
+            VkDebugReportFlagsEXT debugReportFlags = 0
         );
 
-        /*
-        * Creates this Application's Window.
+        /*!
+        Creates this Application's Window.
         */
         virtual void create_window();
 
-        /*
-        * Creates this Application's Surface.
+        /*!
+        Creates this Application's Surface.
         */
         virtual void create_surface();
 
-        /*
-        * Creates this Application's Device.
-        * @param [in] extensions This Application's requested Device extensions
+        /*!
+        Creates this Application's Device.
+        @param [in] extensions This Application's requested Device extensions
         */
         virtual void create_device(std::vector<const char*> extensions);
 
-        /*
-        * Creates this Application's Swapchain.
+        /*!
+        Creates this Application's Swapchain.
         */
         virtual void create_swapchain();
 
-        /*
-        * Creates this Application's Swapchain RenderPass.
+        /*!
+        Creates this Application's Swapchain RenderPass.
         */
         virtual void create_swapchain_render_pass();
 
-        /*
-        * Create this Application's Swapchain CommandBuffers.
+        /*!
+        Create this Application's Swapchain CommandBuffers.
         */
         virtual void create_swapchain_command_buffers();
 
-        /*
-        * Creates this Application's Swapchain Semaphores.
+        /*!
+        Creates this Application's Swapchain Semaphores.
         */
         virtual void create_swapchain_semaphores();
 
-        /*
-        * Creates this Application's Swapchain Fences.
+        /*!
+        Creates this Application's Swapchain Fences.
         */
         virtual void create_swapchain_fences();
 
-        /*
-        * Creates this Application's resources.
+        /*!
+        Creates this Application's resources.
         */
         virtual void create_resources();
 
-        /*
-        * Updates this Application.
-        * @param [in] clock This Application's Clock
-        * @param [in] input This Application's Input
+        /*!
+        Updates this Application.
+        @param [in] clock This Application's Clock
+        @param [in] input This Application's Input
         */
         virtual void update(
             const Clock& clock,
             const sys::Input& input
         );
 
-        /*
-        * Validates this Application's Swapchain Framebuffers.
-        * @param [in] clock This Application's Clock
+        /*!
+        Validates this Application's Swapchain Framebuffers.
+        @param [in] clock This Application's Clock
         */
         virtual void validate_swapchain(const Clock& clock);
 
-        /*
-        * Updates this Application's graphics.
-        * @param [in] clock This Application's Clock
+        /*!
+        Updates this Application's graphics.
+        @param [in] clock This Application's Clock
         */
         virtual void update_graphics(const Clock& clock);
 
-        /*
-        * Updates this Application's Swapchain CommandBuffers.
-        * @param [in] clock This Application's Clock
+        /*!
+        Updates this Application's Swapchain CommandBuffers.
+        @param [in] clock This Application's Clock
         */
         virtual void update_swapchain_command_buffers(const Clock& clock);
 
-        /*
-        * Records this Application's Swapchain CommandBuffer.
-        * @param [in] clock This Application's Clock
-        * @param [in] commandBuffer The CommandBuffer to issue commands to
+        /*!
+        Records this Application's Swapchain CommandBuffer.
+        @param [in] clock This Application's Clock
+        @param [in] commandBuffer The CommandBuffer to issue commands to
         */
         virtual void record_swapchain_command_buffer(
             const Clock& clock,
             const CommandBuffer& commandBuffer
         );
 
-        /*
-        * Records this Application's Swapchain RenderPass.
-        * @param [in] clock This Application's Clock
-        * @param [in] commandBuffer The CommandBuffer to issue commands to
+        /*!
+        Records this Application's Swapchain RenderPass.
+        @param [in] clock This Application's Clock
+        @param [in] commandBuffer The CommandBuffer to issue commands to
         */
         virtual void record_swapchain_render_pass(
             const Clock& clock,
             const CommandBuffer& commandBuffer
         );
 
-        /*
-        * Submits this Application's Swapchain CommandBuffer.
-        * @param [in] clock This Application's Clock
-        * @param [in] commandBuffer The CommandBuffer to submit
+        /*!
+        Submits this Application's Swapchain CommandBuffer.
+        @param [in] clock This Application's Clock
+        @param [in] commandBuffer The CommandBuffer to submit
         */
         virtual void submit_swapchain_command_buffer(
             const Clock& clock,
             const CommandBuffer& commandBuffer
         );
 
-        /*
-        * Presents this Application's Swapchain.
-        * @param [in] clock This Application's Clock
+        /*!
+        Presents this Application's Swapchain.
+        @param [in] clock This Application's Clock
         */
         virtual void present_swapchain(const Clock& clock);
 
-        /*
-        * Destroys this Application's resources.
+        /*!
+        Destroys this Application's resources.
         */
         virtual void destroy_resources();
     };
