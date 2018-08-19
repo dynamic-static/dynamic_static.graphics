@@ -29,6 +29,19 @@ execute_process(
 if(error)
     message(FATAL_ERROR "Build step for SPIRV-Cross failed [${error}]")
 endif()
+if(MSVC)
+    if(NOT TARGET SPIRV-Cross.build)
+        add_custom_target(SPIRV-Cross.build ALL)
+        set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+        set_target_properties(SPIRV-Cross.build PROPERTIES FOLDER external)
+        add_custom_command(
+            PRE_BUILD
+            TARGET SPIRV-Cross.build
+            COMMAND "${CMAKE_COMMAND}" --build . --config $<CONFIG> -- /verbosity:minimal
+            WORKING_DIRECTORY "${SPIRV-Cross.buildDirectory}"
+        )
+    endif()
+endif()
 # =============================================================================
 
 set(SPIRV-Cross.includeDirectories "${SPIRV-Cross.sourceDirectory}/")

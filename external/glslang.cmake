@@ -22,13 +22,25 @@ if(error)
 endif()
 execute_process(
     # TODO : /verbosity:minimal is for MSBUILD, this will have to be handled on other platforms
-    COMMAND "${CMAKE_COMMAND}" --build . --config ${CMAKE_BUILD_TYPE} -- /verbosity:minimal
+    COMMAND "${CMAKE_COMMAND}" --build . -- /verbosity:minimal
     WORKING_DIRECTORY "${glslang.buildDirectory}"
     RESULT_VARIABLE error
 )
-message("CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
 if(error)
     message(FATAL_ERROR "Build step for glslang failed [${error}]")
+endif()
+if(MSVC)
+    if(NOT TARGET glslang.build)
+        add_custom_target(glslang.build ALL)
+        set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+        set_target_properties(glslang.build PROPERTIES FOLDER external)
+        add_custom_command(
+            PRE_BUILD
+            TARGET glslang.build
+            COMMAND "${CMAKE_COMMAND}" --build . --config $<CONFIG> -- /verbosity:minimal
+            WORKING_DIRECTORY "${glslang.buildDirectory}"
+        )
+    endif()
 endif()
 # =============================================================================
 
