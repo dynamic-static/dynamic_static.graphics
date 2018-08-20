@@ -29,6 +29,8 @@
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDeviceChild.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/PipelineLayout.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/QueueFamily.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/RenderPass.hpp"

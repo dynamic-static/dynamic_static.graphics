@@ -10,6 +10,7 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/ShaderModule.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Pipeline.hpp"
 
 #include "glslang/Public/ShaderLang.h"
 #include "SPIRV/GlslangToSpv.h"

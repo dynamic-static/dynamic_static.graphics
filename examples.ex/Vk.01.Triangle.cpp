@@ -46,7 +46,7 @@ private:
     void create_resources() override
     {
         using namespace dst::vk;
-        auto shader = mDevice->create<ShaderModule>(
+        auto vertexShader = mDevice->create<ShaderModule>(
             VK_SHADER_STAGE_VERTEX_BIT,
             __LINE__,
             R"(
@@ -77,6 +77,35 @@ private:
                 }
             )"
         );
+        auto fragmentShader = mDevice->create<ShaderModule>(
+            VK_SHADER_STAGE_FRAGMENT_BIT,
+            __LINE__,
+            R"(
+                #version 450
+                layout(location = 0) in vec4 fsColor;
+                layout(location = 0) out vec4 fragColor;
+                void main()
+                {
+                    fragColor = fsColor;
+                }
+            )"
+        );
+        Pipeline::ShaderStageCreateInfo vertexShaderStage { };
+        vertexShaderStage.stage = VK_SHADER_STAGE_VERTEX_BIT;
+        vertexShaderStage.module = *vertexShader;
+        Pipeline::ShaderStageCreateInfo fragmentShaderStage { };
+        fragmentShaderStage.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+        fragmentShaderStage.module = *fragmentShader;
+        std::array<Pipeline::ShaderStageCreateInfo, 2> shaderStages {
+            vertexShaderStage, fragmentShaderStage
+        };
+        auto pipelineLayout = mDevice->create<PipelineLayout>(PipelineLayout::CreateInfo { });
+        Pipeline::GraphicsCreateInfo pipelineCreateInfo { };
+        pipelineCreateInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
+        pipelineCreateInfo.pStages = shaderStages.data();
+        pipelineCreateInfo.layout = *pipelineLayout;
+        pipelineCreateInfo.renderPass = *mSwapchainRenderPass;
+        mPipeline = mDevice->create<Pipeline>(pipelineCreateInfo);
     }
 
     void update(
@@ -95,14 +124,14 @@ private:
         const dst::vk::CommandBuffer& commandBuffer
     ) override
     {
-        // vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, VK_NULL_HANDLE);
-        // vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mPipeline);
+        vkCmdDraw(commandBuffer, 3, 1, 0, 0);
     }
 };
 
 int main()
 {
-    Vk01Triangle app;
-    app.start();
+    Vk01Triangle vk01Triangle;
+    vk01Triangle.start();
     return 0;
 }
