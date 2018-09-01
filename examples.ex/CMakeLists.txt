@@ -24,3 +24,4 @@ endmacro()
 
 CreateExample(Vk.00.PhysicalDevice)
 CreateExample(Vk.01.Triangle)
+CreateExample(Vk.02.VertexAndIndexBuffers)

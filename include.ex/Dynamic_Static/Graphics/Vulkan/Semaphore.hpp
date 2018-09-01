@@ -20,8 +20,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    /*
-    * Provides high level control over a Vulkan semaphore.
+    /*!
+    Provides high level control over a Vulkan semaphore.
     */
     class Semaphore final
         : public Object<VkSemaphore>
@@ -29,14 +29,14 @@ namespace Vulkan {
         , public DeviceChild
     {
     public:
-        /*
-        * Configuration parameters for Semaphore construction.
+        /*!
+        Configuration parameters for Semaphore construction.
         */
         struct CreateInfo final
             : public VkSemaphoreCreateInfo
         {
-            /*
-            * Constructs an instance of Semaphore::CreateInfo.
+            /*!
+            Constructs an instance of Semaphore::CreateInfo.
             */
             CreateInfo()
             {
@@ -51,10 +51,10 @@ namespace Vulkan {
         };
 
     private:
-        /*
-        * Constructs an instance of Semaphore.
-        * @param [in] device This Semaphore's Device
-        * @param [in] createInfo This Semaphore's Semaphore::CreateInfo (optional = { })
+        /*!
+        Constructs an instance of Semaphore.
+        @param [in] device This Semaphore's Device
+        @param [in] createInfo This Semaphore's Semaphore::CreateInfo (optional = { })
         */
         Semaphore(
             const std::shared_ptr<Device>& device,
@@ -62,8 +62,8 @@ namespace Vulkan {
         );
 
     public:
-        /*
-        * Destroys this instance of Semaphore.
+        /*!
+        Destroys this instance of Semaphore.
         */
         ~Semaphore();
 

@@ -11,6 +11,7 @@
 #pragma once
 
 #include "Dynamic_Static/Graphics/Vulkan/Application.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Buffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/CommandBuffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/CommandPool.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/CommandPoolChild.hpp"

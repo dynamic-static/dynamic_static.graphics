@@ -31,19 +31,29 @@ DstCreateStaticLibrary(
 
     staticLibraries
         Dynamic_Static.System
-        ${glslang.staticLibraries}
-        ${SPIRV-Cross.staticLibraries}
-        ${Vulkan.staticLibraries}
+        "${glslang.staticLibraries}"
+        "${SPIRV-Cross.staticLibraries}"
+        "${Vulkan.staticLibraries}"
 
     includeDirectories
         "${CMAKE_CURRENT_LIST_DIR}/include.ex/"
-        ${Dynamic_Static.Core.includeDirectories}
-        ${glslang.includeDirectories}
-        ${SPIRV-Cross.includeDirectories}
-        ${Vulkan.includeDirectories}
+        "${Dynamic_Static.Core.includeDirectories}"
+        "${glslang.includeDirectories}"
+        "${SPIRV-Cross.includeDirectories}"
+        "${Vulkan.includeDirectories}"
 
     includeFiles
+        "${includePath}/Vulkan/VertexTypes/VertexPosition.hpp"
+        "${includePath}/Vulkan/VertexTypes/VertexPositionColor.hpp"
+        "${includePath}/Vulkan/VertexTypes/VertexPositionColorTexture.hpp"
+        "${includePath}/Vulkan/VertexTypes/VertexPositionNormal.hpp"
+        "${includePath}/Vulkan/VertexTypes/VertexPositionNormalColor.hpp"
+        "${includePath}/Vulkan/VertexTypes/VertexPositionNormalColorTexture.hpp"
+        "${includePath}/Vulkan/VertexTypes/VertexPositionNormalTangentColorTexture.hpp"
+        "${includePath}/Vulkan/VertexTypes/VertexPositionNormalTexture.hpp"
+        "${includePath}/Vulkan/VertexTypes/VertexPositionTexture.hpp"
         "${includePath}/Vulkan/Application.hpp"
+        "${includePath}/Vulkan/Buffer.hpp"
         "${includePath}/Vulkan/CommandBuffer.hpp"
         "${includePath}/Vulkan/CommandPool.hpp"
         "${includePath}/Vulkan/CommandPoolChild.hpp"
@@ -52,6 +62,7 @@ DstCreateStaticLibrary(
         "${includePath}/Vulkan/Device.hpp"
         "${includePath}/Vulkan/DeviceChild.hpp"
         "${includePath}/Vulkan/DeviceMemory.hpp"
+        "${includePath}/Vulkan/DeviceMemoryBoundObject.hpp"
         "${includePath}/Vulkan/Fence.hpp"
         "${includePath}/Vulkan/Framebuffer.hpp"
         "${includePath}/Vulkan/Image.hpp"
@@ -72,12 +83,15 @@ DstCreateStaticLibrary(
         "${includePath}/Vulkan/SurfaceKHR.hpp"
         "${includePath}/Vulkan/SurfaceKHRChild.hpp"
         "${includePath}/Vulkan/SwapchainKHR.hpp"
+        "${includePath}/Vulkan/Vertex.hpp"
+        "${includePath}/Vulkan/VertexTypes.hpp"
         "${includePath}/Defines.hpp"
         "${includePath}/Vulkan.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/include.ex/Dynamic_Static.Graphics.hpp"
 
     sourceFiles
         "${sourcePath}/Vulkan/Application.cpp"
+        "${sourcePath}/Vulkan/Buffer.cpp"
         "${sourcePath}/Vulkan/CommandBuffer.cpp"
         "${sourcePath}/Vulkan/CommandPool.cpp"
         "${sourcePath}/Vulkan/CommandPoolChild.cpp"
@@ -85,6 +99,7 @@ DstCreateStaticLibrary(
         "${sourcePath}/Vulkan/Device.cpp"
         "${sourcePath}/Vulkan/DeviceChild.cpp"
         "${sourcePath}/Vulkan/DeviceMemory.cpp"
+        "${sourcePath}/Vulkan/DeviceMemoryBoundObject.cpp"
         "${sourcePath}/Vulkan/Fence.cpp"
         "${sourcePath}/Vulkan/Framebuffer.cpp"
         "${sourcePath}/Vulkan/Image.cpp"
