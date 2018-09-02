@@ -11,8 +11,7 @@
 #pragma once
 
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/DeviceMemoryBoundObject.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/DeviceMemoryResource.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
 #include <memory>
@@ -27,8 +26,7 @@ namespace Vulkan {
     class Buffer final
         : public Object<VkBuffer>
         , public SharedObject<Buffer>
-        , public DeviceMemoryBoundObject
-        , public DeviceChild
+        , public DeviceMemoryResource
     {
     public:
         /*!
@@ -40,7 +38,7 @@ namespace Vulkan {
             /*!
             Constructs an instance of Buffer::CreateInfo.
             */
-            CreateInfo()
+            inline CreateInfo()
             {
                 sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
                 pNext = nullptr;
@@ -58,10 +56,9 @@ namespace Vulkan {
         };
 
     private:
-        std::shared_ptr<DeviceMemory> mMemory;
-        VkDeviceSize offset { 0 };
+        CreateInfo mCreateInfo { };
 
-    private:
+    protected:
         /*!
         Constructs an instance of Buffer.
         @param [in] device This Buffer's Device
@@ -84,6 +81,30 @@ namespace Vulkan {
         @return This Buffer's VkMemoryRequirements
         */
         VkMemoryRequirements get_memory_requirements() const override;
+
+        /*!
+        Gets this Buffer's VkBufferCreateFlags.
+        @return This Buffer's VkBufferCreateFlags
+        */
+        VkBufferCreateFlags get_create_flags() const;
+
+        /*!
+        Gets this Buffer's size in bytes.
+        @return This Buffer's size in bytes
+        */
+        VkDeviceSize get_size() const;
+
+        /*!
+        Gets this Buffer's VkBufferUsageFlags.
+        @retrurn This Buffer's VkBufferUsageFlags
+        */
+        VkBufferUsageFlags get_usage_flags() const;
+
+        /*!
+        Gets this Buffer's VkSharingMode.
+        @return This Buffer's VkSharingMode
+        */
+        VkSharingMode get_sharing_mode() const;
 
         /*!
         Binds this Buffer to a given DeviceMemory allocation.

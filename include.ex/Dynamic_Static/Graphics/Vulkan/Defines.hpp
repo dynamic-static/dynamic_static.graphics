@@ -45,6 +45,8 @@ namespace Vulkan {
     class DescriptorSetLayout;
     class DescriptorPool;
     class Device;
+    class DeviceMemory;
+    class DeviceMemoryResource;
     class DeviceChild;
     class Fence;
     class Framebuffer;
@@ -68,8 +70,8 @@ namespace Vulkan {
     class SurfaceKHRChild;
     class SwapchainKHR;
 
-    /*
-    * TODO : Documentation.
+    /*!
+    TODO : Documentation.
     */
     inline std::string to_string(VkShaderStageFlagBits shaderStageFlagBits)
     {
@@ -86,8 +88,8 @@ namespace Vulkan {
         }
     }
 
-    /*
-    * TODO : Documentation.
+    /*!
+    TODO : Documentation.
     */
     inline std::string to_string(VkResult result)
     {
@@ -120,8 +122,8 @@ namespace Vulkan {
         }
     }
 
-    /*
-    * TODO : Documentation.
+    /*!
+    TODO : Documentation.
     */
     inline VkResult validate_vk_result(
         VkResult vkResult,
@@ -134,8 +136,8 @@ namespace Vulkan {
             case VK_NOT_READY:
             case VK_TIMEOUT:
             case VK_EVENT_SET:
-            case VK_EVENT_RESET: break;
-            case VK_INCOMPLETE: break;
+            case VK_EVENT_RESET:
+            case VK_INCOMPLETE:
             case VK_SUBOPTIMAL_KHR: break;
             default:
             {
@@ -152,8 +154,8 @@ namespace Vulkan {
         return vkResult;
     }
 
-    /*
-    * TODO : Documentation.
+    /*!
+    TODO : Documentation.
     */
     inline bool operator==(const VkExtent2D& lhs, const VkExtent2D& rhs)
     {

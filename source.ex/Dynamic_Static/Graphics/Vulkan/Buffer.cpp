@@ -20,7 +20,8 @@ namespace Vulkan {
         const std::shared_ptr<Device>& device,
         Buffer::CreateInfo createInfo
     )
-        : DeviceChild(device)
+        : DeviceMemoryResource(device)
+        , mCreateInfo { createInfo }
     {
         set_name("Buffer");
         dst_vk(vkCreateBuffer(get_device(), &createInfo, nullptr, &mHandle));
@@ -40,13 +41,33 @@ namespace Vulkan {
         return memoryRequirements;
     }
 
+    VkBufferCreateFlags Buffer::get_create_flags() const
+    {
+        return mCreateInfo.flags;
+    }
+
+    VkDeviceSize Buffer::get_size() const
+    {
+        return mCreateInfo.size;
+    }
+
+    VkBufferUsageFlags Buffer::get_usage_flags() const
+    {
+        return mCreateInfo.usage;
+    }
+
+    VkSharingMode Buffer::get_sharing_mode() const
+    {
+        return mCreateInfo.sharingMode;
+    }
+
     void Buffer::bind_memory(
         const std::shared_ptr<DeviceMemory>& memory,
         VkDeviceSize memoryOffset
     )
     {
         dst_vk(vkBindBufferMemory(get_device(), mHandle, *memory, memoryOffset));
-        DeviceMemoryBoundObject::bind_memory(memory, memoryOffset);
+        DeviceMemoryResource::bind_memory(memory, memoryOffset);
     }
 
 } // namespace Vulkan

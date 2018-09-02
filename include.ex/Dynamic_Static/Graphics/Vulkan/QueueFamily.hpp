@@ -19,10 +19,11 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    /*
-    * Provides high level control over a Vulkan queue family.
+    /*!
+    Provides high level control over a Vulkan queue family.
     */
     class QueueFamily final
+        : NonCopyable
     {
     private:
         Device* mDevice { nullptr };
@@ -31,10 +32,10 @@ namespace Vulkan {
         std::vector<Queue> mQueues;
 
     private:
-        /*
-        * Creates an instance of Queue::Family.
-        * @param [in] device This Queue::Family's Device
-        * @param [in] createInfo This Queue::Family's Queue::CreateInfo
+        /*!
+        Creates an instance of Queue::Family.
+        @param [in] device This Queue::Family's Device
+        @param [in] createInfo This Queue::Family's Queue::CreateInfo
         */
         QueueFamily(
             Device* device,
@@ -42,35 +43,54 @@ namespace Vulkan {
         );
 
     public:
-        /*
-        * Gets this Queue::Family's Device.
-        * @return This Queue::Family's Device
+        /*!
+        Moves an instance of QueueFamily.
+        @param [in] other The QueueFamily to move from
+        */
+        QueueFamily(QueueFamily&& other);
+
+        /*!
+        Moves an instance of QueueFamily.
+        @param [in] other The QueueFamily to move from
+        */
+        QueueFamily& operator=(QueueFamily&& other);
+
+    public:
+        /*!
+        Gets this Queue::Family's Device.
+        @return This Queue::Family's Device
         */
         Device& get_device();
 
-        /*
-        * Gets this Queue::Family's Device.
-        * @return This Queue::Family's Device
+        /*!
+        Gets this Queue::Family's Device.
+        @return This Queue::Family's Device
         */
         const Device& get_device() const;
 
-        /*
-        * Gets this Queue::Family's VkDeviceQueueCreateFlags.
-        * @return This Queue::Family's VkDeviceQueueCreateFlags
+        /*!
+        Gets this Queue::Family's VkDeviceQueueCreateFlags.
+        @return This Queue::Family's VkDeviceQueueCreateFlags
         */
         VkDeviceQueueCreateFlags get_flags() const;
 
-        /*
-        * Gets this Queue::Family's index.
-        * @return This Queue::Family's index
+        /*!
+        Gets this Queue::Family's index.
+        @return This Queue::Family's index
         */
         uint32_t get_index() const;
 
-        /*
-        * Gets this Queue::Family's Queues.
-        * @return This Queue::Family's Queues
+        /*!
+        Gets this Queue::Family's Queues.
+        @return This Queue::Family's Queues
         */
-        const std::vector<Queue>& get_queues() const;
+        dst::Span<Queue> get_queues();
+
+        /*!
+        Gets this Queue::Family's Queues.
+        @return This Queue::Family's Queues
+        */
+        dst::Span<const Queue> get_queues() const;
 
     private:
         friend class Device;

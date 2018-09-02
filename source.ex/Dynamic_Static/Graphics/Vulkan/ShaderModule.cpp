@@ -15,6 +15,7 @@
 #include "glslang/Public/ShaderLang.h"
 #include "SPIRV/GlslangToSpv.h"
 
+#include <iostream>
 #include <vector>
 
 namespace Dynamic_Static {
@@ -88,6 +89,9 @@ namespace Vulkan {
         if (!shader.parse(&BuiltInResource, 100, false, messages)) {
             std::string infoLog = shader.getInfoLog();
             std::string debugLog = shader.getInfoDebugLog();
+            // TODO : Route this to a logger instead of std::cout...
+            std::cout << infoLog << std::endl << std::endl;
+            std::cout << debugLog << std::endl << std::endl;
             assert(false);
         }
         glslang::TProgram program;
@@ -95,6 +99,9 @@ namespace Vulkan {
         if (!program.link(messages)) {
             std::string infoLog = shader.getInfoLog();
             std::string debugLog = shader.getInfoDebugLog();
+            // TODO : Route this to a logger instead of std::cout...
+            std::cout << infoLog << std::endl << std::endl;
+            std::cout << debugLog << std::endl << std::endl;
             assert(false);
         }
         std::vector<uint32_t> spirv;

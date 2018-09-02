@@ -88,6 +88,27 @@ namespace Vulkan {
         return formats;
     }
 
+    bool PhysicalDevice::get_memory_type_index(
+        uint32_t memoryTypeBits,
+        VkMemoryPropertyFlags memoryPropertyFlags,
+        uint32_t* pMemoryTypeIndex
+    ) const
+    {
+        assert(pMemoryTypeIndex);
+        *pMemoryTypeIndex = 0;
+        bool memoryTypeIndexFound = false;
+        for (uint32_t i = 0; i < mMemoryProperties.memoryTypeCount; ++i) {
+            if (memoryTypeBits & (1 << i)) {
+                if ((mMemoryProperties.memoryTypes[i].propertyFlags & memoryPropertyFlags) == memoryPropertyFlags) {
+                    memoryTypeIndexFound = true;
+                    *pMemoryTypeIndex = i;
+                    break;
+                }
+            }
+        }
+        return memoryTypeIndexFound;
+    }
+
 } // namespace Vulkan
 } // namespace Graphics
 } // namespace Dynamic_Static

@@ -46,12 +46,17 @@ namespace Vulkan {
         }
     }
 
-    const std::vector<std::string>& Device::get_enabled_extensions() const
+    dst::Span<const std::string> Device::get_enabled_extensions() const
     {
         return mEnabledExtensions;
     }
 
-    const std::vector<QueueFamily>& Device::get_queue_families() const
+    dst::Span<QueueFamily> Device::get_queue_families()
+    {
+        return mQueueFamilies;
+    }
+
+    dst::Span<const QueueFamily> Device::get_queue_families() const
     {
         return mQueueFamilies;
     }

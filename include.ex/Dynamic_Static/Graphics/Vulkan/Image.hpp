@@ -21,8 +21,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    /*
-    * Provides high level control over a Vulkan image.
+    /*!
+    Provides high level control over a Vulkan image.
     */
     class Image
         : public Object<VkImage>
@@ -30,16 +30,16 @@ namespace Vulkan {
         , public DeviceChild
     {
     public:
-        /*
-        * Configuration parameters for Image creation.
+        /*!
+        Configuration parameters for Image creation.
         */
         struct CreateInfo final
             : public VkImageCreateInfo
         {
-            /*
-            * Constructs an instance of Image::CreateInfo.
+            /*!
+            Constructs an instance of Image::CreateInfo.
             */
-            CreateInfo()
+            inline CreateInfo()
             {
                 sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
                 pNext = nullptr;
@@ -68,21 +68,21 @@ namespace Vulkan {
         std::vector<ImageView> mImageViews;
 
     private:
-        /*
-        * Constructs an instance of Image.
-        * @param [in] device This Image's Device
-        * @param [in] createInfo This Image's Image::CreateInfo
+        /*!
+        Constructs an instance of Image.
+        @param [in] device This Image's Device
+        @param [in] createInfo This Image's Image::CreateInfo
         */
         Image(
             const std::shared_ptr<Device>& device,
             Image::CreateInfo createInfo
         );
 
-        /*
-        * Constructs an instance of Image.
-        * @param [in] device This Image's Device
-        * @param [in] createInfo This Image's Image::CreateInfo
-        * @param [in] handle This Image's handle
+        /*!
+        Constructs an instance of Image.
+        @param [in] device This Image's Device
+        @param [in] createInfo This Image's Image::CreateInfo
+        @param [in] handle This Image's handle
         */
         Image(
             const std::shared_ptr<Device>& device,
@@ -91,109 +91,109 @@ namespace Vulkan {
         );
 
     public:
-        /*
-        * Moves an instance of Image.
-        * @param [in] other The Image to move from
+        /*!
+        Moves an instance of Image.
+        @param [in] other The Image to move from
         */
         Image(Image&& other);
 
-        /*
-        * Destroys this instance of Image.
+        /*!
+        Destroys this instance of Image.
         */
         ~Image();
 
-        /*
-        * Moves an instance of Image.
-        * @param [in] other The Image to move from
-        * @return This Image
+        /*!
+        Moves an instance of Image.
+        @param [in] other The Image to move from
+        @return This Image
         */
         Image& operator=(Image&& other);
 
     public:
-        /*
-        * Gets this Image's VkImageCreateFlags.
-        * @return This Image's VkImageCreateFlags
+        /*!
+        Gets this Image's VkImageCreateFlags.
+        @return This Image's VkImageCreateFlags
         */
         VkImageCreateFlags get_create_flags() const;
 
-        /*
-        * Gets this Image's VkImageType.
-        * @return This Image's VkImageType
+        /*!
+        Gets this Image's VkImageType.
+        @return This Image's VkImageType
         */
         VkImageType get_type() const;
 
-        /*
-        * Gets this Image's VkFormat.
-        * @return This Image's VkFormat
+        /*!
+        Gets this Image's VkFormat.
+        @return This Image's VkFormat
         */
         VkFormat get_format() const;
 
-        /*
-        * Gets this Image's VkExtent3D.
-        * @return This Image's VkExtent3D.
+        /*!
+        Gets this Image's VkExtent3D.
+        @return This Image's VkExtent3D.
         */
         const VkExtent3D& get_extent() const;
 
-        /*
-        * Gets this Image's mip level count.
-        * @return This Image's mip level count
+        /*!
+        Gets this Image's mip level count.
+        @return This Image's mip level count
         */
         uint32_t get_mip_level_count() const;
 
-        /*
-        * Gets this Image's array layer count.
-        * @return This Image's array layer count
+        /*!
+        Gets this Image's array layer count.
+        @return This Image's array layer count
         */
         uint32_t get_array_layer_count() const;
 
-        /*
-        * Gets this Image's VkSampleCountFlagBits.
-        * @return This Image's VkSampleCountFlagBits
+        /*!
+        Gets this Image's VkSampleCountFlagBits.
+        @return This Image's VkSampleCountFlagBits
         */
         VkSampleCountFlagBits get_sample_count_flag() const;
 
-        /*
-        * Gets this Image's VkImageTiling.
-        * @return This Image's VkImageTiling
+        /*!
+        Gets this Image's VkImageTiling.
+        @return This Image's VkImageTiling
         */
         VkImageTiling get_tiling() const;
 
-        /*
-        * Gets this Image's VkImageUsageFlags.
-        * @return This Image's VkImageUsageFlags
+        /*!
+        Gets this Image's VkImageUsageFlags.
+        @return This Image's VkImageUsageFlags
         */
         VkImageUsageFlags get_usage_flags() const;
 
-        /*
-        * Gets this Image's VkSharingMode.
-        * @return This Image's VkSharingMode
+        /*!
+        Gets this Image's VkSharingMode.
+        @return This Image's VkSharingMode
         */
         VkSharingMode get_sharing_mode() const;
 
-        /*
-        * Gets this Image's first ImageView.
-        * \n NOTE : If no ImageViews are available this method will create one
-        * @return This Image's first ImageView
+        /*!
+        Gets this Image's first ImageView.
+        \n NOTE : If no ImageViews are available this method will create one
+        @return This Image's first ImageView
         */
         ImageView& get_view();
 
-        /*
-        * Gets this Image's ImageViews.
-        * @return This Image's ImageViews
+        /*!
+        Gets this Image's ImageViews.
+        @return This Image's ImageViews
         */
         Span<ImageView> get_views();
 
-        /*
-        * Gets this Image's ImageViews.
-        * @return This Image's ImageViews
+        /*!
+        Gets this Image's ImageViews.
+        @return This Image's ImageViews
         */
         Span<const ImageView> get_views() const;
 
-        /*
-        * Creates a new object of a given type.
-        * @param <ObjectType> The type of object to create
-        * @param <Args> The construction arguments for the object to create
-        * @return The newly created object
+        /*!
+        Creates a new object of a given type.
+        @param <ObjectType> The type of object to create
+        @param <Args> The construction arguments for the object to create
+        @return The newly created object
         */
         template <typename ObjectType, typename ...Args>
         inline ObjectType& create(Args&&... args)
@@ -202,10 +202,10 @@ namespace Vulkan {
             return mImageViews.back();
         }
 
-        /*
-        * Destroys an object of a given type.
-        * @param <ObjectType> The type of object to destroy
-        * @param [in] object The object to destroy
+        /*!
+        Destroys an object of a given type.
+        @param <ObjectType> The type of object to destroy
+        @param [in] object The object to destroy
         */
         template <typename ObjectType>
         inline void destroy(const ObjectType& object)

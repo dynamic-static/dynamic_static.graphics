@@ -13,6 +13,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/QueueFamily.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 
+#include <utility>
 #include <vector>
 
 namespace Dynamic_Static {
@@ -33,6 +34,26 @@ namespace Vulkan {
             mQueues.push_back(Queue(this, createInfo, queue));
             ++createInfo.pQueuePriorities;
         }
+    }
+
+    QueueFamily::QueueFamily(QueueFamily&& other)
+    {
+        *this = std::move(other);
+    }
+
+    QueueFamily& QueueFamily::operator=(QueueFamily&& other)
+    {
+        if (this != &other) {
+            mDevice = std::move(other.mDevice);
+            mFlags = std::move(other.mFlags);
+            mIndex = std::move(other.mIndex);
+            mQueues = std::move(other.mQueues);
+            other.mDevice = nullptr;
+            for (auto& queue : mQueues) {
+                queue.mFamily = this;
+            }
+        }
+        return *this;
     }
 
     Device& QueueFamily::get_device()
@@ -57,7 +78,12 @@ namespace Vulkan {
         return mIndex;
     }
 
-    const std::vector<Queue>& QueueFamily::get_queues() const
+    dst::Span<Queue> QueueFamily::get_queues()
+    {
+        return mQueues;
+    }
+
+    dst::Span<const Queue> QueueFamily::get_queues() const
     {
         return mQueues;
     }

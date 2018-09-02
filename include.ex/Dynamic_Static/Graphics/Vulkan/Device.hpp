@@ -23,8 +23,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    /*
-    * Provides high level control over a Vulkan device.
+    /*!
+    Provides high level control over a Vulkan device.
     */
     class Device final
         : public Object<VkDevice>
@@ -32,14 +32,14 @@ namespace Vulkan {
         , public PhysicalDeviceChild
     {
     public:
-        /*
-        * Configuration parameters for Device construction.
+        /*!
+        Configuration parameters for Device construction.
         */
         struct CreateInfo final
             : public VkDeviceCreateInfo
         {
-            /*
-            * Constructs an instance of Device::CreateInfo.
+            /*!
+            Constructs an instance of Device::CreateInfo.
             */
             CreateInfo()
             {
@@ -66,10 +66,10 @@ namespace Vulkan {
         VkPhysicalDeviceFeatures mEnabledFeatures { };
 
     private:
-        /*
-        * Constructs an instance of Device.
-        * @param [in] physicalDevice This Device's PhysicalDevice
-        * @param [in] createInfo This Device's Device::CreateInfo
+        /*!
+        Constructs an instance of Device.
+        @param [in] physicalDevice This Device's PhysicalDevice
+        @param [in] createInfo This Device's Device::CreateInfo
         */
         Device(
             PhysicalDevice* physicalDevice,
@@ -77,43 +77,63 @@ namespace Vulkan {
         );
 
     public:
-        /*
-        * Destroys this instance of Device.
+        /*!
+        Destroys this instance of Device.
         */
         ~Device();
 
     public:
-        /*
-        * Gets this Device's enabled extensions.
-        * @return This Device's enabled extensions
+        /*!
+        Gets this Device's enabled extensions.
+        @return This Device's enabled extensions
         */
-        const std::vector<std::string>& get_enabled_extensions() const;
+        dst::Span<const std::string> get_enabled_extensions() const;
 
-        /*
-        * Gets this Device's Queue::Families.
-        * @return This Device's Queue::Families
+        /*!
+        Gets this Device's Queue::Families.
+        @return This Device's Queue::Families
         */
-        const std::vector<QueueFamily>& get_queue_families() const;
+        dst::Span<QueueFamily> get_queue_families();
 
-        /*
-        * Gets this Device's enabled VkPhysicalDeviceFeatures.
-        * @return This Device's enabled VkPhysicalDeviceFeatures
+        /*!
+        Gets this Device's Queue::Families.
+        @return This Device's Queue::Families
+        */
+        dst::Span<const QueueFamily> get_queue_families() const;
+
+        /*!
+        Gets this Device's enabled VkPhysicalDeviceFeatures.
+        @return This Device's enabled VkPhysicalDeviceFeatures
         */
         const VkPhysicalDeviceFeatures& get_enabled_features() const;
 
-        /*
-        * Blocks the calling thread until of this Device's Queues have completed all pending operations.
+        /*!
+        Blocks the calling thread until of this Device's Queues have completed all pending operations.
         */
         void wait_idle() const;
 
-        /*
-        * Creates a new object of a given type.
-        * @param <ObjectType> The type of object to create
-        * @param <Args> The construction arguments for the object to create
-        * @return The newly created object
+        /*!
+        Creates a new object of a given type.
+        @param <ObjectType> The type of object to create
+        @param <Args> The construction arguments for the object to create
+        @return The newly created object
         */
         template <typename ObjectType, typename ...Args>
         inline std::shared_ptr<ObjectType> create(Args&&... args)
+        {
+            return std::shared_ptr<ObjectType>(
+                new ObjectType(get_shared_ptr(), std::forward<Args>(args)...)
+            );
+        }
+
+        /*!
+        Allocates a new object of a given type.
+        @param <ObjectType> The type of object to create
+        @param <Args> The construction arguments for the object to allocate
+        @return The newly created object
+        */
+        template <typename ObjectType, typename ...Args>
+        inline std::shared_ptr<ObjectType> allocate(Args&&... args)
         {
             return std::shared_ptr<ObjectType>(
                 new ObjectType(get_shared_ptr(), std::forward<Args>(args)...)

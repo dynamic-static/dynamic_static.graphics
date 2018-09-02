@@ -38,7 +38,7 @@ namespace Vulkan {
             /*!
             Constructs an instance of DeviceMemory::AllocateInfo.
             */
-            AllocateInfo()
+            inline AllocateInfo()
             {
                 sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
                 pNext = nullptr;
@@ -96,6 +96,22 @@ namespace Vulkan {
         @return This DeviceMemory's mapped ptr
         */
         void* get_mapped_ptr() const;
+
+        /*!
+        TODO : Documentation.
+        */
+        static std::shared_ptr<DeviceMemory> allocate_resource_backing(
+            DeviceMemoryResource* resource,
+            VkMemoryPropertyFlags memoryPropertyFlags
+        );
+
+        /*!
+        TODO : Documentation.
+        */
+        static std::shared_ptr<DeviceMemory> allocate_resource_backing(
+            dst::Span<DeviceMemoryResource*> resources,
+            VkMemoryPropertyFlags memoryPropertyFlags
+        );
 
     private:
         friend class Device;

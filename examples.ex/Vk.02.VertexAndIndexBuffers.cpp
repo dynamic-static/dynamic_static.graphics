@@ -10,6 +10,8 @@
 
 #include "Dynamic_Static.Graphics.hpp"
 
+#include <algorithm>
+#include <array>
 #include <memory>
 
 class Vk01Triangle final
@@ -17,9 +19,14 @@ class Vk01Triangle final
 {
 private:
     std::shared_ptr<dst::vk::Pipeline> mPipeline;
-    std::shared_ptr<dst::vk::Buffer> mVertexBuffer;
-    std::shared_ptr<dst::vk::Buffer> mIndexBuffer;
-    std::shared_ptr<dst::vk::DeviceMemory> mVtxIdxMemory;
+    class Mesh final
+    {
+    public:
+        std::shared_ptr<dst::vk::Buffer> vertexBuffer;
+        std::shared_ptr<dst::vk::Buffer> indexBuffer;
+        VkIndexType indexType { VK_INDEX_TYPE_UINT16 };
+        int indexCount { 0 };
+    } mMesh;
 
 public:
     Vk01Triangle()
@@ -81,7 +88,7 @@ private:
             __LINE__,
             R"(
                 #version 450
-                layout(location = 0) in vec4 fsColor;
+                layout(location = 0) in vec3 fsColor;
                 layout(location = 0) out vec4 fragColor;
                 void main()
                 {
@@ -98,18 +105,83 @@ private:
         std::array<Pipeline::ShaderStageCreateInfo, 2> shaderStages {
             vertexShaderStage, fragmentShaderStage
         };
+
+        auto vertexBindingDescription = get_binding_description<VertexPositionColor>();
+        auto vertexAttributeDescriptions = get_attribute_descriptions<VertexPositionColor>();
+        Pipeline::VertexInputStateCreateInfo vertexInputState { };
+        vertexInputState.vertexBindingDescriptionCount = 1;
+        vertexInputState.pVertexBindingDescriptions = &vertexBindingDescription;
+        vertexInputState.vertexAttributeDescriptionCount = (uint32_t)vertexAttributeDescriptions.size();
+        vertexInputState.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
+
         auto pipelineLayout = mDevice->create<PipelineLayout>(PipelineLayout::CreateInfo { });
         Pipeline::GraphicsCreateInfo pipelineCreateInfo { };
         pipelineCreateInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
         pipelineCreateInfo.pStages = shaderStages.data();
         pipelineCreateInfo.layout = *pipelineLayout;
+        pipelineCreateInfo.pVertexInputState = &vertexInputState;
         pipelineCreateInfo.renderPass = *mSwapchainRenderPass;
         mPipeline = mDevice->create<Pipeline>(pipelineCreateInfo);
     }
 
     void create_vertex_and_index_buffers()
     {
+        using namespace dst::vk;
+        const std::array<VertexPositionColor, 4> vertices {
+            VertexPositionColor {{ -0.5f, -0.5f, 0 }, { dst::Color::OrangeRed }},
+            VertexPositionColor {{  0.5f, -0.5f, 0 }, { dst::Color::BlueViolet }},
+            VertexPositionColor {{  0.5f,  0.5f, 0 }, { dst::Color::DodgerBlue }},
+            VertexPositionColor {{ -0.5f,  0.5f, 0 }, { dst::Color::Goldenrod }},
+        };
+        Buffer::CreateInfo vertexBufferCreateInfo { };
+        vertexBufferCreateInfo.size = sizeof(vertices);
+        vertexBufferCreateInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
+        mMesh.vertexBuffer = mDevice->create<Buffer>(vertexBufferCreateInfo);
+        auto vertexBufferMemoryRequirements = mMesh.vertexBuffer->get_memory_requirements();
 
+        const std::array<uint16_t, 6> indices {
+            0, 1, 2,
+            2, 3, 0,
+        };
+        mMesh.indexType = VK_INDEX_TYPE_UINT16;
+        mMesh.indexCount = (int)indices.size();
+        Buffer::CreateInfo indexBufferCreateInfo { };
+        indexBufferCreateInfo.size = sizeof(indices);
+        indexBufferCreateInfo.usage = VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
+        mMesh.indexBuffer = mDevice->create<Buffer>(indexBufferCreateInfo);
+        auto indexBufferMemoryRequirements = mMesh.indexBuffer->get_memory_requirements();
+
+        std::array<DeviceMemoryResource*, 2> resources {
+            mMesh.vertexBuffer.get(),
+            mMesh.indexBuffer.get()
+        };
+        DeviceMemory::allocate_resource_backing(
+            resources,
+            VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
+        );
+
+        Buffer::CreateInfo stagingBufferCreateInfo { };
+        stagingBufferCreateInfo.size = std::max(vertexBufferCreateInfo.size, indexBufferCreateInfo.size);
+        stagingBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+        auto stagingBuffer = mDevice->create<Buffer>(stagingBufferCreateInfo);
+        auto stagingBufferMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+        DeviceMemory::allocate_resource_backing(stagingBuffer.get(), stagingBufferMemoryProperties);
+        auto copyBuffer =
+        [&](std::shared_ptr<Buffer>& buffer)
+        {
+            mDevice->get_queue_families()[0].get_queues()[0].process_immediately(
+                [&](const CommandBuffer& commandBuffer)
+                {
+                    VkBufferCopy region { };
+                    region.size = buffer->get_memory_size();
+                    vkCmdCopyBuffer(commandBuffer, *stagingBuffer, *buffer, 1, &region);
+                }
+            );
+        };
+        stagingBuffer->write<VertexPositionColor>(vertices);
+        copyBuffer(mMesh.vertexBuffer);
+        stagingBuffer->write<uint16_t>(indices);
+        copyBuffer(mMesh.indexBuffer);
     }
 
     void update(
@@ -129,7 +201,10 @@ private:
     ) override
     {
         vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mPipeline);
-        vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+        VkDeviceSize offset = 0;
+        vkCmdBindVertexBuffers(commandBuffer, 0, 1, &mMesh.vertexBuffer->get_handle(), &offset);
+        vkCmdBindIndexBuffer(commandBuffer, *mMesh.indexBuffer, 0, mMesh.indexType);
+        vkCmdDrawIndexed(commandBuffer, mMesh.indexCount, 1, 0, 0, 0);
     }
 };
 
