@@ -15,6 +15,19 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    Pipeline::ShaderStageCreateInfo::ShaderStageCreateInfo(const VkPipelineShaderStageCreateInfo& other)
+    {
+        *this = other;
+    }
+
+    Pipeline::ShaderStageCreateInfo& Pipeline::ShaderStageCreateInfo::operator=(const VkPipelineShaderStageCreateInfo& other)
+    {
+        if (this != &other) {
+            memcpy(this, &other, sizeof(*this));
+        }
+        return *this;
+    }
+
     Pipeline::Pipeline(
         const std::shared_ptr<Device>& device,
         Pipeline::GraphicsCreateInfo createInfo

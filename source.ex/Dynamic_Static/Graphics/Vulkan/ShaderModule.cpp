@@ -59,16 +59,17 @@ namespace Vulkan {
 
     ShaderModule::ShaderModule(
         const std::shared_ptr<Device>& device,
-        VkShaderStageFlagBits shaderStageFlag,
+        VkShaderStageFlagBits stage,
         int lineOffset,
         const std::string& source
     )
         : DeviceChild(device)
+        , mStage { stage }
     {
         set_name("ShaderModule");
         GLSLangInitializer::validate();
         EShLanguage eshStage;
-        switch (shaderStageFlag) {
+        switch (mStage) {
             case VK_SHADER_STAGE_VERTEX_BIT:                  eshStage = EShLangVertex; break;
             case VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT:    eshStage = EShLangTessControl; break;
             case VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT: eshStage = EShLangTessEvaluation; break;
@@ -127,6 +128,21 @@ namespace Vulkan {
         if (mHandle) {
             vkDestroyShaderModule(get_device(), mHandle, nullptr);
         }
+    }
+
+    VkShaderStageFlagBits ShaderModule::get_stage() const
+    {
+        return mStage;
+    }
+
+    VkPipelineShaderStageCreateInfo ShaderModule::get_pipeline_stage_create_info() const
+    {
+        Pipeline::ShaderStageCreateInfo shaderStageCreateInfo { };
+        shaderStageCreateInfo.stage = mStage;
+        shaderStageCreateInfo.module = mHandle;
+        static const auto sMainEntryPoint = "main";
+        shaderStageCreateInfo.pName = sMainEntryPoint;
+        return shaderStageCreateInfo;
     }
 
     const TBuiltInResource BuiltInResource =

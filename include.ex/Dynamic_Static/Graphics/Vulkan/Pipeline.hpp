@@ -38,7 +38,7 @@ namespace Vulkan {
             /*!
             Constructs an instance of Pipeline::ShaderStageCreateInfo.
             */
-            ShaderStageCreateInfo()
+            inline ShaderStageCreateInfo()
             {
                 sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
                 pNext = nullptr;
@@ -52,6 +52,18 @@ namespace Vulkan {
                     "sizeof(Pipeline::ShaderStageCreateInfo) != sizeof(VkPipelineShaderStageCreateInfo)"
                 );
             }
+
+            /*!
+            Copies an instance of Pipeline::ShaderStageCreateInfo.
+            @param [in] other The VkPipelineShaderStageCreateInfo to copy from
+            */
+            ShaderStageCreateInfo(const VkPipelineShaderStageCreateInfo& other);
+
+            /*!
+            Copies an instance of Pipeline::ShaderStageCreateInfo.
+            @param [in] other The VkPipelineShaderStageCreateInfo to copy from
+            */
+            ShaderStageCreateInfo& operator=(const VkPipelineShaderStageCreateInfo& other);
         };
 
         /*!

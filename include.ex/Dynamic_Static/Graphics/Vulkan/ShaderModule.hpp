@@ -54,6 +54,9 @@ namespace Vulkan {
         };
 
     private:
+        VkShaderStageFlagBits mStage { VK_SHADER_STAGE_ALL_GRAPHICS };
+
+    private:
         /*!
         Constructs an instance of ShaderModule.
         @param [in] device This ShaderModule's Device
@@ -75,7 +78,7 @@ namespace Vulkan {
         */
         ShaderModule(
             const std::shared_ptr<Device>& device,
-            VkShaderStageFlagBits shaderStageFlag,
+            VkShaderStageFlagBits stage,
             int lineOffset,
             const std::string& source
         );
@@ -95,6 +98,19 @@ namespace Vulkan {
         Destroys this instance of ShaderModule.
         */
         ~ShaderModule();
+
+    public:
+        /*
+        Gets this ShaderModule's VkShaderStage.
+        @return This ShaderModule's VkShaderStage
+        */
+        VkShaderStageFlagBits get_stage() const;
+
+        /*
+        Gets this ShaderModule's VkPipelineShaderStageCreateInfo.
+        @return This ShaderModule's VkPipelineShaderStageCreateInfo
+        */
+        VkPipelineShaderStageCreateInfo get_pipeline_stage_create_info() const;
 
     private:
         friend class Device;
