@@ -75,6 +75,13 @@ private:
         create_descriptor_set();
     }
 
+    void create_reflection_resources()
+    {
+        using namespace dst::vk;
+        VkAttachmentDescription colorAttachmentDescription { };
+        // colorAttachmentDescription.format =
+    }
+
     void create_pipeline()
     {
         using namespace dst::vk;

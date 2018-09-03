@@ -45,7 +45,11 @@ namespace Vulkan {
         : Object(std::move(other))
         , DeviceMemoryResource(std::move(other))
         , mCreateInfo { std::move(other.mCreateInfo) }
+        , mImageViews { std::move(other.mImageViews) }
     {
+        for (auto& imageView : mImageViews) {
+            imageView.mImage = this;
+        }
     }
 
     Image::~Image()
@@ -61,6 +65,10 @@ namespace Vulkan {
             Object::operator=(std::move(other));
             DeviceMemoryResource::operator=(std::move(other));
             mCreateInfo = std::move(other.mCreateInfo);
+            mImageViews = std::move(other.mImageViews);
+            for (auto& imageView : mImageViews) {
+                imageView.mImage = this;
+            }
         }
         return *this;
     }

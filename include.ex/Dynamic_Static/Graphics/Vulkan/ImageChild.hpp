@@ -62,6 +62,9 @@ namespace Vulkan {
         * @return This ImageChild's Image
         */
         const Image& get_image() const;
+
+    private:
+        friend class Image;
     };
 
 } // namespace Vulkan

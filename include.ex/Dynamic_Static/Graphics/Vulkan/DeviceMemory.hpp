@@ -13,6 +13,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 
 #include <memory>
 
@@ -112,6 +113,52 @@ namespace Vulkan {
             dst::Span<DeviceMemoryResource*> resources,
             VkMemoryPropertyFlags memoryPropertyFlags
         );
+
+        /*!
+        TODO : Documentation.
+        */
+        template <typename ResourceCollection>
+        static inline std::shared_ptr<DeviceMemory> allocate_multi_resource_memory(
+            ResourceCollection& resources,
+            VkMemoryPropertyFlags memoryPropertyFlags
+        )
+        {
+            std::shared_ptr<DeviceMemory> memory;
+            if (!resources.empty()) {
+                uint32_t memoryTypeBits = -1;
+                DeviceMemory::AllocateInfo allocateInfo { };
+                for (auto resource : resources) {
+                    if (resource) {
+                        auto memoryRequirements = resource->get_memory_requirements();
+                        auto minmax = std::minmax(memoryRequirements.alignment, allocateInfo.allocationSize);
+                        auto padding = minmax.first - minmax.first % minmax.second;
+                        allocateInfo.allocationSize += padding + memoryRequirements.size;
+                        // TODO : Validate that alignment is handled correctly...
+                        memoryTypeBits &= memoryRequirements.memoryTypeBits;
+                    }
+                }
+                assert(memoryTypeBits && "DeviceMemoryResources have incompatible VkMemoryRequirements");
+                auto& device = resources[0]->get_device();
+                const auto& physicalDevice = device.get_physical_device();
+                bool success = physicalDevice.get_memory_type_index(
+                    memoryTypeBits, memoryPropertyFlags, &allocateInfo.memoryTypeIndex
+                );
+                assert(success && "No DeviceMemoryResource compatible VkMemoryType supports the requested VkMemoryPropertyFlags");
+                memory = device.allocate<DeviceMemory>(allocateInfo);
+                VkDeviceSize offset = 0;
+                for (auto resource : resources) {
+                    if (resource) {
+                        resource->bind_memory(memory, offset);
+                        auto memoryRequirements = resource->get_memory_requirements();
+                        auto minmax = std::minmax(memoryRequirements.alignment, allocateInfo.allocationSize);
+                        auto padding = minmax.first - minmax.first % minmax.second;
+                        // TODO : Validate that alignment is handled correctly...
+                        offset += padding + memoryRequirements.size;
+                    }
+                }
+            }
+            return memory;
+        }
 
     private:
         friend class Device;

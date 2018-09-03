@@ -22,56 +22,95 @@ namespace Vulkan {
 
     RenderTarget::RenderTarget(
         const std::shared_ptr<RenderPass>& renderPass,
-        RenderTarget::CreateInfo createInfo
+        const VkExtent2D& extent
     )
-        : renderPass { renderPass }
+        : mRenderPass { renderPass }
     {
-        assert(renderPass);
-        // TODO : RenderTarget needs work, but it's doing the job for now.
-        // TODO : Need to automate attachment creation for a given RenderPass.
-        if (createInfo.colorFormat) {
-            Image::CreateInfo colorImageCreateInfo { };
-            colorImageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
-            colorImageCreateInfo.extent = createInfo.extent;
-            colorImageCreateInfo.format = createInfo.colorFormat;
-            colorImageCreateInfo.usage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
-            colorAttachment = renderPass->get_device().create<Image>(colorImageCreateInfo);
-        }
-        if (createInfo.depthFormat) {
-            Image::CreateInfo depthImageCreateInfo { };
-            depthImageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
-            depthImageCreateInfo.extent = createInfo.extent;
-            depthImageCreateInfo.format = createInfo.depthFormat;
-            depthImageCreateInfo.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
-            depthAttachment = renderPass->get_device().create<Image>(depthImageCreateInfo);
-        }
-        std::array<DeviceMemoryResource*, 2> resources {
-            colorAttachment ? colorAttachment.get() : nullptr,
-            depthAttachment ? depthAttachment.get() : nullptr,
-        };
-        DeviceMemory::allocate_resource_memory(resources, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-
-        // TODO : This should be flexible enough to handle N attachments.
-        //  Scratch pad memory needs to be set up and RenderTarget needs to be
-        //  made more flexible in general.
-        uint32_t attachmentCount = 0;
-        std::array<VkImageView, 2> attachments { };
-        auto addAttachment =
-        [&](const std::shared_ptr<Image>& image)
-        {
-            if (image) {
-                attachments[attachmentCount++] = image->get_view();
+        mAttachments.reserve(get_render_pass().get_attachment_descriptions().size());
+        for (const auto& attachmentDescription : get_render_pass().get_attachment_descriptions()) {
+            Image::CreateInfo imageCreateInfo { };
+            imageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
+            imageCreateInfo.extent.width = extent.width;
+            imageCreateInfo.extent.height = extent.height;
+            imageCreateInfo.extent.depth = 1;
+            imageCreateInfo.format = attachmentDescription.format;
+            imageCreateInfo.samples = attachmentDescription.samples;
+            switch (imageCreateInfo.format) {
+                case VK_FORMAT_D16_UNORM:
+                case VK_FORMAT_X8_D24_UNORM_PACK32:
+                case VK_FORMAT_D32_SFLOAT:
+                    imageCreateInfo.usage |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+                    if (attachmentDescription.storeOp == VK_ATTACHMENT_STORE_OP_STORE) {
+                        imageCreateInfo.usage |= VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+                    }
+                    break;
+                case VK_FORMAT_S8_UINT:
+                    imageCreateInfo.usage |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+                    if (attachmentDescription.stencilStoreOp == VK_ATTACHMENT_STORE_OP_STORE) {
+                        imageCreateInfo.usage |= VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+                    }
+                    break;
+                case VK_FORMAT_D16_UNORM_S8_UINT:
+                case VK_FORMAT_D24_UNORM_S8_UINT:
+                case VK_FORMAT_D32_SFLOAT_S8_UINT:
+                    imageCreateInfo.usage |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+                    if (attachmentDescription.storeOp == VK_ATTACHMENT_STORE_OP_STORE ||
+                        attachmentDescription.stencilStoreOp == VK_ATTACHMENT_STORE_OP_STORE) {
+                        imageCreateInfo.usage |= VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+                    }
+                    break;
+                default:
+                    imageCreateInfo.usage |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+                    if (attachmentDescription.storeOp == VK_ATTACHMENT_STORE_OP_STORE) {
+                        imageCreateInfo.usage |= VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+                    }
+                    break;
             }
-        };
-        addAttachment(colorAttachment);
-        addAttachment(depthAttachment);
+            mAttachments.push_back(get_render_pass().get_device().create<Image>(imageCreateInfo));
+        }
+        DeviceMemory::allocate_multi_resource_memory(mAttachments, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+        // TODO : Scratch pad memory...
+        std::vector<VkImageView> attachmentViews;
+        attachmentViews.reserve(mAttachments.size());
+        for (auto& attachment : mAttachments) {
+            attachmentViews.push_back(attachment->get_view());
+        }
         Framebuffer::CreateInfo framebufferCreateInfo { };
         framebufferCreateInfo.renderPass = *renderPass;
-        framebufferCreateInfo.attachmentCount = attachmentCount;
-        framebufferCreateInfo.pAttachments = attachments.data();
-        framebufferCreateInfo.width = createInfo.extent.width;
-        framebufferCreateInfo.height = createInfo.extent.depth;
-        framebuffer = renderPass->get_device().create<Framebuffer>(framebufferCreateInfo);
+        framebufferCreateInfo.attachmentCount = (uint32_t)attachmentViews.size();
+        framebufferCreateInfo.pAttachments = attachmentViews.data();
+        framebufferCreateInfo.width = extent.width;
+        framebufferCreateInfo.height = extent.height;
+        mFramebuffer = renderPass->get_device().create<Framebuffer>(framebufferCreateInfo);
+    }
+
+    RenderPass& RenderTarget::get_render_pass()
+    {
+        assert(mRenderPass);
+        return *mRenderPass;
+    }
+
+    const RenderPass& RenderTarget::get_render_pass() const
+    {
+        assert(mRenderPass);
+        return *mRenderPass;
+    }
+
+    Framebuffer& RenderTarget::get_framebuffer()
+    {
+        assert(mFramebuffer);
+        return *mFramebuffer;
+    }
+
+    const Framebuffer& RenderTarget::get_framebuffer() const
+    {
+        assert(mFramebuffer);
+        return *mFramebuffer;
+    }
+
+    dst::Span<const std::shared_ptr<Image>> RenderTarget::get_attachments() const
+    {
+        return mAttachments;
     }
 
 } // namespace Vulkan
