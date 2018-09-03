@@ -53,6 +53,7 @@ namespace Vulkan {
         }
         mPushConstantRanges.reserve(reflector.get_push_constant_ranges().size());
         for (auto pushConstantRange : reflector.get_push_constant_ranges()) {
+            pushConstantRange.stageFlags = mStage;
             mPushConstantRanges.push_back(pushConstantRange);
         }
     }

@@ -16,6 +16,29 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    PipelineLayout::PipelineLayout(const std::shared_ptr<Device>& device)
+        : PipelineLayout(device, nullptr, nullptr, { })
+    {
+    }
+
+    PipelineLayout::PipelineLayout(
+        const std::shared_ptr<Device>& device,
+        dst::Span<const std::shared_ptr<DescriptorSetLayout>> descriptorSetLayouts,
+        PipelineLayout::CreateInfo createInfo
+    )
+        : PipelineLayout(device, descriptorSetLayouts, nullptr, createInfo)
+    {
+    }
+
+    PipelineLayout::PipelineLayout(
+        const std::shared_ptr<Device>& device,
+        dst::Span<const VkPushConstantRange> pushConstantRanges,
+        PipelineLayout::CreateInfo createInfo
+    )
+        : PipelineLayout(device, nullptr, pushConstantRanges, createInfo)
+    {
+    }
+
     PipelineLayout::PipelineLayout(
         const std::shared_ptr<Device>& device,
         dst::Span<const std::shared_ptr<DescriptorSetLayout>> descriptorSetLayouts,

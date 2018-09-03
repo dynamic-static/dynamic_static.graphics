@@ -62,14 +62,44 @@ namespace Vulkan {
         /*!
         Constructs an instance of PipelineLayout.
         @param [in] device This PipelineLayout's Device
-        @param [in] descriptorSetLayouts This PipelineLayout's DescriptorSetLayouts (optional = { })
-        @param [in] pushConstantRanges This PipelineLayout's VkPushConstantRanges (optional = { })
+        */
+        PipelineLayout(const std::shared_ptr<Device>& device);
+
+        /*!
+        Constructs an instance of PipelineLayout.
+        @param [in] device This PipelineLayout's Device
+        @param [in] descriptorSetLayouts This PipelineLayout's DescriptorSetLayouts
         @param [in] createInfo This PipelineLayout's PipelineLayout::CreateInfo (optional = { })
         */
         PipelineLayout(
             const std::shared_ptr<Device>& device,
-            dst::Span<const std::shared_ptr<DescriptorSetLayout>> descriptorSetLayouts = { },
-            dst::Span<const VkPushConstantRange> pushConstantRanges = { },
+            dst::Span<const std::shared_ptr<DescriptorSetLayout>> descriptorSetLayouts,
+            PipelineLayout::CreateInfo createInfo = { }
+        );
+
+        /*!
+        Constructs an instance of PipelineLayout.
+        @param [in] device This PipelineLayout's Device
+        @param [in] pushConstantRanges This PipelineLayout's VkPushConstantRanges
+        @param [in] createInfo This PipelineLayout's PipelineLayout::CreateInfo (optional = { })
+        */
+        PipelineLayout(
+            const std::shared_ptr<Device>& device,
+            dst::Span<const VkPushConstantRange> pushConstantRanges,
+            PipelineLayout::CreateInfo createInfo = { }
+        );
+
+        /*!
+        Constructs an instance of PipelineLayout.
+        @param [in] device This PipelineLayout's Device
+        @param [in] descriptorSetLayouts This PipelineLayout's DescriptorSetLayouts
+        @param [in] pushConstantRanges This PipelineLayout's VkPushConstantRanges
+        @param [in] createInfo This PipelineLayout's PipelineLayout::CreateInfo (optional = { })
+        */
+        PipelineLayout(
+            const std::shared_ptr<Device>& device,
+            dst::Span<const std::shared_ptr<DescriptorSetLayout>> descriptorSetLayouts,
+            dst::Span<const VkPushConstantRange> pushConstantRanges,
             PipelineLayout::CreateInfo createInfo = { }
         );
 

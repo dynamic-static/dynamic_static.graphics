@@ -18,7 +18,7 @@ class Application final
     : public dst::vk::Application
 {
 private:
-    struct UniformBuffer final
+    struct PushConstants final
     {
         glm::mat4 world;
         glm::mat4 view;
@@ -34,14 +34,13 @@ private:
         VkIndexType indexType { VK_INDEX_TYPE_UINT16 };
         int indexCount { 0 };
     } mMesh;
-    std::shared_ptr<dst::vk::Buffer> mUniformBuffer;
-    std::shared_ptr<dst::vk::DescriptorSet> mDescriptorSet;
     float mRotation { 0 };
+    PushConstants mPushConstants { };
 
 public:
     Application()
     {
-        mInfo.pApplicationName = "Dynamic_Static Vk.03.UniformBuffer";
+        mInfo.pApplicationName = "Dynamic_Static Vk.04.PushConstants";
     }
 
 private:
@@ -67,8 +66,6 @@ private:
     {
         create_pipeline();
         create_vertex_and_index_buffers();
-        create_uniform_buffer();
-        create_descriptor_set();
     }
 
     void create_pipeline()
@@ -80,13 +77,13 @@ private:
             R"(
                 #version 450
 
-                layout(binding = 0)
-                uniform UniformBuffer
+                layout(push_constant)
+                uniform PushConstants
                 {
                     mat4 world;
                     mat4 view;
                     mat4 projection;
-                } ubo;
+                } pc;
 
                 layout(location = 0) in vec3 vsPosition;
                 layout(location = 1) in vec4 vsColor;
@@ -99,7 +96,7 @@ private:
 
                 void main()
                 {
-                    gl_Position = ubo.projection * ubo.view * ubo.world * vec4(vsPosition, 1);
+                    gl_Position = pc.projection * pc.view * pc.world * vec4(vsPosition, 1);
                     fsColor = vsColor;
                 }
             )"
@@ -123,12 +120,8 @@ private:
             vertexShader->get_pipeline_stage_create_info(),
             fragmentShader->get_pipeline_stage_create_info()
         };
-        auto descriptorSetLayoutBindings = vertexShader->get_descriptor_set_layout_bindings();
-        DescriptorSetLayout::CreateInfo descriptorSetLayoutCreateInfo { };
-        descriptorSetLayoutCreateInfo.bindingCount = (uint32_t)descriptorSetLayoutBindings.size();
-        descriptorSetLayoutCreateInfo.pBindings = descriptorSetLayoutBindings.data();
-        auto descriptorSetLayout = mDevice->create<DescriptorSetLayout>(descriptorSetLayoutCreateInfo);
-        auto pipelineLayout = mDevice->create<PipelineLayout>(descriptorSetLayout);
+        auto pushConstantRanges = vertexShader->get_push_constant_ranges();
+        auto pipelineLayout = mDevice->create<PipelineLayout>(pushConstantRanges);
 
         auto vertexBindingDescription = get_binding_description<VertexPositionColor>();
         auto vertexAttributeDescriptions = get_attribute_descriptions<VertexPositionColor>();
@@ -206,45 +199,6 @@ private:
         copyBuffer(mMesh.indexBuffer);
     }
 
-    void create_uniform_buffer()
-    {
-        using namespace dst::vk;
-        Buffer::CreateInfo uniformBufferCreateInfo { };
-        uniformBufferCreateInfo.size = sizeof(UniformBuffer);
-        uniformBufferCreateInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
-        mUniformBuffer = mDevice->create<Buffer>(uniformBufferCreateInfo);
-        DeviceMemory::allocate_resource_backing(
-            mUniformBuffer.get(),
-            VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
-        );
-    }
-
-    void create_descriptor_set()
-    {
-        using namespace dst::vk;
-        VkDescriptorPoolSize descriptorPoolSize { };
-        descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        descriptorPoolSize.descriptorCount = 1;
-        DescriptorPool::CreateInfo descriptorPoolCreateInfo { };
-        descriptorPoolCreateInfo.poolSizeCount = 1;
-        descriptorPoolCreateInfo.pPoolSizes = &descriptorPoolSize;
-        descriptorPoolCreateInfo.maxSets = 1;
-        auto descriptorPool = mDevice->create<DescriptorPool>(descriptorPoolCreateInfo);
-        const auto& descriptorSetLayout = mPipeline->get_layout().get_descriptor_set_layouts()[0];
-        mDescriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayout);
-
-        VkDescriptorBufferInfo bufferInfo { };
-        bufferInfo.buffer = *mUniformBuffer;
-        bufferInfo.offset = 0;
-        bufferInfo.range = sizeof(UniformBuffer);
-        DescriptorSet::Write write { };
-        write.dstSet = *mDescriptorSet;
-        write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        write.descriptorCount = 1;
-        write.pBufferInfo = &bufferInfo;
-        vkUpdateDescriptorSets(*mDevice, 1, &write, 0, nullptr);
-    }
-
     void update(
         const dst::Clock& clock,
         const dst::sys::Input& input
@@ -254,19 +208,17 @@ private:
         if (input.keyboard.down(Keyboard::Key::Escape)) {
             stop();
         }
-        UniformBuffer ubo { };
         mRotation += 90.0f * clock.elapsed<dst::Second<float>>();
-        ubo.world = glm::toMat4(glm::angleAxis(glm::radians(mRotation), dst::unit_y<glm::vec3>()));
-        ubo.view = glm::lookAt({ 0, 2, 2 }, { }, dst::world_up<glm::vec3>());
-        ubo.projection = glm::perspective(
+        mPushConstants.world = glm::toMat4(glm::angleAxis(glm::radians(mRotation), dst::unit_y<glm::vec3>()));
+        mPushConstants.view = glm::lookAt({ 0, 2, 2 }, { }, dst::world_up<glm::vec3>());
+        mPushConstants.projection = glm::perspective(
             glm::radians(30.0f),
             (float)mSwapchain->get_extent().width /
             (float)mSwapchain->get_extent().height,
             0.01f,
             10.0f
         );
-        ubo.projection[1][1] *= -1;
-        mUniformBuffer->write<UniformBuffer>(ubo);
+        mPushConstants.projection[1][1] *= -1;
     }
 
     void record_swapchain_render_pass(
@@ -275,15 +227,13 @@ private:
     ) override
     {
         vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mPipeline);
-        vkCmdBindDescriptorSets(
+        vkCmdPushConstants(
             commandBuffer,
-            VK_PIPELINE_BIND_POINT_GRAPHICS,
             mPipeline->get_layout(),
+            VK_SHADER_STAGE_VERTEX_BIT,
             0,
-            1,
-            &mDescriptorSet->get_handle(),
-            0,
-            nullptr
+            sizeof(PushConstants),
+            &mPushConstants
         );
         VkDeviceSize offset = 0;
         vkCmdBindVertexBuffers(commandBuffer, 0, 1, &mMesh.vertexBuffer->get_handle(), &offset);
