@@ -21,52 +21,54 @@ namespace Graphics {
 namespace Vulkan {
 
     /*!
-    Provides high level control over a Vulkan command pool.
+    Provides high level control over a Vulkan descriptor pool.
     */
-    class CommandPool final
-        : public Object<VkCommandPool>
-        , public SharedObject<CommandPool>
+    class DescriptorPool final
+        : public Object<VkDescriptorPool>
+        , public SharedObject<DescriptorPool>
         , public DeviceChild
     {
     public:
         /*!
-        Configuration parameters for CommandPool creation.
+        Configuration parameters for DescriptorPool construction.
         */
         struct CreateInfo final
-            : public VkCommandPoolCreateInfo
+            : public VkDescriptorPoolCreateInfo
         {
             /*!
-            Constructs an instance of CommandPool::CreateInfo.
+            Constructs an instance of DescriptorPool::CreateInfo.
             */
-            CreateInfo()
+            inline CreateInfo()
             {
-                sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+                sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
                 pNext = nullptr;
                 flags = 0;
-                queueFamilyIndex = 0;
+                maxSets = 0;
+                poolSizeCount = 0;
+                pPoolSizes = nullptr;
                 static_assert(
-                    sizeof(CommandPool::CreateInfo) == sizeof(VkCommandPoolCreateInfo),
-                    "sizeof(CommandPool::CreateInfo) != sizeof(VkCommandPoolCreateInfo)"
+                    sizeof(DescriptorPool::CreateInfo) == sizeof(VkDescriptorPoolCreateInfo),
+                    "sizeof(DescriptorPool::CreateInfo) != sizeof(VkDescriptorPoolCreateInfo)"
                 );
             }
         };
 
     private:
         /*!
-        Constructs an instance of CommandPool.
-        @param [in] device This CommandPool's Device
-        @param [in] createInfo This CommandPool's CommandPool::CreateInfo
+        Constructs an instance of DescriptorPool.
+        @param [in] device This DescriptorPool's Device
+        @param [in] createInfo This DescriptorPool's DescriptorPool::CreateInfo (optional = { })
         */
-        CommandPool(
+        DescriptorPool(
             const std::shared_ptr<Device>& device,
-            CommandPool::CreateInfo createInfo
+            DescriptorPool::CreateInfo createInfo = { }
         );
 
     public:
         /*!
-        Destroys this instance of CommandPool.
+        Destroys this instance of DescriptorPool.
         */
-        ~CommandPool();
+        ~DescriptorPool();
 
     public:
         /*!

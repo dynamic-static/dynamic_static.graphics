@@ -55,14 +55,22 @@ namespace Vulkan {
         };
 
     private:
+        std::vector<std::shared_ptr<DescriptorSetLayout>> mDescriptorSetLayouts;
+        std::vector<VkPushConstantRange> mPushConstantRanges;
+
+    private:
         /*!
         Constructs an instance of PipelineLayout.
         @param [in] device This PipelineLayout's Device
-        @param [in] createInfo This PipelineLayout's PipelineLayout::CreateInfo
+        @param [in] descriptorSetLayouts This PipelineLayout's DescriptorSetLayouts (optional = { })
+        @param [in] pushConstantRanges This PipelineLayout's VkPushConstantRanges (optional = { })
+        @param [in] createInfo This PipelineLayout's PipelineLayout::CreateInfo (optional = { })
         */
         PipelineLayout(
             const std::shared_ptr<Device>& device,
-            PipelineLayout::CreateInfo createInfo
+            dst::Span<const std::shared_ptr<DescriptorSetLayout>> descriptorSetLayouts = { },
+            dst::Span<const VkPushConstantRange> pushConstantRanges = { },
+            PipelineLayout::CreateInfo createInfo = { }
         );
 
     public:
@@ -70,6 +78,19 @@ namespace Vulkan {
         Destroys this instance of PipelineLayout.
         */
         ~PipelineLayout();
+
+    public:
+        /*!
+        Gets this PipelineLayout's DescriptorSetLayouts.
+        @return This PipelineLayout's DescriptorSetLayouts
+        */
+        dst::Span<const std::shared_ptr<DescriptorSetLayout>> get_descriptor_set_layouts() const;
+
+        /*!
+        Gets this PipelineLayout's DescriptorSetLayouts.
+        @return This PipelineLayout's DescriptorSetLayouts
+        */
+        dst::Span<const VkPushConstantRange> get_push_constant_ranges() const;
 
     private:
         friend class Device;

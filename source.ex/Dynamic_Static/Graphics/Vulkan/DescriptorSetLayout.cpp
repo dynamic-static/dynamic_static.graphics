@@ -8,27 +8,27 @@
 ==========================================
 */
 
-#include "Dynamic_Static/Graphics/Vulkan/CommandPool.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/DescriptorSetLayout.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 
 namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    CommandPool::CommandPool(
+    DescriptorSetLayout::DescriptorSetLayout(
         const std::shared_ptr<Device>& device,
-        CommandPool::CreateInfo createInfo
+        DescriptorSetLayout::CreateInfo createInfo
     )
         : DeviceChild(device)
     {
-        set_name("CommandPool");
-        dst_vk(vkCreateCommandPool(get_device(), &createInfo, nullptr, &mHandle));
+        set_name("DescriptorSetLayout");
+        dst_vk(vkCreateDescriptorSetLayout(get_device(), &createInfo, nullptr, &mHandle));
     }
 
-    CommandPool::~CommandPool()
+    DescriptorSetLayout::~DescriptorSetLayout()
     {
         if (mHandle) {
-            vkDestroyCommandPool(get_device(), mHandle, nullptr);
+            vkDestroyDescriptorSetLayout(get_device(), mHandle, nullptr);
         }
     }
 

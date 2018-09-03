@@ -29,13 +29,13 @@ namespace Vulkan {
         binding.binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
         #if 1
         std::cout
-            << "{"
+            << "{ "
             << typeName
             << "[name:" << resource.name << "]"
             << "[id:" << resource.id << "]"
             << "[type_id:" << resource.type_id << "]"
             << "[base_type_id:" << resource.base_type_id << "]"
-            << "}"
+            << " }"
             << std::endl;
         #endif
         return binding;

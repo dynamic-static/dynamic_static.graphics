@@ -19,6 +19,7 @@ class Application final
 {
 private:
     std::shared_ptr<dst::vk::Pipeline> mPipeline;
+    std::shared_ptr<dst::vk::DescriptorSetLayout> mDescriptorSetLayout;
     std::shared_ptr<dst::vk::DescriptorPool> mDescriptorPool;
     class Mesh final
     {
@@ -73,6 +74,15 @@ private:
             __LINE__,
             R"(
                 #version 450
+
+                layout(binding = 0)
+                uniform UniformBuffer
+                {
+                    mat4 world;
+                    mat4 view;
+                    mat4 projection;
+                } ubo;
+
                 layout(location = 0) in vec3 vsPosition;
                 layout(location = 1) in vec4 vsColor;
                 layout(location = 0) out vec3 fsColor;
@@ -94,8 +104,10 @@ private:
             __LINE__,
             R"(
                 #version 450
+
                 layout(location = 0) in vec3 fsColor;
                 layout(location = 0) out vec4 fragColor;
+
                 void main()
                 {
                     fragColor = vec4(fsColor, 1);
@@ -107,6 +119,10 @@ private:
             fragmentShader->get_pipeline_stage_create_info()
         };
 
+        auto descriptorSetLayoutBindings = vertexShader->get_descriptor_set_layout_bindings();
+        auto pipelineLayout = mDevice->create<PipelineLayout>();
+
+
         auto vertexBindingDescription = get_binding_description<VertexPositionColor>();
         auto vertexAttributeDescriptions = get_attribute_descriptions<VertexPositionColor>();
         Pipeline::VertexInputStateCreateInfo vertexInputState { };
@@ -115,7 +131,6 @@ private:
         vertexInputState.vertexAttributeDescriptionCount = (uint32_t)vertexAttributeDescriptions.size();
         vertexInputState.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
 
-        auto pipelineLayout = mDevice->create<PipelineLayout>(PipelineLayout::CreateInfo { });
         Pipeline::GraphicsCreateInfo pipelineCreateInfo { };
         pipelineCreateInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
         pipelineCreateInfo.pStages = shaderStages.data();

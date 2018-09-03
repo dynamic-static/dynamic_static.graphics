@@ -18,8 +18,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    /*
-    * Common base for all Vulkan CommandPool child objects.
+    /*!
+    Common base for all Vulkan CommandPool child objects.
     */
     class CommandPoolChild
     {
@@ -27,28 +27,28 @@ namespace Vulkan {
         std::shared_ptr<CommandPool> mCommandPool;
 
     protected:
-        /*
-        * Constructs an instance of CommandPoolChild.
-        * @param [in] commandPool This CommandPoolChild's CommandPool
+        /*!
+        Constructs an instance of CommandPoolChild.
+        @param [in] commandPool This CommandPoolChild's CommandPool
         */
         CommandPoolChild(const std::shared_ptr<CommandPool>& commandPool);
 
     public:
-        /*
-        * Destroys this instance of CommandPoolChild.
+        /*!
+        Destroys this instance of CommandPoolChild.
         */
         virtual ~CommandPoolChild() = 0;
 
     public:
-        /*
-        * Gets this CommandPoolChild's CommandPool.
-        * @return This CommandPoolChild's CommandPool
+        /*!
+        Gets this CommandPoolChild's CommandPool.
+        @return This CommandPoolChild's CommandPool
         */
         CommandPool& get_command_pool();
 
-        /*
-        * Gets this CommandPoolChild's CommandPool.
-        * @return This CommandPoolChild's CommandPool
+        /*!
+        Gets this CommandPoolChild's CommandPool.
+        @return This CommandPoolChild's CommandPool
         */
         const CommandPool& get_command_pool() const;
     };

@@ -20,8 +20,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    /*
-    * Provides high level control over a Vulkan semaphore.
+    /*!
+    Provides high level control over a Vulkan semaphore.
     */
     class Fence final
         : public Object<VkFence>
@@ -29,16 +29,16 @@ namespace Vulkan {
         , public DeviceChild
     {
     public:
-        /*
-        * Configuration parameters for Fence construction.
+        /*!
+        Configuration parameters for Fence construction.
         */
         struct CreateInfo final
             : public VkFenceCreateInfo
         {
-            /*
-            * Constructs an instance of Fence::CreateInfo.
+            /*!
+            Constructs an instance of Fence::CreateInfo.
             */
-            CreateInfo()
+            inline CreateInfo()
             {
                 sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
                 pNext = nullptr;
@@ -54,10 +54,10 @@ namespace Vulkan {
         VkFenceCreateFlags mCreateFlags { 0 };
 
     private:
-        /*
-        * Constructs an instance of Fence.
-        * @param [in] device This Fence's Device
-        * @param [in] createInfo This Fence's Fence::CreateInfo (optional = { })
+        /*!
+        Constructs an instance of Fence.
+        @param [in] device This Fence's Device
+        @param [in] createInfo This Fence's Fence::CreateInfo (optional = { })
         */
         Fence(
             const std::shared_ptr<Device>& device,
@@ -65,15 +65,15 @@ namespace Vulkan {
         );
 
     public:
-        /*
-        * Destroys this instance of Fence.
+        /*!
+        Destroys this instance of Fence.
         */
         ~Fence();
 
     public:
-        /*
-        * Gets this Fence's VkFenceCreateFlags.
-        * @return This Fence's VkFenceCreateFlags
+        /*!
+        Gets this Fence's VkFenceCreateFlags.
+        @return This Fence's VkFenceCreateFlags
         */
         VkFenceCreateFlags get_create_flags() const;
 

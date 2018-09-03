@@ -16,7 +16,6 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-
     CommandBuffer::CommandBuffer(
         const std::shared_ptr<CommandPool>& commandPool,
         CommandBuffer::AllocateInfo allocateInfo

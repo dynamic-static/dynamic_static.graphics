@@ -67,6 +67,7 @@ private:
             __LINE__,
             R"(
                 #version 450
+
                 layout(location = 0) in vec3 vsPosition;
                 layout(location = 1) in vec4 vsColor;
                 layout(location = 0) out vec3 fsColor;
@@ -88,8 +89,10 @@ private:
             __LINE__,
             R"(
                 #version 450
+
                 layout(location = 0) in vec3 fsColor;
                 layout(location = 0) out vec4 fragColor;
+
                 void main()
                 {
                     fragColor = vec4(fsColor, 1);
@@ -109,13 +112,12 @@ private:
         vertexInputState.vertexAttributeDescriptionCount = (uint32_t)vertexAttributeDescriptions.size();
         vertexInputState.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
 
-        auto pipelineLayout = mDevice->create<PipelineLayout>(PipelineLayout::CreateInfo { });
         Pipeline::GraphicsCreateInfo pipelineCreateInfo { };
         pipelineCreateInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
         pipelineCreateInfo.pStages = shaderStages.data();
         pipelineCreateInfo.pVertexInputState = &vertexInputState;
         pipelineCreateInfo.renderPass = *mSwapchainRenderPass;
-        mPipeline = mDevice->create<Pipeline>(pipelineLayout, pipelineCreateInfo);
+        mPipeline = mDevice->create<Pipeline>(mDevice->create<PipelineLayout>(), pipelineCreateInfo);
     }
 
     void create_vertex_and_index_buffers()

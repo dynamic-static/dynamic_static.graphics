@@ -20,8 +20,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    /*
-    * Provides high level control over a Vulkan command buffer.
+    /*!
+    Provides high level control over a Vulkan command buffer.
     */
     class CommandBuffer final
         : public Object<VkCommandBuffer>
@@ -29,14 +29,14 @@ namespace Vulkan {
         , public CommandPoolChild
     {
     public:
-        /*
-        * Configuration parameters for CommandBuffer allocation.
+        /*!
+        Configuration parameters for CommandBuffer allocation.
         */
         struct AllocateInfo final
             : public VkCommandBufferAllocateInfo
         {
-            /*
-            * Constructs an instance of CommandBuffer::AllocateInfo.
+            /*!
+            Constructs an instance of CommandBuffer::AllocateInfo.
             */
             inline AllocateInfo()
             {
@@ -52,14 +52,14 @@ namespace Vulkan {
             }
         };
 
-        /*
-        * Configuration parameters for beginning CommandBuffer recording.
+        /*!
+        Configuration parameters for beginning CommandBuffer recording.
         */
         struct BeginInfo final
             : public VkCommandBufferBeginInfo
         {
-            /*
-            * Constructs an instance of CommandBuffer::BeginInfo.
+            /*!
+            Constructs an instance of CommandBuffer::BeginInfo.
             */
             inline BeginInfo()
             {
@@ -75,10 +75,10 @@ namespace Vulkan {
         };
 
     private:
-        /*
-        * Constructs an instance of CommandBuffer.
-        * @param [in] device This CommandBuffer's CommandPool
-        * @param [in] allocateInfo This CommandBuffer's CommandBuffer::AllocateInfo
+        /*!
+        Constructs an instance of CommandBuffer.
+        @param [in] device This CommandBuffer's CommandPool
+        @param [in] allocateInfo This CommandBuffer's CommandBuffer::AllocateInfo
         */
         CommandBuffer(
             const std::shared_ptr<CommandPool>& commandPool,
@@ -86,8 +86,8 @@ namespace Vulkan {
         );
 
     public:
-        /*
-        * Destroys this instance of CommandBuffer.
+        /*!
+        Destroys this instance of CommandBuffer.
         */
         ~CommandBuffer();
 

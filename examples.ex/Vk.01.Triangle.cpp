@@ -51,6 +51,7 @@ private:
             __LINE__,
             R"(
                 #version 450
+
                 layout(location = 0) out vec4 fsColor;
 
                 out gl_PerVertex
@@ -82,8 +83,10 @@ private:
             __LINE__,
             R"(
                 #version 450
+
                 layout(location = 0) in vec4 fsColor;
                 layout(location = 0) out vec4 fragColor;
+
                 void main()
                 {
                     fragColor = fsColor;
@@ -99,12 +102,12 @@ private:
         std::array<Pipeline::ShaderStageCreateInfo, 2> shaderStages {
             vertexShaderStage, fragmentShaderStage
         };
-        auto pipelineLayout = mDevice->create<PipelineLayout>(PipelineLayout::CreateInfo { });
+
         Pipeline::GraphicsCreateInfo pipelineCreateInfo { };
         pipelineCreateInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
         pipelineCreateInfo.pStages = shaderStages.data();
         pipelineCreateInfo.renderPass = *mSwapchainRenderPass;
-        mPipeline = mDevice->create<Pipeline>(pipelineLayout, pipelineCreateInfo);
+        mPipeline = mDevice->create<Pipeline>(mDevice->create<PipelineLayout>(), pipelineCreateInfo);
     }
 
     void update(

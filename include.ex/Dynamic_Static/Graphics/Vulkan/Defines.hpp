@@ -41,9 +41,10 @@ namespace Vulkan {
     class CommandPool;
     class CommandPoolChild;
     class DebugReportCallbackEXT;
+    class DescriptorPool;
+    class DescriptorPoolChild;
     class DescriptorSet;
     class DescriptorSetLayout;
-    class DescriptorPool;
     class Device;
     class DeviceMemory;
     class DeviceMemoryResource;
@@ -55,7 +56,6 @@ namespace Vulkan {
     class ImageView;
     class Instance;
     class InstanceChild;
-    class DeviceMemory;
     class PhysicalDevice;
     class PhysicalDeviceChild;
     class Pipeline;
