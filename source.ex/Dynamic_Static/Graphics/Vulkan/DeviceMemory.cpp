@@ -59,16 +59,16 @@ namespace Vulkan {
         return mMappedPtr;
     }
 
-    std::shared_ptr<DeviceMemory> DeviceMemory::allocate_resource_backing(
+    std::shared_ptr<DeviceMemory> DeviceMemory::allocate_resource_memory(
         DeviceMemoryResource* resource,
         VkMemoryPropertyFlags memoryPropertyFlags
     )
     {
         std::array<DeviceMemoryResource*, 1> resources { resource };
-        return allocate_resource_backing(resources, memoryPropertyFlags);
+        return allocate_resource_memory(resources, memoryPropertyFlags);
     }
 
-    std::shared_ptr<DeviceMemory> DeviceMemory::allocate_resource_backing(
+    std::shared_ptr<DeviceMemory> DeviceMemory::allocate_resource_memory(
         dst::Span<DeviceMemoryResource*> resources,
         VkMemoryPropertyFlags memoryPropertyFlags
     )

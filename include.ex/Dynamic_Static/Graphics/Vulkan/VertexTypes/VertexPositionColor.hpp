@@ -22,8 +22,8 @@ namespace Vulkan {
     */
     struct VertexPositionColor final
     {
-        glm::vec3 position; //!< This VertexPositionColor's position
-        glm::vec4 color;    //!< This VertexPositionColor's color
+        glm::vec3 position; //!< This vertex's position
+        glm::vec4 color;    //!< This vertex's color
     };
 
     /*

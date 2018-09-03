@@ -100,7 +100,7 @@ namespace Vulkan {
         /*!
         TODO : Documentation.
         */
-        static std::shared_ptr<DeviceMemory> allocate_resource_backing(
+        static std::shared_ptr<DeviceMemory> allocate_resource_memory(
             DeviceMemoryResource* resource,
             VkMemoryPropertyFlags memoryPropertyFlags
         );
@@ -108,7 +108,7 @@ namespace Vulkan {
         /*!
         TODO : Documentation.
         */
-        static std::shared_ptr<DeviceMemory> allocate_resource_backing(
+        static std::shared_ptr<DeviceMemory> allocate_resource_memory(
             dst::Span<DeviceMemoryResource*> resources,
             VkMemoryPropertyFlags memoryPropertyFlags
         );

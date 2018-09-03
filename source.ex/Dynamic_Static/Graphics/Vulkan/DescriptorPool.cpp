@@ -22,6 +22,8 @@ namespace Vulkan {
         : DeviceChild(device)
     {
         set_name("DescriptorPool");
+        createInfo.flags |= VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+        mFlags = createInfo.flags;
         dst_vk(vkCreateDescriptorPool(get_device(), &createInfo, nullptr, &mHandle));
     }
 
@@ -30,6 +32,11 @@ namespace Vulkan {
         if (mHandle) {
             vkDestroyDescriptorPool(get_device(), mHandle, nullptr);
         }
+    }
+
+    VkDescriptorPoolCreateFlags DescriptorPool::get_create_flags() const
+    {
+        return mFlags;
     }
 
 } // namespace Vulkan

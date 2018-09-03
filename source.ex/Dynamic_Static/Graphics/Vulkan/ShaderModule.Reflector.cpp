@@ -55,6 +55,20 @@ namespace Vulkan {
         }
     }
 
+    static void process_sampled_images(
+        const spirv_cross::CompilerGLSL& glsl,
+        const spirv_cross::ShaderResources& resources,
+        std::vector<VkDescriptorSetLayoutBinding>& bindings
+    )
+    {
+        bindings.reserve(bindings.size() + resources.sampled_images.size());
+        for (const auto& resource : resources.sampled_images) {
+            auto binding = process_shader_resource("SampledImage", glsl, resource);
+            binding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+            bindings.push_back(binding);
+        }
+    }
+
     ShaderModule::Reflector::Reflector(dst::Span<const uint32_t> spirv)
     {
         // NOTE : More info on SPIRV-Cross reflection can be found at...
@@ -62,6 +76,7 @@ namespace Vulkan {
         spirv_cross::CompilerGLSL glsl(spirv.data(), spirv.size());
         spirv_cross::ShaderResources resources = glsl.get_shader_resources();
         process_uniform_buffers(glsl, resources, mDescriptorSetLayoutBindings);
+        process_sampled_images(glsl, resources, mDescriptorSetLayoutBindings);
         if (!resources.push_constant_buffers.empty()) {
             auto id = resources.push_constant_buffers[0].id;
             auto ranges = glsl.get_active_buffer_ranges(id);

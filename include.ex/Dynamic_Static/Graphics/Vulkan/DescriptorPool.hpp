@@ -54,6 +54,9 @@ namespace Vulkan {
         };
 
     private:
+        VkDescriptorPoolCreateFlags mFlags { 0 };
+
+    private:
         /*!
         Constructs an instance of DescriptorPool.
         @param [in] device This DescriptorPool's Device
@@ -71,6 +74,12 @@ namespace Vulkan {
         ~DescriptorPool();
 
     public:
+        /*!
+        Gets this DescriptorPool's VkDescriptorPoolCreateFlags.
+        @return This DescriptorPool's VkDescriptorPoolCreateFlags
+        */
+        VkDescriptorPoolCreateFlags get_create_flags() const;
+
         /*!
         Allocates a new object of a given type.
         @param <ObjectType> The type of object to allocate

@@ -17,7 +17,26 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
+    /*!
+    Reperesents a vertex with a position and texture coordinates.
+    */
+    struct VertexPositionTexture final
+    {
+        glm::vec3 position; //!< This vertex's position
+        glm::vec2 texcoord; //!< This vertex's texcoord
+    };
 
+    /*
+    TODO : Documentation.
+    */
+    template <>
+    inline auto get_attribute_descriptions<VertexPositionTexture>(uint32_t binding)
+    {
+        return create_attribute_descriptions<
+            glm::vec3,
+            glm::vec2
+        >(binding);
+    }
 
 } // namespace Vulkan
 } // namespace Graphics

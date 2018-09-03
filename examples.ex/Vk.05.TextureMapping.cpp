@@ -70,7 +70,7 @@ private:
     void create_resources() override
     {
         create_pipeline();
-        create_image_and_sampler();
+        create_sampler_and_image();
         create_vertex_and_index_buffers();
         create_descriptor_set();
     }
@@ -93,8 +93,8 @@ private:
                 } pc;
 
                 layout(location = 0) in vec3 vsPosition;
-                layout(location = 1) in vec4 vsColor;
-                layout(location = 0) out vec4 fsColor;
+                layout(location = 1) in vec2 vsTexcoord;
+                layout(location = 0) out vec2 fsTexcoord;
 
                 out gl_PerVertex
                 {
@@ -104,7 +104,7 @@ private:
                 void main()
                 {
                     gl_Position = pc.projection * pc.view * pc.world * vec4(vsPosition, 1);
-                    fsColor = vsColor;
+                    fsTexcoord = vsTexcoord;
                 }
             )"
         );
@@ -114,12 +114,13 @@ private:
             R"(
                 #version 450
 
-                layout(location = 0) in vec4 fsColor;
+                layout(binding = 0) uniform sampler2D image;
+                layout(location = 0) in vec2 fsTexcoord;
                 layout(location = 0) out vec4 fragColor;
 
                 void main()
                 {
-                    fragColor = fsColor;
+                    fragColor = texture(image, fsTexcoord);
                 }
             )"
         );
@@ -127,11 +128,16 @@ private:
             vertexShader->get_pipeline_stage_create_info(),
             fragmentShader->get_pipeline_stage_create_info()
         };
+        auto descriptorSetLayoutBindings = fragmentShader->get_descriptor_set_layout_bindings();
+        DescriptorSetLayout::CreateInfo descriptorSetLayoutCreateInfo { };
+        descriptorSetLayoutCreateInfo.bindingCount = (uint32_t)descriptorSetLayoutBindings.size();
+        descriptorSetLayoutCreateInfo.pBindings = descriptorSetLayoutBindings.data();
+        auto descriptorSetLayout = mDevice->create<DescriptorSetLayout>(descriptorSetLayoutCreateInfo);
         auto pushConstantRanges = vertexShader->get_push_constant_ranges();
-        auto pipelineLayout = mDevice->create<PipelineLayout>(pushConstantRanges);
+        auto pipelineLayout = mDevice->create<PipelineLayout>(descriptorSetLayout, pushConstantRanges);
 
-        auto vertexBindingDescription = get_binding_description<VertexPositionColor>();
-        auto vertexAttributeDescriptions = get_attribute_descriptions<VertexPositionColor>();
+        auto vertexBindingDescription = get_binding_description<VertexPositionTexture>();
+        auto vertexAttributeDescriptions = get_attribute_descriptions<VertexPositionTexture>();
         Pipeline::VertexInputStateCreateInfo vertexInputState { };
         vertexInputState.vertexBindingDescriptionCount = 1;
         vertexInputState.pVertexBindingDescriptions = &vertexBindingDescription;
@@ -139,16 +145,18 @@ private:
         vertexInputState.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
 
         Pipeline::GraphicsCreateInfo pipelineCreateInfo { };
-        pipelineCreateInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
+        pipelineCreateInfo.stageCount = (uint32_t)shaderStages.size();
         pipelineCreateInfo.pStages = shaderStages.data();
         pipelineCreateInfo.pVertexInputState = &vertexInputState;
         pipelineCreateInfo.renderPass = *mSwapchainRenderPass;
         mPipeline = mDevice->create<Pipeline>(pipelineLayout, pipelineCreateInfo);
     }
 
-    void create_image_and_sampler()
+    void create_sampler_and_image()
     {
         using namespace dst::vk;
+        mSampler = mDevice->create<Sampler>();
+
         dst::sys::Image image;
         image.read_png("../../examples/resources/images/turtle.jpg");
         Image::CreateInfo imageCreateInfo { };
@@ -160,14 +168,14 @@ private:
         imageCreateInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
         imageCreateInfo.usage = VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
         mImage = mDevice->create<Image>(imageCreateInfo);
-        DeviceMemory::allocate_resource_backing(mImage.get(), VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+        DeviceMemory::allocate_resource_memory(mImage.get(), VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
         Buffer::CreateInfo stagingBufferCreateInfo { };
         stagingBufferCreateInfo.size = mImage->get_memory_requirements().size;
         stagingBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
         auto stagingBuffer = mDevice->create<Buffer>(stagingBufferCreateInfo);
         auto stagingBufferMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-        DeviceMemory::allocate_resource_backing(stagingBuffer.get(), stagingBufferMemoryProperties);
+        DeviceMemory::allocate_resource_memory(stagingBuffer.get(), stagingBufferMemoryProperties);
         stagingBuffer->write<uint8_t>(image.get_data());
         mDevice->get_queue_families()[0].get_queues()[0].process_immediately(
             [&](const CommandBuffer& commandBuffer)
@@ -214,18 +222,21 @@ private:
                 );
             }
         );
-        mImage->create<ImageView>();
-        mSampler = mDevice->create<Sampler>();
     }
 
     void create_vertex_and_index_buffers()
     {
         using namespace dst::vk;
-        const std::array<VertexPositionColor, 4> vertices {
-            VertexPositionColor {{ -0.5f, 0, -0.5f }, { dst::Color::OrangeRed }},
-            VertexPositionColor {{  0.5f, 0, -0.5f }, { dst::Color::BlueViolet }},
-            VertexPositionColor {{  0.5f, 0,  0.5f }, { dst::Color::DodgerBlue }},
-            VertexPositionColor {{ -0.5f, 0,  0.5f }, { dst::Color::Goldenrod }},
+        float w = (float)mImage->get_extent().width;
+        float h = (float)mImage->get_extent().height;
+        float a = 1.0f / std::max(w, h);
+        w = w * a * 0.5f;
+        h = h * a * 0.5f;
+        const std::array<VertexPositionTexture, 4> vertices {
+            VertexPositionTexture {{ -w, 0, -h }, { 0, 0 }},
+            VertexPositionTexture {{  w, 0, -h }, { 1, 0 }},
+            VertexPositionTexture {{  w, 0,  h }, { 1, 1 }},
+            VertexPositionTexture {{ -w, 0,  h }, { 0, 1 }},
         };
         Buffer::CreateInfo vertexBufferCreateInfo { };
         vertexBufferCreateInfo.size = sizeof(vertices);
@@ -246,14 +257,14 @@ private:
         std::array<DeviceMemoryResource*, 2> resources {
             mMesh.vertexBuffer.get(), mMesh.indexBuffer.get()
         };
-        DeviceMemory::allocate_resource_backing(resources, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+        DeviceMemory::allocate_resource_memory(resources, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
         Buffer::CreateInfo stagingBufferCreateInfo { };
         stagingBufferCreateInfo.size = std::max(vertexBufferCreateInfo.size, indexBufferCreateInfo.size);
         stagingBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
         auto stagingBuffer = mDevice->create<Buffer>(stagingBufferCreateInfo);
         auto stagingBufferMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-        DeviceMemory::allocate_resource_backing(stagingBuffer.get(), stagingBufferMemoryProperties);
+        DeviceMemory::allocate_resource_memory(stagingBuffer.get(), stagingBufferMemoryProperties);
         auto copyBuffer =
         [&](std::shared_ptr<Buffer>& buffer)
         {
@@ -266,7 +277,7 @@ private:
                 }
             );
         };
-        stagingBuffer->write<VertexPositionColor>(vertices);
+        stagingBuffer->write<VertexPositionTexture>(vertices);
         copyBuffer(mMesh.vertexBuffer);
         stagingBuffer->write<uint16_t>(indices);
         copyBuffer(mMesh.indexBuffer);
@@ -275,6 +286,27 @@ private:
     void create_descriptor_set()
     {
         using namespace dst::vk;
+        VkDescriptorPoolSize descriptorPoolSize { };
+        descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        descriptorPoolSize.descriptorCount = 1;
+        DescriptorPool::CreateInfo descriptorPoolCreateInfo { };
+        descriptorPoolCreateInfo.poolSizeCount = 1;
+        descriptorPoolCreateInfo.pPoolSizes = &descriptorPoolSize;
+        descriptorPoolCreateInfo.maxSets = 1;
+        auto descriptorPool = mDevice->create<DescriptorPool>(descriptorPoolCreateInfo);
+        const auto& descriptorSetLayout = mPipeline->get_layout().get_descriptor_set_layouts()[0];
+        mDescriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayout);
+
+        VkDescriptorImageInfo imageInfo { };
+        imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+        imageInfo.imageView = mImage->get_view();
+        imageInfo.sampler = *mSampler;
+        DescriptorSet::Write write { };
+        write.dstSet = *mDescriptorSet;
+        write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        write.descriptorCount = 1;
+        write.pImageInfo = &imageInfo;
+        vkUpdateDescriptorSets(*mDevice, 1, &write, 0, nullptr);
     }
 
     void update(
@@ -312,6 +344,16 @@ private:
             0,
             sizeof(PushConstants),
             &mPushConstants
+        );
+        vkCmdBindDescriptorSets(
+            commandBuffer,
+            VK_PIPELINE_BIND_POINT_GRAPHICS,
+            mPipeline->get_layout(),
+            0,
+            1,
+            &mDescriptorSet->get_handle(),
+            0,
+            nullptr
         );
         VkDeviceSize offset = 0;
         vkCmdBindVertexBuffers(commandBuffer, 0, 1, &mMesh.vertexBuffer->get_handle(), &offset);
