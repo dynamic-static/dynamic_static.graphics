@@ -13,7 +13,6 @@
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 
 #include <memory>
-#include <vector>
 
 namespace Dynamic_Static {
 namespace Graphics {
@@ -42,6 +41,11 @@ namespace Vulkan {
         std::shared_ptr<Image> depthAttachment;
 
     public:
+        /*
+        Constructs an instance of RenderTarget.
+        */
+        RenderTarget() = default;
+
         /*!
         Constructs an instance of RenderTarget.
         @param [in] renderPass This RenderTarget's RenderPass

@@ -56,6 +56,7 @@ namespace Vulkan {
     class ImageView;
     class Instance;
     class InstanceChild;
+    class Mesh;
     class PhysicalDevice;
     class PhysicalDeviceChild;
     class Pipeline;

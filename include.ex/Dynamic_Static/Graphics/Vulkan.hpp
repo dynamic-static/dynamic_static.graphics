@@ -32,6 +32,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/ImageView.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/InstanceChild.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Mesh.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDeviceChild.hpp"

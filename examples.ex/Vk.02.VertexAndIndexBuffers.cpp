@@ -19,14 +19,7 @@ class Application final
 {
 private:
     std::shared_ptr<dst::vk::Pipeline> mPipeline;
-    class Mesh final
-    {
-    public:
-        std::shared_ptr<dst::vk::Buffer> vertexBuffer;
-        std::shared_ptr<dst::vk::Buffer> indexBuffer;
-        VkIndexType indexType { VK_INDEX_TYPE_UINT16 };
-        int indexCount { 0 };
-    } mMesh;
+    dst::vk::Mesh mMesh;
 
 public:
     Application()

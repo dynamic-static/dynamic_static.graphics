@@ -27,7 +27,7 @@ namespace Vulkan {
         : renderPass { renderPass }
     {
         assert(renderPass);
-        // TODO : This thing needs work, but it's doing the job for now.
+        // TODO : RenderTarget needs work, but it's doing the job for now.
         // TODO : Need to automate attachment creation for a given RenderPass.
         if (createInfo.colorFormat) {
             Image::CreateInfo colorImageCreateInfo { };

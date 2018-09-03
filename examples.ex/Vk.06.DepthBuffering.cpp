@@ -18,15 +18,6 @@ class Application final
     : public dst::vk::Application
 {
 private:
-    class Mesh final
-    {
-    public:
-        std::shared_ptr<dst::vk::Buffer> vertexBuffer;
-        std::shared_ptr<dst::vk::Buffer> indexBuffer;
-        VkIndexType indexType { VK_INDEX_TYPE_UINT16 };
-        int indexCount { 0 };
-    };
-
     struct PushConstants final
     {
         glm::mat4 world;
@@ -40,7 +31,7 @@ private:
     std::shared_ptr<dst::vk::DescriptorSet> mDescriptorSet;
     PushConstants mPushConstants;
     float mRotation { 0 };
-    Mesh mMesh;
+    dst::vk::Mesh mMesh;
 
 public:
     Application()
