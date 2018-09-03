@@ -57,10 +57,9 @@ namespace Vulkan {
         };
 
     private:
-        std::unique_ptr<Reflector> mReflector;
-
-    private:
         VkShaderStageFlagBits mStage { VK_SHADER_STAGE_ALL_GRAPHICS };
+        std::vector<VkDescriptorSetLayoutBinding> mDescriptorSetLayoutBindings;
+        std::vector<VkPushConstantRange> mPushConstantRanges;
 
     private:
         /*!

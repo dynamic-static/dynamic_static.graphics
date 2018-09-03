@@ -18,16 +18,22 @@ class Application final
     : public dst::vk::Application
 {
 private:
+    struct UniformBuffer final
+    {
+        glm::mat4 world;
+        glm::mat4 view;
+        glm::mat4 projection;
+    };
+
     std::shared_ptr<dst::vk::Pipeline> mPipeline;
-    std::shared_ptr<dst::vk::DescriptorSetLayout> mDescriptorSetLayout;
-    std::shared_ptr<dst::vk::DescriptorPool> mDescriptorPool;
+    std::shared_ptr<dst::vk::Buffer> mUniformBuffer;
+    std::shared_ptr<dst::vk::DescriptorSet> mDescriptorSet;
+    float mRotation { 0 };
     class Mesh final
     {
     public:
         std::shared_ptr<dst::vk::Buffer> vertexBuffer;
         std::shared_ptr<dst::vk::Buffer> indexBuffer;
-        std::shared_ptr<dst::vk::Buffer> uniformBuffer;
-        dst::vk::DescriptorSet* descriptorSet { nullptr };
         VkIndexType indexType { VK_INDEX_TYPE_UINT16 };
         int indexCount { 0 };
     } mMesh;
@@ -60,7 +66,6 @@ private:
     void create_resources() override
     {
         create_pipeline();
-        create_descriptor_pool();
         create_vertex_and_index_buffers();
         create_uniform_buffer();
         create_descriptor_set();
@@ -85,7 +90,7 @@ private:
 
                 layout(location = 0) in vec3 vsPosition;
                 layout(location = 1) in vec4 vsColor;
-                layout(location = 0) out vec3 fsColor;
+                layout(location = 0) out vec4 fsColor;
 
                 out gl_PerVertex
                 {
@@ -94,8 +99,8 @@ private:
 
                 void main()
                 {
-                    gl_Position = vec4(vsPosition, 1);
-                    fsColor = vsColor.rgb;
+                    gl_Position = ubo.projection * ubo.view * ubo.world * vec4(vsPosition, 1);
+                    fsColor = vsColor;
                 }
             )"
         );
@@ -105,12 +110,12 @@ private:
             R"(
                 #version 450
 
-                layout(location = 0) in vec3 fsColor;
+                layout(location = 0) in vec4 fsColor;
                 layout(location = 0) out vec4 fragColor;
 
                 void main()
                 {
-                    fragColor = vec4(fsColor, 1);
+                    fragColor = fsColor;
                 }
             )"
         );
@@ -118,10 +123,12 @@ private:
             vertexShader->get_pipeline_stage_create_info(),
             fragmentShader->get_pipeline_stage_create_info()
         };
-
         auto descriptorSetLayoutBindings = vertexShader->get_descriptor_set_layout_bindings();
-        auto pipelineLayout = mDevice->create<PipelineLayout>();
-
+        DescriptorSetLayout::CreateInfo descriptorSetLayoutCreateInfo { };
+        descriptorSetLayoutCreateInfo.bindingCount = (uint32_t)descriptorSetLayoutBindings.size();
+        descriptorSetLayoutCreateInfo.pBindings = descriptorSetLayoutBindings.data();
+        auto descriptorSetLayout = mDevice->create<DescriptorSetLayout>(descriptorSetLayoutCreateInfo);
+        auto pipelineLayout = mDevice->create<PipelineLayout>(descriptorSetLayout);
 
         auto vertexBindingDescription = get_binding_description<VertexPositionColor>();
         auto vertexAttributeDescriptions = get_attribute_descriptions<VertexPositionColor>();
@@ -139,19 +146,14 @@ private:
         mPipeline = mDevice->create<Pipeline>(pipelineLayout, pipelineCreateInfo);
     }
 
-    void create_descriptor_pool()
-    {
-
-    }
-
     void create_vertex_and_index_buffers()
     {
         using namespace dst::vk;
         const std::array<VertexPositionColor, 4> vertices {
-            VertexPositionColor {{ -0.5f, -0.5f, 0 }, { dst::Color::OrangeRed }},
-            VertexPositionColor {{  0.5f, -0.5f, 0 }, { dst::Color::BlueViolet }},
-            VertexPositionColor {{  0.5f,  0.5f, 0 }, { dst::Color::DodgerBlue }},
-            VertexPositionColor {{ -0.5f,  0.5f, 0 }, { dst::Color::Goldenrod }},
+            VertexPositionColor {{ -0.5f, 0, -0.5f }, { dst::Color::OrangeRed }},
+            VertexPositionColor {{  0.5f, 0, -0.5f }, { dst::Color::BlueViolet }},
+            VertexPositionColor {{  0.5f, 0,  0.5f }, { dst::Color::DodgerBlue }},
+            VertexPositionColor {{ -0.5f, 0,  0.5f }, { dst::Color::Goldenrod }},
         };
         Buffer::CreateInfo vertexBufferCreateInfo { };
         vertexBufferCreateInfo.size = sizeof(vertices);
@@ -206,12 +208,41 @@ private:
 
     void create_uniform_buffer()
     {
-
+        using namespace dst::vk;
+        Buffer::CreateInfo uniformBufferCreateInfo { };
+        uniformBufferCreateInfo.size = sizeof(UniformBuffer);
+        uniformBufferCreateInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+        mUniformBuffer = mDevice->create<Buffer>(uniformBufferCreateInfo);
+        DeviceMemory::allocate_resource_backing(
+            mUniformBuffer.get(),
+            VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
+        );
     }
 
     void create_descriptor_set()
     {
+        using namespace dst::vk;
+        VkDescriptorPoolSize descriptorPoolSize { };
+        descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        descriptorPoolSize.descriptorCount = 1;
+        DescriptorPool::CreateInfo descriptorPoolCreateInfo { };
+        descriptorPoolCreateInfo.poolSizeCount = 1;
+        descriptorPoolCreateInfo.pPoolSizes = &descriptorPoolSize;
+        descriptorPoolCreateInfo.maxSets = 1;
+        auto descriptorPool = mDevice->create<DescriptorPool>(descriptorPoolCreateInfo);
+        const auto& descriptorSetLayout = mPipeline->get_layout().get_descriptor_set_layouts()[0];
+        mDescriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayout);
 
+        VkDescriptorBufferInfo bufferInfo { };
+        bufferInfo.buffer = *mUniformBuffer;
+        bufferInfo.offset = 0;
+        bufferInfo.range = sizeof(UniformBuffer);
+        DescriptorSet::Write write { };
+        write.dstSet = *mDescriptorSet;
+        write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        write.descriptorCount = 1;
+        write.pBufferInfo = &bufferInfo;
+        vkUpdateDescriptorSets(*mDevice, 1, &write, 0, nullptr);
     }
 
     void update(
@@ -223,6 +254,19 @@ private:
         if (input.keyboard.down(Keyboard::Key::Escape)) {
             stop();
         }
+        UniformBuffer ubo { };
+        mRotation += 90.0f * clock.elapsed<dst::Second<float>>();
+        ubo.world = glm::toMat4(glm::angleAxis(glm::radians(mRotation), glm::vec3 { 0, 1, 0 }));
+        ubo.view = glm::lookAt({ 0, 2, 2 }, glm::vec3 { }, glm::vec3 { 0, 1, 0 });
+        ubo.projection = glm::perspective(
+            glm::radians(30.0f),
+            (float)mSwapchain->get_extent().width /
+            (float)mSwapchain->get_extent().height,
+            0.01f,
+            10.0f
+        );
+        ubo.projection[1][1] *= -1;
+        mUniformBuffer->write<UniformBuffer>(ubo);
     }
 
     void record_swapchain_render_pass(
@@ -231,6 +275,16 @@ private:
     ) override
     {
         vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mPipeline);
+        vkCmdBindDescriptorSets(
+            commandBuffer,
+            VK_PIPELINE_BIND_POINT_GRAPHICS,
+            mPipeline->get_layout(),
+            0,
+            1,
+            &mDescriptorSet->get_handle(),
+            0,
+            nullptr
+        );
         VkDeviceSize offset = 0;
         vkCmdBindVertexBuffers(commandBuffer, 0, 1, &mMesh.vertexBuffer->get_handle(), &offset);
         vkCmdBindIndexBuffer(commandBuffer, *mMesh.indexBuffer, 0, mMesh.indexType);

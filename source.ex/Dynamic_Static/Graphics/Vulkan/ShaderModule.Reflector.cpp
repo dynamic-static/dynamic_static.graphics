@@ -44,12 +44,14 @@ namespace Vulkan {
     static void process_uniform_buffers(
         const spirv_cross::CompilerGLSL& glsl,
         const spirv_cross::ShaderResources& resources,
-        std::vector<VkDescriptorSetLayoutBinding> bindings
+        std::vector<VkDescriptorSetLayoutBinding>& bindings
     )
     {
         bindings.reserve(bindings.size() + resources.uniform_buffers.size());
         for (const auto& resource : resources.uniform_buffers) {
-            bindings.push_back(process_shader_resource("UniformBuffer", glsl, resource));
+            auto binding = process_shader_resource("UniformBuffer", glsl, resource);
+            binding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+            bindings.push_back(binding);
         }
     }
 

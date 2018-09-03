@@ -40,7 +40,7 @@ namespace Vulkan {
             */
             inline AllocateInfo()
             {
-                sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+                sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
                 pNext = nullptr;
                 descriptorPool = VK_NULL_HANDLE;
                 descriptorSetCount = 0;
@@ -52,14 +52,40 @@ namespace Vulkan {
             }
         };
 
+        /*!
+        Configuration parameters for DescriptorSet writing.
+        */
+        struct Write final
+            : public VkWriteDescriptorSet
+        {
+            /*!
+            Constructs an instance of DescriptorSet::Write.
+            */
+            inline Write()
+            {
+                sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+                pNext = nullptr;
+                dstSet = VK_NULL_HANDLE;
+                dstBinding = 0;
+                dstArrayElement = 0;
+                descriptorCount = 0;
+                descriptorType = VK_DESCRIPTOR_TYPE_SAMPLER;
+                pImageInfo = nullptr;
+                pBufferInfo = nullptr;
+                pTexelBufferView = nullptr;
+            }
+        };
+
     private:
         /*!
         Constructs an instance of DescriptorSet.
         @param [in] device This DescriptorSet's DescriptorPool
-        @param [in] allocateInfo This DescriptorSet's DescriptorSet::AllocateInfo
+        @param [in] descriptorSetLayout This DescriptorSet's DescriptorSetLayout
+        @param [in] allocateInfo This DescriptorSet's DescriptorSet::AllocateInfo (optional = { })
         */
         DescriptorSet(
             const std::shared_ptr<DescriptorPool>& descriptorPool,
+            const std::shared_ptr<DescriptorSetLayout>& descriptorSetLayout,
             DescriptorSet::AllocateInfo allocateInfo = { }
         );
 

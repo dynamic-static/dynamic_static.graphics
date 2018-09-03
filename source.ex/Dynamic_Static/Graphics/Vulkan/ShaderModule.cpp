@@ -45,7 +45,16 @@ namespace Vulkan {
         createInfo.codeSize = (uint32_t)compiler.get_spirv().size_bytes();
         createInfo.pCode = compiler.get_spirv().data();
         dst_vk(vkCreateShaderModule(get_device(), &createInfo, nullptr, &mHandle));
-        mReflector = std::make_unique<ShaderModule::Reflector>(compiler.get_spirv());
+        ShaderModule::Reflector reflector(compiler.get_spirv());
+        mDescriptorSetLayoutBindings.reserve(reflector.get_descriptor_set_layout_bindings().size());
+        for (auto binding : reflector.get_descriptor_set_layout_bindings()) {
+            binding.stageFlags = mStage;
+            mDescriptorSetLayoutBindings.push_back(binding);
+        }
+        mPushConstantRanges.reserve(reflector.get_push_constant_ranges().size());
+        for (auto pushConstantRange : reflector.get_push_constant_ranges()) {
+            mPushConstantRanges.push_back(pushConstantRange);
+        }
     }
 
     ShaderModule::ShaderModule(
@@ -75,6 +84,7 @@ namespace Vulkan {
         Pipeline::ShaderStageCreateInfo shaderStageCreateInfo { };
         shaderStageCreateInfo.stage = mStage;
         shaderStageCreateInfo.module = mHandle;
+        // TODO : Need to allow other entry points besides "main"
         static const auto sMainEntryPoint = "main";
         shaderStageCreateInfo.pName = sMainEntryPoint;
         return shaderStageCreateInfo;
@@ -82,14 +92,12 @@ namespace Vulkan {
 
     dst::Span<const VkDescriptorSetLayoutBinding> ShaderModule::get_descriptor_set_layout_bindings() const
     {
-        assert(mReflector);
-        return mReflector->get_descriptor_set_layout_bindings();
+        return mDescriptorSetLayoutBindings;
     }
 
     dst::Span<const VkPushConstantRange> ShaderModule::get_push_constant_ranges() const
     {
-        assert(mReflector);
-        return mReflector->get_push_constant_ranges();
+        return mPushConstantRanges;
     }
 
 } // namespace Vulkan
