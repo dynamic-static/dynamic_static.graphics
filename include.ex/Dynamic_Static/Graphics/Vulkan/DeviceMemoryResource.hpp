@@ -39,9 +39,22 @@ namespace Vulkan {
 
     public:
         /*!
+        Moves an instance of DeviceMemoryResource.
+        @param [in] other The DeviceMemoryResource to move from
+        */
+        DeviceMemoryResource(DeviceMemoryResource&& other);
+
+        /*!
         Destroys this instance of DeviceMemoryResource.
         */
         virtual ~DeviceMemoryResource();
+
+        /*!
+        Moves an instance of DeviceMemoryResource.
+        @param [in] other The DeviceMemoryResource to move from
+        @return This DeviceMemoryResource
+        */
+        DeviceMemoryResource& operator=(DeviceMemoryResource&& other);
 
     public:
         /*!

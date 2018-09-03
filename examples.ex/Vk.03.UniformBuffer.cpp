@@ -18,6 +18,15 @@ class Application final
     : public dst::vk::Application
 {
 private:
+    class Mesh final
+    {
+    public:
+        std::shared_ptr<dst::vk::Buffer> vertexBuffer;
+        std::shared_ptr<dst::vk::Buffer> indexBuffer;
+        VkIndexType indexType { VK_INDEX_TYPE_UINT16 };
+        int indexCount { 0 };
+    };
+
     struct UniformBuffer final
     {
         glm::mat4 world;
@@ -26,17 +35,10 @@ private:
     };
 
     std::shared_ptr<dst::vk::Pipeline> mPipeline;
-    class Mesh final
-    {
-    public:
-        std::shared_ptr<dst::vk::Buffer> vertexBuffer;
-        std::shared_ptr<dst::vk::Buffer> indexBuffer;
-        VkIndexType indexType { VK_INDEX_TYPE_UINT16 };
-        int indexCount { 0 };
-    } mMesh;
     std::shared_ptr<dst::vk::Buffer> mUniformBuffer;
     std::shared_ptr<dst::vk::DescriptorSet> mDescriptorSet;
     float mRotation { 0 };
+    Mesh mMesh;
 
 public:
     Application()
@@ -254,19 +256,19 @@ private:
         if (input.keyboard.down(Keyboard::Key::Escape)) {
             stop();
         }
-        UniformBuffer ubo { };
+        UniformBuffer uniformBuffer { };
         mRotation += 90.0f * clock.elapsed<dst::Second<float>>();
-        ubo.world = glm::toMat4(glm::angleAxis(glm::radians(mRotation), dst::unit_y<glm::vec3>()));
-        ubo.view = glm::lookAt({ 0, 2, 2 }, { }, dst::world_up<glm::vec3>());
-        ubo.projection = glm::perspective(
+        uniformBuffer.world = glm::toMat4(glm::angleAxis(glm::radians(mRotation), dst::unit_y<glm::vec3>()));
+        uniformBuffer.view = glm::lookAt({ 0, 2, 2 }, { }, dst::world_up<glm::vec3>());
+        uniformBuffer.projection = glm::perspective(
             glm::radians(30.0f),
             (float)mSwapchain->get_extent().width /
             (float)mSwapchain->get_extent().height,
             0.01f,
             10.0f
         );
-        ubo.projection[1][1] *= -1;
-        mUniformBuffer->write<UniformBuffer>(ubo);
+        uniformBuffer.projection[1][1] *= -1;
+        mUniformBuffer->write<UniformBuffer>(uniformBuffer);
     }
 
     void record_swapchain_render_pass(

@@ -10,6 +10,7 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/Image.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/DeviceMemory.hpp"
 
 #include <utility>
 
@@ -21,7 +22,7 @@ namespace Vulkan {
         const std::shared_ptr<Device>& device,
         Image::CreateInfo createInfo
     )
-        : DeviceChild(device)
+        : DeviceMemoryResource(device)
         , mCreateInfo { createInfo }
     {
         set_name("Image");
@@ -33,7 +34,7 @@ namespace Vulkan {
         Image::CreateInfo createInfo,
         VkImage handle
     )
-        : DeviceChild(device)
+        : DeviceMemoryResource(device)
         , mCreateInfo { createInfo }
     {
         set_name("Image");
@@ -42,7 +43,7 @@ namespace Vulkan {
 
     Image::Image(Image&& other)
         : Object(std::move(other))
-        , DeviceChild(std::move(other))
+        , DeviceMemoryResource(std::move(other))
         , mCreateInfo { std::move(other.mCreateInfo) }
     {
     }
@@ -58,7 +59,7 @@ namespace Vulkan {
     {
         if (this != &other) {
             Object::operator=(std::move(other));
-            DeviceChild::operator=(std::move(other));
+            DeviceMemoryResource::operator=(std::move(other));
             mCreateInfo = std::move(other.mCreateInfo);
         }
         return *this;
@@ -131,6 +132,22 @@ namespace Vulkan {
     Span<const ImageView> Image::get_views() const
     {
         return mImageViews;
+    }
+
+    VkMemoryRequirements Image::get_memory_requirements() const
+    {
+        VkMemoryRequirements memoryRequirements { };
+        vkGetImageMemoryRequirements(get_device(), mHandle, &memoryRequirements);
+        return memoryRequirements;
+    }
+
+    void Image::bind_memory(
+        const std::shared_ptr<DeviceMemory>& memory,
+        VkDeviceSize memoryOffset
+    )
+    {
+        dst_vk(vkBindImageMemory(get_device(), mHandle, *memory, memoryOffset));
+        DeviceMemoryResource::bind_memory(memory, memoryOffset);
     }
 
 } // namespace Vulkan

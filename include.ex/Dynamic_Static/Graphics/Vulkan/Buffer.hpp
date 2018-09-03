@@ -77,12 +77,6 @@ namespace Vulkan {
 
     public:
         /*!
-        Gets this Buffer's VkMemoryRequirements.
-        @return This Buffer's VkMemoryRequirements
-        */
-        VkMemoryRequirements get_memory_requirements() const override;
-
-        /*!
         Gets this Buffer's VkBufferCreateFlags.
         @return This Buffer's VkBufferCreateFlags
         */
@@ -105,6 +99,12 @@ namespace Vulkan {
         @return This Buffer's VkSharingMode
         */
         VkSharingMode get_sharing_mode() const;
+
+        /*!
+        Gets this Buffer's VkMemoryRequirements.
+        @return This Buffer's VkMemoryRequirements
+        */
+        VkMemoryRequirements get_memory_requirements() const override;
 
         /*!
         Binds this Buffer to a given DeviceMemory allocation.

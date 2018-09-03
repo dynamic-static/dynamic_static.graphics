@@ -20,8 +20,25 @@ namespace Vulkan {
     {
     }
 
+    DeviceMemoryResource::DeviceMemoryResource(DeviceMemoryResource&& other)
+        : DeviceChild(std::move(other))
+        , mMemory { std::move(other.mMemory) }
+        , mMemoryOffset { std::move(other.mMemoryOffset) }
+    {
+    }
+
     DeviceMemoryResource::~DeviceMemoryResource()
     {
+    }
+
+    DeviceMemoryResource& DeviceMemoryResource::operator=(DeviceMemoryResource&& other)
+    {
+        if (this != &other) {
+            DeviceChild::operator=(std::move(other));
+            mMemory = std::move(other.mMemory);
+            mMemoryOffset = std::move(other.mMemoryOffset);
+        }
+        return *this;
     }
 
     const std::shared_ptr<DeviceMemory>& DeviceMemoryResource::get_memory() const

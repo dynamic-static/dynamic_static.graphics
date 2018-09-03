@@ -11,7 +11,7 @@
 #pragma once
 
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
-#include "Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/DeviceMemoryResource.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/ImageView.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
@@ -27,7 +27,7 @@ namespace Vulkan {
     class Image
         : public Object<VkImage>
         , public SharedObject<Image>
-        , public DeviceChild
+        , public DeviceMemoryResource
     {
     public:
         /*!
@@ -188,6 +188,22 @@ namespace Vulkan {
         @return This Image's ImageViews
         */
         Span<const ImageView> get_views() const;
+
+        /*!
+        Gets this Image's VkMemoryRequirements.
+        @return This Image's VkMemoryRequirements
+        */
+        VkMemoryRequirements get_memory_requirements() const override;
+
+        /*!
+        Binds this Image to a given DeviceMemory allocation.
+        @param [in] memory The DeviceMemory allocation to bind this Image to
+        @param [in] memoryOffset The offset in bytes from the start of the given DeviceMemory allocation at which to bind this Image (optional = 0)
+        */
+        void bind_memory(
+            const std::shared_ptr<DeviceMemory>& memory,
+            VkDeviceSize memoryOffset = 0
+        ) override;
 
         /*!
         Creates a new object of a given type.

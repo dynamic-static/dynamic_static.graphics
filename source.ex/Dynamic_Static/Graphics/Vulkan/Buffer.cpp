@@ -34,13 +34,6 @@ namespace Vulkan {
         }
     }
 
-    VkMemoryRequirements Buffer::get_memory_requirements() const
-    {
-        VkMemoryRequirements memoryRequirements { };
-        vkGetBufferMemoryRequirements(get_device(), mHandle, &memoryRequirements);
-        return memoryRequirements;
-    }
-
     VkBufferCreateFlags Buffer::get_create_flags() const
     {
         return mCreateInfo.flags;
@@ -59,6 +52,13 @@ namespace Vulkan {
     VkSharingMode Buffer::get_sharing_mode() const
     {
         return mCreateInfo.sharingMode;
+    }
+
+    VkMemoryRequirements Buffer::get_memory_requirements() const
+    {
+        VkMemoryRequirements memoryRequirements { };
+        vkGetBufferMemoryRequirements(get_device(), mHandle, &memoryRequirements);
+        return memoryRequirements;
     }
 
     void Buffer::bind_memory(

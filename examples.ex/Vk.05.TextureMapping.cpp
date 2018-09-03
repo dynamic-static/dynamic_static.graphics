@@ -35,6 +35,8 @@ private:
     };
 
     std::shared_ptr<dst::vk::Pipeline> mPipeline;
+    std::shared_ptr<dst::vk::Image> mImage;
+    std::shared_ptr<dst::vk::DescriptorSet> mDescriptorSet;
     PushConstants mPushConstants;
     float mRotation { 0 };
     Mesh mMesh;
@@ -42,7 +44,7 @@ private:
 public:
     Application()
     {
-        mInfo.pApplicationName = "Dynamic_Static Vk.04.PushConstants";
+        mInfo.pApplicationName = "Dynamic_Static Vk.05.TextureMapping";
     }
 
 private:
@@ -67,7 +69,9 @@ private:
     void create_resources() override
     {
         create_pipeline();
+        create_image_and_sampler();
         create_vertex_and_index_buffers();
+        create_descriptor_set();
     }
 
     void create_pipeline()
@@ -141,14 +145,22 @@ private:
         mPipeline = mDevice->create<Pipeline>(pipelineLayout, pipelineCreateInfo);
     }
 
+    void create_image_and_sampler()
+    {
+        using namespace dst::vk;
+        dst::sys::Image image;
+        image.read_png("../../examples/resources/images/turtle.jpg");
+
+    }
+
     void create_vertex_and_index_buffers()
     {
         using namespace dst::vk;
         const std::array<VertexPositionColor, 4> vertices {
-            VertexPositionColor {{ -0.5f, 0, -0.5f }, { dst::Color::DeepSkyBlue }},
-            VertexPositionColor {{  0.5f, 0, -0.5f }, { dst::Color::DeepPink }},
-            VertexPositionColor {{  0.5f, 0,  0.5f }, { dst::Color::DarkOrange }},
-            VertexPositionColor {{ -0.5f, 0,  0.5f }, { dst::Color::FloralWhite }},
+            VertexPositionColor {{ -0.5f, 0, -0.5f }, { dst::Color::OrangeRed }},
+            VertexPositionColor {{  0.5f, 0, -0.5f }, { dst::Color::BlueViolet }},
+            VertexPositionColor {{  0.5f, 0,  0.5f }, { dst::Color::DodgerBlue }},
+            VertexPositionColor {{ -0.5f, 0,  0.5f }, { dst::Color::Goldenrod }},
         };
         Buffer::CreateInfo vertexBufferCreateInfo { };
         vertexBufferCreateInfo.size = sizeof(vertices);
@@ -199,6 +211,11 @@ private:
         copyBuffer(mMesh.vertexBuffer);
         stagingBuffer->write<uint16_t>(indices);
         copyBuffer(mMesh.indexBuffer);
+    }
+
+    void create_descriptor_set()
+    {
+        using namespace dst::vk;
     }
 
     void update(
