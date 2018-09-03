@@ -40,6 +40,7 @@
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/QueueFamily.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/RenderPass.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/RenderTarget.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Sampler.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Semaphore.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/ShaderModule.Compiler.hpp"

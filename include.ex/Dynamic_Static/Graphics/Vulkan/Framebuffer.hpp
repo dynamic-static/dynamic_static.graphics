@@ -20,8 +20,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    /*
-    * Provides high level control over a Vulkan framebuffer.
+    /*!
+    Provides high level control over a Vulkan framebuffer.
     */
     class Framebuffer final
         : public Object<VkFramebuffer>
@@ -29,14 +29,14 @@ namespace Vulkan {
         , public DeviceChild
     {
     public:
-        /*
-        * Configuration parameters for Framebuffer construction.
+        /*!
+        Configuration parameters for Framebuffer construction.
         */
         struct CreateInfo final
             : public VkFramebufferCreateInfo
         {
-            /*
-            * Constructs an instance of Framebuffer::CreateInfo.
+            /*!
+            Constructs an instance of Framebuffer::CreateInfo.
             */
             CreateInfo()
             {
@@ -57,10 +57,10 @@ namespace Vulkan {
         };
 
     private:
-        /*
-        * Constructs an instance of Framebuffer.
-        * @param [in] device This Framebuffer's Device
-        * @param [in] createInfo This Framebuffer's Framebuffer::CreateInfo
+        /*!
+        Constructs an instance of Framebuffer.
+        @param [in] device This Framebuffer's Device
+        @param [in] createInfo This Framebuffer's Framebuffer::CreateInfo
         */
         Framebuffer(
             const std::shared_ptr<Device>& device,
@@ -68,8 +68,8 @@ namespace Vulkan {
         );
 
     public:
-        /*
-        * Destroys this instance of Framebuffer.
+        /*!
+        Destroys this instance of Framebuffer.
         */
         ~Framebuffer();
 

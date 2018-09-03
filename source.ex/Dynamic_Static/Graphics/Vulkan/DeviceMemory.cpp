@@ -78,13 +78,14 @@ namespace Vulkan {
             uint32_t memoryTypeBits = -1;
             DeviceMemory::AllocateInfo allocateInfo { };
             for (auto resource : resources) {
-                assert(resource && "DeviceMemoryResources is null");
-                auto memoryRequirements = resource->get_memory_requirements();
-                auto minmax = std::minmax(memoryRequirements.alignment, allocateInfo.allocationSize);
-                auto padding = minmax.first - minmax.first % minmax.second;
-                allocateInfo.allocationSize += padding + memoryRequirements.size;
-                // TODO : Validate that alignment is handled correctly...
-                memoryTypeBits &= memoryRequirements.memoryTypeBits;
+                if (resource) {
+                    auto memoryRequirements = resource->get_memory_requirements();
+                    auto minmax = std::minmax(memoryRequirements.alignment, allocateInfo.allocationSize);
+                    auto padding = minmax.first - minmax.first % minmax.second;
+                    allocateInfo.allocationSize += padding + memoryRequirements.size;
+                    // TODO : Validate that alignment is handled correctly...
+                    memoryTypeBits &= memoryRequirements.memoryTypeBits;
+                }
             }
             assert(memoryTypeBits && "DeviceMemoryResources have incompatible VkMemoryRequirements");
             auto& device = resources[0]->get_device();
@@ -96,12 +97,14 @@ namespace Vulkan {
             memory = device.allocate<DeviceMemory>(allocateInfo);
             VkDeviceSize offset = 0;
             for (auto resource : resources) {
-                resource->bind_memory(memory, offset);
-                auto memoryRequirements = resource->get_memory_requirements();
-                auto minmax = std::minmax(memoryRequirements.alignment, allocateInfo.allocationSize);
-                auto padding = minmax.first - minmax.first % minmax.second;
-                // TODO : Validate that alignment is handled correctly...
-                offset += padding + memoryRequirements.size;
+                if (resource) {
+                    resource->bind_memory(memory, offset);
+                    auto memoryRequirements = resource->get_memory_requirements();
+                    auto minmax = std::minmax(memoryRequirements.alignment, allocateInfo.allocationSize);
+                    auto padding = minmax.first - minmax.first % minmax.second;
+                    // TODO : Validate that alignment is handled correctly...
+                    offset += padding + memoryRequirements.size;
+                }
             }
         }
         return memory;

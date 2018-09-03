@@ -63,6 +63,7 @@ namespace Vulkan {
     class Queue;
     class QueueFamily;
     class RenderPass;
+    class RenderTarget;
     class Sampler;
     class Semaphore;
     class ShaderModule;
