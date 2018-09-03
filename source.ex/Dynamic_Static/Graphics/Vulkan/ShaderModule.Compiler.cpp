@@ -76,7 +76,7 @@ namespace Vulkan {
         modifiedSource.append(source);
         const char* sourceCStr[] { modifiedSource.c_str() };
         shader.setStrings(sourceCStr, 1);
-        auto messages = static_cast<EShMessages>(EShMsgSpvRules | EShMsgVulkanRules);
+        auto messages = (EShMessages)(EShMsgSpvRules | EShMsgVulkanRules);
         if (!shader.parse(&BuiltInResource, 100, false, messages)) {
             std::string infoLog = shader.getInfoLog();
             std::string debugLog = shader.getInfoDebugLog();

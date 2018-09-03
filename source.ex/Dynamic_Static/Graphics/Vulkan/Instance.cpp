@@ -52,9 +52,9 @@ namespace Vulkan {
         auto StrToCStr = [](const std::string& str) { return str.c_str(); };
         auto requestedLayers = dst::convert<std::string, const char*>(mEnabledLayers, StrToCStr);
         auto requestedExtensions = dst::convert<std::string, const char*>(mEnabledExtensions, StrToCStr);
-        createInfo.enabledLayerCount = static_cast<uint32_t>(requestedLayers.size());
+        createInfo.enabledLayerCount = (uint32_t)requestedLayers.size();
         createInfo.ppEnabledLayerNames = requestedLayers.data();
-        createInfo.enabledExtensionCount = static_cast<uint32_t>(requestedExtensions.size());
+        createInfo.enabledExtensionCount = (uint32_t)requestedExtensions.size();
         createInfo.ppEnabledExtensionNames = requestedExtensions.data();
         dst_vk(vkCreateInstance(&createInfo, nullptr, &mHandle));
         if (debugReportFlags) {

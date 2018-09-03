@@ -92,9 +92,9 @@ namespace Vulkan {
     {
         Instance::CreateInfo instanceCreateInfo { };
         instanceCreateInfo.pApplicationInfo = &mInfo;
-        instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(layers.size());
+        instanceCreateInfo.enabledLayerCount = (uint32_t)layers.size();
         instanceCreateInfo.ppEnabledLayerNames = layers.data();
-        instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+        instanceCreateInfo.enabledExtensionCount = (uint32_t)extensions.size();
         instanceCreateInfo.ppEnabledExtensionNames = extensions.data();
         mInstance = create<Instance>(instanceCreateInfo, debugReportFlags);
     }
@@ -122,7 +122,7 @@ namespace Vulkan {
         queueCreateInfo.pQueuePriorities = &priority;
         queueCreateInfo.queueFamilyIndex = queueFamilyIndices[0];
         Device::CreateInfo deviceCreateInfo { };
-        deviceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+        deviceCreateInfo.enabledExtensionCount = (uint32_t)extensions.size();
         deviceCreateInfo.ppEnabledExtensionNames = extensions.data();
         deviceCreateInfo.queueCreateInfoCount = 1;
         deviceCreateInfo.pQueueCreateInfos = &queueCreateInfo;

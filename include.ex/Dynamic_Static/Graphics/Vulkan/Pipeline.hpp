@@ -329,7 +329,7 @@ namespace Vulkan {
                     VK_DYNAMIC_STATE_VIEWPORT,
                     VK_DYNAMIC_STATE_SCISSOR,
                 };
-                dynamicStateCount = static_cast<uint32_t>(sDefaultDynamicStates.size());
+                dynamicStateCount = (uint32_t)sDefaultDynamicStates.size();
                 pDynamicStates = sDefaultDynamicStates.data();
                 static_assert(
                     sizeof(Pipeline::DynamicStateCreateInfo) == sizeof(VkPipelineDynamicStateCreateInfo),

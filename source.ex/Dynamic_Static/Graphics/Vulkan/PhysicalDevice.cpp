@@ -80,7 +80,7 @@ namespace Vulkan {
     {
         std::vector<VkFormat> formats;
         for (int i = VK_FORMAT_BEGIN_RANGE; i < VK_FORMAT_RANGE_SIZE; ++i) {
-            auto format = static_cast<VkFormat>(i);
+            auto format = (VkFormat)i;
             if (get_image_format_support(format, imageTiling, formatFeatureFlags)) {
                 formats.push_back(format);
             }

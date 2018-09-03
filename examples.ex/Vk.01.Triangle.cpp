@@ -104,7 +104,7 @@ private:
         };
 
         Pipeline::GraphicsCreateInfo pipelineCreateInfo { };
-        pipelineCreateInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
+        pipelineCreateInfo.stageCount = (uint32_t)shaderStages.size();
         pipelineCreateInfo.pStages = shaderStages.data();
         pipelineCreateInfo.renderPass = *mSwapchainRenderPass;
         mPipeline = mDevice->create<Pipeline>(mDevice->create<PipelineLayout>(), pipelineCreateInfo);

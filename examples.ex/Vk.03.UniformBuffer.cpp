@@ -141,7 +141,7 @@ private:
         vertexInputState.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
 
         Pipeline::GraphicsCreateInfo pipelineCreateInfo { };
-        pipelineCreateInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
+        pipelineCreateInfo.stageCount = (uint32_t)shaderStages.size();
         pipelineCreateInfo.pStages = shaderStages.data();
         pipelineCreateInfo.pVertexInputState = &vertexInputState;
         pipelineCreateInfo.renderPass = *mSwapchainRenderPass;

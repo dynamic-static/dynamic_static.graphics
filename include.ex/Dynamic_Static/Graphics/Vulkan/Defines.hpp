@@ -142,7 +142,7 @@ namespace Vulkan {
             default:
             {
                 std::cerr
-                    << "Vulkan Error [" << std::to_string(static_cast<int>(vkResult)) << ":" << to_string(vkResult) << "]\n"
+                    << "Vulkan Error [" << std::to_string((int)vkResult) << ":" << to_string(vkResult) << "]\n"
                     << "    " << message << "\n"
                     << "    " << vkCall << "\n"
                     << std::endl;
