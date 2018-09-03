@@ -30,27 +30,21 @@ namespace Vulkan {
                 createInfo.format = imageFormat;
                 createInfo.subresourceRange.levelCount = image->get_mip_level_count();
                 createInfo.subresourceRange.layerCount = imageLayerCount;
-                if (imageUsageFlags & VK_IMAGE_USAGE_SAMPLED_BIT) {
-                    switch (imageFormat) {
-                        case VK_FORMAT_D16_UNORM:
-                        case VK_FORMAT_X8_D24_UNORM_PACK32:
-                        case VK_FORMAT_D32_SFLOAT:
-                        case VK_FORMAT_S8_UINT:
-                        case VK_FORMAT_D16_UNORM_S8_UINT:
-                        case VK_FORMAT_D24_UNORM_S8_UINT:
-                        case VK_FORMAT_D32_SFLOAT_S8_UINT:
-                            createInfo.subresourceRange.aspectMask |= VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
-                            break;
-                        default:
-                            createInfo.subresourceRange.aspectMask |= VK_IMAGE_ASPECT_COLOR_BIT;
-                            break;
-                    }
-                }
-                if (imageUsageFlags & VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT) {
-                    createInfo.subresourceRange.aspectMask |= VK_IMAGE_ASPECT_COLOR_BIT;
-                }
-                if (imageUsageFlags & VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT) {
-                    createInfo.subresourceRange.aspectMask |= VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+                switch (imageFormat) {
+                    case VK_FORMAT_D16_UNORM:
+                    case VK_FORMAT_X8_D24_UNORM_PACK32:
+                    case VK_FORMAT_D32_SFLOAT:
+                        createInfo.subresourceRange.aspectMask |= VK_IMAGE_ASPECT_DEPTH_BIT;
+                        break;
+                    case VK_FORMAT_S8_UINT:
+                    case VK_FORMAT_D16_UNORM_S8_UINT:
+                    case VK_FORMAT_D24_UNORM_S8_UINT:
+                    case VK_FORMAT_D32_SFLOAT_S8_UINT:
+                        createInfo.subresourceRange.aspectMask |= VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+                        break;
+                    default:
+                        createInfo.subresourceRange.aspectMask |= VK_IMAGE_ASPECT_COLOR_BIT;
+                        break;
                 }
                 switch (image->get_type()) {
                     case VK_IMAGE_TYPE_1D: {

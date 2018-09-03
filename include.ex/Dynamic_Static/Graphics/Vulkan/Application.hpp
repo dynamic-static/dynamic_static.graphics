@@ -43,6 +43,10 @@ namespace Vulkan {
                 pEngineName = "Dynamic_Static";
                 engineVersion = VK_MAKE_VERSION(1, 0, 0);
                 apiVersion = VK_MAKE_VERSION(1, 1, 0);
+                static_assert(
+                    sizeof(Application::Info) == sizeof(VkApplicationInfo),
+                    "sizeof(Application::Info) != sizeof(VkApplicationInfo)"
+                );
             }
         };
 
@@ -61,6 +65,7 @@ namespace Vulkan {
         std::shared_ptr<Semaphore> mSwapchainRenderCompleteSemphore;
         std::vector<std::shared_ptr<Framebuffer>> mSwapchainFramebuffers;
         std::shared_ptr<Image> mSwapchainDepthImage;
+        VkFormat mSwapchainDepthFormat { VK_FORMAT_UNDEFINED };
 
     private:
         Clock mClock;

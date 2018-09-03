@@ -27,7 +27,7 @@ namespace Vulkan {
         VkDescriptorSetLayoutBinding binding { };
         binding.descriptorCount = 1;
         binding.binding = glsl.get_decoration(resource.id, spv::DecorationBinding);
-        #if 1
+        #if 0
         std::cout
             << "{ "
             << typeName

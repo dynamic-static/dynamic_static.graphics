@@ -12,8 +12,11 @@
 #include "Dynamic_Static/Graphics/Vulkan/CommandBuffer.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/CommandPool.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/DeviceMemory.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Fence.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Framebuffer.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/Image.hpp"
+#include "Dynamic_Static/Graphics/Vulkan/ImageView.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Queue.hpp"
@@ -146,36 +149,38 @@ namespace Vulkan {
         colorAttachmentDescription.samples = VK_SAMPLE_COUNT_1_BIT;
         colorAttachmentDescription.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
         colorAttachmentDescription.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-        colorAttachmentDescription.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-        colorAttachmentDescription.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
         colorAttachmentDescription.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
         colorAttachmentDescription.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
         VkAttachmentReference colorAttachmentReference { };
         colorAttachmentReference.attachment = 0;
         colorAttachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
-        std::array<VkFormat, 3> depthFormats {
-            VK_FORMAT_D32_SFLOAT,
-            VK_FORMAT_D32_SFLOAT_S8_UINT,
-            VK_FORMAT_D24_UNORM_S8_UINT,
-        };
-        auto depthFormat = VK_FORMAT_UNDEFINED;
-        for (auto format : depthFormats) {
-            if (mInstance->get_physical_devices()[0].get_image_format_support(
-                format,
-                VK_IMAGE_TILING_OPTIMAL,
-                VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT)) {
-                depthFormat = format;
-                break;
+        if (mSwapchainDepthFormat) {
+            std::array<VkFormat, 4> depthFormats {
+                mSwapchainDepthFormat,
+                VK_FORMAT_D32_SFLOAT,
+                VK_FORMAT_D32_SFLOAT_S8_UINT,
+                VK_FORMAT_D24_UNORM_S8_UINT,
+            };
+            mSwapchainDepthFormat = VK_FORMAT_UNDEFINED;
+            for (auto format : depthFormats) {
+                if (mInstance->get_physical_devices()[0].get_image_format_support(
+                        format,
+                        VK_IMAGE_TILING_OPTIMAL,
+                        VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
+                    )) {
+                    mSwapchainDepthFormat = format;
+                    break;
+                }
             }
+            assert(mSwapchainDepthFormat);
         }
+
         VkAttachmentDescription depthAttachmentDescription { };
-        depthAttachmentDescription.format = depthFormat;
+        depthAttachmentDescription.format = mSwapchainDepthFormat;
         depthAttachmentDescription.samples = VK_SAMPLE_COUNT_1_BIT;
-        depthAttachmentDescription.loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+        depthAttachmentDescription.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
         depthAttachmentDescription.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-        depthAttachmentDescription.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-        depthAttachmentDescription.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
         depthAttachmentDescription.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
         depthAttachmentDescription.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
         VkAttachmentReference depthAttachmentReference { };
@@ -186,14 +191,15 @@ namespace Vulkan {
             colorAttachmentDescription,
             depthAttachmentDescription,
         };
+
         VkSubpassDescription subpassDescription { };
         subpassDescription.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
         subpassDescription.colorAttachmentCount = 1;
         subpassDescription.pColorAttachments = &colorAttachmentReference;
-        subpassDescription.pDepthStencilAttachment = nullptr; // &depthAttachmentReference;
+        subpassDescription.pDepthStencilAttachment = mSwapchainDepthFormat ? &depthAttachmentReference : nullptr;
 
         RenderPass::CreateInfo renderPassCreateInfo { };
-        renderPassCreateInfo.attachmentCount = 1; // static_cast<uint32_t>(attachmentDescriptions.size());
+        renderPassCreateInfo.attachmentCount = mSwapchainDepthFormat ? (uint32_t)attachmentDescriptions.size() : 1;
         renderPassCreateInfo.pAttachments = attachmentDescriptions.data();
         renderPassCreateInfo.subpassCount = 1;
         renderPassCreateInfo.pSubpasses = &subpassDescription;
@@ -243,20 +249,36 @@ namespace Vulkan {
     void Application::validate_swapchain(const Clock& clock)
     {
         // TODO : Testing for validation, then doing validation is kind of an
-        //        annoying little dance, but Framebuffer recreation needs to be
-        //        triggered somehow...there's an Event for resize...probably
-        //        move Framebuffer recreation there.
+        //  annoying little dance, but Framebuffer recreation needs to be
+        //  triggered somehow...there's an Event for resize...probably move
+        //  Framebuffer recreation there.
         if (!mSwapchain->is_valid() || mSwapchainFramebuffers.empty()) {
             mDevice->get_queue_families()[0].get_queues()[0].wait_idle();
             mSwapchain->validate();
-            mSwapchainFramebuffers.clear();
             if (mSwapchain->is_valid()) {
+                if (mSwapchainDepthFormat) {
+                    Image::CreateInfo depthImageCreateInfo { };
+                    depthImageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
+                    depthImageCreateInfo.extent.width = mSwapchain->get_extent().width;
+                    depthImageCreateInfo.extent.height = mSwapchain->get_extent().height;
+                    depthImageCreateInfo.format = mSwapchainDepthFormat;
+                    depthImageCreateInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+                    depthImageCreateInfo.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+                    mSwapchainDepthImage = mDevice->create<Image>(depthImageCreateInfo);
+                    DeviceMemory::allocate_resource_memory(mSwapchainDepthImage.get(), VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+                }
+                mSwapchainFramebuffers.clear();
                 mSwapchainFramebuffers.reserve(mSwapchain->get_images().size());
                 for (auto& image : mSwapchain->get_images()) {
+                    std::array<VkImageView, 2> attachments { };
+                    attachments[0] = image.get_view();
+                    if (mSwapchainDepthImage) {
+                        attachments[1] = mSwapchainDepthImage->get_view();
+                    }
                     Framebuffer::CreateInfo framebufferCreateInfo { };
                     framebufferCreateInfo.renderPass = *mSwapchainRenderPass;
-                    framebufferCreateInfo.attachmentCount = 1;
-                    framebufferCreateInfo.pAttachments = &image.get_view().get_handle();
+                    framebufferCreateInfo.attachmentCount = mSwapchainDepthImage ? (uint32_t)attachments.size() : 1;
+                    framebufferCreateInfo.pAttachments = attachments.data();
                     framebufferCreateInfo.width = image.get_extent().width;
                     framebufferCreateInfo.height = image.get_extent().height;
                     framebufferCreateInfo.layers = 1;
@@ -303,13 +325,13 @@ namespace Vulkan {
         renderPassBeginInfo.renderPass = *mSwapchainRenderPass;
         renderPassBeginInfo.framebuffer = *mSwapchainFramebuffers[mSwapchain->get_current_image_index()];
         renderPassBeginInfo.renderArea.extent = extent;
-        renderPassBeginInfo.clearValueCount = 1; // depth
+        renderPassBeginInfo.clearValueCount = mSwapchainDepthFormat ? (uint32_t)clearValues.size() : 1;
         renderPassBeginInfo.pClearValues = clearValues.data();
         vkCmdBeginRenderPass(commandBuffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 
         VkViewport viewport { };
-        viewport.width = static_cast<float>(extent.width);
-        viewport.height = static_cast<float>(extent.height);
+        viewport.width = (float)extent.width;
+        viewport.height = (float)extent.height;
         viewport.minDepth = 0;
         viewport.maxDepth = 1;
         VkRect2D scissor { };
