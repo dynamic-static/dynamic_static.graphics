@@ -256,8 +256,8 @@ private:
         }
         UniformBuffer ubo { };
         mRotation += 90.0f * clock.elapsed<dst::Second<float>>();
-        ubo.world = glm::toMat4(glm::angleAxis(glm::radians(mRotation), glm::vec3 { 0, 1, 0 }));
-        ubo.view = glm::lookAt({ 0, 2, 2 }, glm::vec3 { }, glm::vec3 { 0, 1, 0 });
+        ubo.world = glm::toMat4(glm::angleAxis(glm::radians(mRotation), dst::unit_y<glm::vec3>()));
+        ubo.view = glm::lookAt({ 0, 2, 2 }, { }, dst::world_up<glm::vec3>());
         ubo.projection = glm::perspective(
             glm::radians(30.0f),
             (float)mSwapchain->get_extent().width /
