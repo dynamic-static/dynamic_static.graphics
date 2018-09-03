@@ -30,6 +30,9 @@ namespace Vulkan {
         , public DeviceChild
     {
     public:
+        class Compiler;
+        class Reflector;
+
         /*!
         Configuration parameters for ShaderModule construction.
         */
@@ -52,6 +55,9 @@ namespace Vulkan {
                 );
             }
         };
+
+    private:
+        std::unique_ptr<Reflector> mReflector;
 
     private:
         VkShaderStageFlagBits mStage { VK_SHADER_STAGE_ALL_GRAPHICS };
@@ -111,6 +117,18 @@ namespace Vulkan {
         @return This ShaderModule's VkPipelineShaderStageCreateInfo
         */
         VkPipelineShaderStageCreateInfo get_pipeline_stage_create_info() const;
+
+        /*
+        Gets this ShaderModule's VkDescriptorSetLayoutBindings.
+        @return This ShaderModule's VkDescriptorSetLayoutBindings
+        */
+        dst::Span<const VkDescriptorSetLayoutBinding> get_descriptor_set_layout_bindings() const;
+
+        /*
+        Gets this ShaderModule's VkPushConstantRange.
+        @return This ShaderModule's VkPushConstantRange
+        */
+        dst::Span<const VkPushConstantRange> get_push_constant_ranges() const;
 
     private:
         friend class Device;

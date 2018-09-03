@@ -12,14 +12,14 @@
 
 #include <memory>
 
-class Vk01Triangle final
+class Application final
     : public dst::vk::Application
 {
 private:
     std::shared_ptr<dst::vk::Pipeline> mPipeline;
 
 public:
-    Vk01Triangle()
+    Application()
     {
         mInfo.pApplicationName = "Dynamic_Static Vk.01.Triangle";
     }
@@ -103,9 +103,8 @@ private:
         Pipeline::GraphicsCreateInfo pipelineCreateInfo { };
         pipelineCreateInfo.stageCount = static_cast<uint32_t>(shaderStages.size());
         pipelineCreateInfo.pStages = shaderStages.data();
-        pipelineCreateInfo.layout = *pipelineLayout;
         pipelineCreateInfo.renderPass = *mSwapchainRenderPass;
-        mPipeline = mDevice->create<Pipeline>(pipelineCreateInfo);
+        mPipeline = mDevice->create<Pipeline>(pipelineLayout, pipelineCreateInfo);
     }
 
     void update(
@@ -131,7 +130,6 @@ private:
 
 int main()
 {
-    Vk01Triangle vk01Triangle;
-    vk01Triangle.start();
+    Application().start();
     return 0;
 }

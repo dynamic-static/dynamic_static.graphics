@@ -19,11 +19,14 @@ class Application final
 {
 private:
     std::shared_ptr<dst::vk::Pipeline> mPipeline;
+    std::shared_ptr<dst::vk::DescriptorPool> mDescriptorPool;
     class Mesh final
     {
     public:
         std::shared_ptr<dst::vk::Buffer> vertexBuffer;
         std::shared_ptr<dst::vk::Buffer> indexBuffer;
+        std::shared_ptr<dst::vk::Buffer> uniformBuffer;
+        dst::vk::DescriptorSet* descriptorSet { nullptr };
         VkIndexType indexType { VK_INDEX_TYPE_UINT16 };
         int indexCount { 0 };
     } mMesh;
@@ -31,7 +34,7 @@ private:
 public:
     Application()
     {
-        mInfo.pApplicationName = "Dynamic_Static Vk.02.VertexAndIndexBuffers";
+        mInfo.pApplicationName = "Dynamic_Static Vk.03.UniformBuffer";
     }
 
 private:
@@ -56,7 +59,10 @@ private:
     void create_resources() override
     {
         create_pipeline();
+        create_descriptor_pool();
         create_vertex_and_index_buffers();
+        create_uniform_buffer();
+        create_descriptor_set();
     }
 
     void create_pipeline()
@@ -118,6 +124,11 @@ private:
         mPipeline = mDevice->create<Pipeline>(pipelineLayout, pipelineCreateInfo);
     }
 
+    void create_descriptor_pool()
+    {
+
+    }
+
     void create_vertex_and_index_buffers()
     {
         using namespace dst::vk;
@@ -176,6 +187,16 @@ private:
         copyBuffer(mMesh.vertexBuffer);
         stagingBuffer->write<uint16_t>(indices);
         copyBuffer(mMesh.indexBuffer);
+    }
+
+    void create_uniform_buffer()
+    {
+
+    }
+
+    void create_descriptor_set()
+    {
+
     }
 
     void update(

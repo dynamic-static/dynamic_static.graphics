@@ -387,18 +387,36 @@ namespace Vulkan {
         /*!
         Constructs an instance of Pipeline.
         @param [in] device This Pipeline's Device
+        @param [in] layout This Pipeline's PipelineLayout
         @param [in] createInfo This Pipeline's Pipeline::CreateInfo
         */
         Pipeline(
             const std::shared_ptr<Device>& device,
+            const std::shared_ptr<PipelineLayout>& layout,
             Pipeline::GraphicsCreateInfo createInfo
         );
+
+    private:
+        std::shared_ptr<PipelineLayout> mLayout;
 
     public:
         /*!
         Destroys this instance of Pipeline.
         */
         ~Pipeline();
+
+    public:
+        /*!
+        Gets this Pipeline's PipelineLayout.
+        @return This Pipeline's PipelineLayout
+        */
+        PipelineLayout& get_layout();
+
+        /*!
+        Gets this Pipeline's PipelineLayout.
+        @return This Pipeline's PipelineLayout
+        */
+        const PipelineLayout& get_layout() const;
 
     private:
         friend class Device;

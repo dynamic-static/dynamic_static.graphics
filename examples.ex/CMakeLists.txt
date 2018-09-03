@@ -10,18 +10,12 @@ macro(CreateExample target)
     DstCreateExecutable(
         target ${target}
         folder Dynamic_Static.Graphics/examples/
-
-        sharedLibraries
-            ${glew.sharedLibraries}
-
-        staticLibraries
-            Dynamic_Static.Graphics
-
-        sourceFiles
-            "${CMAKE_CURRENT_LIST_DIR}/${target}.cpp"
+        sharedLibraries "${glew.sharedLibraries}"
+        staticLibraries Dynamic_Static.Graphics
+        sourceFiles "${CMAKE_CURRENT_LIST_DIR}/${target}.cpp"
     )
 endmacro()
-
 CreateExample(Vk.00.PhysicalDevice)
 CreateExample(Vk.01.Triangle)
 CreateExample(Vk.02.VertexAndIndexBuffers)
+CreateExample(Vk.03.UniformBuffer)
