@@ -169,13 +169,9 @@ private:
         auto indexBufferMemoryRequirements = mMesh.indexBuffer->get_memory_requirements();
 
         std::array<DeviceMemoryResource*, 2> resources {
-            mMesh.vertexBuffer.get(),
-            mMesh.indexBuffer.get()
+            mMesh.vertexBuffer.get(), mMesh.indexBuffer.get()
         };
-        DeviceMemory::allocate_resource_backing(
-            resources,
-            VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
-        );
+        DeviceMemory::allocate_resource_backing(resources, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
         Buffer::CreateInfo stagingBufferCreateInfo { };
         stagingBufferCreateInfo.size = std::max(vertexBufferCreateInfo.size, indexBufferCreateInfo.size);

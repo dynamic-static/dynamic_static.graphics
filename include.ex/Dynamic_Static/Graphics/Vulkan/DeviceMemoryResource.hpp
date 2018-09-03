@@ -101,6 +101,21 @@ namespace Vulkan {
         TODO : Documentation.
         */
         template <typename T>
+        void write(dst::Span<T> data)
+        {
+            assert(mMemory && "Attempting DeviceMemoryResource write without bound DeviceMemory");
+            if (!data.empty()) {
+                auto size = std::min(data.size_bytes(), get_memory_size());
+                auto mappedPtr = mMemory->map(mMemoryOffset, size);
+                memcpy(mappedPtr, data.data(), size);
+                mMemory->unmap();
+            }
+        }
+
+        /*!
+        TODO : Documentation.
+        */
+        template <typename T>
         void write(dst::Span<const T> data)
         {
             assert(mMemory && "Attempting DeviceMemoryResource write without bound DeviceMemory");

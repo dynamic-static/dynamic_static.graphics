@@ -36,6 +36,7 @@ private:
 
     std::shared_ptr<dst::vk::Pipeline> mPipeline;
     std::shared_ptr<dst::vk::Image> mImage;
+    std::shared_ptr<dst::vk::Sampler> mSampler;
     std::shared_ptr<dst::vk::DescriptorSet> mDescriptorSet;
     PushConstants mPushConstants;
     float mRotation { 0 };
@@ -150,7 +151,71 @@ private:
         using namespace dst::vk;
         dst::sys::Image image;
         image.read_png("../../examples/resources/images/turtle.jpg");
+        Image::CreateInfo imageCreateInfo { };
+        imageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
+        imageCreateInfo.extent.width = (uint32_t)image.get_width();
+        imageCreateInfo.extent.height = (uint32_t)image.get_height();
+        imageCreateInfo.extent.depth = (uint32_t)image.get_depth();
+        imageCreateInfo.format = VK_FORMAT_R8G8B8A8_UNORM;
+        imageCreateInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+        imageCreateInfo.usage = VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+        mImage = mDevice->create<Image>(imageCreateInfo);
+        DeviceMemory::allocate_resource_backing(mImage.get(), VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
+        Buffer::CreateInfo stagingBufferCreateInfo { };
+        stagingBufferCreateInfo.size = mImage->get_memory_requirements().size;
+        stagingBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+        auto stagingBuffer = mDevice->create<Buffer>(stagingBufferCreateInfo);
+        auto stagingBufferMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+        DeviceMemory::allocate_resource_backing(stagingBuffer.get(), stagingBufferMemoryProperties);
+        stagingBuffer->write<uint8_t>(image.get_data());
+        mDevice->get_queue_families()[0].get_queues()[0].process_immediately(
+            [&](const CommandBuffer& commandBuffer)
+            {
+                Image::Barrier imageBarrier { };
+                imageBarrier.image = *mImage;
+                imageBarrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+                imageBarrier.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+                imageBarrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+                vkCmdPipelineBarrier(
+                    commandBuffer,
+                    VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+                    VK_PIPELINE_STAGE_TRANSFER_BIT,
+                    0,
+                    0, nullptr,
+                    0, nullptr,
+                    1, &imageBarrier
+                );
+
+                VkBufferImageCopy region { };
+                region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+                region.imageSubresource.layerCount = 1;
+                region.imageExtent = mImage->get_extent();
+                vkCmdCopyBufferToImage(
+                    commandBuffer,
+                    *stagingBuffer,
+                    *mImage,
+                    imageBarrier.newLayout,
+                    1,
+                    &region
+                );
+
+                imageBarrier.dstAccessMask = 0;
+                imageBarrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+                imageBarrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+                vkCmdPipelineBarrier(
+                    commandBuffer,
+                    VK_PIPELINE_STAGE_TRANSFER_BIT,
+                    VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
+                    0,
+                    0, nullptr,
+                    0, nullptr,
+                    1, &imageBarrier
+                );
+            }
+        );
+        mImage->create<ImageView>();
+        mSampler = mDevice->create<Sampler>();
     }
 
     void create_vertex_and_index_buffers()
@@ -166,7 +231,6 @@ private:
         vertexBufferCreateInfo.size = sizeof(vertices);
         vertexBufferCreateInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
         mMesh.vertexBuffer = mDevice->create<Buffer>(vertexBufferCreateInfo);
-        auto vertexBufferMemoryRequirements = mMesh.vertexBuffer->get_memory_requirements();
 
         const std::array<uint16_t, 6> indices {
             0, 1, 2,
@@ -178,16 +242,11 @@ private:
         indexBufferCreateInfo.size = sizeof(indices);
         indexBufferCreateInfo.usage = VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
         mMesh.indexBuffer = mDevice->create<Buffer>(indexBufferCreateInfo);
-        auto indexBufferMemoryRequirements = mMesh.indexBuffer->get_memory_requirements();
 
         std::array<DeviceMemoryResource*, 2> resources {
-            mMesh.vertexBuffer.get(),
-            mMesh.indexBuffer.get()
+            mMesh.vertexBuffer.get(), mMesh.indexBuffer.get()
         };
-        DeviceMemory::allocate_resource_backing(
-            resources,
-            VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
-        );
+        DeviceMemory::allocate_resource_backing(resources, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
         Buffer::CreateInfo stagingBufferCreateInfo { };
         stagingBufferCreateInfo.size = std::max(vertexBufferCreateInfo.size, indexBufferCreateInfo.size);
