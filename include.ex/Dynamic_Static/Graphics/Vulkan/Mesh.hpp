@@ -27,7 +27,7 @@ namespace Vulkan {
         std::shared_ptr<dst::vk::Buffer> vertexBuffer;
         std::shared_ptr<dst::vk::Buffer> indexBuffer;
         VkIndexType indexType { VK_INDEX_TYPE_UINT16 };
-        int indexCount { 0 };
+        uint32_t indexCount { 0 };
 
     public:
         /*

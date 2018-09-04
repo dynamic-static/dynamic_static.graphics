@@ -274,9 +274,9 @@ private:
             mDevice->get_queue_families()[0].get_queues()[0].process_immediately(
                 [&](const CommandBuffer& commandBuffer)
                 {
-                    VkBufferCopy region { };
-                    region.size = buffer->get_memory_size();
-                    vkCmdCopyBuffer(commandBuffer, *stagingBuffer, *buffer, 1, &region);
+                    VkBufferCopy copy { };
+                    copy.size = buffer->get_size();
+                    vkCmdCopyBuffer(commandBuffer, *stagingBuffer, *buffer, 1, &copy);
                 }
             );
         };

@@ -71,7 +71,7 @@ private:
 
         create_pipeline();
         create_sampler_and_image();
-        create_vertex_and_index_buffers();
+        mMesh = create_box_mesh({ 1, 1, 1 }, dst::Color::Red, dst::Color::Blue);
         create_descriptor_set();
     }
 
@@ -114,10 +114,10 @@ private:
             VertexPositionColorTexture {{ w, -h,  d }, { bottomColor }, { }},
 
             // Back
-            VertexPositionColorTexture {{  w, h, -d }, { topColor },    { }},
-            VertexPositionColorTexture {{ -w, h, -d }, { topColor },    { }},
-            VertexPositionColorTexture {{ -w, h, -d }, { bottomColor }, { }},
-            VertexPositionColorTexture {{  w, h, -d }, { bottomColor }, { }},
+            VertexPositionColorTexture {{  w,  h, -d }, { topColor },    { }},
+            VertexPositionColorTexture {{ -w,  h, -d }, { topColor },    { }},
+            VertexPositionColorTexture {{ -w, -h, -d }, { bottomColor }, { }},
+            VertexPositionColorTexture {{  w, -h, -d }, { bottomColor }, { }},
 
             // Bottom
             VertexPositionColorTexture {{ -w, -h,  d }, { bottomColor }, { }},
@@ -138,6 +138,8 @@ private:
             vertex_i += VerticesPerFace;
         }
         Mesh mesh;
+        mesh.indexType = VK_INDEX_TYPE_UINT16;
+        mesh.indexCount = (uint32_t)indices.size();
         Buffer::CreateInfo bufferCreateInfo { };
         bufferCreateInfo.size = sizeof(vertices);
         bufferCreateInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
@@ -153,6 +155,23 @@ private:
         auto stagingBuffer = mDevice->create<Buffer>(bufferCreateInfo);
         auto stagingBufferMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
         DeviceMemory::allocate_resource_memory(stagingBuffer, stagingBufferMemoryProperties);
+        auto copyBuffer =
+        [&](std::shared_ptr<Buffer>& buffer)
+        {
+            mDevice->get_queue_families()[0].get_queues()[0].process_immediately(
+                [&](const CommandBuffer& commandBuffer)
+                {
+                    VkBufferCopy copy { };
+                    copy.size = buffer->get_size();
+                    vkCmdCopyBuffer(commandBuffer, *stagingBuffer, *buffer, 1, &copy);
+                }
+            );
+        };
+        stagingBuffer->write<VertexPositionColorTexture>(vertices);
+        copyBuffer(mesh.vertexBuffer);
+        stagingBuffer->write<uint16_t>(indices);
+        copyBuffer(mesh.indexBuffer);
+        return mesh;
     }
 
     void create_reflection_render_pass()
@@ -212,7 +231,8 @@ private:
                 } pc;
 
                 layout(location = 0) in vec3 vsPosition;
-                layout(location = 1) in vec2 vsTexcoord;
+                layout(location = 1) in vec4 vsColor;
+                layout(location = 2) in vec2 vsTexcoord;
                 layout(location = 0) out vec2 fsTexcoord;
 
                 out gl_PerVertex
@@ -255,8 +275,8 @@ private:
         auto pushConstantRanges = vertexShader->get_push_constant_ranges();
         auto pipelineLayout = mDevice->create<PipelineLayout>(descriptorSetLayout, pushConstantRanges);
 
-        auto vertexBindingDescription = get_binding_description<VertexPositionTexture>();
-        auto vertexAttributeDescriptions = get_attribute_descriptions<VertexPositionTexture>();
+        auto vertexBindingDescription = get_binding_description<VertexPositionColorTexture>();
+        auto vertexAttributeDescriptions = get_attribute_descriptions<VertexPositionColorTexture>();
         Pipeline::VertexInputStateCreateInfo vertexInputState { };
         vertexInputState.vertexBindingDescriptionCount = 1;
         vertexInputState.pVertexBindingDescriptions = &vertexBindingDescription;
@@ -349,70 +369,6 @@ private:
         );
     }
 
-    void create_vertex_and_index_buffers()
-    {
-        using namespace dst::vk;
-        float w = (float)mImage->get_extent().width;
-        float h = (float)mImage->get_extent().height;
-        float a = 1.0f / std::max(w, h);
-        w = w * a * 0.5f;
-        h = h * a * 0.5f;
-        const std::array<VertexPositionTexture, 8> vertices {
-            VertexPositionTexture {{ -w, 0.25f, -h }, { 0, 0 }},
-            VertexPositionTexture {{  w, 0.25f, -h }, { 1, 0 }},
-            VertexPositionTexture {{  w, 0.25f,  h }, { 1, 1 }},
-            VertexPositionTexture {{ -w, 0.25f,  h }, { 0, 1 }},
-
-            VertexPositionTexture {{ -w, -0.25f, -h }, { 0, 0 }},
-            VertexPositionTexture {{  w, -0.25f, -h }, { 1, 0 }},
-            VertexPositionTexture {{  w, -0.25f,  h }, { 1, 1 }},
-            VertexPositionTexture {{ -w, -0.25f,  h }, { 0, 1 }},
-        };
-        Buffer::CreateInfo vertexBufferCreateInfo { };
-        vertexBufferCreateInfo.size = sizeof(vertices);
-        vertexBufferCreateInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
-        mMesh.vertexBuffer = mDevice->create<Buffer>(vertexBufferCreateInfo);
-
-        const std::array<uint16_t, 12> indices {
-            0, 1, 2, 2, 3, 0,
-            4, 5, 6, 6, 7, 4,
-        };
-        mMesh.indexType = VK_INDEX_TYPE_UINT16;
-        mMesh.indexCount = (int)indices.size();
-        Buffer::CreateInfo indexBufferCreateInfo { };
-        indexBufferCreateInfo.size = sizeof(indices);
-        indexBufferCreateInfo.usage = VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
-        mMesh.indexBuffer = mDevice->create<Buffer>(indexBufferCreateInfo);
-
-        std::array<DeviceMemoryResource*, 2> resources {
-            mMesh.vertexBuffer.get(), mMesh.indexBuffer.get()
-        };
-        DeviceMemory::allocate_multi_resource_memory(resources, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-
-        Buffer::CreateInfo stagingBufferCreateInfo { };
-        stagingBufferCreateInfo.size = std::max(vertexBufferCreateInfo.size, indexBufferCreateInfo.size);
-        stagingBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
-        auto stagingBuffer = mDevice->create<Buffer>(stagingBufferCreateInfo);
-        auto stagingBufferMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-        DeviceMemory::allocate_resource_memory(stagingBuffer, stagingBufferMemoryProperties);
-        auto copyBuffer =
-        [&](std::shared_ptr<Buffer>& buffer)
-        {
-            mDevice->get_queue_families()[0].get_queues()[0].process_immediately(
-                [&](const CommandBuffer& commandBuffer)
-                {
-                    VkBufferCopy region { };
-                    region.size = buffer->get_memory_size();
-                    vkCmdCopyBuffer(commandBuffer, *stagingBuffer, *buffer, 1, &region);
-                }
-            );
-        };
-        stagingBuffer->write<VertexPositionTexture>(vertices);
-        copyBuffer(mMesh.vertexBuffer);
-        stagingBuffer->write<uint16_t>(indices);
-        copyBuffer(mMesh.indexBuffer);
-    }
-
     void create_descriptor_set()
     {
         using namespace dst::vk;
@@ -448,7 +404,7 @@ private:
         if (input.keyboard.down(Keyboard::Key::Escape)) {
             stop();
         }
-        mRotation += 90.0f * clock.elapsed<dst::Second<float>>();
+        mRotation += 90 * clock.elapsed<dst::Second<float>>();
         mPushConstants.world = glm::toMat4(glm::angleAxis(glm::radians(mRotation), dst::unit_y<glm::vec3>()));
         mPushConstants.view = glm::lookAt({ 0, 2, 2 }, { }, dst::world_up<glm::vec3>());
         mPushConstants.projection = glm::perspective(

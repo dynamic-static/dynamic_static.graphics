@@ -1,0 +1,64 @@
+
+/*
+==========================================
+  Copyright (c) 2017-2018 Dynamic_Static
+    Patrick Purcell
+      Licensed under the MIT license
+    http://opensource.org/licenses/MIT
+==========================================
+*/
+
+#pragma once
+
+#include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
+
+namespace Dynamic_Static {
+namespace Graphics {
+
+    /*!
+    Represents a 3D camera.
+    */
+    struct Camera
+    {
+        class Controller;
+
+        static constexpr float DefaultAspectRatio { 16.0f / 9.0f }; /*!< TODO : Documetation. */
+        static constexpr float DefaultFieldOfView { 100 };          /*!< TODO : Documetation. */
+        static constexpr float DefaultNearPlane { 0.001f };         /*!< TODO : Documetation. */
+        static constexpr float DefaultFarPlane { 100.0f };          /*!< TODO : Documetation. */
+        float aspectRatio { DefaultAspectRatio };                   /*!< TODO : Documetation. */
+        float fieldOfView { DefaultFieldOfView };                   /*!< TODO : Documetation. */
+        float nearPlane { DefaultNearPlane };                       /*!< TODO : Documetation. */
+        float farPlane { DefaultFarPlane };                         /*!< TODO : Documetation. */
+        Transform transform { };                                    /*!< TODO : Documetation. */
+
+        /*!
+        TODO : Documentation.
+        */
+        inline glm::mat4 get_view() const
+        {
+            return glm::lookAt(
+                transform.translation,
+                transform.translation + transform.forward(),
+                transform.up()
+            );
+        }
+
+        /*!
+        TODO : Documentation.
+        */
+        inline glm::mat4 get_projection() const
+        {
+            auto projection = glm::perspective(
+                glm::radians(fieldOfView),
+                aspectRatio,
+                nearPlane,
+                farPlane
+            );
+            projection[1][1] *= -1;
+            return projection;
+        }
+    };
+
+} // namespace Graphics
+} // namespace Dynamic_Static

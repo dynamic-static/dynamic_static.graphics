@@ -96,7 +96,10 @@ DstCreateStaticLibrary(
         "${includePath}/Vulkan/SwapchainKHR.hpp"
         "${includePath}/Vulkan/Vertex.hpp"
         "${includePath}/Vulkan/VertexTypes.hpp"
+        "${includePath}/Camera.Controller.hpp"
+        "${includePath}/Camera.hpp"
         "${includePath}/Defines.hpp"
+        "${includePath}/FreeCameraController.hpp"
         "${includePath}/Vulkan.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/include.ex/Dynamic_Static.Graphics.hpp"
 
@@ -140,6 +143,9 @@ DstCreateStaticLibrary(
         "${sourcePath}/Vulkan/SurfaceKHR.cpp"
         "${sourcePath}/Vulkan/SurfaceKHRChild.cpp"
         "${sourcePath}/Vulkan/SwapchainKHR.cpp"
+        "${sourcePath}/Camera.Controller.cpp"
+        "${sourcePath}/Camera.cpp"
+        "${sourcePath}/FreeCameraController.cpp"
 )
 
 option(BUILD_EXAMPLES "Build Dynamic_Static.Graphics.Examples" ON)
