@@ -57,6 +57,9 @@ namespace Vulkan {
         };
 
     private:
+        VkExtent2D mExtent { };
+
+    private:
         /*!
         Constructs an instance of Framebuffer.
         @param [in] device This Framebuffer's Device
@@ -72,6 +75,13 @@ namespace Vulkan {
         Destroys this instance of Framebuffer.
         */
         ~Framebuffer();
+
+    public:
+        /*!
+        Gets this Framebuffer's VkExtent2D.
+        @return This Framebuffer's VkExtent2D
+        */
+        const VkExtent2D& get_extent() const;
 
     private:
         friend class Device;

@@ -23,6 +23,7 @@ namespace Vulkan {
     Provides high level control over a Vulkan application.
     */
     class Application
+        : NonCopyable
     {
     public:
         /*!
@@ -52,9 +53,11 @@ namespace Vulkan {
 
     protected:
         Info mInfo { };
+        Clock mClock;
+        bool mRunning { false };
         glm::vec4 mClearColor { Color::QuarterGray };
-        std::shared_ptr<Instance> mInstance;
         std::shared_ptr<sys::Window> mWindow;
+        std::shared_ptr<Instance> mInstance;
         std::shared_ptr<SurfaceKHR> mSurface;
         std::shared_ptr<Device> mDevice;
         std::shared_ptr<SwapchainKHR> mSwapchain;
@@ -66,10 +69,6 @@ namespace Vulkan {
         std::vector<std::shared_ptr<Framebuffer>> mSwapchainFramebuffers;
         std::shared_ptr<Image> mSwapchainDepthImage;
         VkFormat mSwapchainDepthFormat { VK_FORMAT_UNDEFINED };
-
-    private:
-        Clock mClock;
-        bool mRunning { false };
 
     protected:
         /*!
@@ -96,6 +95,11 @@ namespace Vulkan {
 
     protected:
         /*!
+        Creates this Application's Window.
+        */
+        virtual void create_window();
+
+        /*!
         Creates this Application's Instance.
         @param [in] layers This Application's requested layers
         @param [in] extensions This Application's requested Instance extensions
@@ -106,11 +110,6 @@ namespace Vulkan {
             std::vector<const char*>& extensions,
             VkDebugReportFlagsEXT debugReportFlags = 0
         );
-
-        /*!
-        Creates this Application's Window.
-        */
-        virtual void create_window();
 
         /*!
         Creates this Application's Surface.

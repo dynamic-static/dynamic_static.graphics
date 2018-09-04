@@ -84,6 +84,13 @@ namespace Vulkan {
         mRunning = false;
     }
 
+    void Application::create_window()
+    {
+        sys::Window::Info windowInfo { };
+        windowInfo.name = mInfo.pApplicationName;
+        mWindow = std::make_shared<sys::Window>(windowInfo);
+    }
+
     void Application::create_instance(
         std::vector<const char*>& layers,
         std::vector<const char*>& extensions,
@@ -97,13 +104,6 @@ namespace Vulkan {
         instanceCreateInfo.enabledExtensionCount = (uint32_t)extensions.size();
         instanceCreateInfo.ppEnabledExtensionNames = extensions.data();
         mInstance = create<Instance>(instanceCreateInfo, debugReportFlags);
-    }
-
-    void Application::create_window()
-    {
-        sys::Window::Info windowInfo { };
-        windowInfo.name = mInfo.pApplicationName;
-        mWindow = std::make_shared<sys::Window>(windowInfo);
     }
 
     void Application::create_surface()
@@ -144,17 +144,6 @@ namespace Vulkan {
 
     void Application::create_swapchain_render_pass()
     {
-        VkAttachmentDescription colorAttachmentDescription { };
-        colorAttachmentDescription.format = mSwapchain->get_format();
-        colorAttachmentDescription.samples = VK_SAMPLE_COUNT_1_BIT;
-        colorAttachmentDescription.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-        colorAttachmentDescription.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-        colorAttachmentDescription.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-        colorAttachmentDescription.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-        VkAttachmentReference colorAttachmentReference { };
-        colorAttachmentReference.attachment = 0;
-        colorAttachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-
         if (mSwapchainDepthFormat) {
             std::array<VkFormat, 4> depthFormats {
                 mSwapchainDepthFormat,
@@ -176,28 +165,33 @@ namespace Vulkan {
             assert(mSwapchainDepthFormat);
         }
 
-        VkAttachmentDescription depthAttachmentDescription { };
-        depthAttachmentDescription.format = mSwapchainDepthFormat;
-        depthAttachmentDescription.samples = VK_SAMPLE_COUNT_1_BIT;
-        depthAttachmentDescription.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-        depthAttachmentDescription.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-        depthAttachmentDescription.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-        depthAttachmentDescription.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+        std::array<VkAttachmentDescription, 2> attachmentDescriptions { };
+        static const int Color = 0;
+        attachmentDescriptions[Color].format = mSwapchain->get_format();
+        attachmentDescriptions[Color].samples = VK_SAMPLE_COUNT_1_BIT;
+        attachmentDescriptions[Color].loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+        attachmentDescriptions[Color].storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+        attachmentDescriptions[Color].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        attachmentDescriptions[Color].finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+        VkAttachmentReference colorAttachmentReference { };
+        colorAttachmentReference.attachment = Color;
+        colorAttachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+        static const int Depth = 1;
+        attachmentDescriptions[Depth].format = mSwapchainDepthFormat;
+        attachmentDescriptions[Depth].samples = VK_SAMPLE_COUNT_1_BIT;
+        attachmentDescriptions[Depth].loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+        attachmentDescriptions[Depth].storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+        attachmentDescriptions[Depth].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        attachmentDescriptions[Depth].finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
         VkAttachmentReference depthAttachmentReference { };
-        depthAttachmentReference.attachment = 1;
+        depthAttachmentReference.attachment = Depth;
         depthAttachmentReference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-
-        std::array<VkAttachmentDescription, 2> attachmentDescriptions {
-            colorAttachmentDescription,
-            depthAttachmentDescription,
-        };
 
         VkSubpassDescription subpassDescription { };
         subpassDescription.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
         subpassDescription.colorAttachmentCount = 1;
         subpassDescription.pColorAttachments = &colorAttachmentReference;
         subpassDescription.pDepthStencilAttachment = mSwapchainDepthFormat ? &depthAttachmentReference : nullptr;
-
         RenderPass::CreateInfo renderPassCreateInfo { };
         renderPassCreateInfo.attachmentCount = mSwapchainDepthFormat ? (uint32_t)attachmentDescriptions.size() : 1;
         renderPassCreateInfo.pAttachments = attachmentDescriptions.data();
@@ -265,7 +259,7 @@ namespace Vulkan {
                     depthImageCreateInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
                     depthImageCreateInfo.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
                     mSwapchainDepthImage = mDevice->create<Image>(depthImageCreateInfo);
-                    DeviceMemory::allocate_resource_memory(mSwapchainDepthImage.get(), VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+                    DeviceMemory::allocate_resource_memory(mSwapchainDepthImage, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
                 }
                 mSwapchainFramebuffers.clear();
                 mSwapchainFramebuffers.reserve(mSwapchain->get_images().size());

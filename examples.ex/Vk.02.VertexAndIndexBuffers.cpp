@@ -144,7 +144,7 @@ private:
             mMesh.vertexBuffer.get(),
             mMesh.indexBuffer.get()
         };
-        DeviceMemory::allocate_resource_memory(
+        DeviceMemory::allocate_multi_resource_memory(
             resources,
             VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
         );
@@ -154,7 +154,7 @@ private:
         stagingBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
         auto stagingBuffer = mDevice->create<Buffer>(stagingBufferCreateInfo);
         auto stagingBufferMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-        DeviceMemory::allocate_resource_memory(stagingBuffer.get(), stagingBufferMemoryProperties);
+        DeviceMemory::allocate_resource_memory(stagingBuffer, stagingBufferMemoryProperties);
         auto copyBuffer =
         [&](std::shared_ptr<Buffer>& buffer)
         {

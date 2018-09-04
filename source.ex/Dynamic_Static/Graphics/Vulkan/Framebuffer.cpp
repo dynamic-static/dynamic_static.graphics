@@ -20,6 +20,7 @@ namespace Vulkan {
         Framebuffer::CreateInfo createInfo
     )
         : DeviceChild(device)
+        , mExtent { createInfo.width, createInfo.height }
     {
         set_name("Framebuffer");
         dst_vk(vkCreateFramebuffer(get_device(), &createInfo, nullptr, &mHandle));
@@ -30,6 +31,11 @@ namespace Vulkan {
         if (mHandle) {
             vkDestroyFramebuffer(get_device(), mHandle, nullptr);
         }
+    }
+
+    const VkExtent2D& Framebuffer::get_extent() const
+    {
+        return mExtent;
     }
 
 } // namespace Vulkan

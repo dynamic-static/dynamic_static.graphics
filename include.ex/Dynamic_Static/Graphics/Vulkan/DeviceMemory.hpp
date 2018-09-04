@@ -98,28 +98,43 @@ namespace Vulkan {
         */
         void* get_mapped_ptr() const;
 
-        /*!
-        TODO : Documentation.
-        */
-        static std::shared_ptr<DeviceMemory> allocate_resource_memory(
-            DeviceMemoryResource* resource,
-            VkMemoryPropertyFlags memoryPropertyFlags
-        );
+        // /*!
+        // TODO : Documentation.
+        // */
+        // static std::shared_ptr<DeviceMemory> allocate_resource_memory(
+        //     DeviceMemoryResource* resource,
+        //     VkMemoryPropertyFlags memoryPropertyFlags
+        // );
+        // 
+        // /*!
+        // TODO : Documentation.
+        // */
+        // static std::shared_ptr<DeviceMemory> allocate_resource_memory(
+        //     dst::Span<DeviceMemoryResource*> resources,
+        //     VkMemoryPropertyFlags memoryPropertyFlags
+        // );
 
         /*!
         TODO : Documentation.
         */
-        static std::shared_ptr<DeviceMemory> allocate_resource_memory(
-            dst::Span<DeviceMemoryResource*> resources,
+        template <typename ResourceType>
+        static inline std::shared_ptr<DeviceMemory> allocate_resource_memory(
+            ResourceType& resource,
             VkMemoryPropertyFlags memoryPropertyFlags
-        );
+        )
+        {
+            return allocate_multi_resource_memory(
+                std::array<ResourceType, 1> { resource },
+                memoryPropertyFlags
+            );
+        }
 
         /*!
         TODO : Documentation.
         */
-        template <typename ResourceCollection>
+        template <typename ResourceCollectionType>
         static inline std::shared_ptr<DeviceMemory> allocate_multi_resource_memory(
-            ResourceCollection& resources,
+            ResourceCollectionType& resources,
             VkMemoryPropertyFlags memoryPropertyFlags
         )
         {

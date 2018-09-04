@@ -39,11 +39,6 @@ namespace Vulkan {
         return mCreateInfo.flags;
     }
 
-    VkDeviceSize Buffer::get_size() const
-    {
-        return mCreateInfo.size;
-    }
-
     VkBufferUsageFlags Buffer::get_usage_flags() const
     {
         return mCreateInfo.usage;

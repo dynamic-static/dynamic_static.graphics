@@ -43,6 +43,7 @@ DstCreateStaticLibrary(
         "${Vulkan.includeDirectories}"
 
     includeFiles
+        "${includePath}/Vulkan/Primitives/Box.hpp"
         "${includePath}/Vulkan/VertexTypes/VertexPosition.hpp"
         "${includePath}/Vulkan/VertexTypes/VertexPositionColor.hpp"
         "${includePath}/Vulkan/VertexTypes/VertexPositionColorTexture.hpp"
@@ -80,6 +81,7 @@ DstCreateStaticLibrary(
         "${includePath}/Vulkan/PhysicalDeviceChild.hpp"
         "${includePath}/Vulkan/Pipeline.hpp"
         "${includePath}/Vulkan/PipelineLayout.hpp"
+        "${includePath}/Vulkan/Primitives.hpp"
         "${includePath}/Vulkan/Queue.hpp"
         "${includePath}/Vulkan/QueueFamily.hpp"
         "${includePath}/Vulkan/RenderPass.hpp"
@@ -99,6 +101,7 @@ DstCreateStaticLibrary(
         "${CMAKE_CURRENT_LIST_DIR}/include.ex/Dynamic_Static.Graphics.hpp"
 
     sourceFiles
+        "${sourcePath}/Vulkan/Primitives/Box.cpp"
         "${sourcePath}/Vulkan/Application.cpp"
         "${sourcePath}/Vulkan/Buffer.cpp"
         "${sourcePath}/Vulkan/CommandBuffer.cpp"

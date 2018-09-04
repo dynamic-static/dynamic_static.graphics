@@ -83,12 +83,6 @@ namespace Vulkan {
         VkBufferCreateFlags get_create_flags() const;
 
         /*!
-        Gets this Buffer's size in bytes.
-        @return This Buffer's size in bytes
-        */
-        VkDeviceSize get_size() const;
-
-        /*!
         Gets this Buffer's VkBufferUsageFlags.
         @retrurn This Buffer's VkBufferUsageFlags
         */
