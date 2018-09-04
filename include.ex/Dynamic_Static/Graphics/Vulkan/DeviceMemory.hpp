@@ -98,22 +98,6 @@ namespace Vulkan {
         */
         void* get_mapped_ptr() const;
 
-        // /*!
-        // TODO : Documentation.
-        // */
-        // static std::shared_ptr<DeviceMemory> allocate_resource_memory(
-        //     DeviceMemoryResource* resource,
-        //     VkMemoryPropertyFlags memoryPropertyFlags
-        // );
-        // 
-        // /*!
-        // TODO : Documentation.
-        // */
-        // static std::shared_ptr<DeviceMemory> allocate_resource_memory(
-        //     dst::Span<DeviceMemoryResource*> resources,
-        //     VkMemoryPropertyFlags memoryPropertyFlags
-        // );
-
         /*!
         TODO : Documentation.
         */
