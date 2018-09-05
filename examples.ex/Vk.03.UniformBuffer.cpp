@@ -27,7 +27,7 @@ private:
 
     std::shared_ptr<dst::vk::Pipeline> mPipeline;
     std::shared_ptr<dst::vk::Buffer> mUniformBuffer;
-    std::shared_ptr<dst::vk::DescriptorSet> mDescriptorSet;
+    std::shared_ptr<dst::vk::DescriptorSet> mFloorDescriptorSet;
     float mRotation { 0 };
     dst::vk::Mesh mMesh;
 
@@ -219,14 +219,14 @@ private:
         descriptorPoolCreateInfo.maxSets = 1;
         auto descriptorPool = mDevice->create<DescriptorPool>(descriptorPoolCreateInfo);
         const auto& descriptorSetLayout = mPipeline->get_layout().get_descriptor_set_layouts()[0];
-        mDescriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayout);
+        mFloorDescriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayout);
 
         VkDescriptorBufferInfo bufferInfo { };
         bufferInfo.buffer = *mUniformBuffer;
         bufferInfo.offset = 0;
         bufferInfo.range = sizeof(UniformBuffer);
         DescriptorSet::Write write { };
-        write.dstSet = *mDescriptorSet;
+        write.dstSet = *mFloorDescriptorSet;
         write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
         write.descriptorCount = 1;
         write.pBufferInfo = &bufferInfo;
@@ -269,7 +269,7 @@ private:
             mPipeline->get_layout(),
             0,
             1,
-            &mDescriptorSet->get_handle(),
+            &mFloorDescriptorSet->get_handle(),
             0,
             nullptr
         );

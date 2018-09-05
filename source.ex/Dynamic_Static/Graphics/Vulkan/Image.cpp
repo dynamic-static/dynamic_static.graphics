@@ -123,6 +123,11 @@ namespace Vulkan {
         return mCreateInfo.sharingMode;
     }
 
+    VkImageAspectFlags Image::get_aspect_mask() const
+    {
+        return dst::vk::get_aspect_mask(get_format());
+    }
+
     ImageView& Image::get_view()
     {
         if (mImageViews.empty()) {

@@ -166,6 +166,35 @@ namespace Vulkan {
             lhs.height == rhs.height;
     }
 
+    /*!
+    TODO : Documentation.
+    */
+    inline VkImageAspectFlags get_aspect_mask(VkFormat format)
+    {
+        VkImageAspectFlags aspectMask = 0;
+        switch (format) {
+            case VK_FORMAT_D16_UNORM:
+            case VK_FORMAT_X8_D24_UNORM_PACK32:
+            case VK_FORMAT_D32_SFLOAT:
+                aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
+                break;
+
+            case VK_FORMAT_D16_UNORM_S8_UINT:
+            case VK_FORMAT_D24_UNORM_S8_UINT:
+            case VK_FORMAT_D32_SFLOAT_S8_UINT:
+                aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+                break;
+
+            case VK_FORMAT_S8_UINT:
+                aspectMask = VK_IMAGE_ASPECT_STENCIL_BIT;
+                break;
+
+            default:
+                aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+                break;
+        }
+    }
+
 } // namespace Vulkan
 namespace vk = Vulkan;
 } // namespace Graphics

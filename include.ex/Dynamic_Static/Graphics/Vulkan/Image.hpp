@@ -203,6 +203,12 @@ namespace Vulkan {
         VkSharingMode get_sharing_mode() const;
 
         /*!
+        Gets this Image's VkImageAspectFlags.
+        @return This Image's VkImageAspectFlags
+        */
+        VkImageAspectFlags get_aspect_mask() const;
+
+        /*!
         Gets this Image's first ImageView.
         \n NOTE : If no ImageViews are available this method will create one
         @return This Image's first ImageView

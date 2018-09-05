@@ -34,6 +34,13 @@ namespace Vulkan {
         Constructs an instance of Mesh.
         */
         Mesh() = default;
+
+    public:
+        /*
+        Records this Mesh's draw Cmds.
+        @param [in] commandBuffer The CommandBuffer to record this Mesh's draw Cmds to
+        */
+        void record_draw_cmds(const CommandBuffer& commandBuffer);
     };
 
 } // namespace Vulkan

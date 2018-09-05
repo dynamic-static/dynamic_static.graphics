@@ -22,15 +22,15 @@ namespace Graphics {
     {
         class Controller;
 
-        static constexpr float DefaultAspectRatio { 16.0f / 9.0f }; /*!< TODO : Documetation. */
-        static constexpr float DefaultFieldOfView { 100 };          /*!< TODO : Documetation. */
-        static constexpr float DefaultNearPlane { 0.001f };         /*!< TODO : Documetation. */
-        static constexpr float DefaultFarPlane { 100.0f };          /*!< TODO : Documetation. */
-        float aspectRatio { DefaultAspectRatio };                   /*!< TODO : Documetation. */
-        float fieldOfView { DefaultFieldOfView };                   /*!< TODO : Documetation. */
-        float nearPlane { DefaultNearPlane };                       /*!< TODO : Documetation. */
-        float farPlane { DefaultFarPlane };                         /*!< TODO : Documetation. */
-        Transform transform { };                                    /*!< TODO : Documetation. */
+        static constexpr float DefaultAspectRatio { 16.0f / 9.0f }; /*!< TODO : Documentation. */
+        static constexpr float DefaultFieldOfView { 60 };           /*!< TODO : Documentation. */
+        static constexpr float DefaultNearPlane { 0.001f };         /*!< TODO : Documentation. */
+        static constexpr float DefaultFarPlane { 100.0f };          /*!< TODO : Documentation. */
+        float aspectRatio { DefaultAspectRatio };                   /*!< TODO : Documentation. */
+        float fieldOfView { DefaultFieldOfView };                   /*!< TODO : Documentation. */
+        float nearPlane { DefaultNearPlane };                       /*!< TODO : Documentation. */
+        float farPlane { DefaultFarPlane };                         /*!< TODO : Documentation. */
+        Transform transform { };                                    /*!< TODO : Documentation. */
 
         /*!
         TODO : Documentation.

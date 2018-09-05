@@ -27,8 +27,8 @@ private:
 
     std::shared_ptr<dst::vk::Pipeline> mPipeline;
     std::shared_ptr<dst::vk::Image> mImage;
-    std::shared_ptr<dst::vk::Sampler> mSampler;
-    std::shared_ptr<dst::vk::DescriptorSet> mDescriptorSet;
+    std::shared_ptr<dst::vk::Sampler> mRenderTargetSampler;
+    std::shared_ptr<dst::vk::DescriptorSet> mFloorDescriptorSet;
     PushConstants mPushConstants;
     float mRotation { 0 };
     dst::vk::Mesh mMesh;
@@ -153,7 +153,7 @@ private:
     void create_sampler_and_image()
     {
         using namespace dst::vk;
-        mSampler = mDevice->create<Sampler>();
+        mRenderTargetSampler = mDevice->create<Sampler>();
 
         dst::sys::Image image;
         image.read_png("../../examples/resources/images/turtle.jpg");
@@ -298,14 +298,14 @@ private:
         descriptorPoolCreateInfo.maxSets = 1;
         auto descriptorPool = mDevice->create<DescriptorPool>(descriptorPoolCreateInfo);
         const auto& descriptorSetLayout = mPipeline->get_layout().get_descriptor_set_layouts()[0];
-        mDescriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayout);
+        mFloorDescriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayout);
 
         VkDescriptorImageInfo imageInfo { };
         imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
         imageInfo.imageView = mImage->get_view();
-        imageInfo.sampler = *mSampler;
+        imageInfo.sampler = *mRenderTargetSampler;
         DescriptorSet::Write write { };
-        write.dstSet = *mDescriptorSet;
+        write.dstSet = *mFloorDescriptorSet;
         write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
         write.descriptorCount = 1;
         write.pImageInfo = &imageInfo;
@@ -354,7 +354,7 @@ private:
             mPipeline->get_layout(),
             0,
             1,
-            &mDescriptorSet->get_handle(),
+            &mFloorDescriptorSet->get_handle(),
             0,
             nullptr
         );

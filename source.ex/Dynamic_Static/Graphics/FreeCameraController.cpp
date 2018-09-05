@@ -47,7 +47,7 @@ namespace Graphics {
                 }
                 mVerticalLook += look.y;
                 auto rotationX = glm::angleAxis(-look.y, glm::vec3 { 1, 0, 0 });
-                auto rotationY = glm::angleAxis(-look.y, glm::vec3 { 0, 1, 0 });
+                auto rotationY = glm::angleAxis(-look.x, glm::vec3 { 0, 1, 0 });
                 auto rotation = camera->transform.rotation;
                 camera->transform.rotation = glm::normalize(rotationY * rotation * rotationX);
             }

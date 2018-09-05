@@ -55,11 +55,11 @@ namespace Vulkan {
         /*!
         Constructs an instance of CommandPool.
         @param [in] device This CommandPool's Device
-        @param [in] createInfo This CommandPool's CommandPool::CreateInfo
+        @param [in] createInfo This CommandPool's CommandPool::CreateInfo (optional = { })
         */
         CommandPool(
             const std::shared_ptr<Device>& device,
-            CommandPool::CreateInfo createInfo
+            CommandPool::CreateInfo createInfo = { }
         );
 
     public:
