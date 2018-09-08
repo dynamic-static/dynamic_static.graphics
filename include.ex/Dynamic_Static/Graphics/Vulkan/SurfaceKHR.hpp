@@ -87,7 +87,7 @@ namespace Vulkan {
         VkSurfaceCapabilitiesKHR get_capabilities() const;
 
     private:
-        void on_window_resize(const sys::IWindow& window) const;
+        void on_window_resize(const sys::Window& window) const;
 
     private:
         friend class PhysicalDevice;

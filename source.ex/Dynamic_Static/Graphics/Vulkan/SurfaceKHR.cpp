@@ -82,7 +82,7 @@ namespace Vulkan {
         return capabilities;
     }
 
-    void SurfaceKHR::on_window_resize(const sys::IWindow& window) const
+    void SurfaceKHR::on_window_resize(const sys::Window& window) const
     {
         on_resize(*this);
     }

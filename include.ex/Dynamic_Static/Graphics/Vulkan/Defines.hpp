@@ -193,6 +193,7 @@ namespace Vulkan {
                 aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
                 break;
         }
+        return aspectMask;
     }
 
 } // namespace Vulkan

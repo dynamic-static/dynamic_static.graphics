@@ -143,8 +143,8 @@ namespace Vulkan {
         if (surfaceCapabilites.currentExtent.width &&
             surfaceCapabilites.currentExtent.height) {
             if (surfaceCapabilites.currentExtent.width == (uint32_t)-1) {
-                mCreateInfo.imageExtent.width = get_surface().get_window().get_resolution().width;
-                mCreateInfo.imageExtent.height = get_surface().get_window().get_resolution().height;
+                mCreateInfo.imageExtent.width = get_surface().get_window().get_resolution().x;
+                mCreateInfo.imageExtent.height = get_surface().get_window().get_resolution().y;
             } else {
                 mCreateInfo.imageExtent = surfaceCapabilites.currentExtent;
             }
