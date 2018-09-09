@@ -8,6 +8,9 @@
 ==========================================
 */
 
+// NOTE : This example follows along with...
+//  https://vulkan-tutorial.com/Depth_buffering
+
 #include "Dynamic_Static.Graphics.hpp"
 
 #include <algorithm>

@@ -8,6 +8,9 @@
 ==========================================
 */
 
+// NOTE : This example follows along with...
+//  https://vulkan-tutorial.com/Drawing_a_triangle
+
 #include "Dynamic_Static.Graphics.hpp"
 
 #include <memory>

@@ -21,7 +21,7 @@ namespace Vulkan {
     /*!
     Provides high level control over a Vulkan mesh.
     */
-    class Mesh final
+    class Mesh
     {
     public:
         std::shared_ptr<dst::vk::Buffer> vertexBuffer;

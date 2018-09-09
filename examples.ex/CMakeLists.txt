@@ -10,7 +10,6 @@ macro(CreateExample target)
     DstCreateExecutable(
         target ${target}
         folder Dynamic_Static.Graphics/examples/
-        sharedLibraries "${glew.sharedLibraries}"
         staticLibraries Dynamic_Static.Graphics
         sourceFiles "${CMAKE_CURRENT_LIST_DIR}/${target}.cpp"
     )
@@ -23,3 +22,4 @@ CreateExample(Vk.04.PushConstants)
 CreateExample(Vk.05.TextureMapping)
 CreateExample(Vk.06.DepthBuffering)
 CreateExample(Vk.07.OffScreenRendering)
+add_subdirectory(Vk.ShapeBlaster)

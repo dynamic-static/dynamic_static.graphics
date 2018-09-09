@@ -8,6 +8,9 @@
 ==========================================
 */
 
+// NOTE : This example follows along with...
+//  https://vulkan-tutorial.com/Vertex_buffers
+
 #include "Dynamic_Static.Graphics.hpp"
 
 #include <algorithm>

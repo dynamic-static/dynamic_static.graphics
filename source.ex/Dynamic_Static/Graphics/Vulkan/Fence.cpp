@@ -38,6 +38,14 @@ namespace Vulkan {
         return mCreateFlags;
     }
 
+    void Fence::wait(bool reset) const
+    {
+        dst_vk(vkWaitForFences(get_device(), 1, &mHandle, VK_TRUE, UINT64_MAX));
+        if (reset) {
+            dst_vk(vkResetFences(get_device(), 1, &mHandle));
+        }
+    }
+
 } // namespace Vulkan
 } // namespace Graphics
 } // namespace Dynamic_Static

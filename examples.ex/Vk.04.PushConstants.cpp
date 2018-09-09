@@ -8,6 +8,9 @@
 ==========================================
 */
 
+// NOTE : This example modifies...
+//  https://vulkan-tutorial.com/Uniform_buffers
+
 #include "Dynamic_Static.Graphics.hpp"
 
 #include <algorithm>

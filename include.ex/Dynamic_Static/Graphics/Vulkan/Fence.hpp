@@ -77,6 +77,12 @@ namespace Vulkan {
         */
         VkFenceCreateFlags get_create_flags() const;
 
+        /*!
+        Causes the calling thread to hold execution until this Fence is signaled.
+        @param [in] reset Whether or not to reset this Fence after waiting (optional = true)
+        */
+        void wait(bool reset = true) const;
+
     private:
         friend class Device;
     };

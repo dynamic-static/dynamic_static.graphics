@@ -8,16 +8,28 @@
 ==========================================
 */
 
+// NOTE : This example follows along with...
+//  https://github.com/SaschaWillems/Vulkan/tree/master/examples/offscreen
+
 #include "Dynamic_Static.Graphics.hpp"
 
 #include <algorithm>
 #include <array>
+#include <iostream>
 #include <memory>
 
 class Application final
     : public dst::vk::Application
 {
 private:
+    class Mesh final
+        : public dst::vk::Mesh
+    {
+    public:
+        std::shared_ptr<dst::vk::Buffer> uniformBuffer;
+        dst::Transform transform;
+    };
+
     struct PushConstants final
     {
         glm::mat4 world;
@@ -28,18 +40,20 @@ private:
     dst::gfx::Camera mCamera;
     dst::gfx::FreeCamerController mCameraController;
 
-    std::shared_ptr<dst::vk::Pipeline> mReflectionPipeline;
+    static constexpr VkExtent2D RenderTargetExtent { 1024, 1024 };
     std::unique_ptr<dst::vk::RenderTarget> mRenderTarget;
     std::shared_ptr<dst::vk::Sampler> mRenderTargetSampler;
-    std::shared_ptr<dst::vk::Semaphore> mRenderTargetSemaphore;
+    std::shared_ptr<dst::vk::Fence> mRenderTargetCompleteFence;
+    std::shared_ptr<dst::vk::Semaphore> mRenderTargetCompleteSemaphore;
     std::shared_ptr<dst::vk::CommandBuffer> mRenderTargetCommandBuffer;
 
     std::shared_ptr<dst::vk::Pipeline> mFloorPipeline;
     std::shared_ptr<dst::vk::DescriptorSet> mFloorDescriptorSet;
+    Mesh mFloorMesh;
 
-    dst::vk::Mesh mFloorMesh;
-    dst::vk::Mesh mCubeMesh;
-    dst::Transform mCubeTransform;
+    std::shared_ptr<dst::vk::Pipeline> mCubePipeline;
+    Mesh mCubeMesh;
+    // dst::Transform mCubeTransform;
     float mCubeWobbleAnchor { 1.5f };
     float mCubeWobbleAmplitude { 0.5f };
     float mCubeWobbleFrequency { 3 };
@@ -49,6 +63,19 @@ private:
 public:
     Application()
     {
+        std::cout
+            << std::endl
+            << "[Esc]          - Quit" << std::endl
+            << "[Q][W][E]" << std::endl
+            << "[A][S][D]      - Move camera" << std::endl
+            << "[Left Mouse]   - Enable mouse look" << std::endl
+            << "[Scroll Wheel] - Zoom camera in and out" << std::endl
+            << "[Middle Mouse] - Reset camera zoom" << std::endl
+            << "[`]            - Toggle animation" << std::endl
+            << "[Left Arrow]   - Rewind animation" << std::endl
+            << "[Right Arrow]  - Advance animation" << std::endl
+            << std::endl;
+
         mInfo.pApplicationName = "Dynamic_Static Vk.07.OffScreenRendering";
         mSwapchainDepthFormat = VK_FORMAT_D32_SFLOAT;
         mCamera.transform.translation = glm::vec3 { 0, 2, 7 };
@@ -76,58 +103,34 @@ private:
 
     void create_resources() override
     {
-        create_render_target();
+        create_render_target_resources();
         create_pipelines();
         create_meshes();
         create_descriptor_set();
-        create_command_buffer();
     }
 
-    void create_render_target()
+    void create_render_target_resources()
     {
         using namespace dst::vk;
-        std::array<VkAttachmentDescription, 2> attachmentDescriptions { };
-        static const int Color = 0;
-        attachmentDescriptions[Color].format = VK_FORMAT_R8G8B8A8_UNORM;
-        attachmentDescriptions[Color].samples = VK_SAMPLE_COUNT_1_BIT;
-        attachmentDescriptions[Color].loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-        attachmentDescriptions[Color].storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-        attachmentDescriptions[Color].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-        attachmentDescriptions[Color].finalLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-        VkAttachmentReference colorAttachmentReference { };
-        colorAttachmentReference.attachment = Color;
-        colorAttachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-        static const int Depth = 1;
-        attachmentDescriptions[Depth].format = mSwapchainDepthFormat;
-        attachmentDescriptions[Depth].samples = VK_SAMPLE_COUNT_1_BIT;
-        attachmentDescriptions[Depth].loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-        attachmentDescriptions[Depth].storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-        attachmentDescriptions[Depth].initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-        attachmentDescriptions[Depth].finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-        VkAttachmentReference depthAttachmentReference { };
-        depthAttachmentReference.attachment = Depth;
-        depthAttachmentReference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-
-        VkSubpassDescription subpassDescription { };
-        subpassDescription.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-        subpassDescription.colorAttachmentCount = 1;
-        subpassDescription.pColorAttachments = &colorAttachmentReference;
-        subpassDescription.pDepthStencilAttachment = &depthAttachmentReference;
-        RenderPass::CreateInfo renderPassCreateInfo { };
-        renderPassCreateInfo.attachmentCount = (uint32_t)attachmentDescriptions.size();
-        renderPassCreateInfo.pAttachments = attachmentDescriptions.data();
-        renderPassCreateInfo.subpassCount = 1;
-        renderPassCreateInfo.pSubpasses = &subpassDescription;
-        auto renderPass = mDevice->create<RenderPass>(renderPassCreateInfo);
-        mRenderTarget = std::make_unique<RenderTarget>(renderPass, mSwapchain->get_extent());
+        mRenderTarget = std::make_unique<RenderTarget>(mSwapchainRenderPass, RenderTargetExtent);
         mRenderTargetSampler = mDevice->create<Sampler>();
+
+        CommandPool::CreateInfo commandPoolCreateInfo { };
+        commandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+        auto commandPool = mDevice->create<CommandPool>(commandPoolCreateInfo);
+        mRenderTargetCommandBuffer = commandPool->allocate<CommandBuffer>();
+
+        Fence::CreateInfo fenceCreateInfo { };
+        fenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+        mRenderTargetCompleteFence = mDevice->create<Fence>(fenceCreateInfo);
+        mRenderTargetCompleteSemaphore = mDevice->create<Semaphore>();
     }
 
     void create_pipelines()
     {
         using namespace dst::vk;
         auto createPipeline =
-        [&](const dst::vk::RenderPass& renderPass,
+        [&](VkCullModeFlags cullMode,
             const dst::vk::ShaderModule& vertexShader,
             const dst::vk::ShaderModule& fragmentShader)
         {
@@ -155,17 +158,21 @@ private:
             depthStencilState.depthWriteEnable = VK_TRUE;
             depthStencilState.depthCompareOp = VK_COMPARE_OP_LESS;
 
+            Pipeline::RasterizationStateCreateInfo rasterizationState { };
+            rasterizationState.cullMode = cullMode;
+
             Pipeline::GraphicsCreateInfo pipelineCreateInfo { };
             pipelineCreateInfo.stageCount = (uint32_t)shaderStages.size();
             pipelineCreateInfo.pStages = shaderStages.data();
             pipelineCreateInfo.pVertexInputState = &vertexInputState;
             pipelineCreateInfo.pDepthStencilState = &depthStencilState;
-            pipelineCreateInfo.renderPass = renderPass;
+            pipelineCreateInfo.pRasterizationState = &rasterizationState;
+            pipelineCreateInfo.renderPass = *mSwapchainRenderPass;
             return mDevice->create<Pipeline>(pipelineLayout, pipelineCreateInfo);
         };
 
-        mReflectionPipeline = createPipeline(
-            mRenderTarget->get_render_pass(),
+        mCubePipeline = createPipeline(
+            VK_CULL_MODE_NONE,
             *mDevice->create<ShaderModule>(
                 VK_SHADER_STAGE_VERTEX_BIT,
                 __LINE__,
@@ -185,7 +192,6 @@ private:
                     layout(location = 2) in vec2 vsTexcoord;
 
                     layout(location = 0) out vec4 fsColor;
-
                     out gl_PerVertex { vec4 gl_Position; };
 
                     void main()
@@ -214,7 +220,7 @@ private:
         );
 
         mFloorPipeline = createPipeline(
-            *mSwapchainRenderPass,
+            VK_CULL_MODE_BACK_BIT,
             *mDevice->create<ShaderModule>(
                 VK_SHADER_STAGE_VERTEX_BIT,
                 __LINE__,
@@ -254,7 +260,7 @@ private:
                 R"(
                     #version 450
 
-                    layout(binding = 1) uniform sampler2D reflection;
+                    layout(binding = 1) uniform sampler2D reflectionImage;
 
                     layout(location = 0) in vec4 fsPosition;
                     layout(location = 1) in vec4 fsColor;
@@ -264,9 +270,18 @@ private:
 
                     void main()
                     {
-                        fragColor.r = fsPosition.r;
-                        fragColor.g = fsColor.g;
-                        fragColor.b = fsTexcoord.r;
+                        vec2 reflectionTexcoord = fsPosition.xy * (1.0 / fsPosition.w);
+                        reflectionTexcoord += vec2(1);
+                        reflectionTexcoord *= 0.5;
+
+                        vec4 reflection = texture(reflectionImage, reflectionTexcoord);
+                        reflection.a *= 0.34;
+                        reflection.rgb *= reflection.a;
+                        reflection.rgb *= step(0.001, dot(fsTexcoord, vec2(0.5)));
+
+                        fragColor.rb = fsTexcoord * (1 - reflection.a);
+                        fragColor.g = dot(fragColor.rb, vec2(0.5)) * 0.5;
+                        fragColor.rgb += reflection.rgb;
                         fragColor.a = 1;
                     }
                 )"
@@ -375,7 +390,7 @@ private:
         };
 
         mCubeMesh = createMesh({ 1, 1, 1 }, dst::Color::White, dst::Color::Black);
-        mFloorMesh = createMesh({ 6, 0.25f, 6 }, dst::Color::Orange, dst::Color::Black);
+        mFloorMesh = createMesh({ 6, 0.08f, 6 }, dst::Color::Transparent, dst::Color::Black);
     }
 
     void create_descriptor_set()
@@ -405,15 +420,6 @@ private:
         vkUpdateDescriptorSets(*mDevice, 1, &write, 0, nullptr);
     }
 
-    void create_command_buffer()
-    {
-        using namespace dst::vk;
-        CommandPool::CreateInfo commandPoolCreateInfo { };
-        commandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-        auto commandPool = mDevice->create<CommandPool>(commandPoolCreateInfo);
-        mRenderTargetCommandBuffer = commandPool->allocate<CommandBuffer>();
-    }
-
     void update(
         const dst::Clock& clock,
         const dst::sys::Input& input
@@ -434,6 +440,10 @@ private:
             mCameraController.lookEnabled = false;
         }
         mCameraController.update(clock, input);
+        auto swapchainExtent = mSwapchain->get_extent();
+        if (swapchainExtent.height) {
+            mCamera.aspectRatio = (float)swapchainExtent.width / (float)swapchainExtent.height;
+        }
 
         auto dt = mAnimateCube ? clock.elapsed<dst::Second<float>>() : 0;
         if (input.keyboard.down(Keyboard::Key::RightArrow)) {
@@ -447,36 +457,42 @@ private:
         auto cubeWobble = mCubeWobbleAmplitude * std::sin(mCubeWobbleFrequency * mTime);
         auto cubeRotationY = glm::angleAxis(glm::radians(90.0f * dt), dst::unit_y<glm::vec3>());
         auto cubeRotationZ = glm::angleAxis(glm::radians(45.0f * dt), dst::unit_z<glm::vec3>());
-        mCubeTransform.rotation = glm::normalize(cubeRotationY * mCubeTransform.rotation * cubeRotationZ);
-        mCubeTransform.translation = { 0, mCubeWobbleAnchor + cubeWobble, 0 };
+        mCubeMesh.transform.rotation = glm::normalize(cubeRotationY * mCubeMesh.transform.rotation * cubeRotationZ);
+        mCubeMesh.transform.translation = { 0, mCubeWobbleAnchor + cubeWobble, 0 };
+
+        auto floorRotationY = glm::angleAxis(glm::radians(-5 * dt), dst::unit_y<glm::vec3>());
+        mFloorMesh.transform.rotation = glm::normalize(floorRotationY * mFloorMesh.transform.rotation);
     }
 
     void update_graphics(const dst::Clock& clock)
     {
-        using namespace dst::vk;
-        mRenderTargetCommandBuffer->begin();
-        auto renderPassBeginInfo = mRenderTarget->get_render_pass_begin_info();
-        vkCmdBeginRenderPass(*mRenderTargetCommandBuffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
-        vkCmdBindPipeline(*mRenderTargetCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mReflectionPipeline);
-        auto viewport = mRenderTarget->get_viewport();
-        vkCmdSetViewport(*mRenderTargetCommandBuffer, 0, 1, &viewport);
-        auto scissor = mRenderTarget->get_scissor();
-        vkCmdSetScissor(*mRenderTargetCommandBuffer, 0, 1, &scissor);
-        PushConstants pushConstants { };
-        pushConstants.world = mCubeTransform.world_from_local();
-        pushConstants.view = mCamera.get_view();
-        pushConstants.projection = mCamera.get_projection();
-        vkCmdPushConstants(
-            *mRenderTargetCommandBuffer,
-            mReflectionPipeline->get_layout(),
-            VK_SHADER_STAGE_VERTEX_BIT,
-            0,
-            sizeof(PushConstants),
-            &pushConstants
-        );
-        mCubeMesh.record_draw_cmds(*mRenderTargetCommandBuffer);
-        vkCmdEndRenderPass(*mRenderTargetCommandBuffer);
-        mRenderTargetCommandBuffer->end();
+        if (mSwapchain->is_valid()) {
+            using namespace dst::vk;
+            mRenderTargetCompleteFence->wait();
+            mRenderTargetCommandBuffer->begin();
+            auto renderPassBeginInfo = mRenderTarget->get_render_pass_begin_info();
+            vkCmdBeginRenderPass(*mRenderTargetCommandBuffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
+            vkCmdBindPipeline(*mRenderTargetCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mCubePipeline);
+            auto viewport = mRenderTarget->get_viewport();
+            vkCmdSetViewport(*mRenderTargetCommandBuffer, 0, 1, &viewport);
+            auto scissor = mRenderTarget->get_scissor();
+            vkCmdSetScissor(*mRenderTargetCommandBuffer, 0, 1, &scissor);
+            PushConstants pushConstants { };
+            pushConstants.world = glm::scale(glm::vec3 { 1, -1, 1 }) * mCubeMesh.transform.world_from_local();
+            pushConstants.view = mCamera.get_view();
+            pushConstants.projection = mCamera.get_projection();
+            vkCmdPushConstants(
+                *mRenderTargetCommandBuffer,
+                mCubePipeline->get_layout(),
+                VK_SHADER_STAGE_VERTEX_BIT,
+                0,
+                sizeof(PushConstants),
+                &pushConstants
+            );
+            mCubeMesh.record_draw_cmds(*mRenderTargetCommandBuffer);
+            vkCmdEndRenderPass(*mRenderTargetCommandBuffer);
+            mRenderTargetCommandBuffer->end();
+        }
     }
 
     void record_swapchain_render_pass(
@@ -484,44 +500,71 @@ private:
         const dst::vk::CommandBuffer& commandBuffer
     ) override
     {
-        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mFloorPipeline);
-
+        // NOTE : It's not really ideal to be using push constants for per
+        //  object data (for a number of reasons), but it's not going to hurt
+        //  anything in this very simple example.
         PushConstants pushConstants { };
-        pushConstants.world = mCubeTransform.world_from_local();
         pushConstants.view = mCamera.get_view();
         pushConstants.projection = mCamera.get_projection();
 
+        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mCubePipeline);
+        pushConstants.world = mCubeMesh.transform.world_from_local();
         vkCmdPushConstants(
             commandBuffer,
-            mReflectionPipeline->get_layout(),
+            mCubePipeline->get_layout(),
             VK_SHADER_STAGE_VERTEX_BIT,
             0,
             sizeof(PushConstants),
             &pushConstants
         );
-        // vkCmdBindDescriptorSets(
-        //     commandBuffer,
-        //     VK_PIPELINE_BIND_POINT_GRAPHICS,
-        //     // mPipeline->get_layout(),
-        //     mNonReflectiveSurfacePipeline->get_layout(),
-        //     0,
-        //     1,
-        //     &mDescriptorSet->get_handle(),
-        //     0,
-        //     nullptr
-        // );
-
         mCubeMesh.record_draw_cmds(commandBuffer);
-        pushConstants.world = glm::identity<glm::mat4>();
+
+        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mFloorPipeline);
+        pushConstants.world = mFloorMesh.transform.world_from_local();
         vkCmdPushConstants(
             commandBuffer,
-            mReflectionPipeline->get_layout(),
+            mFloorPipeline->get_layout(),
             VK_SHADER_STAGE_VERTEX_BIT,
             0,
             sizeof(PushConstants),
             &pushConstants
+        );
+        vkCmdBindDescriptorSets(
+            commandBuffer,
+            VK_PIPELINE_BIND_POINT_GRAPHICS,
+            mFloorPipeline->get_layout(),
+            0,
+            1,
+            &mFloorDescriptorSet->get_handle(),
+            0,
+            nullptr
         );
         mFloorMesh.record_draw_cmds(commandBuffer);
+    }
+
+    void submit_swapchain_command_buffer(
+        const dst::Clock& clock,
+        const dst::vk::CommandBuffer& commandBuffer,
+        const dst::vk::Fence& fence
+    ) override
+    {
+        using namespace dst::vk;
+        const auto& queue = mDevice->get_queue_families()[0].get_queues()[0];
+        VkPipelineStageFlags waitStage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+        Queue::SubmitInfo submitInfo { };
+        submitInfo.waitSemaphoreCount = 1;
+        submitInfo.pWaitDstStageMask = &waitStage;
+        submitInfo.pWaitSemaphores = &mSwapchainImageAcquiredSemaphore->get_handle();
+        submitInfo.signalSemaphoreCount = 1;
+        submitInfo.pSignalSemaphores = &mRenderTargetCompleteSemaphore->get_handle();
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &mRenderTargetCommandBuffer->get_handle();
+        dst_vk(vkQueueSubmit(queue, 1, &submitInfo, *mRenderTargetCompleteFence));
+
+        submitInfo.pWaitSemaphores = &mRenderTargetCompleteSemaphore->get_handle();
+        submitInfo.pSignalSemaphores = &mSwapchainRenderCompleteSemphore->get_handle();
+        submitInfo.pCommandBuffers = &commandBuffer.get_handle();
+        dst_vk(vkQueueSubmit(queue, 1, &submitInfo, fence));
     }
 };
 

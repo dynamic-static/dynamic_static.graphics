@@ -207,7 +207,8 @@ namespace Vulkan {
         */
         virtual void submit_swapchain_command_buffer(
             const Clock& clock,
-            const CommandBuffer& commandBuffer
+            const CommandBuffer& commandBuffer,
+            const Fence& fence
         );
 
         /*!

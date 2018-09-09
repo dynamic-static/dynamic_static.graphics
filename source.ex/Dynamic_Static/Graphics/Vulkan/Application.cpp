@@ -293,11 +293,10 @@ namespace Vulkan {
             if (result == VK_SUCCESS || result == VK_SUBOPTIMAL_KHR) {
                 auto imageIndex = mSwapchain->get_current_image_index();
                 const auto& fence = mSwapchainFences[imageIndex];
-                dst_vk(vkWaitForFences(*mDevice, 1, &fence->get_handle(), VK_TRUE, UINT64_MAX));
-                dst_vk(vkResetFences(*mDevice, 1, &fence->get_handle()));
+                fence->wait();
                 const auto& commandBuffer = *mSwapchainCommandBuffers[imageIndex];
                 record_swapchain_command_buffer(clock, commandBuffer);
-                submit_swapchain_command_buffer(clock, commandBuffer);
+                submit_swapchain_command_buffer(clock, commandBuffer, *fence);
             }
         }
     }
@@ -348,20 +347,21 @@ namespace Vulkan {
 
     void Application::submit_swapchain_command_buffer(
         const Clock& clock,
-        const CommandBuffer& commandBuffer
+        const CommandBuffer& commandBuffer,
+        const Fence& fence
     )
     {
         VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
         Queue::SubmitInfo submitInfo { };
         submitInfo.waitSemaphoreCount = 1;
-        submitInfo.pWaitSemaphores = &mSwapchainImageAcquiredSemaphore->get_handle();
         submitInfo.pWaitDstStageMask = waitStages;
-        submitInfo.commandBufferCount = 1;
-        submitInfo.pCommandBuffers = &commandBuffer.get_handle();
+        submitInfo.pWaitSemaphores = &mSwapchainImageAcquiredSemaphore->get_handle();
         submitInfo.signalSemaphoreCount = 1;
         submitInfo.pSignalSemaphores = &mSwapchainRenderCompleteSemphore->get_handle();
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &commandBuffer.get_handle();
         const auto& queue = mDevice->get_queue_families()[0].get_queues()[0];
-        dst_vk(vkQueueSubmit(queue, 1, &submitInfo, *mSwapchainFences[mSwapchain->get_current_image_index()]));
+        dst_vk(vkQueueSubmit(queue, 1, &submitInfo, fence));
     }
 
     void Application::present_swapchain(const Clock& clock)
