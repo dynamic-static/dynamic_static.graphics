@@ -74,6 +74,24 @@ namespace Vulkan {
         const Framebuffer& get_framebuffer() const;
 
         /*!
+        Gets this RenderTarget's extent.
+        @return This RenderTarget's extent
+        */
+        VkExtent2D get_extent() const;
+
+        /*!
+        Gets a VkViewport that covers this entire RenderTarget.
+        @return A VkViewport that covers this entire RenderTarget
+        */
+        VkViewport get_viewport() const;
+
+        /*!
+        Gets a scissor VkRect2D that covers this entire RenderTarget.
+        @return A scissor VkRect2D that covers this entire RenderTarget
+        */
+        VkRect2D get_scissor() const;
+
+        /*!
         Gets this RenderTarget's VkClearValues.
         @return This RenderTarget's VkClearValues
         */

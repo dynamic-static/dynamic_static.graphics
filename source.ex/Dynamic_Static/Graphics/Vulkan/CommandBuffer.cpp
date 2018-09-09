@@ -35,6 +35,16 @@ namespace Vulkan {
         }
     }
 
+    void CommandBuffer::begin(const CommandBuffer::BeginInfo& beginInfo) const
+    {
+        dst_vk(vkBeginCommandBuffer(mHandle, &beginInfo));
+    }
+
+    void CommandBuffer::end() const
+    {
+        dst_vk(vkEndCommandBuffer(mHandle));
+    }
+
 } // namespace Vulkan
 } // namespace Graphics
 } // namespace Dynamic_Static

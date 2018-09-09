@@ -332,9 +332,11 @@ namespace Vulkan {
         scissor.extent = extent;
         vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
         vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
+
         record_swapchain_render_pass(clock, commandBuffer);
+
         vkCmdEndRenderPass(commandBuffer);
-        dst_vk(vkEndCommandBuffer(commandBuffer));
+        commandBuffer.end();
     }
 
     void Application::record_swapchain_render_pass(

@@ -91,6 +91,18 @@ namespace Vulkan {
         */
         ~CommandBuffer();
 
+    public:
+        /*!
+        Puts this CommandBuffer into the recording state.
+        @param [in] beginInfo Configuration parameters for beginning recording (optional = { })
+        */
+        void begin(const CommandBuffer::BeginInfo& beginInfo = { }) const;
+
+        /*!
+        Puts this CommandBuffer into the executable state.
+        */
+        void end() const;
+
     private:
         friend class CommandPool;
     };

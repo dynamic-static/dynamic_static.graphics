@@ -28,17 +28,17 @@ private:
     dst::gfx::Camera mCamera;
     dst::gfx::FreeCamerController mCameraController;
 
+    std::shared_ptr<dst::vk::Pipeline> mReflectionPipeline;
     std::unique_ptr<dst::vk::RenderTarget> mRenderTarget;
     std::shared_ptr<dst::vk::Sampler> mRenderTargetSampler;
     std::shared_ptr<dst::vk::Semaphore> mRenderTargetSemaphore;
     std::shared_ptr<dst::vk::CommandBuffer> mRenderTargetCommandBuffer;
 
-    dst::vk::Mesh mFloorMesh;
     std::shared_ptr<dst::vk::Pipeline> mFloorPipeline;
     std::shared_ptr<dst::vk::DescriptorSet> mFloorDescriptorSet;
 
+    dst::vk::Mesh mFloorMesh;
     dst::vk::Mesh mCubeMesh;
-    std::shared_ptr<dst::vk::Pipeline> mCubePipeline;
     dst::Transform mCubeTransform;
     float mCubeWobbleAnchor { 1.5f };
     float mCubeWobbleAmplitude { 0.5f };
@@ -164,7 +164,7 @@ private:
             return mDevice->create<Pipeline>(pipelineLayout, pipelineCreateInfo);
         };
 
-        mCubePipeline = createPipeline(
+        mReflectionPipeline = createPipeline(
             mRenderTarget->get_render_pass(),
             *mDevice->create<ShaderModule>(
                 VK_SHADER_STAGE_VERTEX_BIT,
@@ -408,7 +408,10 @@ private:
     void create_command_buffer()
     {
         using namespace dst::vk;
-        mRenderTargetCommandBuffer = mDevice->create<CommandPool>()->allocate<CommandBuffer>();
+        CommandPool::CreateInfo commandPoolCreateInfo { };
+        commandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+        auto commandPool = mDevice->create<CommandPool>(commandPoolCreateInfo);
+        mRenderTargetCommandBuffer = commandPool->allocate<CommandBuffer>();
     }
 
     void update(
@@ -450,7 +453,30 @@ private:
 
     void update_graphics(const dst::Clock& clock)
     {
-
+        using namespace dst::vk;
+        mRenderTargetCommandBuffer->begin();
+        auto renderPassBeginInfo = mRenderTarget->get_render_pass_begin_info();
+        vkCmdBeginRenderPass(*mRenderTargetCommandBuffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
+        vkCmdBindPipeline(*mRenderTargetCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mReflectionPipeline);
+        auto viewport = mRenderTarget->get_viewport();
+        vkCmdSetViewport(*mRenderTargetCommandBuffer, 0, 1, &viewport);
+        auto scissor = mRenderTarget->get_scissor();
+        vkCmdSetScissor(*mRenderTargetCommandBuffer, 0, 1, &scissor);
+        PushConstants pushConstants { };
+        pushConstants.world = mCubeTransform.world_from_local();
+        pushConstants.view = mCamera.get_view();
+        pushConstants.projection = mCamera.get_projection();
+        vkCmdPushConstants(
+            *mRenderTargetCommandBuffer,
+            mReflectionPipeline->get_layout(),
+            VK_SHADER_STAGE_VERTEX_BIT,
+            0,
+            sizeof(PushConstants),
+            &pushConstants
+        );
+        mCubeMesh.record_draw_cmds(*mRenderTargetCommandBuffer);
+        vkCmdEndRenderPass(*mRenderTargetCommandBuffer);
+        mRenderTargetCommandBuffer->end();
     }
 
     void record_swapchain_render_pass(
@@ -467,7 +493,7 @@ private:
 
         vkCmdPushConstants(
             commandBuffer,
-            mCubePipeline->get_layout(),
+            mReflectionPipeline->get_layout(),
             VK_SHADER_STAGE_VERTEX_BIT,
             0,
             sizeof(PushConstants),
@@ -489,7 +515,7 @@ private:
         pushConstants.world = glm::identity<glm::mat4>();
         vkCmdPushConstants(
             commandBuffer,
-            mCubePipeline->get_layout(),
+            mReflectionPipeline->get_layout(),
             VK_SHADER_STAGE_VERTEX_BIT,
             0,
             sizeof(PushConstants),

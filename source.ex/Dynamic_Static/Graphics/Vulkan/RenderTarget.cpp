@@ -126,6 +126,28 @@ namespace Vulkan {
         return *mFramebuffer;
     }
 
+    VkExtent2D RenderTarget::get_extent() const
+    {
+        return get_framebuffer().get_extent();
+    }
+
+    VkViewport RenderTarget::get_viewport() const
+    {
+        VkViewport viewport { };
+        viewport.width = (float)get_extent().width;
+        viewport.height = (float)get_extent().height;
+        viewport.minDepth = 0;
+        viewport.maxDepth = 1;
+        return viewport;
+    }
+
+    VkRect2D RenderTarget::get_scissor() const
+    {
+        VkRect2D scissor { };
+        scissor.extent = get_extent();
+        return scissor;
+    }
+
     dst::Span<VkClearValue> RenderTarget::get_clear_values()
     {
         return mClearValues;
