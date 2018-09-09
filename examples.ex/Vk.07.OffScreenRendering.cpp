@@ -25,9 +25,6 @@ private:
         glm::mat4 projection;
     };
 
-    PushConstants mPushConstants;
-    float mRotation { 0 };
-
     dst::gfx::Camera mCamera;
     dst::gfx::FreeCamerController mCameraController;
 
@@ -36,13 +33,18 @@ private:
     std::shared_ptr<dst::vk::Semaphore> mRenderTargetSemaphore;
     std::shared_ptr<dst::vk::CommandBuffer> mRenderTargetCommandBuffer;
 
-    dst::vk::Mesh mCubeMesh;
-    std::shared_ptr<dst::vk::Pipeline> mCubePipeline;
-    glm::quat mCubeRotation { glm::identity<glm::quat>() };
-
     dst::vk::Mesh mFloorMesh;
     std::shared_ptr<dst::vk::Pipeline> mFloorPipeline;
     std::shared_ptr<dst::vk::DescriptorSet> mFloorDescriptorSet;
+
+    dst::vk::Mesh mCubeMesh;
+    std::shared_ptr<dst::vk::Pipeline> mCubePipeline;
+    dst::Transform mCubeTransform;
+    float mCubeWobbleAnchor { 1.5f };
+    float mCubeWobbleAmplitude { 0.5f };
+    float mCubeWobbleFrequency { 3 };
+    bool mAnimateCube { true };
+    float mTime { 0 };
 
 public:
     Application()
@@ -264,7 +266,7 @@ private:
                     {
                         fragColor.r = fsPosition.r;
                         fragColor.g = fsColor.g;
-                        fragColor.b = fsTexoord.r;
+                        fragColor.b = fsTexcoord.r;
                         fragColor.a = 1;
                     }
                 )"
@@ -396,6 +398,7 @@ private:
         imageInfo.sampler = *mRenderTargetSampler;
         DescriptorSet::Write write { };
         write.dstSet = *mFloorDescriptorSet;
+        write.dstBinding = 1;
         write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
         write.descriptorCount = 1;
         write.pImageInfo = &imageInfo;
@@ -417,6 +420,9 @@ private:
         if (input.keyboard.down(Keyboard::Key::Escape)) {
             stop();
         }
+        if (input.keyboard.pressed(Keyboard::Key::OEM_Tilde)) {
+            mAnimateCube = !mAnimateCube;
+        }
         if (input.mouse.down(dst::sys::Mouse::Button::Left)) {
             mWindow->set_cursor_mode(dst::sys::Window::CursorMode::Disabled);
             mCameraController.lookEnabled = true;
@@ -426,11 +432,25 @@ private:
         }
         mCameraController.update(clock, input);
 
+        auto dt = mAnimateCube ? clock.elapsed<dst::Second<float>>() : 0;
+        if (input.keyboard.down(Keyboard::Key::RightArrow)) {
+            dt = clock.elapsed<dst::Second<float>>();
+        } else
+        if (input.keyboard.down(Keyboard::Key::LeftArrow)) {
+            dt = -clock.elapsed<dst::Second<float>>();
+        }
+        mTime += dt;
 
-        mRotation += 90 * clock.elapsed<dst::Second<float>>();
-        mPushConstants.world = glm::toMat4(glm::angleAxis(glm::radians(mRotation), dst::unit_y<glm::vec3>()));
-        mPushConstants.view = mCamera.get_view();
-        mPushConstants.projection = mCamera.get_projection();
+        auto cubeWobble = mCubeWobbleAmplitude * std::sin(mCubeWobbleFrequency * mTime);
+        auto cubeRotationY = glm::angleAxis(glm::radians(90.0f * dt), dst::unit_y<glm::vec3>());
+        auto cubeRotationZ = glm::angleAxis(glm::radians(45.0f * dt), dst::unit_z<glm::vec3>());
+        mCubeTransform.rotation = glm::normalize(cubeRotationY * mCubeTransform.rotation * cubeRotationZ);
+        mCubeTransform.translation = { 0, mCubeWobbleAnchor + cubeWobble, 0 };
+    }
+
+    void update_graphics(const dst::Clock& clock)
+    {
+
     }
 
     void record_swapchain_render_pass(
@@ -438,14 +458,20 @@ private:
         const dst::vk::CommandBuffer& commandBuffer
     ) override
     {
-        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mCubePipeline);
+        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mFloorPipeline);
+
+        PushConstants pushConstants { };
+        pushConstants.world = mCubeTransform.world_from_local();
+        pushConstants.view = mCamera.get_view();
+        pushConstants.projection = mCamera.get_projection();
+
         vkCmdPushConstants(
             commandBuffer,
             mCubePipeline->get_layout(),
             VK_SHADER_STAGE_VERTEX_BIT,
             0,
             sizeof(PushConstants),
-            &mPushConstants
+            &pushConstants
         );
         // vkCmdBindDescriptorSets(
         //     commandBuffer,
@@ -460,14 +486,14 @@ private:
         // );
 
         mCubeMesh.record_draw_cmds(commandBuffer);
-        mPushConstants.world = glm::identity<glm::mat4>();
+        pushConstants.world = glm::identity<glm::mat4>();
         vkCmdPushConstants(
             commandBuffer,
             mCubePipeline->get_layout(),
             VK_SHADER_STAGE_VERTEX_BIT,
             0,
             sizeof(PushConstants),
-            &mPushConstants
+            &pushConstants
         );
         mFloorMesh.record_draw_cmds(commandBuffer);
     }
