@@ -18,8 +18,8 @@ namespace Dynamic_Static {
 namespace Graphics {
 namespace Vulkan {
 
-    /*
-    * Provides high level control over a Vulkan surface.
+    /*!
+    Provides high level control over a Vulkan surface.
     */
     class SurfaceKHR final
         : public Object<VkSurfaceKHR>
@@ -32,17 +32,17 @@ namespace Vulkan {
         std::vector<VkPresentModeKHR> mPresentModes;
 
     public:
-        /*
-        * Callback executed when this SurfaceKHR is resized.
-        * @param [in] This SurfaceKHR
+        /*!
+        Callback executed when this SurfaceKHR is resized.
+        @param [in] This SurfaceKHR
         */
         Callback<SurfaceKHR, const SurfaceKHR&> on_resize;
 
     private:
-        /*
-        * Creates an instance of SurfaceKHR.
-        * @param [in] physicalDevice This SurfaceKHR's PhysicalDevice
-        * @param [in] window This SurfaceKHR's Window
+        /*!
+        Creates an instance of SurfaceKHR.
+        @param [in] physicalDevice This SurfaceKHR's PhysicalDevice
+        @param [in] window This SurfaceKHR's Window
         */
         SurfaceKHR(
             PhysicalDevice* physicalDevice,
@@ -50,39 +50,39 @@ namespace Vulkan {
         );
 
     public:
-        /*
-        * Destroys this instance of SurfaceKHR.
+        /*!
+        Destroys this instance of SurfaceKHR.
         */
         ~SurfaceKHR();
 
     public:
-        /*
-        * Gets this SurfaceKHR's Window.
-        * @return This SurfaceKHR's Window
+        /*!
+        Gets this SurfaceKHR's Window.
+        @return This SurfaceKHR's Window
         */
         sys::Window& get_window();
 
-        /*
-        * Gets this SurfaceKHR's Window.
-        * @return This SurfaceKHR's Window
+        /*!
+        Gets this SurfaceKHR's Window.
+        @return This SurfaceKHR's Window
         */
         const sys::Window& get_window() const;
 
-        /*
-        * Gets this SurfaceKHR's VkSurfaceFormatKHRs.
-        * @return This SurfaceKHR's VkSurfaceFormatKHRs
+        /*!
+        Gets this SurfaceKHR's VkSurfaceFormatKHRs.
+        @return This SurfaceKHR's VkSurfaceFormatKHRs
         */
         const std::vector<VkSurfaceFormatKHR>& get_formats() const;
 
-        /*
-        * Gets this SurfaceKHR's VkPresentModeKHRs.
-        * @return This SurfaceKHR's VkPresentModeKHRs
+        /*!
+        Gets this SurfaceKHR's VkPresentModeKHRs.
+        @return This SurfaceKHR's VkPresentModeKHRs
         */
         const std::vector<VkPresentModeKHR>& get_present_modes() const;
 
-        /*
-        * Gets this SurfaceKHR's VkSurfaceCapabilitiesKHR.
-        * @return This SurfaceKHR's VkSurfaceCapabilitiesKHR
+        /*!
+        Gets this SurfaceKHR's VkSurfaceCapabilitiesKHR.
+        @return This SurfaceKHR's VkSurfaceCapabilitiesKHR
         */
         VkSurfaceCapabilitiesKHR get_capabilities() const;
 
