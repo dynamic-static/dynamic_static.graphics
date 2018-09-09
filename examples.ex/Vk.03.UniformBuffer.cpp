@@ -206,7 +206,8 @@ private:
         uniformBufferCreateInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
         mUniformBuffer = mDevice->create<Buffer>(uniformBufferCreateInfo);
         DeviceMemory::allocate_resource_memory(
-            mUniformBuffer, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
+            mUniformBuffer,
+            VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
         );
     }
 

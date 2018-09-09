@@ -27,6 +27,7 @@ private:
     {
     public:
         std::shared_ptr<dst::vk::Buffer> uniformBuffer;
+        std::shared_ptr<dst::vk::DescriptorSet> descriptorSet;
         dst::Transform transform;
     };
 
@@ -48,12 +49,10 @@ private:
     std::shared_ptr<dst::vk::CommandBuffer> mRenderTargetCommandBuffer;
 
     std::shared_ptr<dst::vk::Pipeline> mFloorPipeline;
-    std::shared_ptr<dst::vk::DescriptorSet> mFloorDescriptorSet;
     Mesh mFloorMesh;
 
     std::shared_ptr<dst::vk::Pipeline> mCubePipeline;
     Mesh mCubeMesh;
-    // dst::Transform mCubeTransform;
     float mCubeWobbleAnchor { 1.5f };
     float mCubeWobbleAmplitude { 0.5f };
     float mCubeWobbleFrequency { 3 };
@@ -365,6 +364,14 @@ private:
             std::array<Buffer*, 2> buffers { mesh.vertexBuffer.get(), mesh.indexBuffer.get() };
             DeviceMemory::allocate_multi_resource_memory(buffers, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
+            bufferCreateInfo.size = sizeof(PushConstants);
+            bufferCreateInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+            mesh.uniformBuffer = mDevice->create<Buffer>(bufferCreateInfo);
+            DeviceMemory::allocate_resource_memory(
+                mesh.uniformBuffer,
+                VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
+            );
+
             bufferCreateInfo.size = std::max(mesh.vertexBuffer->get_memory_size(), mesh.indexBuffer->get_memory_size());
             bufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
             auto stagingBuffer = mDevice->create<Buffer>(bufferCreateInfo);
@@ -396,28 +403,39 @@ private:
     void create_descriptor_set()
     {
         using namespace dst::vk;
-        VkDescriptorPoolSize descriptorPoolSize { };
-        descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-        descriptorPoolSize.descriptorCount = 1;
+
+        std::array<VkDescriptorPoolSize, 2> descriptorPoolSizes { };
+        static const int Image = 0;
+        descriptorPoolSizes[Image].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        descriptorPoolSizes[Image].descriptorCount = 1;
+        static const int Buffer = 1;
+        descriptorPoolSizes[Buffer].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        descriptorPoolSizes[Buffer].descriptorCount = 2;
         DescriptorPool::CreateInfo descriptorPoolCreateInfo { };
-        descriptorPoolCreateInfo.poolSizeCount = 1;
-        descriptorPoolCreateInfo.pPoolSizes = &descriptorPoolSize;
-        descriptorPoolCreateInfo.maxSets = 1;
+        descriptorPoolCreateInfo.poolSizeCount = (uint32_t)descriptorPoolSizes.size();
+        descriptorPoolCreateInfo.pPoolSizes = descriptorPoolSizes.data();
+        descriptorPoolCreateInfo.maxSets = 2;
         auto descriptorPool = mDevice->create<DescriptorPool>(descriptorPoolCreateInfo);
+
         const auto& descriptorSetLayout = mFloorPipeline->get_layout().get_descriptor_set_layouts()[0];
-        mFloorDescriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayout);
+        mFloorMesh.descriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayout);
+
+
+
 
         VkDescriptorImageInfo imageInfo { };
         imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
         imageInfo.imageView = mRenderTarget->get_attachments()[0]->get_view();
         imageInfo.sampler = *mRenderTargetSampler;
         DescriptorSet::Write write { };
-        write.dstSet = *mFloorDescriptorSet;
+        write.dstSet = *mFloorMesh.descriptorSet;
         write.dstBinding = 1;
         write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
         write.descriptorCount = 1;
         write.pImageInfo = &imageInfo;
         vkUpdateDescriptorSets(*mDevice, 1, &write, 0, nullptr);
+
+
     }
 
     void update(
@@ -535,7 +553,8 @@ private:
             mFloorPipeline->get_layout(),
             0,
             1,
-            &mFloorDescriptorSet->get_handle(),
+            // &mFloorDescriptorSet->get_handle(),
+            &mFloorMesh.descriptorSet->get_handle(),
             0,
             nullptr
         );
