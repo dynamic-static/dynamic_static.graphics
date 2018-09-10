@@ -150,10 +150,7 @@ private:
     ) override
     {
         vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mPipeline);
-        VkDeviceSize offset = 0;
-        vkCmdBindVertexBuffers(commandBuffer, 0, 1, &mMesh.vertexBuffer->get_handle(), &offset);
-        vkCmdBindIndexBuffer(commandBuffer, *mMesh.indexBuffer, 0, mMesh.indexType);
-        vkCmdDrawIndexed(commandBuffer, mMesh.indexCount, 1, 0, 0, 0);
+        mMesh.record_draw_cmds(commandBuffer);
     }
 };
 
