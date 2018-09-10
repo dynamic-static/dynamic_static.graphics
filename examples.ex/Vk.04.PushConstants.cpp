@@ -144,51 +144,54 @@ private:
             VertexPositionColor {{  0.5f, 0,  0.5f }, { dst::Color::DarkOrange }},
             VertexPositionColor {{ -0.5f, 0,  0.5f }, { dst::Color::FloralWhite }},
         };
-        Buffer::CreateInfo vertexBufferCreateInfo { };
-        vertexBufferCreateInfo.size = sizeof(vertices);
-        vertexBufferCreateInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
-        mMesh.vertexBuffer = mDevice->create<Buffer>(vertexBufferCreateInfo);
-        auto vertexBufferMemoryRequirements = mMesh.vertexBuffer->get_memory_requirements();
-
         const std::array<uint16_t, 6> indices {
             0, 1, 2,
             2, 3, 0,
         };
-        mMesh.indexType = VK_INDEX_TYPE_UINT16;
-        mMesh.indexCount = (int)indices.size();
-        Buffer::CreateInfo indexBufferCreateInfo { };
-        indexBufferCreateInfo.size = sizeof(indices);
-        indexBufferCreateInfo.usage = VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
-        mMesh.indexBuffer = mDevice->create<Buffer>(indexBufferCreateInfo);
-        auto indexBufferMemoryRequirements = mMesh.indexBuffer->get_memory_requirements();
+        mMesh.write<VertexPositionColor, uint16_t>(mDevice, vertices, indices);
 
-        std::array<DeviceMemoryResource*, 2> resources {
-            mMesh.vertexBuffer.get(), mMesh.indexBuffer.get()
-        };
-        DeviceMemory::allocate_multi_resource_memory(resources, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-
-        Buffer::CreateInfo stagingBufferCreateInfo { };
-        stagingBufferCreateInfo.size = std::max(vertexBufferCreateInfo.size, indexBufferCreateInfo.size);
-        stagingBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
-        auto stagingBuffer = mDevice->create<Buffer>(stagingBufferCreateInfo);
-        auto stagingBufferMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-        DeviceMemory::allocate_resource_memory(stagingBuffer, stagingBufferMemoryProperties);
-        auto copyBuffer =
-        [&](std::shared_ptr<Buffer>& buffer)
-        {
-            mDevice->get_queue_families()[0].get_queues()[0].process_immediately(
-                [&](const CommandBuffer& commandBuffer)
-                {
-                    VkBufferCopy region { };
-                    region.size = buffer->get_memory_size();
-                    vkCmdCopyBuffer(commandBuffer, *stagingBuffer, *buffer, 1, &region);
-                }
-            );
-        };
-        stagingBuffer->write<VertexPositionColor>(vertices);
-        copyBuffer(mMesh.vertexBuffer);
-        stagingBuffer->write<uint16_t>(indices);
-        copyBuffer(mMesh.indexBuffer);
+        // Buffer::CreateInfo vertexBufferCreateInfo { };
+        // vertexBufferCreateInfo.size = sizeof(vertices);
+        // vertexBufferCreateInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
+        // mMesh.vertexBuffer = mDevice->create<Buffer>(vertexBufferCreateInfo);
+        // auto vertexBufferMemoryRequirements = mMesh.vertexBuffer->get_memory_requirements();
+        // 
+        // 
+        // mMesh.indexType = VK_INDEX_TYPE_UINT16;
+        // mMesh.indexCount = (int)indices.size();
+        // Buffer::CreateInfo indexBufferCreateInfo { };
+        // indexBufferCreateInfo.size = sizeof(indices);
+        // indexBufferCreateInfo.usage = VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
+        // mMesh.indexBuffer = mDevice->create<Buffer>(indexBufferCreateInfo);
+        // auto indexBufferMemoryRequirements = mMesh.indexBuffer->get_memory_requirements();
+        // 
+        // std::array<DeviceMemoryResource*, 2> resources {
+        //     mMesh.vertexBuffer.get(), mMesh.indexBuffer.get()
+        // };
+        // DeviceMemory::allocate_multi_resource_memory(resources, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+        // 
+        // Buffer::CreateInfo stagingBufferCreateInfo { };
+        // stagingBufferCreateInfo.size = std::max(vertexBufferCreateInfo.size, indexBufferCreateInfo.size);
+        // stagingBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+        // auto stagingBuffer = mDevice->create<Buffer>(stagingBufferCreateInfo);
+        // auto stagingBufferMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+        // DeviceMemory::allocate_resource_memory(stagingBuffer, stagingBufferMemoryProperties);
+        // auto copyBuffer =
+        // [&](std::shared_ptr<Buffer>& buffer)
+        // {
+        //     mDevice->get_queue_families()[0].get_queues()[0].process_immediately(
+        //         [&](const CommandBuffer& commandBuffer)
+        //         {
+        //             VkBufferCopy region { };
+        //             region.size = buffer->get_memory_size();
+        //             vkCmdCopyBuffer(commandBuffer, *stagingBuffer, *buffer, 1, &region);
+        //         }
+        //     );
+        // };
+        // stagingBuffer->write<VertexPositionColor>(vertices);
+        // copyBuffer(mMesh.vertexBuffer);
+        // stagingBuffer->write<uint16_t>(indices);
+        // copyBuffer(mMesh.indexBuffer);
     }
 
     void update(
