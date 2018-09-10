@@ -96,14 +96,9 @@ private:
                 }
             )"
         );
-        Pipeline::ShaderStageCreateInfo vertexShaderStage { };
-        vertexShaderStage.stage = VK_SHADER_STAGE_VERTEX_BIT;
-        vertexShaderStage.module = *vertexShader;
-        Pipeline::ShaderStageCreateInfo fragmentShaderStage { };
-        fragmentShaderStage.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-        fragmentShaderStage.module = *fragmentShader;
         std::array<Pipeline::ShaderStageCreateInfo, 2> shaderStages {
-            vertexShaderStage, fragmentShaderStage
+            vertexShader->get_pipeline_stage_create_info(),
+            fragmentShader->get_pipeline_stage_create_info(),
         };
 
         Pipeline::GraphicsCreateInfo pipelineCreateInfo { };

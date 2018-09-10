@@ -61,7 +61,7 @@ private:
     void create_resources() override
     {
         create_pipeline();
-        create_vertex_and_index_buffers();
+        create_mesh();
     }
 
     void create_pipeline()
@@ -135,7 +135,7 @@ private:
         mPipeline = mDevice->create<Pipeline>(pipelineLayout, pipelineCreateInfo);
     }
 
-    void create_vertex_and_index_buffers()
+    void create_mesh()
     {
         using namespace dst::vk;
         const std::array<VertexPositionColor, 4> vertices {

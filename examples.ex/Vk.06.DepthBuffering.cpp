@@ -65,8 +65,8 @@ private:
     void create_resources() override
     {
         create_pipeline();
-        create_sampler_and_image();
-        create_vertex_and_index_buffers();
+        create_image_and_sampler();
+        create_mesh();
         create_descriptor_sets();
     }
 
@@ -155,80 +155,16 @@ private:
         mPipeline = mDevice->create<Pipeline>(pipelineLayout, pipelineCreateInfo);
     }
 
-    void create_sampler_and_image()
+    void create_image_and_sampler()
     {
         using namespace dst::vk;
-        mSampler = mDevice->create<Sampler>();
-
         dst::sys::Image image;
         image.read_png("../../examples/resources/images/turtle.jpg");
         mImage = mDevice->create<Image>(image);
-        // Image::CreateInfo imageCreateInfo { };
-        // imageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
-        // imageCreateInfo.extent.width = (uint32_t)image.get_width();
-        // imageCreateInfo.extent.height = (uint32_t)image.get_height();
-        // imageCreateInfo.extent.depth = (uint32_t)image.get_depth();
-        // imageCreateInfo.format = VK_FORMAT_R8G8B8A8_UNORM;
-        // imageCreateInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
-        // imageCreateInfo.usage = VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
-        // mImage = mDevice->create<Image>(imageCreateInfo);
-        // DeviceMemory::allocate_resource_memory(mImage, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-        // 
-        // Buffer::CreateInfo stagingBufferCreateInfo { };
-        // stagingBufferCreateInfo.size = mImage->get_memory_requirements().size;
-        // stagingBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
-        // auto stagingBuffer = mDevice->create<Buffer>(stagingBufferCreateInfo);
-        // auto stagingBufferMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-        // DeviceMemory::allocate_resource_memory(stagingBuffer, stagingBufferMemoryProperties);
-        // stagingBuffer->write<uint8_t>(image.get_data());
-        // mDevice->get_queue_families()[0].get_queues()[0].process_immediately(
-        //     [&](const CommandBuffer& commandBuffer)
-        //     {
-        //         Image::Barrier imageBarrier { };
-        //         imageBarrier.image = *mImage;
-        //         imageBarrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-        //         imageBarrier.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-        //         imageBarrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-        //         vkCmdPipelineBarrier(
-        //             commandBuffer,
-        //             VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
-        //             VK_PIPELINE_STAGE_TRANSFER_BIT,
-        //             0,
-        //             0, nullptr,
-        //             0, nullptr,
-        //             1, &imageBarrier
-        //         );
-        // 
-        //         VkBufferImageCopy region { };
-        //         region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-        //         region.imageSubresource.layerCount = 1;
-        //         region.imageExtent = mImage->get_extent();
-        //         vkCmdCopyBufferToImage(
-        //             commandBuffer,
-        //             *stagingBuffer,
-        //             *mImage,
-        //             imageBarrier.newLayout,
-        //             1,
-        //             &region
-        //         );
-        // 
-        //         imageBarrier.dstAccessMask = 0;
-        //         imageBarrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-        //         imageBarrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-        //         vkCmdPipelineBarrier(
-        //             commandBuffer,
-        //             VK_PIPELINE_STAGE_TRANSFER_BIT,
-        //             VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
-        //             0,
-        //             0, nullptr,
-        //             0, nullptr,
-        //             1, &imageBarrier
-        //         );
-        //     }
-        // );
+        mSampler = mDevice->create<Sampler>();
     }
 
-    void create_vertex_and_index_buffers()
+    void create_mesh()
     {
         using namespace dst::vk;
         float w = (float)mImage->get_extent().width;
