@@ -83,8 +83,8 @@ private:
 
                 layout(location = 0) in vec3 vsPosition;
                 layout(location = 1) in vec4 vsColor;
-                layout(location = 0) out vec4 fsColor;
 
+                layout(location = 0) out vec4 fsColor;
                 out gl_PerVertex
                 {
                     vec4 gl_Position;
@@ -104,6 +104,7 @@ private:
                 #version 450
 
                 layout(location = 0) in vec4 fsColor;
+
                 layout(location = 0) out vec4 fragColor;
 
                 void main()
@@ -179,18 +180,9 @@ private:
     ) override
     {
         vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mPipeline);
-        vkCmdPushConstants(
-            commandBuffer,
-            mPipeline->get_layout(),
-            VK_SHADER_STAGE_VERTEX_BIT,
-            0,
-            sizeof(PushConstants),
-            &mPushConstants
-        );
-        VkDeviceSize offset = 0;
-        vkCmdBindVertexBuffers(commandBuffer, 0, 1, &mMesh.vertexBuffer->get_handle(), &offset);
-        vkCmdBindIndexBuffer(commandBuffer, *mMesh.indexBuffer, 0, mMesh.indexType);
-        vkCmdDrawIndexed(commandBuffer, mMesh.indexCount, 1, 0, 0, 0);
+        auto vkPipelineLayout = mPipeline->get_layout().get_handle();
+        vkCmdPushConstants(commandBuffer, vkPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstants), &mPushConstants);
+        mMesh.record_draw_cmds(commandBuffer);
     }
 };
 
