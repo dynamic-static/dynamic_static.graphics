@@ -25,7 +25,7 @@ namespace Vulkan {
     class ShaderModule::Reflector final
     {
     private:
-        std::vector<VkDescriptorSetLayoutBinding> mDescriptorSetLayoutBindings;
+        std::vector<std::vector<VkDescriptorSetLayoutBinding>> mDescriptorSetLayoutBindings;
         std::vector<VkPushConstantRange> mPushConstantRanges;
 
     public:
@@ -40,7 +40,7 @@ namespace Vulkan {
         Gets this ShaderModule::Reflector's VkDescriptorSetLayoutBindings.
         @return This ShaderModule::Reflector's VkDescriptorSetLayoutBindings
         */
-        dst::Span<const VkDescriptorSetLayoutBinding> get_descriptor_set_layout_bindings() const;
+        const std::vector<std::vector<VkDescriptorSetLayoutBinding>>& get_descriptor_set_layout_bindings() const;
 
         /*
         Gets this ShaderModule::Reflector's VkPushConstantRange.

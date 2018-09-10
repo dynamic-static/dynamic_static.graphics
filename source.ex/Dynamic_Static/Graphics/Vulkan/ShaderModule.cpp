@@ -46,10 +46,11 @@ namespace Vulkan {
         createInfo.pCode = compiler.get_spirv().data();
         dst_vk(vkCreateShaderModule(get_device(), &createInfo, nullptr, &mHandle));
         ShaderModule::Reflector reflector(compiler.get_spirv());
-        mDescriptorSetLayoutBindings.reserve(reflector.get_descriptor_set_layout_bindings().size());
-        for (auto binding : reflector.get_descriptor_set_layout_bindings()) {
-            binding.stageFlags = mStage;
-            mDescriptorSetLayoutBindings.push_back(binding);
+        mDescriptorSetLayoutBindings = reflector.get_descriptor_set_layout_bindings();
+        for (auto& descriptorSet : mDescriptorSetLayoutBindings) {
+            for (auto& binding : descriptorSet) {
+                binding.stageFlags = mStage;
+            }
         }
         mPushConstantRanges.reserve(reflector.get_push_constant_ranges().size());
         for (auto pushConstantRange : reflector.get_push_constant_ranges()) {
@@ -91,7 +92,7 @@ namespace Vulkan {
         return shaderStageCreateInfo;
     }
 
-    dst::Span<const VkDescriptorSetLayoutBinding> ShaderModule::get_descriptor_set_layout_bindings() const
+    const std::vector<std::vector<VkDescriptorSetLayoutBinding>>& ShaderModule::get_descriptor_set_layout_bindings() const
     {
         return mDescriptorSetLayoutBindings;
     }

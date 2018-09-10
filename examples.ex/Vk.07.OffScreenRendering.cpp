@@ -31,15 +31,20 @@ private:
         dst::Transform transform;
     };
 
-    struct PushConstants final
+    struct CameraUBO final
     {
-        glm::mat4 world;
-        glm::mat4 view;
-        glm::mat4 projection;
+        glm::mat4 projectionFromWorld;
+    };
+
+    struct ObjectUBO final
+    {
+        glm::mat4 worldFromLocal;
     };
 
     dst::gfx::Camera mCamera;
     dst::gfx::FreeCamerController mCameraController;
+    std::shared_ptr<dst::vk::Buffer> mCameraUniformBuffer;
+    std::shared_ptr<dst::vk::DescriptorSet> mCameraDescriptorSet;
 
     static constexpr VkExtent2D RenderTargetExtent { 1024, 1024 };
     std::unique_ptr<dst::vk::RenderTarget> mRenderTarget;
@@ -105,7 +110,8 @@ private:
         create_render_target_resources();
         create_pipelines();
         create_meshes();
-        create_descriptor_set();
+        create_uniform_buffers();
+        create_descriptor_sets();
     }
 
     void create_render_target_resources()
@@ -136,13 +142,29 @@ private:
             std::array<Pipeline::ShaderStageCreateInfo, 2> shaderStages { };
             shaderStages[0] = vertexShader.get_pipeline_stage_create_info();
             shaderStages[1] = fragmentShader.get_pipeline_stage_create_info();
-            auto descriptorSetLayoutBindings = fragmentShader.get_descriptor_set_layout_bindings();
-            DescriptorSetLayout::CreateInfo descriptorSetLayoutCreateInfo { };
-            descriptorSetLayoutCreateInfo.bindingCount = (uint32_t)descriptorSetLayoutBindings.size();
-            descriptorSetLayoutCreateInfo.pBindings = descriptorSetLayoutBindings.data();
-            auto descriptorSetLayout = mDevice->create<DescriptorSetLayout>(descriptorSetLayoutCreateInfo);
+
             auto pushConstantRanges = vertexShader.get_push_constant_ranges();
-            auto pipelineLayout = mDevice->create<PipelineLayout>(descriptorSetLayout, pushConstantRanges);
+            std::vector<VkDescriptorSetLayoutBinding> layoutBindings;
+            std::vector<std::shared_ptr<DescriptorSetLayout>> descriptorSetLayouts;
+            auto vertexBindings = vertexShader.get_descriptor_set_layout_bindings();
+            auto fragmentBindings = fragmentShader.get_descriptor_set_layout_bindings();
+            auto setCount = std::max(vertexBindings.size(), fragmentBindings.size());
+            for (int i = 0; i < setCount; ++i) {
+                layoutBindings.clear();
+                if (i < vertexBindings.size()) {
+                    dst::append(layoutBindings, vertexBindings[i]);
+                }
+                if (i < fragmentBindings.size()) {
+                    dst::append(layoutBindings, fragmentBindings[i]);
+                }
+                if (!layoutBindings.empty()) {
+                    DescriptorSetLayout::CreateInfo descriptorSetLayoutCreateInfo { };
+                    descriptorSetLayoutCreateInfo.bindingCount = (uint32_t)layoutBindings.size();
+                    descriptorSetLayoutCreateInfo.pBindings = layoutBindings.data();
+                    descriptorSetLayouts.push_back(mDevice->create<DescriptorSetLayout>(descriptorSetLayoutCreateInfo));
+                }
+            }
+            auto pipelineLayout = mDevice->create<PipelineLayout>(descriptorSetLayouts, pushConstantRanges);
 
             auto vertexBindingDescription = get_binding_description<VertexPositionColorTexture>();
             auto vertexAttributeDescriptions = get_attribute_descriptions<VertexPositionColorTexture>();
@@ -179,23 +201,40 @@ private:
                     #version 450
 
                     layout(push_constant)
-                    uniform PushConstants
+                    uniform PC
                     {
-                        mat4 world;
-                        mat4 view;
-                        mat4 projection;
+                        float scale;
                     } pc;
+
+                    layout(set = 0, binding = 0)
+                    uniform CameraUBO
+                    {
+                        mat4 projectionFromWorld;
+                    } camera;
+
+                    layout(set = 1, binding = 0)
+                    uniform ObjectUBO
+                    {
+                        mat4 worldFromLocal;
+                    } object;
 
                     layout(location = 0) in vec3 vsPosition;
                     layout(location = 1) in vec4 vsColor;
                     layout(location = 2) in vec2 vsTexcoord;
 
                     layout(location = 0) out vec4 fsColor;
-                    out gl_PerVertex { vec4 gl_Position; };
+                    out gl_PerVertex
+                    {
+                        vec4 gl_Position;
+                    };
 
                     void main()
                     {
-                        gl_Position = pc.projection * pc.view * pc.world * vec4(vsPosition, 1);
+                        gl_Position =
+                            camera.projectionFromWorld *
+                            object.worldFromLocal *
+                            vec4(vsPosition, 1);
+                        gl_Position.y *= pc.scale;
                         fsColor = vsColor;
                     }
                 )"
@@ -226,13 +265,17 @@ private:
                 R"(
                     #version 450
 
-                    layout(push_constant)
-                    uniform PushConstants
+                    layout(set = 0, binding = 0)
+                    uniform CameraUBO
                     {
-                        mat4 world;
-                        mat4 view;
-                        mat4 projection;
-                    } pc;
+                        mat4 projectionFromWorld;
+                    } camera;
+
+                    layout(set = 1, binding = 0)
+                    uniform ObjectUBO
+                    {
+                        mat4 worldFromLocal;
+                    } object;
 
                     layout(location = 0) in vec3 vsPosition;
                     layout(location = 1) in vec4 vsColor;
@@ -241,12 +284,17 @@ private:
                     layout(location = 0) out vec4 fsPosition;
                     layout(location = 1) out vec4 fsColor;
                     layout(location = 2) out vec2 fsTexcoord;
-
-                    out gl_PerVertex { vec4 gl_Position; };
+                    out gl_PerVertex
+                    {
+                        vec4 gl_Position;
+                    };
 
                     void main()
                     {
-                        fsPosition = pc.projection * pc.view * pc.world * vec4(vsPosition, 1);
+                        fsPosition =
+                            camera.projectionFromWorld *
+                            object.worldFromLocal *
+                            vec4(vsPosition, 1);
                         gl_Position = fsPosition;
                         fsTexcoord = vsTexcoord;
                         fsColor = vsColor;
@@ -259,7 +307,7 @@ private:
                 R"(
                     #version 450
 
-                    layout(binding = 1) uniform sampler2D reflectionImage;
+                    layout(set = 1, binding = 1) uniform sampler2D reflectionImage;
 
                     layout(location = 0) in vec4 fsPosition;
                     layout(location = 1) in vec4 fsColor;
@@ -364,14 +412,6 @@ private:
             std::array<Buffer*, 2> buffers { mesh.vertexBuffer.get(), mesh.indexBuffer.get() };
             DeviceMemory::allocate_multi_resource_memory(buffers, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
-            bufferCreateInfo.size = sizeof(PushConstants);
-            bufferCreateInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
-            mesh.uniformBuffer = mDevice->create<Buffer>(bufferCreateInfo);
-            DeviceMemory::allocate_resource_memory(
-                mesh.uniformBuffer,
-                VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
-            );
-
             bufferCreateInfo.size = std::max(mesh.vertexBuffer->get_memory_size(), mesh.indexBuffer->get_memory_size());
             bufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
             auto stagingBuffer = mDevice->create<Buffer>(bufferCreateInfo);
@@ -395,47 +435,82 @@ private:
             copyBuffer(mesh.indexBuffer);
             return mesh;
         };
-
         mCubeMesh = createMesh({ 1, 1, 1 }, dst::Color::White, dst::Color::Black);
         mFloorMesh = createMesh({ 6, 0.08f, 6 }, dst::Color::Transparent, dst::Color::Black);
     }
 
-    void create_descriptor_set()
+    void create_uniform_buffers()
+    {
+        auto createUniformBuffer =
+        [&](VkDeviceSize size)
+        {
+            using namespace dst::vk;
+            Buffer::CreateInfo bufferCreateInfo { };
+            bufferCreateInfo.size = size;
+            bufferCreateInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+            auto uniformBuffer = mDevice->create<Buffer>(bufferCreateInfo);
+            DeviceMemory::allocate_resource_memory(
+                uniformBuffer,
+                VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
+            );
+            return uniformBuffer;
+        };
+        mCubeMesh.uniformBuffer = createUniformBuffer(sizeof(ObjectUBO));
+        mFloorMesh.uniformBuffer = createUniformBuffer(sizeof(ObjectUBO));
+        mCameraUniformBuffer = createUniformBuffer(sizeof(CameraUBO));
+    }
+
+    void create_descriptor_sets()
     {
         using namespace dst::vk;
-
         std::array<VkDescriptorPoolSize, 2> descriptorPoolSizes { };
-        static const int Image = 0;
+        static const int Buffer = 0;
+        descriptorPoolSizes[Buffer].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        descriptorPoolSizes[Buffer].descriptorCount = 3;
+        static const int Image = 1;
         descriptorPoolSizes[Image].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
         descriptorPoolSizes[Image].descriptorCount = 1;
-        static const int Buffer = 1;
-        descriptorPoolSizes[Buffer].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        descriptorPoolSizes[Buffer].descriptorCount = 2;
         DescriptorPool::CreateInfo descriptorPoolCreateInfo { };
         descriptorPoolCreateInfo.poolSizeCount = (uint32_t)descriptorPoolSizes.size();
         descriptorPoolCreateInfo.pPoolSizes = descriptorPoolSizes.data();
-        descriptorPoolCreateInfo.maxSets = 2;
+        descriptorPoolCreateInfo.maxSets = 3;
         auto descriptorPool = mDevice->create<DescriptorPool>(descriptorPoolCreateInfo);
 
-        const auto& descriptorSetLayout = mFloorPipeline->get_layout().get_descriptor_set_layouts()[0];
+        const auto& cameraDescriptorSetLayout = mCubePipeline->get_layout().get_descriptor_set_layouts()[0];
+        mCameraDescriptorSet = descriptorPool->allocate<DescriptorSet>(cameraDescriptorSetLayout);
+        VkDescriptorBufferInfo bufferInfo { };
+        bufferInfo.buffer = *mCameraUniformBuffer;
+        bufferInfo.range = VK_WHOLE_SIZE;
+        DescriptorSet::Write descriptorBufferWrite { };
+        descriptorBufferWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        descriptorBufferWrite.dstSet = *mCameraDescriptorSet;
+        descriptorBufferWrite.dstBinding = Buffer;
+        descriptorBufferWrite.descriptorCount = 1;
+        descriptorBufferWrite.pBufferInfo = &bufferInfo;
+        vkUpdateDescriptorSets(*mDevice, 1, &descriptorBufferWrite, 0, nullptr);
+
+        const auto& cubeDescriptorSetLayout = mCubePipeline->get_layout().get_descriptor_set_layouts()[1];
+        mCubeMesh.descriptorSet = descriptorPool->allocate<DescriptorSet>(cubeDescriptorSetLayout);
+        bufferInfo.buffer = *mCubeMesh.uniformBuffer;
+        descriptorBufferWrite.dstSet = *mCubeMesh.descriptorSet;
+        vkUpdateDescriptorSets(*mDevice, 1, &descriptorBufferWrite, 0, nullptr);
+
+        const auto& descriptorSetLayout = mFloorPipeline->get_layout().get_descriptor_set_layouts()[1];
         mFloorMesh.descriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayout);
-
-
-
-
+        bufferInfo.buffer = *mFloorMesh.uniformBuffer;
         VkDescriptorImageInfo imageInfo { };
         imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
         imageInfo.imageView = mRenderTarget->get_attachments()[0]->get_view();
         imageInfo.sampler = *mRenderTargetSampler;
-        DescriptorSet::Write write { };
-        write.dstSet = *mFloorMesh.descriptorSet;
-        write.dstBinding = 1;
-        write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-        write.descriptorCount = 1;
-        write.pImageInfo = &imageInfo;
-        vkUpdateDescriptorSets(*mDevice, 1, &write, 0, nullptr);
-
-
+        std::array<DescriptorSet::Write, 2> writes { };
+        writes[Buffer] = descriptorBufferWrite;
+        writes[Buffer].dstSet = *mFloorMesh.descriptorSet;
+        writes[Image].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        writes[Image].dstSet = *mFloorMesh.descriptorSet;
+        writes[Image].dstBinding = Image;
+        writes[Image].descriptorCount = 1;
+        writes[Image].pImageInfo = &imageInfo;
+        vkUpdateDescriptorSets(*mDevice, (uint32_t)writes.size(), writes.data(), 0, nullptr);
     }
 
     void update(
@@ -462,6 +537,9 @@ private:
         if (swapchainExtent.height) {
             mCamera.aspectRatio = (float)swapchainExtent.width / (float)swapchainExtent.height;
         }
+        CameraUBO cameraUbo { };
+        cameraUbo.projectionFromWorld = mCamera.get_projection() * mCamera.get_view();
+        mCameraUniformBuffer->write<CameraUBO>(cameraUbo);
 
         auto dt = mAnimateCube ? clock.elapsed<dst::Second<float>>() : 0;
         if (input.keyboard.down(Keyboard::Key::RightArrow)) {
@@ -472,14 +550,35 @@ private:
         }
         mTime += dt;
 
+        ObjectUBO objectUbo { };
         auto cubeWobble = mCubeWobbleAmplitude * std::sin(mCubeWobbleFrequency * mTime);
         auto cubeRotationY = glm::angleAxis(glm::radians(90.0f * dt), dst::unit_y<glm::vec3>());
         auto cubeRotationZ = glm::angleAxis(glm::radians(45.0f * dt), dst::unit_z<glm::vec3>());
         mCubeMesh.transform.rotation = glm::normalize(cubeRotationY * mCubeMesh.transform.rotation * cubeRotationZ);
         mCubeMesh.transform.translation = { 0, mCubeWobbleAnchor + cubeWobble, 0 };
+        objectUbo.worldFromLocal = mCubeMesh.transform.world_from_local();
+        mCubeMesh.uniformBuffer->write<ObjectUBO>(objectUbo);
 
         auto floorRotationY = glm::angleAxis(glm::radians(-5 * dt), dst::unit_y<glm::vec3>());
         mFloorMesh.transform.rotation = glm::normalize(floorRotationY * mFloorMesh.transform.rotation);
+        objectUbo.worldFromLocal = mFloorMesh.transform.world_from_local();
+        mFloorMesh.uniformBuffer->write<ObjectUBO>(objectUbo);
+    }
+
+    void record_cube_cmds(
+        const dst::vk::CommandBuffer& commandBuffer,
+        float worldScale
+    )
+    {
+        auto bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+        vkCmdBindPipeline(commandBuffer, bindPoint, *mCubePipeline);
+        auto vkCubePipelineLayout = mCubePipeline->get_layout().get_handle();
+        auto vkCameraDescriptorSet = mCameraDescriptorSet->get_handle();
+        auto vkCubeDescriptorSet = mCubeMesh.descriptorSet->get_handle();
+        vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkCubePipelineLayout, 0, 1, &vkCameraDescriptorSet, 0, nullptr);
+        vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkCubePipelineLayout, 1, 1, &vkCubeDescriptorSet, 0, nullptr);
+        vkCmdPushConstants(commandBuffer, vkCubePipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(float), &worldScale);
+        mCubeMesh.record_draw_cmds(commandBuffer);
     }
 
     void update_graphics(const dst::Clock& clock)
@@ -490,24 +589,11 @@ private:
             mRenderTargetCommandBuffer->begin();
             auto renderPassBeginInfo = mRenderTarget->get_render_pass_begin_info();
             vkCmdBeginRenderPass(*mRenderTargetCommandBuffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
-            vkCmdBindPipeline(*mRenderTargetCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mCubePipeline);
             auto viewport = mRenderTarget->get_viewport();
             vkCmdSetViewport(*mRenderTargetCommandBuffer, 0, 1, &viewport);
             auto scissor = mRenderTarget->get_scissor();
             vkCmdSetScissor(*mRenderTargetCommandBuffer, 0, 1, &scissor);
-            PushConstants pushConstants { };
-            pushConstants.world = glm::scale(glm::vec3 { 1, -1, 1 }) * mCubeMesh.transform.world_from_local();
-            pushConstants.view = mCamera.get_view();
-            pushConstants.projection = mCamera.get_projection();
-            vkCmdPushConstants(
-                *mRenderTargetCommandBuffer,
-                mCubePipeline->get_layout(),
-                VK_SHADER_STAGE_VERTEX_BIT,
-                0,
-                sizeof(PushConstants),
-                &pushConstants
-            );
-            mCubeMesh.record_draw_cmds(*mRenderTargetCommandBuffer);
+            record_cube_cmds(*mRenderTargetCommandBuffer, -1);
             vkCmdEndRenderPass(*mRenderTargetCommandBuffer);
             mRenderTargetCommandBuffer->end();
         }
@@ -518,46 +604,14 @@ private:
         const dst::vk::CommandBuffer& commandBuffer
     ) override
     {
-        // NOTE : It's not really ideal to be using push constants for per
-        //  object data (for a number of reasons), but it's not going to hurt
-        //  anything in this very simple example.
-        PushConstants pushConstants { };
-        pushConstants.view = mCamera.get_view();
-        pushConstants.projection = mCamera.get_projection();
-
-        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mCubePipeline);
-        pushConstants.world = mCubeMesh.transform.world_from_local();
-        vkCmdPushConstants(
-            commandBuffer,
-            mCubePipeline->get_layout(),
-            VK_SHADER_STAGE_VERTEX_BIT,
-            0,
-            sizeof(PushConstants),
-            &pushConstants
-        );
-        mCubeMesh.record_draw_cmds(commandBuffer);
-
-        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mFloorPipeline);
-        pushConstants.world = mFloorMesh.transform.world_from_local();
-        vkCmdPushConstants(
-            commandBuffer,
-            mFloorPipeline->get_layout(),
-            VK_SHADER_STAGE_VERTEX_BIT,
-            0,
-            sizeof(PushConstants),
-            &pushConstants
-        );
-        vkCmdBindDescriptorSets(
-            commandBuffer,
-            VK_PIPELINE_BIND_POINT_GRAPHICS,
-            mFloorPipeline->get_layout(),
-            0,
-            1,
-            // &mFloorDescriptorSet->get_handle(),
-            &mFloorMesh.descriptorSet->get_handle(),
-            0,
-            nullptr
-        );
+        record_cube_cmds(commandBuffer, 1);
+        auto bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+        vkCmdBindPipeline(commandBuffer, bindPoint, *mFloorPipeline);
+        auto vkFloorPipelineLayout = mFloorPipeline->get_layout().get_handle();
+        auto vkCameraDescriptorSet = mCameraDescriptorSet->get_handle();
+        auto vkFloorDescriptorSet = mFloorMesh.descriptorSet->get_handle();
+        vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkFloorPipelineLayout, 0, 1, &vkCameraDescriptorSet, 0, nullptr);
+        vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkFloorPipelineLayout, 1, 1, &vkFloorDescriptorSet, 0, nullptr);
         mFloorMesh.record_draw_cmds(commandBuffer);
     }
 

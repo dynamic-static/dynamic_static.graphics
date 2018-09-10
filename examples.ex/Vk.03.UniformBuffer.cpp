@@ -64,7 +64,7 @@ private:
         create_pipeline();
         create_vertex_and_index_buffers();
         create_uniform_buffer();
-        create_descriptor_set();
+        create_descriptor_sets();
     }
 
     void create_pipeline()
@@ -121,8 +121,8 @@ private:
         };
         auto descriptorSetLayoutBindings = vertexShader->get_descriptor_set_layout_bindings();
         DescriptorSetLayout::CreateInfo descriptorSetLayoutCreateInfo { };
-        descriptorSetLayoutCreateInfo.bindingCount = (uint32_t)descriptorSetLayoutBindings.size();
-        descriptorSetLayoutCreateInfo.pBindings = descriptorSetLayoutBindings.data();
+        descriptorSetLayoutCreateInfo.bindingCount = (uint32_t)descriptorSetLayoutBindings[0].size();
+        descriptorSetLayoutCreateInfo.pBindings = descriptorSetLayoutBindings[0].data();
         auto descriptorSetLayout = mDevice->create<DescriptorSetLayout>(descriptorSetLayoutCreateInfo);
         auto pipelineLayout = mDevice->create<PipelineLayout>(descriptorSetLayout);
 
@@ -211,7 +211,7 @@ private:
         );
     }
 
-    void create_descriptor_set()
+    void create_descriptor_sets()
     {
         using namespace dst::vk;
         VkDescriptorPoolSize descriptorPoolSize { };
