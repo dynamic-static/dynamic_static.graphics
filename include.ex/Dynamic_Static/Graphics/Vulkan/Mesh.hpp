@@ -63,7 +63,7 @@ namespace Vulkan {
             dst::Span<const IndexType> indices
         )
         {
-            // TODO : This method needs some work, it's extremely inflexible.
+            // TODO : This method needs work, it's extremely inflexible.
             switch (sizeof(IndexType)) {
                 case sizeof(uint16_t) : indexType = VK_INDEX_TYPE_UINT16; break;
                 case sizeof(uint32_t) : indexType = VK_INDEX_TYPE_UINT32; break;

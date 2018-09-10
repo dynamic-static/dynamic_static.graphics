@@ -122,6 +122,16 @@ namespace Vulkan {
             VkImage handle
         );
 
+        /*!
+        Constructs an instance of Image.
+        @param [in] device This Image's Device
+        @param [in] image The System::Image to create this Image from
+        */
+        Image(
+            const std::shared_ptr<Device>& device,
+            const sys::Image& image
+        );
+
     public:
         /*!
         Moves an instance of Image.

@@ -30,8 +30,8 @@ private:
 
     std::shared_ptr<dst::vk::Pipeline> mPipeline;
     std::shared_ptr<dst::vk::Image> mImage;
-    std::shared_ptr<dst::vk::Sampler> mRenderTargetSampler;
-    std::shared_ptr<dst::vk::DescriptorSet> mFloorDescriptorSet;
+    std::shared_ptr<dst::vk::Sampler> mSampler;
+    std::shared_ptr<dst::vk::DescriptorSet> mDescriptorSet;
     PushConstants mPushConstants;
     float mRotation { 0 };
     dst::vk::Mesh mMesh;
@@ -80,7 +80,7 @@ private:
                 #version 450
 
                 layout(push_constant)
-                uniform PushConstants
+                uniform PC
                 {
                     mat4 world;
                     mat4 view;
@@ -89,8 +89,8 @@ private:
 
                 layout(location = 0) in vec3 vsPosition;
                 layout(location = 1) in vec2 vsTexcoord;
-                layout(location = 0) out vec2 fsTexcoord;
 
+                layout(location = 0) out vec2 fsTexcoord;
                 out gl_PerVertex
                 {
                     vec4 gl_Position;
@@ -110,7 +110,9 @@ private:
                 #version 450
 
                 layout(binding = 0) uniform sampler2D image;
+
                 layout(location = 0) in vec2 fsTexcoord;
+
                 layout(location = 0) out vec4 fragColor;
 
                 void main()
@@ -156,73 +158,74 @@ private:
     void create_sampler_and_image()
     {
         using namespace dst::vk;
-        mRenderTargetSampler = mDevice->create<Sampler>();
+        mSampler = mDevice->create<Sampler>();
 
         dst::sys::Image image;
         image.read_png("../../examples/resources/images/turtle.jpg");
-        Image::CreateInfo imageCreateInfo { };
-        imageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
-        imageCreateInfo.extent.width = (uint32_t)image.get_width();
-        imageCreateInfo.extent.height = (uint32_t)image.get_height();
-        imageCreateInfo.extent.depth = (uint32_t)image.get_depth();
-        imageCreateInfo.format = VK_FORMAT_R8G8B8A8_UNORM;
-        imageCreateInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
-        imageCreateInfo.usage = VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
-        mImage = mDevice->create<Image>(imageCreateInfo);
-        DeviceMemory::allocate_resource_memory(mImage, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-
-        Buffer::CreateInfo stagingBufferCreateInfo { };
-        stagingBufferCreateInfo.size = mImage->get_memory_requirements().size;
-        stagingBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
-        auto stagingBuffer = mDevice->create<Buffer>(stagingBufferCreateInfo);
-        auto stagingBufferMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-        DeviceMemory::allocate_resource_memory(stagingBuffer, stagingBufferMemoryProperties);
-        stagingBuffer->write<uint8_t>(image.get_data());
-        mDevice->get_queue_families()[0].get_queues()[0].process_immediately(
-            [&](const CommandBuffer& commandBuffer)
-            {
-                Image::Barrier imageBarrier { };
-                imageBarrier.image = *mImage;
-                imageBarrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-                imageBarrier.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-                imageBarrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-                vkCmdPipelineBarrier(
-                    commandBuffer,
-                    VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
-                    VK_PIPELINE_STAGE_TRANSFER_BIT,
-                    0,
-                    0, nullptr,
-                    0, nullptr,
-                    1, &imageBarrier
-                );
-
-                VkBufferImageCopy region { };
-                region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-                region.imageSubresource.layerCount = 1;
-                region.imageExtent = mImage->get_extent();
-                vkCmdCopyBufferToImage(
-                    commandBuffer,
-                    *stagingBuffer,
-                    *mImage,
-                    imageBarrier.newLayout,
-                    1,
-                    &region
-                );
-
-                imageBarrier.dstAccessMask = 0;
-                imageBarrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
-                imageBarrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-                vkCmdPipelineBarrier(
-                    commandBuffer,
-                    VK_PIPELINE_STAGE_TRANSFER_BIT,
-                    VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
-                    0,
-                    0, nullptr,
-                    0, nullptr,
-                    1, &imageBarrier
-                );
-            }
-        );
+        mImage = mDevice->create<Image>(image);
+        // Image::CreateInfo imageCreateInfo { };
+        // imageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
+        // imageCreateInfo.extent.width = (uint32_t)image.get_width();
+        // imageCreateInfo.extent.height = (uint32_t)image.get_height();
+        // imageCreateInfo.extent.depth = (uint32_t)image.get_depth();
+        // imageCreateInfo.format = VK_FORMAT_R8G8B8A8_UNORM;
+        // imageCreateInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+        // imageCreateInfo.usage = VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+        // mImage = mDevice->create<Image>(imageCreateInfo);
+        // DeviceMemory::allocate_resource_memory(mImage, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+        // 
+        // Buffer::CreateInfo stagingBufferCreateInfo { };
+        // stagingBufferCreateInfo.size = mImage->get_memory_requirements().size;
+        // stagingBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+        // auto stagingBuffer = mDevice->create<Buffer>(stagingBufferCreateInfo);
+        // auto stagingBufferMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+        // DeviceMemory::allocate_resource_memory(stagingBuffer, stagingBufferMemoryProperties);
+        // stagingBuffer->write<uint8_t>(image.get_data());
+        // mDevice->get_queue_families()[0].get_queues()[0].process_immediately(
+        //     [&](const CommandBuffer& commandBuffer)
+        //     {
+        //         Image::Barrier imageBarrier { };
+        //         imageBarrier.image = *mImage;
+        //         imageBarrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+        //         imageBarrier.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        //         imageBarrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+        //         vkCmdPipelineBarrier(
+        //             commandBuffer,
+        //             VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+        //             VK_PIPELINE_STAGE_TRANSFER_BIT,
+        //             0,
+        //             0, nullptr,
+        //             0, nullptr,
+        //             1, &imageBarrier
+        //         );
+        // 
+        //         VkBufferImageCopy region { };
+        //         region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+        //         region.imageSubresource.layerCount = 1;
+        //         region.imageExtent = mImage->get_extent();
+        //         vkCmdCopyBufferToImage(
+        //             commandBuffer,
+        //             *stagingBuffer,
+        //             *mImage,
+        //             imageBarrier.newLayout,
+        //             1,
+        //             &region
+        //         );
+        // 
+        //         imageBarrier.dstAccessMask = 0;
+        //         imageBarrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+        //         imageBarrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+        //         vkCmdPipelineBarrier(
+        //             commandBuffer,
+        //             VK_PIPELINE_STAGE_TRANSFER_BIT,
+        //             VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
+        //             0,
+        //             0, nullptr,
+        //             0, nullptr,
+        //             1, &imageBarrier
+        //         );
+        //     }
+        // );
     }
 
     void create_vertex_and_index_buffers()
@@ -263,14 +266,14 @@ private:
         descriptorPoolCreateInfo.maxSets = 1;
         auto descriptorPool = mDevice->create<DescriptorPool>(descriptorPoolCreateInfo);
         const auto& descriptorSetLayout = mPipeline->get_layout().get_descriptor_set_layouts()[0];
-        mFloorDescriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayout);
+        mDescriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayout);
 
         VkDescriptorImageInfo imageInfo { };
         imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
         imageInfo.imageView = mImage->get_view();
-        imageInfo.sampler = *mRenderTargetSampler;
+        imageInfo.sampler = *mSampler;
         DescriptorSet::Write write { };
-        write.dstSet = *mFloorDescriptorSet;
+        write.dstSet = *mDescriptorSet;
         write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
         write.descriptorCount = 1;
         write.pImageInfo = &imageInfo;
@@ -304,29 +307,13 @@ private:
         const dst::vk::CommandBuffer& commandBuffer
     ) override
     {
-        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mPipeline);
-        vkCmdPushConstants(
-            commandBuffer,
-            mPipeline->get_layout(),
-            VK_SHADER_STAGE_VERTEX_BIT,
-            0,
-            sizeof(PushConstants),
-            &mPushConstants
-        );
-        vkCmdBindDescriptorSets(
-            commandBuffer,
-            VK_PIPELINE_BIND_POINT_GRAPHICS,
-            mPipeline->get_layout(),
-            0,
-            1,
-            &mFloorDescriptorSet->get_handle(),
-            0,
-            nullptr
-        );
-        VkDeviceSize offset = 0;
-        vkCmdBindVertexBuffers(commandBuffer, 0, 1, &mMesh.vertexBuffer->get_handle(), &offset);
-        vkCmdBindIndexBuffer(commandBuffer, *mMesh.indexBuffer, 0, mMesh.indexType);
-        vkCmdDrawIndexed(commandBuffer, mMesh.indexCount, 1, 0, 0, 0);
+        auto bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+        vkCmdBindPipeline(commandBuffer, bindPoint, *mPipeline);
+        auto vkPipelineLayout = mPipeline->get_layout().get_handle();
+        auto vkDescriptorSet = mDescriptorSet->get_handle();
+        vkCmdPushConstants(commandBuffer, vkPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(PushConstants), &mPushConstants);
+        vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkPipelineLayout, 0, 1, &vkDescriptorSet, 0, nullptr);
+        mMesh.record_draw_cmds(commandBuffer);
     }
 };
 
