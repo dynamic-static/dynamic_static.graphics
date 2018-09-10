@@ -86,8 +86,8 @@ private:
 
                 layout(location = 0) in vec3 vsPosition;
                 layout(location = 1) in vec4 vsColor;
-                layout(location = 0) out vec4 fsColor;
 
+                layout(location = 0) out vec4 fsColor;
                 out gl_PerVertex
                 {
                     vec4 gl_Position;
@@ -107,6 +107,7 @@ private:
                 #version 450
 
                 layout(location = 0) in vec4 fsColor;
+
                 layout(location = 0) out vec4 fragColor;
 
                 void main()
@@ -226,21 +227,12 @@ private:
         const dst::vk::CommandBuffer& commandBuffer
     ) override
     {
-        vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, *mPipeline);
-        vkCmdBindDescriptorSets(
-            commandBuffer,
-            VK_PIPELINE_BIND_POINT_GRAPHICS,
-            mPipeline->get_layout(),
-            0,
-            1,
-            &mDescriptorSet->get_handle(),
-            0,
-            nullptr
-        );
-        VkDeviceSize offset = 0;
-        vkCmdBindVertexBuffers(commandBuffer, 0, 1, &mMesh.vertexBuffer->get_handle(), &offset);
-        vkCmdBindIndexBuffer(commandBuffer, *mMesh.indexBuffer, 0, mMesh.indexType);
-        vkCmdDrawIndexed(commandBuffer, mMesh.indexCount, 1, 0, 0, 0);
+        auto bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+        vkCmdBindPipeline(commandBuffer, bindPoint, *mPipeline);
+        auto vkPipelineLayout = mPipeline->get_layout().get_handle();
+        auto vkDescriptorSet = mDescriptorSet->get_handle();
+        vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkPipelineLayout, 0, 1, &vkDescriptorSet, 0, nullptr);
+        mMesh.record_draw_cmds(commandBuffer);
     }
 };
 
