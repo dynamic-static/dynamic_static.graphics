@@ -184,39 +184,6 @@ private:
         }
         Model model;
         model.mesh.write<VertexPositionColorTexture, uint16_t>(mDevice, vertices, indices);
-        // model.mesh.indexType = VK_INDEX_TYPE_UINT16;
-        // model.mesh.indexCount = (uint32_t)indices.size();
-        // Buffer::CreateInfo bufferCreateInfo { };
-        // bufferCreateInfo.size = sizeof(vertices);
-        // bufferCreateInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
-        // model.mesh.vertexBuffer = mDevice->create<Buffer>(bufferCreateInfo);
-        // bufferCreateInfo.size = sizeof(indices);
-        // bufferCreateInfo.usage = VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
-        // model.mesh.indexBuffer = mDevice->create<Buffer>(bufferCreateInfo);
-        // std::array<Buffer*, 2> buffers { model.mesh.vertexBuffer.get(), model.mesh.indexBuffer.get() };
-        // DeviceMemory::allocate_multi_resource_memory(buffers, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-        // 
-        // bufferCreateInfo.size = std::max(model.mesh.vertexBuffer->get_memory_size(), model.mesh.indexBuffer->get_memory_size());
-        // bufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
-        // auto stagingBuffer = mDevice->create<Buffer>(bufferCreateInfo);
-        // auto stagingBufferMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-        // DeviceMemory::allocate_resource_memory(stagingBuffer, stagingBufferMemoryProperties);
-        // auto copyBuffer =
-        // [&](std::shared_ptr<Buffer>& buffer)
-        // {
-        //     mDevice->get_queue_families()[0].get_queues()[0].process_immediately(
-        //         [&](const CommandBuffer& commandBuffer)
-        //         {
-        //             VkBufferCopy copy { };
-        //             copy.size = buffer->get_size();
-        //             vkCmdCopyBuffer(commandBuffer, *stagingBuffer, *buffer, 1, &copy);
-        //         }
-        //     );
-        // };
-        // stagingBuffer->write<VertexPositionColorTexture>(vertices);
-        // copyBuffer(model.mesh.vertexBuffer);
-        // stagingBuffer->write<uint16_t>(indices);
-        // copyBuffer(model.mesh.indexBuffer);
         model.uniformBuffer = create_uniform_buffer(uniformBufferSize);
         return model;
     }
