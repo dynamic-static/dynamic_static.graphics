@@ -22,10 +22,10 @@ class Application final
     : public dst::vk::Application
 {
 private:
-    class Mesh final
-        : public dst::vk::Mesh
+    class Model final
     {
     public:
+        dst::vk::Mesh mesh;
         std::shared_ptr<dst::vk::Buffer> uniformBuffer;
         std::shared_ptr<dst::vk::DescriptorSet> descriptorSet;
         dst::Transform transform;
@@ -41,6 +41,8 @@ private:
         glm::mat4 worldFromLocal;
     };
 
+    float mTime { 0 };
+    bool mAnimate { true };
     dst::gfx::Camera mCamera;
     dst::gfx::FreeCamerController mCameraController;
     std::shared_ptr<dst::vk::Buffer> mCameraUniformBuffer;
@@ -49,20 +51,17 @@ private:
     static constexpr VkExtent2D RenderTargetExtent { 1024, 1024 };
     std::unique_ptr<dst::vk::RenderTarget> mRenderTarget;
     std::shared_ptr<dst::vk::Sampler> mRenderTargetSampler;
-    std::shared_ptr<dst::vk::Fence> mRenderTargetCompleteFence;
     std::shared_ptr<dst::vk::Semaphore> mRenderTargetCompleteSemaphore;
     std::shared_ptr<dst::vk::CommandBuffer> mRenderTargetCommandBuffer;
 
+    Model mFloor;
     std::shared_ptr<dst::vk::Pipeline> mFloorPipeline;
-    Mesh mFloorMesh;
 
-    std::shared_ptr<dst::vk::Pipeline> mCubePipeline;
-    Mesh mCubeMesh;
+    Model mCube;
     float mCubeWobbleAnchor { 1.5f };
     float mCubeWobbleAmplitude { 0.5f };
     float mCubeWobbleFrequency { 3 };
-    bool mAnimateCube { true };
-    float mTime { 0 };
+    std::shared_ptr<dst::vk::Pipeline> mCubePipeline;
 
 public:
     Application()
@@ -107,28 +106,132 @@ private:
 
     void create_resources() override
     {
-        create_render_target_resources();
-        create_pipelines();
-        create_meshes();
-        create_uniform_buffers();
-        create_descriptor_sets();
-    }
-
-    void create_render_target_resources()
-    {
         using namespace dst::vk;
         mRenderTarget = std::make_unique<RenderTarget>(mSwapchainRenderPass, RenderTargetExtent);
-        mRenderTargetSampler = mDevice->create<Sampler>();
-
-        CommandPool::CreateInfo commandPoolCreateInfo { };
-        commandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-        auto commandPool = mDevice->create<CommandPool>(commandPoolCreateInfo);
-        mRenderTargetCommandBuffer = commandPool->allocate<CommandBuffer>();
-
-        Fence::CreateInfo fenceCreateInfo { };
-        fenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
-        mRenderTargetCompleteFence = mDevice->create<Fence>(fenceCreateInfo);
+        mRenderTargetCommandBuffer = mDevice->create<CommandPool>()->allocate<CommandBuffer>();
         mRenderTargetCompleteSemaphore = mDevice->create<Semaphore>();
+        mRenderTargetSampler = mDevice->create<Sampler>();
+        mCube = create_model({ 1, 1, 1 }, dst::Color::White, dst::Color::Black, sizeof(ObjectUBO));
+        mFloor = create_model({ 6, 0.08f, 6 }, dst::Color::Transparent, dst::Color::Black, sizeof(ObjectUBO));
+        mCameraUniformBuffer = create_uniform_buffer(sizeof(CameraUBO));
+        create_pipelines();
+        create_descriptor_sets();
+        record_render_target_command_buffer();
+    }
+
+    Model create_model(
+        const glm::vec3& extent,
+        const glm::vec4& topColor,
+        const glm::vec4& bottomColor,
+        VkDeviceSize uniformBufferSize
+    )
+    {
+        using namespace dst::vk;
+        float w = extent.x * 0.5f;
+        float h = extent.y * 0.5f;
+        float d = extent.z * 0.5f;
+        static const int FaceCount = 6;
+        static const int VerticesPerFace = 4;
+        static const int IndicesPerFace = 6;
+        std::array<VertexPositionColorTexture, FaceCount * VerticesPerFace> vertices {
+            // Top
+            VertexPositionColorTexture {{ -w, h, -d }, { topColor }, { 0, 1 }},
+            VertexPositionColorTexture {{  w, h, -d }, { topColor }, { 1, 1 }},
+            VertexPositionColorTexture {{  w, h,  d }, { topColor }, { 1, 0 }},
+            VertexPositionColorTexture {{ -w, h,  d }, { topColor }, { 0, 0 }},
+
+            // Left
+            VertexPositionColorTexture {{ -w,  h, -d }, { topColor },    { }},
+            VertexPositionColorTexture {{ -w,  h,  d }, { topColor },    { }},
+            VertexPositionColorTexture {{ -w, -h,  d }, { bottomColor }, { }},
+            VertexPositionColorTexture {{ -w, -h, -d }, { bottomColor }, { }},
+
+            // Front
+            VertexPositionColorTexture {{ -w,  h, d }, { topColor },    { }},
+            VertexPositionColorTexture {{  w,  h, d }, { topColor },    { }},
+            VertexPositionColorTexture {{  w, -h, d }, { bottomColor }, { }},
+            VertexPositionColorTexture {{ -w, -h, d }, { bottomColor }, { }},
+
+            // Right
+            VertexPositionColorTexture {{ w,  h,  d }, { topColor },    { }},
+            VertexPositionColorTexture {{ w,  h, -d }, { topColor },    { }},
+            VertexPositionColorTexture {{ w, -h, -d }, { bottomColor }, { }},
+            VertexPositionColorTexture {{ w, -h,  d }, { bottomColor }, { }},
+
+            // Back
+            VertexPositionColorTexture {{  w,  h, -d }, { topColor },    { }},
+            VertexPositionColorTexture {{ -w,  h, -d }, { topColor },    { }},
+            VertexPositionColorTexture {{ -w, -h, -d }, { bottomColor }, { }},
+            VertexPositionColorTexture {{  w, -h, -d }, { bottomColor }, { }},
+
+            // Bottom
+            VertexPositionColorTexture {{ -w, -h,  d }, { bottomColor }, { }},
+            VertexPositionColorTexture {{  w, -h,  d }, { bottomColor }, { }},
+            VertexPositionColorTexture {{  w, -h, -d }, { bottomColor }, { }},
+            VertexPositionColorTexture {{ -w, -h, -d }, { bottomColor }, { }},
+        };
+        int index_i = 0;
+        int vertex_i = 0;
+        std::array<uint16_t, FaceCount * IndicesPerFace> indices { };
+        for (int face_i = 0; face_i < FaceCount; ++face_i) {
+            indices[index_i++] = vertex_i + 0;
+            indices[index_i++] = vertex_i + 1;
+            indices[index_i++] = vertex_i + 2;
+            indices[index_i++] = vertex_i + 2;
+            indices[index_i++] = vertex_i + 3;
+            indices[index_i++] = vertex_i + 0;
+            vertex_i += VerticesPerFace;
+        }
+        Model model;
+        model.mesh.indexType = VK_INDEX_TYPE_UINT16;
+        model.mesh.indexCount = (uint32_t)indices.size();
+        Buffer::CreateInfo bufferCreateInfo { };
+        bufferCreateInfo.size = sizeof(vertices);
+        bufferCreateInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
+        model.mesh.vertexBuffer = mDevice->create<Buffer>(bufferCreateInfo);
+        bufferCreateInfo.size = sizeof(indices);
+        bufferCreateInfo.usage = VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
+        model.mesh.indexBuffer = mDevice->create<Buffer>(bufferCreateInfo);
+        std::array<Buffer*, 2> buffers { model.mesh.vertexBuffer.get(), model.mesh.indexBuffer.get() };
+        DeviceMemory::allocate_multi_resource_memory(buffers, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+
+        bufferCreateInfo.size = std::max(model.mesh.vertexBuffer->get_memory_size(), model.mesh.indexBuffer->get_memory_size());
+        bufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+        auto stagingBuffer = mDevice->create<Buffer>(bufferCreateInfo);
+        auto stagingBufferMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+        DeviceMemory::allocate_resource_memory(stagingBuffer, stagingBufferMemoryProperties);
+        auto copyBuffer =
+        [&](std::shared_ptr<Buffer>& buffer)
+        {
+            mDevice->get_queue_families()[0].get_queues()[0].process_immediately(
+                [&](const CommandBuffer& commandBuffer)
+                {
+                    VkBufferCopy copy { };
+                    copy.size = buffer->get_size();
+                    vkCmdCopyBuffer(commandBuffer, *stagingBuffer, *buffer, 1, &copy);
+                }
+            );
+        };
+        stagingBuffer->write<VertexPositionColorTexture>(vertices);
+        copyBuffer(model.mesh.vertexBuffer);
+        stagingBuffer->write<uint16_t>(indices);
+        copyBuffer(model.mesh.indexBuffer);
+        model.uniformBuffer = create_uniform_buffer(uniformBufferSize);
+        return model;
+    }
+
+    std::shared_ptr<dst::vk::Buffer> create_uniform_buffer(VkDeviceSize size)
+    {
+        using namespace dst::vk;
+        Buffer::CreateInfo bufferCreateInfo { };
+        bufferCreateInfo.size = size;
+        bufferCreateInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+        auto uniformBuffer = mDevice->create<Buffer>(bufferCreateInfo);
+        DeviceMemory::allocate_resource_memory(
+            uniformBuffer,
+            VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
+        );
+        return uniformBuffer;
     }
 
     void create_pipelines()
@@ -230,11 +333,16 @@ private:
 
                     void main()
                     {
+                        mat4 scale;
+                        scale[0][0] = 1;
+                        scale[1][1] = pc.scale;
+                        scale[2][2] = 1;
+                        scale[3][3] = 1;
+                        mat4 worldFromLocal = scale * object.worldFromLocal;
                         gl_Position =
                             camera.projectionFromWorld *
-                            object.worldFromLocal *
+                            worldFromLocal *
                             vec4(vsPosition, 1);
-                        gl_Position.y *= pc.scale;
                         fsColor = vsColor;
                     }
                 )"
@@ -336,130 +444,6 @@ private:
         );
     }
 
-    void create_meshes()
-    {
-        auto createMesh =
-        [&](const glm::vec3& extent,
-            const glm::vec4& topColor,
-            const glm::vec4& bottomColor)
-        {
-            using namespace dst::vk;
-            float w = extent.x * 0.5f;
-            float h = extent.y * 0.5f;
-            float d = extent.z * 0.5f;
-            static const int FaceCount = 6;
-            static const int VerticesPerFace = 4;
-            static const int IndicesPerFace = 6;
-            std::array<VertexPositionColorTexture, FaceCount * VerticesPerFace> vertices {
-                // Top
-                VertexPositionColorTexture {{ -w, h, -d }, { topColor }, { 0, 1 }},
-                VertexPositionColorTexture {{  w, h, -d }, { topColor }, { 1, 1 }},
-                VertexPositionColorTexture {{  w, h,  d }, { topColor }, { 1, 0 }},
-                VertexPositionColorTexture {{ -w, h,  d }, { topColor }, { 0, 0 }},
-
-                // Left
-                VertexPositionColorTexture {{ -w,  h, -d }, { topColor },    { }},
-                VertexPositionColorTexture {{ -w,  h,  d }, { topColor },    { }},
-                VertexPositionColorTexture {{ -w, -h,  d }, { bottomColor }, { }},
-                VertexPositionColorTexture {{ -w, -h, -d }, { bottomColor }, { }},
-
-                // Front
-                VertexPositionColorTexture {{ -w,  h, d }, { topColor },    { }},
-                VertexPositionColorTexture {{  w,  h, d }, { topColor },    { }},
-                VertexPositionColorTexture {{  w, -h, d }, { bottomColor }, { }},
-                VertexPositionColorTexture {{ -w, -h, d }, { bottomColor }, { }},
-
-                // Right
-                VertexPositionColorTexture {{ w,  h,  d }, { topColor },    { }},
-                VertexPositionColorTexture {{ w,  h, -d }, { topColor },    { }},
-                VertexPositionColorTexture {{ w, -h, -d }, { bottomColor }, { }},
-                VertexPositionColorTexture {{ w, -h,  d }, { bottomColor }, { }},
-
-                // Back
-                VertexPositionColorTexture {{  w,  h, -d }, { topColor },    { }},
-                VertexPositionColorTexture {{ -w,  h, -d }, { topColor },    { }},
-                VertexPositionColorTexture {{ -w, -h, -d }, { bottomColor }, { }},
-                VertexPositionColorTexture {{  w, -h, -d }, { bottomColor }, { }},
-
-                // Bottom
-                VertexPositionColorTexture {{ -w, -h,  d }, { bottomColor }, { }},
-                VertexPositionColorTexture {{  w, -h,  d }, { bottomColor }, { }},
-                VertexPositionColorTexture {{  w, -h, -d }, { bottomColor }, { }},
-                VertexPositionColorTexture {{ -w, -h, -d }, { bottomColor }, { }},
-            };
-            int index_i = 0;
-            int vertex_i = 0;
-            std::array<uint16_t, FaceCount * IndicesPerFace> indices { };
-            for (int face_i = 0; face_i < FaceCount; ++face_i) {
-                indices[index_i++] = vertex_i + 0;
-                indices[index_i++] = vertex_i + 1;
-                indices[index_i++] = vertex_i + 2;
-                indices[index_i++] = vertex_i + 2;
-                indices[index_i++] = vertex_i + 3;
-                indices[index_i++] = vertex_i + 0;
-                vertex_i += VerticesPerFace;
-            }
-            Mesh mesh;
-            mesh.indexType = VK_INDEX_TYPE_UINT16;
-            mesh.indexCount = (uint32_t)indices.size();
-            Buffer::CreateInfo bufferCreateInfo { };
-            bufferCreateInfo.size = sizeof(vertices);
-            bufferCreateInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
-            mesh.vertexBuffer = mDevice->create<Buffer>(bufferCreateInfo);
-            bufferCreateInfo.size = sizeof(indices);
-            bufferCreateInfo.usage = VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
-            mesh.indexBuffer = mDevice->create<Buffer>(bufferCreateInfo);
-            std::array<Buffer*, 2> buffers { mesh.vertexBuffer.get(), mesh.indexBuffer.get() };
-            DeviceMemory::allocate_multi_resource_memory(buffers, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-
-            bufferCreateInfo.size = std::max(mesh.vertexBuffer->get_memory_size(), mesh.indexBuffer->get_memory_size());
-            bufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
-            auto stagingBuffer = mDevice->create<Buffer>(bufferCreateInfo);
-            auto stagingBufferMemoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-            DeviceMemory::allocate_resource_memory(stagingBuffer, stagingBufferMemoryProperties);
-            auto copyBuffer =
-            [&](std::shared_ptr<Buffer>& buffer)
-            {
-                mDevice->get_queue_families()[0].get_queues()[0].process_immediately(
-                    [&](const CommandBuffer& commandBuffer)
-                    {
-                        VkBufferCopy copy { };
-                        copy.size = buffer->get_size();
-                        vkCmdCopyBuffer(commandBuffer, *stagingBuffer, *buffer, 1, &copy);
-                    }
-                );
-            };
-            stagingBuffer->write<VertexPositionColorTexture>(vertices);
-            copyBuffer(mesh.vertexBuffer);
-            stagingBuffer->write<uint16_t>(indices);
-            copyBuffer(mesh.indexBuffer);
-            return mesh;
-        };
-        mCubeMesh = createMesh({ 1, 1, 1 }, dst::Color::White, dst::Color::Black);
-        mFloorMesh = createMesh({ 6, 0.08f, 6 }, dst::Color::Transparent, dst::Color::Black);
-    }
-
-    void create_uniform_buffers()
-    {
-        auto createUniformBuffer =
-        [&](VkDeviceSize size)
-        {
-            using namespace dst::vk;
-            Buffer::CreateInfo bufferCreateInfo { };
-            bufferCreateInfo.size = size;
-            bufferCreateInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
-            auto uniformBuffer = mDevice->create<Buffer>(bufferCreateInfo);
-            DeviceMemory::allocate_resource_memory(
-                uniformBuffer,
-                VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
-            );
-            return uniformBuffer;
-        };
-        mCubeMesh.uniformBuffer = createUniformBuffer(sizeof(ObjectUBO));
-        mFloorMesh.uniformBuffer = createUniformBuffer(sizeof(ObjectUBO));
-        mCameraUniformBuffer = createUniformBuffer(sizeof(CameraUBO));
-    }
-
     void create_descriptor_sets()
     {
         using namespace dst::vk;
@@ -490,27 +474,60 @@ private:
         vkUpdateDescriptorSets(*mDevice, 1, &descriptorBufferWrite, 0, nullptr);
 
         const auto& cubeDescriptorSetLayout = mCubePipeline->get_layout().get_descriptor_set_layouts()[1];
-        mCubeMesh.descriptorSet = descriptorPool->allocate<DescriptorSet>(cubeDescriptorSetLayout);
-        bufferInfo.buffer = *mCubeMesh.uniformBuffer;
-        descriptorBufferWrite.dstSet = *mCubeMesh.descriptorSet;
+        mCube.descriptorSet = descriptorPool->allocate<DescriptorSet>(cubeDescriptorSetLayout);
+        bufferInfo.buffer = *mCube.uniformBuffer;
+        descriptorBufferWrite.dstSet = *mCube.descriptorSet;
         vkUpdateDescriptorSets(*mDevice, 1, &descriptorBufferWrite, 0, nullptr);
 
         const auto& descriptorSetLayout = mFloorPipeline->get_layout().get_descriptor_set_layouts()[1];
-        mFloorMesh.descriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayout);
-        bufferInfo.buffer = *mFloorMesh.uniformBuffer;
+        mFloor.descriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayout);
+        bufferInfo.buffer = *mFloor.uniformBuffer;
         VkDescriptorImageInfo imageInfo { };
         imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
         imageInfo.imageView = mRenderTarget->get_attachments()[0]->get_view();
         imageInfo.sampler = *mRenderTargetSampler;
         std::array<DescriptorSet::Write, 2> writes { };
         writes[Buffer] = descriptorBufferWrite;
-        writes[Buffer].dstSet = *mFloorMesh.descriptorSet;
+        writes[Buffer].dstSet = *mFloor.descriptorSet;
         writes[Image].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-        writes[Image].dstSet = *mFloorMesh.descriptorSet;
+        writes[Image].dstSet = *mFloor.descriptorSet;
         writes[Image].dstBinding = Image;
         writes[Image].descriptorCount = 1;
         writes[Image].pImageInfo = &imageInfo;
         vkUpdateDescriptorSets(*mDevice, (uint32_t)writes.size(), writes.data(), 0, nullptr);
+    }
+
+    void record_render_target_command_buffer()
+    {
+        using namespace dst::vk;
+        CommandBuffer::BeginInfo beginInfo { };
+        beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+        mRenderTargetCommandBuffer->begin(beginInfo);
+        auto renderPassBeginInfo = mRenderTarget->get_render_pass_begin_info();
+        vkCmdBeginRenderPass(*mRenderTargetCommandBuffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
+        auto viewport = mRenderTarget->get_viewport();
+        vkCmdSetViewport(*mRenderTargetCommandBuffer, 0, 1, &viewport);
+        auto scissor = mRenderTarget->get_scissor();
+        vkCmdSetScissor(*mRenderTargetCommandBuffer, 0, 1, &scissor);
+        record_cube_draw_cmds(*mRenderTargetCommandBuffer, -1);
+        vkCmdEndRenderPass(*mRenderTargetCommandBuffer);
+        mRenderTargetCommandBuffer->end();
+    }
+
+    void record_cube_draw_cmds(
+        const dst::vk::CommandBuffer& commandBuffer,
+        float worldScale
+    )
+    {
+        auto bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+        vkCmdBindPipeline(commandBuffer, bindPoint, *mCubePipeline);
+        auto vkCubePipelineLayout = mCubePipeline->get_layout().get_handle();
+        auto vkCameraDescriptorSet = mCameraDescriptorSet->get_handle();
+        auto vkCubeDescriptorSet = mCube.descriptorSet->get_handle();
+        vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkCubePipelineLayout, 0, 1, &vkCameraDescriptorSet, 0, nullptr);
+        vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkCubePipelineLayout, 1, 1, &vkCubeDescriptorSet, 0, nullptr);
+        vkCmdPushConstants(commandBuffer, vkCubePipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(float), &worldScale);
+        mCube.mesh.record_draw_cmds(commandBuffer);
     }
 
     void update(
@@ -522,9 +539,7 @@ private:
         if (input.keyboard.down(Keyboard::Key::Escape)) {
             stop();
         }
-        if (input.keyboard.pressed(Keyboard::Key::OEM_Tilde)) {
-            mAnimateCube = !mAnimateCube;
-        }
+
         if (input.mouse.down(dst::sys::Mouse::Button::Left)) {
             mWindow->set_cursor_mode(dst::sys::Window::CursorMode::Disabled);
             mCameraController.lookEnabled = true;
@@ -541,7 +556,10 @@ private:
         cameraUbo.projectionFromWorld = mCamera.get_projection() * mCamera.get_view();
         mCameraUniformBuffer->write<CameraUBO>(cameraUbo);
 
-        auto dt = mAnimateCube ? clock.elapsed<dst::Second<float>>() : 0;
+        if (input.keyboard.pressed(Keyboard::Key::OEM_Tilde)) {
+            mAnimate = !mAnimate;
+        }
+        auto dt = mAnimate ? clock.elapsed<dst::Second<float>>() : 0;
         if (input.keyboard.down(Keyboard::Key::RightArrow)) {
             dt = clock.elapsed<dst::Second<float>>();
         } else
@@ -554,49 +572,15 @@ private:
         auto cubeWobble = mCubeWobbleAmplitude * std::sin(mCubeWobbleFrequency * mTime);
         auto cubeRotationY = glm::angleAxis(glm::radians(90.0f * dt), dst::unit_y<glm::vec3>());
         auto cubeRotationZ = glm::angleAxis(glm::radians(45.0f * dt), dst::unit_z<glm::vec3>());
-        mCubeMesh.transform.rotation = glm::normalize(cubeRotationY * mCubeMesh.transform.rotation * cubeRotationZ);
-        mCubeMesh.transform.translation = { 0, mCubeWobbleAnchor + cubeWobble, 0 };
-        objectUbo.worldFromLocal = mCubeMesh.transform.world_from_local();
-        mCubeMesh.uniformBuffer->write<ObjectUBO>(objectUbo);
+        mCube.transform.rotation = glm::normalize(cubeRotationY * mCube.transform.rotation * cubeRotationZ);
+        mCube.transform.translation = { 0, mCubeWobbleAnchor + cubeWobble, 0 };
+        objectUbo.worldFromLocal = mCube.transform.world_from_local();
+        mCube.uniformBuffer->write<ObjectUBO>(objectUbo);
 
         auto floorRotationY = glm::angleAxis(glm::radians(-5 * dt), dst::unit_y<glm::vec3>());
-        mFloorMesh.transform.rotation = glm::normalize(floorRotationY * mFloorMesh.transform.rotation);
-        objectUbo.worldFromLocal = mFloorMesh.transform.world_from_local();
-        mFloorMesh.uniformBuffer->write<ObjectUBO>(objectUbo);
-    }
-
-    void record_cube_cmds(
-        const dst::vk::CommandBuffer& commandBuffer,
-        float worldScale
-    )
-    {
-        auto bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-        vkCmdBindPipeline(commandBuffer, bindPoint, *mCubePipeline);
-        auto vkCubePipelineLayout = mCubePipeline->get_layout().get_handle();
-        auto vkCameraDescriptorSet = mCameraDescriptorSet->get_handle();
-        auto vkCubeDescriptorSet = mCubeMesh.descriptorSet->get_handle();
-        vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkCubePipelineLayout, 0, 1, &vkCameraDescriptorSet, 0, nullptr);
-        vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkCubePipelineLayout, 1, 1, &vkCubeDescriptorSet, 0, nullptr);
-        vkCmdPushConstants(commandBuffer, vkCubePipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(float), &worldScale);
-        mCubeMesh.record_draw_cmds(commandBuffer);
-    }
-
-    void update_graphics(const dst::Clock& clock)
-    {
-        if (mSwapchain->is_valid()) {
-            using namespace dst::vk;
-            mRenderTargetCompleteFence->wait();
-            mRenderTargetCommandBuffer->begin();
-            auto renderPassBeginInfo = mRenderTarget->get_render_pass_begin_info();
-            vkCmdBeginRenderPass(*mRenderTargetCommandBuffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
-            auto viewport = mRenderTarget->get_viewport();
-            vkCmdSetViewport(*mRenderTargetCommandBuffer, 0, 1, &viewport);
-            auto scissor = mRenderTarget->get_scissor();
-            vkCmdSetScissor(*mRenderTargetCommandBuffer, 0, 1, &scissor);
-            record_cube_cmds(*mRenderTargetCommandBuffer, -1);
-            vkCmdEndRenderPass(*mRenderTargetCommandBuffer);
-            mRenderTargetCommandBuffer->end();
-        }
+        mFloor.transform.rotation = glm::normalize(floorRotationY * mFloor.transform.rotation);
+        objectUbo.worldFromLocal = mFloor.transform.world_from_local();
+        mFloor.uniformBuffer->write<ObjectUBO>(objectUbo);
     }
 
     void record_swapchain_render_pass(
@@ -604,15 +588,15 @@ private:
         const dst::vk::CommandBuffer& commandBuffer
     ) override
     {
-        record_cube_cmds(commandBuffer, 1);
+        record_cube_draw_cmds(commandBuffer, 1);
         auto bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
         vkCmdBindPipeline(commandBuffer, bindPoint, *mFloorPipeline);
         auto vkFloorPipelineLayout = mFloorPipeline->get_layout().get_handle();
         auto vkCameraDescriptorSet = mCameraDescriptorSet->get_handle();
-        auto vkFloorDescriptorSet = mFloorMesh.descriptorSet->get_handle();
+        auto vkFloorDescriptorSet = mFloor.descriptorSet->get_handle();
         vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkFloorPipelineLayout, 0, 1, &vkCameraDescriptorSet, 0, nullptr);
         vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkFloorPipelineLayout, 1, 1, &vkFloorDescriptorSet, 0, nullptr);
-        mFloorMesh.record_draw_cmds(commandBuffer);
+        mFloor.mesh.record_draw_cmds(commandBuffer);
     }
 
     void submit_swapchain_command_buffer(
@@ -632,7 +616,7 @@ private:
         submitInfo.pSignalSemaphores = &mRenderTargetCompleteSemaphore->get_handle();
         submitInfo.commandBufferCount = 1;
         submitInfo.pCommandBuffers = &mRenderTargetCommandBuffer->get_handle();
-        dst_vk(vkQueueSubmit(queue, 1, &submitInfo, *mRenderTargetCompleteFence));
+        dst_vk(vkQueueSubmit(queue, 1, &submitInfo, VK_NULL_HANDLE));
 
         submitInfo.pWaitSemaphores = &mRenderTargetCompleteSemaphore->get_handle();
         submitInfo.pSignalSemaphores = &mSwapchainRenderCompleteSemphore->get_handle();
