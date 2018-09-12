@@ -24,6 +24,7 @@ private:
     // TODO : Camera in all examples.
     // TODO : Clean up matrices in all examples.
     // TODO : Swap out PC for UBO in all examples.
+    // TODO : Clean up Image, Buffer, and Memory.
     struct PushConstants final
     {
         glm::mat4 world;
