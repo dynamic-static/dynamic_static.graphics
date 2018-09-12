@@ -301,11 +301,12 @@ private:
 
                     void main()
                     {
-                        mat4 scale;
-                        scale[0][0] = 1;
-                        scale[1][1] = pc.scale;
-                        scale[2][2] = 1;
-                        scale[3][3] = 1;
+                        mat4 scale = mat4(
+                            1, 0,        0, 0,
+                            0, pc.scale, 0, 0,
+                            0, 0,        1, 0,
+                            0, 0,        0, 1
+                        );
                         mat4 worldFromLocal = scale * object.worldFromLocal;
                         gl_Position =
                             camera.projectionFromWorld *
