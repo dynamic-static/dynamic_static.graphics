@@ -21,6 +21,9 @@ class Application final
     : public dst::vk::Application
 {
 private:
+    // TODO : Camera in all examples.
+    // TODO : Clean up matrices in all examples.
+    // TODO : Swap out PC for UBO in all examples.
     struct PushConstants final
     {
         glm::mat4 world;
