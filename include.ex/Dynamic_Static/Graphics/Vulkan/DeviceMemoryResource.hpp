@@ -103,6 +103,7 @@ namespace Vulkan {
         template <typename T>
         void write(dst::Span<T> data)
         {
+            // TODO : These write() methods need to be handled differently...
             assert(mMemory && "Attempting DeviceMemoryResource write without bound DeviceMemory");
             if (!data.empty()) {
                 auto size = std::min(data.size_bytes(), get_memory_size());

@@ -254,6 +254,11 @@ namespace Vulkan {
         ) override;
 
         /*!
+        TODO : Documentation.
+        */
+        void write_ex(dst::Span<uint8_t> data);
+
+        /*!
         Creates a new object of a given type.
         @param <ObjectType> The type of object to create
         @param <Args> The construction arguments for the object to create
