@@ -34,11 +34,15 @@ namespace ShapeBlaster {
         Sprite mPointerSprite;
         dst::gfx::Camera mCamera;
 
+        dst::gfx::FreeCamerController mCameraController;
+
     public:
         Application()
         {
             mInfo.pApplicationName = "Vk.ShapeBlaster";
             mCamera.transform.translation = { 0, 0, 4 };
+
+            mCameraController.camera = &mCamera;
         }
 
     private:
@@ -65,9 +69,9 @@ namespace ShapeBlaster {
             std::string resourcesPath = "../../../examples/resources/ShapeBlaster_AllParts/ShapeBlaster_Part5/ShapeBlaster_Part5Content/";
             std::string artResourcesPath = resourcesPath + "/Art/";
             std::array<Sprite::CreateInfo, 5> spriteCreateInfos { };
-            spriteCreateInfos[SpriteId_Bullet]   = { 64, artResourcesPath + "/Bullet.png" };
-            spriteCreateInfos[SpriteId_Wanderer] = { 32, artResourcesPath + "/Wanderer.png" };
-            spriteCreateInfos[SpriteId_Seeker]   = { 32, artResourcesPath + "/Seeker.png" };
+            spriteCreateInfos[SpriteId_Bullet]   = { 1 /*64*/, artResourcesPath + "/Bullet.png" };
+            spriteCreateInfos[SpriteId_Wanderer] = { 1 /*32*/, artResourcesPath + "/Wanderer.png" };
+            spriteCreateInfos[SpriteId_Seeker]   = { 1 /*32*/, artResourcesPath + "/Seeker.png" };
             spriteCreateInfos[SpriteId_Player]   = { 1,  artResourcesPath + "/Player.png" };
             spriteCreateInfos[SpriteId_Pointer]  = { 1,  artResourcesPath + "/Pointer.png" };
             mSpritePool = std::make_unique<Sprite::Pool>(mDevice, mSwapchainRenderPass, spriteCreateInfos);
@@ -85,6 +89,9 @@ namespace ShapeBlaster {
             if (input.keyboard.down(Keyboard::Key::Escape)) {
                 stop();
             }
+
+            //mCameraController.lookEnabled = true;
+            //mCameraController.update(clock, input);
 
             // mPointerSprite.
             auto swapchainExtent = mSwapchain->get_extent();

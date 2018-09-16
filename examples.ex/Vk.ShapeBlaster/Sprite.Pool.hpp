@@ -32,7 +32,8 @@ namespace ShapeBlaster {
             std::string filePath;
             int index { 0 };
             int total { 0 };
-            int available { 0 };
+            VkDeviceSize instanceBufferOffset { 0 };
+            std::vector<void*> available;
         };
 
         struct CameraUbo final
@@ -65,13 +66,32 @@ namespace ShapeBlaster {
         inline Sprite check_out(int id)
         {
             Sprite sprite;
-            sprite.mPool = this;
+            auto& resource = mResources[id];
+            if (!resource.available.empty()) {
+                sprite.mId = id;
+                sprite.mPool = this;
+                sprite.mVertex = (Sprite::Vertex*)resource.available.back();
+                resource.available.pop_back();
+                auto imageExtent = resource.image->get_extent();
+                sprite.mExtent.x = (float)imageExtent.width;
+                sprite.mExtent.y = (float)imageExtent.height;
+                sprite->position = { 1, 0 };
+                sprite->rotation = 0;
+                sprite->scale = 1;
+                sprite->color = dst::Color::White;
+            }
             return sprite;
         }
 
         inline void check_in(Sprite&& sprite)
         {
-            sprite.mPool = nullptr;
+            auto& resource = mResources[sprite.mId];
+            resource.available.push_back(sprite.mVertex);
+            sprite->position = { };
+            sprite->rotation = 0;
+            sprite->scale = 0;
+            sprite->color = dst::Color::Transparent;
+            sprite = { };
         }
 
         inline void update(const dst::gfx::Camera& camera)
@@ -83,16 +103,21 @@ namespace ShapeBlaster {
 
         inline void record_draw_cmds(const dst::vk::CommandBuffer& commandBuffer)
         {
+            // VkMappedMemoryRange mappedMemoryRange { };
+            // mappedMemoryRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
+            // mappedMemoryRange.memory = *mInstanceBuffer->get_memory();
+            // mappedMemoryRange.size = VK_WHOLE_SIZE;
+            // dst_vk(vkFlushMappedMemoryRanges(commandBuffer.get_command_pool().get_device(), 1, &mappedMemoryRange));
             auto bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
             vkCmdBindPipeline(commandBuffer, bindPoint, *mPipeline);
             auto vkPipelineLayout = mPipeline->get_layout().get_handle();
             auto vkDescriptorSet = mDescriptorSet->get_handle();
             vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkPipelineLayout, 0, 1, &vkDescriptorSet, 0, nullptr);
             for (const auto& resource : mResources) {
+                auto offset = resource.instanceBufferOffset;
+                auto vkInstanceBuffer = mInstanceBuffer->get_handle();
                 vkDescriptorSet = resource.descriptorSet->get_handle();
                 vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkPipelineLayout, 1, 1, &vkDescriptorSet, 0, nullptr);
-                VkDeviceSize offset = 0;
-                auto vkInstanceBuffer = mInstanceBuffer->get_handle();
                 vkCmdBindVertexBuffers(commandBuffer, 0, 1, &vkInstanceBuffer, &offset);
                 vkCmdDraw(commandBuffer, 6, resource.total, 0, 0);
             }
@@ -126,8 +151,8 @@ namespace ShapeBlaster {
                 resource.filePath = filePath;
                 totalSpriteCount += count;
                 resource.total = count;
-                resource.available = count;
-                resource.index = totalSpriteCount;
+                resource.index = i;
+                resource.available.resize(count);
                 imagePointers[i] = resource.image.get();
             }
             DeviceMemory::allocate_multi_resource_memory(imagePointers, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
@@ -139,7 +164,7 @@ namespace ShapeBlaster {
             bufferCreateInfo.size = sizeof(CameraUbo);
             bufferCreateInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
             mUniformBuffer = device->create<Buffer>(bufferCreateInfo);
-            bufferCreateInfo.size = totalSpriteCount * sizeof(VertexPositionColor);
+            bufferCreateInfo.size = totalSpriteCount * sizeof(Sprite::Vertex);
             bufferCreateInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
             mInstanceBuffer = device->create<Buffer>(bufferCreateInfo);
             std::array<Buffer*, 2> bufferPointers { };
@@ -147,7 +172,17 @@ namespace ShapeBlaster {
             bufferPointers[1] = mInstanceBuffer.get();
             auto memoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
             DeviceMemory::allocate_multi_resource_memory(bufferPointers, memoryProperties);
-            mUniformBuffer->get_memory()->map();
+
+            auto instanceBufferData = (uint8_t*)mInstanceBuffer->get_memory()->map();
+            instanceBufferData += mInstanceBuffer->get_memory_offset();
+            auto vertexData = (Sprite::Vertex*)instanceBufferData;
+            for (auto& resource : mResources) {
+                auto resourceVertexData = &vertexData[resource.index];
+                resource.instanceBufferOffset = (uint8_t*)resourceVertexData - (uint8_t*)vertexData;
+                for (int i = 0; i < resource.total; ++i) {
+                    resource.available[i] = &resourceVertexData[i];
+                }
+            }
 
             mSampler = device->create<Sampler>();
         }
@@ -168,11 +203,11 @@ namespace ShapeBlaster {
                 R"(
                     #version 450
 
-                    const vec3 Positions[4] = vec3[](
-                        vec3(-0.5,  0.5, 0),
-                        vec3( 0.5,  0.5, 0),
-                        vec3( 0.5, -0.5, 0),
-                        vec3(-0.5, -0.5, 0)
+                    const vec2 Positions[4] = vec2[](
+                        vec2(-0.5,  0.5),
+                        vec2( 0.5,  0.5),
+                        vec2( 0.5, -0.5),
+                        vec2(-0.5, -0.5)
                     );
 
                     const vec2 Texcoords[4] = vec2[](
@@ -193,8 +228,10 @@ namespace ShapeBlaster {
                         mat4 projectionFromWorld;
                     } camera;
 
-                    layout(location = 0) in vec3 vsPosition;
-                    layout(location = 1) in vec4 vsColor;
+                    layout(location = 0) in vec2 vsPosition;
+                    layout(location = 1) in float vsRotation;
+                    layout(location = 2) in float vsScale;
+                    layout(location = 3) in vec4 vsColor;
 
                     layout(location = 0) out vec2 fsTexcoord;
                     layout(location = 1) out vec4 fsColor;
@@ -205,12 +242,20 @@ namespace ShapeBlaster {
 
                     void main()
                     {
+                        // float c = cos(vsRotation) * vsScale;
+                        // float s = sin(vsRotation);
+                        // mat2 localToWorld(
+                        //      c, s,
+                        //     -s, c
+                        // );
+
                         int index = Indices[gl_VertexIndex];
-                        vec4 position = vec4(vsPosition + Positions[index], 1);
+                        vec4 position = vec4(vsPosition + Positions[index], 0, 1);
+                        position.z += vsScale * vsRotation * 0.00001f;
                         gl_Position = camera.projectionFromWorld * position;
                         fsTexcoord = Texcoords[index];
                         fsColor = vsColor;
-                        fsColor += vec4(1,1,1,1);
+fsColor += vec4(1,1,1,1);
                     }
                 )"
             );
@@ -240,9 +285,9 @@ namespace ShapeBlaster {
             shaderStages[Fragment] = shaderModules[Fragment]->get_pipeline_stage_create_info();
 
             VkVertexInputBindingDescription vertexBindingDescription { };
-            vertexBindingDescription.stride = sizeof(VertexPositionColor);
+            vertexBindingDescription.stride = sizeof(Sprite::Vertex);
             vertexBindingDescription.inputRate = VK_VERTEX_INPUT_RATE_INSTANCE;
-            auto vertexAttributeDescriptions = get_attribute_descriptions<VertexPositionColor>();
+            auto vertexAttributeDescriptions = Sprite::Vertex::get_attribute_descriptions();
             Pipeline::VertexInputStateCreateInfo vertexInputState { };
             vertexInputState.vertexBindingDescriptionCount = 1;
             vertexInputState.pVertexBindingDescriptions = &vertexBindingDescription;
