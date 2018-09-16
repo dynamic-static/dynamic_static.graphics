@@ -103,13 +103,23 @@ namespace Vulkan {
         template <typename T>
         void write(dst::Span<T> data)
         {
-            // TODO : These write() methods need to be handled differently...
+            // TODO : DRY...
+            // TODO : These write() methods need to be handled better...
             assert(mMemory && "Attempting DeviceMemoryResource write without bound DeviceMemory");
             if (!data.empty()) {
                 auto size = std::min(data.size_bytes(), get_memory_size());
-                auto mappedPtr = mMemory->map(mMemoryOffset, size);
-                memcpy(mappedPtr, data.data(), size);
-                mMemory->unmap();
+                auto mappedPtr = mMemory->get_mapped_ptr();
+                if (mappedPtr) {
+                    // TODO : This currently assumes that any pre mapped memory
+                    //  has the entire allocation mapped...we should check the
+                    //  mapped offset and size to keep the write in the region
+                    //  owned by this DeviceMemoryResource.
+                    memcpy((uint8_t*)mappedPtr + mMemoryOffset, data.data(), size);
+                } else {
+                    auto mappedPtr = mMemory->map(mMemoryOffset, size);
+                    memcpy(mappedPtr, data.data(), size);
+                    mMemory->unmap();
+                }
             }
         }
 
@@ -119,12 +129,23 @@ namespace Vulkan {
         template <typename T>
         void write(dst::Span<const T> data)
         {
+            // TODO : DRY...
+            // TODO : These write() methods need to be handled better...
             assert(mMemory && "Attempting DeviceMemoryResource write without bound DeviceMemory");
             if (!data.empty()) {
                 auto size = std::min(data.size_bytes(), get_memory_size());
-                auto mappedPtr = mMemory->map(mMemoryOffset, size);
-                memcpy(mappedPtr, data.data(), size);
-                mMemory->unmap();
+                auto mappedPtr = mMemory->get_mapped_ptr();
+                if (mappedPtr) {
+                    // TODO : This currently assumes that any pre mapped memory
+                    //  has the entire allocation mapped...we should check the
+                    //  mapped offset and size to keep the write in the region
+                    //  owned by this DeviceMemoryResource.
+                    memcpy((uint8_t*)mappedPtr + mMemoryOffset, data.data(), size);
+                } else {
+                    auto mappedPtr = mMemory->map(mMemoryOffset, size);
+                    memcpy(mappedPtr, data.data(), size);
+                    mMemory->unmap();
+                }
             }
         }
     };

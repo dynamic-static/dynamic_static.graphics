@@ -23,19 +23,22 @@ namespace ShapeBlaster {
     private:
         enum SpriteId
         {
-            SpriteId_Player,
-            SpriteId_Pointer,
             SpriteId_Bullet,
             SpriteId_Wanderer,
             SpriteId_Seeker,
+            SpriteId_Player,
+            SpriteId_Pointer,
         };
 
         std::unique_ptr<Sprite::Pool> mSpritePool;
+        Sprite mPointerSprite;
+        dst::gfx::Camera mCamera;
 
     public:
         Application()
         {
             mInfo.pApplicationName = "Vk.ShapeBlaster";
+            mCamera.transform.translation = { 0, 0, 4 };
         }
 
     private:
@@ -62,12 +65,41 @@ namespace ShapeBlaster {
             std::string resourcesPath = "../../../examples/resources/ShapeBlaster_AllParts/ShapeBlaster_Part5/ShapeBlaster_Part5Content/";
             std::string artResourcesPath = resourcesPath + "/Art/";
             std::array<Sprite::CreateInfo, 5> spriteCreateInfos { };
-            spriteCreateInfos[SpriteId_Player]   = { 1,  artResourcesPath + "/Player.png" };
-            spriteCreateInfos[SpriteId_Pointer]  = { 1,  artResourcesPath + "/Pointer.png" };
             spriteCreateInfos[SpriteId_Bullet]   = { 64, artResourcesPath + "/Bullet.png" };
             spriteCreateInfos[SpriteId_Wanderer] = { 32, artResourcesPath + "/Wanderer.png" };
             spriteCreateInfos[SpriteId_Seeker]   = { 32, artResourcesPath + "/Seeker.png" };
+            spriteCreateInfos[SpriteId_Player]   = { 1,  artResourcesPath + "/Player.png" };
+            spriteCreateInfos[SpriteId_Pointer]  = { 1,  artResourcesPath + "/Pointer.png" };
             mSpritePool = std::make_unique<Sprite::Pool>(mDevice, mSwapchainRenderPass, spriteCreateInfos);
+            mPointerSprite = mSpritePool->check_out(SpriteId_Pointer);
+            assert(mPointerSprite);
+        }
+
+        void update(
+            const dst::Clock& clock,
+            const dst::sys::Input& input
+        ) override
+        {
+            std::this_thread::sleep_for(dst::Millisecond<>(16));
+            using namespace dst::sys;
+            if (input.keyboard.down(Keyboard::Key::Escape)) {
+                stop();
+            }
+
+            // mPointerSprite.
+            auto swapchainExtent = mSwapchain->get_extent();
+            if (swapchainExtent.height) {
+                mCamera.aspectRatio = (float)swapchainExtent.width / (float)swapchainExtent.height;
+            }
+            mSpritePool->update(mCamera);
+        }
+
+        void record_swapchain_render_pass(
+            const dst::Clock& clock,
+            const dst::vk::CommandBuffer& commandBuffer
+        ) override
+        {
+            mSpritePool->record_draw_cmds(commandBuffer);
         }
     };
 

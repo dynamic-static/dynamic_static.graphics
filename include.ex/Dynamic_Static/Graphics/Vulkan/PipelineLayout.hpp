@@ -103,6 +103,18 @@ namespace Vulkan {
             PipelineLayout::CreateInfo createInfo = { }
         );
 
+        /*!
+        Constructs an instance of PipelineLayout.
+        @param [in] device This PipelineLayout's Device
+        @param [in] shaderModules This PipelineLayout's ShaderModules
+        @param [in] createInfo This PipelineLayout's PipelineLayout::CreateInfo (optional = { })
+        */
+        PipelineLayout(
+            const std::shared_ptr<Device>& device,
+            dst::Span<const std::shared_ptr<ShaderModule>> shaderModules,
+            PipelineLayout::CreateInfo createInfo = { }
+        );
+
     public:
         /*!
         Destroys this instance of PipelineLayout.

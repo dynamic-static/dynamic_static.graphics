@@ -41,7 +41,9 @@ namespace Vulkan {
     )
     {
         if (!mMappedPtr) {
-            dst_vk(vkMapMemory(get_device(), mHandle, offset, size, flags, &mMappedPtr));
+            mMappedOffset = offset;
+            mMappedSize = size;
+            dst_vk(vkMapMemory(get_device(), mHandle, mMappedOffset, mMappedSize, flags, &mMappedPtr));
         }
         return mMappedPtr;
     }
@@ -51,12 +53,24 @@ namespace Vulkan {
         if (mMappedPtr) {
             vkUnmapMemory(get_device(), mHandle);
             mMappedPtr = nullptr;
+            mMappedOffset = 0;
+            mMappedSize = 0;
         }
     }
 
     void* DeviceMemory::get_mapped_ptr() const
     {
         return mMappedPtr;
+    }
+
+    VkDeviceSize DeviceMemory::get_mapped_offset() const
+    {
+        return mMappedOffset;
+    }
+
+    VkDeviceSize DeviceMemory::get_mapped_size() const
+    {
+        return mMappedSize;
     }
 
 } // namespace Vulkan

@@ -15,6 +15,7 @@
 namespace ShapeBlaster {
 
     class Sprite final
+        : dst::NonCopyable
     {
     public:
         class Pool;
@@ -25,15 +26,15 @@ namespace ShapeBlaster {
             std::string filePath;
         };
 
-    public:
-        glm::vec2 position { };
-        glm::vec2 scale { 1 };
-        glm::vec4 color { dst::Color::White };
-
     private:
-        int mId { 0 };
         Pool* mPool { nullptr };
-        glm::vec2 mExtent { };
+
+    public:
+        Sprite() = default;
+        Sprite(Sprite&& other);
+        ~Sprite();
+        Sprite& operator=(Sprite&& other);
+        operator bool() const;
     };
 
 } // namespace ShapeBlaster

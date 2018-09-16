@@ -54,6 +54,8 @@ namespace Vulkan {
 
     private:
         void* mMappedPtr { nullptr };
+        VkDeviceSize mMappedOffset { 0 };
+        VkDeviceSize mMappedSize { 0 };
 
     private:
         /*!
@@ -99,6 +101,18 @@ namespace Vulkan {
         void* get_mapped_ptr() const;
 
         /*!
+        Gets the offset in bytes of this DeviceMemory's currently mapped range.
+        @return The offset in bytes of this DeviceMemory's currently mapped range.
+        */
+        VkDeviceSize get_mapped_offset() const;
+
+        /*!
+        Gets the size in bytes of this DeviceMemory's currently mapped range.
+        @return The size in bytes of this DeviceMemory's currently mapped range.
+        */
+        VkDeviceSize get_mapped_size() const;
+
+        /*!
         TODO : Documentation.
         */
         template <typename ResourceType>
@@ -122,6 +136,13 @@ namespace Vulkan {
             VkMemoryPropertyFlags memoryPropertyFlags
         )
         {
+            auto getPadding =
+            [](VkDeviceSize size, VkDeviceSize alignment)
+            {
+                auto padding = size % alignment;
+                return padding ? alignment - padding : padding;
+            };
+
             std::shared_ptr<DeviceMemory> memory;
             if (!resources.empty()) {
                 uint32_t memoryTypeBits = -1;
@@ -129,10 +150,10 @@ namespace Vulkan {
                 for (auto resource : resources) {
                     if (resource) {
                         auto memoryRequirements = resource->get_memory_requirements();
-                        auto minmax = std::minmax(memoryRequirements.alignment, allocateInfo.allocationSize);
-                        auto padding = minmax.first - minmax.first % minmax.second;
-                        allocateInfo.allocationSize += padding + memoryRequirements.size;
-                        // TODO : Validate that alignment is handled correctly...
+                        auto size = allocateInfo.allocationSize;
+                        auto alignment = memoryRequirements.alignment;
+                        allocateInfo.allocationSize += getPadding(size, alignment);
+                        allocateInfo.allocationSize += memoryRequirements.size;
                         memoryTypeBits &= memoryRequirements.memoryTypeBits;
                     }
                 }
@@ -142,17 +163,15 @@ namespace Vulkan {
                 bool success = physicalDevice.get_memory_type_index(
                     memoryTypeBits, memoryPropertyFlags, &allocateInfo.memoryTypeIndex
                 );
-                assert(success && "No DeviceMemoryResource compatible VkMemoryType supports the requested VkMemoryPropertyFlags");
+                assert(success && "No available VkMemoryType supports the necessary VkMemoryRequirements and requested VkMemoryPropertyFlags");
                 memory = device.allocate<DeviceMemory>(allocateInfo);
                 VkDeviceSize offset = 0;
                 for (auto resource : resources) {
                     if (resource) {
-                        resource->bind_memory(memory, offset);
                         auto memoryRequirements = resource->get_memory_requirements();
-                        auto minmax = std::minmax(memoryRequirements.alignment, allocateInfo.allocationSize);
-                        auto padding = minmax.first - minmax.first % minmax.second;
-                        // TODO : Validate that alignment is handled correctly...
-                        offset += padding + memoryRequirements.size;
+                        offset += getPadding(offset, memoryRequirements.alignment);
+                        resource->bind_memory(memory, offset);
+                        offset += memoryRequirements.size;
                     }
                 }
             }

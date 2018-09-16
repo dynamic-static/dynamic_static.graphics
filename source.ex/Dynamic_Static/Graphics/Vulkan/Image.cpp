@@ -64,7 +64,7 @@ namespace Vulkan {
         // WHAT : Why won't this compile when just passing "this"?
         Image* pImage = this;
         DeviceMemory::allocate_resource_memory(pImage, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
-        write(image.get_data());
+        write_ex(image.get_data());
     }
 
     Image::Image(Image&& other)
@@ -190,6 +190,16 @@ namespace Vulkan {
     }
 
     void Image::write_ex(dst::Span<uint8_t> data)
+    {
+        // TODO : This is really stupid...Span<> needs to be fixed to
+        //  deal with non const to const conversions in a reasonable way.
+        write_ex((dst::Span<const uint8_t>&)data);
+    }
+
+    /*!
+    TODO : Documentation.
+    */
+    void Image::write_ex(dst::Span<const uint8_t> data)
     {
         // TODO : This method needs work, it's extremely inflexible.
         // TODO : write() hides DeviceMemoryResource::write()...all of the

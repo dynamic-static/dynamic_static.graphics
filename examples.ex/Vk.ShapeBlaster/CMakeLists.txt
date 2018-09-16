@@ -12,10 +12,11 @@ DstCreateExecutable(
     folder Dynamic_Static.Graphics/examples/
     staticLibraries Dynamic_Static.Graphics
     includeDirectories "${CMAKE_CURRENT_LIST_DIR}"
-    sourceFiles
+    includeFiles
         "${CMAKE_CURRENT_LIST_DIR}/Entity.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/Sprite.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Sprite.Pipeline.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/Sprite.Pool.hpp"
+    sourceFiles
+        "${CMAKE_CURRENT_LIST_DIR}/Sprite.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/${target}.Main.cpp"
 )
