@@ -8,6 +8,9 @@
 ==========================================
 */
 
+// NOTE : Based on "Cross-Platform Vector Shooter: XNA" by Michael Hoffman...
+//  https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559
+
 #pragma once
 
 #include "Sprite.hpp"

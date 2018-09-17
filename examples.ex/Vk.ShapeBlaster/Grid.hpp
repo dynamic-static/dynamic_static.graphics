@@ -13,17 +13,12 @@
 
 #pragma once
 
-#include "Entity.hpp"
-
 #include "Dynamic_Static.Graphics.hpp"
 
 namespace ShapeBlaster {
 
-    class Enemy final
-        : public Entity
+    class Grid final
     {
-    public:
-        class Spawner;
     };
 
 } // namespace ShapeBlaster

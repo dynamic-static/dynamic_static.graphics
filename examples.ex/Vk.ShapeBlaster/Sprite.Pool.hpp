@@ -46,7 +46,7 @@ namespace ShapeBlaster {
         std::vector<Resource> mResources;
 
     public:
-        Pool(
+        inline Pool(
             const std::shared_ptr<dst::vk::Device>& device,
             const std::shared_ptr<dst::vk::RenderPass>& renderPass,
             dst::Span<const Sprite::CreateInfo> createInfos

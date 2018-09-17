@@ -19,7 +19,9 @@ DstCreateExecutable(
         "${CMAKE_CURRENT_LIST_DIR}/Enemy.Spawner.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/Entity.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/Entity.Manager.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Grid.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/Player.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/ScoreBoard.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/Sprite.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/Sprite.Pool.hpp"
     sourceFiles

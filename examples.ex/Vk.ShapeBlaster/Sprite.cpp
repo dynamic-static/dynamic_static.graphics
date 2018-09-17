@@ -13,6 +13,9 @@
 #include "Sprite.hpp"
 #include "Sprite.Pool.hpp"
 
+#include <cassert>
+#include <utility>
+
 namespace ShapeBlaster {
 
     Sprite::Sprite(Sprite&& other)
