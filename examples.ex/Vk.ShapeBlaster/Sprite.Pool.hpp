@@ -291,9 +291,6 @@ namespace ShapeBlaster {
             vertexInputState.vertexAttributeDescriptionCount = (uint32_t)vertexAttributeDescriptions.size();
             vertexInputState.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
 
-            // Pipeline::RasterizationStateCreateInfo rasterizationState { };
-            // rasterizationState.cullMode = VK_CULL_MODE_NONE;
-
             Pipeline::ColorBlendAttachmentState colorBlendAttachmentState { };
             colorBlendAttachmentState.blendEnable = VK_TRUE;
             Pipeline::ColorBlendStateCreateInfo colorBlendCreateInfo { };
@@ -304,7 +301,6 @@ namespace ShapeBlaster {
             pipelineCreateInfo.stageCount = (uint32_t)shaderStages.size();
             pipelineCreateInfo.pStages = shaderStages.data();
             pipelineCreateInfo.pVertexInputState = &vertexInputState;
-            // pipelineCreateInfo.pRasterizationState = &rasterizationState;
             pipelineCreateInfo.pColorBlendState = &colorBlendCreateInfo;
             pipelineCreateInfo.renderPass = *renderPass;
             auto pipelineLayout = device->create<PipelineLayout>(shaderModules);

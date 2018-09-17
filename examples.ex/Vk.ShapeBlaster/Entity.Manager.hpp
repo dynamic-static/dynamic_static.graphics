@@ -39,9 +39,11 @@ namespace ShapeBlaster {
             for (auto& bullet : mBullets) {
                 bullet.update(clock, input, rng, playAreaExtent);
             }
-            for (int i = mBullets.size() - 1; i >= 0; --i) {
-                if (!mBullets[i].is_alive()) {
-                    mBullets.erase(mBullets.begin() + i);
+            for (auto itr = mBullets.rbegin(); itr != mBullets.rend();) {
+                if (!itr->is_alive()) {
+                    itr = decltype(itr)(mBullets.erase(std::next(itr).base()));
+                } else {
+                    ++itr;
                 }
             }
         }

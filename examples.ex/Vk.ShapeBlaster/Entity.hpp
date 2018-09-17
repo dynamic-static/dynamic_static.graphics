@@ -103,11 +103,6 @@ namespace ShapeBlaster {
             mSprite->color = mColor;
         }
 
-        void sp()
-        {
-            mSprite.processing();
-        }
-
     protected:
         void kill()
         {
@@ -125,6 +120,9 @@ namespace ShapeBlaster {
 
         virtual void on_out_of_bounds(const glm::vec2& playAreaExtent)
         {
+            auto max = playAreaExtent * 0.5f;
+            auto min = -max;
+            mPosition = glm::clamp(mPosition, min, max);
         }
     };
 

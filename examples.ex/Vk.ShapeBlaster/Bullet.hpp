@@ -57,16 +57,6 @@ namespace ShapeBlaster {
         }
 
     private:
-        virtual void on_update(
-            const dst::Clock& clock,
-            const dst::sys::Input& input,
-            dst::RandomNumberGenerator& rng,
-            const glm::vec2& playAreaExtent
-        )
-        {
-            sp();
-        }
-
         inline void on_out_of_bounds(const glm::vec2& playAreaExtent)
         {
             kill();

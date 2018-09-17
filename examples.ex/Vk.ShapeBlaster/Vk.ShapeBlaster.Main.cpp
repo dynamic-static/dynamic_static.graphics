@@ -33,8 +33,8 @@ namespace ShapeBlaster {
         };
 
         dst::RandomNumberGenerator mRng;
-        Entity::Manager mEntityManager;
         std::unique_ptr<Sprite::Pool> mSpritePool;
+        Entity::Manager mEntityManager;
         Player mPlayer;
 
     public:
