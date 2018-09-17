@@ -24,7 +24,7 @@ private:
 public:
     Application()
     {
-        mInfo.pApplicationName = "Dynamic_Static Vk.01.Triangle";
+        mInfo.pApplicationName = "Vk.01.Triangle";
     }
 
 private:

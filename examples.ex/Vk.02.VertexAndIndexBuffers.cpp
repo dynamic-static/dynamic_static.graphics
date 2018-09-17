@@ -27,7 +27,7 @@ private:
 public:
     Application()
     {
-        mInfo.pApplicationName = "Dynamic_Static Vk.02.VertexAndIndexBuffers";
+        mInfo.pApplicationName = "Vk.02.VertexAndIndexBuffers";
     }
 
 private:

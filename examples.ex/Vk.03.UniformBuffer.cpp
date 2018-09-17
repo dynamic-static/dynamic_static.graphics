@@ -37,7 +37,7 @@ private:
 public:
     Application()
     {
-        mInfo.pApplicationName = "Dynamic_Static Vk.03.UniformBuffer";
+        mInfo.pApplicationName = "Vk.03.UniformBuffer";
     }
 
 private:

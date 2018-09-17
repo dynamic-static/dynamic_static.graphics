@@ -36,7 +36,7 @@ private:
 public:
     Application()
     {
-        mInfo.pApplicationName = "Dynamic_Static Vk.04.PushConstants";
+        mInfo.pApplicationName = "Vk.04.PushConstants";
     }
 
 private:

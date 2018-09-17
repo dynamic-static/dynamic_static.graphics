@@ -39,7 +39,7 @@ private:
 public:
     Application()
     {
-        mInfo.pApplicationName = "Dynamic_Static Vk.05.TextureMapping";
+        mInfo.pApplicationName = "Vk.05.TextureMapping";
     }
 
 private:

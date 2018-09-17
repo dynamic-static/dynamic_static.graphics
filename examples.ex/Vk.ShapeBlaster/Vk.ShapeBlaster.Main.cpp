@@ -43,7 +43,17 @@ namespace ShapeBlaster {
     public:
         Application()
         {
+            std::cout
+                << std::endl
+                << "[Esc]        - Quit"              << std::endl
+                << "[`]          - Options"           << std::endl
+                << "   [W]"                           << std::endl
+                << "[A][S][D]    - Move ship"         << std::endl
+                << "[Left Mouse] - Enable mouse look" << std::endl
+                << std::endl;
+
             mInfo.pApplicationName = "Vk.ShapeBlaster";
+            mClearColor = dst::Color::Black;
         }
 
     private:

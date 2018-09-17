@@ -68,18 +68,18 @@ public:
     {
         std::cout
             << std::endl
-            << "[Esc]          - Quit" << std::endl
-            << "[Q][W][E]" << std::endl
-            << "[A][S][D]      - Move camera" << std::endl
-            << "[Left Mouse]   - Enable mouse look" << std::endl
+            << "[Esc]          - Quit"                   << std::endl
+            << "[Q][W][E]"                               << std::endl
+            << "[A][S][D]      - Move camera"            << std::endl
+            << "[Left Mouse]   - Enable mouse look"      << std::endl
             << "[Scroll Wheel] - Zoom camera in and out" << std::endl
-            << "[Middle Mouse] - Reset camera zoom" << std::endl
-            << "[`]            - Toggle animation" << std::endl
-            << "[Left Arrow]   - Rewind animation" << std::endl
-            << "[Right Arrow]  - Advance animation" << std::endl
+            << "[Middle Mouse] - Reset camera zoom"      << std::endl
+            << "[`]            - Toggle animation"       << std::endl
+            << "[Left Arrow]   - Rewind animation"       << std::endl
+            << "[Right Arrow]  - Advance animation"      << std::endl
             << std::endl;
 
-        mInfo.pApplicationName = "Dynamic_Static Vk.07.OffScreenRendering";
+        mInfo.pApplicationName = "Vk.07.OffScreenRendering";
         mSwapchainDepthFormat = VK_FORMAT_D32_SFLOAT;
         mCamera.transform.translation = glm::vec3 { 0, 2, 7 };
         mCameraController.camera = &mCamera;
