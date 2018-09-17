@@ -13,7 +13,13 @@ DstCreateExecutable(
     staticLibraries Dynamic_Static.Graphics
     includeDirectories "${CMAKE_CURRENT_LIST_DIR}"
     includeFiles
+        "${CMAKE_CURRENT_LIST_DIR}/BlackHole.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Bullet.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Enemy.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Enemy.Spawner.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/Entity.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Entity.Manager.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Player.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/Sprite.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/Sprite.Pool.hpp"
     sourceFiles

@@ -70,12 +70,12 @@ namespace ShapeBlaster {
                 sprite.mVertex = (Sprite::Vertex*)resource.available.back();
                 resource.available.pop_back();
                 auto imageExtent = resource.image->get_extent();
-                sprite.mExtent.x = (float)imageExtent.width;
-                sprite.mExtent.y = (float)imageExtent.height;
                 sprite->position = { };
                 sprite->rotation = 0;
                 sprite->scale = 1;
                 sprite->color = dst::Color::White;
+                sprite->extent.x = (float)imageExtent.width;
+                sprite->extent.y = (float)imageExtent.height;
             }
             return sprite;
         }
@@ -84,20 +84,22 @@ namespace ShapeBlaster {
         {
             auto& resource = mResources[sprite.mId];
             resource.available.push_back(sprite.mVertex);
-            sprite->position = { };
-            sprite->rotation = 0;
-            sprite->scale = 0;
-            sprite->color = dst::Color::Transparent;
+            memset(sprite.mVertex, 0, sizeof(Sprite::Vertex));
             sprite.mId = 0;
             sprite.mPool = nullptr;
             sprite.mVertex = nullptr;
-            sprite.mExtent = { };
         }
 
         inline void update(const dst::gfx::Camera& camera)
         {
+            using namespace dst::gfx;
             CameraUbo cameraUbo { };
-            cameraUbo.projectionFromWorld = camera.get_projection() * camera.get_view();
+            auto view = glm::lookAt({ 0, 0, 0.5f }, glm::vec3 { }, glm::vec3 { 0, 1, 0 });
+            float w = 1280.0f * 0.5f;
+            float h = 720.0f * 0.5f;
+            auto projection = glm::ortho(-w, w, -h, h, -1.0f, 1.0f);
+            cameraUbo.projectionFromWorld = projection * view;
+            //cameraUbo.projectionFromWorld = camera.get_projection() * camera.get_view();
             mUniformBuffer->write<CameraUbo>(cameraUbo);
         }
 
@@ -179,34 +181,10 @@ namespace ShapeBlaster {
                 }
             }
 
-            // Buffer::CreateInfo bufferCreateInfo { };
-            // bufferCreateInfo.size = sizeof(CameraUbo);
-            // bufferCreateInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
-            // mUniformBuffer = device->create<Buffer>(bufferCreateInfo);
-            // bufferCreateInfo.size = totalSpriteCount * sizeof(Sprite::Vertex);
-            // bufferCreateInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-            // mInstanceBuffer = device->create<Buffer>(bufferCreateInfo);
-            // std::array<Buffer*, 2> bufferPointers { };
-            // bufferPointers[0] = mUniformBuffer.get();
-            // bufferPointers[1] = mInstanceBuffer.get();
-            // auto memoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
-            // DeviceMemory::allocate_multi_resource_memory(bufferPointers, memoryProperties);
-            // 
-            // const auto& bufferMemory = mInstanceBuffer->get_memory();
-            // auto instanceBufferData = (uint8_t*)bufferMemory->map();
-            // memset(instanceBufferData, 0, bufferMemory->get_mapped_size());
-            // instanceBufferData += mInstanceBuffer->get_memory_offset();
-            // auto vertexData = (Sprite::Vertex*)instanceBufferData;
-            // for (int i = 0; i < mResources.size(); ++i) {
-            //     auto& resource = mResources[i];
-            //     auto resourceVertexData = &vertexData[i];
-            //     resource.instanceBufferOffset = (uint8_t*)resourceVertexData - (uint8_t*)vertexData;
-            //     for (int j = 0; j < resource.total; ++j) {
-            //         resource.available[j] = &resourceVertexData[j];
-            //     }
-            // }
-
-            mSampler = device->create<Sampler>();
+            Sampler::CreateInfo samplerCreateInfo { };
+            samplerCreateInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+            samplerCreateInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+            mSampler = device->create<Sampler>(samplerCreateInfo);
         }
 
         inline void create_pipeline(
@@ -254,6 +232,7 @@ namespace ShapeBlaster {
                     layout(location = 1) in float vsRotation;
                     layout(location = 2) in float vsScale;
                     layout(location = 3) in vec4 vsColor;
+                    layout(location = 4) in vec2 vsExtent;
 
                     layout(location = 0) out vec2 fsTexcoord;
                     layout(location = 1) out vec4 fsColor;
@@ -272,7 +251,7 @@ namespace ShapeBlaster {
                         // );
 
                         int index = Indices[gl_VertexIndex];
-                        vec4 position = vec4(vsPosition + Positions[index], 0, 1);
+                        vec4 position = vec4(vsPosition + Positions[index] * vsExtent, 0, 1);
                         position.z += vsScale * vsRotation * 0.00001f;
                         gl_Position = camera.projectionFromWorld * position;
                         fsTexcoord = Texcoords[index];

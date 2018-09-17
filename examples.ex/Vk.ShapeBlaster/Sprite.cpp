@@ -28,17 +28,15 @@ namespace ShapeBlaster {
     Sprite& Sprite::operator=(Sprite&& other)
     {
         if (this != &other) {
-            if (*this && !other) {
+            if (!other) {
                 check_in();
             }
             mId = std::move(other.mId);
             mPool = std::move(other.mPool);
             mVertex = std::move(other.mVertex);
-            mExtent = std::move(other.mExtent);
             other.mId = 0;
             other.mPool = nullptr;
             other.mVertex = nullptr;
-            other.mExtent = { };
         }
         return *this;
     }
@@ -72,14 +70,10 @@ namespace ShapeBlaster {
         return mPool != nullptr && mVertex != nullptr;
     }
 
-    const glm::vec2& Sprite::get_extent() const
-    {
-        return mExtent;
-    }
-
     void Sprite::check_in()
     {
         if (*this) {
+            assert(mPool);
             mPool->check_in(std::move(*this));
         }
     }
