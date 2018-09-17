@@ -53,6 +53,7 @@ namespace Vulkan {
         };
 
     private:
+        VkDeviceSize mAllocationSize { 0 };
         void* mMappedPtr { nullptr };
         VkDeviceSize mMappedOffset { 0 };
         VkDeviceSize mMappedSize { 0 };
@@ -76,23 +77,10 @@ namespace Vulkan {
 
     public:
         /*!
-        Maps this DeviceMemory into application address space.
-        @param [in] offset The byte offset from the beginning of this DeviceMemory's allocation (optional = 0)
-        @param [in] size The size in bytes of the memory range to map (optional = VK_WHOLE_SIZE)
-        \n NOTE : Pass VK_WHOLE_SIZE to map from offset to the end of the allocation
-        @param [in] flags Reserved for future use
-        @return This DeviceMemory's mapped ptr
+        Gets this DeviceMemory's allocation size in bytes.
+        @return This DeviceMemory's allocation size in bytes
         */
-        void* map(
-            VkDeviceSize offset = 0,
-            VkDeviceSize size = VK_WHOLE_SIZE,
-            VkMemoryMapFlags flags = 0
-        );
-
-        /*!
-        Unmaps this DeviceMemory.
-        */
-        void unmap();
+        VkDeviceSize get_allocation_size() const;
 
         /*!
         Gets this DeviceMemory's mapped ptr.
@@ -111,6 +99,25 @@ namespace Vulkan {
         @return The size in bytes of this DeviceMemory's currently mapped range.
         */
         VkDeviceSize get_mapped_size() const;
+
+        /*!
+        Maps this DeviceMemory into application address space.
+        @param [in] offset The byte offset from the beginning of this DeviceMemory's allocation (optional = 0)
+        @param [in] size The size in bytes of the memory range to map (optional = VK_WHOLE_SIZE)
+        \n NOTE : Pass VK_WHOLE_SIZE to map from offset to the end of the allocation
+        @param [in] flags Reserved for future use
+        @return This DeviceMemory's mapped ptr
+        */
+        void* map(
+            VkDeviceSize offset = 0,
+            VkDeviceSize size = VK_WHOLE_SIZE,
+            VkMemoryMapFlags flags = 0
+        );
+
+        /*!
+        Unmaps this DeviceMemory.
+        */
+        void unmap();
 
         /*!
         TODO : Documentation.

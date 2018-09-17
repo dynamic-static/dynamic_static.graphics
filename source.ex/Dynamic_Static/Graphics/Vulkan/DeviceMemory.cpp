@@ -19,12 +19,13 @@ namespace Vulkan {
 
     DeviceMemory::DeviceMemory(
         const std::shared_ptr<Device>& device,
-        DeviceMemory::AllocateInfo createInfo
+        DeviceMemory::AllocateInfo allocateInfo
     )
         : DeviceChild(device)
+        , mAllocationSize { allocateInfo.allocationSize }
     {
         set_name("DeviceMemory");
-        dst_vk(vkAllocateMemory(get_device(), &createInfo, nullptr, &mHandle));
+        dst_vk(vkAllocateMemory(get_device(), &allocateInfo, nullptr, &mHandle));
     }
 
     DeviceMemory::~DeviceMemory()
@@ -34,28 +35,9 @@ namespace Vulkan {
         }
     }
 
-    void* DeviceMemory::map(
-        VkDeviceSize offset,
-        VkDeviceSize size,
-        VkMemoryMapFlags flags
-    )
+    VkDeviceSize DeviceMemory::get_allocation_size() const
     {
-        if (!mMappedPtr) {
-            mMappedOffset = offset;
-            mMappedSize = size;
-            dst_vk(vkMapMemory(get_device(), mHandle, mMappedOffset, mMappedSize, flags, &mMappedPtr));
-        }
-        return mMappedPtr;
-    }
-
-    void DeviceMemory::unmap()
-    {
-        if (mMappedPtr) {
-            vkUnmapMemory(get_device(), mHandle);
-            mMappedPtr = nullptr;
-            mMappedOffset = 0;
-            mMappedSize = 0;
-        }
+        return mAllocationSize;
     }
 
     void* DeviceMemory::get_mapped_ptr() const
@@ -71,6 +53,30 @@ namespace Vulkan {
     VkDeviceSize DeviceMemory::get_mapped_size() const
     {
         return mMappedSize;
+    }
+
+    void* DeviceMemory::map(
+        VkDeviceSize offset,
+        VkDeviceSize size,
+        VkMemoryMapFlags flags
+    )
+    {
+        if (!mMappedPtr) {
+            mMappedOffset = offset;
+            mMappedSize = size == VK_WHOLE_SIZE ? mAllocationSize : size;
+            dst_vk(vkMapMemory(get_device(), mHandle, mMappedOffset, size, flags, &mMappedPtr));
+        }
+        return mMappedPtr;
+    }
+
+    void DeviceMemory::unmap()
+    {
+        if (mMappedPtr) {
+            vkUnmapMemory(get_device(), mHandle);
+            mMappedPtr = nullptr;
+            mMappedOffset = 0;
+            mMappedSize = 0;
+        }
     }
 
 } // namespace Vulkan

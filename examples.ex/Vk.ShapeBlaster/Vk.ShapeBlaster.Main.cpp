@@ -36,11 +36,15 @@ namespace ShapeBlaster {
 
         dst::gfx::FreeCamerController mCameraController;
 
+        Sprite mBullet;
+
+        Sprite mPlayerSprite;
+
     public:
         Application()
         {
             mInfo.pApplicationName = "Vk.ShapeBlaster";
-            mCamera.transform.translation = { 0, 0, 4 };
+            mCamera.transform.translation = { 0, 0, 16 };
 
             mCameraController.camera = &mCamera;
         }
@@ -69,7 +73,7 @@ namespace ShapeBlaster {
             std::string resourcesPath = "../../../examples/resources/ShapeBlaster_AllParts/ShapeBlaster_Part5/ShapeBlaster_Part5Content/";
             std::string artResourcesPath = resourcesPath + "/Art/";
             std::array<Sprite::CreateInfo, 5> spriteCreateInfos { };
-            spriteCreateInfos[SpriteId_Bullet]   = { 1 /*64*/, artResourcesPath + "/Bullet.png" };
+            spriteCreateInfos[SpriteId_Bullet]   = { 64, artResourcesPath + "/Bullet.png" };
             spriteCreateInfos[SpriteId_Wanderer] = { 1 /*32*/, artResourcesPath + "/Wanderer.png" };
             spriteCreateInfos[SpriteId_Seeker]   = { 1 /*32*/, artResourcesPath + "/Seeker.png" };
             spriteCreateInfos[SpriteId_Player]   = { 1,  artResourcesPath + "/Player.png" };
@@ -77,6 +81,8 @@ namespace ShapeBlaster {
             mSpritePool = std::make_unique<Sprite::Pool>(mDevice, mSwapchainRenderPass, spriteCreateInfos);
             mPointerSprite = mSpritePool->check_out(SpriteId_Pointer);
             assert(mPointerSprite);
+
+            mPlayerSprite = mSpritePool->check_out(SpriteId_Player);
         }
 
         void update(
@@ -88,6 +94,20 @@ namespace ShapeBlaster {
             using namespace dst::sys;
             if (input.keyboard.down(Keyboard::Key::Escape)) {
                 stop();
+            }
+
+            if (input.keyboard.pressed(Keyboard::Key::OEM_Tilde)) {
+                if (mPlayerSprite) {
+                    mPlayerSprite = { };
+                } else {
+                    mPlayerSprite = mSpritePool->check_out(SpriteId_Player);
+                }
+
+                if (mBullet) {
+                    mSpritePool->check_in(std::move(mBullet));
+                } else {
+                    mBullet = mSpritePool->check_out(SpriteId_Bullet);
+                }
             }
 
             //mCameraController.lookEnabled = true;

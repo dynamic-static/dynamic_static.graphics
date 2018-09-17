@@ -62,6 +62,9 @@ namespace ShapeBlaster {
 
     public:
         const glm::vec2& get_extent() const;
+
+    private:
+        void check_in();
     };
 
 } // namespace ShapeBlaster

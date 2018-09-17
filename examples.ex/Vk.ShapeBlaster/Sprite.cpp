@@ -22,14 +22,15 @@ namespace ShapeBlaster {
 
     Sprite::~Sprite()
     {
-        if (mPool) {
-            mPool->check_in(std::move(*this));
-        }
+        check_in();
     }
 
     Sprite& Sprite::operator=(Sprite&& other)
     {
         if (this != &other) {
+            if (*this && !other) {
+                check_in();
+            }
             mId = std::move(other.mId);
             mPool = std::move(other.mPool);
             mVertex = std::move(other.mVertex);
@@ -74,6 +75,13 @@ namespace ShapeBlaster {
     const glm::vec2& Sprite::get_extent() const
     {
         return mExtent;
+    }
+
+    void Sprite::check_in()
+    {
+        if (*this) {
+            mPool->check_in(std::move(*this));
+        }
     }
 
 } // namespace ShapeBlaster

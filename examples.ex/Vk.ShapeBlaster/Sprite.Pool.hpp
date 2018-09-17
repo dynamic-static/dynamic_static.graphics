@@ -29,11 +29,9 @@ namespace ShapeBlaster {
         public:
             std::shared_ptr<dst::vk::Image> image;
             std::shared_ptr<dst::vk::DescriptorSet> descriptorSet;
-            std::string filePath;
-            int index { 0 };
-            int total { 0 };
-            VkDeviceSize instanceBufferOffset { 0 };
+            std::shared_ptr<dst::vk::Buffer> instanceBuffer;
             std::vector<void*> available;
+            int count { 0 };
         };
 
         struct CameraUbo final
@@ -42,7 +40,6 @@ namespace ShapeBlaster {
         };
 
         std::shared_ptr<dst::vk::Sampler> mSampler;
-        std::shared_ptr<dst::vk::Buffer> mInstanceBuffer;
         std::shared_ptr<dst::vk::Buffer> mUniformBuffer;
         std::shared_ptr<dst::vk::Pipeline> mPipeline;
         std::shared_ptr<dst::vk::DescriptorSet> mDescriptorSet;
@@ -75,7 +72,7 @@ namespace ShapeBlaster {
                 auto imageExtent = resource.image->get_extent();
                 sprite.mExtent.x = (float)imageExtent.width;
                 sprite.mExtent.y = (float)imageExtent.height;
-                sprite->position = { 1, 0 };
+                sprite->position = { };
                 sprite->rotation = 0;
                 sprite->scale = 1;
                 sprite->color = dst::Color::White;
@@ -91,7 +88,10 @@ namespace ShapeBlaster {
             sprite->rotation = 0;
             sprite->scale = 0;
             sprite->color = dst::Color::Transparent;
-            sprite = { };
+            sprite.mId = 0;
+            sprite.mPool = nullptr;
+            sprite.mVertex = nullptr;
+            sprite.mExtent = { };
         }
 
         inline void update(const dst::gfx::Camera& camera)
@@ -103,23 +103,18 @@ namespace ShapeBlaster {
 
         inline void record_draw_cmds(const dst::vk::CommandBuffer& commandBuffer)
         {
-            // VkMappedMemoryRange mappedMemoryRange { };
-            // mappedMemoryRange.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
-            // mappedMemoryRange.memory = *mInstanceBuffer->get_memory();
-            // mappedMemoryRange.size = VK_WHOLE_SIZE;
-            // dst_vk(vkFlushMappedMemoryRanges(commandBuffer.get_command_pool().get_device(), 1, &mappedMemoryRange));
             auto bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
             vkCmdBindPipeline(commandBuffer, bindPoint, *mPipeline);
             auto vkPipelineLayout = mPipeline->get_layout().get_handle();
             auto vkDescriptorSet = mDescriptorSet->get_handle();
             vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkPipelineLayout, 0, 1, &vkDescriptorSet, 0, nullptr);
             for (const auto& resource : mResources) {
-                auto offset = resource.instanceBufferOffset;
-                auto vkInstanceBuffer = mInstanceBuffer->get_handle();
+                VkDeviceSize offset = 0;
+                auto vkInstanceBuffer = resource.instanceBuffer->get_handle();
                 vkDescriptorSet = resource.descriptorSet->get_handle();
                 vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkPipelineLayout, 1, 1, &vkDescriptorSet, 0, nullptr);
                 vkCmdBindVertexBuffers(commandBuffer, 0, 1, &vkInstanceBuffer, &offset);
-                vkCmdDraw(commandBuffer, 6, resource.total, 0, 0);
+                vkCmdDraw(commandBuffer, 6, resource.count, 0, 0);
             }
         }
 
@@ -131,16 +126,17 @@ namespace ShapeBlaster {
         {
             assert(device);
             using namespace dst::vk;
-            int totalSpriteCount = 0;
             mResources.resize(createInfos.size());
             std::vector<dst::sys::Image> sysImages(createInfos.size());
             std::vector<Image*> imagePointers(createInfos.size());
+            std::vector<Buffer*> bufferPointers(createInfos.size() + 1);
             for (int i = 0; i < createInfos.size(); ++i) {
                 auto filePath = createInfos[i].filePath;
                 auto count = createInfos[i].count;
-                auto& sysImage = sysImages[i];
                 auto& resource = mResources[i];
+                auto& sysImage = sysImages[i];
                 sysImage.read_png(filePath);
+
                 Image::CreateInfo imageCreateInfo { };
                 imageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
                 imageCreateInfo.extent.width = (uint32_t)sysImage.get_width();
@@ -148,41 +144,67 @@ namespace ShapeBlaster {
                 imageCreateInfo.format = VK_FORMAT_R8G8B8A8_UNORM;
                 imageCreateInfo.usage = VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
                 resource.image = device->create<Image>(imageCreateInfo);
-                resource.filePath = filePath;
-                totalSpriteCount += count;
-                resource.total = count;
-                resource.index = i;
+                resource.count = count;
                 resource.available.resize(count);
                 imagePointers[i] = resource.image.get();
+
+                Buffer::CreateInfo bufferCreateInfo { };
+                bufferCreateInfo.size = resource.count * sizeof(Sprite::Vertex);
+                bufferCreateInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+                resource.instanceBuffer = device->create<Buffer>(bufferCreateInfo);
+                bufferPointers[i] = resource.instanceBuffer.get();
             }
+
             DeviceMemory::allocate_multi_resource_memory(imagePointers, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
             for (int i = 0; i < createInfos.size(); ++i) {
                 mResources[i].image->write_ex(sysImages[i].get_data());
             }
 
-            Buffer::CreateInfo bufferCreateInfo { };
-            bufferCreateInfo.size = sizeof(CameraUbo);
-            bufferCreateInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
-            mUniformBuffer = device->create<Buffer>(bufferCreateInfo);
-            bufferCreateInfo.size = totalSpriteCount * sizeof(Sprite::Vertex);
-            bufferCreateInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-            mInstanceBuffer = device->create<Buffer>(bufferCreateInfo);
-            std::array<Buffer*, 2> bufferPointers { };
-            bufferPointers[0] = mUniformBuffer.get();
-            bufferPointers[1] = mInstanceBuffer.get();
+            Buffer::CreateInfo uniformBufferCreateInfo { };
+            uniformBufferCreateInfo.size = sizeof(CameraUbo);
+            uniformBufferCreateInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+            mUniformBuffer = device->create<Buffer>(uniformBufferCreateInfo);
+            bufferPointers.back() = mUniformBuffer.get();
             auto memoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
             DeviceMemory::allocate_multi_resource_memory(bufferPointers, memoryProperties);
-
-            auto instanceBufferData = (uint8_t*)mInstanceBuffer->get_memory()->map();
-            instanceBufferData += mInstanceBuffer->get_memory_offset();
-            auto vertexData = (Sprite::Vertex*)instanceBufferData;
-            for (auto& resource : mResources) {
-                auto resourceVertexData = &vertexData[resource.index];
-                resource.instanceBufferOffset = (uint8_t*)resourceVertexData - (uint8_t*)vertexData;
-                for (int i = 0; i < resource.total; ++i) {
-                    resource.available[i] = &resourceVertexData[i];
+            const auto& bufferMemory = mUniformBuffer->get_memory();
+            auto bufferData = (uint8_t*)bufferMemory->map();
+            memset(bufferData, 0, bufferMemory->get_mapped_size());
+            for (int resource_i = 0; resource_i < mResources.size(); ++resource_i) {
+                auto& resource = mResources[resource_i];
+                auto resourceBufferData = bufferData + resource.instanceBuffer->get_memory_offset();
+                auto resourceVertexData = (Sprite::Vertex*)resourceBufferData;
+                for (int sprite_i = 0; sprite_i < resource.count; ++sprite_i) {
+                    resource.available[sprite_i] = &resourceVertexData[sprite_i];
                 }
             }
+
+            // Buffer::CreateInfo bufferCreateInfo { };
+            // bufferCreateInfo.size = sizeof(CameraUbo);
+            // bufferCreateInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+            // mUniformBuffer = device->create<Buffer>(bufferCreateInfo);
+            // bufferCreateInfo.size = totalSpriteCount * sizeof(Sprite::Vertex);
+            // bufferCreateInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+            // mInstanceBuffer = device->create<Buffer>(bufferCreateInfo);
+            // std::array<Buffer*, 2> bufferPointers { };
+            // bufferPointers[0] = mUniformBuffer.get();
+            // bufferPointers[1] = mInstanceBuffer.get();
+            // auto memoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+            // DeviceMemory::allocate_multi_resource_memory(bufferPointers, memoryProperties);
+            // 
+            // const auto& bufferMemory = mInstanceBuffer->get_memory();
+            // auto instanceBufferData = (uint8_t*)bufferMemory->map();
+            // memset(instanceBufferData, 0, bufferMemory->get_mapped_size());
+            // instanceBufferData += mInstanceBuffer->get_memory_offset();
+            // auto vertexData = (Sprite::Vertex*)instanceBufferData;
+            // for (int i = 0; i < mResources.size(); ++i) {
+            //     auto& resource = mResources[i];
+            //     auto resourceVertexData = &vertexData[i];
+            //     resource.instanceBufferOffset = (uint8_t*)resourceVertexData - (uint8_t*)vertexData;
+            //     for (int j = 0; j < resource.total; ++j) {
+            //         resource.available[j] = &resourceVertexData[j];
+            //     }
+            // }
 
             mSampler = device->create<Sampler>();
         }
@@ -255,7 +277,6 @@ namespace ShapeBlaster {
                         gl_Position = camera.projectionFromWorld * position;
                         fsTexcoord = Texcoords[index];
                         fsColor = vsColor;
-fsColor += vec4(1,1,1,1);
                     }
                 )"
             );
