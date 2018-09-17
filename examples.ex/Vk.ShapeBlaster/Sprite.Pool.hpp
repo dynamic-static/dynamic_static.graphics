@@ -90,16 +90,14 @@ namespace ShapeBlaster {
             sprite.mVertex = nullptr;
         }
 
-        inline void update(const dst::gfx::Camera& camera)
+        inline void update(const glm::vec2& playAreaExtent)
         {
-            using namespace dst::gfx;
-            CameraUbo cameraUbo { };
+            float w = playAreaExtent.x * 0.5f;
+            float h = playAreaExtent.y * 0.5f;
             auto view = glm::lookAt({ 0, 0, 0.5f }, glm::vec3 { }, glm::vec3 { 0, 1, 0 });
-            float w = 1280.0f * 0.5f;
-            float h = 720.0f * 0.5f;
-            auto projection = glm::ortho(-w, w, -h, h, -1.0f, 1.0f);
+            auto projection = glm::ortho(-w, w, h, -h, -1.0f, 1.0f);
+            CameraUbo cameraUbo { };
             cameraUbo.projectionFromWorld = projection * view;
-            //cameraUbo.projectionFromWorld = camera.get_projection() * camera.get_view();
             mUniformBuffer->write<CameraUbo>(cameraUbo);
         }
 
@@ -243,17 +241,16 @@ namespace ShapeBlaster {
 
                     void main()
                     {
-                        // float c = cos(vsRotation) * vsScale;
-                        // float s = sin(vsRotation);
-                        // mat2 localToWorld(
-                        //      c, s,
-                        //     -s, c
-                        // );
-
+                        float c = cos(vsRotation) * vsScale;
+                        float s = sin(vsRotation);
+                        mat2 scaleAndRotate = mat2(
+                             c, s,
+                            -s, c
+                        );
                         int index = Indices[gl_VertexIndex];
-                        vec4 position = vec4(vsPosition + Positions[index] * vsExtent, 0, 1);
-                        position.z += vsScale * vsRotation * 0.00001f;
-                        gl_Position = camera.projectionFromWorld * position;
+                        vec2 position = Positions[index] * vsExtent;
+                        position = scaleAndRotate * position + vsPosition;
+                        gl_Position = camera.projectionFromWorld * vec4(position, 0, 1);
                         fsTexcoord = Texcoords[index];
                         fsColor = vsColor;
                     }
@@ -294,8 +291,8 @@ namespace ShapeBlaster {
             vertexInputState.vertexAttributeDescriptionCount = (uint32_t)vertexAttributeDescriptions.size();
             vertexInputState.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
 
-            Pipeline::RasterizationStateCreateInfo rasterizationState { };
-            rasterizationState.cullMode = VK_CULL_MODE_NONE;
+            // Pipeline::RasterizationStateCreateInfo rasterizationState { };
+            // rasterizationState.cullMode = VK_CULL_MODE_NONE;
 
             Pipeline::ColorBlendAttachmentState colorBlendAttachmentState { };
             colorBlendAttachmentState.blendEnable = VK_TRUE;
@@ -307,7 +304,7 @@ namespace ShapeBlaster {
             pipelineCreateInfo.stageCount = (uint32_t)shaderStages.size();
             pipelineCreateInfo.pStages = shaderStages.data();
             pipelineCreateInfo.pVertexInputState = &vertexInputState;
-            pipelineCreateInfo.pRasterizationState = &rasterizationState;
+            // pipelineCreateInfo.pRasterizationState = &rasterizationState;
             pipelineCreateInfo.pColorBlendState = &colorBlendCreateInfo;
             pipelineCreateInfo.renderPass = *renderPass;
             auto pipelineLayout = device->create<PipelineLayout>(shaderModules);

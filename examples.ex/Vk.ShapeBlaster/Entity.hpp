@@ -20,24 +20,27 @@ namespace ShapeBlaster {
         : dst::NonCopyable
     {
     public:
+        class Component;
         class Manager;
 
     protected:
         glm::vec2 mPosition { };
         float mRotation { 0 };
-        float mScale { 0 };
+        float mScale { 1 };
         glm::vec4 mColor { dst::Color::White };
         float mRadius { 20 };
         glm::vec2 mVelocity { };
 
     private:
         Sprite mSprite;
+        bool mIsAlive { true };
 
     public:
         Entity() = default;
         Entity(Sprite&& sprite)
+            : mSprite(std::move(sprite))
         {
-            mSprite = std::move(sprite);
+            assert(mSprite);
         }
 
         inline Entity(Entity&& other)
@@ -49,15 +52,23 @@ namespace ShapeBlaster {
 
         inline Entity& operator=(Entity&& other)
         {
-            if (this != &other) {
-                mSprite = std::move(other.mSprite);
-                mRadius = std::move(other.mRadius);
-                mVelocity = std::move(other.mVelocity);
-            }
+            mPosition = std::move(other.mPosition);
+            mRotation = std::move(other.mRotation);
+            mScale = std::move(other.mScale);
+            mColor = std::move(other.mColor);
+            mRadius = std::move(other.mRadius);
+            mVelocity = std::move(other.mVelocity);
+            mSprite = std::move(other.mSprite);
+            mIsAlive = std::move(other.mIsAlive);
             return *this;
         }
 
     public:
+        inline const bool is_alive() const
+        {
+            return mIsAlive;
+        }
+
         inline const glm::vec2& get_position() const
         {
             assert(mSprite);
@@ -73,14 +84,17 @@ namespace ShapeBlaster {
         inline void update(
             const dst::Clock& clock,
             const dst::sys::Input& input,
+            dst::RandomNumberGenerator& rng,
             const glm::vec2& playAreaExtent
         )
         {
-            on_update(clock, input, playAreaExtent);
+            on_update(clock, input, rng, playAreaExtent);
             mPosition += mVelocity * clock.elapsed<dst::Second<float>>();
-            if (mPosition.x < 0 || playAreaExtent.x < mPosition.x ||
-                mPosition.y < 0 || playAreaExtent.y < mPosition.y) {
-                // on_out_of_bounds(playAreaExtent);
+            float w = playAreaExtent.x * 0.5f;
+            float h = playAreaExtent.y * 0.5f;
+            if (mPosition.x < -w || w < mPosition.x ||
+                mPosition.y < -h || h < mPosition.y) {
+                on_out_of_bounds(playAreaExtent);
             }
             assert(mSprite);
             mSprite->position = mPosition;
@@ -89,12 +103,27 @@ namespace ShapeBlaster {
             mSprite->color = mColor;
         }
 
+        void sp()
+        {
+            mSprite.processing();
+        }
+
     protected:
+        void kill()
+        {
+            mIsAlive = false;
+        }
+
         virtual void on_update(
             const dst::Clock& clock,
             const dst::sys::Input& input,
+            dst::RandomNumberGenerator& rng,
             const glm::vec2& playAreaExtent
         )
+        {
+        }
+
+        virtual void on_out_of_bounds(const glm::vec2& playAreaExtent)
         {
         }
     };

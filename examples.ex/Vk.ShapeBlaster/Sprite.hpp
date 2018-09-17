@@ -12,6 +12,8 @@
 
 #include "Dynamic_Static.Graphics.hpp"
 
+#include <iostream>
+
 namespace ShapeBlaster {
 
     class Sprite final
@@ -60,6 +62,14 @@ namespace ShapeBlaster {
         Vertex* operator->();
         const Vertex* operator->() const;
         operator bool() const;
+
+        void processing() const
+        {
+            std::cout << "  " << (void*)this << std::endl;
+            std::cout << "    Pool " << (void*)mPool << std::endl;
+            std::cout << "    Vert " << (void*)mVertex << std::endl;
+            std::cout << std::endl;
+        }
 
     private:
         void check_in();

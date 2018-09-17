@@ -8,6 +8,7 @@
 ==========================================
 */
 
+#include "Entity.Manager.hpp"
 #include "Player.hpp"
 #include "Sprite.hpp"
 #include "Sprite.Pool.hpp"
@@ -31,25 +32,15 @@ namespace ShapeBlaster {
             SpriteId_Pointer,
         };
 
+        dst::RandomNumberGenerator mRng;
+        Entity::Manager mEntityManager;
         std::unique_ptr<Sprite::Pool> mSpritePool;
-        Sprite mPointerSprite;
-        dst::gfx::Camera mCamera;
-
-        dst::gfx::FreeCamerController mCameraController;
-
-        Sprite mBullet;
-
-        // Sprite mPlayerSprite;
-
         Player mPlayer;
 
     public:
         Application()
         {
             mInfo.pApplicationName = "Vk.ShapeBlaster";
-            mCamera.transform.translation = { 0, 0, 16 };
-
-            mCameraController.camera = &mCamera;
         }
 
     private:
@@ -82,10 +73,12 @@ namespace ShapeBlaster {
             spriteCreateInfos[SpriteId_Player]   = { 1,  artResourcesPath + "/Player.png" };
             spriteCreateInfos[SpriteId_Pointer]  = { 1,  artResourcesPath + "/Pointer.png" };
             mSpritePool = std::make_unique<Sprite::Pool>(mDevice, mSwapchainRenderPass, spriteCreateInfos);
-            mPointerSprite = mSpritePool->check_out(SpriteId_Pointer);
-            assert(mPointerSprite);
-
-            mPlayer = Player(mSpritePool->check_out(SpriteId_Player));
+            mPlayer = Player(
+                mSpritePool->check_out(SpriteId_Player),
+                mSpritePool->check_out(SpriteId_Pointer)
+            );
+            mPlayer.HACK_spritePool = mSpritePool.get();
+            mPlayer.HACK_entityManager = &mEntityManager;
         }
 
         void update(
@@ -99,35 +92,14 @@ namespace ShapeBlaster {
                 stop();
             }
 
-            // if (input.keyboard.pressed(Keyboard::Key::OEM_Tilde)) {
-            //     if (mPlayerSprite) {
-            //         mPlayerSprite = { };
-            //     } else {
-            //         mPlayerSprite = mSpritePool->check_out(SpriteId_Player);
-            //     }
-            // 
-            //     if (mBullet) {
-            //         mSpritePool->check_in(std::move(mBullet));
-            //     } else {
-            //         mBullet = mSpritePool->check_out(SpriteId_Bullet);
-            //     }
-            // }
+            mWindow->set_cursor_mode(Window::CursorMode::Hidden);
 
-            mPlayer.update(clock, input, { 1280, 720 });
-
-            //mCameraController.lookEnabled = true;
-            //mCameraController.update(clock, input);
-
-            // mPointerSprite.
-            auto swapchainExtent = mSwapchain->get_extent();
-            if (swapchainExtent.height) {
-                mCamera.aspectRatio = (float)swapchainExtent.width / (float)swapchainExtent.height;
-            }
-            mSpritePool->update(mCamera);
-
-
-            mPointerSprite->position = input.mouse.current.position;
-            mPointerSprite->position.y = (float)swapchainExtent.height - mPointerSprite->position.y;
+            glm::vec2 playAreaExtent;
+            playAreaExtent.x = (float)mSwapchain->get_extent().width;
+            playAreaExtent.y = (float)mSwapchain->get_extent().height;
+            mPlayer.update(clock, input, mRng, playAreaExtent);
+            mSpritePool->update(playAreaExtent);
+            mEntityManager.update(clock, input, mRng, playAreaExtent);
         }
 
         void record_swapchain_render_pass(

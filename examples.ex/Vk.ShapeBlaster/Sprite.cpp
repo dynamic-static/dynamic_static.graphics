@@ -22,15 +22,17 @@ namespace ShapeBlaster {
 
     Sprite::~Sprite()
     {
+        std::cout << "  " << (void*)this << std::endl;
+        std::cout << "    dtor()" << std::endl;
         check_in();
     }
 
     Sprite& Sprite::operator=(Sprite&& other)
     {
+        std::cout << "  " << (void*)this << std::endl;
+        std::cout << "    move" << std::endl;
         if (this != &other) {
-            if (!other) {
-                check_in();
-            }
+            check_in();
             mId = std::move(other.mId);
             mPool = std::move(other.mPool);
             mVertex = std::move(other.mVertex);
@@ -72,8 +74,14 @@ namespace ShapeBlaster {
 
     void Sprite::check_in()
     {
+        std::cout << "  " << (void*)this << std::endl;
+        std::cout << "    Validating check_in()" << std::endl;
         if (*this) {
             assert(mPool);
+            std::cout << "    check_in()" << std::endl;
+            std::cout << "    Clearing Vert " << (void*)mVertex << std::endl;
+            std::cout << "    ==========" << std::endl;
+            std::cout << std::endl;
             mPool->check_in(std::move(*this));
         }
     }

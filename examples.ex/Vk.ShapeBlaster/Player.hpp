@@ -11,6 +11,9 @@
 #pragma once
 
 #include "Entity.hpp"
+#include "Entity.Manager.hpp"
+
+#include "Sprite.Pool.hpp"
 
 #include "Dynamic_Static.Graphics.hpp"
 
@@ -19,14 +22,31 @@ namespace ShapeBlaster {
     class Player final
         : public Entity
     {
+    public:
+        Entity::Manager* HACK_entityManager { nullptr };
+        Sprite::Pool* HACK_spritePool { nullptr };
+
     private:
         static constexpr float Speed { 480 }; // Pixels / second
+        static constexpr float RateOfFire { 10 }; // Round / second
+        static constexpr float BulletSpread { -0.025f }; // Pixels
+        static constexpr float BulletOffsetHorizontal { 24 }; // Pixels
+        static constexpr float BulletOffsetVertical { 7 }; // Pixels
+        float mShotTimer { 0 };
+
+    private:
+        Sprite mPointerSprite;
 
     public:
         Player() = default;
-        Player(Sprite&& sprite)
-            : Entity(std::move(sprite))
+        Player(
+            Sprite&& playerSprite,
+            Sprite&& pointerSprite
+        )
+            : Entity(std::move(playerSprite))
+            , mPointerSprite(std::move(pointerSprite))
         {
+            assert(mPointerSprite);
         }
 
         inline Player(Player&& other)
@@ -36,9 +56,8 @@ namespace ShapeBlaster {
 
         inline Player& operator=(Player&& other)
         {
-            if (this != &other) {
-                Entity::operator=(std::move(other));
-            }
+            Entity::operator=(std::move(other));
+            mPointerSprite = std::move(other.mPointerSprite);
             return *this;
         }
 
@@ -46,13 +65,14 @@ namespace ShapeBlaster {
         inline void on_update(
             const dst::Clock& clock,
             const dst::sys::Input& input,
+            dst::RandomNumberGenerator& rng,
             const glm::vec2& playAreaExtent
         ) override
         {
             using namespace dst::sys;
             glm::vec2 moveDirection { };
-            moveDirection += input.keyboard.down(Keyboard::Key::W) ? glm::vec2 {  0, -1 } : glm::vec2 { };
-            moveDirection += input.keyboard.down(Keyboard::Key::S) ? glm::vec2 {  0,  1 } : glm::vec2 { };
+            moveDirection += input.keyboard.down(Keyboard::Key::W) ? glm::vec2 {  0,  1 } : glm::vec2 { };
+            moveDirection += input.keyboard.down(Keyboard::Key::S) ? glm::vec2 {  0, -1 } : glm::vec2 { };
             moveDirection += input.keyboard.down(Keyboard::Key::A) ? glm::vec2 { -1,  0 } : glm::vec2 { };
             moveDirection += input.keyboard.down(Keyboard::Key::D) ? glm::vec2 {  1,  0 } : glm::vec2 { };
             if (moveDirection != glm::vec2 { }) {
@@ -60,6 +80,43 @@ namespace ShapeBlaster {
                 mRotation = std::atan2(moveDirection.y, moveDirection.x);
             }
             mVelocity = moveDirection * Speed;
+
+            mPointerSprite->position = input.mouse.current.position;
+            mPointerSprite->position -= playAreaExtent * 0.5f;
+            mPointerSprite->position.y *= -1;
+
+            mShotTimer = std::max(mShotTimer - clock.elapsed<dst::Second<float>>(), 0.0f);
+            if (mShotTimer <= 0 && input.mouse.down(Mouse::Button::Left)) {
+                auto aimDirection = mPointerSprite->position - mPosition;
+                if (aimDirection != glm::vec2 { }) {
+                    aimDirection = glm::normalize(aimDirection);
+                    fire_bullet(aimDirection, { BulletOffsetHorizontal,  BulletOffsetVertical }, rng);
+                    fire_bullet(aimDirection, { BulletOffsetHorizontal, -BulletOffsetVertical }, rng);
+                    mShotTimer = 1.0f / RateOfFire;
+                }
+            }
+        }
+
+        inline void fire_bullet(
+            glm::vec2 direction,
+            glm::vec2 offset,
+            dst::RandomNumberGenerator& rng
+        )
+        {
+            auto sprite = HACK_spritePool->check_out(0);
+            if (sprite) {
+                float spread =
+                    rng.range(-BulletSpread, BulletSpread) +
+                    rng.range(-BulletSpread, BulletSpread);
+                float angle = std::atan2(direction.y, direction.x);
+                direction = dst::polar_to_cartesian(1, angle + spread);
+                auto translation = glm::translate(glm::vec3 { offset, 0 });
+                auto rotation = glm::toMat4(glm::angleAxis(angle, glm::vec3 { 0, 0, 1 }));
+                offset = (rotation * translation) * glm::vec4(offset.x, offset.y, 0, 1);
+                Bullet bullet(std::move(sprite));
+                bullet.spawn(mPosition + offset, direction);
+                HACK_entityManager->add(std::move(bullet));
+            }
         }
     };
 
