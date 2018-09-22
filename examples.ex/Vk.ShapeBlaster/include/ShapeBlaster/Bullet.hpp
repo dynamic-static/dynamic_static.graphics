@@ -13,8 +13,8 @@
 
 #pragma once
 
-#include "Entity.hpp"
-#include "Entity.Manager.hpp"
+#include "ShapeBlaster/Entity.hpp"
+#include "ShapeBlaster/Entity.Manager.hpp"
 
 #include "Dynamic_Static.Graphics.hpp"
 

@@ -13,10 +13,10 @@
 
 #pragma once
 
-#include "Entity.hpp"
-#include "Entity.Manager.hpp"
+#include "ShapeBlaster/Entity.hpp"
+#include "ShapeBlaster/Entity.Manager.hpp"
 
-#include "Sprite.Pool.hpp"
+#include "ShapeBlaster/Sprite.Pool.hpp"
 
 #include "Dynamic_Static.Graphics.hpp"
 

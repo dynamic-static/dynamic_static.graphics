@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "Sprite.hpp"
+#include "ShapeBlaster/Sprite.hpp"
 
 #include "Dynamic_Static.Graphics.hpp"
 

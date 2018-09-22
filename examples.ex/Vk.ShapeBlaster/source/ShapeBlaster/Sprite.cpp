@@ -10,8 +10,8 @@
 
 #pragma once
 
-#include "Sprite.hpp"
-#include "Sprite.Pool.hpp"
+#include "ShapeBlaster/Sprite.hpp"
+#include "ShapeBlaster/Sprite.Pool.hpp"
 
 #include <cassert>
 #include <utility>

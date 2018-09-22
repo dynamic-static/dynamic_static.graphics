@@ -7,24 +7,31 @@
 # ==========================================
 
 set(target Vk.ShapeBlaster)
+set(includeDirectory "${CMAKE_CURRENT_LIST_DIR}/include/")
+set(includePath "${includeDirectory}/ShapeBlaster/")
+set(sourcePath "${CMAKE_CURRENT_LIST_DIR}/source/ShapeBlaster/")
 DstCreateExecutable(
     target ${target}
     folder Dynamic_Static.Graphics/examples/
     staticLibraries Dynamic_Static.Graphics
-    includeDirectories "${CMAKE_CURRENT_LIST_DIR}"
+    includeDirectories "${includeDirectory}"
     includeFiles
-        "${CMAKE_CURRENT_LIST_DIR}/BlackHole.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Bullet.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Enemy.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Enemy.Spawner.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Entity.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Entity.Manager.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Grid.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Player.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/ScoreBoard.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Sprite.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Sprite.Pool.hpp"
+        "${includePath}/Components/Transform.Component.hpp"
+        "${includePath}/BlackHole.hpp"
+        "${includePath}/Bullet.hpp"
+        "${includePath}/Enemy.hpp"
+        "${includePath}/Enemy.Spawner.hpp"
+        "${includePath}/Entity.hpp"
+        "${includePath}/Entity.Component.hpp"
+        "${includePath}/Entity.Component.System.hpp"
+        "${includePath}/Entity.Manager.hpp"
+        "${includePath}/Grid.hpp"
+        "${includePath}/Player.hpp"
+        "${includePath}/ScoreBoard.hpp"
+        "${includePath}/Sprite.hpp"
+        "${includePath}/Sprite.Pool.hpp"
     sourceFiles
-        "${CMAKE_CURRENT_LIST_DIR}/Sprite.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/${target}.Main.cpp"
+        "${sourcePath}/Entity.cpp"
+        "${sourcePath}/Sprite.cpp"
+        "${sourcePath}/${target}.Main.cpp"
 )

@@ -13,9 +13,9 @@
 
 #pragma once
 
-#include "Bullet.hpp"
-#include "Entity.hpp"
-#include "Sprite.hpp"
+#include "ShapeBlaster/Bullet.hpp"
+#include "ShapeBlaster/Entity.hpp"
+#include "ShapeBlaster/Sprite.hpp"
 
 #include "Dynamic_Static.Graphics.hpp"
 

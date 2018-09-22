@@ -13,7 +13,7 @@
 
 #pragma once
 
-#include "Entity.hpp"
+#include "ShapeBlaster/Entity.hpp"
 
 #include "Dynamic_Static.Graphics.hpp"
 

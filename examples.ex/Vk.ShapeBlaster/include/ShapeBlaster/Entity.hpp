@@ -13,11 +13,21 @@
 
 #pragma once
 
-#include "Sprite.hpp"
+#include "ShapeBlaster/Sprite.hpp"
 
 #include "Dynamic_Static.Graphics.hpp"
 
 namespace ShapeBlaster {
+
+    class Entity_ex
+        : dst::NonCopyable
+    {
+    public:
+        class Component;
+
+    private:
+        uint64_t mId { 0 };
+    };
 
     class Entity
         : dst::NonCopyable

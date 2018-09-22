@@ -11,10 +11,10 @@
 // NOTE : Based on "Cross-Platform Vector Shooter: XNA" by Michael Hoffman...
 //  https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559
 
-#include "Entity.Manager.hpp"
-#include "Player.hpp"
-#include "Sprite.hpp"
-#include "Sprite.Pool.hpp"
+#include "ShapeBlaster/Entity.Manager.hpp"
+#include "ShapeBlaster/Player.hpp"
+#include "ShapeBlaster/Sprite.hpp"
+#include "ShapeBlaster/Sprite.Pool.hpp"
 
 #include "Dynamic_Static.Graphics.hpp"
 

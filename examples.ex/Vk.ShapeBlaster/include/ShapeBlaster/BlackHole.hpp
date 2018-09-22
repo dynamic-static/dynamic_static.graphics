@@ -13,13 +13,14 @@
 
 #pragma once
 
-#include "Enemy.hpp"
+#include "ShapeBlaster/Entity.hpp"
 
 #include "Dynamic_Static.Graphics.hpp"
 
 namespace ShapeBlaster {
 
-    class Enemy::Spawner final
+    class BlackHole final
+        : public Entity
     {
     };
 
