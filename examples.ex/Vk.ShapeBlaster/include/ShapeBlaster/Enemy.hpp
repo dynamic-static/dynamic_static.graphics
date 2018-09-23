@@ -41,6 +41,8 @@ namespace ShapeBlaster {
         ) override
         {
             mSpawnTimer = SpawnTime;
+            mColor = dst::Color::Transparent;
+            mScale = 0;
             Entity::spawn(position, rng);
         }
 

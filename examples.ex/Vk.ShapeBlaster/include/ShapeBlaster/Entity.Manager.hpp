@@ -115,8 +115,8 @@ namespace ShapeBlaster {
                     ++itr;
                 }
             }
-            spawn_enemies(clock, playAreaExtent, rng);
             mSpritePool->update(playAreaExtent);
+            spawn_enemies(clock, playAreaExtent, rng);
         }
 
         inline void record_draw_cmds(const dst::vk::CommandBuffer& commandBuffer)
@@ -139,7 +139,13 @@ namespace ShapeBlaster {
                         auto sprite = mSpritePool->check_out(spriteId);
                         if (sprite) {
                             dst::Entity entity;
-                            entity.add_component(enemyPool, std::move(sprite));
+                            auto enemy = entity.add_component(enemyPool, std::move(sprite));
+                            glm::vec2 spawnPosition;
+                            auto w = playAreaExtent.x * 0.5f;
+                            auto h = playAreaExtent.y * 0.5f;
+                            spawnPosition.x = rng.range(-w, w);
+                            spawnPosition.y = rng.range(-h, h);
+                            enemy->spawn(spawnPosition, rng);
                             mEntities.push_back(std::move(entity));
                         }
                     }
