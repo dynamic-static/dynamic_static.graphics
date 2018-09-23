@@ -47,17 +47,14 @@ namespace ShapeBlaster {
         {
             if (!is_spawning()) {
                 auto dt = clock.elapsed<dst::Second<float>>();
-                mRotation += mRotationSpeed * dt;
-                // float direction = rng.range(0.0f, glm::two_pi<float>());
-                // direction += rng.range(-0.1f, 0.1f);
-                // direction = dst::wrap_angle(direction, dst::Radians { });
                 mChangeDirectionTimer -= dt;
                 if (mChangeDirectionTimer <= 0) {
                     mChangeDirectionTimer = ChangeDirectionTime;
                     mDirection += rng.range(-0.1f, 0.1f);
                     mDirection = dst::wrap_angle(mDirection, dst::Radians { });
                 }
-                mVelocity += dst::polar_to_cartesian(mDirection, 0.4f) * Speed;
+                mVelocity += dst::polar_to_cartesian(0.4f, mDirection) * Speed;
+                mRotation += mRotationSpeed * dt;
             }
             Enemy::update(clock, input, playAreaExtent, rng);
         }
@@ -68,6 +65,7 @@ namespace ShapeBlaster {
             dst::RandomNumberGenerator& rng
         ) override final
         {
+            mDirection = rng.range(0.0f, glm::two_pi<float>());
             mRotationSpeed *= rng.probability(0.5f) ? 1 : -1;
             Enemy::spawn(position, rng);
         }
@@ -77,7 +75,7 @@ namespace ShapeBlaster {
             dst::RandomNumberGenerator& rng
         ) override final
         {
-            mDirection = std::atan2f(-mPosition.x, -mPosition.y);
+            mDirection = std::atan2f(-mPosition.y, -mPosition.x);
             auto twoPi = glm::two_pi<float>();
             mDirection += rng.range(-twoPi, twoPi);
             Enemy::out_of_bounds(playAreaExtent, rng);
