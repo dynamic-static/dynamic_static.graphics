@@ -13,28 +13,63 @@
 
 #pragma once
 
+#include "ShapeBlaster/Pool.hpp"
 #include "ShapeBlaster/Sprite.hpp"
 
 #include "Dynamic_Static.Graphics.hpp"
 
+#include <utility>
+
 namespace ShapeBlaster {
-
-    class Entity_ex
-        : dst::NonCopyable
-    {
-    public:
-        class Component;
-
-    private:
-        uint64_t mId { 0 };
-    };
 
     class Entity
         : dst::NonCopyable
     {
     public:
-        class Component;
         class Manager;
+        class Spawner;
+
+        class Component
+        {
+        public:
+            struct Handle final
+            {
+                struct Comparator final
+                {
+                    inline bool operator()(const Handle& lhs, const Handle& rhs)
+                    {
+                        return lhs < rhs;
+                    }
+
+                    inline bool operator()(const Handle& lhs, uint64_t rhs)
+                    {
+                        return lhs.componentId < rhs;
+                    }
+
+                    inline bool operator()(uint64_t lhs, const Handle& rhs)
+                    {
+                        return lhs < rhs.componentId;
+                    }
+                };
+
+                uint64_t componentId { 0 };
+                void* pool { nullptr };
+                void* component { nullptr };
+
+                inline operator bool() const
+                {
+                    return componentId && pool && component;
+                }
+            };
+
+        public:
+            template <typename ComponentType>
+            static inline uint64_t get_type_id()
+            {
+                static uint8_t sComponentId;
+                return (uint64_t)&sComponentId;
+            }
+        };
 
     protected:
         glm::vec2 mPosition { };
@@ -47,6 +82,8 @@ namespace ShapeBlaster {
     private:
         Sprite mSprite;
         bool mIsAlive { true };
+        bool mActive { false };
+        // std::vector<Component::Handle> mComponents;
 
     public:
         Entity() = default;
@@ -60,8 +97,6 @@ namespace ShapeBlaster {
         {
             *this = std::move(other);
         }
-
-        virtual ~Entity() = 0;
 
         inline Entity& operator=(Entity&& other)
         {
@@ -94,20 +129,19 @@ namespace ShapeBlaster {
             return mSprite->extent;
         }
 
-        inline void update(
+        virtual void update(
             const dst::Clock& clock,
             const dst::sys::Input& input,
-            dst::RandomNumberGenerator& rng,
-            const glm::vec2& playAreaExtent
+            const glm::vec2& playAreaExtent,
+            dst::RandomNumberGenerator& rng
         )
         {
-            on_update(clock, input, rng, playAreaExtent);
             mPosition += mVelocity * clock.elapsed<dst::Second<float>>();
             float w = playAreaExtent.x * 0.5f;
             float h = playAreaExtent.y * 0.5f;
             if (mPosition.x < -w || w < mPosition.x ||
                 mPosition.y < -h || h < mPosition.y) {
-                on_out_of_bounds(playAreaExtent);
+                out_of_bounds(playAreaExtent, rng);
             }
             assert(mSprite);
             mSprite->position = mPosition;
@@ -116,31 +150,73 @@ namespace ShapeBlaster {
             mSprite->color = mColor;
         }
 
-    protected:
-        void kill()
+        // template <typename ComponentType>
+        // void add_component(Pool<ComponentType> pool)
+        // {
+        //     Component::Handle handle { };
+        //     handle.componentId = Component::get_type_id<ComponentType>();
+        //     handle.component = pool.check_out();
+        //     assert(handle.component);
+        //     handle.pool = &pool;
+        //     auto itr = std::lower_bound(
+        //         mComponents.begin(), mComponents.end(), handle, std::greater<Component::Handle>()
+        //     );
+        //     mComponents.insert(itr, handle);
+        // }
+        // 
+        // template <typename ComponentType>
+        // ComponentType* get_component()
+        // {
+        //     return (ComponentType*)get_component(Component::get_type_id<ComponentType>());
+        // }
+        // 
+        // template <typename ComponentType>
+        // const ComponentType* get_component() const
+        // {
+        //     return (ComponentType*)get_component(Component::get_type_id<ComponentType>());
+        // }
+
+    // protected:
+        virtual void spawn(
+            const glm::vec2& position,
+            dst::RandomNumberGenerator& rng
+        )
+        {
+            mPosition = position;
+        }
+
+        virtual void kill()
         {
             mIsAlive = false;
         }
 
-        virtual void on_update(
-            const dst::Clock& clock,
-            const dst::sys::Input& input,
-            dst::RandomNumberGenerator& rng,
-            const glm::vec2& playAreaExtent
+        virtual void out_of_bounds(
+            const glm::vec2& playAreaExtent,
+            dst::RandomNumberGenerator& rng
         )
-        {
-        }
-
-        virtual void on_out_of_bounds(const glm::vec2& playAreaExtent)
         {
             auto max = playAreaExtent * 0.5f;
             auto min = -max;
             mPosition = glm::clamp(mPosition, min, max);
         }
-    };
 
-    Entity::~Entity()
-    {
-    }
+    private:
+        // inline void* get_component(uint64_t componentId)
+        // {
+        //     return const_cast<void*>(std::as_const(*this).get_component(componentId));
+        // }
+        // 
+        // inline const void* get_component(uint64_t componentId) const
+        // {
+        //     void* component = nullptr;
+        //     auto itr = std::lower_bound(
+        //         mComponents.begin(), mComponents.end(), componentId, Component::Handle::Comparator { }
+        //     );
+        //     if (itr != mComponents.end()) {
+        //         component = itr->component;
+        //     }
+        //     return component;
+        // }
+    };
 
 } // namespace ShapeBlaster

@@ -60,7 +60,10 @@ namespace ShapeBlaster {
         }
 
     private:
-        inline void on_out_of_bounds(const glm::vec2& playAreaExtent)
+        void out_of_bounds(
+            const glm::vec2& playAreaExtent,
+            dst::RandomNumberGenerator& rng
+        ) override
         {
             kill();
         }

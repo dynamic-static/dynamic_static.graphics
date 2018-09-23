@@ -12,9 +12,6 @@
 //  https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559
 
 #include "ShapeBlaster/Entity.Manager.hpp"
-#include "ShapeBlaster/Player.hpp"
-#include "ShapeBlaster/Sprite.hpp"
-#include "ShapeBlaster/Sprite.Pool.hpp"
 
 #include "Dynamic_Static.Graphics.hpp"
 
@@ -26,19 +23,8 @@ namespace ShapeBlaster {
         : public dst::vk::Application
     {
     private:
-        enum SpriteId
-        {
-            SpriteId_Bullet,
-            SpriteId_Wanderer,
-            SpriteId_Seeker,
-            SpriteId_Player,
-            SpriteId_Pointer,
-        };
-
         dst::RandomNumberGenerator mRng;
-        std::unique_ptr<Sprite::Pool> mSpritePool;
-        Entity::Manager mEntityManager;
-        Player mPlayer;
+        std::unique_ptr<Entity::Manager> mEntityManager;
 
     public:
         Application()
@@ -77,21 +63,8 @@ namespace ShapeBlaster {
 
         void create_resources() override
         {
-            std::string resourcesPath = "../../../examples/resources/ShapeBlaster_AllParts/ShapeBlaster_Part5/ShapeBlaster_Part5Content/";
-            std::string artResourcesPath = resourcesPath + "/Art/";
-            std::array<Sprite::CreateInfo, 5> spriteCreateInfos { };
-            spriteCreateInfos[SpriteId_Bullet]   = { 64, artResourcesPath + "/Bullet.png" };
-            spriteCreateInfos[SpriteId_Wanderer] = { 32, artResourcesPath + "/Wanderer.png" };
-            spriteCreateInfos[SpriteId_Seeker]   = { 32, artResourcesPath + "/Seeker.png" };
-            spriteCreateInfos[SpriteId_Player]   = { 1,  artResourcesPath + "/Player.png" };
-            spriteCreateInfos[SpriteId_Pointer]  = { 1,  artResourcesPath + "/Pointer.png" };
-            mSpritePool = std::make_unique<Sprite::Pool>(mDevice, mSwapchainRenderPass, spriteCreateInfos);
-            mPlayer = Player(
-                mSpritePool->check_out(SpriteId_Player),
-                mSpritePool->check_out(SpriteId_Pointer)
-            );
-            mPlayer.HACK_spritePool = mSpritePool.get();
-            mPlayer.HACK_entityManager = &mEntityManager;
+            std::string resourcePath = "../../../examples/resources/ShapeBlaster_AllParts/ShapeBlaster_Part5/ShapeBlaster_Part5Content/";
+            mEntityManager = std::make_unique<Entity::Manager>(resourcePath, mDevice, mSwapchainRenderPass);
         }
 
         void update(
@@ -104,15 +77,11 @@ namespace ShapeBlaster {
             if (input.keyboard.down(Keyboard::Key::Escape)) {
                 stop();
             }
-
             mWindow->set_cursor_mode(Window::CursorMode::Hidden);
-
             glm::vec2 playAreaExtent;
             playAreaExtent.x = (float)mSwapchain->get_extent().width;
             playAreaExtent.y = (float)mSwapchain->get_extent().height;
-            mPlayer.update(clock, input, mRng, playAreaExtent);
-            mSpritePool->update(playAreaExtent);
-            mEntityManager.update(clock, input, mRng, playAreaExtent);
+            mEntityManager->update(clock, input, playAreaExtent, mRng);
         }
 
         void record_swapchain_render_pass(
@@ -120,7 +89,7 @@ namespace ShapeBlaster {
             const dst::vk::CommandBuffer& commandBuffer
         ) override
         {
-            mSpritePool->record_draw_cmds(commandBuffer);
+            mEntityManager->record_draw_cmds(commandBuffer);
         }
     };
 

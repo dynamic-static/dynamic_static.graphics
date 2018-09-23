@@ -26,8 +26,8 @@ namespace ShapeBlaster {
         : public Entity
     {
     public:
-        Entity::Manager* HACK_entityManager { nullptr };
-        Sprite::Pool* HACK_spritePool { nullptr };
+        // Entity::Manager* HACK_entityManager { nullptr };
+        // Sprite::Pool* HACK_spritePool { nullptr };
 
     private:
         static constexpr float Speed { 480 }; // Pixels / second
@@ -39,6 +39,9 @@ namespace ShapeBlaster {
 
     private:
         Sprite mPointerSprite;
+
+    public:
+        dst::Callback<Player, const glm::vec2&, glm::vec2&> on_fire_bullet;
 
     public:
         Player() = default;
@@ -64,13 +67,13 @@ namespace ShapeBlaster {
             return *this;
         }
 
-    private:
-        inline void on_update(
+    public:
+        inline void update(
             const dst::Clock& clock,
             const dst::sys::Input& input,
-            dst::RandomNumberGenerator& rng,
-            const glm::vec2& playAreaExtent
-        ) override
+            const glm::vec2& playAreaExtent,
+            dst::RandomNumberGenerator& rng
+        ) override final
         {
             using namespace dst::sys;
             glm::vec2 moveDirection { };
@@ -98,28 +101,26 @@ namespace ShapeBlaster {
                     mShotTimer = 1.0f / RateOfFire;
                 }
             }
+
+            Entity::update(clock, input, playAreaExtent, rng);
         }
 
+    private:
         inline void fire_bullet(
             glm::vec2 direction,
             glm::vec2 offset,
             dst::RandomNumberGenerator& rng
         )
         {
-            auto sprite = HACK_spritePool->check_out(0);
-            if (sprite) {
-                float spread =
-                    rng.range(-BulletSpread, BulletSpread) +
-                    rng.range(-BulletSpread, BulletSpread);
-                float angle = std::atan2(direction.y, direction.x);
-                direction = dst::polar_to_cartesian(1, angle + spread);
-                auto translation = glm::translate(glm::vec3 { offset, 0 });
-                auto rotation = glm::toMat4(glm::angleAxis(angle, glm::vec3 { 0, 0, 1 }));
-                offset = (rotation * translation) * glm::vec4(offset.x, offset.y, 0, 1);
-                Bullet bullet(std::move(sprite));
-                bullet.spawn(mPosition + offset, direction);
-                HACK_entityManager->add(std::move(bullet));
-            }
+            float spread =
+                rng.range(-BulletSpread, BulletSpread) +
+                rng.range(-BulletSpread, BulletSpread);
+            float angle = std::atan2(direction.y, direction.x);
+            direction = dst::polar_to_cartesian(1, angle + spread);
+            auto translation = glm::translate(glm::vec3 { offset, 0 });
+            auto rotation = glm::toMat4(glm::angleAxis(angle, glm::vec3 { 0, 0, 1 }));
+            offset = (rotation * translation) * glm::vec4(offset.x, offset.y, 0, 1);
+            on_fire_bullet(mPosition + offset, direction);
         }
     };
 

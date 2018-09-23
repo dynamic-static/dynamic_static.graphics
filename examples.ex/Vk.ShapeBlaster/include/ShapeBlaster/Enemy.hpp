@@ -19,11 +19,55 @@
 
 namespace ShapeBlaster {
 
-    class Enemy final
+    class Enemy
         : public Entity
     {
+    private:
+        static constexpr float Damping { 0.8f }; // Pixels / second
+        static constexpr float SpawnTime { 1 }; // Seconds
+        float mSpawnTimer { 0 };
+
     public:
-        class Spawner;
+        Enemy() = default;
+        Enemy(Sprite&& sprite)
+            : Entity(std::move(sprite))
+        {
+        }
+
+    public:
+        void spawn(
+            const glm::vec2& position,
+            dst::RandomNumberGenerator& rng
+        ) override
+        {
+            mSpawnTimer = SpawnTime;
+            Entity::spawn(position, rng);
+        }
+
+        void update(
+            const dst::Clock& clock,
+            const dst::sys::Input& input,
+            const glm::vec2& playAreaExtent,
+            dst::RandomNumberGenerator& rng
+        ) override
+        {
+            if (mSpawnTimer > 0) {
+                mSpawnTimer -= clock.elapsed<dst::Second<float>>();
+                float adjustment = (1.0f - mSpawnTimer / SpawnTime);
+                mColor = dst::Color::White * adjustment;
+                mScale = adjustment;
+            } else {
+                mSpawnTimer = 0;
+                mVelocity *= Damping;
+            }
+            Entity::update(clock, input, playAreaExtent, rng);
+        }
+
+    protected:
+        bool is_spawning() const
+        {
+            return mSpawnTimer > 0;
+        }
     };
 
 } // namespace ShapeBlaster

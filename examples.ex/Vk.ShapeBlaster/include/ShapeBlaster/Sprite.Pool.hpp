@@ -241,15 +241,15 @@ namespace ShapeBlaster {
 
                     void main()
                     {
-                        float c = cos(vsRotation) * vsScale;
+                        float c = cos(vsRotation);
                         float s = sin(vsRotation);
-                        mat2 scaleAndRotate = mat2(
+                        mat2 rotation = mat2(
                              c, s,
                             -s, c
                         );
                         int index = Indices[gl_VertexIndex];
-                        vec2 position = Positions[index] * vsExtent;
-                        position = scaleAndRotate * position + vsPosition;
+                        vec2 position = Positions[index] * vsExtent * vsScale;
+                        position = rotation * position + vsPosition;
                         gl_Position = camera.projectionFromWorld * vec4(position, 0, 1);
                         fsTexcoord = Texcoords[index];
                         fsColor = vsColor;
