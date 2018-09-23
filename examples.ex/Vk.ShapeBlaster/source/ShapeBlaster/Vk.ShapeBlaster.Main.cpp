@@ -43,11 +43,18 @@ namespace ShapeBlaster {
         }
 
     private:
+        void create_window(dst::sys::Window::Info& windowInfo) override final
+        {
+            windowInfo.resolution.x = 1920;
+            windowInfo.resolution.y = 1080;
+            dst::vk::Application::create_window(windowInfo);
+        }
+
         void create_instance(
             std::vector<const char*>& layers,
             std::vector<const char*>& extensions,
             VkDebugReportFlagsEXT debugReportFlags
-        ) override
+        ) override final
         {
             dst::vk::Application::create_instance(
                 layers,
@@ -61,7 +68,7 @@ namespace ShapeBlaster {
             );
         }
 
-        void create_resources() override
+        void create_resources() override final
         {
             std::string resourcePath = "../../../examples/resources/ShapeBlaster_AllParts/ShapeBlaster_Part5/ShapeBlaster_Part5Content/";
             mEntityManager = std::make_unique<Entity::Manager>(resourcePath, mDevice, mSwapchainRenderPass);
@@ -70,7 +77,7 @@ namespace ShapeBlaster {
         void update(
             const dst::Clock& clock,
             const dst::sys::Input& input
-        ) override
+        ) override final
         {
             std::this_thread::sleep_for(dst::Millisecond<>(16));
             using namespace dst::sys;
@@ -87,7 +94,7 @@ namespace ShapeBlaster {
         void record_swapchain_render_pass(
             const dst::Clock& clock,
             const dst::vk::CommandBuffer& commandBuffer
-        ) override
+        ) override final
         {
             mEntityManager->record_draw_cmds(commandBuffer);
         }

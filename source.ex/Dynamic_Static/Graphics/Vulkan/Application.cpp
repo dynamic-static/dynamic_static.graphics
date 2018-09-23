@@ -42,26 +42,33 @@ namespace Vulkan {
 
     void Application::start()
     {
-        std::vector<const char*> layers;
-        std::vector<const char*> instanceExtensions {
-            VK_KHR_SURFACE_EXTENSION_NAME,
-            #ifdef DYNAMIC_STATIC_WINDOWS
-            VK_KHR_WIN32_SURFACE_EXTENSION_NAME,
-            #endif
-        };
-        std::vector<const char*> deviceExtensions {
-            VK_KHR_SWAPCHAIN_EXTENSION_NAME,
-        };
-        create_instance(layers, instanceExtensions);
-        create_window();
-        create_surface();
-        create_device(deviceExtensions);
-        create_swapchain();
-        create_swapchain_render_pass();
-        create_swapchain_command_buffers();
-        create_swapchain_semaphores();
-        create_swapchain_fences();
-        create_resources();
+        {
+            std::vector<const char*> layers;
+            std::vector<const char*> instanceExtensions {
+                VK_KHR_SURFACE_EXTENSION_NAME,
+                #ifdef DYNAMIC_STATIC_WINDOWS
+                VK_KHR_WIN32_SURFACE_EXTENSION_NAME,
+                #endif
+            };
+            std::vector<const char*> deviceExtensions {
+                VK_KHR_SWAPCHAIN_EXTENSION_NAME,
+            };
+            create_instance(layers, instanceExtensions);
+
+            sys::Window::Info windowInfo { };
+            windowInfo.name = mInfo.pApplicationName;
+            create_window(windowInfo);
+
+            create_surface();
+            create_device(deviceExtensions);
+            create_swapchain();
+            create_swapchain_render_pass();
+            create_swapchain_command_buffers();
+            create_swapchain_semaphores();
+            create_swapchain_fences();
+            create_resources();
+        }
+
         mDevice->wait_idle();
         mRunning = true;
         mWindow->on_close = [&](const auto&) { mRunning = false; };
@@ -84,10 +91,8 @@ namespace Vulkan {
         mRunning = false;
     }
 
-    void Application::create_window()
+    void Application::create_window(sys::Window::Info& windowInfo)
     {
-        sys::Window::Info windowInfo { };
-        windowInfo.name = mInfo.pApplicationName;
         mWindow = std::make_shared<sys::Window>(windowInfo);
     }
 

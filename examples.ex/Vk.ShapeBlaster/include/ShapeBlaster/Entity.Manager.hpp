@@ -25,12 +25,22 @@
 
 #include "Dynamic_Static.Graphics.hpp"
 
+#include <functional>
+#include <tuple>
+
 namespace ShapeBlaster {
 
     class Entity::Manager final
         : dst::NonCopyable
     {
     private:
+        static constexpr float EnemySpawnProbabilityMax { 0 };
+        static constexpr float EnemySpawnProbabilityDefault { 0.1f };
+        static constexpr float EnemySpawnProbabilityIncreaseRate { 0 };
+        static constexpr float BlackHoleSpawnProbabilityMax { 0 };
+        static constexpr float BlackHoleSpawnProbabilityDefault { 0.1f };
+        static constexpr float BlackHoleSpawnProbabilityIncreaseRate { 0 };
+
         enum class EntityType
         {
             // BlackHole,
@@ -42,17 +52,12 @@ namespace ShapeBlaster {
             Count,
         };
 
-        template <typename T>
-        class Resource final
-        {
-        public:
-            EntityType type;
-            std::string resourcePath;
-
-        };
-
+        float mEnemySpawnProbability { EnemySpawnProbabilityDefault };
+        float mBlackHoleSpawnProbability { BlackHoleSpawnProbabilityDefault };
         std::unique_ptr<Sprite::Pool> mSpritePool;
+        dst::Component::Pool<Wanderer> mWandererPool;
         std::vector<Bullet> mBullets;
+        std::vector<dst::Entity> mEntities;
         Player mPlayer;
 
     public:
@@ -61,6 +66,7 @@ namespace ShapeBlaster {
             const std::shared_ptr<dst::vk::Device>& device,
             const std::shared_ptr<dst::vk::RenderPass>& renderPass
         )
+            : mWandererPool(32)
         {
             std::string artResourcesPath = resourcePath + "/Art/";
             std::array<Sprite::CreateInfo, (int)EntityType::Count> spriteCreateInfos { };
@@ -75,7 +81,7 @@ namespace ShapeBlaster {
                 mSpritePool->check_out((int)EntityType::Pointer)
             );
             using namespace std::placeholders;
-            mPlayer.on_fire_bullet = std::bind(&Entity::Manager::on_player_fire_bullet, this, _1, _2);
+            // mPlayer.on_fire_bullet = std::bind(&Entity::Manager::on_player_fire_bullet, this, _1, _2);
         }
 
     public:
@@ -91,6 +97,13 @@ namespace ShapeBlaster {
             dst::RandomNumberGenerator& rng
         )
         {
+            for (auto& entity : mEntities) {
+                auto wanderer = entity.get_component<Wanderer>();
+                if (wanderer) {
+                    wanderer->update(clock, input, playAreaExtent, rng);
+                }
+            }
+
             mPlayer.update(clock, input, playAreaExtent, rng);
             for (auto& bullet : mBullets) {
                 bullet.update(clock, input, playAreaExtent, rng);
@@ -102,6 +115,7 @@ namespace ShapeBlaster {
                     ++itr;
                 }
             }
+            spawn_enemies(clock, playAreaExtent, rng);
             mSpritePool->update(playAreaExtent);
         }
 
@@ -111,6 +125,29 @@ namespace ShapeBlaster {
         }
 
     private:
+        inline void spawn_enemies(
+            const dst::Clock& clock,
+            const glm::vec2& playAreaExtent,
+            dst::RandomNumberGenerator& rng
+        )
+        {
+            auto spawnEnemy =
+            [&](auto& enemyPool, int spriteId)
+            {
+                if (rng.probability(mEnemySpawnProbability)) {
+                    if (!enemyPool.empty()) {
+                        auto sprite = mSpritePool->check_out(spriteId);
+                        if (sprite) {
+                            dst::Entity entity;
+                            entity.add_component(enemyPool, std::move(sprite));
+                            mEntities.push_back(std::move(entity));
+                        }
+                    }
+                }
+            };
+            spawnEnemy(mWandererPool, (int)EntityType::Wanderer);
+        }
+
         inline void on_player_fire_bullet(
             const glm::vec2& position,
             const glm::vec2& direction

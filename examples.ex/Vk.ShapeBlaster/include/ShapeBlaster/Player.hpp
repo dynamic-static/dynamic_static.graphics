@@ -25,10 +25,6 @@ namespace ShapeBlaster {
     class Player final
         : public Entity
     {
-    public:
-        // Entity::Manager* HACK_entityManager { nullptr };
-        // Sprite::Pool* HACK_spritePool { nullptr };
-
     private:
         static constexpr float Speed { 480 }; // Pixels / second
         static constexpr float RateOfFire { 10 }; // Round / second
@@ -41,7 +37,7 @@ namespace ShapeBlaster {
         Sprite mPointerSprite;
 
     public:
-        dst::Callback<Player, const glm::vec2&, glm::vec2&> on_fire_bullet;
+        dst::Callback<Player, const glm::vec2&, const glm::vec2&> on_fire_bullet;
 
     public:
         Player() = default;

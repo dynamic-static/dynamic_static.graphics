@@ -97,7 +97,7 @@ namespace Vulkan {
         /*!
         Creates this Application's Window.
         */
-        virtual void create_window();
+        virtual void create_window(sys::Window::Info& windowInfo);
 
         /*!
         Creates this Application's Instance.
