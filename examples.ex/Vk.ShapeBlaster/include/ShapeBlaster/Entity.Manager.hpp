@@ -98,9 +98,9 @@ namespace ShapeBlaster {
         )
         {
             for (auto& entity : mEntities) {
-                auto wanderer = entity.get_component<Wanderer>();
-                if (wanderer) {
-                    wanderer->update(clock, input, playAreaExtent, rng);
+                auto entityComponent = entity.get_component<Entity>();
+                if (entityComponent) {
+                    entityComponent->update(clock, input, playAreaExtent, rng);
                 }
             }
 

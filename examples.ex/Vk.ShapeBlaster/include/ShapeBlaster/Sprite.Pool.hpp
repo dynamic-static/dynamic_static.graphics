@@ -72,8 +72,8 @@ namespace ShapeBlaster {
                 auto imageExtent = resource.image->get_extent();
                 sprite->position = { };
                 sprite->rotation = 0;
-                sprite->scale = 1;
-                sprite->color = dst::Color::White;
+                sprite->scale = 0;
+                sprite->color = dst::Color::Transparent;
                 sprite->extent.x = (float)imageExtent.width;
                 sprite->extent.y = (float)imageExtent.height;
             }

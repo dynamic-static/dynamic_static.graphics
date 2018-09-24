@@ -49,6 +49,8 @@ namespace ShapeBlaster {
             , mPointerSprite(std::move(pointerSprite))
         {
             assert(mPointerSprite);
+            mPointerSprite->color = dst::Color::White;
+            mPointerSprite->scale = 1;
         }
 
         inline Player(Player&& other)

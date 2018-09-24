@@ -38,6 +38,11 @@ namespace ShapeBlaster {
         }
 
     public:
+        void on_add(dst::Entity& entity)
+        {
+            entity.add_component<Enemy>((Enemy*)this);
+        }
+
         void update(
             const dst::Clock& clock,
             const dst::sys::Input& input,

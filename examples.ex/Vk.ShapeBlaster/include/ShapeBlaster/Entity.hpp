@@ -23,7 +23,6 @@
 namespace ShapeBlaster {
 
     class Entity
-        : public dst::Entity
     {
     public:
         class Manager;

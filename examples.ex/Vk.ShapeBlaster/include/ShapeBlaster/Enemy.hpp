@@ -35,6 +35,11 @@ namespace ShapeBlaster {
         }
 
     public:
+        void on_add(dst::Entity& entity)
+        {
+            entity.add_component<Entity>((Entity*)this);
+        }
+
         void spawn(
             const glm::vec2& position,
             dst::RandomNumberGenerator& rng
