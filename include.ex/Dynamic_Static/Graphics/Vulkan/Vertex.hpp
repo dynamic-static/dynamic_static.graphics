@@ -14,9 +14,9 @@
 
 #include <array>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     /*!
     TODO : Documentation
@@ -69,6 +69,6 @@ namespace Vulkan {
         static_assert(false, "create_attribute_descriptions() must be specialized for the given VertexType");
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

@@ -13,9 +13,9 @@
 #include "glslang/Public/ShaderLang.h"
 #include "SPIRV/GlslangToSpv.h"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     extern const TBuiltInResource BuiltInResource;
 
@@ -207,6 +207,6 @@ namespace Vulkan {
         return builtInResource;
     }();
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

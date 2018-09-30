@@ -12,9 +12,9 @@
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Image.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
     ImageView::ImageView(Image* image)
         : ImageView(
             image,
@@ -141,6 +141,6 @@ namespace Vulkan {
         return mCreateInfo.subresourceRange;
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

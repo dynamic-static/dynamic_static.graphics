@@ -15,9 +15,9 @@
 #include <memory>
 #include <vector>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     /*!
     Provides high level control over a Vulkan render target.
@@ -110,6 +110,6 @@ namespace Vulkan {
         VkRenderPassBeginInfo get_render_pass_begin_info() const;
     };
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

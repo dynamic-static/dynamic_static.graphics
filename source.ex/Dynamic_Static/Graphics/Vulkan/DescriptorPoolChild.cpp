@@ -10,9 +10,9 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/DescriptorPoolChild.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     DescriptorPoolChild::DescriptorPoolChild(const std::shared_ptr<DescriptorPool>& descriptorPool)
         : mDescriptorPool { descriptorPool }
@@ -35,6 +35,6 @@ namespace Vulkan {
         return *mDescriptorPool;
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

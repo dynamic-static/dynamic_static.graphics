@@ -17,8 +17,8 @@
 #define DYNAMIC_STATIC_GRAPHICS_VERSION_MINOR 0
 #define DYNAMIC_STATIC_GRAPHICS_VERSION_PATCH 0
 
-namespace Dynamic_Static {
-namespace Graphics {
+namespace dst {
+namespace gfx {
 
     static constexpr int VersionMajor { DYNAMIC_STATIC_GRAPHICS_VERSION_MAJOR }; /*!< Dynamic_Static.Graphics major version */
     static constexpr int VersionMinor { DYNAMIC_STATIC_GRAPHICS_VERSION_MINOR }; /*!< Dynamic_Static.Graphics minor version */
@@ -26,6 +26,5 @@ namespace Graphics {
 
     using Api = sys::GraphicsApi;
 
-} // namespace Graphics
-namespace gfx = Graphics;
-} // namespace Dynamic_Static
+} // namespace gfx
+} // namespace dst

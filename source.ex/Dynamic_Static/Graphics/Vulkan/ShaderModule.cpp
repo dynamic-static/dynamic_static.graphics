@@ -17,9 +17,9 @@
 #include <iostream>
 #include <vector>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     ShaderModule::ShaderModule(
         const std::shared_ptr<Device>& device,
@@ -102,6 +102,6 @@ namespace Vulkan {
         return mPushConstantRanges;
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

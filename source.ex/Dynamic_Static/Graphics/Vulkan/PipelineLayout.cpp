@@ -15,9 +15,9 @@
 
 #include <algorithm>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     PipelineLayout::PipelineLayout(const std::shared_ptr<Device>& device)
         : PipelineLayout(device, nullptr, nullptr, { })
@@ -127,6 +127,6 @@ namespace Vulkan {
         return mPushConstantRanges;
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

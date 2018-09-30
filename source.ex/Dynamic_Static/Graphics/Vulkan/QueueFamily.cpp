@@ -16,9 +16,9 @@
 #include <utility>
 #include <vector>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     QueueFamily::QueueFamily(
         Device* device,
@@ -88,6 +88,6 @@ namespace Vulkan {
         return mQueues;
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

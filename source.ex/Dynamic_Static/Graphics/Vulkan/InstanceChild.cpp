@@ -10,9 +10,9 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/InstanceChild.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     InstanceChild::InstanceChild(Instance* instance)
         : mInstance { instance }
@@ -35,6 +35,6 @@ namespace Vulkan {
         return *mInstance;
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

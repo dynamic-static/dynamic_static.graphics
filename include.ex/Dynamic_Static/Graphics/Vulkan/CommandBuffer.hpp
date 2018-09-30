@@ -16,9 +16,9 @@
 
 #include <memory>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     /*!
     Provides high level control over a Vulkan command buffer.
@@ -107,6 +107,6 @@ namespace Vulkan {
         friend class CommandPool;
     };
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

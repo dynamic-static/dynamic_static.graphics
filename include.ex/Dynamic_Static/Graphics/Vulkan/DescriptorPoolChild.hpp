@@ -14,9 +14,9 @@
 
 #include <memory>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     /*!
     Common base for all Vulkan DescriptorPool child objects.
@@ -53,6 +53,6 @@ namespace Vulkan {
         const DescriptorPool& get_descriptor_pool() const;
     };
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

@@ -13,9 +13,9 @@
 #include "Dynamic_Static/Graphics/Vulkan/DeviceMemoryResource.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     DeviceMemory::DeviceMemory(
         const std::shared_ptr<Device>& device,
@@ -79,6 +79,6 @@ namespace Vulkan {
         }
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

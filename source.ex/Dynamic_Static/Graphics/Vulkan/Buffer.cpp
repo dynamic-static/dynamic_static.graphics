@@ -12,9 +12,9 @@
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/DeviceMemory.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     Buffer::Buffer(
         const std::shared_ptr<Device>& device,
@@ -70,6 +70,6 @@ namespace Vulkan {
         DeviceMemoryResource::bind_memory(memory, memoryOffset);
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

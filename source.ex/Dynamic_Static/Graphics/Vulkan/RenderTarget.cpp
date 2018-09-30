@@ -16,9 +16,9 @@
 #include "Dynamic_Static/Graphics/Vulkan/ImageView.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/RenderPass.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     RenderTarget::RenderTarget(
         const std::shared_ptr<RenderPass>& renderPass,
@@ -169,6 +169,6 @@ namespace Vulkan {
         return beginInfo;
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

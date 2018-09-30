@@ -14,9 +14,9 @@
 
 #include <utility>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     DeviceChild::DeviceChild(const std::shared_ptr<Device>& device)
         : mDevice { device }
@@ -52,6 +52,6 @@ namespace Vulkan {
         return *mDevice;
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

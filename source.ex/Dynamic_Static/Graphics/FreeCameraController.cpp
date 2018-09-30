@@ -12,8 +12,8 @@
 
 #include <algorithm>
 
-namespace Dynamic_Static {
-namespace Graphics {
+namespace dst {
+namespace gfx {
 
     void FreeCamerController::update(
         const dst::Clock& clock,
@@ -60,5 +60,5 @@ namespace Graphics {
         }
     }
 
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace gfx
+} // namespace dst

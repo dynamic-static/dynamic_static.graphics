@@ -12,9 +12,9 @@
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PipelineLayout.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     Pipeline::ShaderStageCreateInfo::ShaderStageCreateInfo(const VkPipelineShaderStageCreateInfo& other)
     {
@@ -62,6 +62,6 @@ namespace Vulkan {
         return *mLayout;
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

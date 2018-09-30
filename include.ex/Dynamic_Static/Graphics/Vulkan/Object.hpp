@@ -14,9 +14,9 @@
 
 #include <string>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     /*
     * Common base for Vulkan Objects.
@@ -118,6 +118,6 @@ namespace Vulkan {
     {
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

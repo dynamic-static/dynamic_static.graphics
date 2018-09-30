@@ -12,9 +12,9 @@
 #include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     PhysicalDeviceChild::PhysicalDeviceChild(PhysicalDevice* physicalDevice)
         : mPhysicalDevice { physicalDevice }
@@ -50,6 +50,6 @@ namespace Vulkan {
         return *mPhysicalDevice;
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

@@ -10,10 +10,10 @@
 
 #include "Dynamic_Static/Graphics/Camera.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
+namespace dst {
+namespace gfx {
 
 
 
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace gfx
+} // namespace dst

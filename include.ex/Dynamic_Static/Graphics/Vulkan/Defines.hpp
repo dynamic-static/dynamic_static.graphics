@@ -30,9 +30,9 @@ dst::gfx::vk::validate_vk_result(VK_CALL, dst_file_line, #VK_CALL)
 VK_CALL
 #endif
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     class Application;
     class Buffer;
@@ -196,8 +196,7 @@ namespace Vulkan {
         return aspectMask;
     }
 
-} // namespace Vulkan
-namespace vk = Vulkan;
-} // namespace Graphics
+} // namespace vk
+} // namespace gfx
 namespace vk = gfx::vk;
-} // namespace Dynamic_Static
+} // namespace dst

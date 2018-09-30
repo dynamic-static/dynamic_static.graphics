@@ -14,9 +14,9 @@
 
 #include <memory>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     /*
     * Common base for all Vulkan PhysicalDevice child objects.
@@ -66,6 +66,6 @@ namespace Vulkan {
         const PhysicalDevice& get_physical_device() const;
     };
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

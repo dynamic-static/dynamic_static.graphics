@@ -15,9 +15,9 @@
 #include <string>
 #include <vector>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     /*!
     Provides high level control over a Vulkan application.
@@ -223,6 +223,6 @@ namespace Vulkan {
         virtual void destroy_resources();
     };
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

@@ -11,9 +11,9 @@
 #include "Dynamic_Static/Graphics/Vulkan/DebugReportCallbackEXT.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Instance.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     #if defined(DYNAMIC_STATIC_MSVC)
     #pragma warning(push)
@@ -87,6 +87,6 @@ namespace Vulkan {
         }
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

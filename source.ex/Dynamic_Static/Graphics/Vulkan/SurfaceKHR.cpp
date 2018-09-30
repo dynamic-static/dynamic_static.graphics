@@ -13,9 +13,9 @@
 
 #include <functional>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     SurfaceKHR::SurfaceKHR(
         PhysicalDevice* physicalDevice,
@@ -87,6 +87,6 @@ namespace Vulkan {
         on_resize(*this);
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

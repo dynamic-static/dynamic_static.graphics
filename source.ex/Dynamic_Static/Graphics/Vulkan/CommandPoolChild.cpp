@@ -10,9 +10,9 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/CommandPoolChild.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     CommandPoolChild::CommandPoolChild(const std::shared_ptr<CommandPool>& commandPool)
         : mCommandPool { commandPool }
@@ -35,6 +35,6 @@ namespace Vulkan {
         return *mCommandPool;
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

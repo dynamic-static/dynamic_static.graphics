@@ -11,9 +11,9 @@
 #include "Dynamic_Static/Graphics/Vulkan/DescriptorPool.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     DescriptorPool::DescriptorPool(
         const std::shared_ptr<Device>& device,
@@ -39,6 +39,6 @@ namespace Vulkan {
         return mFlags;
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

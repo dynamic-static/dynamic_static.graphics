@@ -13,9 +13,9 @@
 #include "Dynamic_Static/Graphics/Vulkan/DescriptorSetLayout.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Device.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     DescriptorSet::DescriptorSet(
         const std::shared_ptr<DescriptorPool>& descriptorPool,
@@ -38,6 +38,6 @@ namespace Vulkan {
         }
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

@@ -13,9 +13,9 @@
 
 #include <set>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     Device::Device(
         PhysicalDevice* physicalDevice,
@@ -71,6 +71,6 @@ namespace Vulkan {
         dst_vk(vkDeviceWaitIdle(mHandle));
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

@@ -15,9 +15,9 @@
 
 #include <vector>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     /*!
     Provides high level control over Vulkan shader module reflection.
@@ -49,6 +49,6 @@ namespace Vulkan {
         dst::Span<const VkPushConstantRange> get_push_constant_ranges() const;
     };
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

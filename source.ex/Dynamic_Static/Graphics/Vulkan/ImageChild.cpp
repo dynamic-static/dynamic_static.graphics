@@ -10,9 +10,9 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/ImageChild.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     ImageChild::ImageChild(Image* image)
         : mImage { image }
@@ -49,6 +49,6 @@ namespace Vulkan {
         return *mImage;
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

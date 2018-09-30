@@ -10,9 +10,9 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/SurfaceKHRChild.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     SurfaceKHRChild::SurfaceKHRChild(const std::shared_ptr<SurfaceKHR>& surface)
         : mSurface { surface }
@@ -35,6 +35,6 @@ namespace Vulkan {
         return *mSurface;
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

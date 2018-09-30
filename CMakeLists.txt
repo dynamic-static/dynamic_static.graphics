@@ -44,6 +44,7 @@ DstCreateStaticLibrary(
 
     includeFiles
         "${includePath}/Vulkan/Primitives/Box.hpp"
+        "${includePath}/Vulkan/TextRenderer/TextMesh.hpp"
         "${includePath}/Vulkan/VertexTypes/VertexPosition.hpp"
         "${includePath}/Vulkan/VertexTypes/VertexPositionColor.hpp"
         "${includePath}/Vulkan/VertexTypes/VertexPositionColorTexture.hpp"
@@ -105,6 +106,7 @@ DstCreateStaticLibrary(
 
     sourceFiles
         "${sourcePath}/Vulkan/Primitives/Box.cpp"
+        "${sourcePath}/Vulkan/TextRenderer/TextMesh.cpp"
         "${sourcePath}/Vulkan/Application.cpp"
         "${sourcePath}/Vulkan/Buffer.cpp"
         "${sourcePath}/Vulkan/CommandBuffer.cpp"

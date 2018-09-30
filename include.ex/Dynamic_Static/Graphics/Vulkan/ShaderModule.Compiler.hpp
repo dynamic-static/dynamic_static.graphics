@@ -15,9 +15,9 @@
 
 #include <vector>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     /*!
     Provides high level control over Vulkan shader module compilation.
@@ -65,6 +65,6 @@ namespace Vulkan {
         dst::Span<const uint32_t> get_spirv() const;
     };
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

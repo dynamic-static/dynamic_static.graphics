@@ -19,9 +19,9 @@
 #include <string>
 #include <vector>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     /*!
     Provides high level control over a Vulkan device.
@@ -144,6 +144,6 @@ namespace Vulkan {
         friend class PhysicalDevice;
     };
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

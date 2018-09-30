@@ -12,8 +12,8 @@
 
 #include "Dynamic_Static/Graphics/Defines.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
+namespace dst {
+namespace gfx {
 
     /*!
     Represents a 3D camera.
@@ -60,5 +60,5 @@ namespace Graphics {
         }
     };
 
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace gfx
+} // namespace dst

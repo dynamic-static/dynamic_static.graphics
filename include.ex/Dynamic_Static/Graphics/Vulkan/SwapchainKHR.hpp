@@ -18,9 +18,9 @@
 
 #include <vector>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     /*
     * Provides high level control over a Vulkan swapchain.
@@ -223,6 +223,6 @@ namespace Vulkan {
         friend class Device;
     };
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

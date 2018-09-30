@@ -14,9 +14,9 @@
 #include "Dynamic_Static/Graphics/Vulkan/InstanceChild.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Object.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     class DebugReportCallbackEXT final
         : public Object<VkDebugReportCallbackEXT>
@@ -68,6 +68,6 @@ namespace Vulkan {
         friend class Instance;
     };
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

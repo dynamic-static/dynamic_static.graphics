@@ -19,7 +19,7 @@
 
 namespace ShapeBlaster {
 
-    class Wanderer
+    class Wanderer final
         : public Enemy
     {
     private:

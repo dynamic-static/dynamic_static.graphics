@@ -19,9 +19,9 @@
 #include <string>
 #include <vector>
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     Queue::CreateInfo::CreateInfo(const VkDeviceQueueCreateInfo& other)
     {
@@ -106,6 +106,6 @@ namespace Vulkan {
         dst_vk(vkQueueWaitIdle(mHandle));
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

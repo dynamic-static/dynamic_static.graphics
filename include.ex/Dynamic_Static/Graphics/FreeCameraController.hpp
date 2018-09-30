@@ -13,8 +13,8 @@
 #include "Dynamic_Static/Graphics/Camera.Controller.hpp"
 #include "Dynamic_Static/Graphics/Defines.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
+namespace dst {
+namespace gfx {
 
     /*!
     TODO : Documentation.
@@ -54,5 +54,5 @@ namespace Graphics {
         ) override final;
     };
 
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace gfx
+} // namespace dst

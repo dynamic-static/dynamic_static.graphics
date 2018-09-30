@@ -11,9 +11,9 @@
 #include "Dynamic_Static/Graphics/Vulkan/DeviceMemoryResource.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/DeviceMemory.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     DeviceMemoryResource::DeviceMemoryResource(const std::shared_ptr<Device>& device)
         : DeviceChild(device)
@@ -70,6 +70,6 @@ namespace Vulkan {
         mMemoryOffset = memoryOffset;
     }
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst

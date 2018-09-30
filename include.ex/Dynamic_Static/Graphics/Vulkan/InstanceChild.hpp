@@ -12,9 +12,9 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/Defines.hpp"
 
-namespace Dynamic_Static {
-namespace Graphics {
-namespace Vulkan {
+namespace dst {
+namespace gfx {
+namespace vk {
 
     /*
     * Common base for all Vulkan Instance child objects.
@@ -51,6 +51,6 @@ namespace Vulkan {
         const Instance& get_instance() const;
     };
 
-} // namespace Vulkan
-} // namespace Graphics
-} // namespace Dynamic_Static
+} // namespace vk
+} // namespace gfx
+} // namespace dst
