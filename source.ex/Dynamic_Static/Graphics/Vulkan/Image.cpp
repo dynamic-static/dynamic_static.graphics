@@ -47,7 +47,8 @@ namespace vk {
 
     Image::Image(
         const std::shared_ptr<Device>& device,
-        const sys::Image& image
+        const sys::Image& image,
+        VkFormat format
     )
         : DeviceMemoryResource(device)
     {
@@ -57,7 +58,7 @@ namespace vk {
         mCreateInfo.extent.width = (uint32_t)image.get_width();
         mCreateInfo.extent.height = (uint32_t)image.get_height();
         mCreateInfo.extent.depth = (uint32_t)image.get_depth();
-        mCreateInfo.format = VK_FORMAT_R8G8B8A8_UNORM;
+        mCreateInfo.format = format; // TODO : sys::Image needs format info.
         mCreateInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
         mCreateInfo.usage = VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
         dst_vk(vkCreateImage(get_device(), &mCreateInfo, nullptr, &mHandle));

@@ -129,7 +129,8 @@ namespace vk {
         */
         Image(
             const std::shared_ptr<Device>& device,
-            const sys::Image& image
+            const sys::Image& image,
+            VkFormat format = VK_FORMAT_R8G8B8A8_UNORM
         );
 
     public:

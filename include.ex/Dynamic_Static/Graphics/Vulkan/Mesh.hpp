@@ -35,6 +35,7 @@ namespace vk {
         std::shared_ptr<dst::vk::Buffer> vertexBuffer;
         std::shared_ptr<dst::vk::Buffer> indexBuffer;
         VkIndexType indexType { VK_INDEX_TYPE_UINT16 };
+        uint32_t vertexCount { 0 };
         uint32_t indexCount { 0 };
 
     public:
@@ -63,12 +64,13 @@ namespace vk {
             dst::Span<const IndexType> indices
         )
         {
-            // TODO : This method needs work, it's extremely inflexible.
+            // TODO : These methods need work, they're inflexible and unDRY.
             switch (sizeof(IndexType)) {
                 case sizeof(uint16_t) : indexType = VK_INDEX_TYPE_UINT16; break;
                 case sizeof(uint32_t) : indexType = VK_INDEX_TYPE_UINT32; break;
                 default: assert(false && "Unsupported VkIndexType"); break;
             }
+            vertexCount = (uint32_t)vertices.size();
             indexCount = (uint32_t)indices.size();
             Buffer::CreateInfo bufferCreateInfo { };
             bufferCreateInfo.size = (VkDeviceSize)vertices.size_bytes();
@@ -101,6 +103,45 @@ namespace vk {
             copyBuffer(vertexBuffer);
             stagingBuffer->write<IndexType>(indices);
             copyBuffer(indexBuffer);
+        }
+
+        /*!
+        TODO : Documentation.
+        */
+        template <
+            typename VertexType,
+            typename IndexType
+        >
+        inline void rewrite(
+            const std::shared_ptr<Device>& device,
+            dst::Span<const VertexType> vertices,
+            dst::Span<const IndexType> indices
+        )
+        {
+            // TODO : These methods need work, they're inflexible and unDRY.
+            switch (sizeof(IndexType)) {
+                case sizeof(uint16_t) : indexType = VK_INDEX_TYPE_UINT16; break;
+                case sizeof(uint32_t) : indexType = VK_INDEX_TYPE_UINT32; break;
+                default: assert(false && "Unsupported VkIndexType"); break;
+            }
+            if (!vertexBuffer || vertexCount < vertices.size() ||
+                !indexBuffer || indexCount < indices.size()) {
+                // TODO : This wait_idle() needs to go away.
+                device->wait_idle();
+                vertexCount = (uint32_t)vertices.size();
+                indexCount = (uint32_t)indices.size();
+                Buffer::CreateInfo bufferCreateInfo { };
+                bufferCreateInfo.size = (VkDeviceSize)vertices.size_bytes();
+                bufferCreateInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
+                vertexBuffer = device->create<Buffer>(bufferCreateInfo);
+                bufferCreateInfo.size = (VkDeviceSize)indices.size_bytes();
+                bufferCreateInfo.usage = VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
+                indexBuffer = device->create<Buffer>(bufferCreateInfo);
+                std::array<Buffer*, 2> buffers { vertexBuffer.get(), indexBuffer.get() };
+                DeviceMemory::allocate_multi_resource_memory(buffers, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT);
+            }
+            vertexBuffer->write<VertexType>(vertices);
+            indexBuffer->write<IndexType>(indices);
         }
     };
 
