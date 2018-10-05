@@ -42,6 +42,7 @@ namespace ShapeBlaster {
             dst::RandomNumberGenerator& rng
         ) override final
         {
+            Enemy::spawn(position, rng);
         }
 
         void update(
@@ -51,11 +52,14 @@ namespace ShapeBlaster {
             dst::RandomNumberGenerator& rng
         ) override
         {
-            if (mPlayer) {
-                auto direction = mPlayer->get_position() - mPosition;
-                if (direction != glm::vec2 { }) {
-                    direction = glm::normalize(direction);
-                    mRotation = std::atan2(direction.y, direction.x);
+            if (!is_spawning()) {
+                if (mPlayer) {
+                    auto direction = mPlayer->get_position() - mPosition;
+                    if (direction != glm::vec2 { }) {
+                        direction = glm::normalize(direction);
+                        mRotation = std::atan2(direction.y, direction.x);
+                    }
+                    mVelocity += direction * Acceleration;
                 }
             }
             Enemy::update(clock, input, playAreaExtent, rng);

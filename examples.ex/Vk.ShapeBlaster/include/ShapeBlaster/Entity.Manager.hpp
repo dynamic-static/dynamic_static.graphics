@@ -56,6 +56,7 @@ namespace ShapeBlaster {
         float mBlackHoleSpawnProbability { BlackHoleSpawnProbabilityDefault };
         std::unique_ptr<Sprite::Pool> mSpritePool;
         dst::Component::Pool<Wanderer> mWandererPool;
+        dst::Component::Pool<Seeker> mSeekerPool;
         std::vector<Bullet> mBullets;
         std::vector<dst::Entity> mEntities;
         Player mPlayer;
@@ -67,6 +68,7 @@ namespace ShapeBlaster {
             const std::shared_ptr<dst::vk::RenderPass>& renderPass
         )
             : mWandererPool(32)
+            , mSeekerPool(32)
         {
             std::string artResourcesPath = resourcePath + "/Art/";
             std::array<Sprite::CreateInfo, (int)EntityType::Count> spriteCreateInfos { };
@@ -147,11 +149,17 @@ namespace ShapeBlaster {
                             spawnPosition.y = rng.range(-h, h);
                             enemy->spawn(spawnPosition, rng);
                             mEntities.push_back(std::move(entity));
+                            // TEMP : This needs to go away...
+                            auto seeker = mEntities.back().get_component<Seeker>();
+                            if (seeker) {
+                                seeker->mPlayer = &mPlayer;
+                            }
                         }
                     }
                 }
             };
             spawnEnemy(mWandererPool, (int)EntityType::Wanderer);
+            spawnEnemy(mSeekerPool, (int)EntityType::Seeker);
         }
 
         inline void on_player_fire_bullet(
