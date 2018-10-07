@@ -34,6 +34,17 @@ namespace vk {
         class Reflector;
 
         /*!
+        Configuration parameters for ShaderModule compilation.
+        */
+        struct CompileInfo final
+        {
+            VkShaderStageFlagBits stage { VK_SHADER_STAGE_ALL_GRAPHICS }; /*<! TODO : Documentation. */
+            int lineOffset { 0 };                                         /*<! TODO : Documentation. */
+            StringView source;                                            /*<! TODO : Documentation. */
+            StringView entryPoint { "main" };                             /*<! TODO : Documentation. */
+        };
+
+        /*!
         Configuration parameters for ShaderModule construction.
         */
         struct CreateInfo final
@@ -86,6 +97,16 @@ namespace vk {
             VkShaderStageFlagBits stage,
             int lineOffset,
             const std::string& source
+        );
+
+        /*!
+        Constructs an instance of ShaderModule.
+        @param [in] device This ShaderModule's Device
+        @param [in] compileInfo This ShaderModule's ShaderModule::CompileInfo
+        */
+        ShaderModule(
+            const std::shared_ptr<Device>& device,
+            const ShaderModule::CompileInfo& compileInfo
         );
 
         /*!

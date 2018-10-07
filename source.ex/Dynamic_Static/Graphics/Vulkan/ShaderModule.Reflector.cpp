@@ -54,6 +54,9 @@ namespace vk {
         for (const auto& resource : resources.uniform_buffers) {
             process_binding(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, glsl, resource, mDescriptorSetLayoutBindings);
         }
+        for (const auto& resource : resources.storage_buffers) {
+            process_binding(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, glsl, resource, mDescriptorSetLayoutBindings);
+        }
         for (const auto& resource : resources.sampled_images) {
             process_binding(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, glsl, resource, mDescriptorSetLayoutBindings);
         }

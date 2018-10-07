@@ -121,9 +121,12 @@ namespace ShapeBlaster {
             spawn_enemies(clock, playAreaExtent, rng);
         }
 
-        inline void record_draw_cmds(const dst::vk::CommandBuffer& commandBuffer)
+        inline void record_draw_cmds(
+            const dst::vk::CommandBuffer& commandBuffer,
+            const dst::vk::DescriptorSet& cameraDescriptorSet
+        )
         {
-            mSpritePool->record_draw_cmds(commandBuffer);
+            mSpritePool->record_draw_cmds(commandBuffer, cameraDescriptorSet);
         }
 
     private:

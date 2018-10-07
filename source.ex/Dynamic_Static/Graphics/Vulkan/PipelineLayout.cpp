@@ -101,13 +101,11 @@ namespace vk {
             }
         }
         // TODO : DRY...
-        if (!vkDescriptorSetLayouts.empty()) {
-            createInfo.setLayoutCount = (uint32_t)vkDescriptorSetLayouts.size();
-            createInfo.pSetLayouts = vkDescriptorSetLayouts.data();
-            createInfo.pushConstantRangeCount = (uint32_t)mPushConstantRanges.size();
-            createInfo.pPushConstantRanges = mPushConstantRanges.data();
-            dst_vk(vkCreatePipelineLayout(get_device(), &createInfo, nullptr, &mHandle));
-        }
+        createInfo.setLayoutCount = (uint32_t)vkDescriptorSetLayouts.size();
+        createInfo.pSetLayouts = vkDescriptorSetLayouts.empty() ? nullptr : vkDescriptorSetLayouts.data();
+        createInfo.pushConstantRangeCount = (uint32_t)mPushConstantRanges.size();
+        createInfo.pPushConstantRanges = mPushConstantRanges.empty() ? nullptr : mPushConstantRanges.data();
+        dst_vk(vkCreatePipelineLayout(get_device(), &createInfo, nullptr, &mHandle));
     }
 
     PipelineLayout::~PipelineLayout()

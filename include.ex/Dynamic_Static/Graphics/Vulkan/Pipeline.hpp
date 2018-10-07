@@ -345,9 +345,9 @@ namespace vk {
             : public VkGraphicsPipelineCreateInfo
         {
             /*!
-            Constructs an instance of Pipeline::CreateInfo.
+            Constructs an instance of Pipeline::GraphicsCreateInfo.
             */
-            GraphicsCreateInfo()
+            inline GraphicsCreateInfo()
             {
                 static VertexInputStateCreateInfo sDefaultVertexInputState;
                 static InputAssemblyStateCreateInfo sDefaultInputAssemblyState;
@@ -383,17 +383,60 @@ namespace vk {
             }
         };
 
+        /*!
+        Configuration parameters for compute Pipeline construction.
+        */
+        struct ComputeCreateInfo final
+            : public VkComputePipelineCreateInfo
+        {
+            /*!
+            Constructs an instance of Pipeline::ComputeCreateInfo.
+            */
+            inline ComputeCreateInfo()
+            {
+                sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
+                pNext = nullptr;
+                flags = 0;
+                stage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+                stage.pNext = nullptr;
+                stage.flags = 0;
+                stage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
+                stage.module = VK_NULL_HANDLE;
+                stage.pName = "main";
+                stage.pSpecializationInfo = nullptr;
+                layout = VK_NULL_HANDLE;
+                basePipelineHandle = VK_NULL_HANDLE;
+                basePipelineIndex = 0;
+                static_assert(
+                    sizeof(Pipeline::ComputeCreateInfo) == sizeof(VkComputePipelineCreateInfo),
+                    "sizeof(Pipeline::ComputeCreateInfo) != sizeof(VkComputePipelineCreateInfo)"
+                );
+            }
+        };
+
     private:
         /*!
         Constructs an instance of Pipeline.
         @param [in] device This Pipeline's Device
         @param [in] layout This Pipeline's PipelineLayout
-        @param [in] createInfo This Pipeline's Pipeline::CreateInfo
+        @param [in] createInfo This Pipeline's Pipeline::GraphicsCreateInfo
         */
         Pipeline(
             const std::shared_ptr<Device>& device,
             const std::shared_ptr<PipelineLayout>& layout,
             Pipeline::GraphicsCreateInfo createInfo
+        );
+
+        /*!
+        Constructs an instance of Pipeline.
+        @param [in] device This Pipeline's Device
+        @param [in] layout This Pipeline's PipelineLayout
+        @param [in] createInfo This Pipeline's Pipeline::ComputeCreateInfo
+        */
+        Pipeline(
+            const std::shared_ptr<Device>& device,
+            const std::shared_ptr<PipelineLayout>& layout,
+            Pipeline::ComputeCreateInfo createInfo
         );
 
     private:

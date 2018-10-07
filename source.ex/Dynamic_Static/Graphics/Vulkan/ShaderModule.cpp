@@ -61,6 +61,33 @@ namespace vk {
 
     ShaderModule::ShaderModule(
         const std::shared_ptr<Device>& device,
+        const ShaderModule::CompileInfo& compileInfo
+    )
+        : DeviceChild(device)
+        , mStage { compileInfo.stage }
+    {
+        set_name("ShaderModule");
+        ShaderModule::Compiler compiler(compileInfo);
+        ShaderModule::CreateInfo createInfo { };
+        createInfo.codeSize = (uint32_t)compiler.get_spirv().size_bytes();
+        createInfo.pCode = compiler.get_spirv().data();
+        dst_vk(vkCreateShaderModule(get_device(), &createInfo, nullptr, &mHandle));
+        ShaderModule::Reflector reflector(compiler.get_spirv());
+        mDescriptorSetLayoutBindings = reflector.get_descriptor_set_layout_bindings();
+        for (auto& descriptorSet : mDescriptorSetLayoutBindings) {
+            for (auto& binding : descriptorSet) {
+                binding.stageFlags = mStage;
+            }
+        }
+        mPushConstantRanges.reserve(reflector.get_push_constant_ranges().size());
+        for (auto pushConstantRange : reflector.get_push_constant_ranges()) {
+            pushConstantRange.stageFlags = mStage;
+            mPushConstantRanges.push_back(pushConstantRange);
+        }
+    }
+
+    ShaderModule::ShaderModule(
+        const std::shared_ptr<Device>& device,
         ShaderModule::CreateInfo createInfo
     )
         : DeviceChild(device)

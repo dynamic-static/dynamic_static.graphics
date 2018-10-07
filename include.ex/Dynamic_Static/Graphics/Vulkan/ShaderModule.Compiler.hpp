@@ -51,6 +51,12 @@ namespace vk {
             const std::string& source
         );
 
+        /*!
+        Constructs an instance of ShaderModule::Compiler.
+        @param [in] stage This ShaderModule::Compiler's ShaderModule::CompileInfo
+        */
+        Compiler(const ShaderModule::CompileInfo& compileInfo);
+
     public:
         /*
         Gets this ShaderModule::Compiler's VkShaderStage.

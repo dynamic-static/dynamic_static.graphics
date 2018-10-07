@@ -38,9 +38,23 @@ namespace vk {
         , mLayout { layout }
     {
         assert(mLayout);
-        set_name("Pipeline");
+        set_name("Pipeline(Graphics)");
         createInfo.layout = *mLayout;
         dst_vk(vkCreateGraphicsPipelines(get_device(), VK_NULL_HANDLE, 1, &createInfo, nullptr, &mHandle));
+    }
+
+    Pipeline::Pipeline(
+        const std::shared_ptr<Device>& device,
+        const std::shared_ptr<PipelineLayout>& layout,
+        Pipeline::ComputeCreateInfo createInfo
+    )
+        : DeviceChild(device)
+        , mLayout { layout }
+    {
+        assert(mLayout);
+        set_name("Pipeline(Compute)");
+        createInfo.layout = *mLayout;
+        dst_vk(vkCreateComputePipelines(get_device(), VK_NULL_HANDLE, 1, &createInfo, nullptr, &mHandle));
     }
 
     Pipeline::~Pipeline()

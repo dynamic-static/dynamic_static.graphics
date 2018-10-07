@@ -56,10 +56,25 @@ namespace vk {
         int lineOffset,
         const std::string& source
     )
+        : ShaderModule::Compiler(
+            [&]
+            {
+                ShaderModule::CompileInfo compileInfo { };
+                compileInfo.stage = stage;
+                compileInfo.lineOffset = lineOffset;
+                compileInfo.source = source;
+                compileInfo.entryPoint = "main";
+                return compileInfo;
+            }()
+        )
+    {
+    }
+
+    ShaderModule::Compiler::Compiler(const ShaderModule::CompileInfo& compileInfo)
     {
         GLSLangInitializer::validate();
         EShLanguage eshStage;
-        switch (stage) {
+        switch (compileInfo.stage) {
             case VK_SHADER_STAGE_VERTEX_BIT:                  eshStage = EShLangVertex; break;
             case VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT:    eshStage = EShLangTessControl; break;
             case VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT: eshStage = EShLangTessEvaluation; break;
@@ -71,11 +86,12 @@ namespace vk {
         glslang::TShader shader(eshStage);
         // TODO : This lineOffset is dumb...fix it...
         std::string modifiedSource;
-        modifiedSource.reserve(lineOffset + source.size());
-        modifiedSource.resize(lineOffset, '\n');
-        modifiedSource.append(source);
+        modifiedSource.reserve(compileInfo.lineOffset + compileInfo.source.size());
+        modifiedSource.resize(compileInfo.lineOffset, '\n');
+        modifiedSource.append(compileInfo.source);
         const char* sourceCStr[] { modifiedSource.c_str() };
         shader.setStrings(sourceCStr, 1);
+        shader.setEntryPoint(compileInfo.entryPoint.empty() ? "main" : compileInfo.entryPoint);
         auto messages = (EShMessages)(EShMsgSpvRules | EShMsgVulkanRules);
         if (!shader.parse(&BuiltInResource, 100, false, messages)) {
             std::string infoLog = shader.getInfoLog();
@@ -87,6 +103,7 @@ namespace vk {
         }
         glslang::TProgram program;
         program.addShader(&shader);
+        // TODO : Why does this barf when compute has custom entry points?
         if (!program.link(messages)) {
             std::string infoLog = shader.getInfoLog();
             std::string debugLog = shader.getInfoDebugLog();
