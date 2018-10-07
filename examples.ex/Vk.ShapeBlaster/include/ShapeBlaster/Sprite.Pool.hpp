@@ -34,15 +34,8 @@ namespace ShapeBlaster {
             int count { 0 };
         };
 
-        // struct CameraUbo final
-        // {
-        //     glm::mat4 projectionFromWorld { glm::identity<glm::mat4>() };
-        // };
-
         std::shared_ptr<dst::vk::Sampler> mSampler;
-        // std::shared_ptr<dst::vk::Buffer> mUniformBuffer;
         std::shared_ptr<dst::vk::Pipeline> mPipeline;
-        // std::shared_ptr<dst::vk::DescriptorSet> mDescriptorSet;
         std::vector<Resource> mResources;
 
     public:
@@ -90,17 +83,6 @@ namespace ShapeBlaster {
             sprite.mVertex = nullptr;
         }
 
-        inline void update(const glm::vec2& playAreaExtent)
-        {
-            // float w = playAreaExtent.x * 0.5f;
-            // float h = playAreaExtent.y * 0.5f;
-            // auto view = glm::lookAt({ 0, 0, 0.5f }, glm::vec3 { }, glm::vec3 { 0, 1, 0 });
-            // auto projection = glm::ortho(-w, w, h, -h, -1.0f, 1.0f);
-            // CameraUbo cameraUbo { };
-            // cameraUbo.projectionFromWorld = projection * view;
-            // mUniformBuffer->write<CameraUbo>(cameraUbo);
-        }
-
         inline void record_draw_cmds(
             const dst::vk::CommandBuffer& commandBuffer,
             const dst::vk::DescriptorSet& cameraDescriptorSet
@@ -109,7 +91,7 @@ namespace ShapeBlaster {
             auto bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
             vkCmdBindPipeline(commandBuffer, bindPoint, *mPipeline);
             auto vkPipelineLayout = mPipeline->get_layout().get_handle();
-            auto vkDescriptorSet = cameraDescriptorSet.get_handle(); // mDescriptorSet->get_handle();
+            auto vkDescriptorSet = cameraDescriptorSet.get_handle();
             vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkPipelineLayout, 0, 1, &vkDescriptorSet, 0, nullptr);
             for (const auto& resource : mResources) {
                 VkDeviceSize offset = 0;
@@ -127,12 +109,11 @@ namespace ShapeBlaster {
             dst::Span<const Sprite::CreateInfo> createInfos
         )
         {
-            assert(device);
             using namespace dst::vk;
             mResources.resize(createInfos.size());
             std::vector<dst::sys::Image> sysImages(createInfos.size());
             std::vector<Image*> imagePointers(createInfos.size());
-            std::vector<Buffer*> bufferPointers(createInfos.size()); // +1);
+            std::vector<Buffer*> bufferPointers(createInfos.size());
             for (int i = 0; i < createInfos.size(); ++i) {
                 auto filePath = createInfos[i].filePath;
                 auto count = createInfos[i].count;
@@ -163,14 +144,9 @@ namespace ShapeBlaster {
                 mResources[i].image->write_ex(sysImages[i].get_data());
             }
 
-            // Buffer::CreateInfo uniformBufferCreateInfo { };
-            // uniformBufferCreateInfo.size = sizeof(CameraUbo);
-            // uniformBufferCreateInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
-            // mUniformBuffer = device->create<Buffer>(uniformBufferCreateInfo);
-            // bufferPointers.back() = mUniformBuffer.get();
             auto memoryProperties = VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
             DeviceMemory::allocate_multi_resource_memory(bufferPointers, memoryProperties);
-            const auto& bufferMemory = bufferPointers.front()->get_memory(); // mUniformBuffer->get_memory();
+            const auto& bufferMemory = bufferPointers.front()->get_memory();
             auto bufferData = (uint8_t*)bufferMemory->map();
             memset(bufferData, 0, bufferMemory->get_mapped_size());
             for (int resource_i = 0; resource_i < mResources.size(); ++resource_i) {
@@ -193,8 +169,6 @@ namespace ShapeBlaster {
             const std::shared_ptr<dst::vk::RenderPass>& renderPass
         )
         {
-            assert(device);
-            assert(renderPass);
             using namespace dst::vk;
             std::array<std::shared_ptr<ShaderModule>, 2> shaderModules { };
             static const int Vertex = 0;
@@ -321,19 +295,7 @@ namespace ShapeBlaster {
             descriptorPoolCreateInfo.pPoolSizes = &descriptorPoolSize;
             descriptorPoolCreateInfo.maxSets = (uint32_t)mResources.size();
             auto descriptorPool = device->create<DescriptorPool>(descriptorPoolCreateInfo);
-            
             const auto& descriptorSetLayouts = mPipeline->get_layout().get_descriptor_set_layouts();
-            // mDescriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayouts[0]);
-            
-            // VkDescriptorBufferInfo bufferInfo { };
-            // bufferInfo.buffer = *mUniformBuffer;
-            // bufferInfo.range = VK_WHOLE_SIZE;
-            // write.dstSet = *mDescriptorSet;
-            // write.descriptorCount = 1;
-            // write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-            // write.pBufferInfo = &bufferInfo;
-            // vkUpdateDescriptorSets(*device, 1, &write, 0, nullptr);
-            
             for (auto& resource : mResources) {
                 resource.descriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayouts[1]);
                 VkDescriptorImageInfo imageInfo { };
@@ -347,45 +309,6 @@ namespace ShapeBlaster {
                 write.pImageInfo = &imageInfo;
                 vkUpdateDescriptorSets(*device, 1, &write, 0, nullptr);
             }
-
-            // using namespace dst::vk;
-            // std::array<VkDescriptorPoolSize, 2> descriptorPoolSizes { };
-            // static const int Buffer = 0;
-            // descriptorPoolSizes[Buffer].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-            // descriptorPoolSizes[Buffer].descriptorCount = 1;
-            // static const int Image = 1;
-            // descriptorPoolSizes[Image].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            // descriptorPoolSizes[Image].descriptorCount = (uint32_t)mResources.size();
-            // DescriptorPool::CreateInfo descriptorPoolCreateInfo { };
-            // descriptorPoolCreateInfo.poolSizeCount = (uint32_t)descriptorPoolSizes.size();
-            // descriptorPoolCreateInfo.pPoolSizes = descriptorPoolSizes.data();
-            // descriptorPoolCreateInfo.maxSets = (uint32_t)mResources.size() + 1;
-            // auto descriptorPool = device->create<DescriptorPool>(descriptorPoolCreateInfo);
-            // 
-            // const auto& descriptorSetLayouts = mPipeline->get_layout().get_descriptor_set_layouts();
-            // mDescriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayouts[0]);
-            // DescriptorSet::Write write { };
-            // VkDescriptorBufferInfo bufferInfo { };
-            // bufferInfo.buffer = *mUniformBuffer;
-            // bufferInfo.range = VK_WHOLE_SIZE;
-            // write.dstSet = *mDescriptorSet;
-            // write.descriptorCount = 1;
-            // write.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-            // write.pBufferInfo = &bufferInfo;
-            // vkUpdateDescriptorSets(*device, 1, &write, 0, nullptr);
-            // 
-            // for (auto& resource : mResources) {
-            //     resource.descriptorSet = descriptorPool->allocate<DescriptorSet>(descriptorSetLayouts[1]);
-            //     VkDescriptorImageInfo imageInfo { };
-            //     imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-            //     imageInfo.sampler = *mSampler;
-            //     imageInfo.imageView = resource.image->get_view();
-            //     write.dstSet = *resource.descriptorSet;
-            //     write.descriptorCount = 1;
-            //     write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-            //     write.pImageInfo = &imageInfo;
-            //     vkUpdateDescriptorSets(*device, 1, &write, 0, nullptr);
-            // }
         }
     };
 

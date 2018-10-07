@@ -117,7 +117,6 @@ namespace ShapeBlaster {
                     ++itr;
                 }
             }
-            mSpritePool->update(playAreaExtent);
             spawn_enemies(clock, playAreaExtent, rng);
         }
 
