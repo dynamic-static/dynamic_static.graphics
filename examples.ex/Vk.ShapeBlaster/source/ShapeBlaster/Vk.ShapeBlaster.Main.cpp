@@ -76,7 +76,7 @@ namespace ShapeBlaster {
         {
             std::string resourcePath = "../../../examples/resources/ShapeBlaster_AllParts/ShapeBlaster_Part5/ShapeBlaster_Part5Content/";
             mEntityManager = std::make_unique<Entity::Manager>(resourcePath, mDevice, mSwapchainRenderPass);
-            mGrid = std::make_unique<Grid>(mDevice, mSwapchainRenderPass, glm::vec2 { 1920, 1080 }, glm::vec2 { 64, 64 });
+            mGrid = std::make_unique<Grid>(mDevice, mSwapchainRenderPass, glm::vec2 { 1024, 1024 }, glm::vec2 { 256, 256 });
 
             using namespace dst::vk;
             Buffer::CreateInfo cameraUniformBufferCreateInfo { };
@@ -142,6 +142,7 @@ namespace ShapeBlaster {
             const dst::vk::CommandBuffer& commandBuffer
         ) override final
         {
+            mGrid->record_draw_cmds(commandBuffer, *mCameraDescriptorSet);
             mEntityManager->record_draw_cmds(commandBuffer, *mCameraDescriptorSet);
         }
     };

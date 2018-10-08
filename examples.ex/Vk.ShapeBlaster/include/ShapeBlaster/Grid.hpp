@@ -46,12 +46,13 @@ namespace ShapeBlaster {
         };
 
     private:
-        std::shared_ptr<dst::vk::Buffer> mPointMassBuffer;
         std::shared_ptr<dst::vk::Buffer> mSpringBuffer;
+        std::shared_ptr<dst::vk::Buffer> mPointMassBuffer;
+        std::shared_ptr<dst::vk::Buffer> mPointMassIndexBuffer;
+        uint32_t mPointMassIndexCount { };
         std::shared_ptr<dst::vk::Pipeline> mSpringComputePipeline;
         std::shared_ptr<dst::vk::Pipeline> mPointMassComputePipeline;
         std::shared_ptr<dst::vk::Pipeline> mGraphicsPipeline;
-        std::shared_ptr<dst::vk::DescriptorSet> mDescriptorSet;
 
         std::vector<PointMass> mPointMasses;
         std::vector<Spring> mSprings;
@@ -68,11 +69,14 @@ namespace ShapeBlaster {
             int h = (int)(extent.y / spacing.y) + 1;
             mPointMasses.reserve(w * h);
             mSprings.reserve((w - 1) * h + w * (h - 1));
+            std::vector<uint16_t> pointMassIndices;
+            pointMassIndices.reserve(mSprings.size() * 2);
             for (int y = 0; y < h; ++y) {
                 for (int x = 0; x < w; ++x) {
                     PointMass pointMass { };
                     pointMass.position.x = (float)x / (float)w;
                     pointMass.position.y = (float)y / (float)h;
+                    pointMass.position *= extent;
                     pointMass.position -= extent * 0.5f;
                     pointMass.inverseMass = 1;
 
@@ -104,6 +108,8 @@ namespace ShapeBlaster {
                 }
             }
             for (auto& spring : mSprings) {
+                pointMassIndices.push_back(spring.pointMass0);
+                pointMassIndices.push_back(spring.pointMass1);
                 const auto& pointMass0 = mPointMasses[spring.pointMass0];
                 const auto& pointMass1 = mPointMasses[spring.pointMass1];
                 spring.targetLength = glm::distance(pointMass0.position, pointMass1.position) * 0.95f;
@@ -111,18 +117,23 @@ namespace ShapeBlaster {
 
             using namespace dst::vk;
             Buffer::CreateInfo bufferCreateInfo { };
-            bufferCreateInfo.size = mPointMasses.size() * sizeof(PointMass);
-            bufferCreateInfo.usage = VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
-            mPointMassBuffer = device->create<Buffer>(bufferCreateInfo);
             bufferCreateInfo.size = mSprings.size() * sizeof(Spring);
-            bufferCreateInfo.usage |= VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+            bufferCreateInfo.usage = VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
             mSpringBuffer = device->create<Buffer>(bufferCreateInfo);
+            bufferCreateInfo.size = mPointMasses.size() * sizeof(PointMass);
+            bufferCreateInfo.usage |= VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+            mPointMassBuffer = device->create<Buffer>(bufferCreateInfo);
+            bufferCreateInfo.size = pointMassIndices.size() * sizeof(uint16_t);
+            bufferCreateInfo.usage = VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
+            mPointMassIndexBuffer = device->create<Buffer>(bufferCreateInfo);
             DeviceMemory::allocate_multi_resource_memory(
-                std::array<Buffer*, 2> { mPointMassBuffer.get(), mSpringBuffer.get() },
+                std::array<Buffer*, 3> { mSpringBuffer.get(), mPointMassBuffer.get(), mPointMassIndexBuffer.get() },
                 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
             );
-            mPointMassBuffer->write<PointMass>(mPointMasses);
             mSpringBuffer->write<Spring>(mSprings);
+            mPointMassBuffer->write<PointMass>(mPointMasses);
+            mPointMassIndexBuffer->write<uint16_t>(pointMassIndices);
+            mPointMassIndexCount = (uint32_t)pointMassIndices.size();
 
             assert(device);
             assert(renderPass);
@@ -136,9 +147,20 @@ namespace ShapeBlaster {
 
         }
 
-        inline void record_draw_cmds(const dst::vk::CommandBuffer& commandBuffer)
+        inline void record_draw_cmds(
+            const dst::vk::CommandBuffer& commandBuffer,
+            const dst::vk::DescriptorSet& cameraDescriptorSet
+        )
         {
-
+            auto bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+            vkCmdBindPipeline(commandBuffer, bindPoint, *mGraphicsPipeline);
+            auto vkPipelineLayout = mGraphicsPipeline->get_layout().get_handle();
+            auto vkDescriptorSet = cameraDescriptorSet.get_handle();
+            vkCmdBindDescriptorSets(commandBuffer, bindPoint, vkPipelineLayout, 0, 1, &vkDescriptorSet, 0, nullptr);
+            VkDeviceSize offset = 0;
+            vkCmdBindVertexBuffers(commandBuffer, 0, 1, &mPointMassBuffer->get_handle(), &offset);
+            vkCmdBindIndexBuffer(commandBuffer, *mPointMassIndexBuffer, 0, VK_INDEX_TYPE_UINT16);
+            vkCmdDrawIndexed(commandBuffer, mPointMassIndexCount, 1, 0, 0, 0);
         }
 
     private:
@@ -276,7 +298,12 @@ namespace ShapeBlaster {
 
                     void main()
                     {
-                        fragColor = vec4(1, 1, 1, 1);
+                        float r =  30.0 / 255.0;
+                        float g =  30.0 / 255.0;
+                        float b = 139.0 / 255.0;
+                        float a =  85.0 / 255.0;
+                        fragColor = vec4(r, g, b, 1);
+                        // fragColor = vec4(1, 1, 1, 1);
                     }
                 )"
             );
@@ -294,10 +321,21 @@ namespace ShapeBlaster {
             vertexInputState.vertexAttributeDescriptionCount = (uint32_t)vertexAttributeDescriptions.size();
             vertexInputState.pVertexAttributeDescriptions = vertexAttributeDescriptions.data();
 
+            Pipeline::InputAssemblyStateCreateInfo inputAssemblyState { };
+            inputAssemblyState.topology = VK_PRIMITIVE_TOPOLOGY_LINE_LIST;
+
+            Pipeline::ColorBlendAttachmentState colorBlendAttachmentState { };
+            colorBlendAttachmentState.blendEnable = VK_TRUE;
+            Pipeline::ColorBlendStateCreateInfo colorBlendCreateInfo { };
+            colorBlendCreateInfo.attachmentCount = 1;
+            colorBlendCreateInfo.pAttachments = &colorBlendAttachmentState;
+
             Pipeline::GraphicsCreateInfo pipelineCreateInfo { };
             pipelineCreateInfo.stageCount = (uint32_t)shaderStages.size();
             pipelineCreateInfo.pStages = shaderStages.data();
             pipelineCreateInfo.pVertexInputState = &vertexInputState;
+            pipelineCreateInfo.pInputAssemblyState = &inputAssemblyState;
+            pipelineCreateInfo.pColorBlendState = &colorBlendCreateInfo;
             pipelineCreateInfo.renderPass = *renderPass;
             auto pipelineLayout = device->create<PipelineLayout>(shaderModules);
             mGraphicsPipeline = device->create<Pipeline>(pipelineLayout, pipelineCreateInfo);
