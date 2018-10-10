@@ -92,13 +92,13 @@ namespace vk {
                     dst::append(bindings, descriptorSets[i]);
                 }
             }
-            if (!bindings.empty()) {
+            // if (!bindings.empty()) {
                 DescriptorSetLayout::CreateInfo descriptorSetLayoutCreateInfo { };
                 descriptorSetLayoutCreateInfo.bindingCount = (uint32_t)bindings.size();
-                descriptorSetLayoutCreateInfo.pBindings = bindings.data();
+                descriptorSetLayoutCreateInfo.pBindings = bindings.empty() ? nullptr : bindings.data();
                 mDescriptorSetLayouts.push_back(get_device().create<DescriptorSetLayout>(descriptorSetLayoutCreateInfo));
                 vkDescriptorSetLayouts.push_back(mDescriptorSetLayouts.back()->get_handle());
-            }
+            // }
         }
         // TODO : DRY...
         createInfo.setLayoutCount = (uint32_t)vkDescriptorSetLayouts.size();

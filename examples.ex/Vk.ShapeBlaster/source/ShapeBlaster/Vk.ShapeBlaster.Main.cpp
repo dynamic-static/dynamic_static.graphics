@@ -134,7 +134,8 @@ namespace ShapeBlaster {
             auto projectionFromView = glm::ortho(-w, w, h, -h, -1.0f, 1.0f);
             auto projectionFromWorld = projectionFromView * viewFromWorld;
             mCameraUniformBuffer->write<glm::mat4>(projectionFromWorld);
-            mEntityManager->update(clock, input, playAreaExtent, mRng);
+            mEntityManager->update(clock, input, *mGrid, playAreaExtent, mRng);
+            mGrid->update(mDevice->get_queue_families()[0].get_queues()[0]);
         }
 
         void record_swapchain_render_pass(
@@ -143,7 +144,7 @@ namespace ShapeBlaster {
         ) override final
         {
             mGrid->record_draw_cmds(commandBuffer, *mCameraDescriptorSet);
-            mEntityManager->record_draw_cmds(commandBuffer, *mCameraDescriptorSet);
+            // mEntityManager->record_draw_cmds(commandBuffer, *mCameraDescriptorSet);
         }
     };
 

@@ -17,6 +17,7 @@
 #include "ShapeBlaster/Bullet.hpp"
 #include "ShapeBlaster/Entity.hpp"
 #include "ShapeBlaster/Entity.Pool.hpp"
+#include "ShapeBlaster/Grid.hpp"
 #include "ShapeBlaster/Player.hpp"
 #include "ShapeBlaster/Pool.hpp"
 #include "ShapeBlaster/Seeker.hpp"
@@ -95,6 +96,7 @@ namespace ShapeBlaster {
         inline void update(
             const dst::Clock& clock,
             const dst::sys::Input& input,
+            Grid& grid,
             const glm::vec2& playAreaExtent,
             dst::RandomNumberGenerator& rng
         )
@@ -107,6 +109,8 @@ namespace ShapeBlaster {
             }
 
             mPlayer.update(clock, input, playAreaExtent, rng);
+            grid.apply_directed_force(glm::vec3 { 0, 0, 5000 }, mPlayer.get_position(), 50);
+
             for (auto& bullet : mBullets) {
                 bullet.update(clock, input, playAreaExtent, rng);
             }

@@ -69,7 +69,7 @@ namespace vk {
                 dstBinding = 0;
                 dstArrayElement = 0;
                 descriptorCount = 0;
-                descriptorType = VK_DESCRIPTOR_TYPE_SAMPLER;
+                descriptorType = { };
                 pImageInfo = nullptr;
                 pBufferInfo = nullptr;
                 pTexelBufferView = nullptr;
