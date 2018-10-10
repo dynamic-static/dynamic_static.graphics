@@ -32,7 +32,7 @@ namespace ShapeBlaster {
                 Explosive = 2,
             };
 
-            glm::vec3 force { };
+            glm::vec4 force { };
             glm::vec2 position { };
             float radius { };
             Type type { };
@@ -45,6 +45,7 @@ namespace ShapeBlaster {
             glm::vec4 acceleration { };
             float inverseMass { };
             float damping { 0.98f };
+            glm::vec2 padding { };
             static inline auto get_attribute_descriptions()
             {
                 return dst::vk::create_attribute_descriptions<glm::vec4>();
@@ -58,6 +59,7 @@ namespace ShapeBlaster {
             float stiffness { };
             float damping { };
             float targetLength { };
+            glm::vec3 padding { };
         };
 
         struct CountBuffer final
@@ -65,6 +67,7 @@ namespace ShapeBlaster {
             uint32_t forceCount { };
             uint32_t pointMassCount { };
             uint32_t springCount { };
+            uint32_t padding { };
         };
 
     private:
@@ -315,7 +318,7 @@ namespace ShapeBlaster {
                 #define Explosive 2
                 struct Force
                 {
-                    vec3 force;
+                    vec4 force;
                     vec2 position;
                     float radius;
                     uint type;
@@ -328,6 +331,7 @@ namespace ShapeBlaster {
                     vec4 acceleration;
                     float inverseMass;
                     float damping;
+                    vec2 padding;
                 };
 
                 struct Spring
@@ -337,18 +341,20 @@ namespace ShapeBlaster {
                     float stiffness;
                     float damping;
                     float targetLength;
+                    vec3 padding;
                 };
 
                 layout(local_size_x = 1024, local_size_y = 1, local_size_z = 1) in;
-                layout(set = 0, binding = 0) buffer Forces { Force forces[]; };
-                layout(set = 0, binding = 1) buffer PointMasses { PointMass pointMasses[]; };
-                layout(set = 0, binding = 2) buffer Springs { Spring springs[]; };
-                layout(set = 0, binding = 3)
+                layout(std140, set = 0, binding = 0) buffer Forces { Force forces[]; };
+                layout(std140, set = 0, binding = 1) buffer PointMasses { PointMass pointMasses[]; };
+                layout(std140, set = 0, binding = 2) buffer Springs { Spring springs[]; };
+                layout(std140, set = 0, binding = 3)
                 uniform CountBuffer
                 {
                     uint forceCount;
                     uint pointMassCount;
                     uint springCount;
+                    uint padding;
                 };
 
                 void PointMass_apply_force(uint index, vec3 force)
@@ -373,14 +379,14 @@ namespace ShapeBlaster {
                         if (d2 < force.radius * force.radius) {
                             switch (force.type) {
                                 case Directed: {
-                                    PointMass_apply_force(index, force.force * 10.0 / (10.0 + sqrt(d2)));
+                                    PointMass_apply_force(index, force.force.xyz * 10.0 / (10.0 + sqrt(d2)));
                                 } break;
                                 case Implosive: {
-                                    PointMass_apply_force(index, force.force * 10.0 * (forcePosition - pointMassPosition) / (100.0 + d2));
+                                    PointMass_apply_force(index, force.force.xyz * 10.0 * (forcePosition - pointMassPosition) / (100.0 + d2));
                                     PointMass_increase_damping(index, 0.6);
                                 } break;
                                 case Explosive: {
-                                    PointMass_apply_force(index, force.force * 100.0 * (pointMassPosition - forcePosition) / (10000.0 + d2));
+                                    PointMass_apply_force(index, force.force.xyz * 100.0 * (pointMassPosition - forcePosition) / (10000.0 + d2));
                                     PointMass_increase_damping(index, 0.6);
                                 } break;
                             }
@@ -407,12 +413,7 @@ namespace ShapeBlaster {
 
                 void process_point_masses()
                 {
-                    uint index = 25; // gl_GlobalInvocationID.x;
-                    // bool good = index == 0 || index == 10;
-                    // if (!good) {
-                    //     return;
-                    // }
-
+                    uint index = gl_GlobalInvocationID.x;
                     PointMass pointMass = pointMasses[index];
                     pointMass.position.x += 1;
                     pointMass.position.y += 1;
@@ -556,7 +557,7 @@ namespace ShapeBlaster {
         )
         {
             mForces.push_back({ });
-            mForces.back().force = force;
+            mForces.back().force = glm::vec4(force, 0);
             mForces.back().position = position;
             mForces.back().radius = radius;
             mForces.back().type = type;
