@@ -84,7 +84,7 @@ namespace ShapeBlaster {
                 mSpritePool->check_out((int)EntityType::Pointer)
             );
             using namespace std::placeholders;
-            // mPlayer.on_fire_bullet = std::bind(&Entity::Manager::on_player_fire_bullet, this, _1, _2);
+            mPlayer.on_fire_bullet = std::bind(&Entity::Manager::on_player_fire_bullet, this, _1, _2);
         }
 
     public:
@@ -109,10 +109,14 @@ namespace ShapeBlaster {
             }
 
             mPlayer.update(clock, input, playAreaExtent, rng);
-            grid.apply_directed_force(glm::vec3 { 0, 0, 5000 }, mPlayer.get_position(), 50);
+            float v = 5000.0f; // *clock.elapsed<dst::Second<float>>();
+            // float v = 5000.0f / 60.0f * clock.elapsed<dst::Second<float>>();
+            // grid.apply_explosive_force(v, mPlayer.get_position(), 50);
+            //grid.apply_explosive_force(0.5f * glm::length(mPlayer.mVelocity), mPlayer.get_position(), 50);
 
             for (auto& bullet : mBullets) {
                 bullet.update(clock, input, playAreaExtent, rng);
+                grid.apply_explosive_force(glm::length(bullet.mVelocity) * 0.5f, bullet.get_position(), 80);
             }
             for (auto itr = mBullets.rbegin(); itr != mBullets.rend();) {
                 if (!itr->is_alive()) {
@@ -139,6 +143,7 @@ namespace ShapeBlaster {
             dst::RandomNumberGenerator& rng
         )
         {
+            return;
             auto spawnEnemy =
             [&](auto& enemyPool, int spriteId)
             {

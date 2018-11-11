@@ -66,8 +66,8 @@ namespace ShapeBlaster {
                 debugReportFlags
                 // | VK_DEBUG_REPORT_INFORMATION_BIT_EXT
                 // | VK_DEBUG_REPORT_DEBUG_BIT_EXT
-                | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
-                | VK_DEBUG_REPORT_WARNING_BIT_EXT
+                // | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT
+                // | VK_DEBUG_REPORT_WARNING_BIT_EXT
                 | VK_DEBUG_REPORT_ERROR_BIT_EXT
             );
         }
@@ -76,7 +76,8 @@ namespace ShapeBlaster {
         {
             std::string resourcePath = "../../../examples/resources/ShapeBlaster_AllParts/ShapeBlaster_Part5/ShapeBlaster_Part5Content/";
             mEntityManager = std::make_unique<Entity::Manager>(resourcePath, mDevice, mSwapchainRenderPass);
-            mGrid = std::make_unique<Grid>(mDevice, mSwapchainRenderPass, glm::vec2 { 1024, 1024 }, glm::vec2 { 256, 256 });
+            // mGrid = std::make_unique<Grid>(mDevice, mSwapchainRenderPass, glm::vec2 { 1024, 1024 }, glm::vec2 { 16, 16 });
+            mGrid = std::make_unique<Grid>(mDevice, mSwapchainRenderPass, glm::vec2 { 1024, 1024 }, glm::vec2 { 16, 16 });
 
             using namespace dst::vk;
             Buffer::CreateInfo cameraUniformBufferCreateInfo { };
@@ -135,7 +136,7 @@ namespace ShapeBlaster {
             auto projectionFromWorld = projectionFromView * viewFromWorld;
             mCameraUniformBuffer->write<glm::mat4>(projectionFromWorld);
             mEntityManager->update(clock, input, *mGrid, playAreaExtent, mRng);
-            mGrid->update(mDevice->get_queue_families()[0].get_queues()[0]);
+            mGrid->update(clock, mDevice->get_queue_families()[0].get_queues()[0]);
         }
 
         void record_swapchain_render_pass(
@@ -144,7 +145,7 @@ namespace ShapeBlaster {
         ) override final
         {
             mGrid->record_draw_cmds(commandBuffer, *mCameraDescriptorSet);
-            // mEntityManager->record_draw_cmds(commandBuffer, *mCameraDescriptorSet);
+            mEntityManager->record_draw_cmds(commandBuffer, *mCameraDescriptorSet);
         }
     };
 
