@@ -60,13 +60,11 @@ namespace ShapeBlaster {
 
         struct Spring final
         {
-            float stiffness { };
-            float damping { };
-            float targetLength { };
-            float padding0 { };
-            uint32_t pointMass0 { };
-            uint32_t pointMass1 { };
-            glm::vec2 padding1 { };
+            glm::vec4 stiffnessDampingLength { };
+            glm::uvec4 pointMasses { };
+            float& stiffness() { return stiffnessDampingLength[0]; }
+            float& damping() { return stiffnessDampingLength[1]; }
+            float& targetLength() { return stiffnessDampingLength[2]; }
         };
 
         struct CountBuffer final
@@ -123,43 +121,43 @@ namespace ShapeBlaster {
                     pointMass.position *= glm::vec4(extent, 0, 0);
                     pointMass.position -= glm::vec4(extent, 0, 0) * 0.5f;
                     pointMass.position.w = 1;
-                    pointMass.inverseMass = 3.0f;
+                    pointMass.inverseMass = 1.0f;
             
                     Spring spring { };
-                    spring.pointMass0 = y * w + x;
-                    spring.stiffness = 0.28f;
-                    spring.damping = 0.06f;
+                    spring.pointMasses[0] = y * w + x;
+                    spring.stiffness() = 0.28f;
+                    spring.damping() = 0.06f;
             
                     if (x == 0 || y == 0 || x == w - 1 || y == h - 1) {
                         pointMass.inverseMass = 0;
-                        spring.stiffness = 0.1f;
-                        spring.damping = 0.1f;
+                        spring.stiffness() = 0.1f;
+                        spring.damping() = 0.1f;
                     }
                     pointMasses.push_back(pointMass);
                     if (x < w - 1) {
-                        spring.pointMass1 = y * w + x + 1;
+                        spring.pointMasses[1] = y * w + x + 1;
                         springs.push_back(spring);
                     }
                     if (y < h - 1) {
-                        spring.pointMass1 = (y + 1) * w + x;
+                        spring.pointMasses[1] = (y + 1) * w + x;
                         springs.push_back(spring);
                     }
                 }
             }
 
             for (auto& spring : springs) {
-                pointMassIndices.push_back(spring.pointMass0);
-                pointMassIndices.push_back(spring.pointMass1);
+                pointMassIndices.push_back(spring.pointMasses[0]);
+                pointMassIndices.push_back(spring.pointMasses[1]);
             }
 
             for (int y = 0; y < h; ++y) {
                 for (int x = 0; x < w; ++x) {
                     if (x % 3 == 0 && y % 3 == 0) {
                         Spring spring { };
-                        spring.pointMass0 = y * w + x;
-                        spring.pointMass1 = (uint32_t)pointMasses.size();
-                        spring.stiffness = 0.002f;
-                        spring.damping = 0.02f;
+                        spring.pointMasses[0] = y * w + x;
+                        spring.pointMasses[1] = (uint32_t)pointMasses.size();
+                        spring.stiffness() = 0.002f;
+                        spring.damping() = 0.02f;
                         springs.push_back(spring);
                         auto fixedPointMass = pointMasses[y * w + x];
                         fixedPointMass.inverseMass = 0;
@@ -169,9 +167,9 @@ namespace ShapeBlaster {
             }
 
             for (auto& spring : springs) {
-                const auto& pointMass0 = pointMasses[spring.pointMass0];
-                const auto& pointMass1 = pointMasses[spring.pointMass1];
-                spring.targetLength = glm::distance(pointMass0.position, pointMass1.position) * 0.95f;
+                const auto& pointMass0 = pointMasses[spring.pointMasses[0]];
+                const auto& pointMass1 = pointMasses[spring.pointMasses[1]];
+                spring.targetLength() = glm::distance(pointMass0.position, pointMass1.position) * 0.95f;
             }
 
             using namespace dst::vk;
@@ -319,9 +317,9 @@ namespace ShapeBlaster {
                     vkCmdDispatch(*mCommandBuffer, dispatchCount, 1, 1);
                     vkCmdPipelineBarrier(*mCommandBuffer, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, 0, 0, nullptr, 1, &barrier, 0, nullptr);
                 };
-                dispatch(*mApplyForcesComputePipeline, countBuffer.pointMassCount);
-                dispatch(*mProcessSpringsComputePipeline, countBuffer.springCount);
-                dispatch(*mProcessPointMassesComputePipeline, countBuffer.pointMassCount);
+                dispatch(*mApplyForcesComputePipeline, mPointMassCount);
+                dispatch(*mProcessSpringsComputePipeline, mSpringCount);
+                dispatch(*mProcessPointMassesComputePipeline, mPointMassCount);
                 mCommandBuffer->end();
             }
             Queue::SubmitInfo submitInfo { };
@@ -378,13 +376,8 @@ namespace ShapeBlaster {
 
                 struct Spring
                 {
-                    float stiffness;
-                    float damping;
-                    float targetLength;
-                    float padding0;
-                    uint pointMass0;
-                    uint pointMass1;
-                    vec2 padding1;
+                    vec4 stiffnessDampingLength;
+                    uvec4 pointMasses;
                 };
 
                 layout(local_size_x = 1024, local_size_y = 1, local_size_z = 1) in;
@@ -448,37 +441,73 @@ namespace ShapeBlaster {
                     //  Force = -stiffness * displacement - damping * relativeVelocityBetweenPoints;
 
                     uint index = gl_GlobalInvocationID.x;
-                    Spring spring = springs[index];
-                    PointMass pointMass0 = pointMasses[spring.pointMass0];
-                    PointMass pointMass1 = pointMasses[spring.pointMass1];
-                    vec3 displacement = pointMass0.position.xyz - pointMass1.position.xyz;
-                    float stretchLength = length(displacement);
-                    if (stretchLength > spring.targetLength) {
-                        displacement = (displacement / stretchLength) * (stretchLength - spring.targetLength);
-                        vec3 relativeVelocity = pointMass1.velocity.xyz - pointMass0.velocity.xyz;
-                        vec3 force = spring.stiffness * displacement - relativeVelocity * spring.damping;
-                        pointMass0.acceleration.xyz -= force * pointMass0.inverseMass;
-                        pointMass0.acceleration.w = 0;
-                        pointMass1.acceleration.xyz += force * pointMass1.inverseMass;
-                        pointMass1.acceleration.w = 0;
-                        pointMasses[spring.pointMass0] = pointMass0;
-                        pointMasses[spring.pointMass1] = pointMass1;
+                    if (index == 0) {
+                    
+                        for (int i = 0; i < springCount; ++i) {
+                    
+                            Spring spring = springs[i];
+                            float stiffness = spring.stiffnessDampingLength.x;
+                            float damping = spring.stiffnessDampingLength.y;
+                            float targetLength = spring.stiffnessDampingLength.z;
+                            PointMass pointMass0 = pointMasses[spring.pointMasses[0]];
+                            PointMass pointMass1 = pointMasses[spring.pointMasses[1]];
+                            vec3 displacement = pointMass0.position.xyz - pointMass1.position.xyz;
+                            float stretchLength = distance(pointMass0.position.xyz, pointMass1.position.xyz);
+                            if (stretchLength > targetLength) {
+                                displacement = (displacement / stretchLength) * (stretchLength - targetLength);
+                                vec3 relativeVelocity = pointMass1.velocity.xyz - pointMass0.velocity.xyz;
+                                vec3 force = stiffness * displacement - damping * relativeVelocity;
+                                pointMass0.acceleration.xyz -= force * pointMass0.inverseMass;
+                                pointMass0.acceleration.w = 0;
+                                pointMass1.acceleration.xyz += force * pointMass1.inverseMass;
+                                pointMass1.acceleration.w = 0;
+                                pointMasses[spring.pointMasses[0]] = pointMass0;
+                                pointMasses[spring.pointMasses[1]] = pointMass1;
+                            }
+                    
+                        }
+                    
                     }
+
+                    // uint index = gl_GlobalInvocationID.x;
+                    // if (index < springCount) {
+                    //     Spring spring = springs[index];
+                    //     float stiffness = spring.stiffnessDampingLength.x;
+                    //     float damping = spring.stiffnessDampingLength.y;
+                    //     float targetLength = spring.stiffnessDampingLength.z;
+                    //     PointMass pointMass0 = pointMasses[spring.pointMasses[0]];
+                    //     PointMass pointMass1 = pointMasses[spring.pointMasses[1]];
+                    //     vec3 displacement = pointMass0.position.xyz - pointMass1.position.xyz;
+                    //     float stretchLength = distance(pointMass0.position.xyz, pointMass1.position.xyz);
+                    //     if (stretchLength > targetLength) {
+                    //         displacement = (displacement / stretchLength) * (stretchLength - targetLength);
+                    //         vec3 relativeVelocity = pointMass1.velocity.xyz - pointMass0.velocity.xyz;
+                    //         vec3 force = stiffness * displacement - damping * relativeVelocity;
+                    //         pointMass0.acceleration.xyz -= force * pointMass0.inverseMass;
+                    //         pointMass0.acceleration.w = 0;
+                    //         pointMass1.acceleration.xyz += force * pointMass1.inverseMass;
+                    //         pointMass1.acceleration.w = 0;
+                    //         pointMasses[spring.pointMasses[0]] = pointMass0;
+                    //         pointMasses[spring.pointMasses[1]] = pointMass1;
+                    //     }
+                    // }
                 }
 
                 void process_point_masses()
                 {
                     uint index = gl_GlobalInvocationID.x;
-                    PointMass pointMass = pointMasses[index];
-                    pointMass.velocity.xyz += pointMass.acceleration.xyz * deltaTime;
-                    pointMass.position.xyz += pointMass.velocity.xyz * deltaTime;
-                    if (dot(pointMass.velocity, pointMass.velocity) < 0.001 * 0.001) {
-                        pointMass.velocity *= 0;
+                    if (index < pointMassCount) {
+                        PointMass pointMass = pointMasses[index];
+                        pointMass.velocity.xyz += pointMass.acceleration.xyz;// * deltaTime;
+                        pointMass.position.xyz += pointMass.velocity.xyz;// * deltaTime;
+                        if (dot(pointMass.velocity, pointMass.velocity) < 0.001 * 0.001) {
+                            pointMass.velocity *= 0;
+                        }
+                        pointMass.velocity *= pointMass.damping;
+                        pointMass.acceleration *= 0;
+                        pointMass.damping = 0.98;
+                        pointMasses[index] = pointMass;
                     }
-                    pointMass.velocity *= pointMass.damping;
-                    pointMass.acceleration *= 0;
-                    pointMass.damping = 0.98;
-                    pointMasses[index] = pointMass;
                 }
             )";
 
