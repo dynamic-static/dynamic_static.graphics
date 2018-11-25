@@ -109,10 +109,7 @@ namespace ShapeBlaster {
             }
 
             mPlayer.update(clock, input, playAreaExtent, rng);
-            float v = 5000.0f; // *clock.elapsed<dst::Second<float>>();
-            // float v = 5000.0f / 60.0f * clock.elapsed<dst::Second<float>>();
-            // grid.apply_explosive_force(v, mPlayer.get_position(), 50);
-            //grid.apply_explosive_force(0.5f * glm::length(mPlayer.mVelocity), mPlayer.get_position(), 50);
+            // grid.apply_directed_force(glm::vec3 { 0, 0, 5000 }, mPlayer.get_position(), 50);
 
             for (auto& bullet : mBullets) {
                 bullet.update(clock, input, playAreaExtent, rng);

@@ -105,17 +105,16 @@ namespace ShapeBlaster {
         {
             assert(device);
             assert(renderPass);
-
             int w = (int)(extent.x / spacing.x) + 1;
             int h = (int)(extent.y / spacing.y) + 1;
-            std::vector<PointMass> pointMasses;
-            std::vector<PointMass> fixedPointMasses;
-            // BOOKMARK
+
             std::vector<Spring> springs;
-            pointMasses.reserve(w * h);
             springs.reserve((w - 1) * h + w * (h - 1));
+            std::vector<PointMass> pointMasses;
+            pointMasses.reserve(w * h);
             std::vector<uint16_t> pointMassIndices;
             pointMassIndices.reserve(springs.size() * 2);
+
             for (int y = 0; y < h; ++y) {
                 for (int x = 0; x < w; ++x) {
                     PointMass pointMass { };
@@ -124,24 +123,18 @@ namespace ShapeBlaster {
                     pointMass.position *= glm::vec4(extent, 0, 0);
                     pointMass.position -= glm::vec4(extent, 0, 0) * 0.5f;
                     pointMass.position.w = 1;
-                    pointMass.inverseMass = 1;
-
+                    pointMass.inverseMass = 3.0f;
+            
                     Spring spring { };
                     spring.pointMass0 = y * w + x;
                     spring.stiffness = 0.28f;
                     spring.damping = 0.06f;
-
+            
                     if (x == 0 || y == 0 || x == w - 1 || y == h - 1) {
                         pointMass.inverseMass = 0;
                         spring.stiffness = 0.1f;
                         spring.damping = 0.1f;
-                    } else
-                    if (x % 3 == 0 || y % 3 == 0) {
-                        pointMass.inverseMass = 0;
-                        spring.stiffness = 0.002f;
-                        spring.damping = 0.02f;
                     }
-
                     pointMasses.push_back(pointMass);
                     if (x < w - 1) {
                         spring.pointMass1 = y * w + x + 1;
@@ -153,12 +146,67 @@ namespace ShapeBlaster {
                     }
                 }
             }
+
+            // for (int y = 0; y < h; ++y) {
+            //     for (int x = 0; x < w; ++x) {
+            //         PointMass pointMass { };
+            //         pointMass.position.x = (float)x / (float)w;
+            //         pointMass.position.y = (float)y / (float)h;
+            //         pointMass.position *= glm::vec4(extent, 0, 0);
+            //         pointMass.position -= glm::vec4(extent, 0, 0) * 0.5f;
+            //         pointMass.position.w = 1;
+            //         pointMass.inverseMass = 1;
+            // 
+            //         Spring spring { };
+            //         spring.pointMass0 = y * w + x;
+            //         spring.stiffness = 0.28f;
+            //         spring.damping = 0.06f;
+            // 
+            //         if (x == 0 || y == 0 || x == w - 1 || y == h - 1) {
+            //             pointMass.inverseMass = 0;
+            //             spring.stiffness = 0.1f;
+            //             spring.damping = 0.1f;
+            //         } else
+            //         if (x % 3 == 0 || y % 3 == 0) {
+            //             pointMass.inverseMass = 0;
+            //             spring.stiffness = 0.002f;
+            //             spring.damping = 0.02f;
+            //         }
+            // 
+            //         pointMasses.push_back(pointMass);
+            //         if (x < w - 1) {
+            //             spring.pointMass1 = y * w + x + 1;
+            //             springs.push_back(spring);
+            //         }
+            //         if (y < h - 1) {
+            //             spring.pointMass1 = (y + 1) * w + x;
+            //             springs.push_back(spring);
+            //         }
+            //     }
+            // }
+
             for (auto& spring : springs) {
                 pointMassIndices.push_back(spring.pointMass0);
                 pointMassIndices.push_back(spring.pointMass1);
                 const auto& pointMass0 = pointMasses[spring.pointMass0];
                 const auto& pointMass1 = pointMasses[spring.pointMass1];
                 spring.targetLength = glm::distance(pointMass0.position, pointMass1.position) * 0.95f;
+            }
+
+            for (int y = 0; y < h; ++y) {
+                for (int x = 0; x < w; ++x) {
+                    if (x % 3 == 0 && y % 3 == 0) {
+                        Spring spring { };
+                        spring.pointMass0 = y * w + x;
+                        spring.pointMass1 = (uint32_t)pointMasses.size();
+                        spring.stiffness = 0.002f;
+                        spring.damping = 0.02f;
+                        springs.push_back(spring);
+                        auto fixedPointMass = pointMasses[y * w + x];
+                        fixedPointMass.inverseMass = 0;
+                        pointMasses.push_back(fixedPointMass);
+                    }
+                }
             }
 
             using namespace dst::vk;
@@ -387,37 +435,25 @@ namespace ShapeBlaster {
                     float deltaTime;
                 };
 
-                void PointMass_apply_force(uint index, vec3 force)
-                {
-                    pointMasses[index].acceleration.xyz += force * pointMasses[index].inverseMass;
-                    pointMasses[index].acceleration.w = 0;
-                }
-
-                void PointMass_increase_damping(uint index, float factor)
-                {
-                    pointMasses[index].damping *= factor;
-                }
-
                 void apply_forces()
                 {
                     uint index = gl_GlobalInvocationID.x;
                     PointMass pointMass = pointMasses[index];
                     for (uint i = 0; i < forceCount; ++i) {
                         Force force = forces[i];
-                        vec4 d = force.position - pointMass.position;
+                        vec3 d = force.position.xyz - pointMass.position.xyz;
                         float distanceSquared = dot(d, d);
                         if (distanceSquared < force.radius * force.radius) {
                             switch (force.type) {
                                 case Directed: {
-                                    // pointMass.velocity = force.position;
-                                    PointMass_apply_force(index, force.force.xyz * 10.0 / (10.0 + distance(force.position, pointMass.position)));
+                                    // vec3 force = force.force.xyz * 10.0 / (10.0 + distance(force.position.xyz, pointMass.position.xyz));
+                                    // pointMass.acceleration.xyz += force * pointMass.inverseMass;
+                                } break;
+                                case Implosive: {
+                                    // TODO :
                                 } break;
                                 case Explosive: {
-                                    // PointMass_apply_force(index, pointMass.position.xyz - force.position.xyz / distanceSquared);
-                                    // PointMass_increase_damping(index, 0.6);
-
-                                    // pointMass.position.xyz += normalize(pointMass.position.xyz - force.position.xyz); // / (10000.0 + distanceSquared);
-                                    vec3 force = force.force.x * (pointMass.position.xyz - force.position.xyz) / (10000.0 + distanceSquared);
+                                    vec3 force = force.force.x * 100.0 * (pointMass.position.xyz - force.position.xyz) / (10000.0 + distanceSquared);
                                     pointMass.acceleration.xyz += force * pointMass.inverseMass;
                                     pointMass.damping *= 0.6;
                                 } break;
@@ -425,30 +461,6 @@ namespace ShapeBlaster {
                         }
                     }
                     pointMasses[index] = pointMass;
-
-                    // uint index = gl_GlobalInvocationID.x;
-                    // for (uint i = 0; i < forceCount; ++i) {
-                    //     Force force = forces[i];
-                    //     vec3 forcePosition = vec3(force.position, 0);
-                    //     vec3 pointMassPosition = pointMasses[index].position.xyz;
-                    //     vec3 d = forcePosition - pointMassPosition;
-                    //     float d2 = dot(d, d);
-                    //     if (d2 < force.radius * force.radius) {
-                    //         switch (force.type) {
-                    //             case Directed: {
-                    //                 PointMass_apply_force(index, force.force.xyz * 10.0 / (10.0 + sqrt(d2)));
-                    //             } break;
-                    //             case Implosive: {
-                    //                 PointMass_apply_force(index, force.force.xyz * 10.0 * (forcePosition - pointMassPosition) / (100.0 + d2));
-                    //                 PointMass_increase_damping(index, 0.6);
-                    //             } break;
-                    //             case Explosive: {
-                    //                 PointMass_apply_force(index, force.force.xyz * 100.0 * (pointMassPosition - forcePosition) / (10000.0 + d2));
-                    //                 PointMass_increase_damping(index, 0.6);
-                    //             } break;
-                    //         }
-                    //     }
-                    // }
                 }
 
                 void process_springs()
@@ -471,14 +483,12 @@ namespace ShapeBlaster {
 
                     uint index = gl_GlobalInvocationID.x;
                     Spring spring = springs[index];
-                    PointMass pointMass0 = pointMasses[spring.pointMass0];
-                    PointMass pointMass1 = pointMasses[spring.pointMass1];
-                    vec3 displacement = pointMass0.position.xyz - pointMass1.position.xyz;
+                    vec3 displacement = pointMasses[spring.pointMass0].position.xyz - pointMasses[spring.pointMass1].position.xyz;
                     float stretchLength = length(displacement);
                     if (stretchLength > spring.targetLength) {
                         displacement = (displacement / stretchLength) * (stretchLength - spring.targetLength);
-                        vec3 relativeVelocity = pointMass1.velocity.xyz - pointMass0.velocity.xyz;
-                        vec3 force = /*spring.stiffness*/ 1 * displacement; // - spring.damping * relativeVelocity;
+                        vec3 relativeVelocity = pointMasses[spring.pointMass1].velocity.xyz - pointMasses[spring.pointMass0].velocity.xyz;
+                        vec3 force = spring.stiffness * displacement - relativeVelocity * spring.damping;
                         pointMasses[spring.pointMass0].acceleration.xyz -= force * pointMasses[spring.pointMass0].inverseMass;
                         pointMasses[spring.pointMass0].acceleration.w = 0;
                         pointMasses[spring.pointMass1].acceleration.xyz += force * pointMasses[spring.pointMass1].inverseMass;
@@ -490,8 +500,8 @@ namespace ShapeBlaster {
                 {
                     uint index = gl_GlobalInvocationID.x;
                     PointMass pointMass = pointMasses[index];
-                    pointMass.velocity.xyz += pointMass.acceleration.xyz;// * deltaTime;
-                    pointMass.position.xyz += pointMass.velocity.xyz;// * deltaTime;
+                    pointMass.velocity.xyz += pointMass.acceleration.xyz * deltaTime;
+                    pointMass.position.xyz += pointMass.velocity.xyz * deltaTime;
                     if (dot(pointMass.velocity, pointMass.velocity) < 0.001 * 0.001) {
                         pointMass.velocity *= 0;
                     }
@@ -571,7 +581,7 @@ namespace ShapeBlaster {
                     void main()
                     {
                         gl_Position = camera.projectionFromWorld * vsPosition;
-                        //gl_Position.z = 0;
+                        gl_Position.z = 0;
                         color = velocity;
                         color.a = 1;
                     }
@@ -598,7 +608,7 @@ namespace ShapeBlaster {
 
                         float avgColor = abs(color.r) + abs(color.g) + abs(color.b);
                         avgColor /= 3.0;
-                        fragColor.rgb = vec3(1, 1, 1) * avgColor;
+                        // fragColor.rgb = vec3(1, 1, 1) * avgColor;
                         fragColor += vec4(1,1,1,1) * 0.1;
                         // fragColor = vec4(1, 1, 1, 1);
                     }
