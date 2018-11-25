@@ -77,7 +77,7 @@ namespace ShapeBlaster {
             std::string resourcePath = "../../../examples/resources/ShapeBlaster_AllParts/ShapeBlaster_Part5/ShapeBlaster_Part5Content/";
             mEntityManager = std::make_unique<Entity::Manager>(resourcePath, mDevice, mSwapchainRenderPass);
             // mGrid = std::make_unique<Grid>(mDevice, mSwapchainRenderPass, glm::vec2 { 1024, 1024 }, glm::vec2 { 16, 16 });
-            mGrid = std::make_unique<Grid>(mDevice, mSwapchainRenderPass, glm::vec2 { 1024, 1024 }, glm::vec2 { 16, 16 });
+            mGrid = std::make_unique<Grid>(mDevice, mSwapchainRenderPass, glm::vec2 { 1280, 720 }, glm::vec2 { 24, 24 });
 
             using namespace dst::vk;
             Buffer::CreateInfo cameraUniformBufferCreateInfo { };
