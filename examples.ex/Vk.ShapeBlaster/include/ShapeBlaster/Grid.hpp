@@ -397,29 +397,31 @@ namespace ShapeBlaster {
                 void apply_forces()
                 {
                     uint index = gl_GlobalInvocationID.x;
-                    PointMass pointMass = pointMasses[index];
-                    for (uint i = 0; i < forceCount; ++i) {
-                        Force force = forces[i];
-                        vec3 d = force.position.xyz - pointMass.position.xyz;
-                        float distanceSquared = dot(d, d);
-                        if (distanceSquared < force.radius * force.radius) {
-                            switch (force.type) {
-                                case Directed: {
-                                    // vec3 force = force.force.xyz * 10.0 / (10.0 + distance(force.position.xyz, pointMass.position.xyz));
-                                    // pointMass.acceleration.xyz += force * pointMass.inverseMass;
-                                } break;
-                                case Implosive: {
-                                    // TODO :
-                                } break;
-                                case Explosive: {
-                                    vec3 force = force.force.x * 100.0 * (pointMass.position.xyz - force.position.xyz) / (10000.0 + distanceSquared);
-                                    pointMass.acceleration.xyz += force * pointMass.inverseMass;
-                                    pointMass.damping *= 0.6;
-                                } break;
+                    if (index < pointMassCount) {
+                        PointMass pointMass = pointMasses[index];
+                        for (uint i = 0; i < forceCount; ++i) {
+                            Force force = forces[i];
+                            vec3 d = force.position.xyz - pointMass.position.xyz;
+                            float distanceSquared = dot(d, d);
+                            if (distanceSquared < force.radius * force.radius) {
+                                switch (force.type) {
+                                    case Directed: {
+                                        // vec3 force = force.force.xyz * 10.0 / (10.0 + distance(force.position.xyz, pointMass.position.xyz));
+                                        // pointMass.acceleration.xyz += force * pointMass.inverseMass;
+                                    } break;
+                                    case Implosive: {
+                                        // TODO :
+                                    } break;
+                                    case Explosive: {
+                                        vec3 f = force.force.x * 100.0 * (pointMass.position.xyz - force.position.xyz) / (10000.0 + distanceSquared);
+                                        pointMass.acceleration.xyz += f * pointMass.inverseMass;
+                                        pointMass.damping *= 0.6;
+                                    } break;
+                                }
                             }
                         }
+                        pointMasses[index] = pointMass;
                     }
-                    pointMasses[index] = pointMass;
                 }
 
                 void process_springs()
@@ -608,7 +610,7 @@ namespace ShapeBlaster {
 
                         float avgColor = abs(color.r) + abs(color.g) + abs(color.b);
                         avgColor /= 3.0;
-                        // fragColor.rgb = vec3(1, 1, 1) * avgColor;
+                        fragColor.rgb = vec3(1, 1, 1) * avgColor;
                         fragColor += vec4(1,1,1,1) * 0.1;
                         // fragColor = vec4(1, 1, 1, 1);
                     }
