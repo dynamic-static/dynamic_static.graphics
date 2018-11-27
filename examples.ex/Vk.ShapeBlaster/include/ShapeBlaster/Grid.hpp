@@ -289,7 +289,7 @@ namespace ShapeBlaster {
             countBuffer.pointMassCount = mPointMassCount;
             countBuffer.springCount = mSpringCount;
             countBuffer.deltaTime = clock.elapsed<dst::Second<float>>();
-            std::cout << countBuffer.forceCount << std::endl;
+            // std::cout << countBuffer.forceCount << std::endl;
             mCountBuffer->write<CountBuffer>({ &countBuffer, 1 });
             mForces.clear();
 
@@ -406,8 +406,7 @@ namespace ShapeBlaster {
                             if (distanceSquared < force.radius * force.radius) {
                                 switch (force.type) {
                                     case Directed: {
-                                        // vec3 force = force.force.xyz * 10.0 / (10.0 + distance(force.position.xyz, pointMass.position.xyz));
-                                        // pointMass.acceleration.xyz += force * pointMass.inverseMass;
+                                        // TODO :
                                     } break;
                                     case Implosive: {
                                         // TODO :
@@ -440,13 +439,11 @@ namespace ShapeBlaster {
                     //  Damping is needed to simulate energy loss and ensures
                     //  that springs don't oscillate forever.
                     //  F = -kx - bv
-                    //  Force = -stiffness * displacement - damping * relativeVelocityBetweenPoints;
+                    //  Force = -stiffness * displacement - damping * relativeVelocity;
 
                     uint index = gl_GlobalInvocationID.x;
                     if (index == 0) {
-                    
                         for (int i = 0; i < springCount; ++i) {
-                    
                             Spring spring = springs[i];
                             float stiffness = spring.stiffnessDampingLength.x;
                             float damping = spring.stiffnessDampingLength.y;
@@ -466,9 +463,7 @@ namespace ShapeBlaster {
                                 pointMasses[spring.pointMasses[0]] = pointMass0;
                                 pointMasses[spring.pointMasses[1]] = pointMass1;
                             }
-                    
                         }
-                    
                     }
 
                     // uint index = gl_GlobalInvocationID.x;
@@ -610,9 +605,9 @@ namespace ShapeBlaster {
 
                         float avgColor = abs(color.r) + abs(color.g) + abs(color.b);
                         avgColor /= 3.0;
-                        fragColor.rgb = vec3(1, 1, 1) * avgColor;
-                        fragColor += vec4(1,1,1,1) * 0.1;
-                        // fragColor = vec4(1, 1, 1, 1);
+                        fragColor.rgb += vec3(1, 1, 1) * avgColor;
+                        /// // fragColor += vec4(1,1,1,1) * 0.1;
+                        /// // fragColor = vec4(1, 1, 1, 1);
                     }
                 )"
             );

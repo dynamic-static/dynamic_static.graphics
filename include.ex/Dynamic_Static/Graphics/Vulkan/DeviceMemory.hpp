@@ -29,6 +29,9 @@ namespace vk {
         , public SharedObject<DeviceMemory>
         , public DeviceChild
     {
+    private:
+        friend class Device;
+
     public:
         /*!
         Configuration parameters for DeviceMemory allocation.
@@ -184,9 +187,6 @@ namespace vk {
             }
             return memory;
         }
-
-    private:
-        friend class Device;
     };
 
 } // namespace vk
