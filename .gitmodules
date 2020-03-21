@@ -1,0 +1,3 @@
+[submodule "external/Dynamic_Static.System"]
+	path = external/Dynamic_Static.System
+	url = https://github.com/DynamicStatic/Dynamic_Static.System.git
