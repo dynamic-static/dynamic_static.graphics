@@ -1,4 +1,5 @@
 
+#if 0
 /*
 ==========================================
     Copyright (c) 2017 Dynamic_Static
@@ -21,4 +22,5 @@
 
 #if defined(DYNAMIC_STATIC_MSVC)
 #pragma warning(pop)
+#endif
 #endif

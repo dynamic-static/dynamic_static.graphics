@@ -18,26 +18,151 @@ option(DST_GFX_BUILD_EXAMPLES "TODO : Documentation" OFF)
 
 # External dependencies
 add_subdirectory("${externalDirectory}/Dynamic_Static.System/")
+find_package(Vulkan REQUIRED)
 include(glslang)
 include(SPIRV-Cross)
 list(APPEND linkLibraries Dynamic_Static.System)
+list(APPEND linkLibraries Vulkan::Vulkan)
+
+# Dynamic_Static.Graphics generator
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/build-support/")
 
 # Dynamic_Static.Graphics library
 set(includeDirectory "${CMAKE_CURRENT_LIST_DIR}/include.ex/")
-set(includePath "${includeDirectory}/dynamic_static/system/")
+set(includePath "${includeDirectory}/dynamic_static/graphics/")
 set(sourcePath "${CMAKE_CURRENT_LIST_DIR}/source.ex/dynamic_static/graphics/")
 DstAddStaticLibrary(
     target Dynamic_Static.Graphics
-    target Dynamic_Static.Graphics/
+    folder Dynamic_Static.Graphics/
     linkLibraries "${linkLibraries}"
     includeDirectories
         "${includeDirectory}"
         "${CMAKE_CURRENT_LIST_DIR}/include/"
 
     includeFiles
+        "${includePath}/vulkan/application.hpp"
         "${includePath}/vulkan/defines.hpp"
+        "${includePath}/application.hpp"
         "${includePath}/defines.hpp"
         "${includePath}/vulkan.hpp"
+
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Effects/Bloom.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Effects/BloomCombine.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Effects/ExtractLuminance.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Effects/GaussianBlur.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/ImGui/ImGui.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Primitives/Box.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Primitives/Quad.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/VertexTypes/VertexPositionColor.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/VertexTypes/VertexPositionTexCoord.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/VertexTypes/VertexPositionTexCoordColor.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Application.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Buffer.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Command.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Command.Buffer.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Command.Pool.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/DebugReport.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Defines.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Descriptor.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Descriptor.Pool.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Descriptor.Set.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Descriptor.Set.Layout.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Device.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/DeviceChild.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Effect.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Framebuffer.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Image.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Image.View.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/IndexBuffer.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Instance.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Memory.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Mesh.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Object.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/PhysicalDevice.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Pipeline.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Pipeline.Layout.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Queue.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/RenderPass.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/RenderTarget.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Sampler.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Semaphore.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/ShaderModule.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/ShaderModule.Compiler.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/ShaderModule.Reflector.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/SurfaceKHR.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/SwapchainKHR.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Vertex.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/VertexTypes.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/VulkanHppInclude.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/VulkanInclude.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Application.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Camera.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Camera.Controller.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/FreeCameraController.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Defines.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/GLTFCache.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/GLTFReader.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/ImageCache.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/ImageReader.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Object.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan.hpp
+
+    sourceFiles
+        "${sourcePath}/vulkan/application.cpp"
+        "${sourcePath}/application.cpp"
+
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Effects/Bloom.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Effects/BloomCombine.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Effects/ExtractLuminance.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Effects/GaussianBlur.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/ImGui/ImGui.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Primitives/Box.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Primitives/Quad.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Application.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Buffer.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Command.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Command.Buffer.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Command.Pool.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/DebugReport.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Descriptor.Pool.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Descriptor.Set.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Descriptor.Set.Layout.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Device.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/DeviceChild.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Effect.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Framebuffer.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Image.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Image.View.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/IndexBuffer.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Instance.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Memory.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Mesh.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/PhysicalDevice.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Pipeline.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Pipeline.Layout.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Queue.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/RenderPass.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/RenderTarget.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Sampler.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Semaphore.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/ShaderModule.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/ShaderModule.Compiler.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/ShaderModule.Reflector.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/SurfaceKHR.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/SwapchainKHR.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Application.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Camera.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Camera.Controller.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/FreeCameraController.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/GLTFCache.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/GLTFReader.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/ImageCache.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/ImageReader.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Object.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/StbImageInclude.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/StbImageInclude.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/TinyGLTFInclude.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/TinyGLTFInclude.cpp
 )
 
 # Examples

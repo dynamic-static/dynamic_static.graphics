@@ -1,4 +1,5 @@
 
+#if 0
 /*
 ==========================================
     Copyright (c) 2017 Dynamic_Static
@@ -47,3 +48,4 @@ namespace Graphics {
 
 } // namespace Graphics
 } // namespace Dynamic_Static
+#endif

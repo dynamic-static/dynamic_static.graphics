@@ -1,4 +1,5 @@
 
+#if 0
 /*
 ==========================================
     Copyright (c) 2017 Dynamic_Static
@@ -13,3 +14,4 @@
 #define STB_IMAGE_IMPLEMENTATION
 #endif
 #include "external/stb_image.h"
+#endif

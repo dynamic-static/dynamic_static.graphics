@@ -1,4 +1,5 @@
 
+#if 0
 /*
 ==========================================
     Copyright (c) 2017 Dynamic_Static
@@ -47,3 +48,4 @@
 
 #include "Dynamic_Static/Graphics/Vulkan/Primitives/Box.hpp"
 #include "Dynamic_Static/Graphics/Vulkan/Primitives/Quad.hpp"
+#endif

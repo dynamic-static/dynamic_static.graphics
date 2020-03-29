@@ -101,7 +101,6 @@ dst_add_static_library(
         ${includePath}/Vulkan/VertexTypes.hpp
         ${includePath}/Vulkan/VulkanHppInclude.hpp
         ${includePath}/Vulkan/VulkanInclude.hpp
-
         ${includePath}/Application.hpp
         ${includePath}/Camera.hpp
         ${includePath}/Camera.Controller.hpp
@@ -154,7 +153,6 @@ dst_add_static_library(
         ${sourcePath}/Vulkan/ShaderModule.Reflector.cpp
         ${sourcePath}/Vulkan/SurfaceKHR.cpp
         ${sourcePath}/Vulkan/SwapchainKHR.cpp
-
         ${sourcePath}/Application.cpp
         ${sourcePath}/Camera.cpp
         ${sourcePath}/Camera.Controller.cpp

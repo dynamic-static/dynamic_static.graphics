@@ -1,4 +1,5 @@
 
+#if 0
 /*
 ==========================================
     Copyright (c) 2017 Dynamic_Static
@@ -134,3 +135,4 @@ namespace Dynamic_Static {
     }
 
 } // namespace Dynamic_Static
+#endif

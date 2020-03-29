@@ -1,4 +1,5 @@
 
+#if 0
 /*
 ==========================================
     Copyright (c) 2017 Dynamic_Static
@@ -259,3 +260,4 @@ namespace vlkn = Vulkan;
 } // namespace Graphics
 namespace vlkn = gfx::vlkn;
 } // namespace Dynamic_Static
+#endif

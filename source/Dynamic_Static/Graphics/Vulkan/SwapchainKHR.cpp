@@ -1,4 +1,5 @@
 
+#if 0
 /*
 ==========================================
     Copyright (c) 2017 Dynamic_Static
@@ -203,3 +204,4 @@ namespace Vulkan {
 } // namespace Vulkan
 } // namespace Graphics
 } // namespace Dynamic_Static
+#endif
