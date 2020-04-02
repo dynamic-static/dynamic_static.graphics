@@ -10,18 +10,22 @@
 cmake_minimum_required(VERSION 3.3 FATAL_ERROR)
 project(Dynamic_Static.Graphics VERSION 2.0.0)
 set(CMAKE_CXX_STANDARD 17)
+set(dynamic_static "${CMAKE_CURRENT_LIST_DIR}/../")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/")
-set(externalDirectory "${CMAKE_CURRENT_LIST_DIR}/external/")
+include("${dynamic_static}/Dynamic_Static.CMake/Dynamic_Static.ex.cmake")
+DstAddSubdirectory("Dynamic_Static.Core")
+DstAddSubdirectory("Dynamic_Static.System")
+DstAddSubdirectory("Dynamic_Static.VkXmlParser")
 
 # Options
 option(DST_GFX_BUILD_EXAMPLES "TODO : Documentation" OFF)
 
 # External dependencies
-add_subdirectory("${externalDirectory}/Dynamic_Static.System/")
+set(externalDirectory "${CMAKE_CURRENT_LIST_DIR}/external/")
 find_package(Vulkan REQUIRED)
 include(glslang)
 include(SPIRV-Cross)
-list(APPEND linkLibraries Dynamic_Static.System)
+list(APPEND linkLibraries dynamic_static.system)
 list(APPEND linkLibraries Vulkan::Vulkan)
 
 # Dynamic_Static.Graphics generator
@@ -32,8 +36,7 @@ set(includeDirectory "${CMAKE_CURRENT_LIST_DIR}/include.ex/")
 set(includePath "${includeDirectory}/dynamic_static/graphics/")
 set(sourcePath "${CMAKE_CURRENT_LIST_DIR}/source.ex/dynamic_static/graphics/")
 DstAddStaticLibrary(
-    target Dynamic_Static.Graphics
-    folder Dynamic_Static.Graphics/
+    target dynamic_static.graphics
     linkLibraries "${linkLibraries}"
     includeDirectories
         "${includeDirectory}"

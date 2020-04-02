@@ -24,3 +24,21 @@
 #endif
 #endif
 #include "vulkan/vulkan.h"
+
+// #define DYNAMIC_STATIC_VALIDATE_VK_CALLS
+#ifdef DYNAMIC_STATIC_VALIDATE_VK_CALLS
+#define dst_vk // TODO :
+#else
+#define dst_vk(VK_VALL) VK_CALL
+#endif
+
+namespace dst {
+namespace gfx {
+namespace vk {
+
+
+
+} // namespace vk
+} // namespace gfx
+namespace vk = gfx::vk;
+} // namespace dst

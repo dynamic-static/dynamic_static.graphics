@@ -48,3 +48,4 @@ namespace Vulkan {
 } // namespace Vulkan
 } // namespace Graphics
 } // namespace Dynamic_Static
+#endif

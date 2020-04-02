@@ -1,3 +1,6 @@
 [submodule "external/Dynamic_Static.System"]
 	path = external/Dynamic_Static.System
 	url = https://github.com/DynamicStatic/Dynamic_Static.System.git
+[submodule "external/Dynamic_Static.VkXmlParser"]
+	path = external/Dynamic_Static.VkXmlParser
+	url = https://github.com/DynamicStatic/Dynamic_Static.VkXmlParser.git
