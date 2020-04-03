@@ -16,6 +16,7 @@ include("${dynamic_static}/Dynamic_Static.CMake/Dynamic_Static.ex.cmake")
 DstAddSubdirectory("Dynamic_Static.Core")
 DstAddSubdirectory("Dynamic_Static.System")
 DstAddSubdirectory("Dynamic_Static.VkXmlParser")
+DstAddSubdirectory("Dynamic_Static.CppGenerator")
 
 # Options
 option(DST_GFX_BUILD_EXAMPLES "TODO : Documentation" OFF)
@@ -31,16 +32,46 @@ list(APPEND linkLibraries Vulkan::Vulkan)
 # Dynamic_Static.Graphics generator
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/build-support/")
 
+################################################################################
+# TODO :
+DstAddExecutable(
+    target
+        generator
+    folder
+        dynamic_static.graphics
+    linkLibraries
+        dynamic_static.cpp-generator
+        dynamic_static.vk-xml-parser
+    sourceFiles
+        generator.cpp
+)
+add_custom_command(
+    OUTPUT
+        ${CMAKE_BINARY_DIR}/handles.hpp
+        ${CMAKE_BINARY_DIR}/handles.cpp
+    COMMAND
+        generator
+    WORKING_DIRECTORY
+        ${CMAKE_BINARY_DIR}
+    DEPENDS
+        generator
+)
+################################################################################
+
 # Dynamic_Static.Graphics library
 set(includeDirectory "${CMAKE_CURRENT_LIST_DIR}/include.ex/")
 set(includePath "${includeDirectory}/dynamic_static/graphics/")
 set(sourcePath "${CMAKE_CURRENT_LIST_DIR}/source.ex/dynamic_static/graphics/")
 DstAddStaticLibrary(
-    target dynamic_static.graphics
-    linkLibraries "${linkLibraries}"
+    target
+        dynamic_static.graphics
+    linkLibraries
+        "${linkLibraries}"
     includeDirectories
         "${includeDirectory}"
         "${CMAKE_CURRENT_LIST_DIR}/include/"
+
+        ${CMAKE_BINARY_DIR}/
 
     includeFiles
         "${includePath}/vulkan/application.hpp"
@@ -48,6 +79,8 @@ DstAddStaticLibrary(
         "${includePath}/application.hpp"
         "${includePath}/defines.hpp"
         "${includePath}/vulkan.hpp"
+
+        ${CMAKE_BINARY_DIR}/handles.hpp
 
         ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Effects/Bloom.hpp
         ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Effects/BloomCombine.hpp
@@ -113,6 +146,8 @@ DstAddStaticLibrary(
     sourceFiles
         "${sourcePath}/vulkan/application.cpp"
         "${sourcePath}/application.cpp"
+
+        ${CMAKE_BINARY_DIR}/handles.cpp
 
         ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Effects/Bloom.cpp
         ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Effects/BloomCombine.cpp
