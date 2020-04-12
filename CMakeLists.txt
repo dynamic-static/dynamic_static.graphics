@@ -14,9 +14,9 @@ set(dynamic_static "${CMAKE_CURRENT_LIST_DIR}/../")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/")
 include("${dynamic_static}/Dynamic_Static.CMake/Dynamic_Static.ex.cmake")
 DstAddSubdirectory("Dynamic_Static.Core")
+DstAddSubdirectory("Dynamic_Static.CppGenerator")
 DstAddSubdirectory("Dynamic_Static.System")
 DstAddSubdirectory("Dynamic_Static.VkXmlParser")
-DstAddSubdirectory("Dynamic_Static.CppGenerator")
 
 # Options
 option(DST_GFX_BUILD_EXAMPLES "TODO : Documentation" OFF)
@@ -29,36 +29,42 @@ include(SPIRV-Cross)
 list(APPEND linkLibraries dynamic_static.system)
 list(APPEND linkLibraries Vulkan::Vulkan)
 
-# Dynamic_Static.Graphics generator
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/build-support/")
+#### # dynamic_static.vulkan.generator
+#### set(generatorSourcePath "${CMAKE_CURRENT_LIST_DIR}/generator/")
+#### set(generatedIncludeDirectory "${CMAKE_CURRENT_BINARY_DIR}/generated/include/")
+#### set(generatedIncludePath "${generatedIncludeDirectory}/dynamic_static/vulkan/")
+#### set(generatedSourcePath "${CMAKE_CURRENT_BINARY_DIR}/generated/source/dynamic_static/vulkan/")
+#### set(generatedIncludeFiles
+####     "${generatedIncludePath}/create-structure-copy.hpp"
+####     # "${generatedIncludePath}/destroy-structure-copy.hpp"
+####     # "${generatedIncludePath}/managed-handles.hpp"
+####     # "${generatedIncludePath}/process-handles.hpp"
+#### )
+#### set(generatedSourceFiles
+####     "${generatedSourcePath}/create-structure-copy.cpp"
+####     # "${generatedSourcePath}/destroy-structure-copy.cpp"
+####     # "${generatedSourcePath}/managed-handles.cpp"
+####     # "${generatedSourcePath}/process-handles.cpp"
+#### )
+#### DstAddGenerator(
+####     target generator
+####     folder dynamic_static.graphics
+####     linkLibraries dynamic_static.vk-xml-parser
+####     inputs "D:/Users/purcellp/Documents/vk.xml"
+####     sourceFiles
+####         "${generatorSourcePath}/create-structure-copy-generator.hpp"
+####         "${generatorSourcePath}/destroy-structure-copy-generator.hpp"
+####         "${generatorSourcePath}/managed-handles-generator.hpp"
+####         "${generatorSourcePath}main.cpp"
+####     generatedFiles
+####         "${generatedIncludeFiles}"
+####         "${generatedSourceFiles}"
+#### )
+#### # TODO : Get rid of the need for transforming the genereated file lists...
+#### # list(TRANSFORM generatedIncludeFiles PREPEND "${CMAKE_CURRENT_BINARY_DIR}/")
+#### # list(TRANSFORM generatedSourceFiles PREPEND "${CMAKE_CURRENT_BINARY_DIR}/")
 
-################################################################################
-# TODO :
-DstAddExecutable(
-    target
-        generator
-    folder
-        dynamic_static.graphics
-    linkLibraries
-        dynamic_static.cpp-generator
-        dynamic_static.vk-xml-parser
-    sourceFiles
-        generator.cpp
-)
-add_custom_command(
-    OUTPUT
-        ${CMAKE_BINARY_DIR}/handles.hpp
-        ${CMAKE_BINARY_DIR}/handles.cpp
-    COMMAND
-        generator
-    WORKING_DIRECTORY
-        ${CMAKE_BINARY_DIR}
-    DEPENDS
-        generator
-)
-################################################################################
-
-# Dynamic_Static.Graphics library
+# dynamic_static.vulkan library
 set(includeDirectory "${CMAKE_CURRENT_LIST_DIR}/include.ex/")
 set(includePath "${includeDirectory}/dynamic_static/graphics/")
 set(sourcePath "${CMAKE_CURRENT_LIST_DIR}/source.ex/dynamic_static/graphics/")
@@ -69,9 +75,9 @@ DstAddStaticLibrary(
         "${linkLibraries}"
     includeDirectories
         "${includeDirectory}"
-        "${CMAKE_CURRENT_LIST_DIR}/include/"
+        #### "${generatedIncludeDirectory}/"
 
-        ${CMAKE_BINARY_DIR}/
+        ${CMAKE_CURRENT_LIST_DIR}/include/
 
     includeFiles
         "${includePath}/vulkan/application.hpp"
@@ -79,8 +85,7 @@ DstAddStaticLibrary(
         "${includePath}/application.hpp"
         "${includePath}/defines.hpp"
         "${includePath}/vulkan.hpp"
-
-        ${CMAKE_BINARY_DIR}/handles.hpp
+        #### "${generatedIncludeFiles}"
 
         ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Effects/Bloom.hpp
         ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan/Effects/BloomCombine.hpp
@@ -146,8 +151,7 @@ DstAddStaticLibrary(
     sourceFiles
         "${sourcePath}/vulkan/application.cpp"
         "${sourcePath}/application.cpp"
-
-        ${CMAKE_BINARY_DIR}/handles.cpp
+        #### "${generatedSourceFiles}"
 
         ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Effects/Bloom.cpp
         ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/Vulkan/Effects/BloomCombine.cpp
