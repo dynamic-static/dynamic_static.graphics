@@ -23,6 +23,9 @@
 #define VK_USE_PLATFORM_XLIB_KHR 1
 #endif
 #endif
+#ifndef VK_ENABLE_BETA_EXTENSIONS
+#define VK_ENABLE_BETA_EXTENSIONS
+#endif
 #include "vulkan/vulkan.h"
 
 // #define DYNAMIC_STATIC_VALIDATE_VK_CALLS

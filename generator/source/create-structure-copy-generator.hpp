@@ -8,12 +8,141 @@
 ==========================================
 */
 
+#include "dynamic_static/core/string.hpp"
 #include "dynamic_static/cpp-generator.hpp"
 #include "dynamic_static/vk-xml-parser.hpp"
+
+#include <fstream>
 
 namespace dst {
 namespace vk {
 namespace cppgen {
+
+inline std::string strip_vk(const std::string& str)
+{
+    return string::remove(string::remove(string::remove(str, "VK_"), "Vk"), "vk");
+}
+
+/**
+TODO : Documentation
+*/
+class CreateStructureCopyGenerator final
+{
+public:
+    /**
+    TODO : Documentation
+    */
+    inline CreateStructureCopyGenerator(const xml::Manifest& xmlManifest)
+    {
+        using namespace dst::cppgen;
+        CppFunction::Collection cppFunctions;
+        for (const auto& structureitr : xmlManifest.structures) {
+            const auto& structure = structureitr.second;
+            if (!structure.alias.empty()) {
+                continue;
+            }
+            CppFunction cppFunction { };
+            cppFunction.cppDocumentation.brief = "Gets a deep copy of a given " + structure.name;
+            cppFunction.cppDocumentation.notes.push_back(
+                string::replace(
+                    "Any ${VK_STRUCTURE_TYPE} copied via create_structure_copys() must be destroyed via destroy_structure_copy()",
+                    {{ "${VK_STRUCTURE_TYPE}", structure.name }}
+                )
+            );
+            cppFunction.cppDocumentation.notes.push_back(
+                string::replace(
+                    "Prefer Managed<${VK_STRUCTURE_TYPE}> over direct usage of create_structure_copy()/destroy_structure_copy()",
+                    {{ "${VK_STRUCTURE_TYPE}", structure.name }}
+                )
+            );
+            cppFunction.cppCompileGuards.insert(structure.compileGuard);
+            cppFunction.cppTemplate.cppSpecializations.push_back(structure.name);
+            cppFunction.cppReturn = structure.name;
+            cppFunction.name = "create_structure_copy";
+            CppParameter vkStructureCppParameter { };
+            vkStructureCppParameter.cppDocumentation.brief = "A const reference to the ${VK_STRUCTURE_TYPE} to copy";
+            vkStructureCppParameter.type = "const " + structure.name + "&";
+            vkStructureCppParameter.name = "obj";
+            cppFunction.cppParameters.push_back(vkStructureCppParameter);
+            CppParameter vkAllocationCallbacksCppParameter { };
+            vkAllocationCallbacksCppParameter.cppDocumentation.brief = "A const pointer to a VkAllocationCallbacks structure to use while copying the given ${VK_STRUCTURE_TYPE}";
+            vkAllocationCallbacksCppParameter.cppDocumentation.notes.push_back("If pVkAllocationCallbacks is null any allocations will use new()");
+            vkAllocationCallbacksCppParameter.cppDocumentation.notes.push_back("If pVkAllocationCallbacks is not null the call to ${DESTROY_FUNCTION_NAME}() must provide a compatible VkAllocationCallbacks structure");
+            vkAllocationCallbacksCppParameter.type = "const VkAllocationCallbacks*";
+            vkAllocationCallbacksCppParameter.name = "pAllocationCallbacks";
+            vkAllocationCallbacksCppParameter.value = "nullptr";
+            cppFunction.cppParameters.push_back(vkAllocationCallbacksCppParameter);
+            cppFunction.cppSourceBlock.replacements.push_back({ "${VK_STRUCTURE_TYPE}", structure.name });
+            cppFunction.cppSourceBlock.add_snippet(R"(
+                ${VK_STRUCTURE_TYPE} result { };
+            )");
+            for (const auto& member : structure.members) {
+                cppFunction.cppSourceBlock.add_snippet(
+                    generate_member_copy_snippet(xmlManifest, member),
+                    {
+                        { "${MEMBER_NAME}", member.name },
+                        { "${MEMBER_LENGTH}", member.length },
+                    }
+                );
+            }
+            cppFunction.cppSourceBlock.add_snippet(R"(
+                return result;
+            )");
+            cppFunctions.push_back(cppFunction);
+        }
+        std::ofstream headerFile("create-structure-copy.hpp");
+        if (headerFile.is_open()) {
+            headerFile << cppFunctions.generate_declaration();
+        }
+        std::ofstream sourceFile("create-structure-copy.cpp");
+        if (sourceFile.is_open()) {
+            sourceFile << cppFunctions.generate_definition();
+        }
+    }
+
+private:
+    inline std::string generate_member_copy_snippet(
+        const vk::xml::Manifest& vkXmlManifest,
+        const vk::xml::Parameter& vkStructureMember
+    )
+    {
+        if (vkStructureMember.name == "pNext") {
+            return "result.pNext = create_pnext_copy(obj.pNext, pAllocationCallbacks)";
+        } else
+        if (vkStructureMember.flags & xml::Parameter::Array) {
+            if (vkStructureMember.flags & xml::Parameter::StringArray) {
+                return "// TODO : String Array : ${MEMBER_NAME}";
+            } else 
+            if (vkStructureMember.flags & xml::Parameter::StaticArray) {
+                if (vkStructureMember.flags & xml::Parameter::String) {
+                    return "// TODO : Static String Array : ${MEMBER_NAME}";
+                } else {
+                    return "// TODO : Static Array : ${MEMBER_NAME}";
+                }
+            }
+            if (vkStructureMember.flags & xml::Parameter::DynamicArray) {
+                if (vkStructureMember.flags & xml::Parameter::String) {
+                    return "result.${MEMBER_NAME} = create_dynamic_string_array_copy(obj.${MEMBER_LENGTH}, obj.${MEMBER_NAME}, pAllocationCallbacks);";
+                } else {
+                    return "result.${MEMBER_NAME} = create_dynamic_array_copy(obj.${MEMBER_LENGTH}, obj.${MEMBER_NAME}, pAllocationCallbacks);";
+                }
+            }
+        } else
+        if (vkStructureMember.flags & xml::Parameter::Pointer) {
+            if (vkStructureMember.flags & xml::Parameter::FunctionPointer) {
+                return "result.${MEMBER_NAME} = obj.${MEMBER_NAME};";
+            } else {
+                return "// TODO : Pointer : ${MEMBER_NAME}";
+            }
+        } else
+        if (vkXmlManifest.handles.find(vkStructureMember.type) != vkXmlManifest.handles.end()) {
+            return "result.${MEMBER_NAME} = obj.${MEMBER_NAME};";
+        }
+        return "result.${MEMBER_NAME} = create_structure_copy(obj.${MEMBER_NAME}, pAllocationCallbacks);";
+    }
+};
+
+#if 0
 
 inline std::string strip_vk(const std::string& str)
 {
@@ -125,6 +254,8 @@ public:
 
     dst::cppgen::Module module; //!< TODO : Documentation
 };
+
+#endif
 
 } // namespace cppgen
 } // namespace vk

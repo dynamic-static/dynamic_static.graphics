@@ -18,8 +18,6 @@
 #include <string>
 #include <vector>
 
-#include <iostream>
-
 inline std::string vk_handle_function_name(const std::string& vkHandleTypeName)
 {
     std::string result;
@@ -43,15 +41,12 @@ inline std::string vk_handle_parameter_name(const std::string& vkHandleTypeName)
 
 int main(int argc, char* argv[])
 {
-    for (int i = 0; i < argc; ++i) {
-        std::cout << argv[i] << std::endl;
-    }
-    auto vkXmlFilePath = "D:/Users/purcellp/Documents/vk.xml";
-    dst::vk::xml::Manifest vkXmlManifest(vkXmlFilePath);
-    dst::vk::cppgen::CreateStructureCopyGenerator createStructureCopyGenerator(vkXmlManifest, "dynamic_static/vulkan/");
-    createStructureCopyGenerator.module.write(
-        "generated/include/dynamic_static/vulkan/",
-        "generated/source/dynamic_static/vulkan/"
-    );
+    dst::vk::xml::Manifest vkXmlManifest;
+    dst::vk::cppgen::CreateStructureCopyGenerator g(vkXmlManifest);
+    // dst::vk::cppgen::CreateStructureCopyGenerator createStructureCopyGenerator(vkXmlManifest, "dynamic_static/vulkan/");
+    // createStructureCopyGenerator.module.write(
+    //     "generated/include/dynamic_static/vulkan/",
+    //     "generated/source/dynamic_static/vulkan/"
+    // );
     return 0;
 }
