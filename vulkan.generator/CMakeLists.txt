@@ -8,19 +8,16 @@ set(generatedIncludeFiles
     "${generatedIncludePath}/create-structure-copy.hpp"
     # "${generatedIncludePath}/destroy-structure-copy.hpp"
     # "${generatedIncludePath}/managed-handles.hpp"
-    # "${generatedIncludePath}/process-handles.hpp"
 )
 set(generatedSourceFiles
     "${generatedSourcePath}/create-structure-copy.cpp"
     # "${generatedSourcePath}/destroy-structure-copy.cpp"
     # "${generatedSourcePath}/managed-handles.cpp"
-    # "${generatedSourcePath}/process-handles.cpp"
 )
 DstAddGenerator(
-    target generator
+    target dynamic_static.graphics.vulkan.generator
     folder dynamic_static.graphics
     linkLibraries dynamic_static.vk-xml-parser
-    inputs "D:/Users/purcellp/Documents/vk.xml"
     sourceFiles
         "${generatorSourcePath}/create-structure-copy-generator.hpp"
         "${generatorSourcePath}/destroy-structure-copy-generator.hpp"

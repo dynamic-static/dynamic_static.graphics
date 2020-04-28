@@ -30,7 +30,7 @@ list(APPEND linkLibraries dynamic_static.system)
 list(APPEND linkLibraries Vulkan::Vulkan)
 
 # dynamic_static.vulkan library
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/generator/")
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/vulkan.generator/")
 set(includeDirectory "${CMAKE_CURRENT_LIST_DIR}/include.ex/")
 set(includePath "${includeDirectory}/dynamic_static/graphics/")
 set(sourcePath "${CMAKE_CURRENT_LIST_DIR}/source.ex/dynamic_static/graphics/")
