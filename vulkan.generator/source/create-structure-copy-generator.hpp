@@ -50,16 +50,16 @@ public:
             if (!structure.alias.empty()) {
                 continue;
             }
-            CppFunction cppFunction { };
+            CppFunction cppFunction;
             cppFunction.cppCompileGuards.insert(structure.compileGuard);
-            cppFunction.cppTemplate.cppSpecializations.push_back(structure.name);
+            cppFunction.cppTemplate.cppSpecializations = { structure.name };
             cppFunction.cppReturn = structure.name;
             cppFunction.name = "create_structure_copy";
-            CppParameter objCppParameter { };
+            CppParameter objCppParameter;
             objCppParameter.type = "const " + structure.name + "&";
             objCppParameter.name = "obj";
             cppFunction.cppParameters.push_back(objCppParameter);
-            CppParameter pAllocationCallbacksCppParameter { };
+            CppParameter pAllocationCallbacksCppParameter;
             pAllocationCallbacksCppParameter.type = "const VkAllocationCallbacks*";
             pAllocationCallbacksCppParameter.name = "pAllocationCallbacks";
             pAllocationCallbacksCppParameter.value = "nullptr";
@@ -107,7 +107,7 @@ private:
     )
     {
         if (vkXmlStructureMember.name == "pNext") {
-            return "result.pNext = create_pnext_copy(obj.pNext, pAllocationCallbacks)";
+            return "result.pNext = create_pnext_copy(obj.pNext, pAllocationCallbacks);";
         } else
         if (vkXmlStructureMember.flags & xml::Parameter::Array) {
             if (vkXmlStructureMember.flags & xml::Parameter::StringArray) {
@@ -132,7 +132,7 @@ private:
             if (vkXmlStructureMember.flags & xml::Parameter::FunctionPointer) {
                 return "result.${MEMBER_NAME} = obj.${MEMBER_NAME};";
             } else {
-                return "result.${MEMBER_NAME} = create_dynamic_array_copy(1, obj.${MEMBER_NAME}, pAllocationCallbacks);";
+                return "result.${MEMBER_NAME} = create_vk_structure_dynamic_array_copy(1, obj.${MEMBER_NAME}, pAllocationCallbacks);";
             }
         } else
         if (vkXmlManifest.handles.find(vkXmlStructureMember.type) != vkXmlManifest.handles.end()) {
@@ -144,18 +144,53 @@ private:
     inline dst::cppgen::CppFunction generate_pnext_handler(const vk::xml::Manifest& vkXmlManifest)
     {
         using namespace dst::cppgen;
-        CppFunction cppFunction { };
-        cppFunction.name = "create_pnext_copy";
-        CppParameter pNextCppParameter { };
-        pNextCppParameter.type = "void*";
-        pNextCppParameter.name = "pNext";
-        cppFunction.cppParameters.push_back(pNextCppParameter);
-        CppParameter pAllocationCallbacksCppParameter { };
-        pAllocationCallbacksCppParameter.type = "const VkAllocationCallbacks*";
-        pAllocationCallbacksCppParameter.name = "pAllocationCallbacks";
-        cppFunction.cppParameters.push_back(pAllocationCallbacksCppParameter);
-        cppFunction.cppSourceBlock.add_snippet("return nullptr;");
-        return cppFunction;
+        CppFunction createPNextCopyFunction;
+        createPNextCopyFunction.name = "create_pnext_copy";
+        CppParameter pNextParameter;
+        pNextParameter.type = "void*";
+        pNextParameter.name = "pNext";
+        CppParameter pAllocationCallbacksParameter;
+        pAllocationCallbacksParameter.type = "const VkAllocationCallbacks*";
+        pAllocationCallbacksParameter.name = "pAllocationCallbacks";
+        createPNextCopyFunction.cppParameters = {
+            pNextParameter,
+            pAllocationCallbacksParameter,
+        };
+        createPNextCopyFunction.cppSourceBlock.add_snippet(R"(
+            if (pNext) {
+        )");
+        CppSwitch vkStructureTypeSwitch;
+        vkStructureTypeSwitch.cppCondition = "*(VkStructureType*)pNext";
+        auto vkStructureTypeEnumerationItr = vkXmlManifest.enumerations.find("VkStructureType");
+        if (vkStructureTypeEnumerationItr != vkXmlManifest.enumerations.end()) {
+            const auto& vkStructureTypeEnumeration = vkStructureTypeEnumerationItr->second;
+            for (const auto& vkStructureTypeEnumerator : vkStructureTypeEnumeration.enumerators) {
+                CppSwitch::CppCase vkStructureTypeCase;
+                vkStructureTypeCase.cppCompileGuards = { vkStructureTypeEnumerator.compileGuard };
+                vkStructureTypeCase.name = vkStructureTypeEnumerator.name;
+                vkStructureTypeCase.cppSourceBlock.add_snippet(
+                    R"(
+                        return create_vk_structure_dynamic_array_copy(1, *(${VK_STRUCTURE_TYPE}*)pNext, pAllocationCallbacks);
+                    )", {
+                        {
+                            "${VK_STRUCTURE_TYPE}",
+                            [&]()
+                            {
+                                auto itr = vkXmlManifest.structureTypes.find(vkStructureTypeEnumerator.name);
+                                return itr != vkXmlManifest.structureTypes.end() ? itr->second : "ERROR";
+                            }()
+                        },
+                    }
+                );
+                vkStructureTypeSwitch.cppCases.push_back(vkStructureTypeCase);
+            }
+        }
+        createPNextCopyFunction.cppSourceBlock.add_snippet(Tab { 1 }, vkStructureTypeSwitch.generate_inline_definition());
+        createPNextCopyFunction.cppSourceBlock.add_snippet(R"(
+            };
+            return nullptr;
+        )");
+        return createPNextCopyFunction;
     }
 };
 

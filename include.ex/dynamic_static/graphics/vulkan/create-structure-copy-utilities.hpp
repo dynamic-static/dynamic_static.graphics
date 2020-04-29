@@ -120,7 +120,7 @@ inline void create_static_array_copy(VulkanStructureType pDst[Count], const Vulk
 TODO : Documentation
 */
 template <typename VulkanStructureType>
-inline VulkanStructureType* create_dynamic_array_copy(
+inline VulkanStructureType* create_vk_structure_dynamic_array_copy(
     uint32_t count,
     const VulkanStructureType* pObjs,
     const VkAllocationCallbacks* pAllocationCallbacks
