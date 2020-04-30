@@ -11,26 +11,13 @@
 #include "dynamic_static/core/string.hpp"
 #include "dynamic_static/cpp-generator.hpp"
 #include "dynamic_static/vk-xml-parser.hpp"
+#include "utilities.hpp"
 
 #include <fstream>
-#include <set>
 
 namespace dst {
 namespace vk {
 namespace cppgen {
-
-inline bool structure_requires_custom_handling(const dst::cppgen::CppFunction& cppFunction)
-{
-    static const std::set<std::string> sStructuresRequiringCustomHandling {
-        "VkTransformMatrixKHR"
-    };
-    return sStructuresRequiringCustomHandling.count(string::remove(string::remove(cppFunction.cppParameters[0].type, "const "), "&"));
-}
-
-inline std::string strip_vk(const std::string& str)
-{
-    return string::remove(string::remove(string::remove(str, "VK_"), "Vk"), "vk");
-}
 
 /**
 TODO : Documentation
@@ -50,26 +37,30 @@ public:
             if (!structure.alias.empty()) {
                 continue;
             }
-            CppFunction cppFunction;
-            cppFunction.cppCompileGuards.insert(structure.compileGuard);
-            cppFunction.cppTemplate.cppSpecializations = { structure.name };
-            cppFunction.cppReturn = structure.name;
-            cppFunction.name = "create_structure_copy";
-            CppParameter objCppParameter;
-            objCppParameter.type = "const " + structure.name + "&";
-            objCppParameter.name = "obj";
-            cppFunction.cppParameters.push_back(objCppParameter);
-            CppParameter pAllocationCallbacksCppParameter;
-            pAllocationCallbacksCppParameter.type = "const VkAllocationCallbacks*";
-            pAllocationCallbacksCppParameter.name = "pAllocationCallbacks";
-            pAllocationCallbacksCppParameter.value = "nullptr";
-            cppFunction.cppParameters.push_back(pAllocationCallbacksCppParameter);
-            cppFunction.cppSourceBlock.replacements.push_back({ "${VK_STRUCTURE_TYPE}", structure.name });
-            cppFunction.cppSourceBlock.add_snippet(R"(
+            CppFunction createStructureCopyFunction;
+            createStructureCopyFunction.cppCompileGuards.insert(structure.compileGuard);
+            createStructureCopyFunction.cppTemplate.cppSpecializations = { structure.name };
+            createStructureCopyFunction.cppReturn = structure.name;
+            createStructureCopyFunction.name = "create_structure_copy";
+            CppParameter vkStructureParameter;
+            vkStructureParameter.type = "const " + structure.name + "&";
+            vkStructureParameter.name = "obj";
+            CppParameter pAllocationCallbacksParameter;
+            pAllocationCallbacksParameter.type = "const VkAllocationCallbacks*";
+            pAllocationCallbacksParameter.name = "pAllocationCallbacks";
+            pAllocationCallbacksParameter.value = "nullptr";
+            createStructureCopyFunction.cppParameters = {
+                vkStructureParameter,
+                pAllocationCallbacksParameter,
+            };
+            createStructureCopyFunction.cppSourceBlock.replacements = {
+                { "${VK_STRUCTURE_TYPE}", structure.name },
+            };
+            createStructureCopyFunction.cppSourceBlock.add_snippet(R"(
                 ${VK_STRUCTURE_TYPE} result { };
             )");
             for (const auto& member : structure.members) {
-                cppFunction.cppSourceBlock.add_snippet(
+                createStructureCopyFunction.cppSourceBlock.add_snippet(
                     generate_member_copy_snippet(xmlManifest, member),
                     {
                         { "${MEMBER_NAME}", member.name },
@@ -77,10 +68,10 @@ public:
                     }
                 );
             }
-            cppFunction.cppSourceBlock.add_snippet(R"(
+            createStructureCopyFunction.cppSourceBlock.add_snippet(R"(
                 return result;
             )");
-            cppFunctions.push_back(cppFunction);
+            cppFunctions.push_back(createStructureCopyFunction);
         }
         auto pNextHandler = generate_pnext_handler(xmlManifest);
         std::ofstream headerFile("create-structure-copy.hpp");
@@ -115,7 +106,7 @@ private:
             } else 
             if (vkXmlStructureMember.flags & xml::Parameter::StaticArray) {
                 if (vkXmlStructureMember.flags & xml::Parameter::String) {
-                    return "memcpy(result.${MEMBER_NAME}, obj.${MEMBER_NAME}, sizeof(obj.${MEMBER_NAME}));";
+                    return "create_static_string_copy(result.${MEMBER_NAME}, obj.${MEMBER_NAME});";
                 } else {
                     return "create_static_array_copy(result.${MEMBER_NAME}, obj.${MEMBER_NAME});";
                 }
@@ -132,7 +123,7 @@ private:
             if (vkXmlStructureMember.flags & xml::Parameter::FunctionPointer) {
                 return "result.${MEMBER_NAME} = obj.${MEMBER_NAME};";
             } else {
-                return "result.${MEMBER_NAME} = create_vk_structure_dynamic_array_copy(1, obj.${MEMBER_NAME}, pAllocationCallbacks);";
+                return "result.${MEMBER_NAME} = create_dynamic_array_copy(1, obj.${MEMBER_NAME}, pAllocationCallbacks);";
             }
         } else
         if (vkXmlManifest.handles.find(vkXmlStructureMember.type) != vkXmlManifest.handles.end()) {

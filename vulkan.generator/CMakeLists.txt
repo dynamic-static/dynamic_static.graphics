@@ -22,7 +22,9 @@ DstAddGenerator(
         "${generatorSourcePath}/create-structure-copy-generator.hpp"
         "${generatorSourcePath}/destroy-structure-copy-generator.hpp"
         "${generatorSourcePath}/managed-handles-generator.hpp"
-        "${generatorSourcePath}main.cpp"
+        "${generatorSourcePath}/structure-to-tuple.generator.hpp"
+        "${generatorSourcePath}/main.cpp"
+        "${generatorSourcePath}/utilities.hpp"
     generatedFiles
         "${generatedIncludeFiles}"
         "${generatedSourceFiles}"

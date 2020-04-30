@@ -46,8 +46,10 @@ DstAddStaticLibrary(
         ${CMAKE_CURRENT_LIST_DIR}/include/
 
     includeFiles
+        "${includePath}/vulkan/detail/pnext-comparer.hpp"
+        "${includePath}/vulkan/detail/structure-copy-utilities.hpp"
+        "${includePath}/vulkan/detail/structure-to-tuple-utilities.hpp"
         "${includePath}/vulkan/application.hpp"
-        "${includePath}/vulkan/create-structure-copy-utilities.hpp"
         "${includePath}/vulkan/defines.hpp"
         "${includePath}/application.hpp"
         "${includePath}/defines.hpp"
