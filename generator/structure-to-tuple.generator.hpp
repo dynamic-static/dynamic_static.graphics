@@ -72,15 +72,19 @@ public:
                 structureToTupleFunctions.push_back(structureToTupleFunction);
             }
         }
-        std::ofstream headerFile("structure-to-tuple.hpp");
-        if (headerFile.is_open()) {
-            for (auto& cppFunction : structureToTupleFunctions) {
-                if (structure_requires_custom_handling(cppFunction)) {
-                    cppFunction.cppCompileGuards.insert("DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_CUSTOM_HANDLING");
-                }
+
+        CppFile headerFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) / "structure-to-tuple.hpp");
+        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/structure-to-tuple-utiltiies.hpp" };
+        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/defines.hpp" };
+        headerFile << std::endl;
+        headerFile << CppNamespace("dst::gfx::vk::detail").open();
+        for (auto& cppFunction : structureToTupleFunctions) {
+            if (structure_requires_custom_handling(cppFunction)) {
+                cppFunction.cppCompileGuards.insert("DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_CUSTOM_HANDLING");
             }
-            headerFile << structureToTupleFunctions.generate_inline_definition();
         }
+        headerFile << structureToTupleFunctions.generate_inline_definition();
+        headerFile << CppNamespace("dst::gfx::vk::detail").close();
     }
 
 private:

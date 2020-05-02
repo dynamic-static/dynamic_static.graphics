@@ -26,6 +26,16 @@ inline bool structure_requires_custom_handling(const dst::cppgen::CppFunction& c
 {
     static const std::set<std::string> sStructuresRequiringCustomHandling {
         "VkAccelerationStructureVersionKHR",
+        //"VkAllocationCallbacks",
+        //"VkCheckpointDataNV",
+        //"VkDebugMarkerObjectTagInfoEXT",
+        //"VkDebugReportCallbackCreateInfoEXT",
+        //"VkDebugUtilsMessengerCreateInfoEXT",
+        //"VkDebugUtilsObjectTagInfoEXT",
+        //"VkImportMemoryHostPointerInfoEXT",
+        //"VkInitializePerformanceApiInfoINTEL",
+        "VkPipelineMultisampleStateCreateInfo",
+        "VkShaderModuleCreateInfo",
         "VkTransformMatrixKHR",
     };
     return sStructuresRequiringCustomHandling.count(string::remove(string::remove(cppFunction.cppParameters[0].type, "const "), "&"));

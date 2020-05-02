@@ -109,7 +109,7 @@ inline char** create_dynamic_string_array_copy(
 TODO : Documentation
 */
 template <typename VulkanStructureType, size_t Count>
-inline void create_static_array_copy(VulkanStructureType pDst[Count], const VulkanStructureType pSrc[Count])
+inline void create_static_array_copy(VulkanStructureType* pDst, const VulkanStructureType* pSrc)
 {
     for (size_t i = 0; i < Count; ++i) {
         pDst[i] = create_structure_copy(pSrc[i]);
@@ -119,9 +119,18 @@ inline void create_static_array_copy(VulkanStructureType pDst[Count], const Vulk
 /**
 TODO : Documentation
 */
+template <size_t Count>
+inline void create_static_string_copy(char* pDst, const char* pSrc)
+{
+
+}
+
+/**
+TODO : Documentation
+*/
 template <typename VulkanStructureType>
-inline VulkanStructureType* create_vk_structure_dynamic_array_copy(
-    uint32_t count,
+inline VulkanStructureType* create_dynamic_array_copy(
+    size_t count,
     const VulkanStructureType* pObjs,
     const VkAllocationCallbacks* pAllocationCallbacks
 )
@@ -135,6 +144,19 @@ inline VulkanStructureType* create_vk_structure_dynamic_array_copy(
         }
     }
     return pResult;
+}
+
+/**
+TODO : Documentation
+*/
+template <>
+inline void* create_dynamic_array_copy<void>(
+    size_t count,
+    const void* pObjs,
+    const VkAllocationCallbacks* pAllocationCallbacks
+)
+{
+    return create_dynamic_array_copy(count, (const uint8_t*)pObjs, pAllocationCallbacks);
 }
 
 } // namespace detail

@@ -14,10 +14,16 @@
 #include "create-structure-copy-generator.hpp"
 #include "structure-to-tuple.generator.hpp"
 
+#include "tinyxml2.h"
+
 int main(int argc, char* argv[])
 {
-    dst::vk::xml::Manifest vkXmlManifest;
-    dst::vk::cppgen::CreateStructureCopyGenerator createStructureCopyGenerator(vkXmlManifest);
-    dst::vk::cppgen::StructureToTupleGenerator structureToTupleGenerator(vkXmlManifest);
+    tinyxml2::XMLDocument vkXml;
+    auto result = vkXml.LoadFile(DYNAMIC_STATIC_VK_XML_FILE_PATH);
+    if (result == tinyxml2::XML_SUCCESS) {
+        dst::vk::xml::Manifest vkXmlManifest(vkXml);
+        dst::vk::cppgen::CreateStructureCopyGenerator createStructureCopyGenerator(vkXmlManifest);
+        dst::vk::cppgen::StructureToTupleGenerator structureToTupleGenerator(vkXmlManifest);
+    }
     return 0;
 }
