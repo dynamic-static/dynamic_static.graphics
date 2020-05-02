@@ -35,16 +35,20 @@ set(sourcePath "${CMAKE_CURRENT_LIST_DIR}/source.ex/dynamic_static/graphics/")
 set(generatedIncludePath "${includePath}/vulkan/generated/")
 set(generatedSourcePath "${sourcePath}//vulkan/generated/")
 set(generatedIncludeFiles
-    "${generatedIncludePath}/comparison-operators.hpp"
     "${generatedIncludePath}/create-structure-copy.hpp"
-    "${generatedIncludePath}/structure-to-tuple.hpp"
     # "${generatedIncludePath}/destroy-structure-copy.hpp"
+    "${generatedIncludePath}/equality-operators.hpp"
+    "${generatedIncludePath}/greater-than-operators.hpp"
+    "${generatedIncludePath}/less-than-operators.hpp"
+    "${generatedIncludePath}/structure-to-tuple.hpp"
     # "${generatedIncludePath}/managed-handles.hpp"
 )
 set(generatedSourceFiles
-    "${generatedSourcePath}/comparison-operators.cpp"
     "${generatedSourcePath}/create-structure-copy.cpp"
     # "${generatedSourcePath}/destroy-structure-copy.cpp"
+    "${generatedSourcePath}/equality-operators.cpp"
+    "${generatedSourcePath}/greater-than-operators.cpp"
+    "${generatedSourcePath}/less-than-operators.cpp"
     # "${generatedSourcePath}/managed-handles.cpp"
 )
 
@@ -55,9 +59,11 @@ DstAddGenerator(
     folder dynamic_static.graphics
     linkLibraries dynamic_static.vk-xml-parser
     sourceFiles
-        "${generatorSourcePath}/comparison-operators.generator.hpp"
         "${generatorSourcePath}/create-structure-copy-generator.hpp"
         "${generatorSourcePath}/destroy-structure-copy-generator.hpp"
+        "${generatorSourcePath}/equality-operators.generator.hpp"
+        "${generatorSourcePath}/greater-than-operators.generator.hpp"
+        "${generatorSourcePath}/less-than-operators.generator.hpp"
         "${generatorSourcePath}/managed-handles-generator.hpp"
         "${generatorSourcePath}/structure-to-tuple.generator.hpp"
         "${generatorSourcePath}/main.cpp"
@@ -86,6 +92,7 @@ DstAddStaticLibrary(
         "${includePath}/vulkan/detail/structure-copy-utilities.hpp"
         "${includePath}/vulkan/detail/structure-to-tuple-utilities.hpp"
         "${includePath}/vulkan/detail/tuple-element-wrappers.hpp"
+        "${includePath}/vulkan/comparison-operators.hpp"
         "${includePath}/vulkan/application.hpp"
         "${includePath}/vulkan/defines.hpp"
         "${includePath}/application.hpp"

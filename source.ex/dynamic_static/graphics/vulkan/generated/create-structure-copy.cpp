@@ -137,6 +137,18 @@ VkAccelerationStructureGeometryAabbsDataKHR create_structure_copy<VkAcceleration
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
+VkAccelerationStructureGeometryDataKHR create_structure_copy<VkAccelerationStructureGeometryDataKHR>(const VkAccelerationStructureGeometryDataKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
+{
+    VkAccelerationStructureGeometryDataKHR result { };
+    result.triangles = create_structure_copy(obj.triangles, pAllocationCallbacks);
+    result.aabbs = create_structure_copy(obj.aabbs, pAllocationCallbacks);
+    result.instances = create_structure_copy(obj.instances, pAllocationCallbacks);
+    return result;
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
 VkAccelerationStructureGeometryInstancesDataKHR create_structure_copy<VkAccelerationStructureGeometryInstancesDataKHR>(const VkAccelerationStructureGeometryInstancesDataKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAccelerationStructureGeometryInstancesDataKHR result { };
@@ -731,6 +743,16 @@ VkClearAttachment create_structure_copy<VkClearAttachment>(const VkClearAttachme
 }
 
 template <>
+VkClearColorValue create_structure_copy<VkClearColorValue>(const VkClearColorValue& obj, const VkAllocationCallbacks* pAllocationCallbacks)
+{
+    VkClearColorValue result { };
+    create_static_array_copy<4>(result.float32, obj.float32);
+    create_static_array_copy<4>(result.int32, obj.int32);
+    create_static_array_copy<4>(result.uint32, obj.uint32);
+    return result;
+}
+
+template <>
 VkClearDepthStencilValue create_structure_copy<VkClearDepthStencilValue>(const VkClearDepthStencilValue& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkClearDepthStencilValue result { };
@@ -746,6 +768,15 @@ VkClearRect create_structure_copy<VkClearRect>(const VkClearRect& obj, const VkA
     result.rect = create_structure_copy(obj.rect, pAllocationCallbacks);
     result.baseArrayLayer = create_structure_copy(obj.baseArrayLayer, pAllocationCallbacks);
     result.layerCount = create_structure_copy(obj.layerCount, pAllocationCallbacks);
+    return result;
+}
+
+template <>
+VkClearValue create_structure_copy<VkClearValue>(const VkClearValue& obj, const VkAllocationCallbacks* pAllocationCallbacks)
+{
+    VkClearValue result { };
+    result.color = create_structure_copy(obj.color, pAllocationCallbacks);
+    result.depthStencil = create_structure_copy(obj.depthStencil, pAllocationCallbacks);
     return result;
 }
 
@@ -1448,6 +1479,28 @@ VkDeviceMemoryOverallocationCreateInfoAMD create_structure_copy<VkDeviceMemoryOv
     result.overallocationBehavior = create_structure_copy(obj.overallocationBehavior, pAllocationCallbacks);
     return result;
 }
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+VkDeviceOrHostAddressConstKHR create_structure_copy<VkDeviceOrHostAddressConstKHR>(const VkDeviceOrHostAddressConstKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
+{
+    VkDeviceOrHostAddressConstKHR result { };
+    result.deviceAddress = create_structure_copy(obj.deviceAddress, pAllocationCallbacks);
+    result.hostAddress = obj.hostAddress;
+    return result;
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+VkDeviceOrHostAddressKHR create_structure_copy<VkDeviceOrHostAddressKHR>(const VkDeviceOrHostAddressKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
+{
+    VkDeviceOrHostAddressKHR result { };
+    result.deviceAddress = create_structure_copy(obj.deviceAddress, pAllocationCallbacks);
+    result.hostAddress = obj.hostAddress;
+    return result;
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
 
 template <>
 VkDeviceQueueCreateInfo create_structure_copy<VkDeviceQueueCreateInfo>(const VkDeviceQueueCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -3085,6 +3138,19 @@ VkPerformanceCounterKHR create_structure_copy<VkPerformanceCounterKHR>(const VkP
 }
 
 template <>
+VkPerformanceCounterResultKHR create_structure_copy<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
+{
+    VkPerformanceCounterResultKHR result { };
+    result.int32 = create_structure_copy(obj.int32, pAllocationCallbacks);
+    result.int64 = create_structure_copy(obj.int64, pAllocationCallbacks);
+    result.uint32 = create_structure_copy(obj.uint32, pAllocationCallbacks);
+    result.uint64 = create_structure_copy(obj.uint64, pAllocationCallbacks);
+    result.float32 = create_structure_copy(obj.float32, pAllocationCallbacks);
+    result.float64 = create_structure_copy(obj.float64, pAllocationCallbacks);
+    return result;
+}
+
+template <>
 VkPerformanceMarkerInfoINTEL create_structure_copy<VkPerformanceMarkerInfoINTEL>(const VkPerformanceMarkerInfoINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPerformanceMarkerInfoINTEL result { };
@@ -3123,6 +3189,18 @@ VkPerformanceStreamMarkerInfoINTEL create_structure_copy<VkPerformanceStreamMark
     result.sType = create_structure_copy(obj.sType, pAllocationCallbacks);
     result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
     result.marker = create_structure_copy(obj.marker, pAllocationCallbacks);
+    return result;
+}
+
+template <>
+VkPerformanceValueDataINTEL create_structure_copy<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks)
+{
+    VkPerformanceValueDataINTEL result { };
+    result.value32 = create_structure_copy(obj.value32, pAllocationCallbacks);
+    result.value64 = create_structure_copy(obj.value64, pAllocationCallbacks);
+    result.valueFloat = create_structure_copy(obj.valueFloat, pAllocationCallbacks);
+    result.valueBool = create_structure_copy(obj.valueBool, pAllocationCallbacks);
+    result.valueString = obj.valueString;
     return result;
 }
 
@@ -5071,6 +5149,17 @@ VkPipelineExecutableStatisticKHR create_structure_copy<VkPipelineExecutableStati
     create_static_string_copy<VK_MAX_DESCRIPTION_SIZE>(result.description, obj.description);
     result.format = create_structure_copy(obj.format, pAllocationCallbacks);
     result.value = create_structure_copy(obj.value, pAllocationCallbacks);
+    return result;
+}
+
+template <>
+VkPipelineExecutableStatisticValueKHR create_structure_copy<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
+{
+    VkPipelineExecutableStatisticValueKHR result { };
+    result.b32 = create_structure_copy(obj.b32, pAllocationCallbacks);
+    result.i64 = create_structure_copy(obj.i64, pAllocationCallbacks);
+    result.u64 = create_structure_copy(obj.u64, pAllocationCallbacks);
+    result.f64 = create_structure_copy(obj.f64, pAllocationCallbacks);
     return result;
 }
 

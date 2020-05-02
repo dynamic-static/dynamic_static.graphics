@@ -11,14 +11,10 @@
 #include "dynamic_static/graphics/vulkan/generated/comparison-operators.hpp"
 #include "dynamic_static/graphics/vulkan/generated/structure-to-tuple.hpp"
 
-namespace dst {
-namespace gfx {
-namespace vk {
-namespace detail {
-
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkAabbPositionsKHR& lhs, const VkAabbPositionsKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -33,6 +29,7 @@ bool operator!=(const VkAabbPositionsKHR& lhs, const VkAabbPositionsKHR& rhs)
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkAabbPositionsKHR& lhs, const VkAabbPositionsKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -61,6 +58,7 @@ bool operator>=(const VkAabbPositionsKHR& lhs, const VkAabbPositionsKHR& rhs)
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkAccelerationStructureBuildGeometryInfoKHR& lhs, const VkAccelerationStructureBuildGeometryInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -75,6 +73,7 @@ bool operator!=(const VkAccelerationStructureBuildGeometryInfoKHR& lhs, const Vk
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkAccelerationStructureBuildGeometryInfoKHR& lhs, const VkAccelerationStructureBuildGeometryInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -103,6 +102,7 @@ bool operator>=(const VkAccelerationStructureBuildGeometryInfoKHR& lhs, const Vk
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkAccelerationStructureBuildOffsetInfoKHR& lhs, const VkAccelerationStructureBuildOffsetInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -117,6 +117,7 @@ bool operator!=(const VkAccelerationStructureBuildOffsetInfoKHR& lhs, const VkAc
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkAccelerationStructureBuildOffsetInfoKHR& lhs, const VkAccelerationStructureBuildOffsetInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -145,6 +146,7 @@ bool operator>=(const VkAccelerationStructureBuildOffsetInfoKHR& lhs, const VkAc
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkAccelerationStructureCreateGeometryTypeInfoKHR& lhs, const VkAccelerationStructureCreateGeometryTypeInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -159,6 +161,7 @@ bool operator!=(const VkAccelerationStructureCreateGeometryTypeInfoKHR& lhs, con
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkAccelerationStructureCreateGeometryTypeInfoKHR& lhs, const VkAccelerationStructureCreateGeometryTypeInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -187,6 +190,7 @@ bool operator>=(const VkAccelerationStructureCreateGeometryTypeInfoKHR& lhs, con
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkAccelerationStructureCreateInfoKHR& lhs, const VkAccelerationStructureCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -201,6 +205,7 @@ bool operator!=(const VkAccelerationStructureCreateInfoKHR& lhs, const VkAcceler
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkAccelerationStructureCreateInfoKHR& lhs, const VkAccelerationStructureCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -228,6 +233,7 @@ bool operator>=(const VkAccelerationStructureCreateInfoKHR& lhs, const VkAcceler
 
 bool operator==(const VkAccelerationStructureCreateInfoNV& lhs, const VkAccelerationStructureCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -238,6 +244,7 @@ bool operator!=(const VkAccelerationStructureCreateInfoNV& lhs, const VkAccelera
 
 bool operator<(const VkAccelerationStructureCreateInfoNV& lhs, const VkAccelerationStructureCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -259,6 +266,7 @@ bool operator>=(const VkAccelerationStructureCreateInfoNV& lhs, const VkAccelera
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkAccelerationStructureDeviceAddressInfoKHR& lhs, const VkAccelerationStructureDeviceAddressInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -273,6 +281,7 @@ bool operator!=(const VkAccelerationStructureDeviceAddressInfoKHR& lhs, const Vk
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkAccelerationStructureDeviceAddressInfoKHR& lhs, const VkAccelerationStructureDeviceAddressInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -301,6 +310,7 @@ bool operator>=(const VkAccelerationStructureDeviceAddressInfoKHR& lhs, const Vk
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkAccelerationStructureGeometryAabbsDataKHR& lhs, const VkAccelerationStructureGeometryAabbsDataKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -315,6 +325,7 @@ bool operator!=(const VkAccelerationStructureGeometryAabbsDataKHR& lhs, const Vk
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkAccelerationStructureGeometryAabbsDataKHR& lhs, const VkAccelerationStructureGeometryAabbsDataKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -341,8 +352,53 @@ bool operator>=(const VkAccelerationStructureGeometryAabbsDataKHR& lhs, const Vk
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator==(const VkAccelerationStructureGeometryDataKHR& lhs, const VkAccelerationStructureGeometryDataKHR& rhs)
+{
+    using namespace dst::gfx::vk::detail;
+    return structure_to_tuple(lhs) == structure_to_tuple(rhs);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator!=(const VkAccelerationStructureGeometryDataKHR& lhs, const VkAccelerationStructureGeometryDataKHR& rhs)
+{
+    return !(lhs == rhs);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator<(const VkAccelerationStructureGeometryDataKHR& lhs, const VkAccelerationStructureGeometryDataKHR& rhs)
+{
+    using namespace dst::gfx::vk::detail;
+    return structure_to_tuple(lhs) < structure_to_tuple(rhs);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator>(const VkAccelerationStructureGeometryDataKHR& lhs, const VkAccelerationStructureGeometryDataKHR& rhs)
+{
+    return rhs < lhs;
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator<=(const VkAccelerationStructureGeometryDataKHR& lhs, const VkAccelerationStructureGeometryDataKHR& rhs)
+{
+    return !(rhs < lhs);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator>=(const VkAccelerationStructureGeometryDataKHR& lhs, const VkAccelerationStructureGeometryDataKHR& rhs)
+{
+    return !(lhs < rhs);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkAccelerationStructureGeometryInstancesDataKHR& lhs, const VkAccelerationStructureGeometryInstancesDataKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -357,6 +413,7 @@ bool operator!=(const VkAccelerationStructureGeometryInstancesDataKHR& lhs, cons
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkAccelerationStructureGeometryInstancesDataKHR& lhs, const VkAccelerationStructureGeometryInstancesDataKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -385,6 +442,7 @@ bool operator>=(const VkAccelerationStructureGeometryInstancesDataKHR& lhs, cons
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkAccelerationStructureGeometryKHR& lhs, const VkAccelerationStructureGeometryKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -399,6 +457,7 @@ bool operator!=(const VkAccelerationStructureGeometryKHR& lhs, const VkAccelerat
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkAccelerationStructureGeometryKHR& lhs, const VkAccelerationStructureGeometryKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -427,6 +486,7 @@ bool operator>=(const VkAccelerationStructureGeometryKHR& lhs, const VkAccelerat
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkAccelerationStructureGeometryTrianglesDataKHR& lhs, const VkAccelerationStructureGeometryTrianglesDataKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -441,6 +501,7 @@ bool operator!=(const VkAccelerationStructureGeometryTrianglesDataKHR& lhs, cons
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkAccelerationStructureGeometryTrianglesDataKHR& lhs, const VkAccelerationStructureGeometryTrianglesDataKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -468,6 +529,7 @@ bool operator>=(const VkAccelerationStructureGeometryTrianglesDataKHR& lhs, cons
 
 bool operator==(const VkAccelerationStructureInfoNV& lhs, const VkAccelerationStructureInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -478,6 +540,7 @@ bool operator!=(const VkAccelerationStructureInfoNV& lhs, const VkAccelerationSt
 
 bool operator<(const VkAccelerationStructureInfoNV& lhs, const VkAccelerationStructureInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -499,6 +562,7 @@ bool operator>=(const VkAccelerationStructureInfoNV& lhs, const VkAccelerationSt
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkAccelerationStructureInstanceKHR& lhs, const VkAccelerationStructureInstanceKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -513,6 +577,7 @@ bool operator!=(const VkAccelerationStructureInstanceKHR& lhs, const VkAccelerat
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkAccelerationStructureInstanceKHR& lhs, const VkAccelerationStructureInstanceKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -541,6 +606,7 @@ bool operator>=(const VkAccelerationStructureInstanceKHR& lhs, const VkAccelerat
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkAccelerationStructureMemoryRequirementsInfoKHR& lhs, const VkAccelerationStructureMemoryRequirementsInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -555,6 +621,7 @@ bool operator!=(const VkAccelerationStructureMemoryRequirementsInfoKHR& lhs, con
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkAccelerationStructureMemoryRequirementsInfoKHR& lhs, const VkAccelerationStructureMemoryRequirementsInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -582,6 +649,7 @@ bool operator>=(const VkAccelerationStructureMemoryRequirementsInfoKHR& lhs, con
 
 bool operator==(const VkAccelerationStructureMemoryRequirementsInfoNV& lhs, const VkAccelerationStructureMemoryRequirementsInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -592,6 +660,7 @@ bool operator!=(const VkAccelerationStructureMemoryRequirementsInfoNV& lhs, cons
 
 bool operator<(const VkAccelerationStructureMemoryRequirementsInfoNV& lhs, const VkAccelerationStructureMemoryRequirementsInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -613,6 +682,7 @@ bool operator>=(const VkAccelerationStructureMemoryRequirementsInfoNV& lhs, cons
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkAccelerationStructureVersionKHR& lhs, const VkAccelerationStructureVersionKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -627,6 +697,7 @@ bool operator!=(const VkAccelerationStructureVersionKHR& lhs, const VkAccelerati
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkAccelerationStructureVersionKHR& lhs, const VkAccelerationStructureVersionKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -654,6 +725,7 @@ bool operator>=(const VkAccelerationStructureVersionKHR& lhs, const VkAccelerati
 
 bool operator==(const VkAcquireNextImageInfoKHR& lhs, const VkAcquireNextImageInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -664,6 +736,7 @@ bool operator!=(const VkAcquireNextImageInfoKHR& lhs, const VkAcquireNextImageIn
 
 bool operator<(const VkAcquireNextImageInfoKHR& lhs, const VkAcquireNextImageInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -684,6 +757,7 @@ bool operator>=(const VkAcquireNextImageInfoKHR& lhs, const VkAcquireNextImageIn
 
 bool operator==(const VkAcquireProfilingLockInfoKHR& lhs, const VkAcquireProfilingLockInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -694,6 +768,7 @@ bool operator!=(const VkAcquireProfilingLockInfoKHR& lhs, const VkAcquireProfili
 
 bool operator<(const VkAcquireProfilingLockInfoKHR& lhs, const VkAcquireProfilingLockInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -714,6 +789,7 @@ bool operator>=(const VkAcquireProfilingLockInfoKHR& lhs, const VkAcquireProfili
 
 bool operator==(const VkAllocationCallbacks& lhs, const VkAllocationCallbacks& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -724,6 +800,7 @@ bool operator!=(const VkAllocationCallbacks& lhs, const VkAllocationCallbacks& r
 
 bool operator<(const VkAllocationCallbacks& lhs, const VkAllocationCallbacks& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -745,6 +822,7 @@ bool operator>=(const VkAllocationCallbacks& lhs, const VkAllocationCallbacks& r
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator==(const VkAndroidHardwareBufferFormatPropertiesANDROID& lhs, const VkAndroidHardwareBufferFormatPropertiesANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -759,6 +837,7 @@ bool operator!=(const VkAndroidHardwareBufferFormatPropertiesANDROID& lhs, const
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator<(const VkAndroidHardwareBufferFormatPropertiesANDROID& lhs, const VkAndroidHardwareBufferFormatPropertiesANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -787,6 +866,7 @@ bool operator>=(const VkAndroidHardwareBufferFormatPropertiesANDROID& lhs, const
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator==(const VkAndroidHardwareBufferPropertiesANDROID& lhs, const VkAndroidHardwareBufferPropertiesANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -801,6 +881,7 @@ bool operator!=(const VkAndroidHardwareBufferPropertiesANDROID& lhs, const VkAnd
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator<(const VkAndroidHardwareBufferPropertiesANDROID& lhs, const VkAndroidHardwareBufferPropertiesANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -829,6 +910,7 @@ bool operator>=(const VkAndroidHardwareBufferPropertiesANDROID& lhs, const VkAnd
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator==(const VkAndroidHardwareBufferUsageANDROID& lhs, const VkAndroidHardwareBufferUsageANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -843,6 +925,7 @@ bool operator!=(const VkAndroidHardwareBufferUsageANDROID& lhs, const VkAndroidH
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator<(const VkAndroidHardwareBufferUsageANDROID& lhs, const VkAndroidHardwareBufferUsageANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -871,6 +954,7 @@ bool operator>=(const VkAndroidHardwareBufferUsageANDROID& lhs, const VkAndroidH
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator==(const VkAndroidSurfaceCreateInfoKHR& lhs, const VkAndroidSurfaceCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -885,6 +969,7 @@ bool operator!=(const VkAndroidSurfaceCreateInfoKHR& lhs, const VkAndroidSurface
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator<(const VkAndroidSurfaceCreateInfoKHR& lhs, const VkAndroidSurfaceCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -912,6 +997,7 @@ bool operator>=(const VkAndroidSurfaceCreateInfoKHR& lhs, const VkAndroidSurface
 
 bool operator==(const VkApplicationInfo& lhs, const VkApplicationInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -922,6 +1008,7 @@ bool operator!=(const VkApplicationInfo& lhs, const VkApplicationInfo& rhs)
 
 bool operator<(const VkApplicationInfo& lhs, const VkApplicationInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -942,6 +1029,7 @@ bool operator>=(const VkApplicationInfo& lhs, const VkApplicationInfo& rhs)
 
 bool operator==(const VkAttachmentDescription& lhs, const VkAttachmentDescription& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -952,6 +1040,7 @@ bool operator!=(const VkAttachmentDescription& lhs, const VkAttachmentDescriptio
 
 bool operator<(const VkAttachmentDescription& lhs, const VkAttachmentDescription& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -972,6 +1061,7 @@ bool operator>=(const VkAttachmentDescription& lhs, const VkAttachmentDescriptio
 
 bool operator==(const VkAttachmentDescription2& lhs, const VkAttachmentDescription2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -982,6 +1072,7 @@ bool operator!=(const VkAttachmentDescription2& lhs, const VkAttachmentDescripti
 
 bool operator<(const VkAttachmentDescription2& lhs, const VkAttachmentDescription2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1002,6 +1093,7 @@ bool operator>=(const VkAttachmentDescription2& lhs, const VkAttachmentDescripti
 
 bool operator==(const VkAttachmentDescriptionStencilLayout& lhs, const VkAttachmentDescriptionStencilLayout& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1012,6 +1104,7 @@ bool operator!=(const VkAttachmentDescriptionStencilLayout& lhs, const VkAttachm
 
 bool operator<(const VkAttachmentDescriptionStencilLayout& lhs, const VkAttachmentDescriptionStencilLayout& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1032,6 +1125,7 @@ bool operator>=(const VkAttachmentDescriptionStencilLayout& lhs, const VkAttachm
 
 bool operator==(const VkAttachmentReference& lhs, const VkAttachmentReference& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1042,6 +1136,7 @@ bool operator!=(const VkAttachmentReference& lhs, const VkAttachmentReference& r
 
 bool operator<(const VkAttachmentReference& lhs, const VkAttachmentReference& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1062,6 +1157,7 @@ bool operator>=(const VkAttachmentReference& lhs, const VkAttachmentReference& r
 
 bool operator==(const VkAttachmentReference2& lhs, const VkAttachmentReference2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1072,6 +1168,7 @@ bool operator!=(const VkAttachmentReference2& lhs, const VkAttachmentReference2&
 
 bool operator<(const VkAttachmentReference2& lhs, const VkAttachmentReference2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1092,6 +1189,7 @@ bool operator>=(const VkAttachmentReference2& lhs, const VkAttachmentReference2&
 
 bool operator==(const VkAttachmentReferenceStencilLayout& lhs, const VkAttachmentReferenceStencilLayout& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1102,6 +1200,7 @@ bool operator!=(const VkAttachmentReferenceStencilLayout& lhs, const VkAttachmen
 
 bool operator<(const VkAttachmentReferenceStencilLayout& lhs, const VkAttachmentReferenceStencilLayout& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1122,6 +1221,7 @@ bool operator>=(const VkAttachmentReferenceStencilLayout& lhs, const VkAttachmen
 
 bool operator==(const VkAttachmentSampleLocationsEXT& lhs, const VkAttachmentSampleLocationsEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1132,6 +1232,7 @@ bool operator!=(const VkAttachmentSampleLocationsEXT& lhs, const VkAttachmentSam
 
 bool operator<(const VkAttachmentSampleLocationsEXT& lhs, const VkAttachmentSampleLocationsEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1152,6 +1253,7 @@ bool operator>=(const VkAttachmentSampleLocationsEXT& lhs, const VkAttachmentSam
 
 bool operator==(const VkBaseInStructure& lhs, const VkBaseInStructure& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1162,6 +1264,7 @@ bool operator!=(const VkBaseInStructure& lhs, const VkBaseInStructure& rhs)
 
 bool operator<(const VkBaseInStructure& lhs, const VkBaseInStructure& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1182,6 +1285,7 @@ bool operator>=(const VkBaseInStructure& lhs, const VkBaseInStructure& rhs)
 
 bool operator==(const VkBaseOutStructure& lhs, const VkBaseOutStructure& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1192,6 +1296,7 @@ bool operator!=(const VkBaseOutStructure& lhs, const VkBaseOutStructure& rhs)
 
 bool operator<(const VkBaseOutStructure& lhs, const VkBaseOutStructure& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1213,6 +1318,7 @@ bool operator>=(const VkBaseOutStructure& lhs, const VkBaseOutStructure& rhs)
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkBindAccelerationStructureMemoryInfoKHR& lhs, const VkBindAccelerationStructureMemoryInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -1227,6 +1333,7 @@ bool operator!=(const VkBindAccelerationStructureMemoryInfoKHR& lhs, const VkBin
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkBindAccelerationStructureMemoryInfoKHR& lhs, const VkBindAccelerationStructureMemoryInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -1254,6 +1361,7 @@ bool operator>=(const VkBindAccelerationStructureMemoryInfoKHR& lhs, const VkBin
 
 bool operator==(const VkBindBufferMemoryDeviceGroupInfo& lhs, const VkBindBufferMemoryDeviceGroupInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1264,6 +1372,7 @@ bool operator!=(const VkBindBufferMemoryDeviceGroupInfo& lhs, const VkBindBuffer
 
 bool operator<(const VkBindBufferMemoryDeviceGroupInfo& lhs, const VkBindBufferMemoryDeviceGroupInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1284,6 +1393,7 @@ bool operator>=(const VkBindBufferMemoryDeviceGroupInfo& lhs, const VkBindBuffer
 
 bool operator==(const VkBindBufferMemoryInfo& lhs, const VkBindBufferMemoryInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1294,6 +1404,7 @@ bool operator!=(const VkBindBufferMemoryInfo& lhs, const VkBindBufferMemoryInfo&
 
 bool operator<(const VkBindBufferMemoryInfo& lhs, const VkBindBufferMemoryInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1314,6 +1425,7 @@ bool operator>=(const VkBindBufferMemoryInfo& lhs, const VkBindBufferMemoryInfo&
 
 bool operator==(const VkBindImageMemoryDeviceGroupInfo& lhs, const VkBindImageMemoryDeviceGroupInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1324,6 +1436,7 @@ bool operator!=(const VkBindImageMemoryDeviceGroupInfo& lhs, const VkBindImageMe
 
 bool operator<(const VkBindImageMemoryDeviceGroupInfo& lhs, const VkBindImageMemoryDeviceGroupInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1344,6 +1457,7 @@ bool operator>=(const VkBindImageMemoryDeviceGroupInfo& lhs, const VkBindImageMe
 
 bool operator==(const VkBindImageMemoryInfo& lhs, const VkBindImageMemoryInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1354,6 +1468,7 @@ bool operator!=(const VkBindImageMemoryInfo& lhs, const VkBindImageMemoryInfo& r
 
 bool operator<(const VkBindImageMemoryInfo& lhs, const VkBindImageMemoryInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1374,6 +1489,7 @@ bool operator>=(const VkBindImageMemoryInfo& lhs, const VkBindImageMemoryInfo& r
 
 bool operator==(const VkBindImageMemorySwapchainInfoKHR& lhs, const VkBindImageMemorySwapchainInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1384,6 +1500,7 @@ bool operator!=(const VkBindImageMemorySwapchainInfoKHR& lhs, const VkBindImageM
 
 bool operator<(const VkBindImageMemorySwapchainInfoKHR& lhs, const VkBindImageMemorySwapchainInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1404,6 +1521,7 @@ bool operator>=(const VkBindImageMemorySwapchainInfoKHR& lhs, const VkBindImageM
 
 bool operator==(const VkBindImagePlaneMemoryInfo& lhs, const VkBindImagePlaneMemoryInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1414,6 +1532,7 @@ bool operator!=(const VkBindImagePlaneMemoryInfo& lhs, const VkBindImagePlaneMem
 
 bool operator<(const VkBindImagePlaneMemoryInfo& lhs, const VkBindImagePlaneMemoryInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1434,6 +1553,7 @@ bool operator>=(const VkBindImagePlaneMemoryInfo& lhs, const VkBindImagePlaneMem
 
 bool operator==(const VkBindIndexBufferIndirectCommandNV& lhs, const VkBindIndexBufferIndirectCommandNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1444,6 +1564,7 @@ bool operator!=(const VkBindIndexBufferIndirectCommandNV& lhs, const VkBindIndex
 
 bool operator<(const VkBindIndexBufferIndirectCommandNV& lhs, const VkBindIndexBufferIndirectCommandNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1464,6 +1585,7 @@ bool operator>=(const VkBindIndexBufferIndirectCommandNV& lhs, const VkBindIndex
 
 bool operator==(const VkBindShaderGroupIndirectCommandNV& lhs, const VkBindShaderGroupIndirectCommandNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1474,6 +1596,7 @@ bool operator!=(const VkBindShaderGroupIndirectCommandNV& lhs, const VkBindShade
 
 bool operator<(const VkBindShaderGroupIndirectCommandNV& lhs, const VkBindShaderGroupIndirectCommandNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1494,6 +1617,7 @@ bool operator>=(const VkBindShaderGroupIndirectCommandNV& lhs, const VkBindShade
 
 bool operator==(const VkBindSparseInfo& lhs, const VkBindSparseInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1504,6 +1628,7 @@ bool operator!=(const VkBindSparseInfo& lhs, const VkBindSparseInfo& rhs)
 
 bool operator<(const VkBindSparseInfo& lhs, const VkBindSparseInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1524,6 +1649,7 @@ bool operator>=(const VkBindSparseInfo& lhs, const VkBindSparseInfo& rhs)
 
 bool operator==(const VkBindVertexBufferIndirectCommandNV& lhs, const VkBindVertexBufferIndirectCommandNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1534,6 +1660,7 @@ bool operator!=(const VkBindVertexBufferIndirectCommandNV& lhs, const VkBindVert
 
 bool operator<(const VkBindVertexBufferIndirectCommandNV& lhs, const VkBindVertexBufferIndirectCommandNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1554,6 +1681,7 @@ bool operator>=(const VkBindVertexBufferIndirectCommandNV& lhs, const VkBindVert
 
 bool operator==(const VkBufferCopy& lhs, const VkBufferCopy& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1564,6 +1692,7 @@ bool operator!=(const VkBufferCopy& lhs, const VkBufferCopy& rhs)
 
 bool operator<(const VkBufferCopy& lhs, const VkBufferCopy& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1584,6 +1713,7 @@ bool operator>=(const VkBufferCopy& lhs, const VkBufferCopy& rhs)
 
 bool operator==(const VkBufferCreateInfo& lhs, const VkBufferCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1594,6 +1724,7 @@ bool operator!=(const VkBufferCreateInfo& lhs, const VkBufferCreateInfo& rhs)
 
 bool operator<(const VkBufferCreateInfo& lhs, const VkBufferCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1614,6 +1745,7 @@ bool operator>=(const VkBufferCreateInfo& lhs, const VkBufferCreateInfo& rhs)
 
 bool operator==(const VkBufferDeviceAddressCreateInfoEXT& lhs, const VkBufferDeviceAddressCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1624,6 +1756,7 @@ bool operator!=(const VkBufferDeviceAddressCreateInfoEXT& lhs, const VkBufferDev
 
 bool operator<(const VkBufferDeviceAddressCreateInfoEXT& lhs, const VkBufferDeviceAddressCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1644,6 +1777,7 @@ bool operator>=(const VkBufferDeviceAddressCreateInfoEXT& lhs, const VkBufferDev
 
 bool operator==(const VkBufferDeviceAddressInfo& lhs, const VkBufferDeviceAddressInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1654,6 +1788,7 @@ bool operator!=(const VkBufferDeviceAddressInfo& lhs, const VkBufferDeviceAddres
 
 bool operator<(const VkBufferDeviceAddressInfo& lhs, const VkBufferDeviceAddressInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1674,6 +1809,7 @@ bool operator>=(const VkBufferDeviceAddressInfo& lhs, const VkBufferDeviceAddres
 
 bool operator==(const VkBufferImageCopy& lhs, const VkBufferImageCopy& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1684,6 +1820,7 @@ bool operator!=(const VkBufferImageCopy& lhs, const VkBufferImageCopy& rhs)
 
 bool operator<(const VkBufferImageCopy& lhs, const VkBufferImageCopy& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1704,6 +1841,7 @@ bool operator>=(const VkBufferImageCopy& lhs, const VkBufferImageCopy& rhs)
 
 bool operator==(const VkBufferMemoryBarrier& lhs, const VkBufferMemoryBarrier& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1714,6 +1852,7 @@ bool operator!=(const VkBufferMemoryBarrier& lhs, const VkBufferMemoryBarrier& r
 
 bool operator<(const VkBufferMemoryBarrier& lhs, const VkBufferMemoryBarrier& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1734,6 +1873,7 @@ bool operator>=(const VkBufferMemoryBarrier& lhs, const VkBufferMemoryBarrier& r
 
 bool operator==(const VkBufferMemoryRequirementsInfo2& lhs, const VkBufferMemoryRequirementsInfo2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1744,6 +1884,7 @@ bool operator!=(const VkBufferMemoryRequirementsInfo2& lhs, const VkBufferMemory
 
 bool operator<(const VkBufferMemoryRequirementsInfo2& lhs, const VkBufferMemoryRequirementsInfo2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1764,6 +1905,7 @@ bool operator>=(const VkBufferMemoryRequirementsInfo2& lhs, const VkBufferMemory
 
 bool operator==(const VkBufferOpaqueCaptureAddressCreateInfo& lhs, const VkBufferOpaqueCaptureAddressCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1774,6 +1916,7 @@ bool operator!=(const VkBufferOpaqueCaptureAddressCreateInfo& lhs, const VkBuffe
 
 bool operator<(const VkBufferOpaqueCaptureAddressCreateInfo& lhs, const VkBufferOpaqueCaptureAddressCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1794,6 +1937,7 @@ bool operator>=(const VkBufferOpaqueCaptureAddressCreateInfo& lhs, const VkBuffe
 
 bool operator==(const VkBufferViewCreateInfo& lhs, const VkBufferViewCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1804,6 +1948,7 @@ bool operator!=(const VkBufferViewCreateInfo& lhs, const VkBufferViewCreateInfo&
 
 bool operator<(const VkBufferViewCreateInfo& lhs, const VkBufferViewCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1824,6 +1969,7 @@ bool operator>=(const VkBufferViewCreateInfo& lhs, const VkBufferViewCreateInfo&
 
 bool operator==(const VkCalibratedTimestampInfoEXT& lhs, const VkCalibratedTimestampInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1834,6 +1980,7 @@ bool operator!=(const VkCalibratedTimestampInfoEXT& lhs, const VkCalibratedTimes
 
 bool operator<(const VkCalibratedTimestampInfoEXT& lhs, const VkCalibratedTimestampInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1854,6 +2001,7 @@ bool operator>=(const VkCalibratedTimestampInfoEXT& lhs, const VkCalibratedTimes
 
 bool operator==(const VkCheckpointDataNV& lhs, const VkCheckpointDataNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1864,6 +2012,7 @@ bool operator!=(const VkCheckpointDataNV& lhs, const VkCheckpointDataNV& rhs)
 
 bool operator<(const VkCheckpointDataNV& lhs, const VkCheckpointDataNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1884,6 +2033,7 @@ bool operator>=(const VkCheckpointDataNV& lhs, const VkCheckpointDataNV& rhs)
 
 bool operator==(const VkClearAttachment& lhs, const VkClearAttachment& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1894,6 +2044,7 @@ bool operator!=(const VkClearAttachment& lhs, const VkClearAttachment& rhs)
 
 bool operator<(const VkClearAttachment& lhs, const VkClearAttachment& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1912,8 +2063,41 @@ bool operator>=(const VkClearAttachment& lhs, const VkClearAttachment& rhs)
     return !(lhs < rhs);
 }
 
+bool operator==(const VkClearColorValue& lhs, const VkClearColorValue& rhs)
+{
+    using namespace dst::gfx::vk::detail;
+    return structure_to_tuple(lhs) == structure_to_tuple(rhs);
+}
+
+bool operator!=(const VkClearColorValue& lhs, const VkClearColorValue& rhs)
+{
+    return !(lhs == rhs);
+}
+
+bool operator<(const VkClearColorValue& lhs, const VkClearColorValue& rhs)
+{
+    using namespace dst::gfx::vk::detail;
+    return structure_to_tuple(lhs) < structure_to_tuple(rhs);
+}
+
+bool operator>(const VkClearColorValue& lhs, const VkClearColorValue& rhs)
+{
+    return rhs < lhs;
+}
+
+bool operator<=(const VkClearColorValue& lhs, const VkClearColorValue& rhs)
+{
+    return !(rhs < lhs);
+}
+
+bool operator>=(const VkClearColorValue& lhs, const VkClearColorValue& rhs)
+{
+    return !(lhs < rhs);
+}
+
 bool operator==(const VkClearDepthStencilValue& lhs, const VkClearDepthStencilValue& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1924,6 +2108,7 @@ bool operator!=(const VkClearDepthStencilValue& lhs, const VkClearDepthStencilVa
 
 bool operator<(const VkClearDepthStencilValue& lhs, const VkClearDepthStencilValue& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1944,6 +2129,7 @@ bool operator>=(const VkClearDepthStencilValue& lhs, const VkClearDepthStencilVa
 
 bool operator==(const VkClearRect& lhs, const VkClearRect& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1954,6 +2140,7 @@ bool operator!=(const VkClearRect& lhs, const VkClearRect& rhs)
 
 bool operator<(const VkClearRect& lhs, const VkClearRect& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -1972,8 +2159,41 @@ bool operator>=(const VkClearRect& lhs, const VkClearRect& rhs)
     return !(lhs < rhs);
 }
 
+bool operator==(const VkClearValue& lhs, const VkClearValue& rhs)
+{
+    using namespace dst::gfx::vk::detail;
+    return structure_to_tuple(lhs) == structure_to_tuple(rhs);
+}
+
+bool operator!=(const VkClearValue& lhs, const VkClearValue& rhs)
+{
+    return !(lhs == rhs);
+}
+
+bool operator<(const VkClearValue& lhs, const VkClearValue& rhs)
+{
+    using namespace dst::gfx::vk::detail;
+    return structure_to_tuple(lhs) < structure_to_tuple(rhs);
+}
+
+bool operator>(const VkClearValue& lhs, const VkClearValue& rhs)
+{
+    return rhs < lhs;
+}
+
+bool operator<=(const VkClearValue& lhs, const VkClearValue& rhs)
+{
+    return !(rhs < lhs);
+}
+
+bool operator>=(const VkClearValue& lhs, const VkClearValue& rhs)
+{
+    return !(lhs < rhs);
+}
+
 bool operator==(const VkCoarseSampleLocationNV& lhs, const VkCoarseSampleLocationNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -1984,6 +2204,7 @@ bool operator!=(const VkCoarseSampleLocationNV& lhs, const VkCoarseSampleLocatio
 
 bool operator<(const VkCoarseSampleLocationNV& lhs, const VkCoarseSampleLocationNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2004,6 +2225,7 @@ bool operator>=(const VkCoarseSampleLocationNV& lhs, const VkCoarseSampleLocatio
 
 bool operator==(const VkCoarseSampleOrderCustomNV& lhs, const VkCoarseSampleOrderCustomNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2014,6 +2236,7 @@ bool operator!=(const VkCoarseSampleOrderCustomNV& lhs, const VkCoarseSampleOrde
 
 bool operator<(const VkCoarseSampleOrderCustomNV& lhs, const VkCoarseSampleOrderCustomNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2034,6 +2257,7 @@ bool operator>=(const VkCoarseSampleOrderCustomNV& lhs, const VkCoarseSampleOrde
 
 bool operator==(const VkCommandBufferAllocateInfo& lhs, const VkCommandBufferAllocateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2044,6 +2268,7 @@ bool operator!=(const VkCommandBufferAllocateInfo& lhs, const VkCommandBufferAll
 
 bool operator<(const VkCommandBufferAllocateInfo& lhs, const VkCommandBufferAllocateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2064,6 +2289,7 @@ bool operator>=(const VkCommandBufferAllocateInfo& lhs, const VkCommandBufferAll
 
 bool operator==(const VkCommandBufferBeginInfo& lhs, const VkCommandBufferBeginInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2074,6 +2300,7 @@ bool operator!=(const VkCommandBufferBeginInfo& lhs, const VkCommandBufferBeginI
 
 bool operator<(const VkCommandBufferBeginInfo& lhs, const VkCommandBufferBeginInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2094,6 +2321,7 @@ bool operator>=(const VkCommandBufferBeginInfo& lhs, const VkCommandBufferBeginI
 
 bool operator==(const VkCommandBufferInheritanceConditionalRenderingInfoEXT& lhs, const VkCommandBufferInheritanceConditionalRenderingInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2104,6 +2332,7 @@ bool operator!=(const VkCommandBufferInheritanceConditionalRenderingInfoEXT& lhs
 
 bool operator<(const VkCommandBufferInheritanceConditionalRenderingInfoEXT& lhs, const VkCommandBufferInheritanceConditionalRenderingInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2124,6 +2353,7 @@ bool operator>=(const VkCommandBufferInheritanceConditionalRenderingInfoEXT& lhs
 
 bool operator==(const VkCommandBufferInheritanceInfo& lhs, const VkCommandBufferInheritanceInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2134,6 +2364,7 @@ bool operator!=(const VkCommandBufferInheritanceInfo& lhs, const VkCommandBuffer
 
 bool operator<(const VkCommandBufferInheritanceInfo& lhs, const VkCommandBufferInheritanceInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2154,6 +2385,7 @@ bool operator>=(const VkCommandBufferInheritanceInfo& lhs, const VkCommandBuffer
 
 bool operator==(const VkCommandBufferInheritanceRenderPassTransformInfoQCOM& lhs, const VkCommandBufferInheritanceRenderPassTransformInfoQCOM& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2164,6 +2396,7 @@ bool operator!=(const VkCommandBufferInheritanceRenderPassTransformInfoQCOM& lhs
 
 bool operator<(const VkCommandBufferInheritanceRenderPassTransformInfoQCOM& lhs, const VkCommandBufferInheritanceRenderPassTransformInfoQCOM& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2184,6 +2417,7 @@ bool operator>=(const VkCommandBufferInheritanceRenderPassTransformInfoQCOM& lhs
 
 bool operator==(const VkCommandPoolCreateInfo& lhs, const VkCommandPoolCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2194,6 +2428,7 @@ bool operator!=(const VkCommandPoolCreateInfo& lhs, const VkCommandPoolCreateInf
 
 bool operator<(const VkCommandPoolCreateInfo& lhs, const VkCommandPoolCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2214,6 +2449,7 @@ bool operator>=(const VkCommandPoolCreateInfo& lhs, const VkCommandPoolCreateInf
 
 bool operator==(const VkComponentMapping& lhs, const VkComponentMapping& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2224,6 +2460,7 @@ bool operator!=(const VkComponentMapping& lhs, const VkComponentMapping& rhs)
 
 bool operator<(const VkComponentMapping& lhs, const VkComponentMapping& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2244,6 +2481,7 @@ bool operator>=(const VkComponentMapping& lhs, const VkComponentMapping& rhs)
 
 bool operator==(const VkComputePipelineCreateInfo& lhs, const VkComputePipelineCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2254,6 +2492,7 @@ bool operator!=(const VkComputePipelineCreateInfo& lhs, const VkComputePipelineC
 
 bool operator<(const VkComputePipelineCreateInfo& lhs, const VkComputePipelineCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2274,6 +2513,7 @@ bool operator>=(const VkComputePipelineCreateInfo& lhs, const VkComputePipelineC
 
 bool operator==(const VkConditionalRenderingBeginInfoEXT& lhs, const VkConditionalRenderingBeginInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2284,6 +2524,7 @@ bool operator!=(const VkConditionalRenderingBeginInfoEXT& lhs, const VkCondition
 
 bool operator<(const VkConditionalRenderingBeginInfoEXT& lhs, const VkConditionalRenderingBeginInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2304,6 +2545,7 @@ bool operator>=(const VkConditionalRenderingBeginInfoEXT& lhs, const VkCondition
 
 bool operator==(const VkConformanceVersion& lhs, const VkConformanceVersion& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2314,6 +2556,7 @@ bool operator!=(const VkConformanceVersion& lhs, const VkConformanceVersion& rhs
 
 bool operator<(const VkConformanceVersion& lhs, const VkConformanceVersion& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2334,6 +2577,7 @@ bool operator>=(const VkConformanceVersion& lhs, const VkConformanceVersion& rhs
 
 bool operator==(const VkCooperativeMatrixPropertiesNV& lhs, const VkCooperativeMatrixPropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2344,6 +2588,7 @@ bool operator!=(const VkCooperativeMatrixPropertiesNV& lhs, const VkCooperativeM
 
 bool operator<(const VkCooperativeMatrixPropertiesNV& lhs, const VkCooperativeMatrixPropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2365,6 +2610,7 @@ bool operator>=(const VkCooperativeMatrixPropertiesNV& lhs, const VkCooperativeM
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkCopyAccelerationStructureInfoKHR& lhs, const VkCopyAccelerationStructureInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -2379,6 +2625,7 @@ bool operator!=(const VkCopyAccelerationStructureInfoKHR& lhs, const VkCopyAccel
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkCopyAccelerationStructureInfoKHR& lhs, const VkCopyAccelerationStructureInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -2407,6 +2654,7 @@ bool operator>=(const VkCopyAccelerationStructureInfoKHR& lhs, const VkCopyAccel
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkCopyAccelerationStructureToMemoryInfoKHR& lhs, const VkCopyAccelerationStructureToMemoryInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -2421,6 +2669,7 @@ bool operator!=(const VkCopyAccelerationStructureToMemoryInfoKHR& lhs, const VkC
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkCopyAccelerationStructureToMemoryInfoKHR& lhs, const VkCopyAccelerationStructureToMemoryInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -2448,6 +2697,7 @@ bool operator>=(const VkCopyAccelerationStructureToMemoryInfoKHR& lhs, const VkC
 
 bool operator==(const VkCopyDescriptorSet& lhs, const VkCopyDescriptorSet& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2458,6 +2708,7 @@ bool operator!=(const VkCopyDescriptorSet& lhs, const VkCopyDescriptorSet& rhs)
 
 bool operator<(const VkCopyDescriptorSet& lhs, const VkCopyDescriptorSet& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2479,6 +2730,7 @@ bool operator>=(const VkCopyDescriptorSet& lhs, const VkCopyDescriptorSet& rhs)
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkCopyMemoryToAccelerationStructureInfoKHR& lhs, const VkCopyMemoryToAccelerationStructureInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -2493,6 +2745,7 @@ bool operator!=(const VkCopyMemoryToAccelerationStructureInfoKHR& lhs, const VkC
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkCopyMemoryToAccelerationStructureInfoKHR& lhs, const VkCopyMemoryToAccelerationStructureInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -2521,6 +2774,7 @@ bool operator>=(const VkCopyMemoryToAccelerationStructureInfoKHR& lhs, const VkC
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkD3D12FenceSubmitInfoKHR& lhs, const VkD3D12FenceSubmitInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -2535,6 +2789,7 @@ bool operator!=(const VkD3D12FenceSubmitInfoKHR& lhs, const VkD3D12FenceSubmitIn
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkD3D12FenceSubmitInfoKHR& lhs, const VkD3D12FenceSubmitInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -2562,6 +2817,7 @@ bool operator>=(const VkD3D12FenceSubmitInfoKHR& lhs, const VkD3D12FenceSubmitIn
 
 bool operator==(const VkDebugMarkerMarkerInfoEXT& lhs, const VkDebugMarkerMarkerInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2572,6 +2828,7 @@ bool operator!=(const VkDebugMarkerMarkerInfoEXT& lhs, const VkDebugMarkerMarker
 
 bool operator<(const VkDebugMarkerMarkerInfoEXT& lhs, const VkDebugMarkerMarkerInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2592,6 +2849,7 @@ bool operator>=(const VkDebugMarkerMarkerInfoEXT& lhs, const VkDebugMarkerMarker
 
 bool operator==(const VkDebugMarkerObjectNameInfoEXT& lhs, const VkDebugMarkerObjectNameInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2602,6 +2860,7 @@ bool operator!=(const VkDebugMarkerObjectNameInfoEXT& lhs, const VkDebugMarkerOb
 
 bool operator<(const VkDebugMarkerObjectNameInfoEXT& lhs, const VkDebugMarkerObjectNameInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2622,6 +2881,7 @@ bool operator>=(const VkDebugMarkerObjectNameInfoEXT& lhs, const VkDebugMarkerOb
 
 bool operator==(const VkDebugMarkerObjectTagInfoEXT& lhs, const VkDebugMarkerObjectTagInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2632,6 +2892,7 @@ bool operator!=(const VkDebugMarkerObjectTagInfoEXT& lhs, const VkDebugMarkerObj
 
 bool operator<(const VkDebugMarkerObjectTagInfoEXT& lhs, const VkDebugMarkerObjectTagInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2652,6 +2913,7 @@ bool operator>=(const VkDebugMarkerObjectTagInfoEXT& lhs, const VkDebugMarkerObj
 
 bool operator==(const VkDebugReportCallbackCreateInfoEXT& lhs, const VkDebugReportCallbackCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2662,6 +2924,7 @@ bool operator!=(const VkDebugReportCallbackCreateInfoEXT& lhs, const VkDebugRepo
 
 bool operator<(const VkDebugReportCallbackCreateInfoEXT& lhs, const VkDebugReportCallbackCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2682,6 +2945,7 @@ bool operator>=(const VkDebugReportCallbackCreateInfoEXT& lhs, const VkDebugRepo
 
 bool operator==(const VkDebugUtilsLabelEXT& lhs, const VkDebugUtilsLabelEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2692,6 +2956,7 @@ bool operator!=(const VkDebugUtilsLabelEXT& lhs, const VkDebugUtilsLabelEXT& rhs
 
 bool operator<(const VkDebugUtilsLabelEXT& lhs, const VkDebugUtilsLabelEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2712,6 +2977,7 @@ bool operator>=(const VkDebugUtilsLabelEXT& lhs, const VkDebugUtilsLabelEXT& rhs
 
 bool operator==(const VkDebugUtilsMessengerCallbackDataEXT& lhs, const VkDebugUtilsMessengerCallbackDataEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2722,6 +2988,7 @@ bool operator!=(const VkDebugUtilsMessengerCallbackDataEXT& lhs, const VkDebugUt
 
 bool operator<(const VkDebugUtilsMessengerCallbackDataEXT& lhs, const VkDebugUtilsMessengerCallbackDataEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2742,6 +3009,7 @@ bool operator>=(const VkDebugUtilsMessengerCallbackDataEXT& lhs, const VkDebugUt
 
 bool operator==(const VkDebugUtilsMessengerCreateInfoEXT& lhs, const VkDebugUtilsMessengerCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2752,6 +3020,7 @@ bool operator!=(const VkDebugUtilsMessengerCreateInfoEXT& lhs, const VkDebugUtil
 
 bool operator<(const VkDebugUtilsMessengerCreateInfoEXT& lhs, const VkDebugUtilsMessengerCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2772,6 +3041,7 @@ bool operator>=(const VkDebugUtilsMessengerCreateInfoEXT& lhs, const VkDebugUtil
 
 bool operator==(const VkDebugUtilsObjectNameInfoEXT& lhs, const VkDebugUtilsObjectNameInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2782,6 +3052,7 @@ bool operator!=(const VkDebugUtilsObjectNameInfoEXT& lhs, const VkDebugUtilsObje
 
 bool operator<(const VkDebugUtilsObjectNameInfoEXT& lhs, const VkDebugUtilsObjectNameInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2802,6 +3073,7 @@ bool operator>=(const VkDebugUtilsObjectNameInfoEXT& lhs, const VkDebugUtilsObje
 
 bool operator==(const VkDebugUtilsObjectTagInfoEXT& lhs, const VkDebugUtilsObjectTagInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2812,6 +3084,7 @@ bool operator!=(const VkDebugUtilsObjectTagInfoEXT& lhs, const VkDebugUtilsObjec
 
 bool operator<(const VkDebugUtilsObjectTagInfoEXT& lhs, const VkDebugUtilsObjectTagInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2832,6 +3105,7 @@ bool operator>=(const VkDebugUtilsObjectTagInfoEXT& lhs, const VkDebugUtilsObjec
 
 bool operator==(const VkDedicatedAllocationBufferCreateInfoNV& lhs, const VkDedicatedAllocationBufferCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2842,6 +3116,7 @@ bool operator!=(const VkDedicatedAllocationBufferCreateInfoNV& lhs, const VkDedi
 
 bool operator<(const VkDedicatedAllocationBufferCreateInfoNV& lhs, const VkDedicatedAllocationBufferCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2862,6 +3137,7 @@ bool operator>=(const VkDedicatedAllocationBufferCreateInfoNV& lhs, const VkDedi
 
 bool operator==(const VkDedicatedAllocationImageCreateInfoNV& lhs, const VkDedicatedAllocationImageCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2872,6 +3148,7 @@ bool operator!=(const VkDedicatedAllocationImageCreateInfoNV& lhs, const VkDedic
 
 bool operator<(const VkDedicatedAllocationImageCreateInfoNV& lhs, const VkDedicatedAllocationImageCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2892,6 +3169,7 @@ bool operator>=(const VkDedicatedAllocationImageCreateInfoNV& lhs, const VkDedic
 
 bool operator==(const VkDedicatedAllocationMemoryAllocateInfoNV& lhs, const VkDedicatedAllocationMemoryAllocateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2902,6 +3180,7 @@ bool operator!=(const VkDedicatedAllocationMemoryAllocateInfoNV& lhs, const VkDe
 
 bool operator<(const VkDedicatedAllocationMemoryAllocateInfoNV& lhs, const VkDedicatedAllocationMemoryAllocateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2923,6 +3202,7 @@ bool operator>=(const VkDedicatedAllocationMemoryAllocateInfoNV& lhs, const VkDe
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkDeferredOperationInfoKHR& lhs, const VkDeferredOperationInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -2937,6 +3217,7 @@ bool operator!=(const VkDeferredOperationInfoKHR& lhs, const VkDeferredOperation
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkDeferredOperationInfoKHR& lhs, const VkDeferredOperationInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -2964,6 +3245,7 @@ bool operator>=(const VkDeferredOperationInfoKHR& lhs, const VkDeferredOperation
 
 bool operator==(const VkDescriptorBufferInfo& lhs, const VkDescriptorBufferInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -2974,6 +3256,7 @@ bool operator!=(const VkDescriptorBufferInfo& lhs, const VkDescriptorBufferInfo&
 
 bool operator<(const VkDescriptorBufferInfo& lhs, const VkDescriptorBufferInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -2994,6 +3277,7 @@ bool operator>=(const VkDescriptorBufferInfo& lhs, const VkDescriptorBufferInfo&
 
 bool operator==(const VkDescriptorImageInfo& lhs, const VkDescriptorImageInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3004,6 +3288,7 @@ bool operator!=(const VkDescriptorImageInfo& lhs, const VkDescriptorImageInfo& r
 
 bool operator<(const VkDescriptorImageInfo& lhs, const VkDescriptorImageInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3024,6 +3309,7 @@ bool operator>=(const VkDescriptorImageInfo& lhs, const VkDescriptorImageInfo& r
 
 bool operator==(const VkDescriptorPoolCreateInfo& lhs, const VkDescriptorPoolCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3034,6 +3320,7 @@ bool operator!=(const VkDescriptorPoolCreateInfo& lhs, const VkDescriptorPoolCre
 
 bool operator<(const VkDescriptorPoolCreateInfo& lhs, const VkDescriptorPoolCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3054,6 +3341,7 @@ bool operator>=(const VkDescriptorPoolCreateInfo& lhs, const VkDescriptorPoolCre
 
 bool operator==(const VkDescriptorPoolInlineUniformBlockCreateInfoEXT& lhs, const VkDescriptorPoolInlineUniformBlockCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3064,6 +3352,7 @@ bool operator!=(const VkDescriptorPoolInlineUniformBlockCreateInfoEXT& lhs, cons
 
 bool operator<(const VkDescriptorPoolInlineUniformBlockCreateInfoEXT& lhs, const VkDescriptorPoolInlineUniformBlockCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3084,6 +3373,7 @@ bool operator>=(const VkDescriptorPoolInlineUniformBlockCreateInfoEXT& lhs, cons
 
 bool operator==(const VkDescriptorPoolSize& lhs, const VkDescriptorPoolSize& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3094,6 +3384,7 @@ bool operator!=(const VkDescriptorPoolSize& lhs, const VkDescriptorPoolSize& rhs
 
 bool operator<(const VkDescriptorPoolSize& lhs, const VkDescriptorPoolSize& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3114,6 +3405,7 @@ bool operator>=(const VkDescriptorPoolSize& lhs, const VkDescriptorPoolSize& rhs
 
 bool operator==(const VkDescriptorSetAllocateInfo& lhs, const VkDescriptorSetAllocateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3124,6 +3416,7 @@ bool operator!=(const VkDescriptorSetAllocateInfo& lhs, const VkDescriptorSetAll
 
 bool operator<(const VkDescriptorSetAllocateInfo& lhs, const VkDescriptorSetAllocateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3144,6 +3437,7 @@ bool operator>=(const VkDescriptorSetAllocateInfo& lhs, const VkDescriptorSetAll
 
 bool operator==(const VkDescriptorSetLayoutBinding& lhs, const VkDescriptorSetLayoutBinding& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3154,6 +3448,7 @@ bool operator!=(const VkDescriptorSetLayoutBinding& lhs, const VkDescriptorSetLa
 
 bool operator<(const VkDescriptorSetLayoutBinding& lhs, const VkDescriptorSetLayoutBinding& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3174,6 +3469,7 @@ bool operator>=(const VkDescriptorSetLayoutBinding& lhs, const VkDescriptorSetLa
 
 bool operator==(const VkDescriptorSetLayoutBindingFlagsCreateInfo& lhs, const VkDescriptorSetLayoutBindingFlagsCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3184,6 +3480,7 @@ bool operator!=(const VkDescriptorSetLayoutBindingFlagsCreateInfo& lhs, const Vk
 
 bool operator<(const VkDescriptorSetLayoutBindingFlagsCreateInfo& lhs, const VkDescriptorSetLayoutBindingFlagsCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3204,6 +3501,7 @@ bool operator>=(const VkDescriptorSetLayoutBindingFlagsCreateInfo& lhs, const Vk
 
 bool operator==(const VkDescriptorSetLayoutCreateInfo& lhs, const VkDescriptorSetLayoutCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3214,6 +3512,7 @@ bool operator!=(const VkDescriptorSetLayoutCreateInfo& lhs, const VkDescriptorSe
 
 bool operator<(const VkDescriptorSetLayoutCreateInfo& lhs, const VkDescriptorSetLayoutCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3234,6 +3533,7 @@ bool operator>=(const VkDescriptorSetLayoutCreateInfo& lhs, const VkDescriptorSe
 
 bool operator==(const VkDescriptorSetLayoutSupport& lhs, const VkDescriptorSetLayoutSupport& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3244,6 +3544,7 @@ bool operator!=(const VkDescriptorSetLayoutSupport& lhs, const VkDescriptorSetLa
 
 bool operator<(const VkDescriptorSetLayoutSupport& lhs, const VkDescriptorSetLayoutSupport& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3264,6 +3565,7 @@ bool operator>=(const VkDescriptorSetLayoutSupport& lhs, const VkDescriptorSetLa
 
 bool operator==(const VkDescriptorSetVariableDescriptorCountAllocateInfo& lhs, const VkDescriptorSetVariableDescriptorCountAllocateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3274,6 +3576,7 @@ bool operator!=(const VkDescriptorSetVariableDescriptorCountAllocateInfo& lhs, c
 
 bool operator<(const VkDescriptorSetVariableDescriptorCountAllocateInfo& lhs, const VkDescriptorSetVariableDescriptorCountAllocateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3294,6 +3597,7 @@ bool operator>=(const VkDescriptorSetVariableDescriptorCountAllocateInfo& lhs, c
 
 bool operator==(const VkDescriptorSetVariableDescriptorCountLayoutSupport& lhs, const VkDescriptorSetVariableDescriptorCountLayoutSupport& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3304,6 +3608,7 @@ bool operator!=(const VkDescriptorSetVariableDescriptorCountLayoutSupport& lhs, 
 
 bool operator<(const VkDescriptorSetVariableDescriptorCountLayoutSupport& lhs, const VkDescriptorSetVariableDescriptorCountLayoutSupport& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3324,6 +3629,7 @@ bool operator>=(const VkDescriptorSetVariableDescriptorCountLayoutSupport& lhs, 
 
 bool operator==(const VkDescriptorUpdateTemplateCreateInfo& lhs, const VkDescriptorUpdateTemplateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3334,6 +3640,7 @@ bool operator!=(const VkDescriptorUpdateTemplateCreateInfo& lhs, const VkDescrip
 
 bool operator<(const VkDescriptorUpdateTemplateCreateInfo& lhs, const VkDescriptorUpdateTemplateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3354,6 +3661,7 @@ bool operator>=(const VkDescriptorUpdateTemplateCreateInfo& lhs, const VkDescrip
 
 bool operator==(const VkDescriptorUpdateTemplateEntry& lhs, const VkDescriptorUpdateTemplateEntry& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3364,6 +3672,7 @@ bool operator!=(const VkDescriptorUpdateTemplateEntry& lhs, const VkDescriptorUp
 
 bool operator<(const VkDescriptorUpdateTemplateEntry& lhs, const VkDescriptorUpdateTemplateEntry& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3384,6 +3693,7 @@ bool operator>=(const VkDescriptorUpdateTemplateEntry& lhs, const VkDescriptorUp
 
 bool operator==(const VkDeviceCreateInfo& lhs, const VkDeviceCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3394,6 +3704,7 @@ bool operator!=(const VkDeviceCreateInfo& lhs, const VkDeviceCreateInfo& rhs)
 
 bool operator<(const VkDeviceCreateInfo& lhs, const VkDeviceCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3414,6 +3725,7 @@ bool operator>=(const VkDeviceCreateInfo& lhs, const VkDeviceCreateInfo& rhs)
 
 bool operator==(const VkDeviceDiagnosticsConfigCreateInfoNV& lhs, const VkDeviceDiagnosticsConfigCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3424,6 +3736,7 @@ bool operator!=(const VkDeviceDiagnosticsConfigCreateInfoNV& lhs, const VkDevice
 
 bool operator<(const VkDeviceDiagnosticsConfigCreateInfoNV& lhs, const VkDeviceDiagnosticsConfigCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3444,6 +3757,7 @@ bool operator>=(const VkDeviceDiagnosticsConfigCreateInfoNV& lhs, const VkDevice
 
 bool operator==(const VkDeviceEventInfoEXT& lhs, const VkDeviceEventInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3454,6 +3768,7 @@ bool operator!=(const VkDeviceEventInfoEXT& lhs, const VkDeviceEventInfoEXT& rhs
 
 bool operator<(const VkDeviceEventInfoEXT& lhs, const VkDeviceEventInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3474,6 +3789,7 @@ bool operator>=(const VkDeviceEventInfoEXT& lhs, const VkDeviceEventInfoEXT& rhs
 
 bool operator==(const VkDeviceGroupBindSparseInfo& lhs, const VkDeviceGroupBindSparseInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3484,6 +3800,7 @@ bool operator!=(const VkDeviceGroupBindSparseInfo& lhs, const VkDeviceGroupBindS
 
 bool operator<(const VkDeviceGroupBindSparseInfo& lhs, const VkDeviceGroupBindSparseInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3504,6 +3821,7 @@ bool operator>=(const VkDeviceGroupBindSparseInfo& lhs, const VkDeviceGroupBindS
 
 bool operator==(const VkDeviceGroupCommandBufferBeginInfo& lhs, const VkDeviceGroupCommandBufferBeginInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3514,6 +3832,7 @@ bool operator!=(const VkDeviceGroupCommandBufferBeginInfo& lhs, const VkDeviceGr
 
 bool operator<(const VkDeviceGroupCommandBufferBeginInfo& lhs, const VkDeviceGroupCommandBufferBeginInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3534,6 +3853,7 @@ bool operator>=(const VkDeviceGroupCommandBufferBeginInfo& lhs, const VkDeviceGr
 
 bool operator==(const VkDeviceGroupDeviceCreateInfo& lhs, const VkDeviceGroupDeviceCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3544,6 +3864,7 @@ bool operator!=(const VkDeviceGroupDeviceCreateInfo& lhs, const VkDeviceGroupDev
 
 bool operator<(const VkDeviceGroupDeviceCreateInfo& lhs, const VkDeviceGroupDeviceCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3564,6 +3885,7 @@ bool operator>=(const VkDeviceGroupDeviceCreateInfo& lhs, const VkDeviceGroupDev
 
 bool operator==(const VkDeviceGroupPresentCapabilitiesKHR& lhs, const VkDeviceGroupPresentCapabilitiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3574,6 +3896,7 @@ bool operator!=(const VkDeviceGroupPresentCapabilitiesKHR& lhs, const VkDeviceGr
 
 bool operator<(const VkDeviceGroupPresentCapabilitiesKHR& lhs, const VkDeviceGroupPresentCapabilitiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3594,6 +3917,7 @@ bool operator>=(const VkDeviceGroupPresentCapabilitiesKHR& lhs, const VkDeviceGr
 
 bool operator==(const VkDeviceGroupPresentInfoKHR& lhs, const VkDeviceGroupPresentInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3604,6 +3928,7 @@ bool operator!=(const VkDeviceGroupPresentInfoKHR& lhs, const VkDeviceGroupPrese
 
 bool operator<(const VkDeviceGroupPresentInfoKHR& lhs, const VkDeviceGroupPresentInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3624,6 +3949,7 @@ bool operator>=(const VkDeviceGroupPresentInfoKHR& lhs, const VkDeviceGroupPrese
 
 bool operator==(const VkDeviceGroupRenderPassBeginInfo& lhs, const VkDeviceGroupRenderPassBeginInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3634,6 +3960,7 @@ bool operator!=(const VkDeviceGroupRenderPassBeginInfo& lhs, const VkDeviceGroup
 
 bool operator<(const VkDeviceGroupRenderPassBeginInfo& lhs, const VkDeviceGroupRenderPassBeginInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3654,6 +3981,7 @@ bool operator>=(const VkDeviceGroupRenderPassBeginInfo& lhs, const VkDeviceGroup
 
 bool operator==(const VkDeviceGroupSubmitInfo& lhs, const VkDeviceGroupSubmitInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3664,6 +3992,7 @@ bool operator!=(const VkDeviceGroupSubmitInfo& lhs, const VkDeviceGroupSubmitInf
 
 bool operator<(const VkDeviceGroupSubmitInfo& lhs, const VkDeviceGroupSubmitInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3684,6 +4013,7 @@ bool operator>=(const VkDeviceGroupSubmitInfo& lhs, const VkDeviceGroupSubmitInf
 
 bool operator==(const VkDeviceGroupSwapchainCreateInfoKHR& lhs, const VkDeviceGroupSwapchainCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3694,6 +4024,7 @@ bool operator!=(const VkDeviceGroupSwapchainCreateInfoKHR& lhs, const VkDeviceGr
 
 bool operator<(const VkDeviceGroupSwapchainCreateInfoKHR& lhs, const VkDeviceGroupSwapchainCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3714,6 +4045,7 @@ bool operator>=(const VkDeviceGroupSwapchainCreateInfoKHR& lhs, const VkDeviceGr
 
 bool operator==(const VkDeviceMemoryOpaqueCaptureAddressInfo& lhs, const VkDeviceMemoryOpaqueCaptureAddressInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3724,6 +4056,7 @@ bool operator!=(const VkDeviceMemoryOpaqueCaptureAddressInfo& lhs, const VkDevic
 
 bool operator<(const VkDeviceMemoryOpaqueCaptureAddressInfo& lhs, const VkDeviceMemoryOpaqueCaptureAddressInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3744,6 +4077,7 @@ bool operator>=(const VkDeviceMemoryOpaqueCaptureAddressInfo& lhs, const VkDevic
 
 bool operator==(const VkDeviceMemoryOverallocationCreateInfoAMD& lhs, const VkDeviceMemoryOverallocationCreateInfoAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3754,6 +4088,7 @@ bool operator!=(const VkDeviceMemoryOverallocationCreateInfoAMD& lhs, const VkDe
 
 bool operator<(const VkDeviceMemoryOverallocationCreateInfoAMD& lhs, const VkDeviceMemoryOverallocationCreateInfoAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3772,8 +4107,97 @@ bool operator>=(const VkDeviceMemoryOverallocationCreateInfoAMD& lhs, const VkDe
     return !(lhs < rhs);
 }
 
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator==(const VkDeviceOrHostAddressConstKHR& lhs, const VkDeviceOrHostAddressConstKHR& rhs)
+{
+    using namespace dst::gfx::vk::detail;
+    return structure_to_tuple(lhs) == structure_to_tuple(rhs);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator!=(const VkDeviceOrHostAddressConstKHR& lhs, const VkDeviceOrHostAddressConstKHR& rhs)
+{
+    return !(lhs == rhs);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator<(const VkDeviceOrHostAddressConstKHR& lhs, const VkDeviceOrHostAddressConstKHR& rhs)
+{
+    using namespace dst::gfx::vk::detail;
+    return structure_to_tuple(lhs) < structure_to_tuple(rhs);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator>(const VkDeviceOrHostAddressConstKHR& lhs, const VkDeviceOrHostAddressConstKHR& rhs)
+{
+    return rhs < lhs;
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator<=(const VkDeviceOrHostAddressConstKHR& lhs, const VkDeviceOrHostAddressConstKHR& rhs)
+{
+    return !(rhs < lhs);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator>=(const VkDeviceOrHostAddressConstKHR& lhs, const VkDeviceOrHostAddressConstKHR& rhs)
+{
+    return !(lhs < rhs);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator==(const VkDeviceOrHostAddressKHR& lhs, const VkDeviceOrHostAddressKHR& rhs)
+{
+    using namespace dst::gfx::vk::detail;
+    return structure_to_tuple(lhs) == structure_to_tuple(rhs);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator!=(const VkDeviceOrHostAddressKHR& lhs, const VkDeviceOrHostAddressKHR& rhs)
+{
+    return !(lhs == rhs);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator<(const VkDeviceOrHostAddressKHR& lhs, const VkDeviceOrHostAddressKHR& rhs)
+{
+    using namespace dst::gfx::vk::detail;
+    return structure_to_tuple(lhs) < structure_to_tuple(rhs);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator>(const VkDeviceOrHostAddressKHR& lhs, const VkDeviceOrHostAddressKHR& rhs)
+{
+    return rhs < lhs;
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator<=(const VkDeviceOrHostAddressKHR& lhs, const VkDeviceOrHostAddressKHR& rhs)
+{
+    return !(rhs < lhs);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator>=(const VkDeviceOrHostAddressKHR& lhs, const VkDeviceOrHostAddressKHR& rhs)
+{
+    return !(lhs < rhs);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
 bool operator==(const VkDeviceQueueCreateInfo& lhs, const VkDeviceQueueCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3784,6 +4208,7 @@ bool operator!=(const VkDeviceQueueCreateInfo& lhs, const VkDeviceQueueCreateInf
 
 bool operator<(const VkDeviceQueueCreateInfo& lhs, const VkDeviceQueueCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3804,6 +4229,7 @@ bool operator>=(const VkDeviceQueueCreateInfo& lhs, const VkDeviceQueueCreateInf
 
 bool operator==(const VkDeviceQueueGlobalPriorityCreateInfoEXT& lhs, const VkDeviceQueueGlobalPriorityCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3814,6 +4240,7 @@ bool operator!=(const VkDeviceQueueGlobalPriorityCreateInfoEXT& lhs, const VkDev
 
 bool operator<(const VkDeviceQueueGlobalPriorityCreateInfoEXT& lhs, const VkDeviceQueueGlobalPriorityCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3834,6 +4261,7 @@ bool operator>=(const VkDeviceQueueGlobalPriorityCreateInfoEXT& lhs, const VkDev
 
 bool operator==(const VkDeviceQueueInfo2& lhs, const VkDeviceQueueInfo2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3844,6 +4272,7 @@ bool operator!=(const VkDeviceQueueInfo2& lhs, const VkDeviceQueueInfo2& rhs)
 
 bool operator<(const VkDeviceQueueInfo2& lhs, const VkDeviceQueueInfo2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3864,6 +4293,7 @@ bool operator>=(const VkDeviceQueueInfo2& lhs, const VkDeviceQueueInfo2& rhs)
 
 bool operator==(const VkDispatchIndirectCommand& lhs, const VkDispatchIndirectCommand& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3874,6 +4304,7 @@ bool operator!=(const VkDispatchIndirectCommand& lhs, const VkDispatchIndirectCo
 
 bool operator<(const VkDispatchIndirectCommand& lhs, const VkDispatchIndirectCommand& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3894,6 +4325,7 @@ bool operator>=(const VkDispatchIndirectCommand& lhs, const VkDispatchIndirectCo
 
 bool operator==(const VkDisplayEventInfoEXT& lhs, const VkDisplayEventInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3904,6 +4336,7 @@ bool operator!=(const VkDisplayEventInfoEXT& lhs, const VkDisplayEventInfoEXT& r
 
 bool operator<(const VkDisplayEventInfoEXT& lhs, const VkDisplayEventInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3924,6 +4357,7 @@ bool operator>=(const VkDisplayEventInfoEXT& lhs, const VkDisplayEventInfoEXT& r
 
 bool operator==(const VkDisplayModeCreateInfoKHR& lhs, const VkDisplayModeCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3934,6 +4368,7 @@ bool operator!=(const VkDisplayModeCreateInfoKHR& lhs, const VkDisplayModeCreate
 
 bool operator<(const VkDisplayModeCreateInfoKHR& lhs, const VkDisplayModeCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3954,6 +4389,7 @@ bool operator>=(const VkDisplayModeCreateInfoKHR& lhs, const VkDisplayModeCreate
 
 bool operator==(const VkDisplayModeParametersKHR& lhs, const VkDisplayModeParametersKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3964,6 +4400,7 @@ bool operator!=(const VkDisplayModeParametersKHR& lhs, const VkDisplayModeParame
 
 bool operator<(const VkDisplayModeParametersKHR& lhs, const VkDisplayModeParametersKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -3984,6 +4421,7 @@ bool operator>=(const VkDisplayModeParametersKHR& lhs, const VkDisplayModeParame
 
 bool operator==(const VkDisplayModeProperties2KHR& lhs, const VkDisplayModeProperties2KHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -3994,6 +4432,7 @@ bool operator!=(const VkDisplayModeProperties2KHR& lhs, const VkDisplayModePrope
 
 bool operator<(const VkDisplayModeProperties2KHR& lhs, const VkDisplayModeProperties2KHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4014,6 +4453,7 @@ bool operator>=(const VkDisplayModeProperties2KHR& lhs, const VkDisplayModePrope
 
 bool operator==(const VkDisplayModePropertiesKHR& lhs, const VkDisplayModePropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4024,6 +4464,7 @@ bool operator!=(const VkDisplayModePropertiesKHR& lhs, const VkDisplayModeProper
 
 bool operator<(const VkDisplayModePropertiesKHR& lhs, const VkDisplayModePropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4044,6 +4485,7 @@ bool operator>=(const VkDisplayModePropertiesKHR& lhs, const VkDisplayModeProper
 
 bool operator==(const VkDisplayNativeHdrSurfaceCapabilitiesAMD& lhs, const VkDisplayNativeHdrSurfaceCapabilitiesAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4054,6 +4496,7 @@ bool operator!=(const VkDisplayNativeHdrSurfaceCapabilitiesAMD& lhs, const VkDis
 
 bool operator<(const VkDisplayNativeHdrSurfaceCapabilitiesAMD& lhs, const VkDisplayNativeHdrSurfaceCapabilitiesAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4074,6 +4517,7 @@ bool operator>=(const VkDisplayNativeHdrSurfaceCapabilitiesAMD& lhs, const VkDis
 
 bool operator==(const VkDisplayPlaneCapabilities2KHR& lhs, const VkDisplayPlaneCapabilities2KHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4084,6 +4528,7 @@ bool operator!=(const VkDisplayPlaneCapabilities2KHR& lhs, const VkDisplayPlaneC
 
 bool operator<(const VkDisplayPlaneCapabilities2KHR& lhs, const VkDisplayPlaneCapabilities2KHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4104,6 +4549,7 @@ bool operator>=(const VkDisplayPlaneCapabilities2KHR& lhs, const VkDisplayPlaneC
 
 bool operator==(const VkDisplayPlaneCapabilitiesKHR& lhs, const VkDisplayPlaneCapabilitiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4114,6 +4560,7 @@ bool operator!=(const VkDisplayPlaneCapabilitiesKHR& lhs, const VkDisplayPlaneCa
 
 bool operator<(const VkDisplayPlaneCapabilitiesKHR& lhs, const VkDisplayPlaneCapabilitiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4134,6 +4581,7 @@ bool operator>=(const VkDisplayPlaneCapabilitiesKHR& lhs, const VkDisplayPlaneCa
 
 bool operator==(const VkDisplayPlaneInfo2KHR& lhs, const VkDisplayPlaneInfo2KHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4144,6 +4592,7 @@ bool operator!=(const VkDisplayPlaneInfo2KHR& lhs, const VkDisplayPlaneInfo2KHR&
 
 bool operator<(const VkDisplayPlaneInfo2KHR& lhs, const VkDisplayPlaneInfo2KHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4164,6 +4613,7 @@ bool operator>=(const VkDisplayPlaneInfo2KHR& lhs, const VkDisplayPlaneInfo2KHR&
 
 bool operator==(const VkDisplayPlaneProperties2KHR& lhs, const VkDisplayPlaneProperties2KHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4174,6 +4624,7 @@ bool operator!=(const VkDisplayPlaneProperties2KHR& lhs, const VkDisplayPlanePro
 
 bool operator<(const VkDisplayPlaneProperties2KHR& lhs, const VkDisplayPlaneProperties2KHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4194,6 +4645,7 @@ bool operator>=(const VkDisplayPlaneProperties2KHR& lhs, const VkDisplayPlanePro
 
 bool operator==(const VkDisplayPlanePropertiesKHR& lhs, const VkDisplayPlanePropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4204,6 +4656,7 @@ bool operator!=(const VkDisplayPlanePropertiesKHR& lhs, const VkDisplayPlaneProp
 
 bool operator<(const VkDisplayPlanePropertiesKHR& lhs, const VkDisplayPlanePropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4224,6 +4677,7 @@ bool operator>=(const VkDisplayPlanePropertiesKHR& lhs, const VkDisplayPlaneProp
 
 bool operator==(const VkDisplayPowerInfoEXT& lhs, const VkDisplayPowerInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4234,6 +4688,7 @@ bool operator!=(const VkDisplayPowerInfoEXT& lhs, const VkDisplayPowerInfoEXT& r
 
 bool operator<(const VkDisplayPowerInfoEXT& lhs, const VkDisplayPowerInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4254,6 +4709,7 @@ bool operator>=(const VkDisplayPowerInfoEXT& lhs, const VkDisplayPowerInfoEXT& r
 
 bool operator==(const VkDisplayPresentInfoKHR& lhs, const VkDisplayPresentInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4264,6 +4720,7 @@ bool operator!=(const VkDisplayPresentInfoKHR& lhs, const VkDisplayPresentInfoKH
 
 bool operator<(const VkDisplayPresentInfoKHR& lhs, const VkDisplayPresentInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4284,6 +4741,7 @@ bool operator>=(const VkDisplayPresentInfoKHR& lhs, const VkDisplayPresentInfoKH
 
 bool operator==(const VkDisplayProperties2KHR& lhs, const VkDisplayProperties2KHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4294,6 +4752,7 @@ bool operator!=(const VkDisplayProperties2KHR& lhs, const VkDisplayProperties2KH
 
 bool operator<(const VkDisplayProperties2KHR& lhs, const VkDisplayProperties2KHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4314,6 +4773,7 @@ bool operator>=(const VkDisplayProperties2KHR& lhs, const VkDisplayProperties2KH
 
 bool operator==(const VkDisplayPropertiesKHR& lhs, const VkDisplayPropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4324,6 +4784,7 @@ bool operator!=(const VkDisplayPropertiesKHR& lhs, const VkDisplayPropertiesKHR&
 
 bool operator<(const VkDisplayPropertiesKHR& lhs, const VkDisplayPropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4344,6 +4805,7 @@ bool operator>=(const VkDisplayPropertiesKHR& lhs, const VkDisplayPropertiesKHR&
 
 bool operator==(const VkDisplaySurfaceCreateInfoKHR& lhs, const VkDisplaySurfaceCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4354,6 +4816,7 @@ bool operator!=(const VkDisplaySurfaceCreateInfoKHR& lhs, const VkDisplaySurface
 
 bool operator<(const VkDisplaySurfaceCreateInfoKHR& lhs, const VkDisplaySurfaceCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4374,6 +4837,7 @@ bool operator>=(const VkDisplaySurfaceCreateInfoKHR& lhs, const VkDisplaySurface
 
 bool operator==(const VkDrawIndexedIndirectCommand& lhs, const VkDrawIndexedIndirectCommand& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4384,6 +4848,7 @@ bool operator!=(const VkDrawIndexedIndirectCommand& lhs, const VkDrawIndexedIndi
 
 bool operator<(const VkDrawIndexedIndirectCommand& lhs, const VkDrawIndexedIndirectCommand& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4404,6 +4869,7 @@ bool operator>=(const VkDrawIndexedIndirectCommand& lhs, const VkDrawIndexedIndi
 
 bool operator==(const VkDrawIndirectCommand& lhs, const VkDrawIndirectCommand& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4414,6 +4880,7 @@ bool operator!=(const VkDrawIndirectCommand& lhs, const VkDrawIndirectCommand& r
 
 bool operator<(const VkDrawIndirectCommand& lhs, const VkDrawIndirectCommand& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4434,6 +4901,7 @@ bool operator>=(const VkDrawIndirectCommand& lhs, const VkDrawIndirectCommand& r
 
 bool operator==(const VkDrawMeshTasksIndirectCommandNV& lhs, const VkDrawMeshTasksIndirectCommandNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4444,6 +4912,7 @@ bool operator!=(const VkDrawMeshTasksIndirectCommandNV& lhs, const VkDrawMeshTas
 
 bool operator<(const VkDrawMeshTasksIndirectCommandNV& lhs, const VkDrawMeshTasksIndirectCommandNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4464,6 +4933,7 @@ bool operator>=(const VkDrawMeshTasksIndirectCommandNV& lhs, const VkDrawMeshTas
 
 bool operator==(const VkDrmFormatModifierPropertiesEXT& lhs, const VkDrmFormatModifierPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4474,6 +4944,7 @@ bool operator!=(const VkDrmFormatModifierPropertiesEXT& lhs, const VkDrmFormatMo
 
 bool operator<(const VkDrmFormatModifierPropertiesEXT& lhs, const VkDrmFormatModifierPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4494,6 +4965,7 @@ bool operator>=(const VkDrmFormatModifierPropertiesEXT& lhs, const VkDrmFormatMo
 
 bool operator==(const VkDrmFormatModifierPropertiesListEXT& lhs, const VkDrmFormatModifierPropertiesListEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4504,6 +4976,7 @@ bool operator!=(const VkDrmFormatModifierPropertiesListEXT& lhs, const VkDrmForm
 
 bool operator<(const VkDrmFormatModifierPropertiesListEXT& lhs, const VkDrmFormatModifierPropertiesListEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4524,6 +4997,7 @@ bool operator>=(const VkDrmFormatModifierPropertiesListEXT& lhs, const VkDrmForm
 
 bool operator==(const VkEventCreateInfo& lhs, const VkEventCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4534,6 +5008,7 @@ bool operator!=(const VkEventCreateInfo& lhs, const VkEventCreateInfo& rhs)
 
 bool operator<(const VkEventCreateInfo& lhs, const VkEventCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4554,6 +5029,7 @@ bool operator>=(const VkEventCreateInfo& lhs, const VkEventCreateInfo& rhs)
 
 bool operator==(const VkExportFenceCreateInfo& lhs, const VkExportFenceCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4564,6 +5040,7 @@ bool operator!=(const VkExportFenceCreateInfo& lhs, const VkExportFenceCreateInf
 
 bool operator<(const VkExportFenceCreateInfo& lhs, const VkExportFenceCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4585,6 +5062,7 @@ bool operator>=(const VkExportFenceCreateInfo& lhs, const VkExportFenceCreateInf
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkExportFenceWin32HandleInfoKHR& lhs, const VkExportFenceWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -4599,6 +5077,7 @@ bool operator!=(const VkExportFenceWin32HandleInfoKHR& lhs, const VkExportFenceW
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkExportFenceWin32HandleInfoKHR& lhs, const VkExportFenceWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -4626,6 +5105,7 @@ bool operator>=(const VkExportFenceWin32HandleInfoKHR& lhs, const VkExportFenceW
 
 bool operator==(const VkExportMemoryAllocateInfo& lhs, const VkExportMemoryAllocateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4636,6 +5116,7 @@ bool operator!=(const VkExportMemoryAllocateInfo& lhs, const VkExportMemoryAlloc
 
 bool operator<(const VkExportMemoryAllocateInfo& lhs, const VkExportMemoryAllocateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4656,6 +5137,7 @@ bool operator>=(const VkExportMemoryAllocateInfo& lhs, const VkExportMemoryAlloc
 
 bool operator==(const VkExportMemoryAllocateInfoNV& lhs, const VkExportMemoryAllocateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4666,6 +5148,7 @@ bool operator!=(const VkExportMemoryAllocateInfoNV& lhs, const VkExportMemoryAll
 
 bool operator<(const VkExportMemoryAllocateInfoNV& lhs, const VkExportMemoryAllocateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4687,6 +5170,7 @@ bool operator>=(const VkExportMemoryAllocateInfoNV& lhs, const VkExportMemoryAll
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkExportMemoryWin32HandleInfoKHR& lhs, const VkExportMemoryWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -4701,6 +5185,7 @@ bool operator!=(const VkExportMemoryWin32HandleInfoKHR& lhs, const VkExportMemor
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkExportMemoryWin32HandleInfoKHR& lhs, const VkExportMemoryWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -4729,6 +5214,7 @@ bool operator>=(const VkExportMemoryWin32HandleInfoKHR& lhs, const VkExportMemor
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkExportMemoryWin32HandleInfoNV& lhs, const VkExportMemoryWin32HandleInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -4743,6 +5229,7 @@ bool operator!=(const VkExportMemoryWin32HandleInfoNV& lhs, const VkExportMemory
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkExportMemoryWin32HandleInfoNV& lhs, const VkExportMemoryWin32HandleInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -4770,6 +5257,7 @@ bool operator>=(const VkExportMemoryWin32HandleInfoNV& lhs, const VkExportMemory
 
 bool operator==(const VkExportSemaphoreCreateInfo& lhs, const VkExportSemaphoreCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4780,6 +5268,7 @@ bool operator!=(const VkExportSemaphoreCreateInfo& lhs, const VkExportSemaphoreC
 
 bool operator<(const VkExportSemaphoreCreateInfo& lhs, const VkExportSemaphoreCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4801,6 +5290,7 @@ bool operator>=(const VkExportSemaphoreCreateInfo& lhs, const VkExportSemaphoreC
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkExportSemaphoreWin32HandleInfoKHR& lhs, const VkExportSemaphoreWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -4815,6 +5305,7 @@ bool operator!=(const VkExportSemaphoreWin32HandleInfoKHR& lhs, const VkExportSe
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkExportSemaphoreWin32HandleInfoKHR& lhs, const VkExportSemaphoreWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -4842,6 +5333,7 @@ bool operator>=(const VkExportSemaphoreWin32HandleInfoKHR& lhs, const VkExportSe
 
 bool operator==(const VkExtensionProperties& lhs, const VkExtensionProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4852,6 +5344,7 @@ bool operator!=(const VkExtensionProperties& lhs, const VkExtensionProperties& r
 
 bool operator<(const VkExtensionProperties& lhs, const VkExtensionProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4872,6 +5365,7 @@ bool operator>=(const VkExtensionProperties& lhs, const VkExtensionProperties& r
 
 bool operator==(const VkExtent2D& lhs, const VkExtent2D& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4882,6 +5376,7 @@ bool operator!=(const VkExtent2D& lhs, const VkExtent2D& rhs)
 
 bool operator<(const VkExtent2D& lhs, const VkExtent2D& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4902,6 +5397,7 @@ bool operator>=(const VkExtent2D& lhs, const VkExtent2D& rhs)
 
 bool operator==(const VkExtent3D& lhs, const VkExtent3D& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4912,6 +5408,7 @@ bool operator!=(const VkExtent3D& lhs, const VkExtent3D& rhs)
 
 bool operator<(const VkExtent3D& lhs, const VkExtent3D& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4932,6 +5429,7 @@ bool operator>=(const VkExtent3D& lhs, const VkExtent3D& rhs)
 
 bool operator==(const VkExternalBufferProperties& lhs, const VkExternalBufferProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4942,6 +5440,7 @@ bool operator!=(const VkExternalBufferProperties& lhs, const VkExternalBufferPro
 
 bool operator<(const VkExternalBufferProperties& lhs, const VkExternalBufferProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4962,6 +5461,7 @@ bool operator>=(const VkExternalBufferProperties& lhs, const VkExternalBufferPro
 
 bool operator==(const VkExternalFenceProperties& lhs, const VkExternalFenceProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -4972,6 +5472,7 @@ bool operator!=(const VkExternalFenceProperties& lhs, const VkExternalFencePrope
 
 bool operator<(const VkExternalFenceProperties& lhs, const VkExternalFenceProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -4993,6 +5494,7 @@ bool operator>=(const VkExternalFenceProperties& lhs, const VkExternalFencePrope
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator==(const VkExternalFormatANDROID& lhs, const VkExternalFormatANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -5007,6 +5509,7 @@ bool operator!=(const VkExternalFormatANDROID& lhs, const VkExternalFormatANDROI
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator<(const VkExternalFormatANDROID& lhs, const VkExternalFormatANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -5034,6 +5537,7 @@ bool operator>=(const VkExternalFormatANDROID& lhs, const VkExternalFormatANDROI
 
 bool operator==(const VkExternalImageFormatProperties& lhs, const VkExternalImageFormatProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5044,6 +5548,7 @@ bool operator!=(const VkExternalImageFormatProperties& lhs, const VkExternalImag
 
 bool operator<(const VkExternalImageFormatProperties& lhs, const VkExternalImageFormatProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5064,6 +5569,7 @@ bool operator>=(const VkExternalImageFormatProperties& lhs, const VkExternalImag
 
 bool operator==(const VkExternalImageFormatPropertiesNV& lhs, const VkExternalImageFormatPropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5074,6 +5580,7 @@ bool operator!=(const VkExternalImageFormatPropertiesNV& lhs, const VkExternalIm
 
 bool operator<(const VkExternalImageFormatPropertiesNV& lhs, const VkExternalImageFormatPropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5094,6 +5601,7 @@ bool operator>=(const VkExternalImageFormatPropertiesNV& lhs, const VkExternalIm
 
 bool operator==(const VkExternalMemoryBufferCreateInfo& lhs, const VkExternalMemoryBufferCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5104,6 +5612,7 @@ bool operator!=(const VkExternalMemoryBufferCreateInfo& lhs, const VkExternalMem
 
 bool operator<(const VkExternalMemoryBufferCreateInfo& lhs, const VkExternalMemoryBufferCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5124,6 +5633,7 @@ bool operator>=(const VkExternalMemoryBufferCreateInfo& lhs, const VkExternalMem
 
 bool operator==(const VkExternalMemoryImageCreateInfo& lhs, const VkExternalMemoryImageCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5134,6 +5644,7 @@ bool operator!=(const VkExternalMemoryImageCreateInfo& lhs, const VkExternalMemo
 
 bool operator<(const VkExternalMemoryImageCreateInfo& lhs, const VkExternalMemoryImageCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5154,6 +5665,7 @@ bool operator>=(const VkExternalMemoryImageCreateInfo& lhs, const VkExternalMemo
 
 bool operator==(const VkExternalMemoryImageCreateInfoNV& lhs, const VkExternalMemoryImageCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5164,6 +5676,7 @@ bool operator!=(const VkExternalMemoryImageCreateInfoNV& lhs, const VkExternalMe
 
 bool operator<(const VkExternalMemoryImageCreateInfoNV& lhs, const VkExternalMemoryImageCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5184,6 +5697,7 @@ bool operator>=(const VkExternalMemoryImageCreateInfoNV& lhs, const VkExternalMe
 
 bool operator==(const VkExternalMemoryProperties& lhs, const VkExternalMemoryProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5194,6 +5708,7 @@ bool operator!=(const VkExternalMemoryProperties& lhs, const VkExternalMemoryPro
 
 bool operator<(const VkExternalMemoryProperties& lhs, const VkExternalMemoryProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5214,6 +5729,7 @@ bool operator>=(const VkExternalMemoryProperties& lhs, const VkExternalMemoryPro
 
 bool operator==(const VkExternalSemaphoreProperties& lhs, const VkExternalSemaphoreProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5224,6 +5740,7 @@ bool operator!=(const VkExternalSemaphoreProperties& lhs, const VkExternalSemaph
 
 bool operator<(const VkExternalSemaphoreProperties& lhs, const VkExternalSemaphoreProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5244,6 +5761,7 @@ bool operator>=(const VkExternalSemaphoreProperties& lhs, const VkExternalSemaph
 
 bool operator==(const VkFenceCreateInfo& lhs, const VkFenceCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5254,6 +5772,7 @@ bool operator!=(const VkFenceCreateInfo& lhs, const VkFenceCreateInfo& rhs)
 
 bool operator<(const VkFenceCreateInfo& lhs, const VkFenceCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5274,6 +5793,7 @@ bool operator>=(const VkFenceCreateInfo& lhs, const VkFenceCreateInfo& rhs)
 
 bool operator==(const VkFenceGetFdInfoKHR& lhs, const VkFenceGetFdInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5284,6 +5804,7 @@ bool operator!=(const VkFenceGetFdInfoKHR& lhs, const VkFenceGetFdInfoKHR& rhs)
 
 bool operator<(const VkFenceGetFdInfoKHR& lhs, const VkFenceGetFdInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5305,6 +5826,7 @@ bool operator>=(const VkFenceGetFdInfoKHR& lhs, const VkFenceGetFdInfoKHR& rhs)
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkFenceGetWin32HandleInfoKHR& lhs, const VkFenceGetWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -5319,6 +5841,7 @@ bool operator!=(const VkFenceGetWin32HandleInfoKHR& lhs, const VkFenceGetWin32Ha
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkFenceGetWin32HandleInfoKHR& lhs, const VkFenceGetWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -5346,6 +5869,7 @@ bool operator>=(const VkFenceGetWin32HandleInfoKHR& lhs, const VkFenceGetWin32Ha
 
 bool operator==(const VkFilterCubicImageViewImageFormatPropertiesEXT& lhs, const VkFilterCubicImageViewImageFormatPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5356,6 +5880,7 @@ bool operator!=(const VkFilterCubicImageViewImageFormatPropertiesEXT& lhs, const
 
 bool operator<(const VkFilterCubicImageViewImageFormatPropertiesEXT& lhs, const VkFilterCubicImageViewImageFormatPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5376,6 +5901,7 @@ bool operator>=(const VkFilterCubicImageViewImageFormatPropertiesEXT& lhs, const
 
 bool operator==(const VkFormatProperties& lhs, const VkFormatProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5386,6 +5912,7 @@ bool operator!=(const VkFormatProperties& lhs, const VkFormatProperties& rhs)
 
 bool operator<(const VkFormatProperties& lhs, const VkFormatProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5406,6 +5933,7 @@ bool operator>=(const VkFormatProperties& lhs, const VkFormatProperties& rhs)
 
 bool operator==(const VkFormatProperties2& lhs, const VkFormatProperties2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5416,6 +5944,7 @@ bool operator!=(const VkFormatProperties2& lhs, const VkFormatProperties2& rhs)
 
 bool operator<(const VkFormatProperties2& lhs, const VkFormatProperties2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5436,6 +5965,7 @@ bool operator>=(const VkFormatProperties2& lhs, const VkFormatProperties2& rhs)
 
 bool operator==(const VkFramebufferAttachmentImageInfo& lhs, const VkFramebufferAttachmentImageInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5446,6 +5976,7 @@ bool operator!=(const VkFramebufferAttachmentImageInfo& lhs, const VkFramebuffer
 
 bool operator<(const VkFramebufferAttachmentImageInfo& lhs, const VkFramebufferAttachmentImageInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5466,6 +5997,7 @@ bool operator>=(const VkFramebufferAttachmentImageInfo& lhs, const VkFramebuffer
 
 bool operator==(const VkFramebufferAttachmentsCreateInfo& lhs, const VkFramebufferAttachmentsCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5476,6 +6008,7 @@ bool operator!=(const VkFramebufferAttachmentsCreateInfo& lhs, const VkFramebuff
 
 bool operator<(const VkFramebufferAttachmentsCreateInfo& lhs, const VkFramebufferAttachmentsCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5496,6 +6029,7 @@ bool operator>=(const VkFramebufferAttachmentsCreateInfo& lhs, const VkFramebuff
 
 bool operator==(const VkFramebufferCreateInfo& lhs, const VkFramebufferCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5506,6 +6040,7 @@ bool operator!=(const VkFramebufferCreateInfo& lhs, const VkFramebufferCreateInf
 
 bool operator<(const VkFramebufferCreateInfo& lhs, const VkFramebufferCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5526,6 +6061,7 @@ bool operator>=(const VkFramebufferCreateInfo& lhs, const VkFramebufferCreateInf
 
 bool operator==(const VkFramebufferMixedSamplesCombinationNV& lhs, const VkFramebufferMixedSamplesCombinationNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5536,6 +6072,7 @@ bool operator!=(const VkFramebufferMixedSamplesCombinationNV& lhs, const VkFrame
 
 bool operator<(const VkFramebufferMixedSamplesCombinationNV& lhs, const VkFramebufferMixedSamplesCombinationNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5556,6 +6093,7 @@ bool operator>=(const VkFramebufferMixedSamplesCombinationNV& lhs, const VkFrame
 
 bool operator==(const VkGeneratedCommandsInfoNV& lhs, const VkGeneratedCommandsInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5566,6 +6104,7 @@ bool operator!=(const VkGeneratedCommandsInfoNV& lhs, const VkGeneratedCommandsI
 
 bool operator<(const VkGeneratedCommandsInfoNV& lhs, const VkGeneratedCommandsInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5586,6 +6125,7 @@ bool operator>=(const VkGeneratedCommandsInfoNV& lhs, const VkGeneratedCommandsI
 
 bool operator==(const VkGeneratedCommandsMemoryRequirementsInfoNV& lhs, const VkGeneratedCommandsMemoryRequirementsInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5596,6 +6136,7 @@ bool operator!=(const VkGeneratedCommandsMemoryRequirementsInfoNV& lhs, const Vk
 
 bool operator<(const VkGeneratedCommandsMemoryRequirementsInfoNV& lhs, const VkGeneratedCommandsMemoryRequirementsInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5616,6 +6157,7 @@ bool operator>=(const VkGeneratedCommandsMemoryRequirementsInfoNV& lhs, const Vk
 
 bool operator==(const VkGeometryAABBNV& lhs, const VkGeometryAABBNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5626,6 +6168,7 @@ bool operator!=(const VkGeometryAABBNV& lhs, const VkGeometryAABBNV& rhs)
 
 bool operator<(const VkGeometryAABBNV& lhs, const VkGeometryAABBNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5646,6 +6189,7 @@ bool operator>=(const VkGeometryAABBNV& lhs, const VkGeometryAABBNV& rhs)
 
 bool operator==(const VkGeometryDataNV& lhs, const VkGeometryDataNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5656,6 +6200,7 @@ bool operator!=(const VkGeometryDataNV& lhs, const VkGeometryDataNV& rhs)
 
 bool operator<(const VkGeometryDataNV& lhs, const VkGeometryDataNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5676,6 +6221,7 @@ bool operator>=(const VkGeometryDataNV& lhs, const VkGeometryDataNV& rhs)
 
 bool operator==(const VkGeometryNV& lhs, const VkGeometryNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5686,6 +6232,7 @@ bool operator!=(const VkGeometryNV& lhs, const VkGeometryNV& rhs)
 
 bool operator<(const VkGeometryNV& lhs, const VkGeometryNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5706,6 +6253,7 @@ bool operator>=(const VkGeometryNV& lhs, const VkGeometryNV& rhs)
 
 bool operator==(const VkGeometryTrianglesNV& lhs, const VkGeometryTrianglesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5716,6 +6264,7 @@ bool operator!=(const VkGeometryTrianglesNV& lhs, const VkGeometryTrianglesNV& r
 
 bool operator<(const VkGeometryTrianglesNV& lhs, const VkGeometryTrianglesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5736,6 +6285,7 @@ bool operator>=(const VkGeometryTrianglesNV& lhs, const VkGeometryTrianglesNV& r
 
 bool operator==(const VkGraphicsPipelineCreateInfo& lhs, const VkGraphicsPipelineCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5746,6 +6296,7 @@ bool operator!=(const VkGraphicsPipelineCreateInfo& lhs, const VkGraphicsPipelin
 
 bool operator<(const VkGraphicsPipelineCreateInfo& lhs, const VkGraphicsPipelineCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5766,6 +6317,7 @@ bool operator>=(const VkGraphicsPipelineCreateInfo& lhs, const VkGraphicsPipelin
 
 bool operator==(const VkGraphicsPipelineShaderGroupsCreateInfoNV& lhs, const VkGraphicsPipelineShaderGroupsCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5776,6 +6328,7 @@ bool operator!=(const VkGraphicsPipelineShaderGroupsCreateInfoNV& lhs, const VkG
 
 bool operator<(const VkGraphicsPipelineShaderGroupsCreateInfoNV& lhs, const VkGraphicsPipelineShaderGroupsCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5796,6 +6349,7 @@ bool operator>=(const VkGraphicsPipelineShaderGroupsCreateInfoNV& lhs, const VkG
 
 bool operator==(const VkGraphicsShaderGroupCreateInfoNV& lhs, const VkGraphicsShaderGroupCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5806,6 +6360,7 @@ bool operator!=(const VkGraphicsShaderGroupCreateInfoNV& lhs, const VkGraphicsSh
 
 bool operator<(const VkGraphicsShaderGroupCreateInfoNV& lhs, const VkGraphicsShaderGroupCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5826,6 +6381,7 @@ bool operator>=(const VkGraphicsShaderGroupCreateInfoNV& lhs, const VkGraphicsSh
 
 bool operator==(const VkHdrMetadataEXT& lhs, const VkHdrMetadataEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5836,6 +6392,7 @@ bool operator!=(const VkHdrMetadataEXT& lhs, const VkHdrMetadataEXT& rhs)
 
 bool operator<(const VkHdrMetadataEXT& lhs, const VkHdrMetadataEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5856,6 +6413,7 @@ bool operator>=(const VkHdrMetadataEXT& lhs, const VkHdrMetadataEXT& rhs)
 
 bool operator==(const VkHeadlessSurfaceCreateInfoEXT& lhs, const VkHeadlessSurfaceCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5866,6 +6424,7 @@ bool operator!=(const VkHeadlessSurfaceCreateInfoEXT& lhs, const VkHeadlessSurfa
 
 bool operator<(const VkHeadlessSurfaceCreateInfoEXT& lhs, const VkHeadlessSurfaceCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5887,6 +6446,7 @@ bool operator>=(const VkHeadlessSurfaceCreateInfoEXT& lhs, const VkHeadlessSurfa
 #ifdef VK_USE_PLATFORM_IOS_MVK
 bool operator==(const VkIOSSurfaceCreateInfoMVK& lhs, const VkIOSSurfaceCreateInfoMVK& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_IOS_MVK
@@ -5901,6 +6461,7 @@ bool operator!=(const VkIOSSurfaceCreateInfoMVK& lhs, const VkIOSSurfaceCreateIn
 #ifdef VK_USE_PLATFORM_IOS_MVK
 bool operator<(const VkIOSSurfaceCreateInfoMVK& lhs, const VkIOSSurfaceCreateInfoMVK& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_IOS_MVK
@@ -5928,6 +6489,7 @@ bool operator>=(const VkIOSSurfaceCreateInfoMVK& lhs, const VkIOSSurfaceCreateIn
 
 bool operator==(const VkImageBlit& lhs, const VkImageBlit& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5938,6 +6500,7 @@ bool operator!=(const VkImageBlit& lhs, const VkImageBlit& rhs)
 
 bool operator<(const VkImageBlit& lhs, const VkImageBlit& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5958,6 +6521,7 @@ bool operator>=(const VkImageBlit& lhs, const VkImageBlit& rhs)
 
 bool operator==(const VkImageCopy& lhs, const VkImageCopy& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5968,6 +6532,7 @@ bool operator!=(const VkImageCopy& lhs, const VkImageCopy& rhs)
 
 bool operator<(const VkImageCopy& lhs, const VkImageCopy& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -5988,6 +6553,7 @@ bool operator>=(const VkImageCopy& lhs, const VkImageCopy& rhs)
 
 bool operator==(const VkImageCreateInfo& lhs, const VkImageCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -5998,6 +6564,7 @@ bool operator!=(const VkImageCreateInfo& lhs, const VkImageCreateInfo& rhs)
 
 bool operator<(const VkImageCreateInfo& lhs, const VkImageCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6018,6 +6585,7 @@ bool operator>=(const VkImageCreateInfo& lhs, const VkImageCreateInfo& rhs)
 
 bool operator==(const VkImageDrmFormatModifierExplicitCreateInfoEXT& lhs, const VkImageDrmFormatModifierExplicitCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6028,6 +6596,7 @@ bool operator!=(const VkImageDrmFormatModifierExplicitCreateInfoEXT& lhs, const 
 
 bool operator<(const VkImageDrmFormatModifierExplicitCreateInfoEXT& lhs, const VkImageDrmFormatModifierExplicitCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6048,6 +6617,7 @@ bool operator>=(const VkImageDrmFormatModifierExplicitCreateInfoEXT& lhs, const 
 
 bool operator==(const VkImageDrmFormatModifierListCreateInfoEXT& lhs, const VkImageDrmFormatModifierListCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6058,6 +6628,7 @@ bool operator!=(const VkImageDrmFormatModifierListCreateInfoEXT& lhs, const VkIm
 
 bool operator<(const VkImageDrmFormatModifierListCreateInfoEXT& lhs, const VkImageDrmFormatModifierListCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6078,6 +6649,7 @@ bool operator>=(const VkImageDrmFormatModifierListCreateInfoEXT& lhs, const VkIm
 
 bool operator==(const VkImageDrmFormatModifierPropertiesEXT& lhs, const VkImageDrmFormatModifierPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6088,6 +6660,7 @@ bool operator!=(const VkImageDrmFormatModifierPropertiesEXT& lhs, const VkImageD
 
 bool operator<(const VkImageDrmFormatModifierPropertiesEXT& lhs, const VkImageDrmFormatModifierPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6108,6 +6681,7 @@ bool operator>=(const VkImageDrmFormatModifierPropertiesEXT& lhs, const VkImageD
 
 bool operator==(const VkImageFormatListCreateInfo& lhs, const VkImageFormatListCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6118,6 +6692,7 @@ bool operator!=(const VkImageFormatListCreateInfo& lhs, const VkImageFormatListC
 
 bool operator<(const VkImageFormatListCreateInfo& lhs, const VkImageFormatListCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6138,6 +6713,7 @@ bool operator>=(const VkImageFormatListCreateInfo& lhs, const VkImageFormatListC
 
 bool operator==(const VkImageFormatProperties& lhs, const VkImageFormatProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6148,6 +6724,7 @@ bool operator!=(const VkImageFormatProperties& lhs, const VkImageFormatPropertie
 
 bool operator<(const VkImageFormatProperties& lhs, const VkImageFormatProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6168,6 +6745,7 @@ bool operator>=(const VkImageFormatProperties& lhs, const VkImageFormatPropertie
 
 bool operator==(const VkImageFormatProperties2& lhs, const VkImageFormatProperties2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6178,6 +6756,7 @@ bool operator!=(const VkImageFormatProperties2& lhs, const VkImageFormatProperti
 
 bool operator<(const VkImageFormatProperties2& lhs, const VkImageFormatProperties2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6198,6 +6777,7 @@ bool operator>=(const VkImageFormatProperties2& lhs, const VkImageFormatProperti
 
 bool operator==(const VkImageMemoryBarrier& lhs, const VkImageMemoryBarrier& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6208,6 +6788,7 @@ bool operator!=(const VkImageMemoryBarrier& lhs, const VkImageMemoryBarrier& rhs
 
 bool operator<(const VkImageMemoryBarrier& lhs, const VkImageMemoryBarrier& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6228,6 +6809,7 @@ bool operator>=(const VkImageMemoryBarrier& lhs, const VkImageMemoryBarrier& rhs
 
 bool operator==(const VkImageMemoryRequirementsInfo2& lhs, const VkImageMemoryRequirementsInfo2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6238,6 +6820,7 @@ bool operator!=(const VkImageMemoryRequirementsInfo2& lhs, const VkImageMemoryRe
 
 bool operator<(const VkImageMemoryRequirementsInfo2& lhs, const VkImageMemoryRequirementsInfo2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6259,6 +6842,7 @@ bool operator>=(const VkImageMemoryRequirementsInfo2& lhs, const VkImageMemoryRe
 #ifdef VK_USE_PLATFORM_FUCHSIA
 bool operator==(const VkImagePipeSurfaceCreateInfoFUCHSIA& lhs, const VkImagePipeSurfaceCreateInfoFUCHSIA& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_FUCHSIA
@@ -6273,6 +6857,7 @@ bool operator!=(const VkImagePipeSurfaceCreateInfoFUCHSIA& lhs, const VkImagePip
 #ifdef VK_USE_PLATFORM_FUCHSIA
 bool operator<(const VkImagePipeSurfaceCreateInfoFUCHSIA& lhs, const VkImagePipeSurfaceCreateInfoFUCHSIA& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_FUCHSIA
@@ -6300,6 +6885,7 @@ bool operator>=(const VkImagePipeSurfaceCreateInfoFUCHSIA& lhs, const VkImagePip
 
 bool operator==(const VkImagePlaneMemoryRequirementsInfo& lhs, const VkImagePlaneMemoryRequirementsInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6310,6 +6896,7 @@ bool operator!=(const VkImagePlaneMemoryRequirementsInfo& lhs, const VkImagePlan
 
 bool operator<(const VkImagePlaneMemoryRequirementsInfo& lhs, const VkImagePlaneMemoryRequirementsInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6330,6 +6917,7 @@ bool operator>=(const VkImagePlaneMemoryRequirementsInfo& lhs, const VkImagePlan
 
 bool operator==(const VkImageResolve& lhs, const VkImageResolve& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6340,6 +6928,7 @@ bool operator!=(const VkImageResolve& lhs, const VkImageResolve& rhs)
 
 bool operator<(const VkImageResolve& lhs, const VkImageResolve& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6360,6 +6949,7 @@ bool operator>=(const VkImageResolve& lhs, const VkImageResolve& rhs)
 
 bool operator==(const VkImageSparseMemoryRequirementsInfo2& lhs, const VkImageSparseMemoryRequirementsInfo2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6370,6 +6960,7 @@ bool operator!=(const VkImageSparseMemoryRequirementsInfo2& lhs, const VkImageSp
 
 bool operator<(const VkImageSparseMemoryRequirementsInfo2& lhs, const VkImageSparseMemoryRequirementsInfo2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6390,6 +6981,7 @@ bool operator>=(const VkImageSparseMemoryRequirementsInfo2& lhs, const VkImageSp
 
 bool operator==(const VkImageStencilUsageCreateInfo& lhs, const VkImageStencilUsageCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6400,6 +6992,7 @@ bool operator!=(const VkImageStencilUsageCreateInfo& lhs, const VkImageStencilUs
 
 bool operator<(const VkImageStencilUsageCreateInfo& lhs, const VkImageStencilUsageCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6420,6 +7013,7 @@ bool operator>=(const VkImageStencilUsageCreateInfo& lhs, const VkImageStencilUs
 
 bool operator==(const VkImageSubresource& lhs, const VkImageSubresource& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6430,6 +7024,7 @@ bool operator!=(const VkImageSubresource& lhs, const VkImageSubresource& rhs)
 
 bool operator<(const VkImageSubresource& lhs, const VkImageSubresource& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6450,6 +7045,7 @@ bool operator>=(const VkImageSubresource& lhs, const VkImageSubresource& rhs)
 
 bool operator==(const VkImageSubresourceLayers& lhs, const VkImageSubresourceLayers& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6460,6 +7056,7 @@ bool operator!=(const VkImageSubresourceLayers& lhs, const VkImageSubresourceLay
 
 bool operator<(const VkImageSubresourceLayers& lhs, const VkImageSubresourceLayers& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6480,6 +7077,7 @@ bool operator>=(const VkImageSubresourceLayers& lhs, const VkImageSubresourceLay
 
 bool operator==(const VkImageSubresourceRange& lhs, const VkImageSubresourceRange& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6490,6 +7088,7 @@ bool operator!=(const VkImageSubresourceRange& lhs, const VkImageSubresourceRang
 
 bool operator<(const VkImageSubresourceRange& lhs, const VkImageSubresourceRange& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6510,6 +7109,7 @@ bool operator>=(const VkImageSubresourceRange& lhs, const VkImageSubresourceRang
 
 bool operator==(const VkImageSwapchainCreateInfoKHR& lhs, const VkImageSwapchainCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6520,6 +7120,7 @@ bool operator!=(const VkImageSwapchainCreateInfoKHR& lhs, const VkImageSwapchain
 
 bool operator<(const VkImageSwapchainCreateInfoKHR& lhs, const VkImageSwapchainCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6540,6 +7141,7 @@ bool operator>=(const VkImageSwapchainCreateInfoKHR& lhs, const VkImageSwapchain
 
 bool operator==(const VkImageViewASTCDecodeModeEXT& lhs, const VkImageViewASTCDecodeModeEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6550,6 +7152,7 @@ bool operator!=(const VkImageViewASTCDecodeModeEXT& lhs, const VkImageViewASTCDe
 
 bool operator<(const VkImageViewASTCDecodeModeEXT& lhs, const VkImageViewASTCDecodeModeEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6570,6 +7173,7 @@ bool operator>=(const VkImageViewASTCDecodeModeEXT& lhs, const VkImageViewASTCDe
 
 bool operator==(const VkImageViewCreateInfo& lhs, const VkImageViewCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6580,6 +7184,7 @@ bool operator!=(const VkImageViewCreateInfo& lhs, const VkImageViewCreateInfo& r
 
 bool operator<(const VkImageViewCreateInfo& lhs, const VkImageViewCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6600,6 +7205,7 @@ bool operator>=(const VkImageViewCreateInfo& lhs, const VkImageViewCreateInfo& r
 
 bool operator==(const VkImageViewHandleInfoNVX& lhs, const VkImageViewHandleInfoNVX& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6610,6 +7216,7 @@ bool operator!=(const VkImageViewHandleInfoNVX& lhs, const VkImageViewHandleInfo
 
 bool operator<(const VkImageViewHandleInfoNVX& lhs, const VkImageViewHandleInfoNVX& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6630,6 +7237,7 @@ bool operator>=(const VkImageViewHandleInfoNVX& lhs, const VkImageViewHandleInfo
 
 bool operator==(const VkImageViewUsageCreateInfo& lhs, const VkImageViewUsageCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6640,6 +7248,7 @@ bool operator!=(const VkImageViewUsageCreateInfo& lhs, const VkImageViewUsageCre
 
 bool operator<(const VkImageViewUsageCreateInfo& lhs, const VkImageViewUsageCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6661,6 +7270,7 @@ bool operator>=(const VkImageViewUsageCreateInfo& lhs, const VkImageViewUsageCre
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator==(const VkImportAndroidHardwareBufferInfoANDROID& lhs, const VkImportAndroidHardwareBufferInfoANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -6675,6 +7285,7 @@ bool operator!=(const VkImportAndroidHardwareBufferInfoANDROID& lhs, const VkImp
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator<(const VkImportAndroidHardwareBufferInfoANDROID& lhs, const VkImportAndroidHardwareBufferInfoANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -6702,6 +7313,7 @@ bool operator>=(const VkImportAndroidHardwareBufferInfoANDROID& lhs, const VkImp
 
 bool operator==(const VkImportFenceFdInfoKHR& lhs, const VkImportFenceFdInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6712,6 +7324,7 @@ bool operator!=(const VkImportFenceFdInfoKHR& lhs, const VkImportFenceFdInfoKHR&
 
 bool operator<(const VkImportFenceFdInfoKHR& lhs, const VkImportFenceFdInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6733,6 +7346,7 @@ bool operator>=(const VkImportFenceFdInfoKHR& lhs, const VkImportFenceFdInfoKHR&
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkImportFenceWin32HandleInfoKHR& lhs, const VkImportFenceWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -6747,6 +7361,7 @@ bool operator!=(const VkImportFenceWin32HandleInfoKHR& lhs, const VkImportFenceW
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkImportFenceWin32HandleInfoKHR& lhs, const VkImportFenceWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -6774,6 +7389,7 @@ bool operator>=(const VkImportFenceWin32HandleInfoKHR& lhs, const VkImportFenceW
 
 bool operator==(const VkImportMemoryFdInfoKHR& lhs, const VkImportMemoryFdInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6784,6 +7400,7 @@ bool operator!=(const VkImportMemoryFdInfoKHR& lhs, const VkImportMemoryFdInfoKH
 
 bool operator<(const VkImportMemoryFdInfoKHR& lhs, const VkImportMemoryFdInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6804,6 +7421,7 @@ bool operator>=(const VkImportMemoryFdInfoKHR& lhs, const VkImportMemoryFdInfoKH
 
 bool operator==(const VkImportMemoryHostPointerInfoEXT& lhs, const VkImportMemoryHostPointerInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6814,6 +7432,7 @@ bool operator!=(const VkImportMemoryHostPointerInfoEXT& lhs, const VkImportMemor
 
 bool operator<(const VkImportMemoryHostPointerInfoEXT& lhs, const VkImportMemoryHostPointerInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6835,6 +7454,7 @@ bool operator>=(const VkImportMemoryHostPointerInfoEXT& lhs, const VkImportMemor
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkImportMemoryWin32HandleInfoKHR& lhs, const VkImportMemoryWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -6849,6 +7469,7 @@ bool operator!=(const VkImportMemoryWin32HandleInfoKHR& lhs, const VkImportMemor
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkImportMemoryWin32HandleInfoKHR& lhs, const VkImportMemoryWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -6877,6 +7498,7 @@ bool operator>=(const VkImportMemoryWin32HandleInfoKHR& lhs, const VkImportMemor
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkImportMemoryWin32HandleInfoNV& lhs, const VkImportMemoryWin32HandleInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -6891,6 +7513,7 @@ bool operator!=(const VkImportMemoryWin32HandleInfoNV& lhs, const VkImportMemory
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkImportMemoryWin32HandleInfoNV& lhs, const VkImportMemoryWin32HandleInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -6918,6 +7541,7 @@ bool operator>=(const VkImportMemoryWin32HandleInfoNV& lhs, const VkImportMemory
 
 bool operator==(const VkImportSemaphoreFdInfoKHR& lhs, const VkImportSemaphoreFdInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -6928,6 +7552,7 @@ bool operator!=(const VkImportSemaphoreFdInfoKHR& lhs, const VkImportSemaphoreFd
 
 bool operator<(const VkImportSemaphoreFdInfoKHR& lhs, const VkImportSemaphoreFdInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -6949,6 +7574,7 @@ bool operator>=(const VkImportSemaphoreFdInfoKHR& lhs, const VkImportSemaphoreFd
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkImportSemaphoreWin32HandleInfoKHR& lhs, const VkImportSemaphoreWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -6963,6 +7589,7 @@ bool operator!=(const VkImportSemaphoreWin32HandleInfoKHR& lhs, const VkImportSe
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkImportSemaphoreWin32HandleInfoKHR& lhs, const VkImportSemaphoreWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -6990,6 +7617,7 @@ bool operator>=(const VkImportSemaphoreWin32HandleInfoKHR& lhs, const VkImportSe
 
 bool operator==(const VkIndirectCommandsLayoutCreateInfoNV& lhs, const VkIndirectCommandsLayoutCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7000,6 +7628,7 @@ bool operator!=(const VkIndirectCommandsLayoutCreateInfoNV& lhs, const VkIndirec
 
 bool operator<(const VkIndirectCommandsLayoutCreateInfoNV& lhs, const VkIndirectCommandsLayoutCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7020,6 +7649,7 @@ bool operator>=(const VkIndirectCommandsLayoutCreateInfoNV& lhs, const VkIndirec
 
 bool operator==(const VkIndirectCommandsLayoutTokenNV& lhs, const VkIndirectCommandsLayoutTokenNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7030,6 +7660,7 @@ bool operator!=(const VkIndirectCommandsLayoutTokenNV& lhs, const VkIndirectComm
 
 bool operator<(const VkIndirectCommandsLayoutTokenNV& lhs, const VkIndirectCommandsLayoutTokenNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7050,6 +7681,7 @@ bool operator>=(const VkIndirectCommandsLayoutTokenNV& lhs, const VkIndirectComm
 
 bool operator==(const VkIndirectCommandsStreamNV& lhs, const VkIndirectCommandsStreamNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7060,6 +7692,7 @@ bool operator!=(const VkIndirectCommandsStreamNV& lhs, const VkIndirectCommandsS
 
 bool operator<(const VkIndirectCommandsStreamNV& lhs, const VkIndirectCommandsStreamNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7080,6 +7713,7 @@ bool operator>=(const VkIndirectCommandsStreamNV& lhs, const VkIndirectCommandsS
 
 bool operator==(const VkInitializePerformanceApiInfoINTEL& lhs, const VkInitializePerformanceApiInfoINTEL& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7090,6 +7724,7 @@ bool operator!=(const VkInitializePerformanceApiInfoINTEL& lhs, const VkInitiali
 
 bool operator<(const VkInitializePerformanceApiInfoINTEL& lhs, const VkInitializePerformanceApiInfoINTEL& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7110,6 +7745,7 @@ bool operator>=(const VkInitializePerformanceApiInfoINTEL& lhs, const VkInitiali
 
 bool operator==(const VkInputAttachmentAspectReference& lhs, const VkInputAttachmentAspectReference& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7120,6 +7756,7 @@ bool operator!=(const VkInputAttachmentAspectReference& lhs, const VkInputAttach
 
 bool operator<(const VkInputAttachmentAspectReference& lhs, const VkInputAttachmentAspectReference& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7140,6 +7777,7 @@ bool operator>=(const VkInputAttachmentAspectReference& lhs, const VkInputAttach
 
 bool operator==(const VkInstanceCreateInfo& lhs, const VkInstanceCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7150,6 +7788,7 @@ bool operator!=(const VkInstanceCreateInfo& lhs, const VkInstanceCreateInfo& rhs
 
 bool operator<(const VkInstanceCreateInfo& lhs, const VkInstanceCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7170,6 +7809,7 @@ bool operator>=(const VkInstanceCreateInfo& lhs, const VkInstanceCreateInfo& rhs
 
 bool operator==(const VkLayerProperties& lhs, const VkLayerProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7180,6 +7820,7 @@ bool operator!=(const VkLayerProperties& lhs, const VkLayerProperties& rhs)
 
 bool operator<(const VkLayerProperties& lhs, const VkLayerProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7201,6 +7842,7 @@ bool operator>=(const VkLayerProperties& lhs, const VkLayerProperties& rhs)
 #ifdef VK_USE_PLATFORM_MACOS_MVK
 bool operator==(const VkMacOSSurfaceCreateInfoMVK& lhs, const VkMacOSSurfaceCreateInfoMVK& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_MACOS_MVK
@@ -7215,6 +7857,7 @@ bool operator!=(const VkMacOSSurfaceCreateInfoMVK& lhs, const VkMacOSSurfaceCrea
 #ifdef VK_USE_PLATFORM_MACOS_MVK
 bool operator<(const VkMacOSSurfaceCreateInfoMVK& lhs, const VkMacOSSurfaceCreateInfoMVK& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_MACOS_MVK
@@ -7242,6 +7885,7 @@ bool operator>=(const VkMacOSSurfaceCreateInfoMVK& lhs, const VkMacOSSurfaceCrea
 
 bool operator==(const VkMappedMemoryRange& lhs, const VkMappedMemoryRange& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7252,6 +7896,7 @@ bool operator!=(const VkMappedMemoryRange& lhs, const VkMappedMemoryRange& rhs)
 
 bool operator<(const VkMappedMemoryRange& lhs, const VkMappedMemoryRange& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7272,6 +7917,7 @@ bool operator>=(const VkMappedMemoryRange& lhs, const VkMappedMemoryRange& rhs)
 
 bool operator==(const VkMemoryAllocateFlagsInfo& lhs, const VkMemoryAllocateFlagsInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7282,6 +7928,7 @@ bool operator!=(const VkMemoryAllocateFlagsInfo& lhs, const VkMemoryAllocateFlag
 
 bool operator<(const VkMemoryAllocateFlagsInfo& lhs, const VkMemoryAllocateFlagsInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7302,6 +7949,7 @@ bool operator>=(const VkMemoryAllocateFlagsInfo& lhs, const VkMemoryAllocateFlag
 
 bool operator==(const VkMemoryAllocateInfo& lhs, const VkMemoryAllocateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7312,6 +7960,7 @@ bool operator!=(const VkMemoryAllocateInfo& lhs, const VkMemoryAllocateInfo& rhs
 
 bool operator<(const VkMemoryAllocateInfo& lhs, const VkMemoryAllocateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7332,6 +7981,7 @@ bool operator>=(const VkMemoryAllocateInfo& lhs, const VkMemoryAllocateInfo& rhs
 
 bool operator==(const VkMemoryBarrier& lhs, const VkMemoryBarrier& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7342,6 +7992,7 @@ bool operator!=(const VkMemoryBarrier& lhs, const VkMemoryBarrier& rhs)
 
 bool operator<(const VkMemoryBarrier& lhs, const VkMemoryBarrier& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7362,6 +8013,7 @@ bool operator>=(const VkMemoryBarrier& lhs, const VkMemoryBarrier& rhs)
 
 bool operator==(const VkMemoryDedicatedAllocateInfo& lhs, const VkMemoryDedicatedAllocateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7372,6 +8024,7 @@ bool operator!=(const VkMemoryDedicatedAllocateInfo& lhs, const VkMemoryDedicate
 
 bool operator<(const VkMemoryDedicatedAllocateInfo& lhs, const VkMemoryDedicatedAllocateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7392,6 +8045,7 @@ bool operator>=(const VkMemoryDedicatedAllocateInfo& lhs, const VkMemoryDedicate
 
 bool operator==(const VkMemoryDedicatedRequirements& lhs, const VkMemoryDedicatedRequirements& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7402,6 +8056,7 @@ bool operator!=(const VkMemoryDedicatedRequirements& lhs, const VkMemoryDedicate
 
 bool operator<(const VkMemoryDedicatedRequirements& lhs, const VkMemoryDedicatedRequirements& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7422,6 +8077,7 @@ bool operator>=(const VkMemoryDedicatedRequirements& lhs, const VkMemoryDedicate
 
 bool operator==(const VkMemoryFdPropertiesKHR& lhs, const VkMemoryFdPropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7432,6 +8088,7 @@ bool operator!=(const VkMemoryFdPropertiesKHR& lhs, const VkMemoryFdPropertiesKH
 
 bool operator<(const VkMemoryFdPropertiesKHR& lhs, const VkMemoryFdPropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7453,6 +8110,7 @@ bool operator>=(const VkMemoryFdPropertiesKHR& lhs, const VkMemoryFdPropertiesKH
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator==(const VkMemoryGetAndroidHardwareBufferInfoANDROID& lhs, const VkMemoryGetAndroidHardwareBufferInfoANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -7467,6 +8125,7 @@ bool operator!=(const VkMemoryGetAndroidHardwareBufferInfoANDROID& lhs, const Vk
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator<(const VkMemoryGetAndroidHardwareBufferInfoANDROID& lhs, const VkMemoryGetAndroidHardwareBufferInfoANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -7494,6 +8153,7 @@ bool operator>=(const VkMemoryGetAndroidHardwareBufferInfoANDROID& lhs, const Vk
 
 bool operator==(const VkMemoryGetFdInfoKHR& lhs, const VkMemoryGetFdInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7504,6 +8164,7 @@ bool operator!=(const VkMemoryGetFdInfoKHR& lhs, const VkMemoryGetFdInfoKHR& rhs
 
 bool operator<(const VkMemoryGetFdInfoKHR& lhs, const VkMemoryGetFdInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7525,6 +8186,7 @@ bool operator>=(const VkMemoryGetFdInfoKHR& lhs, const VkMemoryGetFdInfoKHR& rhs
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkMemoryGetWin32HandleInfoKHR& lhs, const VkMemoryGetWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -7539,6 +8201,7 @@ bool operator!=(const VkMemoryGetWin32HandleInfoKHR& lhs, const VkMemoryGetWin32
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkMemoryGetWin32HandleInfoKHR& lhs, const VkMemoryGetWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -7566,6 +8229,7 @@ bool operator>=(const VkMemoryGetWin32HandleInfoKHR& lhs, const VkMemoryGetWin32
 
 bool operator==(const VkMemoryHeap& lhs, const VkMemoryHeap& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7576,6 +8240,7 @@ bool operator!=(const VkMemoryHeap& lhs, const VkMemoryHeap& rhs)
 
 bool operator<(const VkMemoryHeap& lhs, const VkMemoryHeap& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7596,6 +8261,7 @@ bool operator>=(const VkMemoryHeap& lhs, const VkMemoryHeap& rhs)
 
 bool operator==(const VkMemoryHostPointerPropertiesEXT& lhs, const VkMemoryHostPointerPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7606,6 +8272,7 @@ bool operator!=(const VkMemoryHostPointerPropertiesEXT& lhs, const VkMemoryHostP
 
 bool operator<(const VkMemoryHostPointerPropertiesEXT& lhs, const VkMemoryHostPointerPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7626,6 +8293,7 @@ bool operator>=(const VkMemoryHostPointerPropertiesEXT& lhs, const VkMemoryHostP
 
 bool operator==(const VkMemoryOpaqueCaptureAddressAllocateInfo& lhs, const VkMemoryOpaqueCaptureAddressAllocateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7636,6 +8304,7 @@ bool operator!=(const VkMemoryOpaqueCaptureAddressAllocateInfo& lhs, const VkMem
 
 bool operator<(const VkMemoryOpaqueCaptureAddressAllocateInfo& lhs, const VkMemoryOpaqueCaptureAddressAllocateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7656,6 +8325,7 @@ bool operator>=(const VkMemoryOpaqueCaptureAddressAllocateInfo& lhs, const VkMem
 
 bool operator==(const VkMemoryPriorityAllocateInfoEXT& lhs, const VkMemoryPriorityAllocateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7666,6 +8336,7 @@ bool operator!=(const VkMemoryPriorityAllocateInfoEXT& lhs, const VkMemoryPriori
 
 bool operator<(const VkMemoryPriorityAllocateInfoEXT& lhs, const VkMemoryPriorityAllocateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7686,6 +8357,7 @@ bool operator>=(const VkMemoryPriorityAllocateInfoEXT& lhs, const VkMemoryPriori
 
 bool operator==(const VkMemoryRequirements& lhs, const VkMemoryRequirements& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7696,6 +8368,7 @@ bool operator!=(const VkMemoryRequirements& lhs, const VkMemoryRequirements& rhs
 
 bool operator<(const VkMemoryRequirements& lhs, const VkMemoryRequirements& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7716,6 +8389,7 @@ bool operator>=(const VkMemoryRequirements& lhs, const VkMemoryRequirements& rhs
 
 bool operator==(const VkMemoryRequirements2& lhs, const VkMemoryRequirements2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7726,6 +8400,7 @@ bool operator!=(const VkMemoryRequirements2& lhs, const VkMemoryRequirements2& r
 
 bool operator<(const VkMemoryRequirements2& lhs, const VkMemoryRequirements2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7746,6 +8421,7 @@ bool operator>=(const VkMemoryRequirements2& lhs, const VkMemoryRequirements2& r
 
 bool operator==(const VkMemoryType& lhs, const VkMemoryType& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7756,6 +8432,7 @@ bool operator!=(const VkMemoryType& lhs, const VkMemoryType& rhs)
 
 bool operator<(const VkMemoryType& lhs, const VkMemoryType& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7777,6 +8454,7 @@ bool operator>=(const VkMemoryType& lhs, const VkMemoryType& rhs)
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkMemoryWin32HandlePropertiesKHR& lhs, const VkMemoryWin32HandlePropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -7791,6 +8469,7 @@ bool operator!=(const VkMemoryWin32HandlePropertiesKHR& lhs, const VkMemoryWin32
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkMemoryWin32HandlePropertiesKHR& lhs, const VkMemoryWin32HandlePropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -7819,6 +8498,7 @@ bool operator>=(const VkMemoryWin32HandlePropertiesKHR& lhs, const VkMemoryWin32
 #ifdef VK_USE_PLATFORM_METAL_EXT
 bool operator==(const VkMetalSurfaceCreateInfoEXT& lhs, const VkMetalSurfaceCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_METAL_EXT
@@ -7833,6 +8513,7 @@ bool operator!=(const VkMetalSurfaceCreateInfoEXT& lhs, const VkMetalSurfaceCrea
 #ifdef VK_USE_PLATFORM_METAL_EXT
 bool operator<(const VkMetalSurfaceCreateInfoEXT& lhs, const VkMetalSurfaceCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_METAL_EXT
@@ -7860,6 +8541,7 @@ bool operator>=(const VkMetalSurfaceCreateInfoEXT& lhs, const VkMetalSurfaceCrea
 
 bool operator==(const VkMultisamplePropertiesEXT& lhs, const VkMultisamplePropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7870,6 +8552,7 @@ bool operator!=(const VkMultisamplePropertiesEXT& lhs, const VkMultisampleProper
 
 bool operator<(const VkMultisamplePropertiesEXT& lhs, const VkMultisamplePropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -7891,6 +8574,7 @@ bool operator>=(const VkMultisamplePropertiesEXT& lhs, const VkMultisampleProper
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator==(const VkNativeBufferANDROID& lhs, const VkNativeBufferANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -7905,6 +8589,7 @@ bool operator!=(const VkNativeBufferANDROID& lhs, const VkNativeBufferANDROID& r
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator<(const VkNativeBufferANDROID& lhs, const VkNativeBufferANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -7933,6 +8618,7 @@ bool operator>=(const VkNativeBufferANDROID& lhs, const VkNativeBufferANDROID& r
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator==(const VkNativeBufferUsage2ANDROID& lhs, const VkNativeBufferUsage2ANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -7947,6 +8633,7 @@ bool operator!=(const VkNativeBufferUsage2ANDROID& lhs, const VkNativeBufferUsag
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator<(const VkNativeBufferUsage2ANDROID& lhs, const VkNativeBufferUsage2ANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -7974,6 +8661,7 @@ bool operator>=(const VkNativeBufferUsage2ANDROID& lhs, const VkNativeBufferUsag
 
 bool operator==(const VkOffset2D& lhs, const VkOffset2D& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -7984,6 +8672,7 @@ bool operator!=(const VkOffset2D& lhs, const VkOffset2D& rhs)
 
 bool operator<(const VkOffset2D& lhs, const VkOffset2D& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8004,6 +8693,7 @@ bool operator>=(const VkOffset2D& lhs, const VkOffset2D& rhs)
 
 bool operator==(const VkOffset3D& lhs, const VkOffset3D& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8014,6 +8704,7 @@ bool operator!=(const VkOffset3D& lhs, const VkOffset3D& rhs)
 
 bool operator<(const VkOffset3D& lhs, const VkOffset3D& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8034,6 +8725,7 @@ bool operator>=(const VkOffset3D& lhs, const VkOffset3D& rhs)
 
 bool operator==(const VkPastPresentationTimingGOOGLE& lhs, const VkPastPresentationTimingGOOGLE& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8044,6 +8736,7 @@ bool operator!=(const VkPastPresentationTimingGOOGLE& lhs, const VkPastPresentat
 
 bool operator<(const VkPastPresentationTimingGOOGLE& lhs, const VkPastPresentationTimingGOOGLE& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8064,6 +8757,7 @@ bool operator>=(const VkPastPresentationTimingGOOGLE& lhs, const VkPastPresentat
 
 bool operator==(const VkPerformanceConfigurationAcquireInfoINTEL& lhs, const VkPerformanceConfigurationAcquireInfoINTEL& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8074,6 +8768,7 @@ bool operator!=(const VkPerformanceConfigurationAcquireInfoINTEL& lhs, const VkP
 
 bool operator<(const VkPerformanceConfigurationAcquireInfoINTEL& lhs, const VkPerformanceConfigurationAcquireInfoINTEL& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8094,6 +8789,7 @@ bool operator>=(const VkPerformanceConfigurationAcquireInfoINTEL& lhs, const VkP
 
 bool operator==(const VkPerformanceCounterDescriptionKHR& lhs, const VkPerformanceCounterDescriptionKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8104,6 +8800,7 @@ bool operator!=(const VkPerformanceCounterDescriptionKHR& lhs, const VkPerforman
 
 bool operator<(const VkPerformanceCounterDescriptionKHR& lhs, const VkPerformanceCounterDescriptionKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8124,6 +8821,7 @@ bool operator>=(const VkPerformanceCounterDescriptionKHR& lhs, const VkPerforman
 
 bool operator==(const VkPerformanceCounterKHR& lhs, const VkPerformanceCounterKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8134,6 +8832,7 @@ bool operator!=(const VkPerformanceCounterKHR& lhs, const VkPerformanceCounterKH
 
 bool operator<(const VkPerformanceCounterKHR& lhs, const VkPerformanceCounterKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8152,8 +8851,41 @@ bool operator>=(const VkPerformanceCounterKHR& lhs, const VkPerformanceCounterKH
     return !(lhs < rhs);
 }
 
+bool operator==(const VkPerformanceCounterResultKHR& lhs, const VkPerformanceCounterResultKHR& rhs)
+{
+    using namespace dst::gfx::vk::detail;
+    return structure_to_tuple(lhs) == structure_to_tuple(rhs);
+}
+
+bool operator!=(const VkPerformanceCounterResultKHR& lhs, const VkPerformanceCounterResultKHR& rhs)
+{
+    return !(lhs == rhs);
+}
+
+bool operator<(const VkPerformanceCounterResultKHR& lhs, const VkPerformanceCounterResultKHR& rhs)
+{
+    using namespace dst::gfx::vk::detail;
+    return structure_to_tuple(lhs) < structure_to_tuple(rhs);
+}
+
+bool operator>(const VkPerformanceCounterResultKHR& lhs, const VkPerformanceCounterResultKHR& rhs)
+{
+    return rhs < lhs;
+}
+
+bool operator<=(const VkPerformanceCounterResultKHR& lhs, const VkPerformanceCounterResultKHR& rhs)
+{
+    return !(rhs < lhs);
+}
+
+bool operator>=(const VkPerformanceCounterResultKHR& lhs, const VkPerformanceCounterResultKHR& rhs)
+{
+    return !(lhs < rhs);
+}
+
 bool operator==(const VkPerformanceMarkerInfoINTEL& lhs, const VkPerformanceMarkerInfoINTEL& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8164,6 +8896,7 @@ bool operator!=(const VkPerformanceMarkerInfoINTEL& lhs, const VkPerformanceMark
 
 bool operator<(const VkPerformanceMarkerInfoINTEL& lhs, const VkPerformanceMarkerInfoINTEL& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8184,6 +8917,7 @@ bool operator>=(const VkPerformanceMarkerInfoINTEL& lhs, const VkPerformanceMark
 
 bool operator==(const VkPerformanceOverrideInfoINTEL& lhs, const VkPerformanceOverrideInfoINTEL& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8194,6 +8928,7 @@ bool operator!=(const VkPerformanceOverrideInfoINTEL& lhs, const VkPerformanceOv
 
 bool operator<(const VkPerformanceOverrideInfoINTEL& lhs, const VkPerformanceOverrideInfoINTEL& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8214,6 +8949,7 @@ bool operator>=(const VkPerformanceOverrideInfoINTEL& lhs, const VkPerformanceOv
 
 bool operator==(const VkPerformanceQuerySubmitInfoKHR& lhs, const VkPerformanceQuerySubmitInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8224,6 +8960,7 @@ bool operator!=(const VkPerformanceQuerySubmitInfoKHR& lhs, const VkPerformanceQ
 
 bool operator<(const VkPerformanceQuerySubmitInfoKHR& lhs, const VkPerformanceQuerySubmitInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8244,6 +8981,7 @@ bool operator>=(const VkPerformanceQuerySubmitInfoKHR& lhs, const VkPerformanceQ
 
 bool operator==(const VkPerformanceStreamMarkerInfoINTEL& lhs, const VkPerformanceStreamMarkerInfoINTEL& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8254,6 +8992,7 @@ bool operator!=(const VkPerformanceStreamMarkerInfoINTEL& lhs, const VkPerforman
 
 bool operator<(const VkPerformanceStreamMarkerInfoINTEL& lhs, const VkPerformanceStreamMarkerInfoINTEL& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8272,8 +9011,41 @@ bool operator>=(const VkPerformanceStreamMarkerInfoINTEL& lhs, const VkPerforman
     return !(lhs < rhs);
 }
 
+bool operator==(const VkPerformanceValueDataINTEL& lhs, const VkPerformanceValueDataINTEL& rhs)
+{
+    using namespace dst::gfx::vk::detail;
+    return structure_to_tuple(lhs) == structure_to_tuple(rhs);
+}
+
+bool operator!=(const VkPerformanceValueDataINTEL& lhs, const VkPerformanceValueDataINTEL& rhs)
+{
+    return !(lhs == rhs);
+}
+
+bool operator<(const VkPerformanceValueDataINTEL& lhs, const VkPerformanceValueDataINTEL& rhs)
+{
+    using namespace dst::gfx::vk::detail;
+    return structure_to_tuple(lhs) < structure_to_tuple(rhs);
+}
+
+bool operator>(const VkPerformanceValueDataINTEL& lhs, const VkPerformanceValueDataINTEL& rhs)
+{
+    return rhs < lhs;
+}
+
+bool operator<=(const VkPerformanceValueDataINTEL& lhs, const VkPerformanceValueDataINTEL& rhs)
+{
+    return !(rhs < lhs);
+}
+
+bool operator>=(const VkPerformanceValueDataINTEL& lhs, const VkPerformanceValueDataINTEL& rhs)
+{
+    return !(lhs < rhs);
+}
+
 bool operator==(const VkPerformanceValueINTEL& lhs, const VkPerformanceValueINTEL& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8284,6 +9056,7 @@ bool operator!=(const VkPerformanceValueINTEL& lhs, const VkPerformanceValueINTE
 
 bool operator<(const VkPerformanceValueINTEL& lhs, const VkPerformanceValueINTEL& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8304,6 +9077,7 @@ bool operator>=(const VkPerformanceValueINTEL& lhs, const VkPerformanceValueINTE
 
 bool operator==(const VkPhysicalDevice16BitStorageFeatures& lhs, const VkPhysicalDevice16BitStorageFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8314,6 +9088,7 @@ bool operator!=(const VkPhysicalDevice16BitStorageFeatures& lhs, const VkPhysica
 
 bool operator<(const VkPhysicalDevice16BitStorageFeatures& lhs, const VkPhysicalDevice16BitStorageFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8334,6 +9109,7 @@ bool operator>=(const VkPhysicalDevice16BitStorageFeatures& lhs, const VkPhysica
 
 bool operator==(const VkPhysicalDevice8BitStorageFeatures& lhs, const VkPhysicalDevice8BitStorageFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8344,6 +9120,7 @@ bool operator!=(const VkPhysicalDevice8BitStorageFeatures& lhs, const VkPhysical
 
 bool operator<(const VkPhysicalDevice8BitStorageFeatures& lhs, const VkPhysicalDevice8BitStorageFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8364,6 +9141,7 @@ bool operator>=(const VkPhysicalDevice8BitStorageFeatures& lhs, const VkPhysical
 
 bool operator==(const VkPhysicalDeviceASTCDecodeFeaturesEXT& lhs, const VkPhysicalDeviceASTCDecodeFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8374,6 +9152,7 @@ bool operator!=(const VkPhysicalDeviceASTCDecodeFeaturesEXT& lhs, const VkPhysic
 
 bool operator<(const VkPhysicalDeviceASTCDecodeFeaturesEXT& lhs, const VkPhysicalDeviceASTCDecodeFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8394,6 +9173,7 @@ bool operator>=(const VkPhysicalDeviceASTCDecodeFeaturesEXT& lhs, const VkPhysic
 
 bool operator==(const VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT& lhs, const VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8404,6 +9184,7 @@ bool operator!=(const VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT& lhs, co
 
 bool operator<(const VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT& lhs, const VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8424,6 +9205,7 @@ bool operator>=(const VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT& lhs, co
 
 bool operator==(const VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT& lhs, const VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8434,6 +9216,7 @@ bool operator!=(const VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT& lhs, 
 
 bool operator<(const VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT& lhs, const VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8454,6 +9237,7 @@ bool operator>=(const VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT& lhs, 
 
 bool operator==(const VkPhysicalDeviceBufferDeviceAddressFeatures& lhs, const VkPhysicalDeviceBufferDeviceAddressFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8464,6 +9248,7 @@ bool operator!=(const VkPhysicalDeviceBufferDeviceAddressFeatures& lhs, const Vk
 
 bool operator<(const VkPhysicalDeviceBufferDeviceAddressFeatures& lhs, const VkPhysicalDeviceBufferDeviceAddressFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8484,6 +9269,7 @@ bool operator>=(const VkPhysicalDeviceBufferDeviceAddressFeatures& lhs, const Vk
 
 bool operator==(const VkPhysicalDeviceBufferDeviceAddressFeaturesEXT& lhs, const VkPhysicalDeviceBufferDeviceAddressFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8494,6 +9280,7 @@ bool operator!=(const VkPhysicalDeviceBufferDeviceAddressFeaturesEXT& lhs, const
 
 bool operator<(const VkPhysicalDeviceBufferDeviceAddressFeaturesEXT& lhs, const VkPhysicalDeviceBufferDeviceAddressFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8514,6 +9301,7 @@ bool operator>=(const VkPhysicalDeviceBufferDeviceAddressFeaturesEXT& lhs, const
 
 bool operator==(const VkPhysicalDeviceCoherentMemoryFeaturesAMD& lhs, const VkPhysicalDeviceCoherentMemoryFeaturesAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8524,6 +9312,7 @@ bool operator!=(const VkPhysicalDeviceCoherentMemoryFeaturesAMD& lhs, const VkPh
 
 bool operator<(const VkPhysicalDeviceCoherentMemoryFeaturesAMD& lhs, const VkPhysicalDeviceCoherentMemoryFeaturesAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8544,6 +9333,7 @@ bool operator>=(const VkPhysicalDeviceCoherentMemoryFeaturesAMD& lhs, const VkPh
 
 bool operator==(const VkPhysicalDeviceComputeShaderDerivativesFeaturesNV& lhs, const VkPhysicalDeviceComputeShaderDerivativesFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8554,6 +9344,7 @@ bool operator!=(const VkPhysicalDeviceComputeShaderDerivativesFeaturesNV& lhs, c
 
 bool operator<(const VkPhysicalDeviceComputeShaderDerivativesFeaturesNV& lhs, const VkPhysicalDeviceComputeShaderDerivativesFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8574,6 +9365,7 @@ bool operator>=(const VkPhysicalDeviceComputeShaderDerivativesFeaturesNV& lhs, c
 
 bool operator==(const VkPhysicalDeviceConditionalRenderingFeaturesEXT& lhs, const VkPhysicalDeviceConditionalRenderingFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8584,6 +9376,7 @@ bool operator!=(const VkPhysicalDeviceConditionalRenderingFeaturesEXT& lhs, cons
 
 bool operator<(const VkPhysicalDeviceConditionalRenderingFeaturesEXT& lhs, const VkPhysicalDeviceConditionalRenderingFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8604,6 +9397,7 @@ bool operator>=(const VkPhysicalDeviceConditionalRenderingFeaturesEXT& lhs, cons
 
 bool operator==(const VkPhysicalDeviceConservativeRasterizationPropertiesEXT& lhs, const VkPhysicalDeviceConservativeRasterizationPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8614,6 +9408,7 @@ bool operator!=(const VkPhysicalDeviceConservativeRasterizationPropertiesEXT& lh
 
 bool operator<(const VkPhysicalDeviceConservativeRasterizationPropertiesEXT& lhs, const VkPhysicalDeviceConservativeRasterizationPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8634,6 +9429,7 @@ bool operator>=(const VkPhysicalDeviceConservativeRasterizationPropertiesEXT& lh
 
 bool operator==(const VkPhysicalDeviceCooperativeMatrixFeaturesNV& lhs, const VkPhysicalDeviceCooperativeMatrixFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8644,6 +9440,7 @@ bool operator!=(const VkPhysicalDeviceCooperativeMatrixFeaturesNV& lhs, const Vk
 
 bool operator<(const VkPhysicalDeviceCooperativeMatrixFeaturesNV& lhs, const VkPhysicalDeviceCooperativeMatrixFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8664,6 +9461,7 @@ bool operator>=(const VkPhysicalDeviceCooperativeMatrixFeaturesNV& lhs, const Vk
 
 bool operator==(const VkPhysicalDeviceCooperativeMatrixPropertiesNV& lhs, const VkPhysicalDeviceCooperativeMatrixPropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8674,6 +9472,7 @@ bool operator!=(const VkPhysicalDeviceCooperativeMatrixPropertiesNV& lhs, const 
 
 bool operator<(const VkPhysicalDeviceCooperativeMatrixPropertiesNV& lhs, const VkPhysicalDeviceCooperativeMatrixPropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8694,6 +9493,7 @@ bool operator>=(const VkPhysicalDeviceCooperativeMatrixPropertiesNV& lhs, const 
 
 bool operator==(const VkPhysicalDeviceCornerSampledImageFeaturesNV& lhs, const VkPhysicalDeviceCornerSampledImageFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8704,6 +9504,7 @@ bool operator!=(const VkPhysicalDeviceCornerSampledImageFeaturesNV& lhs, const V
 
 bool operator<(const VkPhysicalDeviceCornerSampledImageFeaturesNV& lhs, const VkPhysicalDeviceCornerSampledImageFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8724,6 +9525,7 @@ bool operator>=(const VkPhysicalDeviceCornerSampledImageFeaturesNV& lhs, const V
 
 bool operator==(const VkPhysicalDeviceCoverageReductionModeFeaturesNV& lhs, const VkPhysicalDeviceCoverageReductionModeFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8734,6 +9536,7 @@ bool operator!=(const VkPhysicalDeviceCoverageReductionModeFeaturesNV& lhs, cons
 
 bool operator<(const VkPhysicalDeviceCoverageReductionModeFeaturesNV& lhs, const VkPhysicalDeviceCoverageReductionModeFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8754,6 +9557,7 @@ bool operator>=(const VkPhysicalDeviceCoverageReductionModeFeaturesNV& lhs, cons
 
 bool operator==(const VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV& lhs, const VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8764,6 +9568,7 @@ bool operator!=(const VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV
 
 bool operator<(const VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV& lhs, const VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8784,6 +9589,7 @@ bool operator>=(const VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV
 
 bool operator==(const VkPhysicalDeviceDepthClipEnableFeaturesEXT& lhs, const VkPhysicalDeviceDepthClipEnableFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8794,6 +9600,7 @@ bool operator!=(const VkPhysicalDeviceDepthClipEnableFeaturesEXT& lhs, const VkP
 
 bool operator<(const VkPhysicalDeviceDepthClipEnableFeaturesEXT& lhs, const VkPhysicalDeviceDepthClipEnableFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8814,6 +9621,7 @@ bool operator>=(const VkPhysicalDeviceDepthClipEnableFeaturesEXT& lhs, const VkP
 
 bool operator==(const VkPhysicalDeviceDepthStencilResolveProperties& lhs, const VkPhysicalDeviceDepthStencilResolveProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8824,6 +9632,7 @@ bool operator!=(const VkPhysicalDeviceDepthStencilResolveProperties& lhs, const 
 
 bool operator<(const VkPhysicalDeviceDepthStencilResolveProperties& lhs, const VkPhysicalDeviceDepthStencilResolveProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8844,6 +9653,7 @@ bool operator>=(const VkPhysicalDeviceDepthStencilResolveProperties& lhs, const 
 
 bool operator==(const VkPhysicalDeviceDescriptorIndexingFeatures& lhs, const VkPhysicalDeviceDescriptorIndexingFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8854,6 +9664,7 @@ bool operator!=(const VkPhysicalDeviceDescriptorIndexingFeatures& lhs, const VkP
 
 bool operator<(const VkPhysicalDeviceDescriptorIndexingFeatures& lhs, const VkPhysicalDeviceDescriptorIndexingFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8874,6 +9685,7 @@ bool operator>=(const VkPhysicalDeviceDescriptorIndexingFeatures& lhs, const VkP
 
 bool operator==(const VkPhysicalDeviceDescriptorIndexingProperties& lhs, const VkPhysicalDeviceDescriptorIndexingProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8884,6 +9696,7 @@ bool operator!=(const VkPhysicalDeviceDescriptorIndexingProperties& lhs, const V
 
 bool operator<(const VkPhysicalDeviceDescriptorIndexingProperties& lhs, const VkPhysicalDeviceDescriptorIndexingProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8904,6 +9717,7 @@ bool operator>=(const VkPhysicalDeviceDescriptorIndexingProperties& lhs, const V
 
 bool operator==(const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV& lhs, const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8914,6 +9728,7 @@ bool operator!=(const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV& lhs, co
 
 bool operator<(const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV& lhs, const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8934,6 +9749,7 @@ bool operator>=(const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV& lhs, co
 
 bool operator==(const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV& lhs, const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8944,6 +9760,7 @@ bool operator!=(const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV& lhs, 
 
 bool operator<(const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV& lhs, const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8964,6 +9781,7 @@ bool operator>=(const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV& lhs, 
 
 bool operator==(const VkPhysicalDeviceDiagnosticsConfigFeaturesNV& lhs, const VkPhysicalDeviceDiagnosticsConfigFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -8974,6 +9792,7 @@ bool operator!=(const VkPhysicalDeviceDiagnosticsConfigFeaturesNV& lhs, const Vk
 
 bool operator<(const VkPhysicalDeviceDiagnosticsConfigFeaturesNV& lhs, const VkPhysicalDeviceDiagnosticsConfigFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -8994,6 +9813,7 @@ bool operator>=(const VkPhysicalDeviceDiagnosticsConfigFeaturesNV& lhs, const Vk
 
 bool operator==(const VkPhysicalDeviceDiscardRectanglePropertiesEXT& lhs, const VkPhysicalDeviceDiscardRectanglePropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9004,6 +9824,7 @@ bool operator!=(const VkPhysicalDeviceDiscardRectanglePropertiesEXT& lhs, const 
 
 bool operator<(const VkPhysicalDeviceDiscardRectanglePropertiesEXT& lhs, const VkPhysicalDeviceDiscardRectanglePropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9024,6 +9845,7 @@ bool operator>=(const VkPhysicalDeviceDiscardRectanglePropertiesEXT& lhs, const 
 
 bool operator==(const VkPhysicalDeviceDriverProperties& lhs, const VkPhysicalDeviceDriverProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9034,6 +9856,7 @@ bool operator!=(const VkPhysicalDeviceDriverProperties& lhs, const VkPhysicalDev
 
 bool operator<(const VkPhysicalDeviceDriverProperties& lhs, const VkPhysicalDeviceDriverProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9054,6 +9877,7 @@ bool operator>=(const VkPhysicalDeviceDriverProperties& lhs, const VkPhysicalDev
 
 bool operator==(const VkPhysicalDeviceExclusiveScissorFeaturesNV& lhs, const VkPhysicalDeviceExclusiveScissorFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9064,6 +9888,7 @@ bool operator!=(const VkPhysicalDeviceExclusiveScissorFeaturesNV& lhs, const VkP
 
 bool operator<(const VkPhysicalDeviceExclusiveScissorFeaturesNV& lhs, const VkPhysicalDeviceExclusiveScissorFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9084,6 +9909,7 @@ bool operator>=(const VkPhysicalDeviceExclusiveScissorFeaturesNV& lhs, const VkP
 
 bool operator==(const VkPhysicalDeviceExternalBufferInfo& lhs, const VkPhysicalDeviceExternalBufferInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9094,6 +9920,7 @@ bool operator!=(const VkPhysicalDeviceExternalBufferInfo& lhs, const VkPhysicalD
 
 bool operator<(const VkPhysicalDeviceExternalBufferInfo& lhs, const VkPhysicalDeviceExternalBufferInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9114,6 +9941,7 @@ bool operator>=(const VkPhysicalDeviceExternalBufferInfo& lhs, const VkPhysicalD
 
 bool operator==(const VkPhysicalDeviceExternalFenceInfo& lhs, const VkPhysicalDeviceExternalFenceInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9124,6 +9952,7 @@ bool operator!=(const VkPhysicalDeviceExternalFenceInfo& lhs, const VkPhysicalDe
 
 bool operator<(const VkPhysicalDeviceExternalFenceInfo& lhs, const VkPhysicalDeviceExternalFenceInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9144,6 +9973,7 @@ bool operator>=(const VkPhysicalDeviceExternalFenceInfo& lhs, const VkPhysicalDe
 
 bool operator==(const VkPhysicalDeviceExternalImageFormatInfo& lhs, const VkPhysicalDeviceExternalImageFormatInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9154,6 +9984,7 @@ bool operator!=(const VkPhysicalDeviceExternalImageFormatInfo& lhs, const VkPhys
 
 bool operator<(const VkPhysicalDeviceExternalImageFormatInfo& lhs, const VkPhysicalDeviceExternalImageFormatInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9174,6 +10005,7 @@ bool operator>=(const VkPhysicalDeviceExternalImageFormatInfo& lhs, const VkPhys
 
 bool operator==(const VkPhysicalDeviceExternalMemoryHostPropertiesEXT& lhs, const VkPhysicalDeviceExternalMemoryHostPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9184,6 +10016,7 @@ bool operator!=(const VkPhysicalDeviceExternalMemoryHostPropertiesEXT& lhs, cons
 
 bool operator<(const VkPhysicalDeviceExternalMemoryHostPropertiesEXT& lhs, const VkPhysicalDeviceExternalMemoryHostPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9204,6 +10037,7 @@ bool operator>=(const VkPhysicalDeviceExternalMemoryHostPropertiesEXT& lhs, cons
 
 bool operator==(const VkPhysicalDeviceExternalSemaphoreInfo& lhs, const VkPhysicalDeviceExternalSemaphoreInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9214,6 +10048,7 @@ bool operator!=(const VkPhysicalDeviceExternalSemaphoreInfo& lhs, const VkPhysic
 
 bool operator<(const VkPhysicalDeviceExternalSemaphoreInfo& lhs, const VkPhysicalDeviceExternalSemaphoreInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9234,6 +10069,7 @@ bool operator>=(const VkPhysicalDeviceExternalSemaphoreInfo& lhs, const VkPhysic
 
 bool operator==(const VkPhysicalDeviceFeatures& lhs, const VkPhysicalDeviceFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9244,6 +10080,7 @@ bool operator!=(const VkPhysicalDeviceFeatures& lhs, const VkPhysicalDeviceFeatu
 
 bool operator<(const VkPhysicalDeviceFeatures& lhs, const VkPhysicalDeviceFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9264,6 +10101,7 @@ bool operator>=(const VkPhysicalDeviceFeatures& lhs, const VkPhysicalDeviceFeatu
 
 bool operator==(const VkPhysicalDeviceFeatures2& lhs, const VkPhysicalDeviceFeatures2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9274,6 +10112,7 @@ bool operator!=(const VkPhysicalDeviceFeatures2& lhs, const VkPhysicalDeviceFeat
 
 bool operator<(const VkPhysicalDeviceFeatures2& lhs, const VkPhysicalDeviceFeatures2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9294,6 +10133,7 @@ bool operator>=(const VkPhysicalDeviceFeatures2& lhs, const VkPhysicalDeviceFeat
 
 bool operator==(const VkPhysicalDeviceFloatControlsProperties& lhs, const VkPhysicalDeviceFloatControlsProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9304,6 +10144,7 @@ bool operator!=(const VkPhysicalDeviceFloatControlsProperties& lhs, const VkPhys
 
 bool operator<(const VkPhysicalDeviceFloatControlsProperties& lhs, const VkPhysicalDeviceFloatControlsProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9324,6 +10165,7 @@ bool operator>=(const VkPhysicalDeviceFloatControlsProperties& lhs, const VkPhys
 
 bool operator==(const VkPhysicalDeviceFragmentDensityMapFeaturesEXT& lhs, const VkPhysicalDeviceFragmentDensityMapFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9334,6 +10176,7 @@ bool operator!=(const VkPhysicalDeviceFragmentDensityMapFeaturesEXT& lhs, const 
 
 bool operator<(const VkPhysicalDeviceFragmentDensityMapFeaturesEXT& lhs, const VkPhysicalDeviceFragmentDensityMapFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9354,6 +10197,7 @@ bool operator>=(const VkPhysicalDeviceFragmentDensityMapFeaturesEXT& lhs, const 
 
 bool operator==(const VkPhysicalDeviceFragmentDensityMapPropertiesEXT& lhs, const VkPhysicalDeviceFragmentDensityMapPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9364,6 +10208,7 @@ bool operator!=(const VkPhysicalDeviceFragmentDensityMapPropertiesEXT& lhs, cons
 
 bool operator<(const VkPhysicalDeviceFragmentDensityMapPropertiesEXT& lhs, const VkPhysicalDeviceFragmentDensityMapPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9384,6 +10229,7 @@ bool operator>=(const VkPhysicalDeviceFragmentDensityMapPropertiesEXT& lhs, cons
 
 bool operator==(const VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV& lhs, const VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9394,6 +10240,7 @@ bool operator!=(const VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV& lhs, 
 
 bool operator<(const VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV& lhs, const VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9414,6 +10261,7 @@ bool operator>=(const VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV& lhs, 
 
 bool operator==(const VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT& lhs, const VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9424,6 +10272,7 @@ bool operator!=(const VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT& lhs, c
 
 bool operator<(const VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT& lhs, const VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9444,6 +10293,7 @@ bool operator>=(const VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT& lhs, c
 
 bool operator==(const VkPhysicalDeviceGroupProperties& lhs, const VkPhysicalDeviceGroupProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9454,6 +10304,7 @@ bool operator!=(const VkPhysicalDeviceGroupProperties& lhs, const VkPhysicalDevi
 
 bool operator<(const VkPhysicalDeviceGroupProperties& lhs, const VkPhysicalDeviceGroupProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9474,6 +10325,7 @@ bool operator>=(const VkPhysicalDeviceGroupProperties& lhs, const VkPhysicalDevi
 
 bool operator==(const VkPhysicalDeviceHostQueryResetFeatures& lhs, const VkPhysicalDeviceHostQueryResetFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9484,6 +10336,7 @@ bool operator!=(const VkPhysicalDeviceHostQueryResetFeatures& lhs, const VkPhysi
 
 bool operator<(const VkPhysicalDeviceHostQueryResetFeatures& lhs, const VkPhysicalDeviceHostQueryResetFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9504,6 +10357,7 @@ bool operator>=(const VkPhysicalDeviceHostQueryResetFeatures& lhs, const VkPhysi
 
 bool operator==(const VkPhysicalDeviceIDProperties& lhs, const VkPhysicalDeviceIDProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9514,6 +10368,7 @@ bool operator!=(const VkPhysicalDeviceIDProperties& lhs, const VkPhysicalDeviceI
 
 bool operator<(const VkPhysicalDeviceIDProperties& lhs, const VkPhysicalDeviceIDProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9534,6 +10389,7 @@ bool operator>=(const VkPhysicalDeviceIDProperties& lhs, const VkPhysicalDeviceI
 
 bool operator==(const VkPhysicalDeviceImageDrmFormatModifierInfoEXT& lhs, const VkPhysicalDeviceImageDrmFormatModifierInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9544,6 +10400,7 @@ bool operator!=(const VkPhysicalDeviceImageDrmFormatModifierInfoEXT& lhs, const 
 
 bool operator<(const VkPhysicalDeviceImageDrmFormatModifierInfoEXT& lhs, const VkPhysicalDeviceImageDrmFormatModifierInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9564,6 +10421,7 @@ bool operator>=(const VkPhysicalDeviceImageDrmFormatModifierInfoEXT& lhs, const 
 
 bool operator==(const VkPhysicalDeviceImageFormatInfo2& lhs, const VkPhysicalDeviceImageFormatInfo2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9574,6 +10432,7 @@ bool operator!=(const VkPhysicalDeviceImageFormatInfo2& lhs, const VkPhysicalDev
 
 bool operator<(const VkPhysicalDeviceImageFormatInfo2& lhs, const VkPhysicalDeviceImageFormatInfo2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9594,6 +10453,7 @@ bool operator>=(const VkPhysicalDeviceImageFormatInfo2& lhs, const VkPhysicalDev
 
 bool operator==(const VkPhysicalDeviceImageViewImageFormatInfoEXT& lhs, const VkPhysicalDeviceImageViewImageFormatInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9604,6 +10464,7 @@ bool operator!=(const VkPhysicalDeviceImageViewImageFormatInfoEXT& lhs, const Vk
 
 bool operator<(const VkPhysicalDeviceImageViewImageFormatInfoEXT& lhs, const VkPhysicalDeviceImageViewImageFormatInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9624,6 +10485,7 @@ bool operator>=(const VkPhysicalDeviceImageViewImageFormatInfoEXT& lhs, const Vk
 
 bool operator==(const VkPhysicalDeviceImagelessFramebufferFeatures& lhs, const VkPhysicalDeviceImagelessFramebufferFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9634,6 +10496,7 @@ bool operator!=(const VkPhysicalDeviceImagelessFramebufferFeatures& lhs, const V
 
 bool operator<(const VkPhysicalDeviceImagelessFramebufferFeatures& lhs, const VkPhysicalDeviceImagelessFramebufferFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9654,6 +10517,7 @@ bool operator>=(const VkPhysicalDeviceImagelessFramebufferFeatures& lhs, const V
 
 bool operator==(const VkPhysicalDeviceIndexTypeUint8FeaturesEXT& lhs, const VkPhysicalDeviceIndexTypeUint8FeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9664,6 +10528,7 @@ bool operator!=(const VkPhysicalDeviceIndexTypeUint8FeaturesEXT& lhs, const VkPh
 
 bool operator<(const VkPhysicalDeviceIndexTypeUint8FeaturesEXT& lhs, const VkPhysicalDeviceIndexTypeUint8FeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9684,6 +10549,7 @@ bool operator>=(const VkPhysicalDeviceIndexTypeUint8FeaturesEXT& lhs, const VkPh
 
 bool operator==(const VkPhysicalDeviceInlineUniformBlockFeaturesEXT& lhs, const VkPhysicalDeviceInlineUniformBlockFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9694,6 +10560,7 @@ bool operator!=(const VkPhysicalDeviceInlineUniformBlockFeaturesEXT& lhs, const 
 
 bool operator<(const VkPhysicalDeviceInlineUniformBlockFeaturesEXT& lhs, const VkPhysicalDeviceInlineUniformBlockFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9714,6 +10581,7 @@ bool operator>=(const VkPhysicalDeviceInlineUniformBlockFeaturesEXT& lhs, const 
 
 bool operator==(const VkPhysicalDeviceInlineUniformBlockPropertiesEXT& lhs, const VkPhysicalDeviceInlineUniformBlockPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9724,6 +10592,7 @@ bool operator!=(const VkPhysicalDeviceInlineUniformBlockPropertiesEXT& lhs, cons
 
 bool operator<(const VkPhysicalDeviceInlineUniformBlockPropertiesEXT& lhs, const VkPhysicalDeviceInlineUniformBlockPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9744,6 +10613,7 @@ bool operator>=(const VkPhysicalDeviceInlineUniformBlockPropertiesEXT& lhs, cons
 
 bool operator==(const VkPhysicalDeviceLimits& lhs, const VkPhysicalDeviceLimits& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9754,6 +10624,7 @@ bool operator!=(const VkPhysicalDeviceLimits& lhs, const VkPhysicalDeviceLimits&
 
 bool operator<(const VkPhysicalDeviceLimits& lhs, const VkPhysicalDeviceLimits& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9774,6 +10645,7 @@ bool operator>=(const VkPhysicalDeviceLimits& lhs, const VkPhysicalDeviceLimits&
 
 bool operator==(const VkPhysicalDeviceLineRasterizationFeaturesEXT& lhs, const VkPhysicalDeviceLineRasterizationFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9784,6 +10656,7 @@ bool operator!=(const VkPhysicalDeviceLineRasterizationFeaturesEXT& lhs, const V
 
 bool operator<(const VkPhysicalDeviceLineRasterizationFeaturesEXT& lhs, const VkPhysicalDeviceLineRasterizationFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9804,6 +10677,7 @@ bool operator>=(const VkPhysicalDeviceLineRasterizationFeaturesEXT& lhs, const V
 
 bool operator==(const VkPhysicalDeviceLineRasterizationPropertiesEXT& lhs, const VkPhysicalDeviceLineRasterizationPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9814,6 +10688,7 @@ bool operator!=(const VkPhysicalDeviceLineRasterizationPropertiesEXT& lhs, const
 
 bool operator<(const VkPhysicalDeviceLineRasterizationPropertiesEXT& lhs, const VkPhysicalDeviceLineRasterizationPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9834,6 +10709,7 @@ bool operator>=(const VkPhysicalDeviceLineRasterizationPropertiesEXT& lhs, const
 
 bool operator==(const VkPhysicalDeviceMaintenance3Properties& lhs, const VkPhysicalDeviceMaintenance3Properties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9844,6 +10720,7 @@ bool operator!=(const VkPhysicalDeviceMaintenance3Properties& lhs, const VkPhysi
 
 bool operator<(const VkPhysicalDeviceMaintenance3Properties& lhs, const VkPhysicalDeviceMaintenance3Properties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9864,6 +10741,7 @@ bool operator>=(const VkPhysicalDeviceMaintenance3Properties& lhs, const VkPhysi
 
 bool operator==(const VkPhysicalDeviceMemoryBudgetPropertiesEXT& lhs, const VkPhysicalDeviceMemoryBudgetPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9874,6 +10752,7 @@ bool operator!=(const VkPhysicalDeviceMemoryBudgetPropertiesEXT& lhs, const VkPh
 
 bool operator<(const VkPhysicalDeviceMemoryBudgetPropertiesEXT& lhs, const VkPhysicalDeviceMemoryBudgetPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9894,6 +10773,7 @@ bool operator>=(const VkPhysicalDeviceMemoryBudgetPropertiesEXT& lhs, const VkPh
 
 bool operator==(const VkPhysicalDeviceMemoryPriorityFeaturesEXT& lhs, const VkPhysicalDeviceMemoryPriorityFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9904,6 +10784,7 @@ bool operator!=(const VkPhysicalDeviceMemoryPriorityFeaturesEXT& lhs, const VkPh
 
 bool operator<(const VkPhysicalDeviceMemoryPriorityFeaturesEXT& lhs, const VkPhysicalDeviceMemoryPriorityFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9924,6 +10805,7 @@ bool operator>=(const VkPhysicalDeviceMemoryPriorityFeaturesEXT& lhs, const VkPh
 
 bool operator==(const VkPhysicalDeviceMemoryProperties& lhs, const VkPhysicalDeviceMemoryProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9934,6 +10816,7 @@ bool operator!=(const VkPhysicalDeviceMemoryProperties& lhs, const VkPhysicalDev
 
 bool operator<(const VkPhysicalDeviceMemoryProperties& lhs, const VkPhysicalDeviceMemoryProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9954,6 +10837,7 @@ bool operator>=(const VkPhysicalDeviceMemoryProperties& lhs, const VkPhysicalDev
 
 bool operator==(const VkPhysicalDeviceMemoryProperties2& lhs, const VkPhysicalDeviceMemoryProperties2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9964,6 +10848,7 @@ bool operator!=(const VkPhysicalDeviceMemoryProperties2& lhs, const VkPhysicalDe
 
 bool operator<(const VkPhysicalDeviceMemoryProperties2& lhs, const VkPhysicalDeviceMemoryProperties2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -9984,6 +10869,7 @@ bool operator>=(const VkPhysicalDeviceMemoryProperties2& lhs, const VkPhysicalDe
 
 bool operator==(const VkPhysicalDeviceMeshShaderFeaturesNV& lhs, const VkPhysicalDeviceMeshShaderFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -9994,6 +10880,7 @@ bool operator!=(const VkPhysicalDeviceMeshShaderFeaturesNV& lhs, const VkPhysica
 
 bool operator<(const VkPhysicalDeviceMeshShaderFeaturesNV& lhs, const VkPhysicalDeviceMeshShaderFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10014,6 +10901,7 @@ bool operator>=(const VkPhysicalDeviceMeshShaderFeaturesNV& lhs, const VkPhysica
 
 bool operator==(const VkPhysicalDeviceMeshShaderPropertiesNV& lhs, const VkPhysicalDeviceMeshShaderPropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10024,6 +10912,7 @@ bool operator!=(const VkPhysicalDeviceMeshShaderPropertiesNV& lhs, const VkPhysi
 
 bool operator<(const VkPhysicalDeviceMeshShaderPropertiesNV& lhs, const VkPhysicalDeviceMeshShaderPropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10044,6 +10933,7 @@ bool operator>=(const VkPhysicalDeviceMeshShaderPropertiesNV& lhs, const VkPhysi
 
 bool operator==(const VkPhysicalDeviceMultiviewFeatures& lhs, const VkPhysicalDeviceMultiviewFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10054,6 +10944,7 @@ bool operator!=(const VkPhysicalDeviceMultiviewFeatures& lhs, const VkPhysicalDe
 
 bool operator<(const VkPhysicalDeviceMultiviewFeatures& lhs, const VkPhysicalDeviceMultiviewFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10074,6 +10965,7 @@ bool operator>=(const VkPhysicalDeviceMultiviewFeatures& lhs, const VkPhysicalDe
 
 bool operator==(const VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX& lhs, const VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10084,6 +10976,7 @@ bool operator!=(const VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX& l
 
 bool operator<(const VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX& lhs, const VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10104,6 +10997,7 @@ bool operator>=(const VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX& l
 
 bool operator==(const VkPhysicalDeviceMultiviewProperties& lhs, const VkPhysicalDeviceMultiviewProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10114,6 +11008,7 @@ bool operator!=(const VkPhysicalDeviceMultiviewProperties& lhs, const VkPhysical
 
 bool operator<(const VkPhysicalDeviceMultiviewProperties& lhs, const VkPhysicalDeviceMultiviewProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10134,6 +11029,7 @@ bool operator>=(const VkPhysicalDeviceMultiviewProperties& lhs, const VkPhysical
 
 bool operator==(const VkPhysicalDevicePCIBusInfoPropertiesEXT& lhs, const VkPhysicalDevicePCIBusInfoPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10144,6 +11040,7 @@ bool operator!=(const VkPhysicalDevicePCIBusInfoPropertiesEXT& lhs, const VkPhys
 
 bool operator<(const VkPhysicalDevicePCIBusInfoPropertiesEXT& lhs, const VkPhysicalDevicePCIBusInfoPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10164,6 +11061,7 @@ bool operator>=(const VkPhysicalDevicePCIBusInfoPropertiesEXT& lhs, const VkPhys
 
 bool operator==(const VkPhysicalDevicePerformanceQueryFeaturesKHR& lhs, const VkPhysicalDevicePerformanceQueryFeaturesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10174,6 +11072,7 @@ bool operator!=(const VkPhysicalDevicePerformanceQueryFeaturesKHR& lhs, const Vk
 
 bool operator<(const VkPhysicalDevicePerformanceQueryFeaturesKHR& lhs, const VkPhysicalDevicePerformanceQueryFeaturesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10194,6 +11093,7 @@ bool operator>=(const VkPhysicalDevicePerformanceQueryFeaturesKHR& lhs, const Vk
 
 bool operator==(const VkPhysicalDevicePerformanceQueryPropertiesKHR& lhs, const VkPhysicalDevicePerformanceQueryPropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10204,6 +11104,7 @@ bool operator!=(const VkPhysicalDevicePerformanceQueryPropertiesKHR& lhs, const 
 
 bool operator<(const VkPhysicalDevicePerformanceQueryPropertiesKHR& lhs, const VkPhysicalDevicePerformanceQueryPropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10224,6 +11125,7 @@ bool operator>=(const VkPhysicalDevicePerformanceQueryPropertiesKHR& lhs, const 
 
 bool operator==(const VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT& lhs, const VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10234,6 +11136,7 @@ bool operator!=(const VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT& l
 
 bool operator<(const VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT& lhs, const VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10254,6 +11157,7 @@ bool operator>=(const VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT& l
 
 bool operator==(const VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR& lhs, const VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10264,6 +11168,7 @@ bool operator!=(const VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR& l
 
 bool operator<(const VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR& lhs, const VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10284,6 +11189,7 @@ bool operator>=(const VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR& l
 
 bool operator==(const VkPhysicalDevicePointClippingProperties& lhs, const VkPhysicalDevicePointClippingProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10294,6 +11200,7 @@ bool operator!=(const VkPhysicalDevicePointClippingProperties& lhs, const VkPhys
 
 bool operator<(const VkPhysicalDevicePointClippingProperties& lhs, const VkPhysicalDevicePointClippingProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10315,6 +11222,7 @@ bool operator>=(const VkPhysicalDevicePointClippingProperties& lhs, const VkPhys
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator==(const VkPhysicalDevicePresentationPropertiesANDROID& lhs, const VkPhysicalDevicePresentationPropertiesANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -10329,6 +11237,7 @@ bool operator!=(const VkPhysicalDevicePresentationPropertiesANDROID& lhs, const 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator<(const VkPhysicalDevicePresentationPropertiesANDROID& lhs, const VkPhysicalDevicePresentationPropertiesANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -10356,6 +11265,7 @@ bool operator>=(const VkPhysicalDevicePresentationPropertiesANDROID& lhs, const 
 
 bool operator==(const VkPhysicalDeviceProperties& lhs, const VkPhysicalDeviceProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10366,6 +11276,7 @@ bool operator!=(const VkPhysicalDeviceProperties& lhs, const VkPhysicalDevicePro
 
 bool operator<(const VkPhysicalDeviceProperties& lhs, const VkPhysicalDeviceProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10386,6 +11297,7 @@ bool operator>=(const VkPhysicalDeviceProperties& lhs, const VkPhysicalDevicePro
 
 bool operator==(const VkPhysicalDeviceProperties2& lhs, const VkPhysicalDeviceProperties2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10396,6 +11308,7 @@ bool operator!=(const VkPhysicalDeviceProperties2& lhs, const VkPhysicalDevicePr
 
 bool operator<(const VkPhysicalDeviceProperties2& lhs, const VkPhysicalDeviceProperties2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10416,6 +11329,7 @@ bool operator>=(const VkPhysicalDeviceProperties2& lhs, const VkPhysicalDevicePr
 
 bool operator==(const VkPhysicalDeviceProtectedMemoryFeatures& lhs, const VkPhysicalDeviceProtectedMemoryFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10426,6 +11340,7 @@ bool operator!=(const VkPhysicalDeviceProtectedMemoryFeatures& lhs, const VkPhys
 
 bool operator<(const VkPhysicalDeviceProtectedMemoryFeatures& lhs, const VkPhysicalDeviceProtectedMemoryFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10446,6 +11361,7 @@ bool operator>=(const VkPhysicalDeviceProtectedMemoryFeatures& lhs, const VkPhys
 
 bool operator==(const VkPhysicalDeviceProtectedMemoryProperties& lhs, const VkPhysicalDeviceProtectedMemoryProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10456,6 +11372,7 @@ bool operator!=(const VkPhysicalDeviceProtectedMemoryProperties& lhs, const VkPh
 
 bool operator<(const VkPhysicalDeviceProtectedMemoryProperties& lhs, const VkPhysicalDeviceProtectedMemoryProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10476,6 +11393,7 @@ bool operator>=(const VkPhysicalDeviceProtectedMemoryProperties& lhs, const VkPh
 
 bool operator==(const VkPhysicalDevicePushDescriptorPropertiesKHR& lhs, const VkPhysicalDevicePushDescriptorPropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10486,6 +11404,7 @@ bool operator!=(const VkPhysicalDevicePushDescriptorPropertiesKHR& lhs, const Vk
 
 bool operator<(const VkPhysicalDevicePushDescriptorPropertiesKHR& lhs, const VkPhysicalDevicePushDescriptorPropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10507,6 +11426,7 @@ bool operator>=(const VkPhysicalDevicePushDescriptorPropertiesKHR& lhs, const Vk
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkPhysicalDeviceRayTracingFeaturesKHR& lhs, const VkPhysicalDeviceRayTracingFeaturesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -10521,6 +11441,7 @@ bool operator!=(const VkPhysicalDeviceRayTracingFeaturesKHR& lhs, const VkPhysic
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkPhysicalDeviceRayTracingFeaturesKHR& lhs, const VkPhysicalDeviceRayTracingFeaturesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -10549,6 +11470,7 @@ bool operator>=(const VkPhysicalDeviceRayTracingFeaturesKHR& lhs, const VkPhysic
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkPhysicalDeviceRayTracingPropertiesKHR& lhs, const VkPhysicalDeviceRayTracingPropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -10563,6 +11485,7 @@ bool operator!=(const VkPhysicalDeviceRayTracingPropertiesKHR& lhs, const VkPhys
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkPhysicalDeviceRayTracingPropertiesKHR& lhs, const VkPhysicalDeviceRayTracingPropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -10590,6 +11513,7 @@ bool operator>=(const VkPhysicalDeviceRayTracingPropertiesKHR& lhs, const VkPhys
 
 bool operator==(const VkPhysicalDeviceRayTracingPropertiesNV& lhs, const VkPhysicalDeviceRayTracingPropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10600,6 +11524,7 @@ bool operator!=(const VkPhysicalDeviceRayTracingPropertiesNV& lhs, const VkPhysi
 
 bool operator<(const VkPhysicalDeviceRayTracingPropertiesNV& lhs, const VkPhysicalDeviceRayTracingPropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10620,6 +11545,7 @@ bool operator>=(const VkPhysicalDeviceRayTracingPropertiesNV& lhs, const VkPhysi
 
 bool operator==(const VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV& lhs, const VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10630,6 +11556,7 @@ bool operator!=(const VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV& lhs,
 
 bool operator<(const VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV& lhs, const VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10650,6 +11577,7 @@ bool operator>=(const VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV& lhs,
 
 bool operator==(const VkPhysicalDeviceSampleLocationsPropertiesEXT& lhs, const VkPhysicalDeviceSampleLocationsPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10660,6 +11588,7 @@ bool operator!=(const VkPhysicalDeviceSampleLocationsPropertiesEXT& lhs, const V
 
 bool operator<(const VkPhysicalDeviceSampleLocationsPropertiesEXT& lhs, const VkPhysicalDeviceSampleLocationsPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10680,6 +11609,7 @@ bool operator>=(const VkPhysicalDeviceSampleLocationsPropertiesEXT& lhs, const V
 
 bool operator==(const VkPhysicalDeviceSamplerFilterMinmaxProperties& lhs, const VkPhysicalDeviceSamplerFilterMinmaxProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10690,6 +11620,7 @@ bool operator!=(const VkPhysicalDeviceSamplerFilterMinmaxProperties& lhs, const 
 
 bool operator<(const VkPhysicalDeviceSamplerFilterMinmaxProperties& lhs, const VkPhysicalDeviceSamplerFilterMinmaxProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10710,6 +11641,7 @@ bool operator>=(const VkPhysicalDeviceSamplerFilterMinmaxProperties& lhs, const 
 
 bool operator==(const VkPhysicalDeviceSamplerYcbcrConversionFeatures& lhs, const VkPhysicalDeviceSamplerYcbcrConversionFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10720,6 +11652,7 @@ bool operator!=(const VkPhysicalDeviceSamplerYcbcrConversionFeatures& lhs, const
 
 bool operator<(const VkPhysicalDeviceSamplerYcbcrConversionFeatures& lhs, const VkPhysicalDeviceSamplerYcbcrConversionFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10740,6 +11673,7 @@ bool operator>=(const VkPhysicalDeviceSamplerYcbcrConversionFeatures& lhs, const
 
 bool operator==(const VkPhysicalDeviceScalarBlockLayoutFeatures& lhs, const VkPhysicalDeviceScalarBlockLayoutFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10750,6 +11684,7 @@ bool operator!=(const VkPhysicalDeviceScalarBlockLayoutFeatures& lhs, const VkPh
 
 bool operator<(const VkPhysicalDeviceScalarBlockLayoutFeatures& lhs, const VkPhysicalDeviceScalarBlockLayoutFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10770,6 +11705,7 @@ bool operator>=(const VkPhysicalDeviceScalarBlockLayoutFeatures& lhs, const VkPh
 
 bool operator==(const VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures& lhs, const VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10780,6 +11716,7 @@ bool operator!=(const VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures& lhs, 
 
 bool operator<(const VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures& lhs, const VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10800,6 +11737,7 @@ bool operator>=(const VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures& lhs, 
 
 bool operator==(const VkPhysicalDeviceShaderAtomicInt64Features& lhs, const VkPhysicalDeviceShaderAtomicInt64Features& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10810,6 +11748,7 @@ bool operator!=(const VkPhysicalDeviceShaderAtomicInt64Features& lhs, const VkPh
 
 bool operator<(const VkPhysicalDeviceShaderAtomicInt64Features& lhs, const VkPhysicalDeviceShaderAtomicInt64Features& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10830,6 +11769,7 @@ bool operator>=(const VkPhysicalDeviceShaderAtomicInt64Features& lhs, const VkPh
 
 bool operator==(const VkPhysicalDeviceShaderClockFeaturesKHR& lhs, const VkPhysicalDeviceShaderClockFeaturesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10840,6 +11780,7 @@ bool operator!=(const VkPhysicalDeviceShaderClockFeaturesKHR& lhs, const VkPhysi
 
 bool operator<(const VkPhysicalDeviceShaderClockFeaturesKHR& lhs, const VkPhysicalDeviceShaderClockFeaturesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10860,6 +11801,7 @@ bool operator>=(const VkPhysicalDeviceShaderClockFeaturesKHR& lhs, const VkPhysi
 
 bool operator==(const VkPhysicalDeviceShaderCoreProperties2AMD& lhs, const VkPhysicalDeviceShaderCoreProperties2AMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10870,6 +11812,7 @@ bool operator!=(const VkPhysicalDeviceShaderCoreProperties2AMD& lhs, const VkPhy
 
 bool operator<(const VkPhysicalDeviceShaderCoreProperties2AMD& lhs, const VkPhysicalDeviceShaderCoreProperties2AMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10890,6 +11833,7 @@ bool operator>=(const VkPhysicalDeviceShaderCoreProperties2AMD& lhs, const VkPhy
 
 bool operator==(const VkPhysicalDeviceShaderCorePropertiesAMD& lhs, const VkPhysicalDeviceShaderCorePropertiesAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10900,6 +11844,7 @@ bool operator!=(const VkPhysicalDeviceShaderCorePropertiesAMD& lhs, const VkPhys
 
 bool operator<(const VkPhysicalDeviceShaderCorePropertiesAMD& lhs, const VkPhysicalDeviceShaderCorePropertiesAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10920,6 +11865,7 @@ bool operator>=(const VkPhysicalDeviceShaderCorePropertiesAMD& lhs, const VkPhys
 
 bool operator==(const VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT& lhs, const VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10930,6 +11876,7 @@ bool operator!=(const VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT&
 
 bool operator<(const VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT& lhs, const VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10950,6 +11897,7 @@ bool operator>=(const VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT&
 
 bool operator==(const VkPhysicalDeviceShaderDrawParametersFeatures& lhs, const VkPhysicalDeviceShaderDrawParametersFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10960,6 +11908,7 @@ bool operator!=(const VkPhysicalDeviceShaderDrawParametersFeatures& lhs, const V
 
 bool operator<(const VkPhysicalDeviceShaderDrawParametersFeatures& lhs, const VkPhysicalDeviceShaderDrawParametersFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -10980,6 +11929,7 @@ bool operator>=(const VkPhysicalDeviceShaderDrawParametersFeatures& lhs, const V
 
 bool operator==(const VkPhysicalDeviceShaderFloat16Int8Features& lhs, const VkPhysicalDeviceShaderFloat16Int8Features& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -10990,6 +11940,7 @@ bool operator!=(const VkPhysicalDeviceShaderFloat16Int8Features& lhs, const VkPh
 
 bool operator<(const VkPhysicalDeviceShaderFloat16Int8Features& lhs, const VkPhysicalDeviceShaderFloat16Int8Features& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11010,6 +11961,7 @@ bool operator>=(const VkPhysicalDeviceShaderFloat16Int8Features& lhs, const VkPh
 
 bool operator==(const VkPhysicalDeviceShaderImageFootprintFeaturesNV& lhs, const VkPhysicalDeviceShaderImageFootprintFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11020,6 +11972,7 @@ bool operator!=(const VkPhysicalDeviceShaderImageFootprintFeaturesNV& lhs, const
 
 bool operator<(const VkPhysicalDeviceShaderImageFootprintFeaturesNV& lhs, const VkPhysicalDeviceShaderImageFootprintFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11040,6 +11993,7 @@ bool operator>=(const VkPhysicalDeviceShaderImageFootprintFeaturesNV& lhs, const
 
 bool operator==(const VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL& lhs, const VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11050,6 +12004,7 @@ bool operator!=(const VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL& lhs,
 
 bool operator<(const VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL& lhs, const VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11070,6 +12025,7 @@ bool operator>=(const VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL& lhs,
 
 bool operator==(const VkPhysicalDeviceShaderSMBuiltinsFeaturesNV& lhs, const VkPhysicalDeviceShaderSMBuiltinsFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11080,6 +12036,7 @@ bool operator!=(const VkPhysicalDeviceShaderSMBuiltinsFeaturesNV& lhs, const VkP
 
 bool operator<(const VkPhysicalDeviceShaderSMBuiltinsFeaturesNV& lhs, const VkPhysicalDeviceShaderSMBuiltinsFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11100,6 +12057,7 @@ bool operator>=(const VkPhysicalDeviceShaderSMBuiltinsFeaturesNV& lhs, const VkP
 
 bool operator==(const VkPhysicalDeviceShaderSMBuiltinsPropertiesNV& lhs, const VkPhysicalDeviceShaderSMBuiltinsPropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11110,6 +12068,7 @@ bool operator!=(const VkPhysicalDeviceShaderSMBuiltinsPropertiesNV& lhs, const V
 
 bool operator<(const VkPhysicalDeviceShaderSMBuiltinsPropertiesNV& lhs, const VkPhysicalDeviceShaderSMBuiltinsPropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11130,6 +12089,7 @@ bool operator>=(const VkPhysicalDeviceShaderSMBuiltinsPropertiesNV& lhs, const V
 
 bool operator==(const VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures& lhs, const VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11140,6 +12100,7 @@ bool operator!=(const VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures& lhs, 
 
 bool operator<(const VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures& lhs, const VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11160,6 +12121,7 @@ bool operator>=(const VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures& lhs, 
 
 bool operator==(const VkPhysicalDeviceShadingRateImageFeaturesNV& lhs, const VkPhysicalDeviceShadingRateImageFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11170,6 +12132,7 @@ bool operator!=(const VkPhysicalDeviceShadingRateImageFeaturesNV& lhs, const VkP
 
 bool operator<(const VkPhysicalDeviceShadingRateImageFeaturesNV& lhs, const VkPhysicalDeviceShadingRateImageFeaturesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11190,6 +12153,7 @@ bool operator>=(const VkPhysicalDeviceShadingRateImageFeaturesNV& lhs, const VkP
 
 bool operator==(const VkPhysicalDeviceShadingRateImagePropertiesNV& lhs, const VkPhysicalDeviceShadingRateImagePropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11200,6 +12164,7 @@ bool operator!=(const VkPhysicalDeviceShadingRateImagePropertiesNV& lhs, const V
 
 bool operator<(const VkPhysicalDeviceShadingRateImagePropertiesNV& lhs, const VkPhysicalDeviceShadingRateImagePropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11220,6 +12185,7 @@ bool operator>=(const VkPhysicalDeviceShadingRateImagePropertiesNV& lhs, const V
 
 bool operator==(const VkPhysicalDeviceSparseImageFormatInfo2& lhs, const VkPhysicalDeviceSparseImageFormatInfo2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11230,6 +12196,7 @@ bool operator!=(const VkPhysicalDeviceSparseImageFormatInfo2& lhs, const VkPhysi
 
 bool operator<(const VkPhysicalDeviceSparseImageFormatInfo2& lhs, const VkPhysicalDeviceSparseImageFormatInfo2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11250,6 +12217,7 @@ bool operator>=(const VkPhysicalDeviceSparseImageFormatInfo2& lhs, const VkPhysi
 
 bool operator==(const VkPhysicalDeviceSparseProperties& lhs, const VkPhysicalDeviceSparseProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11260,6 +12228,7 @@ bool operator!=(const VkPhysicalDeviceSparseProperties& lhs, const VkPhysicalDev
 
 bool operator<(const VkPhysicalDeviceSparseProperties& lhs, const VkPhysicalDeviceSparseProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11280,6 +12249,7 @@ bool operator>=(const VkPhysicalDeviceSparseProperties& lhs, const VkPhysicalDev
 
 bool operator==(const VkPhysicalDeviceSubgroupProperties& lhs, const VkPhysicalDeviceSubgroupProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11290,6 +12260,7 @@ bool operator!=(const VkPhysicalDeviceSubgroupProperties& lhs, const VkPhysicalD
 
 bool operator<(const VkPhysicalDeviceSubgroupProperties& lhs, const VkPhysicalDeviceSubgroupProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11310,6 +12281,7 @@ bool operator>=(const VkPhysicalDeviceSubgroupProperties& lhs, const VkPhysicalD
 
 bool operator==(const VkPhysicalDeviceSubgroupSizeControlFeaturesEXT& lhs, const VkPhysicalDeviceSubgroupSizeControlFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11320,6 +12292,7 @@ bool operator!=(const VkPhysicalDeviceSubgroupSizeControlFeaturesEXT& lhs, const
 
 bool operator<(const VkPhysicalDeviceSubgroupSizeControlFeaturesEXT& lhs, const VkPhysicalDeviceSubgroupSizeControlFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11340,6 +12313,7 @@ bool operator>=(const VkPhysicalDeviceSubgroupSizeControlFeaturesEXT& lhs, const
 
 bool operator==(const VkPhysicalDeviceSubgroupSizeControlPropertiesEXT& lhs, const VkPhysicalDeviceSubgroupSizeControlPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11350,6 +12324,7 @@ bool operator!=(const VkPhysicalDeviceSubgroupSizeControlPropertiesEXT& lhs, con
 
 bool operator<(const VkPhysicalDeviceSubgroupSizeControlPropertiesEXT& lhs, const VkPhysicalDeviceSubgroupSizeControlPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11370,6 +12345,7 @@ bool operator>=(const VkPhysicalDeviceSubgroupSizeControlPropertiesEXT& lhs, con
 
 bool operator==(const VkPhysicalDeviceSurfaceInfo2KHR& lhs, const VkPhysicalDeviceSurfaceInfo2KHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11380,6 +12356,7 @@ bool operator!=(const VkPhysicalDeviceSurfaceInfo2KHR& lhs, const VkPhysicalDevi
 
 bool operator<(const VkPhysicalDeviceSurfaceInfo2KHR& lhs, const VkPhysicalDeviceSurfaceInfo2KHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11400,6 +12377,7 @@ bool operator>=(const VkPhysicalDeviceSurfaceInfo2KHR& lhs, const VkPhysicalDevi
 
 bool operator==(const VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT& lhs, const VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11410,6 +12388,7 @@ bool operator!=(const VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT& lhs, cons
 
 bool operator<(const VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT& lhs, const VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11430,6 +12409,7 @@ bool operator>=(const VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT& lhs, cons
 
 bool operator==(const VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT& lhs, const VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11440,6 +12420,7 @@ bool operator!=(const VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT& lhs, co
 
 bool operator<(const VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT& lhs, const VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11460,6 +12441,7 @@ bool operator>=(const VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT& lhs, co
 
 bool operator==(const VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT& lhs, const VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11470,6 +12452,7 @@ bool operator!=(const VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT& lhs,
 
 bool operator<(const VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT& lhs, const VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11490,6 +12473,7 @@ bool operator>=(const VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT& lhs,
 
 bool operator==(const VkPhysicalDeviceTimelineSemaphoreFeatures& lhs, const VkPhysicalDeviceTimelineSemaphoreFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11500,6 +12484,7 @@ bool operator!=(const VkPhysicalDeviceTimelineSemaphoreFeatures& lhs, const VkPh
 
 bool operator<(const VkPhysicalDeviceTimelineSemaphoreFeatures& lhs, const VkPhysicalDeviceTimelineSemaphoreFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11520,6 +12505,7 @@ bool operator>=(const VkPhysicalDeviceTimelineSemaphoreFeatures& lhs, const VkPh
 
 bool operator==(const VkPhysicalDeviceTimelineSemaphoreProperties& lhs, const VkPhysicalDeviceTimelineSemaphoreProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11530,6 +12516,7 @@ bool operator!=(const VkPhysicalDeviceTimelineSemaphoreProperties& lhs, const Vk
 
 bool operator<(const VkPhysicalDeviceTimelineSemaphoreProperties& lhs, const VkPhysicalDeviceTimelineSemaphoreProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11550,6 +12537,7 @@ bool operator>=(const VkPhysicalDeviceTimelineSemaphoreProperties& lhs, const Vk
 
 bool operator==(const VkPhysicalDeviceToolPropertiesEXT& lhs, const VkPhysicalDeviceToolPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11560,6 +12548,7 @@ bool operator!=(const VkPhysicalDeviceToolPropertiesEXT& lhs, const VkPhysicalDe
 
 bool operator<(const VkPhysicalDeviceToolPropertiesEXT& lhs, const VkPhysicalDeviceToolPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11580,6 +12569,7 @@ bool operator>=(const VkPhysicalDeviceToolPropertiesEXT& lhs, const VkPhysicalDe
 
 bool operator==(const VkPhysicalDeviceTransformFeedbackFeaturesEXT& lhs, const VkPhysicalDeviceTransformFeedbackFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11590,6 +12580,7 @@ bool operator!=(const VkPhysicalDeviceTransformFeedbackFeaturesEXT& lhs, const V
 
 bool operator<(const VkPhysicalDeviceTransformFeedbackFeaturesEXT& lhs, const VkPhysicalDeviceTransformFeedbackFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11610,6 +12601,7 @@ bool operator>=(const VkPhysicalDeviceTransformFeedbackFeaturesEXT& lhs, const V
 
 bool operator==(const VkPhysicalDeviceTransformFeedbackPropertiesEXT& lhs, const VkPhysicalDeviceTransformFeedbackPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11620,6 +12612,7 @@ bool operator!=(const VkPhysicalDeviceTransformFeedbackPropertiesEXT& lhs, const
 
 bool operator<(const VkPhysicalDeviceTransformFeedbackPropertiesEXT& lhs, const VkPhysicalDeviceTransformFeedbackPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11640,6 +12633,7 @@ bool operator>=(const VkPhysicalDeviceTransformFeedbackPropertiesEXT& lhs, const
 
 bool operator==(const VkPhysicalDeviceUniformBufferStandardLayoutFeatures& lhs, const VkPhysicalDeviceUniformBufferStandardLayoutFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11650,6 +12644,7 @@ bool operator!=(const VkPhysicalDeviceUniformBufferStandardLayoutFeatures& lhs, 
 
 bool operator<(const VkPhysicalDeviceUniformBufferStandardLayoutFeatures& lhs, const VkPhysicalDeviceUniformBufferStandardLayoutFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11670,6 +12665,7 @@ bool operator>=(const VkPhysicalDeviceUniformBufferStandardLayoutFeatures& lhs, 
 
 bool operator==(const VkPhysicalDeviceVariablePointersFeatures& lhs, const VkPhysicalDeviceVariablePointersFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11680,6 +12676,7 @@ bool operator!=(const VkPhysicalDeviceVariablePointersFeatures& lhs, const VkPhy
 
 bool operator<(const VkPhysicalDeviceVariablePointersFeatures& lhs, const VkPhysicalDeviceVariablePointersFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11700,6 +12697,7 @@ bool operator>=(const VkPhysicalDeviceVariablePointersFeatures& lhs, const VkPhy
 
 bool operator==(const VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT& lhs, const VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11710,6 +12708,7 @@ bool operator!=(const VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT& lhs, co
 
 bool operator<(const VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT& lhs, const VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11730,6 +12729,7 @@ bool operator>=(const VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT& lhs, co
 
 bool operator==(const VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT& lhs, const VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11740,6 +12740,7 @@ bool operator!=(const VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT& lhs, 
 
 bool operator<(const VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT& lhs, const VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11760,6 +12761,7 @@ bool operator>=(const VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT& lhs, 
 
 bool operator==(const VkPhysicalDeviceVulkan11Features& lhs, const VkPhysicalDeviceVulkan11Features& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11770,6 +12772,7 @@ bool operator!=(const VkPhysicalDeviceVulkan11Features& lhs, const VkPhysicalDev
 
 bool operator<(const VkPhysicalDeviceVulkan11Features& lhs, const VkPhysicalDeviceVulkan11Features& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11790,6 +12793,7 @@ bool operator>=(const VkPhysicalDeviceVulkan11Features& lhs, const VkPhysicalDev
 
 bool operator==(const VkPhysicalDeviceVulkan11Properties& lhs, const VkPhysicalDeviceVulkan11Properties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11800,6 +12804,7 @@ bool operator!=(const VkPhysicalDeviceVulkan11Properties& lhs, const VkPhysicalD
 
 bool operator<(const VkPhysicalDeviceVulkan11Properties& lhs, const VkPhysicalDeviceVulkan11Properties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11820,6 +12825,7 @@ bool operator>=(const VkPhysicalDeviceVulkan11Properties& lhs, const VkPhysicalD
 
 bool operator==(const VkPhysicalDeviceVulkan12Features& lhs, const VkPhysicalDeviceVulkan12Features& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11830,6 +12836,7 @@ bool operator!=(const VkPhysicalDeviceVulkan12Features& lhs, const VkPhysicalDev
 
 bool operator<(const VkPhysicalDeviceVulkan12Features& lhs, const VkPhysicalDeviceVulkan12Features& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11850,6 +12857,7 @@ bool operator>=(const VkPhysicalDeviceVulkan12Features& lhs, const VkPhysicalDev
 
 bool operator==(const VkPhysicalDeviceVulkan12Properties& lhs, const VkPhysicalDeviceVulkan12Properties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11860,6 +12868,7 @@ bool operator!=(const VkPhysicalDeviceVulkan12Properties& lhs, const VkPhysicalD
 
 bool operator<(const VkPhysicalDeviceVulkan12Properties& lhs, const VkPhysicalDeviceVulkan12Properties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11880,6 +12889,7 @@ bool operator>=(const VkPhysicalDeviceVulkan12Properties& lhs, const VkPhysicalD
 
 bool operator==(const VkPhysicalDeviceVulkanMemoryModelFeatures& lhs, const VkPhysicalDeviceVulkanMemoryModelFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11890,6 +12900,7 @@ bool operator!=(const VkPhysicalDeviceVulkanMemoryModelFeatures& lhs, const VkPh
 
 bool operator<(const VkPhysicalDeviceVulkanMemoryModelFeatures& lhs, const VkPhysicalDeviceVulkanMemoryModelFeatures& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11910,6 +12921,7 @@ bool operator>=(const VkPhysicalDeviceVulkanMemoryModelFeatures& lhs, const VkPh
 
 bool operator==(const VkPhysicalDeviceYcbcrImageArraysFeaturesEXT& lhs, const VkPhysicalDeviceYcbcrImageArraysFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11920,6 +12932,7 @@ bool operator!=(const VkPhysicalDeviceYcbcrImageArraysFeaturesEXT& lhs, const Vk
 
 bool operator<(const VkPhysicalDeviceYcbcrImageArraysFeaturesEXT& lhs, const VkPhysicalDeviceYcbcrImageArraysFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11940,6 +12953,7 @@ bool operator>=(const VkPhysicalDeviceYcbcrImageArraysFeaturesEXT& lhs, const Vk
 
 bool operator==(const VkPipelineCacheCreateInfo& lhs, const VkPipelineCacheCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11950,6 +12964,7 @@ bool operator!=(const VkPipelineCacheCreateInfo& lhs, const VkPipelineCacheCreat
 
 bool operator<(const VkPipelineCacheCreateInfo& lhs, const VkPipelineCacheCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -11970,6 +12985,7 @@ bool operator>=(const VkPipelineCacheCreateInfo& lhs, const VkPipelineCacheCreat
 
 bool operator==(const VkPipelineColorBlendAdvancedStateCreateInfoEXT& lhs, const VkPipelineColorBlendAdvancedStateCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -11980,6 +12996,7 @@ bool operator!=(const VkPipelineColorBlendAdvancedStateCreateInfoEXT& lhs, const
 
 bool operator<(const VkPipelineColorBlendAdvancedStateCreateInfoEXT& lhs, const VkPipelineColorBlendAdvancedStateCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12000,6 +13017,7 @@ bool operator>=(const VkPipelineColorBlendAdvancedStateCreateInfoEXT& lhs, const
 
 bool operator==(const VkPipelineColorBlendAttachmentState& lhs, const VkPipelineColorBlendAttachmentState& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12010,6 +13028,7 @@ bool operator!=(const VkPipelineColorBlendAttachmentState& lhs, const VkPipeline
 
 bool operator<(const VkPipelineColorBlendAttachmentState& lhs, const VkPipelineColorBlendAttachmentState& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12030,6 +13049,7 @@ bool operator>=(const VkPipelineColorBlendAttachmentState& lhs, const VkPipeline
 
 bool operator==(const VkPipelineColorBlendStateCreateInfo& lhs, const VkPipelineColorBlendStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12040,6 +13060,7 @@ bool operator!=(const VkPipelineColorBlendStateCreateInfo& lhs, const VkPipeline
 
 bool operator<(const VkPipelineColorBlendStateCreateInfo& lhs, const VkPipelineColorBlendStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12060,6 +13081,7 @@ bool operator>=(const VkPipelineColorBlendStateCreateInfo& lhs, const VkPipeline
 
 bool operator==(const VkPipelineCompilerControlCreateInfoAMD& lhs, const VkPipelineCompilerControlCreateInfoAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12070,6 +13092,7 @@ bool operator!=(const VkPipelineCompilerControlCreateInfoAMD& lhs, const VkPipel
 
 bool operator<(const VkPipelineCompilerControlCreateInfoAMD& lhs, const VkPipelineCompilerControlCreateInfoAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12090,6 +13113,7 @@ bool operator>=(const VkPipelineCompilerControlCreateInfoAMD& lhs, const VkPipel
 
 bool operator==(const VkPipelineCoverageModulationStateCreateInfoNV& lhs, const VkPipelineCoverageModulationStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12100,6 +13124,7 @@ bool operator!=(const VkPipelineCoverageModulationStateCreateInfoNV& lhs, const 
 
 bool operator<(const VkPipelineCoverageModulationStateCreateInfoNV& lhs, const VkPipelineCoverageModulationStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12120,6 +13145,7 @@ bool operator>=(const VkPipelineCoverageModulationStateCreateInfoNV& lhs, const 
 
 bool operator==(const VkPipelineCoverageReductionStateCreateInfoNV& lhs, const VkPipelineCoverageReductionStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12130,6 +13156,7 @@ bool operator!=(const VkPipelineCoverageReductionStateCreateInfoNV& lhs, const V
 
 bool operator<(const VkPipelineCoverageReductionStateCreateInfoNV& lhs, const VkPipelineCoverageReductionStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12150,6 +13177,7 @@ bool operator>=(const VkPipelineCoverageReductionStateCreateInfoNV& lhs, const V
 
 bool operator==(const VkPipelineCoverageToColorStateCreateInfoNV& lhs, const VkPipelineCoverageToColorStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12160,6 +13188,7 @@ bool operator!=(const VkPipelineCoverageToColorStateCreateInfoNV& lhs, const VkP
 
 bool operator<(const VkPipelineCoverageToColorStateCreateInfoNV& lhs, const VkPipelineCoverageToColorStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12180,6 +13209,7 @@ bool operator>=(const VkPipelineCoverageToColorStateCreateInfoNV& lhs, const VkP
 
 bool operator==(const VkPipelineCreationFeedbackCreateInfoEXT& lhs, const VkPipelineCreationFeedbackCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12190,6 +13220,7 @@ bool operator!=(const VkPipelineCreationFeedbackCreateInfoEXT& lhs, const VkPipe
 
 bool operator<(const VkPipelineCreationFeedbackCreateInfoEXT& lhs, const VkPipelineCreationFeedbackCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12210,6 +13241,7 @@ bool operator>=(const VkPipelineCreationFeedbackCreateInfoEXT& lhs, const VkPipe
 
 bool operator==(const VkPipelineCreationFeedbackEXT& lhs, const VkPipelineCreationFeedbackEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12220,6 +13252,7 @@ bool operator!=(const VkPipelineCreationFeedbackEXT& lhs, const VkPipelineCreati
 
 bool operator<(const VkPipelineCreationFeedbackEXT& lhs, const VkPipelineCreationFeedbackEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12240,6 +13273,7 @@ bool operator>=(const VkPipelineCreationFeedbackEXT& lhs, const VkPipelineCreati
 
 bool operator==(const VkPipelineDepthStencilStateCreateInfo& lhs, const VkPipelineDepthStencilStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12250,6 +13284,7 @@ bool operator!=(const VkPipelineDepthStencilStateCreateInfo& lhs, const VkPipeli
 
 bool operator<(const VkPipelineDepthStencilStateCreateInfo& lhs, const VkPipelineDepthStencilStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12270,6 +13305,7 @@ bool operator>=(const VkPipelineDepthStencilStateCreateInfo& lhs, const VkPipeli
 
 bool operator==(const VkPipelineDiscardRectangleStateCreateInfoEXT& lhs, const VkPipelineDiscardRectangleStateCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12280,6 +13316,7 @@ bool operator!=(const VkPipelineDiscardRectangleStateCreateInfoEXT& lhs, const V
 
 bool operator<(const VkPipelineDiscardRectangleStateCreateInfoEXT& lhs, const VkPipelineDiscardRectangleStateCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12300,6 +13337,7 @@ bool operator>=(const VkPipelineDiscardRectangleStateCreateInfoEXT& lhs, const V
 
 bool operator==(const VkPipelineDynamicStateCreateInfo& lhs, const VkPipelineDynamicStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12310,6 +13348,7 @@ bool operator!=(const VkPipelineDynamicStateCreateInfo& lhs, const VkPipelineDyn
 
 bool operator<(const VkPipelineDynamicStateCreateInfo& lhs, const VkPipelineDynamicStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12330,6 +13369,7 @@ bool operator>=(const VkPipelineDynamicStateCreateInfo& lhs, const VkPipelineDyn
 
 bool operator==(const VkPipelineExecutableInfoKHR& lhs, const VkPipelineExecutableInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12340,6 +13380,7 @@ bool operator!=(const VkPipelineExecutableInfoKHR& lhs, const VkPipelineExecutab
 
 bool operator<(const VkPipelineExecutableInfoKHR& lhs, const VkPipelineExecutableInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12360,6 +13401,7 @@ bool operator>=(const VkPipelineExecutableInfoKHR& lhs, const VkPipelineExecutab
 
 bool operator==(const VkPipelineExecutableInternalRepresentationKHR& lhs, const VkPipelineExecutableInternalRepresentationKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12370,6 +13412,7 @@ bool operator!=(const VkPipelineExecutableInternalRepresentationKHR& lhs, const 
 
 bool operator<(const VkPipelineExecutableInternalRepresentationKHR& lhs, const VkPipelineExecutableInternalRepresentationKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12390,6 +13433,7 @@ bool operator>=(const VkPipelineExecutableInternalRepresentationKHR& lhs, const 
 
 bool operator==(const VkPipelineExecutablePropertiesKHR& lhs, const VkPipelineExecutablePropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12400,6 +13444,7 @@ bool operator!=(const VkPipelineExecutablePropertiesKHR& lhs, const VkPipelineEx
 
 bool operator<(const VkPipelineExecutablePropertiesKHR& lhs, const VkPipelineExecutablePropertiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12420,6 +13465,7 @@ bool operator>=(const VkPipelineExecutablePropertiesKHR& lhs, const VkPipelineEx
 
 bool operator==(const VkPipelineExecutableStatisticKHR& lhs, const VkPipelineExecutableStatisticKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12430,6 +13476,7 @@ bool operator!=(const VkPipelineExecutableStatisticKHR& lhs, const VkPipelineExe
 
 bool operator<(const VkPipelineExecutableStatisticKHR& lhs, const VkPipelineExecutableStatisticKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12448,8 +13495,41 @@ bool operator>=(const VkPipelineExecutableStatisticKHR& lhs, const VkPipelineExe
     return !(lhs < rhs);
 }
 
+bool operator==(const VkPipelineExecutableStatisticValueKHR& lhs, const VkPipelineExecutableStatisticValueKHR& rhs)
+{
+    using namespace dst::gfx::vk::detail;
+    return structure_to_tuple(lhs) == structure_to_tuple(rhs);
+}
+
+bool operator!=(const VkPipelineExecutableStatisticValueKHR& lhs, const VkPipelineExecutableStatisticValueKHR& rhs)
+{
+    return !(lhs == rhs);
+}
+
+bool operator<(const VkPipelineExecutableStatisticValueKHR& lhs, const VkPipelineExecutableStatisticValueKHR& rhs)
+{
+    using namespace dst::gfx::vk::detail;
+    return structure_to_tuple(lhs) < structure_to_tuple(rhs);
+}
+
+bool operator>(const VkPipelineExecutableStatisticValueKHR& lhs, const VkPipelineExecutableStatisticValueKHR& rhs)
+{
+    return rhs < lhs;
+}
+
+bool operator<=(const VkPipelineExecutableStatisticValueKHR& lhs, const VkPipelineExecutableStatisticValueKHR& rhs)
+{
+    return !(rhs < lhs);
+}
+
+bool operator>=(const VkPipelineExecutableStatisticValueKHR& lhs, const VkPipelineExecutableStatisticValueKHR& rhs)
+{
+    return !(lhs < rhs);
+}
+
 bool operator==(const VkPipelineInfoKHR& lhs, const VkPipelineInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12460,6 +13540,7 @@ bool operator!=(const VkPipelineInfoKHR& lhs, const VkPipelineInfoKHR& rhs)
 
 bool operator<(const VkPipelineInfoKHR& lhs, const VkPipelineInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12480,6 +13561,7 @@ bool operator>=(const VkPipelineInfoKHR& lhs, const VkPipelineInfoKHR& rhs)
 
 bool operator==(const VkPipelineInputAssemblyStateCreateInfo& lhs, const VkPipelineInputAssemblyStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12490,6 +13572,7 @@ bool operator!=(const VkPipelineInputAssemblyStateCreateInfo& lhs, const VkPipel
 
 bool operator<(const VkPipelineInputAssemblyStateCreateInfo& lhs, const VkPipelineInputAssemblyStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12510,6 +13593,7 @@ bool operator>=(const VkPipelineInputAssemblyStateCreateInfo& lhs, const VkPipel
 
 bool operator==(const VkPipelineLayoutCreateInfo& lhs, const VkPipelineLayoutCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12520,6 +13604,7 @@ bool operator!=(const VkPipelineLayoutCreateInfo& lhs, const VkPipelineLayoutCre
 
 bool operator<(const VkPipelineLayoutCreateInfo& lhs, const VkPipelineLayoutCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12541,6 +13626,7 @@ bool operator>=(const VkPipelineLayoutCreateInfo& lhs, const VkPipelineLayoutCre
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkPipelineLibraryCreateInfoKHR& lhs, const VkPipelineLibraryCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -12555,6 +13641,7 @@ bool operator!=(const VkPipelineLibraryCreateInfoKHR& lhs, const VkPipelineLibra
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkPipelineLibraryCreateInfoKHR& lhs, const VkPipelineLibraryCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -12582,6 +13669,7 @@ bool operator>=(const VkPipelineLibraryCreateInfoKHR& lhs, const VkPipelineLibra
 
 bool operator==(const VkPipelineMultisampleStateCreateInfo& lhs, const VkPipelineMultisampleStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12592,6 +13680,7 @@ bool operator!=(const VkPipelineMultisampleStateCreateInfo& lhs, const VkPipelin
 
 bool operator<(const VkPipelineMultisampleStateCreateInfo& lhs, const VkPipelineMultisampleStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12612,6 +13701,7 @@ bool operator>=(const VkPipelineMultisampleStateCreateInfo& lhs, const VkPipelin
 
 bool operator==(const VkPipelineRasterizationConservativeStateCreateInfoEXT& lhs, const VkPipelineRasterizationConservativeStateCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12622,6 +13712,7 @@ bool operator!=(const VkPipelineRasterizationConservativeStateCreateInfoEXT& lhs
 
 bool operator<(const VkPipelineRasterizationConservativeStateCreateInfoEXT& lhs, const VkPipelineRasterizationConservativeStateCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12642,6 +13733,7 @@ bool operator>=(const VkPipelineRasterizationConservativeStateCreateInfoEXT& lhs
 
 bool operator==(const VkPipelineRasterizationDepthClipStateCreateInfoEXT& lhs, const VkPipelineRasterizationDepthClipStateCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12652,6 +13744,7 @@ bool operator!=(const VkPipelineRasterizationDepthClipStateCreateInfoEXT& lhs, c
 
 bool operator<(const VkPipelineRasterizationDepthClipStateCreateInfoEXT& lhs, const VkPipelineRasterizationDepthClipStateCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12672,6 +13765,7 @@ bool operator>=(const VkPipelineRasterizationDepthClipStateCreateInfoEXT& lhs, c
 
 bool operator==(const VkPipelineRasterizationLineStateCreateInfoEXT& lhs, const VkPipelineRasterizationLineStateCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12682,6 +13776,7 @@ bool operator!=(const VkPipelineRasterizationLineStateCreateInfoEXT& lhs, const 
 
 bool operator<(const VkPipelineRasterizationLineStateCreateInfoEXT& lhs, const VkPipelineRasterizationLineStateCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12702,6 +13797,7 @@ bool operator>=(const VkPipelineRasterizationLineStateCreateInfoEXT& lhs, const 
 
 bool operator==(const VkPipelineRasterizationStateCreateInfo& lhs, const VkPipelineRasterizationStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12712,6 +13808,7 @@ bool operator!=(const VkPipelineRasterizationStateCreateInfo& lhs, const VkPipel
 
 bool operator<(const VkPipelineRasterizationStateCreateInfo& lhs, const VkPipelineRasterizationStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12732,6 +13829,7 @@ bool operator>=(const VkPipelineRasterizationStateCreateInfo& lhs, const VkPipel
 
 bool operator==(const VkPipelineRasterizationStateRasterizationOrderAMD& lhs, const VkPipelineRasterizationStateRasterizationOrderAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12742,6 +13840,7 @@ bool operator!=(const VkPipelineRasterizationStateRasterizationOrderAMD& lhs, co
 
 bool operator<(const VkPipelineRasterizationStateRasterizationOrderAMD& lhs, const VkPipelineRasterizationStateRasterizationOrderAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12762,6 +13861,7 @@ bool operator>=(const VkPipelineRasterizationStateRasterizationOrderAMD& lhs, co
 
 bool operator==(const VkPipelineRasterizationStateStreamCreateInfoEXT& lhs, const VkPipelineRasterizationStateStreamCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12772,6 +13872,7 @@ bool operator!=(const VkPipelineRasterizationStateStreamCreateInfoEXT& lhs, cons
 
 bool operator<(const VkPipelineRasterizationStateStreamCreateInfoEXT& lhs, const VkPipelineRasterizationStateStreamCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12792,6 +13893,7 @@ bool operator>=(const VkPipelineRasterizationStateStreamCreateInfoEXT& lhs, cons
 
 bool operator==(const VkPipelineRepresentativeFragmentTestStateCreateInfoNV& lhs, const VkPipelineRepresentativeFragmentTestStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12802,6 +13904,7 @@ bool operator!=(const VkPipelineRepresentativeFragmentTestStateCreateInfoNV& lhs
 
 bool operator<(const VkPipelineRepresentativeFragmentTestStateCreateInfoNV& lhs, const VkPipelineRepresentativeFragmentTestStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12822,6 +13925,7 @@ bool operator>=(const VkPipelineRepresentativeFragmentTestStateCreateInfoNV& lhs
 
 bool operator==(const VkPipelineSampleLocationsStateCreateInfoEXT& lhs, const VkPipelineSampleLocationsStateCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12832,6 +13936,7 @@ bool operator!=(const VkPipelineSampleLocationsStateCreateInfoEXT& lhs, const Vk
 
 bool operator<(const VkPipelineSampleLocationsStateCreateInfoEXT& lhs, const VkPipelineSampleLocationsStateCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12852,6 +13957,7 @@ bool operator>=(const VkPipelineSampleLocationsStateCreateInfoEXT& lhs, const Vk
 
 bool operator==(const VkPipelineShaderStageCreateInfo& lhs, const VkPipelineShaderStageCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12862,6 +13968,7 @@ bool operator!=(const VkPipelineShaderStageCreateInfo& lhs, const VkPipelineShad
 
 bool operator<(const VkPipelineShaderStageCreateInfo& lhs, const VkPipelineShaderStageCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12882,6 +13989,7 @@ bool operator>=(const VkPipelineShaderStageCreateInfo& lhs, const VkPipelineShad
 
 bool operator==(const VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT& lhs, const VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12892,6 +14000,7 @@ bool operator!=(const VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT& lh
 
 bool operator<(const VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT& lhs, const VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12912,6 +14021,7 @@ bool operator>=(const VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT& lh
 
 bool operator==(const VkPipelineTessellationDomainOriginStateCreateInfo& lhs, const VkPipelineTessellationDomainOriginStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12922,6 +14032,7 @@ bool operator!=(const VkPipelineTessellationDomainOriginStateCreateInfo& lhs, co
 
 bool operator<(const VkPipelineTessellationDomainOriginStateCreateInfo& lhs, const VkPipelineTessellationDomainOriginStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12942,6 +14053,7 @@ bool operator>=(const VkPipelineTessellationDomainOriginStateCreateInfo& lhs, co
 
 bool operator==(const VkPipelineTessellationStateCreateInfo& lhs, const VkPipelineTessellationStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12952,6 +14064,7 @@ bool operator!=(const VkPipelineTessellationStateCreateInfo& lhs, const VkPipeli
 
 bool operator<(const VkPipelineTessellationStateCreateInfo& lhs, const VkPipelineTessellationStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -12972,6 +14085,7 @@ bool operator>=(const VkPipelineTessellationStateCreateInfo& lhs, const VkPipeli
 
 bool operator==(const VkPipelineVertexInputDivisorStateCreateInfoEXT& lhs, const VkPipelineVertexInputDivisorStateCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -12982,6 +14096,7 @@ bool operator!=(const VkPipelineVertexInputDivisorStateCreateInfoEXT& lhs, const
 
 bool operator<(const VkPipelineVertexInputDivisorStateCreateInfoEXT& lhs, const VkPipelineVertexInputDivisorStateCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13002,6 +14117,7 @@ bool operator>=(const VkPipelineVertexInputDivisorStateCreateInfoEXT& lhs, const
 
 bool operator==(const VkPipelineVertexInputStateCreateInfo& lhs, const VkPipelineVertexInputStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13012,6 +14128,7 @@ bool operator!=(const VkPipelineVertexInputStateCreateInfo& lhs, const VkPipelin
 
 bool operator<(const VkPipelineVertexInputStateCreateInfo& lhs, const VkPipelineVertexInputStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13032,6 +14149,7 @@ bool operator>=(const VkPipelineVertexInputStateCreateInfo& lhs, const VkPipelin
 
 bool operator==(const VkPipelineViewportCoarseSampleOrderStateCreateInfoNV& lhs, const VkPipelineViewportCoarseSampleOrderStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13042,6 +14160,7 @@ bool operator!=(const VkPipelineViewportCoarseSampleOrderStateCreateInfoNV& lhs,
 
 bool operator<(const VkPipelineViewportCoarseSampleOrderStateCreateInfoNV& lhs, const VkPipelineViewportCoarseSampleOrderStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13062,6 +14181,7 @@ bool operator>=(const VkPipelineViewportCoarseSampleOrderStateCreateInfoNV& lhs,
 
 bool operator==(const VkPipelineViewportExclusiveScissorStateCreateInfoNV& lhs, const VkPipelineViewportExclusiveScissorStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13072,6 +14192,7 @@ bool operator!=(const VkPipelineViewportExclusiveScissorStateCreateInfoNV& lhs, 
 
 bool operator<(const VkPipelineViewportExclusiveScissorStateCreateInfoNV& lhs, const VkPipelineViewportExclusiveScissorStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13092,6 +14213,7 @@ bool operator>=(const VkPipelineViewportExclusiveScissorStateCreateInfoNV& lhs, 
 
 bool operator==(const VkPipelineViewportShadingRateImageStateCreateInfoNV& lhs, const VkPipelineViewportShadingRateImageStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13102,6 +14224,7 @@ bool operator!=(const VkPipelineViewportShadingRateImageStateCreateInfoNV& lhs, 
 
 bool operator<(const VkPipelineViewportShadingRateImageStateCreateInfoNV& lhs, const VkPipelineViewportShadingRateImageStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13122,6 +14245,7 @@ bool operator>=(const VkPipelineViewportShadingRateImageStateCreateInfoNV& lhs, 
 
 bool operator==(const VkPipelineViewportStateCreateInfo& lhs, const VkPipelineViewportStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13132,6 +14256,7 @@ bool operator!=(const VkPipelineViewportStateCreateInfo& lhs, const VkPipelineVi
 
 bool operator<(const VkPipelineViewportStateCreateInfo& lhs, const VkPipelineViewportStateCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13152,6 +14277,7 @@ bool operator>=(const VkPipelineViewportStateCreateInfo& lhs, const VkPipelineVi
 
 bool operator==(const VkPipelineViewportSwizzleStateCreateInfoNV& lhs, const VkPipelineViewportSwizzleStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13162,6 +14288,7 @@ bool operator!=(const VkPipelineViewportSwizzleStateCreateInfoNV& lhs, const VkP
 
 bool operator<(const VkPipelineViewportSwizzleStateCreateInfoNV& lhs, const VkPipelineViewportSwizzleStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13182,6 +14309,7 @@ bool operator>=(const VkPipelineViewportSwizzleStateCreateInfoNV& lhs, const VkP
 
 bool operator==(const VkPipelineViewportWScalingStateCreateInfoNV& lhs, const VkPipelineViewportWScalingStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13192,6 +14320,7 @@ bool operator!=(const VkPipelineViewportWScalingStateCreateInfoNV& lhs, const Vk
 
 bool operator<(const VkPipelineViewportWScalingStateCreateInfoNV& lhs, const VkPipelineViewportWScalingStateCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13213,6 +14342,7 @@ bool operator>=(const VkPipelineViewportWScalingStateCreateInfoNV& lhs, const Vk
 #ifdef VK_USE_PLATFORM_GGP
 bool operator==(const VkPresentFrameTokenGGP& lhs, const VkPresentFrameTokenGGP& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_GGP
@@ -13227,6 +14357,7 @@ bool operator!=(const VkPresentFrameTokenGGP& lhs, const VkPresentFrameTokenGGP&
 #ifdef VK_USE_PLATFORM_GGP
 bool operator<(const VkPresentFrameTokenGGP& lhs, const VkPresentFrameTokenGGP& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_GGP
@@ -13254,6 +14385,7 @@ bool operator>=(const VkPresentFrameTokenGGP& lhs, const VkPresentFrameTokenGGP&
 
 bool operator==(const VkPresentInfoKHR& lhs, const VkPresentInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13264,6 +14396,7 @@ bool operator!=(const VkPresentInfoKHR& lhs, const VkPresentInfoKHR& rhs)
 
 bool operator<(const VkPresentInfoKHR& lhs, const VkPresentInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13284,6 +14417,7 @@ bool operator>=(const VkPresentInfoKHR& lhs, const VkPresentInfoKHR& rhs)
 
 bool operator==(const VkPresentRegionKHR& lhs, const VkPresentRegionKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13294,6 +14428,7 @@ bool operator!=(const VkPresentRegionKHR& lhs, const VkPresentRegionKHR& rhs)
 
 bool operator<(const VkPresentRegionKHR& lhs, const VkPresentRegionKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13314,6 +14449,7 @@ bool operator>=(const VkPresentRegionKHR& lhs, const VkPresentRegionKHR& rhs)
 
 bool operator==(const VkPresentRegionsKHR& lhs, const VkPresentRegionsKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13324,6 +14460,7 @@ bool operator!=(const VkPresentRegionsKHR& lhs, const VkPresentRegionsKHR& rhs)
 
 bool operator<(const VkPresentRegionsKHR& lhs, const VkPresentRegionsKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13344,6 +14481,7 @@ bool operator>=(const VkPresentRegionsKHR& lhs, const VkPresentRegionsKHR& rhs)
 
 bool operator==(const VkPresentTimeGOOGLE& lhs, const VkPresentTimeGOOGLE& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13354,6 +14492,7 @@ bool operator!=(const VkPresentTimeGOOGLE& lhs, const VkPresentTimeGOOGLE& rhs)
 
 bool operator<(const VkPresentTimeGOOGLE& lhs, const VkPresentTimeGOOGLE& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13374,6 +14513,7 @@ bool operator>=(const VkPresentTimeGOOGLE& lhs, const VkPresentTimeGOOGLE& rhs)
 
 bool operator==(const VkPresentTimesInfoGOOGLE& lhs, const VkPresentTimesInfoGOOGLE& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13384,6 +14524,7 @@ bool operator!=(const VkPresentTimesInfoGOOGLE& lhs, const VkPresentTimesInfoGOO
 
 bool operator<(const VkPresentTimesInfoGOOGLE& lhs, const VkPresentTimesInfoGOOGLE& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13404,6 +14545,7 @@ bool operator>=(const VkPresentTimesInfoGOOGLE& lhs, const VkPresentTimesInfoGOO
 
 bool operator==(const VkProtectedSubmitInfo& lhs, const VkProtectedSubmitInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13414,6 +14556,7 @@ bool operator!=(const VkProtectedSubmitInfo& lhs, const VkProtectedSubmitInfo& r
 
 bool operator<(const VkProtectedSubmitInfo& lhs, const VkProtectedSubmitInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13434,6 +14577,7 @@ bool operator>=(const VkProtectedSubmitInfo& lhs, const VkProtectedSubmitInfo& r
 
 bool operator==(const VkPushConstantRange& lhs, const VkPushConstantRange& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13444,6 +14588,7 @@ bool operator!=(const VkPushConstantRange& lhs, const VkPushConstantRange& rhs)
 
 bool operator<(const VkPushConstantRange& lhs, const VkPushConstantRange& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13464,6 +14609,7 @@ bool operator>=(const VkPushConstantRange& lhs, const VkPushConstantRange& rhs)
 
 bool operator==(const VkQueryPoolCreateInfo& lhs, const VkQueryPoolCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13474,6 +14620,7 @@ bool operator!=(const VkQueryPoolCreateInfo& lhs, const VkQueryPoolCreateInfo& r
 
 bool operator<(const VkQueryPoolCreateInfo& lhs, const VkQueryPoolCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13494,6 +14641,7 @@ bool operator>=(const VkQueryPoolCreateInfo& lhs, const VkQueryPoolCreateInfo& r
 
 bool operator==(const VkQueryPoolPerformanceCreateInfoKHR& lhs, const VkQueryPoolPerformanceCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13504,6 +14652,7 @@ bool operator!=(const VkQueryPoolPerformanceCreateInfoKHR& lhs, const VkQueryPoo
 
 bool operator<(const VkQueryPoolPerformanceCreateInfoKHR& lhs, const VkQueryPoolPerformanceCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13524,6 +14673,7 @@ bool operator>=(const VkQueryPoolPerformanceCreateInfoKHR& lhs, const VkQueryPoo
 
 bool operator==(const VkQueryPoolPerformanceQueryCreateInfoINTEL& lhs, const VkQueryPoolPerformanceQueryCreateInfoINTEL& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13534,6 +14684,7 @@ bool operator!=(const VkQueryPoolPerformanceQueryCreateInfoINTEL& lhs, const VkQ
 
 bool operator<(const VkQueryPoolPerformanceQueryCreateInfoINTEL& lhs, const VkQueryPoolPerformanceQueryCreateInfoINTEL& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13554,6 +14705,7 @@ bool operator>=(const VkQueryPoolPerformanceQueryCreateInfoINTEL& lhs, const VkQ
 
 bool operator==(const VkQueueFamilyCheckpointPropertiesNV& lhs, const VkQueueFamilyCheckpointPropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13564,6 +14716,7 @@ bool operator!=(const VkQueueFamilyCheckpointPropertiesNV& lhs, const VkQueueFam
 
 bool operator<(const VkQueueFamilyCheckpointPropertiesNV& lhs, const VkQueueFamilyCheckpointPropertiesNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13584,6 +14737,7 @@ bool operator>=(const VkQueueFamilyCheckpointPropertiesNV& lhs, const VkQueueFam
 
 bool operator==(const VkQueueFamilyProperties& lhs, const VkQueueFamilyProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13594,6 +14748,7 @@ bool operator!=(const VkQueueFamilyProperties& lhs, const VkQueueFamilyPropertie
 
 bool operator<(const VkQueueFamilyProperties& lhs, const VkQueueFamilyProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13614,6 +14769,7 @@ bool operator>=(const VkQueueFamilyProperties& lhs, const VkQueueFamilyPropertie
 
 bool operator==(const VkQueueFamilyProperties2& lhs, const VkQueueFamilyProperties2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13624,6 +14780,7 @@ bool operator!=(const VkQueueFamilyProperties2& lhs, const VkQueueFamilyProperti
 
 bool operator<(const VkQueueFamilyProperties2& lhs, const VkQueueFamilyProperties2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13645,6 +14802,7 @@ bool operator>=(const VkQueueFamilyProperties2& lhs, const VkQueueFamilyProperti
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkRayTracingPipelineCreateInfoKHR& lhs, const VkRayTracingPipelineCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -13659,6 +14817,7 @@ bool operator!=(const VkRayTracingPipelineCreateInfoKHR& lhs, const VkRayTracing
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkRayTracingPipelineCreateInfoKHR& lhs, const VkRayTracingPipelineCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -13686,6 +14845,7 @@ bool operator>=(const VkRayTracingPipelineCreateInfoKHR& lhs, const VkRayTracing
 
 bool operator==(const VkRayTracingPipelineCreateInfoNV& lhs, const VkRayTracingPipelineCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13696,6 +14856,7 @@ bool operator!=(const VkRayTracingPipelineCreateInfoNV& lhs, const VkRayTracingP
 
 bool operator<(const VkRayTracingPipelineCreateInfoNV& lhs, const VkRayTracingPipelineCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13717,6 +14878,7 @@ bool operator>=(const VkRayTracingPipelineCreateInfoNV& lhs, const VkRayTracingP
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkRayTracingPipelineInterfaceCreateInfoKHR& lhs, const VkRayTracingPipelineInterfaceCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -13731,6 +14893,7 @@ bool operator!=(const VkRayTracingPipelineInterfaceCreateInfoKHR& lhs, const VkR
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkRayTracingPipelineInterfaceCreateInfoKHR& lhs, const VkRayTracingPipelineInterfaceCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -13759,6 +14922,7 @@ bool operator>=(const VkRayTracingPipelineInterfaceCreateInfoKHR& lhs, const VkR
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkRayTracingShaderGroupCreateInfoKHR& lhs, const VkRayTracingShaderGroupCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -13773,6 +14937,7 @@ bool operator!=(const VkRayTracingShaderGroupCreateInfoKHR& lhs, const VkRayTrac
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkRayTracingShaderGroupCreateInfoKHR& lhs, const VkRayTracingShaderGroupCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -13800,6 +14965,7 @@ bool operator>=(const VkRayTracingShaderGroupCreateInfoKHR& lhs, const VkRayTrac
 
 bool operator==(const VkRayTracingShaderGroupCreateInfoNV& lhs, const VkRayTracingShaderGroupCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13810,6 +14976,7 @@ bool operator!=(const VkRayTracingShaderGroupCreateInfoNV& lhs, const VkRayTraci
 
 bool operator<(const VkRayTracingShaderGroupCreateInfoNV& lhs, const VkRayTracingShaderGroupCreateInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13830,6 +14997,7 @@ bool operator>=(const VkRayTracingShaderGroupCreateInfoNV& lhs, const VkRayTraci
 
 bool operator==(const VkRect2D& lhs, const VkRect2D& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13840,6 +15008,7 @@ bool operator!=(const VkRect2D& lhs, const VkRect2D& rhs)
 
 bool operator<(const VkRect2D& lhs, const VkRect2D& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13860,6 +15029,7 @@ bool operator>=(const VkRect2D& lhs, const VkRect2D& rhs)
 
 bool operator==(const VkRectLayerKHR& lhs, const VkRectLayerKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13870,6 +15040,7 @@ bool operator!=(const VkRectLayerKHR& lhs, const VkRectLayerKHR& rhs)
 
 bool operator<(const VkRectLayerKHR& lhs, const VkRectLayerKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13890,6 +15061,7 @@ bool operator>=(const VkRectLayerKHR& lhs, const VkRectLayerKHR& rhs)
 
 bool operator==(const VkRefreshCycleDurationGOOGLE& lhs, const VkRefreshCycleDurationGOOGLE& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13900,6 +15072,7 @@ bool operator!=(const VkRefreshCycleDurationGOOGLE& lhs, const VkRefreshCycleDur
 
 bool operator<(const VkRefreshCycleDurationGOOGLE& lhs, const VkRefreshCycleDurationGOOGLE& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13920,6 +15093,7 @@ bool operator>=(const VkRefreshCycleDurationGOOGLE& lhs, const VkRefreshCycleDur
 
 bool operator==(const VkRenderPassAttachmentBeginInfo& lhs, const VkRenderPassAttachmentBeginInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13930,6 +15104,7 @@ bool operator!=(const VkRenderPassAttachmentBeginInfo& lhs, const VkRenderPassAt
 
 bool operator<(const VkRenderPassAttachmentBeginInfo& lhs, const VkRenderPassAttachmentBeginInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13950,6 +15125,7 @@ bool operator>=(const VkRenderPassAttachmentBeginInfo& lhs, const VkRenderPassAt
 
 bool operator==(const VkRenderPassBeginInfo& lhs, const VkRenderPassBeginInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13960,6 +15136,7 @@ bool operator!=(const VkRenderPassBeginInfo& lhs, const VkRenderPassBeginInfo& r
 
 bool operator<(const VkRenderPassBeginInfo& lhs, const VkRenderPassBeginInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -13980,6 +15157,7 @@ bool operator>=(const VkRenderPassBeginInfo& lhs, const VkRenderPassBeginInfo& r
 
 bool operator==(const VkRenderPassCreateInfo& lhs, const VkRenderPassCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -13990,6 +15168,7 @@ bool operator!=(const VkRenderPassCreateInfo& lhs, const VkRenderPassCreateInfo&
 
 bool operator<(const VkRenderPassCreateInfo& lhs, const VkRenderPassCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14010,6 +15189,7 @@ bool operator>=(const VkRenderPassCreateInfo& lhs, const VkRenderPassCreateInfo&
 
 bool operator==(const VkRenderPassCreateInfo2& lhs, const VkRenderPassCreateInfo2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14020,6 +15200,7 @@ bool operator!=(const VkRenderPassCreateInfo2& lhs, const VkRenderPassCreateInfo
 
 bool operator<(const VkRenderPassCreateInfo2& lhs, const VkRenderPassCreateInfo2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14040,6 +15221,7 @@ bool operator>=(const VkRenderPassCreateInfo2& lhs, const VkRenderPassCreateInfo
 
 bool operator==(const VkRenderPassFragmentDensityMapCreateInfoEXT& lhs, const VkRenderPassFragmentDensityMapCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14050,6 +15232,7 @@ bool operator!=(const VkRenderPassFragmentDensityMapCreateInfoEXT& lhs, const Vk
 
 bool operator<(const VkRenderPassFragmentDensityMapCreateInfoEXT& lhs, const VkRenderPassFragmentDensityMapCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14070,6 +15253,7 @@ bool operator>=(const VkRenderPassFragmentDensityMapCreateInfoEXT& lhs, const Vk
 
 bool operator==(const VkRenderPassInputAttachmentAspectCreateInfo& lhs, const VkRenderPassInputAttachmentAspectCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14080,6 +15264,7 @@ bool operator!=(const VkRenderPassInputAttachmentAspectCreateInfo& lhs, const Vk
 
 bool operator<(const VkRenderPassInputAttachmentAspectCreateInfo& lhs, const VkRenderPassInputAttachmentAspectCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14100,6 +15285,7 @@ bool operator>=(const VkRenderPassInputAttachmentAspectCreateInfo& lhs, const Vk
 
 bool operator==(const VkRenderPassMultiviewCreateInfo& lhs, const VkRenderPassMultiviewCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14110,6 +15296,7 @@ bool operator!=(const VkRenderPassMultiviewCreateInfo& lhs, const VkRenderPassMu
 
 bool operator<(const VkRenderPassMultiviewCreateInfo& lhs, const VkRenderPassMultiviewCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14130,6 +15317,7 @@ bool operator>=(const VkRenderPassMultiviewCreateInfo& lhs, const VkRenderPassMu
 
 bool operator==(const VkRenderPassSampleLocationsBeginInfoEXT& lhs, const VkRenderPassSampleLocationsBeginInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14140,6 +15328,7 @@ bool operator!=(const VkRenderPassSampleLocationsBeginInfoEXT& lhs, const VkRend
 
 bool operator<(const VkRenderPassSampleLocationsBeginInfoEXT& lhs, const VkRenderPassSampleLocationsBeginInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14160,6 +15349,7 @@ bool operator>=(const VkRenderPassSampleLocationsBeginInfoEXT& lhs, const VkRend
 
 bool operator==(const VkRenderPassTransformBeginInfoQCOM& lhs, const VkRenderPassTransformBeginInfoQCOM& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14170,6 +15360,7 @@ bool operator!=(const VkRenderPassTransformBeginInfoQCOM& lhs, const VkRenderPas
 
 bool operator<(const VkRenderPassTransformBeginInfoQCOM& lhs, const VkRenderPassTransformBeginInfoQCOM& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14190,6 +15381,7 @@ bool operator>=(const VkRenderPassTransformBeginInfoQCOM& lhs, const VkRenderPas
 
 bool operator==(const VkSampleLocationEXT& lhs, const VkSampleLocationEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14200,6 +15392,7 @@ bool operator!=(const VkSampleLocationEXT& lhs, const VkSampleLocationEXT& rhs)
 
 bool operator<(const VkSampleLocationEXT& lhs, const VkSampleLocationEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14220,6 +15413,7 @@ bool operator>=(const VkSampleLocationEXT& lhs, const VkSampleLocationEXT& rhs)
 
 bool operator==(const VkSampleLocationsInfoEXT& lhs, const VkSampleLocationsInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14230,6 +15424,7 @@ bool operator!=(const VkSampleLocationsInfoEXT& lhs, const VkSampleLocationsInfo
 
 bool operator<(const VkSampleLocationsInfoEXT& lhs, const VkSampleLocationsInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14250,6 +15445,7 @@ bool operator>=(const VkSampleLocationsInfoEXT& lhs, const VkSampleLocationsInfo
 
 bool operator==(const VkSamplerCreateInfo& lhs, const VkSamplerCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14260,6 +15456,7 @@ bool operator!=(const VkSamplerCreateInfo& lhs, const VkSamplerCreateInfo& rhs)
 
 bool operator<(const VkSamplerCreateInfo& lhs, const VkSamplerCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14280,6 +15477,7 @@ bool operator>=(const VkSamplerCreateInfo& lhs, const VkSamplerCreateInfo& rhs)
 
 bool operator==(const VkSamplerReductionModeCreateInfo& lhs, const VkSamplerReductionModeCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14290,6 +15488,7 @@ bool operator!=(const VkSamplerReductionModeCreateInfo& lhs, const VkSamplerRedu
 
 bool operator<(const VkSamplerReductionModeCreateInfo& lhs, const VkSamplerReductionModeCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14310,6 +15509,7 @@ bool operator>=(const VkSamplerReductionModeCreateInfo& lhs, const VkSamplerRedu
 
 bool operator==(const VkSamplerYcbcrConversionCreateInfo& lhs, const VkSamplerYcbcrConversionCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14320,6 +15520,7 @@ bool operator!=(const VkSamplerYcbcrConversionCreateInfo& lhs, const VkSamplerYc
 
 bool operator<(const VkSamplerYcbcrConversionCreateInfo& lhs, const VkSamplerYcbcrConversionCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14340,6 +15541,7 @@ bool operator>=(const VkSamplerYcbcrConversionCreateInfo& lhs, const VkSamplerYc
 
 bool operator==(const VkSamplerYcbcrConversionImageFormatProperties& lhs, const VkSamplerYcbcrConversionImageFormatProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14350,6 +15552,7 @@ bool operator!=(const VkSamplerYcbcrConversionImageFormatProperties& lhs, const 
 
 bool operator<(const VkSamplerYcbcrConversionImageFormatProperties& lhs, const VkSamplerYcbcrConversionImageFormatProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14370,6 +15573,7 @@ bool operator>=(const VkSamplerYcbcrConversionImageFormatProperties& lhs, const 
 
 bool operator==(const VkSamplerYcbcrConversionInfo& lhs, const VkSamplerYcbcrConversionInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14380,6 +15584,7 @@ bool operator!=(const VkSamplerYcbcrConversionInfo& lhs, const VkSamplerYcbcrCon
 
 bool operator<(const VkSamplerYcbcrConversionInfo& lhs, const VkSamplerYcbcrConversionInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14400,6 +15605,7 @@ bool operator>=(const VkSamplerYcbcrConversionInfo& lhs, const VkSamplerYcbcrCon
 
 bool operator==(const VkSemaphoreCreateInfo& lhs, const VkSemaphoreCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14410,6 +15616,7 @@ bool operator!=(const VkSemaphoreCreateInfo& lhs, const VkSemaphoreCreateInfo& r
 
 bool operator<(const VkSemaphoreCreateInfo& lhs, const VkSemaphoreCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14430,6 +15637,7 @@ bool operator>=(const VkSemaphoreCreateInfo& lhs, const VkSemaphoreCreateInfo& r
 
 bool operator==(const VkSemaphoreGetFdInfoKHR& lhs, const VkSemaphoreGetFdInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14440,6 +15648,7 @@ bool operator!=(const VkSemaphoreGetFdInfoKHR& lhs, const VkSemaphoreGetFdInfoKH
 
 bool operator<(const VkSemaphoreGetFdInfoKHR& lhs, const VkSemaphoreGetFdInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14461,6 +15670,7 @@ bool operator>=(const VkSemaphoreGetFdInfoKHR& lhs, const VkSemaphoreGetFdInfoKH
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkSemaphoreGetWin32HandleInfoKHR& lhs, const VkSemaphoreGetWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -14475,6 +15685,7 @@ bool operator!=(const VkSemaphoreGetWin32HandleInfoKHR& lhs, const VkSemaphoreGe
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkSemaphoreGetWin32HandleInfoKHR& lhs, const VkSemaphoreGetWin32HandleInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -14502,6 +15713,7 @@ bool operator>=(const VkSemaphoreGetWin32HandleInfoKHR& lhs, const VkSemaphoreGe
 
 bool operator==(const VkSemaphoreSignalInfo& lhs, const VkSemaphoreSignalInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14512,6 +15724,7 @@ bool operator!=(const VkSemaphoreSignalInfo& lhs, const VkSemaphoreSignalInfo& r
 
 bool operator<(const VkSemaphoreSignalInfo& lhs, const VkSemaphoreSignalInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14532,6 +15745,7 @@ bool operator>=(const VkSemaphoreSignalInfo& lhs, const VkSemaphoreSignalInfo& r
 
 bool operator==(const VkSemaphoreTypeCreateInfo& lhs, const VkSemaphoreTypeCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14542,6 +15756,7 @@ bool operator!=(const VkSemaphoreTypeCreateInfo& lhs, const VkSemaphoreTypeCreat
 
 bool operator<(const VkSemaphoreTypeCreateInfo& lhs, const VkSemaphoreTypeCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14562,6 +15777,7 @@ bool operator>=(const VkSemaphoreTypeCreateInfo& lhs, const VkSemaphoreTypeCreat
 
 bool operator==(const VkSemaphoreWaitInfo& lhs, const VkSemaphoreWaitInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14572,6 +15788,7 @@ bool operator!=(const VkSemaphoreWaitInfo& lhs, const VkSemaphoreWaitInfo& rhs)
 
 bool operator<(const VkSemaphoreWaitInfo& lhs, const VkSemaphoreWaitInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14592,6 +15809,7 @@ bool operator>=(const VkSemaphoreWaitInfo& lhs, const VkSemaphoreWaitInfo& rhs)
 
 bool operator==(const VkSetStateFlagsIndirectCommandNV& lhs, const VkSetStateFlagsIndirectCommandNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14602,6 +15820,7 @@ bool operator!=(const VkSetStateFlagsIndirectCommandNV& lhs, const VkSetStateFla
 
 bool operator<(const VkSetStateFlagsIndirectCommandNV& lhs, const VkSetStateFlagsIndirectCommandNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14622,6 +15841,7 @@ bool operator>=(const VkSetStateFlagsIndirectCommandNV& lhs, const VkSetStateFla
 
 bool operator==(const VkShaderModuleCreateInfo& lhs, const VkShaderModuleCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14632,6 +15852,7 @@ bool operator!=(const VkShaderModuleCreateInfo& lhs, const VkShaderModuleCreateI
 
 bool operator<(const VkShaderModuleCreateInfo& lhs, const VkShaderModuleCreateInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14652,6 +15873,7 @@ bool operator>=(const VkShaderModuleCreateInfo& lhs, const VkShaderModuleCreateI
 
 bool operator==(const VkShaderModuleValidationCacheCreateInfoEXT& lhs, const VkShaderModuleValidationCacheCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14662,6 +15884,7 @@ bool operator!=(const VkShaderModuleValidationCacheCreateInfoEXT& lhs, const VkS
 
 bool operator<(const VkShaderModuleValidationCacheCreateInfoEXT& lhs, const VkShaderModuleValidationCacheCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14682,6 +15905,7 @@ bool operator>=(const VkShaderModuleValidationCacheCreateInfoEXT& lhs, const VkS
 
 bool operator==(const VkShaderResourceUsageAMD& lhs, const VkShaderResourceUsageAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14692,6 +15916,7 @@ bool operator!=(const VkShaderResourceUsageAMD& lhs, const VkShaderResourceUsage
 
 bool operator<(const VkShaderResourceUsageAMD& lhs, const VkShaderResourceUsageAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14712,6 +15937,7 @@ bool operator>=(const VkShaderResourceUsageAMD& lhs, const VkShaderResourceUsage
 
 bool operator==(const VkShaderStatisticsInfoAMD& lhs, const VkShaderStatisticsInfoAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14722,6 +15948,7 @@ bool operator!=(const VkShaderStatisticsInfoAMD& lhs, const VkShaderStatisticsIn
 
 bool operator<(const VkShaderStatisticsInfoAMD& lhs, const VkShaderStatisticsInfoAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14742,6 +15969,7 @@ bool operator>=(const VkShaderStatisticsInfoAMD& lhs, const VkShaderStatisticsIn
 
 bool operator==(const VkShadingRatePaletteNV& lhs, const VkShadingRatePaletteNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14752,6 +15980,7 @@ bool operator!=(const VkShadingRatePaletteNV& lhs, const VkShadingRatePaletteNV&
 
 bool operator<(const VkShadingRatePaletteNV& lhs, const VkShadingRatePaletteNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14772,6 +16001,7 @@ bool operator>=(const VkShadingRatePaletteNV& lhs, const VkShadingRatePaletteNV&
 
 bool operator==(const VkSharedPresentSurfaceCapabilitiesKHR& lhs, const VkSharedPresentSurfaceCapabilitiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14782,6 +16012,7 @@ bool operator!=(const VkSharedPresentSurfaceCapabilitiesKHR& lhs, const VkShared
 
 bool operator<(const VkSharedPresentSurfaceCapabilitiesKHR& lhs, const VkSharedPresentSurfaceCapabilitiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14802,6 +16033,7 @@ bool operator>=(const VkSharedPresentSurfaceCapabilitiesKHR& lhs, const VkShared
 
 bool operator==(const VkSparseBufferMemoryBindInfo& lhs, const VkSparseBufferMemoryBindInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14812,6 +16044,7 @@ bool operator!=(const VkSparseBufferMemoryBindInfo& lhs, const VkSparseBufferMem
 
 bool operator<(const VkSparseBufferMemoryBindInfo& lhs, const VkSparseBufferMemoryBindInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14832,6 +16065,7 @@ bool operator>=(const VkSparseBufferMemoryBindInfo& lhs, const VkSparseBufferMem
 
 bool operator==(const VkSparseImageFormatProperties& lhs, const VkSparseImageFormatProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14842,6 +16076,7 @@ bool operator!=(const VkSparseImageFormatProperties& lhs, const VkSparseImageFor
 
 bool operator<(const VkSparseImageFormatProperties& lhs, const VkSparseImageFormatProperties& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14862,6 +16097,7 @@ bool operator>=(const VkSparseImageFormatProperties& lhs, const VkSparseImageFor
 
 bool operator==(const VkSparseImageFormatProperties2& lhs, const VkSparseImageFormatProperties2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14872,6 +16108,7 @@ bool operator!=(const VkSparseImageFormatProperties2& lhs, const VkSparseImageFo
 
 bool operator<(const VkSparseImageFormatProperties2& lhs, const VkSparseImageFormatProperties2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14892,6 +16129,7 @@ bool operator>=(const VkSparseImageFormatProperties2& lhs, const VkSparseImageFo
 
 bool operator==(const VkSparseImageMemoryBind& lhs, const VkSparseImageMemoryBind& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14902,6 +16140,7 @@ bool operator!=(const VkSparseImageMemoryBind& lhs, const VkSparseImageMemoryBin
 
 bool operator<(const VkSparseImageMemoryBind& lhs, const VkSparseImageMemoryBind& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14922,6 +16161,7 @@ bool operator>=(const VkSparseImageMemoryBind& lhs, const VkSparseImageMemoryBin
 
 bool operator==(const VkSparseImageMemoryBindInfo& lhs, const VkSparseImageMemoryBindInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14932,6 +16172,7 @@ bool operator!=(const VkSparseImageMemoryBindInfo& lhs, const VkSparseImageMemor
 
 bool operator<(const VkSparseImageMemoryBindInfo& lhs, const VkSparseImageMemoryBindInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14952,6 +16193,7 @@ bool operator>=(const VkSparseImageMemoryBindInfo& lhs, const VkSparseImageMemor
 
 bool operator==(const VkSparseImageMemoryRequirements& lhs, const VkSparseImageMemoryRequirements& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14962,6 +16204,7 @@ bool operator!=(const VkSparseImageMemoryRequirements& lhs, const VkSparseImageM
 
 bool operator<(const VkSparseImageMemoryRequirements& lhs, const VkSparseImageMemoryRequirements& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -14982,6 +16225,7 @@ bool operator>=(const VkSparseImageMemoryRequirements& lhs, const VkSparseImageM
 
 bool operator==(const VkSparseImageMemoryRequirements2& lhs, const VkSparseImageMemoryRequirements2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -14992,6 +16236,7 @@ bool operator!=(const VkSparseImageMemoryRequirements2& lhs, const VkSparseImage
 
 bool operator<(const VkSparseImageMemoryRequirements2& lhs, const VkSparseImageMemoryRequirements2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15012,6 +16257,7 @@ bool operator>=(const VkSparseImageMemoryRequirements2& lhs, const VkSparseImage
 
 bool operator==(const VkSparseImageOpaqueMemoryBindInfo& lhs, const VkSparseImageOpaqueMemoryBindInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15022,6 +16268,7 @@ bool operator!=(const VkSparseImageOpaqueMemoryBindInfo& lhs, const VkSparseImag
 
 bool operator<(const VkSparseImageOpaqueMemoryBindInfo& lhs, const VkSparseImageOpaqueMemoryBindInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15042,6 +16289,7 @@ bool operator>=(const VkSparseImageOpaqueMemoryBindInfo& lhs, const VkSparseImag
 
 bool operator==(const VkSparseMemoryBind& lhs, const VkSparseMemoryBind& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15052,6 +16300,7 @@ bool operator!=(const VkSparseMemoryBind& lhs, const VkSparseMemoryBind& rhs)
 
 bool operator<(const VkSparseMemoryBind& lhs, const VkSparseMemoryBind& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15072,6 +16321,7 @@ bool operator>=(const VkSparseMemoryBind& lhs, const VkSparseMemoryBind& rhs)
 
 bool operator==(const VkSpecializationInfo& lhs, const VkSpecializationInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15082,6 +16332,7 @@ bool operator!=(const VkSpecializationInfo& lhs, const VkSpecializationInfo& rhs
 
 bool operator<(const VkSpecializationInfo& lhs, const VkSpecializationInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15102,6 +16353,7 @@ bool operator>=(const VkSpecializationInfo& lhs, const VkSpecializationInfo& rhs
 
 bool operator==(const VkSpecializationMapEntry& lhs, const VkSpecializationMapEntry& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15112,6 +16364,7 @@ bool operator!=(const VkSpecializationMapEntry& lhs, const VkSpecializationMapEn
 
 bool operator<(const VkSpecializationMapEntry& lhs, const VkSpecializationMapEntry& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15132,6 +16385,7 @@ bool operator>=(const VkSpecializationMapEntry& lhs, const VkSpecializationMapEn
 
 bool operator==(const VkStencilOpState& lhs, const VkStencilOpState& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15142,6 +16396,7 @@ bool operator!=(const VkStencilOpState& lhs, const VkStencilOpState& rhs)
 
 bool operator<(const VkStencilOpState& lhs, const VkStencilOpState& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15163,6 +16418,7 @@ bool operator>=(const VkStencilOpState& lhs, const VkStencilOpState& rhs)
 #ifdef VK_USE_PLATFORM_GGP
 bool operator==(const VkStreamDescriptorSurfaceCreateInfoGGP& lhs, const VkStreamDescriptorSurfaceCreateInfoGGP& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_GGP
@@ -15177,6 +16433,7 @@ bool operator!=(const VkStreamDescriptorSurfaceCreateInfoGGP& lhs, const VkStrea
 #ifdef VK_USE_PLATFORM_GGP
 bool operator<(const VkStreamDescriptorSurfaceCreateInfoGGP& lhs, const VkStreamDescriptorSurfaceCreateInfoGGP& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_GGP
@@ -15205,6 +16462,7 @@ bool operator>=(const VkStreamDescriptorSurfaceCreateInfoGGP& lhs, const VkStrea
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkStridedBufferRegionKHR& lhs, const VkStridedBufferRegionKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -15219,6 +16477,7 @@ bool operator!=(const VkStridedBufferRegionKHR& lhs, const VkStridedBufferRegion
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkStridedBufferRegionKHR& lhs, const VkStridedBufferRegionKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -15246,6 +16505,7 @@ bool operator>=(const VkStridedBufferRegionKHR& lhs, const VkStridedBufferRegion
 
 bool operator==(const VkSubmitInfo& lhs, const VkSubmitInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15256,6 +16516,7 @@ bool operator!=(const VkSubmitInfo& lhs, const VkSubmitInfo& rhs)
 
 bool operator<(const VkSubmitInfo& lhs, const VkSubmitInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15276,6 +16537,7 @@ bool operator>=(const VkSubmitInfo& lhs, const VkSubmitInfo& rhs)
 
 bool operator==(const VkSubpassBeginInfo& lhs, const VkSubpassBeginInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15286,6 +16548,7 @@ bool operator!=(const VkSubpassBeginInfo& lhs, const VkSubpassBeginInfo& rhs)
 
 bool operator<(const VkSubpassBeginInfo& lhs, const VkSubpassBeginInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15306,6 +16569,7 @@ bool operator>=(const VkSubpassBeginInfo& lhs, const VkSubpassBeginInfo& rhs)
 
 bool operator==(const VkSubpassDependency& lhs, const VkSubpassDependency& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15316,6 +16580,7 @@ bool operator!=(const VkSubpassDependency& lhs, const VkSubpassDependency& rhs)
 
 bool operator<(const VkSubpassDependency& lhs, const VkSubpassDependency& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15336,6 +16601,7 @@ bool operator>=(const VkSubpassDependency& lhs, const VkSubpassDependency& rhs)
 
 bool operator==(const VkSubpassDependency2& lhs, const VkSubpassDependency2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15346,6 +16612,7 @@ bool operator!=(const VkSubpassDependency2& lhs, const VkSubpassDependency2& rhs
 
 bool operator<(const VkSubpassDependency2& lhs, const VkSubpassDependency2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15366,6 +16633,7 @@ bool operator>=(const VkSubpassDependency2& lhs, const VkSubpassDependency2& rhs
 
 bool operator==(const VkSubpassDescription& lhs, const VkSubpassDescription& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15376,6 +16644,7 @@ bool operator!=(const VkSubpassDescription& lhs, const VkSubpassDescription& rhs
 
 bool operator<(const VkSubpassDescription& lhs, const VkSubpassDescription& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15396,6 +16665,7 @@ bool operator>=(const VkSubpassDescription& lhs, const VkSubpassDescription& rhs
 
 bool operator==(const VkSubpassDescription2& lhs, const VkSubpassDescription2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15406,6 +16676,7 @@ bool operator!=(const VkSubpassDescription2& lhs, const VkSubpassDescription2& r
 
 bool operator<(const VkSubpassDescription2& lhs, const VkSubpassDescription2& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15426,6 +16697,7 @@ bool operator>=(const VkSubpassDescription2& lhs, const VkSubpassDescription2& r
 
 bool operator==(const VkSubpassDescriptionDepthStencilResolve& lhs, const VkSubpassDescriptionDepthStencilResolve& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15436,6 +16708,7 @@ bool operator!=(const VkSubpassDescriptionDepthStencilResolve& lhs, const VkSubp
 
 bool operator<(const VkSubpassDescriptionDepthStencilResolve& lhs, const VkSubpassDescriptionDepthStencilResolve& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15456,6 +16729,7 @@ bool operator>=(const VkSubpassDescriptionDepthStencilResolve& lhs, const VkSubp
 
 bool operator==(const VkSubpassEndInfo& lhs, const VkSubpassEndInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15466,6 +16740,7 @@ bool operator!=(const VkSubpassEndInfo& lhs, const VkSubpassEndInfo& rhs)
 
 bool operator<(const VkSubpassEndInfo& lhs, const VkSubpassEndInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15486,6 +16761,7 @@ bool operator>=(const VkSubpassEndInfo& lhs, const VkSubpassEndInfo& rhs)
 
 bool operator==(const VkSubpassSampleLocationsEXT& lhs, const VkSubpassSampleLocationsEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15496,6 +16772,7 @@ bool operator!=(const VkSubpassSampleLocationsEXT& lhs, const VkSubpassSampleLoc
 
 bool operator<(const VkSubpassSampleLocationsEXT& lhs, const VkSubpassSampleLocationsEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15516,6 +16793,7 @@ bool operator>=(const VkSubpassSampleLocationsEXT& lhs, const VkSubpassSampleLoc
 
 bool operator==(const VkSubresourceLayout& lhs, const VkSubresourceLayout& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15526,6 +16804,7 @@ bool operator!=(const VkSubresourceLayout& lhs, const VkSubresourceLayout& rhs)
 
 bool operator<(const VkSubresourceLayout& lhs, const VkSubresourceLayout& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15546,6 +16825,7 @@ bool operator>=(const VkSubresourceLayout& lhs, const VkSubresourceLayout& rhs)
 
 bool operator==(const VkSurfaceCapabilities2EXT& lhs, const VkSurfaceCapabilities2EXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15556,6 +16836,7 @@ bool operator!=(const VkSurfaceCapabilities2EXT& lhs, const VkSurfaceCapabilitie
 
 bool operator<(const VkSurfaceCapabilities2EXT& lhs, const VkSurfaceCapabilities2EXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15576,6 +16857,7 @@ bool operator>=(const VkSurfaceCapabilities2EXT& lhs, const VkSurfaceCapabilitie
 
 bool operator==(const VkSurfaceCapabilities2KHR& lhs, const VkSurfaceCapabilities2KHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15586,6 +16868,7 @@ bool operator!=(const VkSurfaceCapabilities2KHR& lhs, const VkSurfaceCapabilitie
 
 bool operator<(const VkSurfaceCapabilities2KHR& lhs, const VkSurfaceCapabilities2KHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15607,6 +16890,7 @@ bool operator>=(const VkSurfaceCapabilities2KHR& lhs, const VkSurfaceCapabilitie
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkSurfaceCapabilitiesFullScreenExclusiveEXT& lhs, const VkSurfaceCapabilitiesFullScreenExclusiveEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -15621,6 +16905,7 @@ bool operator!=(const VkSurfaceCapabilitiesFullScreenExclusiveEXT& lhs, const Vk
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkSurfaceCapabilitiesFullScreenExclusiveEXT& lhs, const VkSurfaceCapabilitiesFullScreenExclusiveEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -15648,6 +16933,7 @@ bool operator>=(const VkSurfaceCapabilitiesFullScreenExclusiveEXT& lhs, const Vk
 
 bool operator==(const VkSurfaceCapabilitiesKHR& lhs, const VkSurfaceCapabilitiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15658,6 +16944,7 @@ bool operator!=(const VkSurfaceCapabilitiesKHR& lhs, const VkSurfaceCapabilities
 
 bool operator<(const VkSurfaceCapabilitiesKHR& lhs, const VkSurfaceCapabilitiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15678,6 +16965,7 @@ bool operator>=(const VkSurfaceCapabilitiesKHR& lhs, const VkSurfaceCapabilities
 
 bool operator==(const VkSurfaceFormat2KHR& lhs, const VkSurfaceFormat2KHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15688,6 +16976,7 @@ bool operator!=(const VkSurfaceFormat2KHR& lhs, const VkSurfaceFormat2KHR& rhs)
 
 bool operator<(const VkSurfaceFormat2KHR& lhs, const VkSurfaceFormat2KHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15708,6 +16997,7 @@ bool operator>=(const VkSurfaceFormat2KHR& lhs, const VkSurfaceFormat2KHR& rhs)
 
 bool operator==(const VkSurfaceFormatKHR& lhs, const VkSurfaceFormatKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15718,6 +17008,7 @@ bool operator!=(const VkSurfaceFormatKHR& lhs, const VkSurfaceFormatKHR& rhs)
 
 bool operator<(const VkSurfaceFormatKHR& lhs, const VkSurfaceFormatKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15739,6 +17030,7 @@ bool operator>=(const VkSurfaceFormatKHR& lhs, const VkSurfaceFormatKHR& rhs)
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkSurfaceFullScreenExclusiveInfoEXT& lhs, const VkSurfaceFullScreenExclusiveInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -15753,6 +17045,7 @@ bool operator!=(const VkSurfaceFullScreenExclusiveInfoEXT& lhs, const VkSurfaceF
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkSurfaceFullScreenExclusiveInfoEXT& lhs, const VkSurfaceFullScreenExclusiveInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -15781,6 +17074,7 @@ bool operator>=(const VkSurfaceFullScreenExclusiveInfoEXT& lhs, const VkSurfaceF
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkSurfaceFullScreenExclusiveWin32InfoEXT& lhs, const VkSurfaceFullScreenExclusiveWin32InfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -15795,6 +17089,7 @@ bool operator!=(const VkSurfaceFullScreenExclusiveWin32InfoEXT& lhs, const VkSur
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkSurfaceFullScreenExclusiveWin32InfoEXT& lhs, const VkSurfaceFullScreenExclusiveWin32InfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -15822,6 +17117,7 @@ bool operator>=(const VkSurfaceFullScreenExclusiveWin32InfoEXT& lhs, const VkSur
 
 bool operator==(const VkSurfaceProtectedCapabilitiesKHR& lhs, const VkSurfaceProtectedCapabilitiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15832,6 +17128,7 @@ bool operator!=(const VkSurfaceProtectedCapabilitiesKHR& lhs, const VkSurfacePro
 
 bool operator<(const VkSurfaceProtectedCapabilitiesKHR& lhs, const VkSurfaceProtectedCapabilitiesKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15852,6 +17149,7 @@ bool operator>=(const VkSurfaceProtectedCapabilitiesKHR& lhs, const VkSurfacePro
 
 bool operator==(const VkSwapchainCounterCreateInfoEXT& lhs, const VkSwapchainCounterCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15862,6 +17160,7 @@ bool operator!=(const VkSwapchainCounterCreateInfoEXT& lhs, const VkSwapchainCou
 
 bool operator<(const VkSwapchainCounterCreateInfoEXT& lhs, const VkSwapchainCounterCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15882,6 +17181,7 @@ bool operator>=(const VkSwapchainCounterCreateInfoEXT& lhs, const VkSwapchainCou
 
 bool operator==(const VkSwapchainCreateInfoKHR& lhs, const VkSwapchainCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15892,6 +17192,7 @@ bool operator!=(const VkSwapchainCreateInfoKHR& lhs, const VkSwapchainCreateInfo
 
 bool operator<(const VkSwapchainCreateInfoKHR& lhs, const VkSwapchainCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15912,6 +17213,7 @@ bool operator>=(const VkSwapchainCreateInfoKHR& lhs, const VkSwapchainCreateInfo
 
 bool operator==(const VkSwapchainDisplayNativeHdrCreateInfoAMD& lhs, const VkSwapchainDisplayNativeHdrCreateInfoAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15922,6 +17224,7 @@ bool operator!=(const VkSwapchainDisplayNativeHdrCreateInfoAMD& lhs, const VkSwa
 
 bool operator<(const VkSwapchainDisplayNativeHdrCreateInfoAMD& lhs, const VkSwapchainDisplayNativeHdrCreateInfoAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -15943,6 +17246,7 @@ bool operator>=(const VkSwapchainDisplayNativeHdrCreateInfoAMD& lhs, const VkSwa
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator==(const VkSwapchainImageCreateInfoANDROID& lhs, const VkSwapchainImageCreateInfoANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -15957,6 +17261,7 @@ bool operator!=(const VkSwapchainImageCreateInfoANDROID& lhs, const VkSwapchainI
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 bool operator<(const VkSwapchainImageCreateInfoANDROID& lhs, const VkSwapchainImageCreateInfoANDROID& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -15984,6 +17289,7 @@ bool operator>=(const VkSwapchainImageCreateInfoANDROID& lhs, const VkSwapchainI
 
 bool operator==(const VkTextureLODGatherFormatPropertiesAMD& lhs, const VkTextureLODGatherFormatPropertiesAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -15994,6 +17300,7 @@ bool operator!=(const VkTextureLODGatherFormatPropertiesAMD& lhs, const VkTextur
 
 bool operator<(const VkTextureLODGatherFormatPropertiesAMD& lhs, const VkTextureLODGatherFormatPropertiesAMD& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -16014,6 +17321,7 @@ bool operator>=(const VkTextureLODGatherFormatPropertiesAMD& lhs, const VkTextur
 
 bool operator==(const VkTimelineSemaphoreSubmitInfo& lhs, const VkTimelineSemaphoreSubmitInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -16024,6 +17332,7 @@ bool operator!=(const VkTimelineSemaphoreSubmitInfo& lhs, const VkTimelineSemaph
 
 bool operator<(const VkTimelineSemaphoreSubmitInfo& lhs, const VkTimelineSemaphoreSubmitInfo& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -16045,6 +17354,7 @@ bool operator>=(const VkTimelineSemaphoreSubmitInfo& lhs, const VkTimelineSemaph
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkTraceRaysIndirectCommandKHR& lhs, const VkTraceRaysIndirectCommandKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -16059,6 +17369,7 @@ bool operator!=(const VkTraceRaysIndirectCommandKHR& lhs, const VkTraceRaysIndir
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkTraceRaysIndirectCommandKHR& lhs, const VkTraceRaysIndirectCommandKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -16087,6 +17398,7 @@ bool operator>=(const VkTraceRaysIndirectCommandKHR& lhs, const VkTraceRaysIndir
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkTransformMatrixKHR& lhs, const VkTransformMatrixKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -16101,6 +17413,7 @@ bool operator!=(const VkTransformMatrixKHR& lhs, const VkTransformMatrixKHR& rhs
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkTransformMatrixKHR& lhs, const VkTransformMatrixKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -16128,6 +17441,7 @@ bool operator>=(const VkTransformMatrixKHR& lhs, const VkTransformMatrixKHR& rhs
 
 bool operator==(const VkValidationCacheCreateInfoEXT& lhs, const VkValidationCacheCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -16138,6 +17452,7 @@ bool operator!=(const VkValidationCacheCreateInfoEXT& lhs, const VkValidationCac
 
 bool operator<(const VkValidationCacheCreateInfoEXT& lhs, const VkValidationCacheCreateInfoEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -16158,6 +17473,7 @@ bool operator>=(const VkValidationCacheCreateInfoEXT& lhs, const VkValidationCac
 
 bool operator==(const VkValidationFeaturesEXT& lhs, const VkValidationFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -16168,6 +17484,7 @@ bool operator!=(const VkValidationFeaturesEXT& lhs, const VkValidationFeaturesEX
 
 bool operator<(const VkValidationFeaturesEXT& lhs, const VkValidationFeaturesEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -16188,6 +17505,7 @@ bool operator>=(const VkValidationFeaturesEXT& lhs, const VkValidationFeaturesEX
 
 bool operator==(const VkValidationFlagsEXT& lhs, const VkValidationFlagsEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -16198,6 +17516,7 @@ bool operator!=(const VkValidationFlagsEXT& lhs, const VkValidationFlagsEXT& rhs
 
 bool operator<(const VkValidationFlagsEXT& lhs, const VkValidationFlagsEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -16218,6 +17537,7 @@ bool operator>=(const VkValidationFlagsEXT& lhs, const VkValidationFlagsEXT& rhs
 
 bool operator==(const VkVertexInputAttributeDescription& lhs, const VkVertexInputAttributeDescription& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -16228,6 +17548,7 @@ bool operator!=(const VkVertexInputAttributeDescription& lhs, const VkVertexInpu
 
 bool operator<(const VkVertexInputAttributeDescription& lhs, const VkVertexInputAttributeDescription& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -16248,6 +17569,7 @@ bool operator>=(const VkVertexInputAttributeDescription& lhs, const VkVertexInpu
 
 bool operator==(const VkVertexInputBindingDescription& lhs, const VkVertexInputBindingDescription& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -16258,6 +17580,7 @@ bool operator!=(const VkVertexInputBindingDescription& lhs, const VkVertexInputB
 
 bool operator<(const VkVertexInputBindingDescription& lhs, const VkVertexInputBindingDescription& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -16278,6 +17601,7 @@ bool operator>=(const VkVertexInputBindingDescription& lhs, const VkVertexInputB
 
 bool operator==(const VkVertexInputBindingDivisorDescriptionEXT& lhs, const VkVertexInputBindingDivisorDescriptionEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -16288,6 +17612,7 @@ bool operator!=(const VkVertexInputBindingDivisorDescriptionEXT& lhs, const VkVe
 
 bool operator<(const VkVertexInputBindingDivisorDescriptionEXT& lhs, const VkVertexInputBindingDivisorDescriptionEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -16309,6 +17634,7 @@ bool operator>=(const VkVertexInputBindingDivisorDescriptionEXT& lhs, const VkVe
 #ifdef VK_USE_PLATFORM_VI_NN
 bool operator==(const VkViSurfaceCreateInfoNN& lhs, const VkViSurfaceCreateInfoNN& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_VI_NN
@@ -16323,6 +17649,7 @@ bool operator!=(const VkViSurfaceCreateInfoNN& lhs, const VkViSurfaceCreateInfoN
 #ifdef VK_USE_PLATFORM_VI_NN
 bool operator<(const VkViSurfaceCreateInfoNN& lhs, const VkViSurfaceCreateInfoNN& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_VI_NN
@@ -16350,6 +17677,7 @@ bool operator>=(const VkViSurfaceCreateInfoNN& lhs, const VkViSurfaceCreateInfoN
 
 bool operator==(const VkViewport& lhs, const VkViewport& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -16360,6 +17688,7 @@ bool operator!=(const VkViewport& lhs, const VkViewport& rhs)
 
 bool operator<(const VkViewport& lhs, const VkViewport& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -16380,6 +17709,7 @@ bool operator>=(const VkViewport& lhs, const VkViewport& rhs)
 
 bool operator==(const VkViewportSwizzleNV& lhs, const VkViewportSwizzleNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -16390,6 +17720,7 @@ bool operator!=(const VkViewportSwizzleNV& lhs, const VkViewportSwizzleNV& rhs)
 
 bool operator<(const VkViewportSwizzleNV& lhs, const VkViewportSwizzleNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -16410,6 +17741,7 @@ bool operator>=(const VkViewportSwizzleNV& lhs, const VkViewportSwizzleNV& rhs)
 
 bool operator==(const VkViewportWScalingNV& lhs, const VkViewportWScalingNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -16420,6 +17752,7 @@ bool operator!=(const VkViewportWScalingNV& lhs, const VkViewportWScalingNV& rhs
 
 bool operator<(const VkViewportWScalingNV& lhs, const VkViewportWScalingNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -16441,6 +17774,7 @@ bool operator>=(const VkViewportWScalingNV& lhs, const VkViewportWScalingNV& rhs
 #ifdef VK_USE_PLATFORM_WAYLAND_KHR
 bool operator==(const VkWaylandSurfaceCreateInfoKHR& lhs, const VkWaylandSurfaceCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WAYLAND_KHR
@@ -16455,6 +17789,7 @@ bool operator!=(const VkWaylandSurfaceCreateInfoKHR& lhs, const VkWaylandSurface
 #ifdef VK_USE_PLATFORM_WAYLAND_KHR
 bool operator<(const VkWaylandSurfaceCreateInfoKHR& lhs, const VkWaylandSurfaceCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WAYLAND_KHR
@@ -16483,6 +17818,7 @@ bool operator>=(const VkWaylandSurfaceCreateInfoKHR& lhs, const VkWaylandSurface
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkWin32KeyedMutexAcquireReleaseInfoKHR& lhs, const VkWin32KeyedMutexAcquireReleaseInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -16497,6 +17833,7 @@ bool operator!=(const VkWin32KeyedMutexAcquireReleaseInfoKHR& lhs, const VkWin32
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkWin32KeyedMutexAcquireReleaseInfoKHR& lhs, const VkWin32KeyedMutexAcquireReleaseInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -16525,6 +17862,7 @@ bool operator>=(const VkWin32KeyedMutexAcquireReleaseInfoKHR& lhs, const VkWin32
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkWin32KeyedMutexAcquireReleaseInfoNV& lhs, const VkWin32KeyedMutexAcquireReleaseInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -16539,6 +17877,7 @@ bool operator!=(const VkWin32KeyedMutexAcquireReleaseInfoNV& lhs, const VkWin32K
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkWin32KeyedMutexAcquireReleaseInfoNV& lhs, const VkWin32KeyedMutexAcquireReleaseInfoNV& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -16567,6 +17906,7 @@ bool operator>=(const VkWin32KeyedMutexAcquireReleaseInfoNV& lhs, const VkWin32K
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator==(const VkWin32SurfaceCreateInfoKHR& lhs, const VkWin32SurfaceCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -16581,6 +17921,7 @@ bool operator!=(const VkWin32SurfaceCreateInfoKHR& lhs, const VkWin32SurfaceCrea
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 bool operator<(const VkWin32SurfaceCreateInfoKHR& lhs, const VkWin32SurfaceCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -16608,6 +17949,7 @@ bool operator>=(const VkWin32SurfaceCreateInfoKHR& lhs, const VkWin32SurfaceCrea
 
 bool operator==(const VkWriteDescriptorSet& lhs, const VkWriteDescriptorSet& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -16618,6 +17960,7 @@ bool operator!=(const VkWriteDescriptorSet& lhs, const VkWriteDescriptorSet& rhs
 
 bool operator<(const VkWriteDescriptorSet& lhs, const VkWriteDescriptorSet& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -16639,6 +17982,7 @@ bool operator>=(const VkWriteDescriptorSet& lhs, const VkWriteDescriptorSet& rhs
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkWriteDescriptorSetAccelerationStructureKHR& lhs, const VkWriteDescriptorSetAccelerationStructureKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -16653,6 +17997,7 @@ bool operator!=(const VkWriteDescriptorSetAccelerationStructureKHR& lhs, const V
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkWriteDescriptorSetAccelerationStructureKHR& lhs, const VkWriteDescriptorSetAccelerationStructureKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -16680,6 +18025,7 @@ bool operator>=(const VkWriteDescriptorSetAccelerationStructureKHR& lhs, const V
 
 bool operator==(const VkWriteDescriptorSetInlineUniformBlockEXT& lhs, const VkWriteDescriptorSetInlineUniformBlockEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -16690,6 +18036,7 @@ bool operator!=(const VkWriteDescriptorSetInlineUniformBlockEXT& lhs, const VkWr
 
 bool operator<(const VkWriteDescriptorSetInlineUniformBlockEXT& lhs, const VkWriteDescriptorSetInlineUniformBlockEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -16710,6 +18057,7 @@ bool operator>=(const VkWriteDescriptorSetInlineUniformBlockEXT& lhs, const VkWr
 
 bool operator==(const VkXYColorEXT& lhs, const VkXYColorEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 
@@ -16720,6 +18068,7 @@ bool operator!=(const VkXYColorEXT& lhs, const VkXYColorEXT& rhs)
 
 bool operator<(const VkXYColorEXT& lhs, const VkXYColorEXT& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 
@@ -16741,6 +18090,7 @@ bool operator>=(const VkXYColorEXT& lhs, const VkXYColorEXT& rhs)
 #ifdef VK_USE_PLATFORM_XCB_KHR
 bool operator==(const VkXcbSurfaceCreateInfoKHR& lhs, const VkXcbSurfaceCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_XCB_KHR
@@ -16755,6 +18105,7 @@ bool operator!=(const VkXcbSurfaceCreateInfoKHR& lhs, const VkXcbSurfaceCreateIn
 #ifdef VK_USE_PLATFORM_XCB_KHR
 bool operator<(const VkXcbSurfaceCreateInfoKHR& lhs, const VkXcbSurfaceCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_XCB_KHR
@@ -16783,6 +18134,7 @@ bool operator>=(const VkXcbSurfaceCreateInfoKHR& lhs, const VkXcbSurfaceCreateIn
 #ifdef VK_USE_PLATFORM_XLIB_KHR
 bool operator==(const VkXlibSurfaceCreateInfoKHR& lhs, const VkXlibSurfaceCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) == structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_XLIB_KHR
@@ -16797,6 +18149,7 @@ bool operator!=(const VkXlibSurfaceCreateInfoKHR& lhs, const VkXlibSurfaceCreate
 #ifdef VK_USE_PLATFORM_XLIB_KHR
 bool operator<(const VkXlibSurfaceCreateInfoKHR& lhs, const VkXlibSurfaceCreateInfoKHR& rhs)
 {
+    using namespace dst::gfx::vk::detail;
     return structure_to_tuple(lhs) < structure_to_tuple(rhs);
 }
 #endif // VK_USE_PLATFORM_XLIB_KHR
@@ -16822,8 +18175,3 @@ bool operator>=(const VkXlibSurfaceCreateInfoKHR& lhs, const VkXlibSurfaceCreate
 }
 #endif // VK_USE_PLATFORM_XLIB_KHR
 
-
-} // namespace detail
-} // namespace vk
-} // namespace gfx
-} // namespace dst

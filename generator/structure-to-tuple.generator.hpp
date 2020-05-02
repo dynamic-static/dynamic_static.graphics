@@ -31,6 +31,13 @@ public:
     inline StructureToTupleGenerator(const xml::Manifest& xmlManifest)
     {
         using namespace dst::cppgen;
+        CppFile headerFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) / "structure-to-tuple.hpp");
+        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/core/span.hpp" };
+        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/structure-to-tuple-utilities.hpp" };
+        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/tuple-element-wrappers.hpp" };
+        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/defines.hpp" };
+        headerFile << CppInclude { CppInclude::Type::System, "tuple" };
+        headerFile << std::endl;
         CppFunction::Collection structureToTupleFunctions;
         for (const auto& structureitr : xmlManifest.structures) {
             const auto& structure = structureitr.second;
@@ -74,14 +81,6 @@ public:
                 structureToTupleFunctions.push_back(structureToTupleFunction);
             }
         }
-
-        CppFile headerFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) / "structure-to-tuple.hpp");
-        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/core/span.hpp" };
-        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/structure-to-tuple-utilities.hpp" };
-        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/tuple-element-wrappers.hpp" };
-        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/defines.hpp" };
-        headerFile << CppInclude { CppInclude::Type::System, "tuple" };
-        headerFile << std::endl;
         headerFile << CppNamespace("dst::gfx::vk::detail").open();
         for (auto& cppFunction : structureToTupleFunctions) {
             if (structure_requires_custom_handling(cppFunction)) {

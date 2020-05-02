@@ -73,7 +73,9 @@ template <>
 inline auto structure_to_tuple<VkTransformMatrixKHR>(const VkTransformMatrixKHR& obj)
 {
     return std::forward_as_tuple(
-        Span(&obj.matrix[0][0], sizeof(obj.matrix))
+        obj.matrix[0][0], obj.matrix[0][1], obj.matrix[0][2], obj.matrix[0][3],
+        obj.matrix[1][0], obj.matrix[1][1], obj.matrix[1][2], obj.matrix[1][3],
+        obj.matrix[2][0], obj.matrix[2][1], obj.matrix[2][2], obj.matrix[2][3]
     );
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS

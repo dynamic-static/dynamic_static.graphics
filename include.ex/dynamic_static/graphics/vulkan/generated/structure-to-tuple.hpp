@@ -141,6 +141,18 @@ inline auto structure_to_tuple<VkAccelerationStructureGeometryAabbsDataKHR>(cons
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
+inline auto structure_to_tuple<VkAccelerationStructureGeometryDataKHR>(const VkAccelerationStructureGeometryDataKHR& obj)
+{
+    return std::forward_as_tuple(
+        obj.triangles,
+        obj.aabbs,
+        obj.instances
+    );
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
 inline auto structure_to_tuple<VkAccelerationStructureGeometryInstancesDataKHR>(const VkAccelerationStructureGeometryInstancesDataKHR& obj)
 {
     return std::forward_as_tuple(
@@ -735,6 +747,16 @@ inline auto structure_to_tuple<VkClearAttachment>(const VkClearAttachment& obj)
 }
 
 template <>
+inline auto structure_to_tuple<VkClearColorValue>(const VkClearColorValue& obj)
+{
+    return std::forward_as_tuple(
+        Span(obj.float32, 4),
+        Span(obj.int32, 4),
+        Span(obj.uint32, 4)
+    );
+}
+
+template <>
 inline auto structure_to_tuple<VkClearDepthStencilValue>(const VkClearDepthStencilValue& obj)
 {
     return std::forward_as_tuple(
@@ -750,6 +772,15 @@ inline auto structure_to_tuple<VkClearRect>(const VkClearRect& obj)
         obj.rect,
         obj.baseArrayLayer,
         obj.layerCount
+    );
+}
+
+template <>
+inline auto structure_to_tuple<VkClearValue>(const VkClearValue& obj)
+{
+    return std::forward_as_tuple(
+        obj.color,
+        obj.depthStencil
     );
 }
 
@@ -1452,6 +1483,28 @@ inline auto structure_to_tuple<VkDeviceMemoryOverallocationCreateInfoAMD>(const 
         obj.overallocationBehavior
     );
 }
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+inline auto structure_to_tuple<VkDeviceOrHostAddressConstKHR>(const VkDeviceOrHostAddressConstKHR& obj)
+{
+    return std::forward_as_tuple(
+        obj.deviceAddress,
+        obj.hostAddress
+    );
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+inline auto structure_to_tuple<VkDeviceOrHostAddressKHR>(const VkDeviceOrHostAddressKHR& obj)
+{
+    return std::forward_as_tuple(
+        obj.deviceAddress,
+        obj.hostAddress
+    );
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
 
 template <>
 inline auto structure_to_tuple<VkDeviceQueueCreateInfo>(const VkDeviceQueueCreateInfo& obj)
@@ -3089,6 +3142,19 @@ inline auto structure_to_tuple<VkPerformanceCounterKHR>(const VkPerformanceCount
 }
 
 template <>
+inline auto structure_to_tuple<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR& obj)
+{
+    return std::forward_as_tuple(
+        obj.int32,
+        obj.int64,
+        obj.uint32,
+        obj.uint64,
+        obj.float32,
+        obj.float64
+    );
+}
+
+template <>
 inline auto structure_to_tuple<VkPerformanceMarkerInfoINTEL>(const VkPerformanceMarkerInfoINTEL& obj)
 {
     return std::forward_as_tuple(
@@ -3127,6 +3193,18 @@ inline auto structure_to_tuple<VkPerformanceStreamMarkerInfoINTEL>(const VkPerfo
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.marker
+    );
+}
+
+template <>
+inline auto structure_to_tuple<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj)
+{
+    return std::forward_as_tuple(
+        obj.value32,
+        obj.value64,
+        obj.valueFloat,
+        obj.valueBool,
+        obj.valueString
     );
 }
 
@@ -5075,6 +5153,17 @@ inline auto structure_to_tuple<VkPipelineExecutableStatisticKHR>(const VkPipelin
         Span(obj.description, VK_MAX_DESCRIPTION_SIZE),
         obj.format,
         obj.value
+    );
+}
+
+template <>
+inline auto structure_to_tuple<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR& obj)
+{
+    return std::forward_as_tuple(
+        obj.b32,
+        obj.i64,
+        obj.u64,
+        obj.f64
     );
 }
 

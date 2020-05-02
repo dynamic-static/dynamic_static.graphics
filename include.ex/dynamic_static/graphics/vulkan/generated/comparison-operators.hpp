@@ -13,11 +13,6 @@
 #include "dynamic_static/graphics/vulkan/detail/comparison-operators-utilities.hpp"
 #include "dynamic_static/graphics/vulkan/defines.hpp"
 
-namespace dst {
-namespace gfx {
-namespace vk {
-namespace detail {
-
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkAabbPositionsKHR& lhs, const VkAabbPositionsKHR& rhs);
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -149,6 +144,24 @@ bool operator<=(const VkAccelerationStructureGeometryAabbsDataKHR& lhs, const Vk
 #endif // VK_ENABLE_BETA_EXTENSIONS
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator>=(const VkAccelerationStructureGeometryAabbsDataKHR& lhs, const VkAccelerationStructureGeometryAabbsDataKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator==(const VkAccelerationStructureGeometryDataKHR& lhs, const VkAccelerationStructureGeometryDataKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator!=(const VkAccelerationStructureGeometryDataKHR& lhs, const VkAccelerationStructureGeometryDataKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator<(const VkAccelerationStructureGeometryDataKHR& lhs, const VkAccelerationStructureGeometryDataKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator>(const VkAccelerationStructureGeometryDataKHR& lhs, const VkAccelerationStructureGeometryDataKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator<=(const VkAccelerationStructureGeometryDataKHR& lhs, const VkAccelerationStructureGeometryDataKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator>=(const VkAccelerationStructureGeometryDataKHR& lhs, const VkAccelerationStructureGeometryDataKHR& rhs);
 #endif // VK_ENABLE_BETA_EXTENSIONS
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkAccelerationStructureGeometryInstancesDataKHR& lhs, const VkAccelerationStructureGeometryInstancesDataKHR& rhs);
@@ -570,6 +583,12 @@ bool operator<(const VkClearAttachment& lhs, const VkClearAttachment& rhs);
 bool operator>(const VkClearAttachment& lhs, const VkClearAttachment& rhs);
 bool operator<=(const VkClearAttachment& lhs, const VkClearAttachment& rhs);
 bool operator>=(const VkClearAttachment& lhs, const VkClearAttachment& rhs);
+bool operator==(const VkClearColorValue& lhs, const VkClearColorValue& rhs);
+bool operator!=(const VkClearColorValue& lhs, const VkClearColorValue& rhs);
+bool operator<(const VkClearColorValue& lhs, const VkClearColorValue& rhs);
+bool operator>(const VkClearColorValue& lhs, const VkClearColorValue& rhs);
+bool operator<=(const VkClearColorValue& lhs, const VkClearColorValue& rhs);
+bool operator>=(const VkClearColorValue& lhs, const VkClearColorValue& rhs);
 bool operator==(const VkClearDepthStencilValue& lhs, const VkClearDepthStencilValue& rhs);
 bool operator!=(const VkClearDepthStencilValue& lhs, const VkClearDepthStencilValue& rhs);
 bool operator<(const VkClearDepthStencilValue& lhs, const VkClearDepthStencilValue& rhs);
@@ -582,6 +601,12 @@ bool operator<(const VkClearRect& lhs, const VkClearRect& rhs);
 bool operator>(const VkClearRect& lhs, const VkClearRect& rhs);
 bool operator<=(const VkClearRect& lhs, const VkClearRect& rhs);
 bool operator>=(const VkClearRect& lhs, const VkClearRect& rhs);
+bool operator==(const VkClearValue& lhs, const VkClearValue& rhs);
+bool operator!=(const VkClearValue& lhs, const VkClearValue& rhs);
+bool operator<(const VkClearValue& lhs, const VkClearValue& rhs);
+bool operator>(const VkClearValue& lhs, const VkClearValue& rhs);
+bool operator<=(const VkClearValue& lhs, const VkClearValue& rhs);
+bool operator>=(const VkClearValue& lhs, const VkClearValue& rhs);
 bool operator==(const VkCoarseSampleLocationNV& lhs, const VkCoarseSampleLocationNV& rhs);
 bool operator!=(const VkCoarseSampleLocationNV& lhs, const VkCoarseSampleLocationNV& rhs);
 bool operator<(const VkCoarseSampleLocationNV& lhs, const VkCoarseSampleLocationNV& rhs);
@@ -990,6 +1015,42 @@ bool operator<(const VkDeviceMemoryOverallocationCreateInfoAMD& lhs, const VkDev
 bool operator>(const VkDeviceMemoryOverallocationCreateInfoAMD& lhs, const VkDeviceMemoryOverallocationCreateInfoAMD& rhs);
 bool operator<=(const VkDeviceMemoryOverallocationCreateInfoAMD& lhs, const VkDeviceMemoryOverallocationCreateInfoAMD& rhs);
 bool operator>=(const VkDeviceMemoryOverallocationCreateInfoAMD& lhs, const VkDeviceMemoryOverallocationCreateInfoAMD& rhs);
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator==(const VkDeviceOrHostAddressConstKHR& lhs, const VkDeviceOrHostAddressConstKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator!=(const VkDeviceOrHostAddressConstKHR& lhs, const VkDeviceOrHostAddressConstKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator<(const VkDeviceOrHostAddressConstKHR& lhs, const VkDeviceOrHostAddressConstKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator>(const VkDeviceOrHostAddressConstKHR& lhs, const VkDeviceOrHostAddressConstKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator<=(const VkDeviceOrHostAddressConstKHR& lhs, const VkDeviceOrHostAddressConstKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator>=(const VkDeviceOrHostAddressConstKHR& lhs, const VkDeviceOrHostAddressConstKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator==(const VkDeviceOrHostAddressKHR& lhs, const VkDeviceOrHostAddressKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator!=(const VkDeviceOrHostAddressKHR& lhs, const VkDeviceOrHostAddressKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator<(const VkDeviceOrHostAddressKHR& lhs, const VkDeviceOrHostAddressKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator>(const VkDeviceOrHostAddressKHR& lhs, const VkDeviceOrHostAddressKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator<=(const VkDeviceOrHostAddressKHR& lhs, const VkDeviceOrHostAddressKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+bool operator>=(const VkDeviceOrHostAddressKHR& lhs, const VkDeviceOrHostAddressKHR& rhs);
+#endif // VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkDeviceQueueCreateInfo& lhs, const VkDeviceQueueCreateInfo& rhs);
 bool operator!=(const VkDeviceQueueCreateInfo& lhs, const VkDeviceQueueCreateInfo& rhs);
 bool operator<(const VkDeviceQueueCreateInfo& lhs, const VkDeviceQueueCreateInfo& rhs);
@@ -2058,6 +2119,12 @@ bool operator<(const VkPerformanceCounterKHR& lhs, const VkPerformanceCounterKHR
 bool operator>(const VkPerformanceCounterKHR& lhs, const VkPerformanceCounterKHR& rhs);
 bool operator<=(const VkPerformanceCounterKHR& lhs, const VkPerformanceCounterKHR& rhs);
 bool operator>=(const VkPerformanceCounterKHR& lhs, const VkPerformanceCounterKHR& rhs);
+bool operator==(const VkPerformanceCounterResultKHR& lhs, const VkPerformanceCounterResultKHR& rhs);
+bool operator!=(const VkPerformanceCounterResultKHR& lhs, const VkPerformanceCounterResultKHR& rhs);
+bool operator<(const VkPerformanceCounterResultKHR& lhs, const VkPerformanceCounterResultKHR& rhs);
+bool operator>(const VkPerformanceCounterResultKHR& lhs, const VkPerformanceCounterResultKHR& rhs);
+bool operator<=(const VkPerformanceCounterResultKHR& lhs, const VkPerformanceCounterResultKHR& rhs);
+bool operator>=(const VkPerformanceCounterResultKHR& lhs, const VkPerformanceCounterResultKHR& rhs);
 bool operator==(const VkPerformanceMarkerInfoINTEL& lhs, const VkPerformanceMarkerInfoINTEL& rhs);
 bool operator!=(const VkPerformanceMarkerInfoINTEL& lhs, const VkPerformanceMarkerInfoINTEL& rhs);
 bool operator<(const VkPerformanceMarkerInfoINTEL& lhs, const VkPerformanceMarkerInfoINTEL& rhs);
@@ -2082,6 +2149,12 @@ bool operator<(const VkPerformanceStreamMarkerInfoINTEL& lhs, const VkPerformanc
 bool operator>(const VkPerformanceStreamMarkerInfoINTEL& lhs, const VkPerformanceStreamMarkerInfoINTEL& rhs);
 bool operator<=(const VkPerformanceStreamMarkerInfoINTEL& lhs, const VkPerformanceStreamMarkerInfoINTEL& rhs);
 bool operator>=(const VkPerformanceStreamMarkerInfoINTEL& lhs, const VkPerformanceStreamMarkerInfoINTEL& rhs);
+bool operator==(const VkPerformanceValueDataINTEL& lhs, const VkPerformanceValueDataINTEL& rhs);
+bool operator!=(const VkPerformanceValueDataINTEL& lhs, const VkPerformanceValueDataINTEL& rhs);
+bool operator<(const VkPerformanceValueDataINTEL& lhs, const VkPerformanceValueDataINTEL& rhs);
+bool operator>(const VkPerformanceValueDataINTEL& lhs, const VkPerformanceValueDataINTEL& rhs);
+bool operator<=(const VkPerformanceValueDataINTEL& lhs, const VkPerformanceValueDataINTEL& rhs);
+bool operator>=(const VkPerformanceValueDataINTEL& lhs, const VkPerformanceValueDataINTEL& rhs);
 bool operator==(const VkPerformanceValueINTEL& lhs, const VkPerformanceValueINTEL& rhs);
 bool operator!=(const VkPerformanceValueINTEL& lhs, const VkPerformanceValueINTEL& rhs);
 bool operator<(const VkPerformanceValueINTEL& lhs, const VkPerformanceValueINTEL& rhs);
@@ -2946,6 +3019,12 @@ bool operator<(const VkPipelineExecutableStatisticKHR& lhs, const VkPipelineExec
 bool operator>(const VkPipelineExecutableStatisticKHR& lhs, const VkPipelineExecutableStatisticKHR& rhs);
 bool operator<=(const VkPipelineExecutableStatisticKHR& lhs, const VkPipelineExecutableStatisticKHR& rhs);
 bool operator>=(const VkPipelineExecutableStatisticKHR& lhs, const VkPipelineExecutableStatisticKHR& rhs);
+bool operator==(const VkPipelineExecutableStatisticValueKHR& lhs, const VkPipelineExecutableStatisticValueKHR& rhs);
+bool operator!=(const VkPipelineExecutableStatisticValueKHR& lhs, const VkPipelineExecutableStatisticValueKHR& rhs);
+bool operator<(const VkPipelineExecutableStatisticValueKHR& lhs, const VkPipelineExecutableStatisticValueKHR& rhs);
+bool operator>(const VkPipelineExecutableStatisticValueKHR& lhs, const VkPipelineExecutableStatisticValueKHR& rhs);
+bool operator<=(const VkPipelineExecutableStatisticValueKHR& lhs, const VkPipelineExecutableStatisticValueKHR& rhs);
+bool operator>=(const VkPipelineExecutableStatisticValueKHR& lhs, const VkPipelineExecutableStatisticValueKHR& rhs);
 bool operator==(const VkPipelineInfoKHR& lhs, const VkPipelineInfoKHR& rhs);
 bool operator!=(const VkPipelineInfoKHR& lhs, const VkPipelineInfoKHR& rhs);
 bool operator<(const VkPipelineInfoKHR& lhs, const VkPipelineInfoKHR& rhs);
@@ -4032,8 +4111,3 @@ bool operator<=(const VkXlibSurfaceCreateInfoKHR& lhs, const VkXlibSurfaceCreate
 #ifdef VK_USE_PLATFORM_XLIB_KHR
 bool operator>=(const VkXlibSurfaceCreateInfoKHR& lhs, const VkXlibSurfaceCreateInfoKHR& rhs);
 #endif // VK_USE_PLATFORM_XLIB_KHR
-
-} // namespace detail
-} // namespace vk
-} // namespace gfx
-} // namespace dst
