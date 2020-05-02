@@ -22,6 +22,36 @@ namespace cppgen {
 /**
 TODO : Documentation
 */
+inline bool structure_requires_manual_implementation(const std::string& structureName)
+{
+    static const std::set<std::string> sStructuresRequiringCustomHandling {
+        "VkAccelerationStructureVersionKHR",
+        //"VkAllocationCallbacks",
+        //"VkCheckpointDataNV",
+        //"VkDebugMarkerObjectTagInfoEXT",
+        //"VkDebugReportCallbackCreateInfoEXT",
+        //"VkDebugUtilsMessengerCreateInfoEXT",
+        //"VkDebugUtilsObjectTagInfoEXT",
+        //"VkImportMemoryHostPointerInfoEXT",
+        //"VkInitializePerformanceApiInfoINTEL",
+        "VkPipelineMultisampleStateCreateInfo",
+        "VkShaderModuleCreateInfo",
+        "VkTransformMatrixKHR",
+    };
+    return sStructuresRequiringCustomHandling.count(structureName);
+}
+
+/**
+TODO : Documentation
+*/
+inline std::string manual_implemntation_compile_guard(const std::string& structureName)
+{
+    return structure_requires_manual_implementation(structureName) ? "DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION" : std::string();
+}
+
+/**
+TODO : Documentation
+*/
 inline bool structure_requires_custom_handling(const dst::cppgen::CppFunction& cppFunction)
 {
     static const std::set<std::string> sStructuresRequiringCustomHandling {

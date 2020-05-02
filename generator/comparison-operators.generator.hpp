@@ -13,6 +13,8 @@
 #include "dynamic_static/vk-xml-parser.hpp"
 #include "utilities.hpp"
 
+#include <array>
+
 namespace dst {
 namespace vk {
 namespace cppgen {
@@ -20,75 +22,81 @@ namespace cppgen {
 /**
 TODO : Documentation
 */
-class CreateStructureCopyGenerator final
+class ComparisonOperatorsGenerator final
 {
 public:
     /**
     TODO : Documentation
     */
-    inline CreateStructureCopyGenerator(const xml::Manifest& xmlManifest)
+    inline ComparisonOperatorsGenerator(const xml::Manifest& xmlManifest)
     {
         using namespace dst::cppgen;
         CppFunction::Collection cppFunctions;
         for (const auto& structureitr : xmlManifest.structures) {
             const auto& structure = structureitr.second;
             if (structure.alias.empty()) {
-                CppFunction createStructureCopyFunction;
-                createStructureCopyFunction.cppCompileGuards.insert(structure.compileGuard);
-                createStructureCopyFunction.cppTemplate.cppSpecializations = { structure.name };
-                createStructureCopyFunction.cppReturn = structure.name;
-                createStructureCopyFunction.name = "create_structure_copy";
-                CppParameter objParameter;
-                objParameter.type = "const " + structure.name + "&";
-                objParameter.name = "obj";
-                CppParameter pAllocationCallbacksParameter;
-                pAllocationCallbacksParameter.type = "const VkAllocationCallbacks*";
-                pAllocationCallbacksParameter.name = "pAllocationCallbacks";
-                createStructureCopyFunction.cppParameters = { objParameter, pAllocationCallbacksParameter };
-                createStructureCopyFunction.cppSourceBlock.replacements = {
-                    { "${VK_STRUCTURE_TYPE}", structure.name },
-                };
-                createStructureCopyFunction.cppSourceBlock.add_snippet(R"(
-                    ${VK_STRUCTURE_TYPE} result { };
-                )");
-                for (const auto& member : structure.members) {
-                    createStructureCopyFunction.cppSourceBlock.add_snippet(
-                        generate_member_copy_snippet(xmlManifest, member),
-                        {
-                            { "${MEMBER_NAME}", member.name },
-                            { "${MEMBER_LENGTH}", member.length },
-                            { "${MEMBER_TYPE}", member.type },
-                        }
-                    );
+                static const size_t Equality = 0;
+                static const size_t Inequality = 1;
+                static const size_t LessThan = 2;
+                static const size_t GreaterThan = 3;
+                static const size_t LessThanOrEqual = 4;
+                static const size_t GreaterThanOrEqual = 5;
+                std::array<CppFunction, 6> comparisonOperatorFunctions;
+                for (auto& comparisonOperatorFunction : comparisonOperatorFunctions) {
+                    comparisonOperatorFunction.cppCompileGuards = { structure.compileGuard };
+                    comparisonOperatorFunction.cppReturn = "bool";
+                    CppParameter lhsParameter;
+                    lhsParameter.type = "const " + structure.name + "&";
+                    lhsParameter.name = "lhs";
+                    CppParameter rhsParameter;
+                    rhsParameter.type = "const " + structure.name + "&";
+                    rhsParameter.name = "rhs";
+                    comparisonOperatorFunction.cppParameters = { lhsParameter, rhsParameter };
                 }
-                createStructureCopyFunction.cppSourceBlock.add_snippet(R"(
-                    return result;
+                //comparisonOperatorFunctions[Equality].cppCompileGuards.insert(manual_implemntation_compile_guard(structure.name));
+                comparisonOperatorFunctions[Equality].name = "operator==";
+                comparisonOperatorFunctions[Equality].cppSourceBlock.add_snippet(R"(
+                    return structure_to_tuple(lhs) == structure_to_tuple(rhs);
                 )");
-                cppFunctions.push_back(createStructureCopyFunction);
+                comparisonOperatorFunctions[Inequality].name = "operator!=";
+                comparisonOperatorFunctions[Inequality].cppSourceBlock.add_snippet(R"(
+                    return !(lhs == rhs);
+                )");
+                //comparisonOperatorFunctions[LessThan].cppCompileGuards.insert(manual_implemntation_compile_guard(structure.name));
+                comparisonOperatorFunctions[LessThan].name = "operator<";
+                comparisonOperatorFunctions[LessThan].cppSourceBlock.add_snippet(R"(
+                    return structure_to_tuple(lhs) < structure_to_tuple(rhs);
+                )");
+                comparisonOperatorFunctions[GreaterThan].name = "operator>";
+                comparisonOperatorFunctions[GreaterThan].cppSourceBlock.add_snippet(R"(
+                    return rhs < lhs;
+                )");
+                comparisonOperatorFunctions[LessThanOrEqual].name = "operator<=";
+                comparisonOperatorFunctions[LessThanOrEqual].cppSourceBlock.add_snippet(R"(
+                    return !(rhs < lhs);
+                )");
+                comparisonOperatorFunctions[GreaterThanOrEqual].name = "operator>=";
+                comparisonOperatorFunctions[GreaterThanOrEqual].cppSourceBlock.add_snippet(R"(
+                    return !(lhs < rhs);
+                )");
+                cppFunctions.insert(cppFunctions.end(), comparisonOperatorFunctions.begin(), comparisonOperatorFunctions.end());
             }
         }
 
-        CppFile headerFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) / "create-structure-copy.hpp");
-        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/structure-copy-utilities.hpp" };
+        CppFile headerFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) / "comparison-operators.hpp");
+        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/comparison-operators-utilities.hpp" };
         headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/defines.hpp" };
         headerFile << std::endl;
         headerFile << CppNamespace("dst::gfx::vk::detail").open();
         headerFile << cppFunctions.generate_declaration();
         headerFile << CppNamespace("dst::gfx::vk::detail").close();
 
-        for (auto& cppFunction : cppFunctions) {
-            if (structure_requires_custom_handling(cppFunction)) {
-                cppFunction.cppCompileGuards.insert("DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION");
-            }
-        }
-        CppFile sourceFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_SOURCE_PATH) / "create-structure-copy.cpp");
-        sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/generated/create-structure-copy.hpp" };
+        CppFile sourceFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_SOURCE_PATH) / "comparison-operators.cpp");
+        sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/generated/comparison-operators.hpp" };
+        sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/generated/structure-to-tuple.hpp" };
         sourceFile << std::endl;
         sourceFile << CppNamespace("dst::gfx::vk::detail").open();
-        auto pNextHandlerFunction = create_pnext_handler_function(xmlManifest);
-        sourceFile << pNextHandlerFunction.generate_declaration() << std::endl;
         sourceFile << cppFunctions.generate_definition() << std::endl;
-        sourceFile << pNextHandlerFunction.generate_definition();
         sourceFile << CppNamespace("dst::gfx::vk::detail").close();
     }
 

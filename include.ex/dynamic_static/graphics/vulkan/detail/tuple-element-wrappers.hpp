@@ -20,9 +20,26 @@ namespace detail {
 /**
 TODO : Documentation
 */
-struct PNextComparer final
+struct PNextTupleElementWrapper final
 {
     const void* pNext { nullptr }; //!< TODO : Documentation
+};
+
+/**
+TODO : Documentation
+*/
+struct DynamicStringTupleElementWrapper final
+{
+    const char* pStr { nullptr }; //!< TODO : Documentation
+};
+
+/**
+TODO : Documentation
+*/
+struct DynamicStringArrayTupleElementWrapper final
+{
+    size_t count { 0 };                    //!< TODO : Documentation
+    const char* const* ppStrs { nullptr }; //!< TODO : Documentation
 };
 
 } // namespace detail

@@ -35,12 +35,14 @@ set(sourcePath "${CMAKE_CURRENT_LIST_DIR}/source.ex/dynamic_static/graphics/")
 set(generatedIncludePath "${includePath}/vulkan/generated/")
 set(generatedSourcePath "${sourcePath}//vulkan/generated/")
 set(generatedIncludeFiles
+    "${generatedIncludePath}/comparison-operators.hpp"
     "${generatedIncludePath}/create-structure-copy.hpp"
     "${generatedIncludePath}/structure-to-tuple.hpp"
     # "${generatedIncludePath}/destroy-structure-copy.hpp"
     # "${generatedIncludePath}/managed-handles.hpp"
 )
 set(generatedSourceFiles
+    "${generatedSourcePath}/comparison-operators.cpp"
     "${generatedSourcePath}/create-structure-copy.cpp"
     # "${generatedSourcePath}/destroy-structure-copy.cpp"
     # "${generatedSourcePath}/managed-handles.cpp"
@@ -53,6 +55,7 @@ DstAddGenerator(
     folder dynamic_static.graphics
     linkLibraries dynamic_static.vk-xml-parser
     sourceFiles
+        "${generatorSourcePath}/comparison-operators.generator.hpp"
         "${generatorSourcePath}/create-structure-copy-generator.hpp"
         "${generatorSourcePath}/destroy-structure-copy-generator.hpp"
         "${generatorSourcePath}/managed-handles-generator.hpp"
@@ -79,9 +82,10 @@ DstAddStaticLibrary(
         ${CMAKE_CURRENT_LIST_DIR}/include/
 
     includeFiles
-        "${includePath}/vulkan/detail/pnext-comparer.hpp"
+        "${includePath}/vulkan/detail/comparison-operators-utilities.hpp"
         "${includePath}/vulkan/detail/structure-copy-utilities.hpp"
         "${includePath}/vulkan/detail/structure-to-tuple-utilities.hpp"
+        "${includePath}/vulkan/detail/tuple-element-wrappers.hpp"
         "${includePath}/vulkan/application.hpp"
         "${includePath}/vulkan/defines.hpp"
         "${includePath}/application.hpp"
@@ -208,6 +212,16 @@ DstAddStaticLibrary(
         ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/TinyGLTFInclude.hpp
         ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/TinyGLTFInclude.cpp
 )
+
+# dynamic_static.graphics.tests
+if(DST_CORE_BUILD_TESTS)
+    set(testsPath "${Dynamic_Static.Graphics_SOURCE_DIR}/tests/")
+    DstAddTests(
+        target dynamic_static.graphics
+        sourceFiles
+            "${testsPath}/structure-to-tuple.tests.cpp"
+    )
+endif()
 
 # Examples
 if(DST_GFX_BUILD_EXAMPLES)

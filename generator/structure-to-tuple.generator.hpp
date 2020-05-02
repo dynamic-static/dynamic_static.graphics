@@ -54,15 +54,17 @@ public:
                     { "${VK_STRUCTURE_TYPE}", structure.name },
                 };
                 structureToTupleFunction.cppSourceBlock.add_snippet(R"(
-                    return std::make_tuple(
+                    return std::forward_as_tuple(
                 )");
-                for (const auto& member : structure.members) {
+                for (size_t i = 0; i < structure.members.size(); ++i) {
+                    const auto& member = structure.members[i];
                     structureToTupleFunction.cppSourceBlock.add_snippet(
                         Tab { 1 },
-                        get_member_snippet(xmlManifest, member),
+                        get_member_snippet(xmlManifest, member) + (i < structure.members.size() - 1 ? "," : std::string()),
                         {
                             { "${MEMBER_NAME}", member.name },
                             { "${MEMBER_LENGTH}", member.length },
+                            { "${VOID_PTR_TO_UINT8_PTR_CAST}", member.unqualifiedType == "void" ? "(const uint8_t*)" : std::string() },
                         }
                     );
                 }
@@ -74,13 +76,16 @@ public:
         }
 
         CppFile headerFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) / "structure-to-tuple.hpp");
-        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/structure-to-tuple-utiltiies.hpp" };
+        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/core/span.hpp" };
+        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/structure-to-tuple-utilities.hpp" };
+        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/tuple-element-wrappers.hpp" };
         headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/defines.hpp" };
+        headerFile << CppInclude { CppInclude::Type::System, "tuple" };
         headerFile << std::endl;
         headerFile << CppNamespace("dst::gfx::vk::detail").open();
         for (auto& cppFunction : structureToTupleFunctions) {
             if (structure_requires_custom_handling(cppFunction)) {
-                cppFunction.cppCompileGuards.insert("DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_CUSTOM_HANDLING");
+                cppFunction.cppCompileGuards.insert("DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION");
             }
         }
         headerFile << structureToTupleFunctions.generate_inline_definition();
@@ -94,38 +99,38 @@ private:
     )
     {
         if (vkXmlStructureMember.name == "pNext") {
-            return "pnext_member_to_tuple_element(obj.pNext),";
+            return "PNextTupleElementWrapper { obj.pNext }";
         } else
         if (vkXmlStructureMember.flags & xml::Parameter::Array) {
             if (vkXmlStructureMember.flags & xml::Parameter::StringArray) {
-                return "dynamic_string_array_member_to_tuple_element(obj.${MEMBER_LENGTH}, obj.${MEMBER_NAME}),";
+                return "DynamicStringArrayTupleElementWrapper { obj.${MEMBER_LENGTH}, obj.${MEMBER_NAME} }";
             } else 
             if (vkXmlStructureMember.flags & xml::Parameter::StaticArray) {
                 if (vkXmlStructureMember.flags & xml::Parameter::String) {
-                    return "static_array_member_to_tuple_element(result.${MEMBER_NAME}, obj.${MEMBER_NAME});";
+                    return "Span(obj.${MEMBER_NAME}, ${MEMBER_LENGTH})";
                 } else {
-                    return "static_array_member_to_tuple_element(result.${MEMBER_NAME}, obj.${MEMBER_NAME}),";
+                    return "Span(obj.${MEMBER_NAME}, ${MEMBER_LENGTH})";
                 }
             }
             if (vkXmlStructureMember.flags & xml::Parameter::DynamicArray) {
                 if (vkXmlStructureMember.flags & xml::Parameter::String) {
-                    return "dynamic_string_member_to_tuple_element(obj.${MEMBER_NAME}),";
+                    return "DynamicStringTupleElementWrapper { obj.${MEMBER_NAME} }";
                 } else {
-                    return "dynamic_array_member_to_tuple_element(obj.${MEMBER_LENGTH}, obj.${MEMBER_NAME}),";
+                    return "Span(${VOID_PTR_TO_UINT8_PTR_CAST}obj.${MEMBER_NAME}, obj.${MEMBER_LENGTH})";
                 }
             }
         } else
         if (vkXmlStructureMember.flags & xml::Parameter::Pointer) {
             if (vkXmlStructureMember.flags & xml::Parameter::FunctionPointer) {
-                return "obj.${MEMBER_NAME},";
+                return "obj.${MEMBER_NAME}";
             } else {
-                return "obj.${MEMBER_NAME},";
+                return "obj.${MEMBER_NAME}";
             }
         } else
         if (vkXmlManifest.handles.find(vkXmlStructureMember.type) != vkXmlManifest.handles.end()) {
-            return "obj.${MEMBER_NAME},";
+            return "obj.${MEMBER_NAME}";
         }
-        return "member_to_tuple_element(obj.${MEMBER_NAME}),";
+        return "obj.${MEMBER_NAME}";
     }
 };
 

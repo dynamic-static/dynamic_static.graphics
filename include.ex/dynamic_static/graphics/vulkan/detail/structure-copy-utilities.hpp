@@ -89,6 +89,7 @@ inline char* create_dynamic_string_copy(
 TODO : Documentation
 */
 inline char** create_dynamic_string_array_copy(
+    // TODO : size_t
     uint32_t count,
     const char* const* ppStrs,
     const VkAllocationCallbacks* pAllocationCallbacks
@@ -108,7 +109,7 @@ inline char** create_dynamic_string_array_copy(
 /**
 TODO : Documentation
 */
-template <typename VulkanStructureType, size_t Count>
+template <size_t Count, typename VulkanStructureType>
 inline void create_static_array_copy(VulkanStructureType* pDst, const VulkanStructureType* pSrc)
 {
     for (size_t i = 0; i < Count; ++i) {
