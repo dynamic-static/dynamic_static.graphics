@@ -13,11 +13,13 @@
 #include "catch2/catch.hpp"
 
 namespace dst {
-namespace graphics {
+namespace gfx {
+namespace vk {
 namespace tests {
 
 
 
 } // namespace tests
-} // namespace graphics
+} // namespace vk
+} // namespace gfx
 } // namespace dst

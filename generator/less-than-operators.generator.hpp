@@ -28,7 +28,7 @@ public:
     /**
     TODO : Documentation
     */
-    inline LessThanOperatorsGenerator(const xml::Manifest& xmlManifest)
+    inline LessThanOperatorsGenerator(const xml::Manifest& vkXmlManifest)
     {
         using namespace dst::cppgen;
         CppFile headerFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) / "less-than-operators.hpp");
@@ -40,7 +40,7 @@ public:
         sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/generated/structure-to-tuple.hpp" };
         sourceFile << std::endl;
         CppFunction::Collection lessThanOperatorFunctions;
-        for (const auto& structureitr : xmlManifest.structures) {
+        for (const auto& structureitr : vkXmlManifest.structures) {
             const auto& structure = structureitr.second;
             if (structure.alias.empty()) {
                 CppParameter lhsParameter;
@@ -71,31 +71,49 @@ public:
             }
         }
         headerFile << lessThanOperatorFunctions.generate_declaration();
-        sourceFile << lessThanOperatorFunctions.generate_definition();
+        sourceFile << lessThanOperatorFunctions.generate_definition() << std::endl;
+        sourceFile << CppNamespace("dst::gfx::vk::detail").open();
+        sourceFile << generate_pnext_equality_operator_functions(vkXmlManifest).generate_definition();
+        sourceFile << CppNamespace("dst::gfx::vk::detail").close();
     }
 
 private:
-    inline dst::cppgen::CppFunction create_pnext_handler_function(const vk::xml::Manifest& vkXmlManifest)
+    inline dst::cppgen::CppFunction::Collection generate_pnext_equality_operator_functions(const vk::xml::Manifest& vkXmlManifest)
     {
         using namespace dst::cppgen;
-        CppFunction createPNextCopyFunction;
-        createPNextCopyFunction.cppReturn = "void*";
-        createPNextCopyFunction.name = "create_pnext_copy";
-        CppParameter pNextParameter;
-        pNextParameter.type = "const void*";
-        pNextParameter.name = "pNext";
-        CppParameter pAllocationCallbacksParameter;
-        pAllocationCallbacksParameter.type = "const VkAllocationCallbacks*";
-        pAllocationCallbacksParameter.name = "pAllocationCallbacks";
-        createPNextCopyFunction.cppParameters = {
-            pNextParameter,
-            pAllocationCallbacksParameter,
-        };
-        createPNextCopyFunction.cppSourceBlock.add_snippet(R"(
-            if (pNext) {
+        CppFunction::Collection lessThanOperatorFunctions;
+        CppParameter lhsParameter;
+        lhsParameter.type = "const PNextTupleElementWrapper&";
+        lhsParameter.name = "lhs";
+        CppParameter rhsParameter;
+        rhsParameter.type = "const PNextTupleElementWrapper&";
+        rhsParameter.name = "rhs";
+        CppFunction lessThanOperatorFunction;
+        lessThanOperatorFunction.cppReturn = "bool";
+        lessThanOperatorFunction.name = "operator<";
+        lessThanOperatorFunction.cppParameters = { lhsParameter, rhsParameter };
+        lessThanOperatorFunction.cppSourceBlock.add_snippet(R"(
+            if (lhs.pNext == rhs.pNext) {
+                return false;
+            }
+            if (lhs.pNext && !rhs.pNext) {
+                return false;
+            }
+            if (!lhs.pNext && rhs.pNext) {
+                return true;
+            }
+            const auto& lhsBaseInStructure = *(const VkBaseInStructure*)lhs.pNext;
+            const auto& rhsBaseInStructure = *(const VkBaseInStructure*)rhs.pNext;
+            if (lhsBaseInStructure.sType < rhsBaseInStructure.sType) {
+                return true;
+            }
+            if (lhsBaseInStructure.sType > rhsBaseInStructure.sType) {
+                return false;
+            }
         )");
+#if 0
         CppSwitch vkStructureTypeSwitch;
-        vkStructureTypeSwitch.cppCondition = "*(VkStructureType*)pNext";
+        vkStructureTypeSwitch.cppCondition = "((const VkBaseInStructure*)lhs.pNext)->sType";
         auto vkStructureTypeEnumerationItr = vkXmlManifest.enumerations.find("VkStructureType");
         if (vkStructureTypeEnumerationItr != vkXmlManifest.enumerations.end()) {
             const auto& vkStructureTypeEnumeration = vkStructureTypeEnumerationItr->second;
@@ -110,7 +128,7 @@ private:
                             vkStructureTypeCase.name = vkStructureTypeEnumerator.name;
                             vkStructureTypeCase.cppSourceBlock.add_snippet(
                                 R"(
-                                    return create_dynamic_array_copy(1, (const ${VK_STRUCTURE_TYPE}*)pNext, pAllocationCallbacks);
+                                    return (const ${VK_STRUCTURE_TYPE}&)lhsBaseInStructure < (const ${VK_STRUCTURE_TYPE}&)rhsBaseInStructure;
                                 )", {
                                     { "${VK_STRUCTURE_TYPE}", vkStructureItr->first },
                                 }
@@ -121,12 +139,35 @@ private:
                 }
             }
         }
-        createPNextCopyFunction.cppSourceBlock.add_snippet(Tab { 1 }, vkStructureTypeSwitch.generate_inline_definition());
-        createPNextCopyFunction.cppSourceBlock.add_snippet(R"(
-            };
-            return nullptr;
+#endif
+        lessThanOperatorFunction.cppSourceBlock.add_snippet(
+            generate_vk_structure_type_switch(
+                vkXmlManifest,
+                "lhsBaseInStructure.sType",
+                [](const vk::xml::Structure& vkXmlStructure, CppSwitch::CppCase& cppCase) {
+                    cppCase.cppSourceBlock.add_snippet(
+                        R"(
+                            return (const ${VK_STRUCTURE_TYPE}&)lhsBaseInStructure < (const ${VK_STRUCTURE_TYPE}&)rhsBaseInStructure;
+                        )", {
+                            { "${VK_STRUCTURE_TYPE}", vkXmlStructure.name },
+                        }
+                    );
+                }
+            ).generate_inline_definition()
+        );
+        lessThanOperatorFunction.cppSourceBlock.add_snippet(R"(
+            return false;
         )");
-        return createPNextCopyFunction;
+        CppFunction lessThanOrEqualOperatorFunction;
+        lessThanOrEqualOperatorFunction.cppReturn = "bool";
+        lessThanOrEqualOperatorFunction.name = "operator<=";
+        lessThanOrEqualOperatorFunction.cppParameters = { lhsParameter, rhsParameter };
+        lessThanOrEqualOperatorFunction.cppSourceBlock.add_snippet(R"(
+            return !(rhs < lhs);
+        )");
+        lessThanOperatorFunctions.push_back(lessThanOperatorFunction);
+        lessThanOperatorFunctions.push_back(lessThanOrEqualOperatorFunction);
+        return lessThanOperatorFunctions;
     }
 };
 

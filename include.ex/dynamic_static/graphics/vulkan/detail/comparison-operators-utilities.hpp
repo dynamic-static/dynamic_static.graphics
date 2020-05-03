@@ -38,17 +38,23 @@ bool operator<(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapp
 /**
 TODO : Documentation
 */
-bool operator>(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs);
-
-/**
-TODO : Documentation
-*/
 bool operator<=(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs);
 
 /**
 TODO : Documentation
 */
-bool operator>=(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs);
+inline bool operator>(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs)
+{
+    return rhs < lhs;
+}
+
+/**
+TODO : Documentation
+*/
+inline bool operator>=(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs)
+{
+    return !(lhs < rhs);
+}
 
 /**
 TODO : Documentation
@@ -83,17 +89,17 @@ inline bool operator<(const DynamicStringTupleElementWrapper& lhs, const Dynamic
 /**
 TODO : Documentation
 */
-inline bool operator>(const DynamicStringTupleElementWrapper& lhs, const DynamicStringTupleElementWrapper& rhs)
+inline bool operator<=(const DynamicStringTupleElementWrapper& lhs, const DynamicStringTupleElementWrapper& rhs)
 {
-    return rhs < lhs;
+    return !(rhs < lhs);
 }
 
 /**
 TODO : Documentation
 */
-inline bool operator<=(const DynamicStringTupleElementWrapper& lhs, const DynamicStringTupleElementWrapper& rhs)
+inline bool operator>(const DynamicStringTupleElementWrapper& lhs, const DynamicStringTupleElementWrapper& rhs)
 {
-    return !(rhs < lhs);
+    return rhs < lhs;
 }
 
 /**
@@ -131,17 +137,17 @@ inline bool operator<(const DynamicStringArrayTupleElementWrapper& lhs, const Dy
 /**
 TODO : Documentation
 */
-inline bool operator>(const DynamicStringArrayTupleElementWrapper& lhs, const DynamicStringArrayTupleElementWrapper& rhs)
+inline bool operator<=(const DynamicStringArrayTupleElementWrapper& lhs, const DynamicStringArrayTupleElementWrapper& rhs)
 {
-    return rhs < lhs;
+    return !(rhs < lhs);
 }
 
 /**
 TODO : Documentation
 */
-inline bool operator<=(const DynamicStringArrayTupleElementWrapper& lhs, const DynamicStringArrayTupleElementWrapper& rhs)
+inline bool operator>(const DynamicStringArrayTupleElementWrapper& lhs, const DynamicStringArrayTupleElementWrapper& rhs)
 {
-    return !(rhs < lhs);
+    return rhs < lhs;
 }
 
 /**

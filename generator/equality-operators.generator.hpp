@@ -28,7 +28,7 @@ public:
     /**
     TODO : Documentation
     */
-    inline EquailtyOperatorsGenerator(const xml::Manifest& xmlManifest)
+    inline EquailtyOperatorsGenerator(const xml::Manifest& vkXmlManifest)
     {
         using namespace dst::cppgen;
         CppFile headerFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) / "equality-operators.hpp");
@@ -40,7 +40,7 @@ public:
         sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/generated/structure-to-tuple.hpp" };
         sourceFile << std::endl;
         CppFunction::Collection equalityOperatorFunctions;
-        for (const auto& structureitr : xmlManifest.structures) {
+        for (const auto& structureitr : vkXmlManifest.structures) {
             const auto& structure = structureitr.second;
             if (structure.alias.empty()) {
                 CppParameter lhsParameter;
@@ -71,31 +71,40 @@ public:
             }
         }
         headerFile << equalityOperatorFunctions.generate_declaration();
-        sourceFile << equalityOperatorFunctions.generate_definition();
+        sourceFile << equalityOperatorFunctions.generate_definition() << std::endl;
+        sourceFile << CppNamespace("dst::gfx::vk::detail").open();
+        sourceFile << generate_pnext_equality_operator_functions(vkXmlManifest).generate_definition();
+        sourceFile << CppNamespace("dst::gfx::vk::detail").close();
     }
 
 private:
-    inline dst::cppgen::CppFunction create_pnext_handler_function(const vk::xml::Manifest& vkXmlManifest)
+    inline dst::cppgen::CppFunction::Collection generate_pnext_equality_operator_functions(const vk::xml::Manifest& vkXmlManifest)
     {
         using namespace dst::cppgen;
-        CppFunction createPNextCopyFunction;
-        createPNextCopyFunction.cppReturn = "void*";
-        createPNextCopyFunction.name = "create_pnext_copy";
-        CppParameter pNextParameter;
-        pNextParameter.type = "const void*";
-        pNextParameter.name = "pNext";
-        CppParameter pAllocationCallbacksParameter;
-        pAllocationCallbacksParameter.type = "const VkAllocationCallbacks*";
-        pAllocationCallbacksParameter.name = "pAllocationCallbacks";
-        createPNextCopyFunction.cppParameters = {
-            pNextParameter,
-            pAllocationCallbacksParameter,
-        };
-        createPNextCopyFunction.cppSourceBlock.add_snippet(R"(
-            if (pNext) {
+        CppFunction::Collection equalityOperatorFunctions;
+        CppParameter lhsParameter;
+        lhsParameter.type = "const PNextTupleElementWrapper&";
+        lhsParameter.name = "lhs";
+        CppParameter rhsParameter;
+        rhsParameter.type = "const PNextTupleElementWrapper&";
+        rhsParameter.name = "rhs";
+        CppFunction equalityOperatorFunction;
+        equalityOperatorFunction.cppReturn = "bool";
+        equalityOperatorFunction.name = "operator==";
+        equalityOperatorFunction.cppParameters = { lhsParameter, rhsParameter };
+        equalityOperatorFunction.cppSourceBlock.add_snippet(R"(
+            if (lhs.pNext == rhs.pNext) {
+                return true;
+            }
+            if ((lhs.pNext && !rhs.pNext) || (!lhs.pNext && rhs.pNext)) {
+                return false;
+            }
+            if (((const VkBaseInStructure*)lhs.pNext)->sType != ((const VkBaseInStructure*)rhs.pNext)->sType) {
+                return false;
+            }
         )");
         CppSwitch vkStructureTypeSwitch;
-        vkStructureTypeSwitch.cppCondition = "*(VkStructureType*)pNext";
+        vkStructureTypeSwitch.cppCondition = "((const VkBaseInStructure*)lhs.pNext)->sType";
         auto vkStructureTypeEnumerationItr = vkXmlManifest.enumerations.find("VkStructureType");
         if (vkStructureTypeEnumerationItr != vkXmlManifest.enumerations.end()) {
             const auto& vkStructureTypeEnumeration = vkStructureTypeEnumerationItr->second;
@@ -110,7 +119,7 @@ private:
                             vkStructureTypeCase.name = vkStructureTypeEnumerator.name;
                             vkStructureTypeCase.cppSourceBlock.add_snippet(
                                 R"(
-                                    return create_dynamic_array_copy(1, (const ${VK_STRUCTURE_TYPE}*)pNext, pAllocationCallbacks);
+                                    return (const ${VK_STRUCTURE_TYPE}*)lhs.pNext == (const ${VK_STRUCTURE_TYPE}*)rhs.pNext;
                                 )", {
                                     { "${VK_STRUCTURE_TYPE}", vkStructureItr->first },
                                 }
@@ -121,12 +130,20 @@ private:
                 }
             }
         }
-        createPNextCopyFunction.cppSourceBlock.add_snippet(Tab { 1 }, vkStructureTypeSwitch.generate_inline_definition());
-        createPNextCopyFunction.cppSourceBlock.add_snippet(R"(
-            };
-            return nullptr;
+        equalityOperatorFunction.cppSourceBlock.add_snippet(vkStructureTypeSwitch.generate_inline_definition());
+        equalityOperatorFunction.cppSourceBlock.add_snippet(R"(
+            return false;
         )");
-        return createPNextCopyFunction;
+        CppFunction inequalityOperatorFunction;
+        inequalityOperatorFunction.cppReturn = "bool";
+        inequalityOperatorFunction.name = "operator!=";
+        inequalityOperatorFunction.cppParameters = { lhsParameter, rhsParameter };
+        inequalityOperatorFunction.cppSourceBlock.add_snippet(R"(
+            return !(lhs == rhs);
+        )");
+        equalityOperatorFunctions.push_back(equalityOperatorFunction);
+        equalityOperatorFunctions.push_back(inequalityOperatorFunction);
+        return equalityOperatorFunctions;
     }
 };
 

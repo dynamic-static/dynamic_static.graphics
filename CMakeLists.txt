@@ -226,6 +226,7 @@ if(DST_CORE_BUILD_TESTS)
     DstAddTests(
         target dynamic_static.graphics
         sourceFiles
+            "${testsPath}/comparison-operators.tests.cpp"
             "${testsPath}/structure-to-tuple.tests.cpp"
     )
 endif()
