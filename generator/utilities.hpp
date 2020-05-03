@@ -28,6 +28,7 @@ inline bool structure_requires_manual_implementation(const std::string& structur
         "VkAccelerationStructureVersionKHR",
         //"VkAllocationCallbacks",
         //"VkCheckpointDataNV",
+        "VkClearColorValue",
         //"VkDebugMarkerObjectTagInfoEXT",
         //"VkDebugReportCallbackCreateInfoEXT",
         //"VkDebugUtilsMessengerCreateInfoEXT",
@@ -46,29 +47,7 @@ TODO : Documentation
 */
 inline std::string manual_implemntation_compile_guard(const std::string& structureName)
 {
-    return structure_requires_manual_implementation(structureName) ? "DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION" : std::string();
-}
-
-/**
-TODO : Documentation
-*/
-inline bool structure_requires_custom_handling(const dst::cppgen::CppFunction& cppFunction)
-{
-    static const std::set<std::string> sStructuresRequiringCustomHandling {
-        "VkAccelerationStructureVersionKHR",
-        //"VkAllocationCallbacks",
-        //"VkCheckpointDataNV",
-        //"VkDebugMarkerObjectTagInfoEXT",
-        //"VkDebugReportCallbackCreateInfoEXT",
-        //"VkDebugUtilsMessengerCreateInfoEXT",
-        //"VkDebugUtilsObjectTagInfoEXT",
-        //"VkImportMemoryHostPointerInfoEXT",
-        //"VkInitializePerformanceApiInfoINTEL",
-        "VkPipelineMultisampleStateCreateInfo",
-        "VkShaderModuleCreateInfo",
-        "VkTransformMatrixKHR",
-    };
-    return sStructuresRequiringCustomHandling.count(string::remove(string::remove(cppFunction.cppParameters[0].type, "const "), "&"));
+    return structure_requires_manual_implementation(structureName) ? "DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION" : std::string();
 }
 
 /**

@@ -245,7 +245,7 @@ VkAccelerationStructureMemoryRequirementsInfoNV create_structure_copy<VkAccelera
     return result;
 }
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION
+#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 VkAccelerationStructureVersionKHR create_structure_copy<VkAccelerationStructureVersionKHR>(const VkAccelerationStructureVersionKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -257,7 +257,7 @@ VkAccelerationStructureVersionKHR create_structure_copy<VkAccelerationStructureV
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION
+#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 VkAcquireNextImageInfoKHR create_structure_copy<VkAcquireNextImageInfoKHR>(const VkAcquireNextImageInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -742,6 +742,7 @@ VkClearAttachment create_structure_copy<VkClearAttachment>(const VkClearAttachme
     return result;
 }
 
+#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 template <>
 VkClearColorValue create_structure_copy<VkClearColorValue>(const VkClearColorValue& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
@@ -751,6 +752,7 @@ VkClearColorValue create_structure_copy<VkClearColorValue>(const VkClearColorVal
     create_static_array_copy<4>(result.uint32, obj.uint32);
     return result;
 }
+#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 VkClearDepthStencilValue create_structure_copy<VkClearDepthStencilValue>(const VkClearDepthStencilValue& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -5212,7 +5214,7 @@ VkPipelineLibraryCreateInfoKHR create_structure_copy<VkPipelineLibraryCreateInfo
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION
+#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 template <>
 VkPipelineMultisampleStateCreateInfo create_structure_copy<VkPipelineMultisampleStateCreateInfo>(const VkPipelineMultisampleStateCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
@@ -5228,7 +5230,7 @@ VkPipelineMultisampleStateCreateInfo create_structure_copy<VkPipelineMultisample
     result.alphaToOneEnable = create_structure_copy(obj.alphaToOneEnable, pAllocationCallbacks);
     return result;
 }
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION
+#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 VkPipelineRasterizationConservativeStateCreateInfoEXT create_structure_copy<VkPipelineRasterizationConservativeStateCreateInfoEXT>(const VkPipelineRasterizationConservativeStateCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -6025,7 +6027,7 @@ VkSetStateFlagsIndirectCommandNV create_structure_copy<VkSetStateFlagsIndirectCo
     return result;
 }
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION
+#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 template <>
 VkShaderModuleCreateInfo create_structure_copy<VkShaderModuleCreateInfo>(const VkShaderModuleCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
@@ -6037,7 +6039,7 @@ VkShaderModuleCreateInfo create_structure_copy<VkShaderModuleCreateInfo>(const V
     result.pCode = create_dynamic_array_copy(obj.latexmath:[\textrm{codeSize} \over 4], obj.pCode, pAllocationCallbacks);
     return result;
 }
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION
+#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 VkShaderModuleValidationCacheCreateInfoEXT create_structure_copy<VkShaderModuleValidationCacheCreateInfoEXT>(const VkShaderModuleValidationCacheCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -6592,7 +6594,7 @@ VkTraceRaysIndirectCommandKHR create_structure_copy<VkTraceRaysIndirectCommandKH
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION
+#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 VkTransformMatrixKHR create_structure_copy<VkTransformMatrixKHR>(const VkTransformMatrixKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -6602,7 +6604,7 @@ VkTransformMatrixKHR create_structure_copy<VkTransformMatrixKHR>(const VkTransfo
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION
+#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 VkValidationCacheCreateInfoEXT create_structure_copy<VkValidationCacheCreateInfoEXT>(const VkValidationCacheCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)

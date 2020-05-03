@@ -37,7 +37,7 @@ public:
         CppFile sourceFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_SOURCE_PATH) / "equality-operators.cpp");
         sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/generated/equality-operators.hpp" };
         sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/comparison-operators-utilities.hpp" };
-        sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/generated/structure-to-tuple.hpp" };
+        sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/structure-to-tuple.hpp" };
         sourceFile << std::endl;
         CppFunction::Collection equalityOperatorFunctions;
         for (const auto& structureitr : vkXmlManifest.structures) {
@@ -103,34 +103,21 @@ private:
                 return false;
             }
         )");
-        CppSwitch vkStructureTypeSwitch;
-        vkStructureTypeSwitch.cppCondition = "((const VkBaseInStructure*)lhs.pNext)->sType";
-        auto vkStructureTypeEnumerationItr = vkXmlManifest.enumerations.find("VkStructureType");
-        if (vkStructureTypeEnumerationItr != vkXmlManifest.enumerations.end()) {
-            const auto& vkStructureTypeEnumeration = vkStructureTypeEnumerationItr->second;
-            for (const auto& vkStructureTypeEnumerator : vkStructureTypeEnumeration.enumerators) {
-                if (vkStructureTypeEnumerator.alias.empty()) {
-                    auto vkStructureTypeItr = vkXmlManifest.structureTypes.find(vkStructureTypeEnumerator.name);
-                    if (vkStructureTypeItr != vkXmlManifest.structureTypes.end()) {
-                        auto vkStructureItr = vkXmlManifest.structures.find(vkStructureTypeItr->second);
-                        if (vkStructureItr != vkXmlManifest.structures.end()) {
-                            CppSwitch::CppCase vkStructureTypeCase;
-                            vkStructureTypeCase.cppCompileGuards = { vkStructureTypeEnumerator.compileGuard };
-                            vkStructureTypeCase.name = vkStructureTypeEnumerator.name;
-                            vkStructureTypeCase.cppSourceBlock.add_snippet(
-                                R"(
-                                    return (const ${VK_STRUCTURE_TYPE}*)lhs.pNext == (const ${VK_STRUCTURE_TYPE}*)rhs.pNext;
-                                )", {
-                                    { "${VK_STRUCTURE_TYPE}", vkStructureItr->first },
-                                }
-                            );
-                            vkStructureTypeSwitch.cppCases.push_back(vkStructureTypeCase);
+        equalityOperatorFunction.cppSourceBlock.add_snippet(
+            generate_vk_structure_type_switch(
+                vkXmlManifest,
+                "*(VkStructureType*)lhs.pNext",
+                [](const vk::xml::Structure& vkXmlStructure, CppSwitch::CppCase& cppCase) {
+                    cppCase.cppSourceBlock.add_snippet(
+                        R"(
+                            return (const ${VK_STRUCTURE_TYPE}*)lhs.pNext == (const ${VK_STRUCTURE_TYPE}*)rhs.pNext;
+                        )", {
+                            { "${VK_STRUCTURE_TYPE}", vkXmlStructure.name },
                         }
-                    }
+                    );
                 }
-            }
-        }
-        equalityOperatorFunction.cppSourceBlock.add_snippet(vkStructureTypeSwitch.generate_inline_definition());
+            ).generate_inline_definition()
+        );
         equalityOperatorFunction.cppSourceBlock.add_snippet(R"(
             return false;
         )");

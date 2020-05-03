@@ -29,12 +29,19 @@ public:
     inline CreateStructureCopyGenerator(const xml::Manifest& xmlManifest)
     {
         using namespace dst::cppgen;
+        CppFile headerFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) / "create-structure-copy.hpp");
+        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/structure-copy-utilities.hpp" };
+        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/defines.hpp" };
+        headerFile << std::endl;
+        CppFile sourceFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_SOURCE_PATH) / "create-structure-copy.cpp");
+        sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/generated/create-structure-copy.hpp" };
+        sourceFile << std::endl;
         CppFunction::Collection cppFunctions;
         for (const auto& structureitr : xmlManifest.structures) {
             const auto& structure = structureitr.second;
             if (structure.alias.empty()) {
                 CppFunction createStructureCopyFunction;
-                createStructureCopyFunction.cppCompileGuards.insert(structure.compileGuard);
+                createStructureCopyFunction.cppCompileGuards = { structure.compileGuard };
                 createStructureCopyFunction.cppTemplate.cppSpecializations = { structure.name };
                 createStructureCopyFunction.cppReturn = structure.name;
                 createStructureCopyFunction.name = "create_structure_copy";
@@ -67,23 +74,13 @@ public:
                 cppFunctions.push_back(createStructureCopyFunction);
             }
         }
-
-        CppFile headerFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) / "create-structure-copy.hpp");
-        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/structure-copy-utilities.hpp" };
-        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/defines.hpp" };
-        headerFile << std::endl;
         headerFile << CppNamespace("dst::gfx::vk::detail").open();
         headerFile << cppFunctions.generate_declaration();
         headerFile << CppNamespace("dst::gfx::vk::detail").close();
-
         for (auto& cppFunction : cppFunctions) {
-            if (structure_requires_custom_handling(cppFunction)) {
-                cppFunction.cppCompileGuards.insert("DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION");
-            }
+            auto unqualifiedVkStructureTypeName = cppFunction.cppParameters[0].get_unqualified_type();
+            cppFunction.cppCompileGuards.insert(manual_implemntation_compile_guard(unqualifiedVkStructureTypeName));
         }
-        CppFile sourceFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_SOURCE_PATH) / "create-structure-copy.cpp");
-        sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/generated/create-structure-copy.hpp" };
-        sourceFile << std::endl;
         sourceFile << CppNamespace("dst::gfx::vk::detail").open();
         auto pNextHandlerFunction = create_pnext_handler_function(xmlManifest);
         sourceFile << pNextHandlerFunction.generate_declaration() << std::endl;
@@ -145,41 +142,26 @@ private:
         CppParameter pAllocationCallbacksParameter;
         pAllocationCallbacksParameter.type = "const VkAllocationCallbacks*";
         pAllocationCallbacksParameter.name = "pAllocationCallbacks";
-        createPNextCopyFunction.cppParameters = {
-            pNextParameter,
-            pAllocationCallbacksParameter,
-        };
+        createPNextCopyFunction.cppParameters = { pNextParameter, pAllocationCallbacksParameter };
         createPNextCopyFunction.cppSourceBlock.add_snippet(R"(
             if (pNext) {
         )");
-        CppSwitch vkStructureTypeSwitch;
-        vkStructureTypeSwitch.cppCondition = "*(VkStructureType*)pNext";
-        auto vkStructureTypeEnumerationItr = vkXmlManifest.enumerations.find("VkStructureType");
-        if (vkStructureTypeEnumerationItr != vkXmlManifest.enumerations.end()) {
-            const auto& vkStructureTypeEnumeration = vkStructureTypeEnumerationItr->second;
-            for (const auto& vkStructureTypeEnumerator : vkStructureTypeEnumeration.enumerators) {
-                if (vkStructureTypeEnumerator.alias.empty()) {
-                    auto vkStructureTypeItr = vkXmlManifest.structureTypes.find(vkStructureTypeEnumerator.name);
-                    if (vkStructureTypeItr != vkXmlManifest.structureTypes.end()) {
-                        auto vkStructureItr = vkXmlManifest.structures.find(vkStructureTypeItr->second);
-                        if (vkStructureItr != vkXmlManifest.structures.end()) {
-                            CppSwitch::CppCase vkStructureTypeCase;
-                            vkStructureTypeCase.cppCompileGuards = { vkStructureTypeEnumerator.compileGuard };
-                            vkStructureTypeCase.name = vkStructureTypeEnumerator.name;
-                            vkStructureTypeCase.cppSourceBlock.add_snippet(
-                                R"(
-                                    return create_dynamic_array_copy(1, (const ${VK_STRUCTURE_TYPE}*)pNext, pAllocationCallbacks);
-                                )", {
-                                    { "${VK_STRUCTURE_TYPE}", vkStructureItr->first },
-                                }
-                            );
-                            vkStructureTypeSwitch.cppCases.push_back(vkStructureTypeCase);
+        createPNextCopyFunction.cppSourceBlock.add_snippet(
+            Tab { 1 },
+            generate_vk_structure_type_switch(
+                vkXmlManifest,
+                "*(VkStructureType*)pNext",
+                [](const vk::xml::Structure& vkXmlStructure, CppSwitch::CppCase& cppCase) {
+                    cppCase.cppSourceBlock.add_snippet(
+                        R"(
+                            return create_dynamic_array_copy(1, (const ${VK_STRUCTURE_TYPE}*)pNext, pAllocationCallbacks);
+                        )", {
+                            { "${VK_STRUCTURE_TYPE}", vkXmlStructure.name },
                         }
-                    }
+                    );
                 }
-            }
-        }
-        createPNextCopyFunction.cppSourceBlock.add_snippet(Tab { 1 }, vkStructureTypeSwitch.generate_inline_definition());
+            ).generate_inline_definition()
+        );
         createPNextCopyFunction.cppSourceBlock.add_snippet(R"(
             };
             return nullptr;

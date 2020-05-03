@@ -88,16 +88,31 @@ template <typename T>
 inline bool validate_comparison_operators(const std::vector<T>& objs)
 {
     for (auto itr = objs.begin(); itr != objs.end(); ++itr) {
-        if (!(*itr == *itr) || *itr != *itr || *itr < *itr || *itr > *itr) {
+        if (!(*itr == *itr)) {
+            return false;
+        }
+        if (*itr != *itr) {
+            return false;
+        }
+        if (*itr < *itr) {
+            return false;
+        }
+        if (*itr > * itr) {
             return false;
         }
         for (auto jtr = itr + 1; jtr != objs.end(); ++jtr) {
             if (*itr == *jtr) {
-                if (*itr != *jtr || *itr < *jtr || *itr >* jtr) {
+                if (*itr != *jtr) {
+                    return false;
+                }
+                if (*itr < *jtr) {
+                    return false;
+                }
+                if (*itr > * jtr) {
                     return false;
                 }
             } else
-            if ((*itr < *jtr) && (*itr > * jtr)) {
+            if (*itr < *jtr && *itr > * jtr) {
                 return false;
             }
         }
@@ -108,10 +123,50 @@ inline bool validate_comparison_operators(const std::vector<T>& objs)
 /**
 TODO : Documentation
 */
+template <typename T>
+void randomize(RandomNumberGenerator<>& rng, T& obj)
+{
+    obj = rng.value<T>();
+}
+
+/**
+TODO : Documentation
+*/
+template <>
+void randomize(RandomNumberGenerator<>& rng, VkRect2D& obj)
+{
+    obj.offset.x = rng.value<int32_t>();
+    obj.offset.y = rng.value<int32_t>();
+    obj.extent.width = rng.value<uint32_t>();
+    obj.extent.height = rng.value<uint32_t>();
+}
+
+/**
+TODO : Documentation
+*/
+template <>
+void randomize(RandomNumberGenerator<>& rng, VkClearColorValue& obj)
+{
+    if (rng.probability(0.5f)) {
+        obj.float32[0] = rng.value<float>();
+        obj.float32[1] = rng.value<float>();
+        obj.float32[2] = rng.value<float>();
+        obj.float32[3] = rng.value<float>();
+    } else {
+        obj.uint32[0] = rng.value<uint32_t>();
+        obj.uint32[1] = rng.value<uint32_t>();
+        obj.uint32[2] = rng.value<uint32_t>();
+        obj.uint32[3] = rng.value<uint32_t>();
+    }
+}
+
+/**
+TODO : Documentation
+*/
 TEST_CASE("BadLessThanOperator")
 {
     RandomNumberGenerator rng;
-    std::vector<BadLessThanOperator> badLessThanOperators(1024);
+    std::vector<BadLessThanOperator> badLessThanOperators(512);
     for (auto& badLessThanOperator : badLessThanOperators) {
         badLessThanOperator.a = rng.value<int>();
         badLessThanOperator.b = rng.value<int>();
@@ -123,18 +178,26 @@ TEST_CASE("BadLessThanOperator")
 /**
 TODO : Documentation
 */
-TEST_CASE("Comparison operators")
+TEST_CASE("Comparison operators : basic")
 {
-    VkRect2D lhs { };
-    VkRect2D rhs { };
-    REQUIRE(validate_comparison_operators<VkRect2D>({ lhs, rhs }));
     RandomNumberGenerator rng;
-    std::vector<VkRect2D> objs(1024);
+    std::vector<VkRect2D> objs(512);
     for (auto& obj : objs) {
-        obj.offset.x = rng.value<int32_t>();
-        obj.offset.y = rng.value<int32_t>();
-        obj.extent.width = rng.value<uint32_t>();
-        obj.extent.height = rng.value<uint32_t>();
+        randomize(rng, obj);
+    }
+    REQUIRE(validate_comparison_operators(objs));
+}
+
+/**
+TODO : Documentation
+*/
+TEST_CASE("Comparison operators : union")
+{
+
+    RandomNumberGenerator rng;
+    std::vector<VkClearColorValue> objs(5);
+    for (auto& obj : objs) {
+        randomize<VkClearColorValue>(rng, obj);
     }
     REQUIRE(validate_comparison_operators(objs));
 }

@@ -10,7 +10,7 @@
 
 #include "dynamic_static/graphics/vulkan/generated/less-than-operators.hpp"
 #include "dynamic_static/graphics/vulkan/detail/comparison-operators-utilities.hpp"
-#include "dynamic_static/graphics/vulkan/generated/structure-to-tuple.hpp"
+#include "dynamic_static/graphics/vulkan/detail/structure-to-tuple.hpp"
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator<(const VkAabbPositionsKHR& lhs, const VkAabbPositionsKHR& rhs)
@@ -6263,1001 +6263,999 @@ bool operator<(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapp
     if (!lhs.pNext && rhs.pNext) {
         return true;
     }
-    const auto& lhsBaseInStructure = *(const VkBaseInStructure*)lhs.pNext;
-    const auto& rhsBaseInStructure = *(const VkBaseInStructure*)rhs.pNext;
-    if (lhsBaseInStructure.sType < rhsBaseInStructure.sType) {
+    if (*(VkStructureType*)lhs.pNext < *(VkStructureType*)rhs.pNext) {
         return true;
     }
-    if (lhsBaseInStructure.sType > rhsBaseInStructure.sType) {
+    if (*(VkStructureType*)lhs.pNext > *(VkStructureType*)rhs.pNext) {
         return false;
     }
-    switch (lhsBaseInStructure.sType) {
+    switch (*(VkStructureType*)lhs.pNext) {
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_BUILD_GEOMETRY_INFO_KHR: {
-        return (const VkAccelerationStructureBuildGeometryInfoKHR&)lhsBaseInStructure < (const VkAccelerationStructureBuildGeometryInfoKHR&)rhsBaseInStructure;
+        return *(const VkAccelerationStructureBuildGeometryInfoKHR*)lhs.pNext < *(const VkAccelerationStructureBuildGeometryInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_CREATE_GEOMETRY_TYPE_INFO_KHR: {
-        return (const VkAccelerationStructureCreateGeometryTypeInfoKHR&)lhsBaseInStructure < (const VkAccelerationStructureCreateGeometryTypeInfoKHR&)rhsBaseInStructure;
+        return *(const VkAccelerationStructureCreateGeometryTypeInfoKHR*)lhs.pNext < *(const VkAccelerationStructureCreateGeometryTypeInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_CREATE_INFO_KHR: {
-        return (const VkAccelerationStructureCreateInfoKHR&)lhsBaseInStructure < (const VkAccelerationStructureCreateInfoKHR&)rhsBaseInStructure;
+        return *(const VkAccelerationStructureCreateInfoKHR*)lhs.pNext < *(const VkAccelerationStructureCreateInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_CREATE_INFO_NV: {
-        return (const VkAccelerationStructureCreateInfoNV&)lhsBaseInStructure < (const VkAccelerationStructureCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkAccelerationStructureCreateInfoNV*)lhs.pNext < *(const VkAccelerationStructureCreateInfoNV*)rhs.pNext;
     } break;
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_DEVICE_ADDRESS_INFO_KHR: {
-        return (const VkAccelerationStructureDeviceAddressInfoKHR&)lhsBaseInStructure < (const VkAccelerationStructureDeviceAddressInfoKHR&)rhsBaseInStructure;
+        return *(const VkAccelerationStructureDeviceAddressInfoKHR*)lhs.pNext < *(const VkAccelerationStructureDeviceAddressInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_AABBS_DATA_KHR: {
-        return (const VkAccelerationStructureGeometryAabbsDataKHR&)lhsBaseInStructure < (const VkAccelerationStructureGeometryAabbsDataKHR&)rhsBaseInStructure;
+        return *(const VkAccelerationStructureGeometryAabbsDataKHR*)lhs.pNext < *(const VkAccelerationStructureGeometryAabbsDataKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_INSTANCES_DATA_KHR: {
-        return (const VkAccelerationStructureGeometryInstancesDataKHR&)lhsBaseInStructure < (const VkAccelerationStructureGeometryInstancesDataKHR&)rhsBaseInStructure;
+        return *(const VkAccelerationStructureGeometryInstancesDataKHR*)lhs.pNext < *(const VkAccelerationStructureGeometryInstancesDataKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_KHR: {
-        return (const VkAccelerationStructureGeometryKHR&)lhsBaseInStructure < (const VkAccelerationStructureGeometryKHR&)rhsBaseInStructure;
+        return *(const VkAccelerationStructureGeometryKHR*)lhs.pNext < *(const VkAccelerationStructureGeometryKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_TRIANGLES_DATA_KHR: {
-        return (const VkAccelerationStructureGeometryTrianglesDataKHR&)lhsBaseInStructure < (const VkAccelerationStructureGeometryTrianglesDataKHR&)rhsBaseInStructure;
+        return *(const VkAccelerationStructureGeometryTrianglesDataKHR*)lhs.pNext < *(const VkAccelerationStructureGeometryTrianglesDataKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_INFO_NV: {
-        return (const VkAccelerationStructureInfoNV&)lhsBaseInStructure < (const VkAccelerationStructureInfoNV&)rhsBaseInStructure;
+        return *(const VkAccelerationStructureInfoNV*)lhs.pNext < *(const VkAccelerationStructureInfoNV*)rhs.pNext;
     } break;
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_MEMORY_REQUIREMENTS_INFO_KHR: {
-        return (const VkAccelerationStructureMemoryRequirementsInfoKHR&)lhsBaseInStructure < (const VkAccelerationStructureMemoryRequirementsInfoKHR&)rhsBaseInStructure;
+        return *(const VkAccelerationStructureMemoryRequirementsInfoKHR*)lhs.pNext < *(const VkAccelerationStructureMemoryRequirementsInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_MEMORY_REQUIREMENTS_INFO_NV: {
-        return (const VkAccelerationStructureMemoryRequirementsInfoNV&)lhsBaseInStructure < (const VkAccelerationStructureMemoryRequirementsInfoNV&)rhsBaseInStructure;
+        return *(const VkAccelerationStructureMemoryRequirementsInfoNV*)lhs.pNext < *(const VkAccelerationStructureMemoryRequirementsInfoNV*)rhs.pNext;
     } break;
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_VERSION_KHR: {
-        return (const VkAccelerationStructureVersionKHR&)lhsBaseInStructure < (const VkAccelerationStructureVersionKHR&)rhsBaseInStructure;
+        return *(const VkAccelerationStructureVersionKHR*)lhs.pNext < *(const VkAccelerationStructureVersionKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_ACQUIRE_NEXT_IMAGE_INFO_KHR: {
-        return (const VkAcquireNextImageInfoKHR&)lhsBaseInStructure < (const VkAcquireNextImageInfoKHR&)rhsBaseInStructure;
+        return *(const VkAcquireNextImageInfoKHR*)lhs.pNext < *(const VkAcquireNextImageInfoKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_ACQUIRE_PROFILING_LOCK_INFO_KHR: {
-        return (const VkAcquireProfilingLockInfoKHR&)lhsBaseInStructure < (const VkAcquireProfilingLockInfoKHR&)rhsBaseInStructure;
+        return *(const VkAcquireProfilingLockInfoKHR*)lhs.pNext < *(const VkAcquireProfilingLockInfoKHR*)rhs.pNext;
     } break;
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_BIND_ACCELERATION_STRUCTURE_MEMORY_INFO_KHR: {
-        return (const VkBindAccelerationStructureMemoryInfoKHR&)lhsBaseInStructure < (const VkBindAccelerationStructureMemoryInfoKHR&)rhsBaseInStructure;
+        return *(const VkBindAccelerationStructureMemoryInfoKHR*)lhs.pNext < *(const VkBindAccelerationStructureMemoryInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_BIND_IMAGE_MEMORY_SWAPCHAIN_INFO_KHR: {
-        return (const VkBindImageMemorySwapchainInfoKHR&)lhsBaseInStructure < (const VkBindImageMemorySwapchainInfoKHR&)rhsBaseInStructure;
+        return *(const VkBindImageMemorySwapchainInfoKHR*)lhs.pNext < *(const VkBindImageMemorySwapchainInfoKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_CREATE_INFO_EXT: {
-        return (const VkBufferDeviceAddressCreateInfoEXT&)lhsBaseInStructure < (const VkBufferDeviceAddressCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkBufferDeviceAddressCreateInfoEXT*)lhs.pNext < *(const VkBufferDeviceAddressCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_CALIBRATED_TIMESTAMP_INFO_EXT: {
-        return (const VkCalibratedTimestampInfoEXT&)lhsBaseInStructure < (const VkCalibratedTimestampInfoEXT&)rhsBaseInStructure;
+        return *(const VkCalibratedTimestampInfoEXT*)lhs.pNext < *(const VkCalibratedTimestampInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_CHECKPOINT_DATA_NV: {
-        return (const VkCheckpointDataNV&)lhsBaseInStructure < (const VkCheckpointDataNV&)rhsBaseInStructure;
+        return *(const VkCheckpointDataNV*)lhs.pNext < *(const VkCheckpointDataNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_CONDITIONAL_RENDERING_INFO_EXT: {
-        return (const VkCommandBufferInheritanceConditionalRenderingInfoEXT&)lhsBaseInStructure < (const VkCommandBufferInheritanceConditionalRenderingInfoEXT&)rhsBaseInStructure;
+        return *(const VkCommandBufferInheritanceConditionalRenderingInfoEXT*)lhs.pNext < *(const VkCommandBufferInheritanceConditionalRenderingInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDER_PASS_TRANSFORM_INFO_QCOM: {
-        return (const VkCommandBufferInheritanceRenderPassTransformInfoQCOM&)lhsBaseInStructure < (const VkCommandBufferInheritanceRenderPassTransformInfoQCOM&)rhsBaseInStructure;
+        return *(const VkCommandBufferInheritanceRenderPassTransformInfoQCOM*)lhs.pNext < *(const VkCommandBufferInheritanceRenderPassTransformInfoQCOM*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_CONDITIONAL_RENDERING_BEGIN_INFO_EXT: {
-        return (const VkConditionalRenderingBeginInfoEXT&)lhsBaseInStructure < (const VkConditionalRenderingBeginInfoEXT&)rhsBaseInStructure;
+        return *(const VkConditionalRenderingBeginInfoEXT*)lhs.pNext < *(const VkConditionalRenderingBeginInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_COOPERATIVE_MATRIX_PROPERTIES_NV: {
-        return (const VkCooperativeMatrixPropertiesNV&)lhsBaseInStructure < (const VkCooperativeMatrixPropertiesNV&)rhsBaseInStructure;
+        return *(const VkCooperativeMatrixPropertiesNV*)lhs.pNext < *(const VkCooperativeMatrixPropertiesNV*)rhs.pNext;
     } break;
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_COPY_ACCELERATION_STRUCTURE_INFO_KHR: {
-        return (const VkCopyAccelerationStructureInfoKHR&)lhsBaseInStructure < (const VkCopyAccelerationStructureInfoKHR&)rhsBaseInStructure;
+        return *(const VkCopyAccelerationStructureInfoKHR*)lhs.pNext < *(const VkCopyAccelerationStructureInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_COPY_ACCELERATION_STRUCTURE_TO_MEMORY_INFO_KHR: {
-        return (const VkCopyAccelerationStructureToMemoryInfoKHR&)lhsBaseInStructure < (const VkCopyAccelerationStructureToMemoryInfoKHR&)rhsBaseInStructure;
+        return *(const VkCopyAccelerationStructureToMemoryInfoKHR*)lhs.pNext < *(const VkCopyAccelerationStructureToMemoryInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_COPY_MEMORY_TO_ACCELERATION_STRUCTURE_INFO_KHR: {
-        return (const VkCopyMemoryToAccelerationStructureInfoKHR&)lhsBaseInStructure < (const VkCopyMemoryToAccelerationStructureInfoKHR&)rhsBaseInStructure;
+        return *(const VkCopyMemoryToAccelerationStructureInfoKHR*)lhs.pNext < *(const VkCopyMemoryToAccelerationStructureInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_DEBUG_MARKER_MARKER_INFO_EXT: {
-        return (const VkDebugMarkerMarkerInfoEXT&)lhsBaseInStructure < (const VkDebugMarkerMarkerInfoEXT&)rhsBaseInStructure;
+        return *(const VkDebugMarkerMarkerInfoEXT*)lhs.pNext < *(const VkDebugMarkerMarkerInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEBUG_MARKER_OBJECT_NAME_INFO_EXT: {
-        return (const VkDebugMarkerObjectNameInfoEXT&)lhsBaseInStructure < (const VkDebugMarkerObjectNameInfoEXT&)rhsBaseInStructure;
+        return *(const VkDebugMarkerObjectNameInfoEXT*)lhs.pNext < *(const VkDebugMarkerObjectNameInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEBUG_MARKER_OBJECT_TAG_INFO_EXT: {
-        return (const VkDebugMarkerObjectTagInfoEXT&)lhsBaseInStructure < (const VkDebugMarkerObjectTagInfoEXT&)rhsBaseInStructure;
+        return *(const VkDebugMarkerObjectTagInfoEXT*)lhs.pNext < *(const VkDebugMarkerObjectTagInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT: {
-        return (const VkDebugReportCallbackCreateInfoEXT&)lhsBaseInStructure < (const VkDebugReportCallbackCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkDebugReportCallbackCreateInfoEXT*)lhs.pNext < *(const VkDebugReportCallbackCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEBUG_UTILS_LABEL_EXT: {
-        return (const VkDebugUtilsLabelEXT&)lhsBaseInStructure < (const VkDebugUtilsLabelEXT&)rhsBaseInStructure;
+        return *(const VkDebugUtilsLabelEXT*)lhs.pNext < *(const VkDebugUtilsLabelEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CALLBACK_DATA_EXT: {
-        return (const VkDebugUtilsMessengerCallbackDataEXT&)lhsBaseInStructure < (const VkDebugUtilsMessengerCallbackDataEXT&)rhsBaseInStructure;
+        return *(const VkDebugUtilsMessengerCallbackDataEXT*)lhs.pNext < *(const VkDebugUtilsMessengerCallbackDataEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT: {
-        return (const VkDebugUtilsMessengerCreateInfoEXT&)lhsBaseInStructure < (const VkDebugUtilsMessengerCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkDebugUtilsMessengerCreateInfoEXT*)lhs.pNext < *(const VkDebugUtilsMessengerCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEBUG_UTILS_OBJECT_NAME_INFO_EXT: {
-        return (const VkDebugUtilsObjectNameInfoEXT&)lhsBaseInStructure < (const VkDebugUtilsObjectNameInfoEXT&)rhsBaseInStructure;
+        return *(const VkDebugUtilsObjectNameInfoEXT*)lhs.pNext < *(const VkDebugUtilsObjectNameInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEBUG_UTILS_OBJECT_TAG_INFO_EXT: {
-        return (const VkDebugUtilsObjectTagInfoEXT&)lhsBaseInStructure < (const VkDebugUtilsObjectTagInfoEXT&)rhsBaseInStructure;
+        return *(const VkDebugUtilsObjectTagInfoEXT*)lhs.pNext < *(const VkDebugUtilsObjectTagInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_BUFFER_CREATE_INFO_NV: {
-        return (const VkDedicatedAllocationBufferCreateInfoNV&)lhsBaseInStructure < (const VkDedicatedAllocationBufferCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkDedicatedAllocationBufferCreateInfoNV*)lhs.pNext < *(const VkDedicatedAllocationBufferCreateInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_IMAGE_CREATE_INFO_NV: {
-        return (const VkDedicatedAllocationImageCreateInfoNV&)lhsBaseInStructure < (const VkDedicatedAllocationImageCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkDedicatedAllocationImageCreateInfoNV*)lhs.pNext < *(const VkDedicatedAllocationImageCreateInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_MEMORY_ALLOCATE_INFO_NV: {
-        return (const VkDedicatedAllocationMemoryAllocateInfoNV&)lhsBaseInStructure < (const VkDedicatedAllocationMemoryAllocateInfoNV&)rhsBaseInStructure;
+        return *(const VkDedicatedAllocationMemoryAllocateInfoNV*)lhs.pNext < *(const VkDedicatedAllocationMemoryAllocateInfoNV*)rhs.pNext;
     } break;
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_DEFERRED_OPERATION_INFO_KHR: {
-        return (const VkDeferredOperationInfoKHR&)lhsBaseInStructure < (const VkDeferredOperationInfoKHR&)rhsBaseInStructure;
+        return *(const VkDeferredOperationInfoKHR*)lhs.pNext < *(const VkDeferredOperationInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_INLINE_UNIFORM_BLOCK_CREATE_INFO_EXT: {
-        return (const VkDescriptorPoolInlineUniformBlockCreateInfoEXT&)lhsBaseInStructure < (const VkDescriptorPoolInlineUniformBlockCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkDescriptorPoolInlineUniformBlockCreateInfoEXT*)lhs.pNext < *(const VkDescriptorPoolInlineUniformBlockCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEVICE_DIAGNOSTICS_CONFIG_CREATE_INFO_NV: {
-        return (const VkDeviceDiagnosticsConfigCreateInfoNV&)lhsBaseInStructure < (const VkDeviceDiagnosticsConfigCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkDeviceDiagnosticsConfigCreateInfoNV*)lhs.pNext < *(const VkDeviceDiagnosticsConfigCreateInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEVICE_EVENT_INFO_EXT: {
-        return (const VkDeviceEventInfoEXT&)lhsBaseInStructure < (const VkDeviceEventInfoEXT&)rhsBaseInStructure;
+        return *(const VkDeviceEventInfoEXT*)lhs.pNext < *(const VkDeviceEventInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEVICE_GROUP_PRESENT_CAPABILITIES_KHR: {
-        return (const VkDeviceGroupPresentCapabilitiesKHR&)lhsBaseInStructure < (const VkDeviceGroupPresentCapabilitiesKHR&)rhsBaseInStructure;
+        return *(const VkDeviceGroupPresentCapabilitiesKHR*)lhs.pNext < *(const VkDeviceGroupPresentCapabilitiesKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEVICE_GROUP_PRESENT_INFO_KHR: {
-        return (const VkDeviceGroupPresentInfoKHR&)lhsBaseInStructure < (const VkDeviceGroupPresentInfoKHR&)rhsBaseInStructure;
+        return *(const VkDeviceGroupPresentInfoKHR*)lhs.pNext < *(const VkDeviceGroupPresentInfoKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEVICE_GROUP_SWAPCHAIN_CREATE_INFO_KHR: {
-        return (const VkDeviceGroupSwapchainCreateInfoKHR&)lhsBaseInStructure < (const VkDeviceGroupSwapchainCreateInfoKHR&)rhsBaseInStructure;
+        return *(const VkDeviceGroupSwapchainCreateInfoKHR*)lhs.pNext < *(const VkDeviceGroupSwapchainCreateInfoKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEVICE_MEMORY_OVERALLOCATION_CREATE_INFO_AMD: {
-        return (const VkDeviceMemoryOverallocationCreateInfoAMD&)lhsBaseInStructure < (const VkDeviceMemoryOverallocationCreateInfoAMD&)rhsBaseInStructure;
+        return *(const VkDeviceMemoryOverallocationCreateInfoAMD*)lhs.pNext < *(const VkDeviceMemoryOverallocationCreateInfoAMD*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEVICE_QUEUE_GLOBAL_PRIORITY_CREATE_INFO_EXT: {
-        return (const VkDeviceQueueGlobalPriorityCreateInfoEXT&)lhsBaseInStructure < (const VkDeviceQueueGlobalPriorityCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkDeviceQueueGlobalPriorityCreateInfoEXT*)lhs.pNext < *(const VkDeviceQueueGlobalPriorityCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DISPLAY_EVENT_INFO_EXT: {
-        return (const VkDisplayEventInfoEXT&)lhsBaseInStructure < (const VkDisplayEventInfoEXT&)rhsBaseInStructure;
+        return *(const VkDisplayEventInfoEXT*)lhs.pNext < *(const VkDisplayEventInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DISPLAY_MODE_CREATE_INFO_KHR: {
-        return (const VkDisplayModeCreateInfoKHR&)lhsBaseInStructure < (const VkDisplayModeCreateInfoKHR&)rhsBaseInStructure;
+        return *(const VkDisplayModeCreateInfoKHR*)lhs.pNext < *(const VkDisplayModeCreateInfoKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DISPLAY_MODE_PROPERTIES_2_KHR: {
-        return (const VkDisplayModeProperties2KHR&)lhsBaseInStructure < (const VkDisplayModeProperties2KHR&)rhsBaseInStructure;
+        return *(const VkDisplayModeProperties2KHR*)lhs.pNext < *(const VkDisplayModeProperties2KHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DISPLAY_NATIVE_HDR_SURFACE_CAPABILITIES_AMD: {
-        return (const VkDisplayNativeHdrSurfaceCapabilitiesAMD&)lhsBaseInStructure < (const VkDisplayNativeHdrSurfaceCapabilitiesAMD&)rhsBaseInStructure;
+        return *(const VkDisplayNativeHdrSurfaceCapabilitiesAMD*)lhs.pNext < *(const VkDisplayNativeHdrSurfaceCapabilitiesAMD*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DISPLAY_PLANE_CAPABILITIES_2_KHR: {
-        return (const VkDisplayPlaneCapabilities2KHR&)lhsBaseInStructure < (const VkDisplayPlaneCapabilities2KHR&)rhsBaseInStructure;
+        return *(const VkDisplayPlaneCapabilities2KHR*)lhs.pNext < *(const VkDisplayPlaneCapabilities2KHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DISPLAY_PLANE_INFO_2_KHR: {
-        return (const VkDisplayPlaneInfo2KHR&)lhsBaseInStructure < (const VkDisplayPlaneInfo2KHR&)rhsBaseInStructure;
+        return *(const VkDisplayPlaneInfo2KHR*)lhs.pNext < *(const VkDisplayPlaneInfo2KHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DISPLAY_PLANE_PROPERTIES_2_KHR: {
-        return (const VkDisplayPlaneProperties2KHR&)lhsBaseInStructure < (const VkDisplayPlaneProperties2KHR&)rhsBaseInStructure;
+        return *(const VkDisplayPlaneProperties2KHR*)lhs.pNext < *(const VkDisplayPlaneProperties2KHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DISPLAY_POWER_INFO_EXT: {
-        return (const VkDisplayPowerInfoEXT&)lhsBaseInStructure < (const VkDisplayPowerInfoEXT&)rhsBaseInStructure;
+        return *(const VkDisplayPowerInfoEXT*)lhs.pNext < *(const VkDisplayPowerInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DISPLAY_PRESENT_INFO_KHR: {
-        return (const VkDisplayPresentInfoKHR&)lhsBaseInStructure < (const VkDisplayPresentInfoKHR&)rhsBaseInStructure;
+        return *(const VkDisplayPresentInfoKHR*)lhs.pNext < *(const VkDisplayPresentInfoKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DISPLAY_PROPERTIES_2_KHR: {
-        return (const VkDisplayProperties2KHR&)lhsBaseInStructure < (const VkDisplayProperties2KHR&)rhsBaseInStructure;
+        return *(const VkDisplayProperties2KHR*)lhs.pNext < *(const VkDisplayProperties2KHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DISPLAY_SURFACE_CREATE_INFO_KHR: {
-        return (const VkDisplaySurfaceCreateInfoKHR&)lhsBaseInStructure < (const VkDisplaySurfaceCreateInfoKHR&)rhsBaseInStructure;
+        return *(const VkDisplaySurfaceCreateInfoKHR*)lhs.pNext < *(const VkDisplaySurfaceCreateInfoKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DRM_FORMAT_MODIFIER_PROPERTIES_EXT: {
-        return (const VkDrmFormatModifierPropertiesEXT&)lhsBaseInStructure < (const VkDrmFormatModifierPropertiesEXT&)rhsBaseInStructure;
+        return *(const VkDrmFormatModifierPropertiesEXT*)lhs.pNext < *(const VkDrmFormatModifierPropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DRM_FORMAT_MODIFIER_PROPERTIES_LIST_EXT: {
-        return (const VkDrmFormatModifierPropertiesListEXT&)lhsBaseInStructure < (const VkDrmFormatModifierPropertiesListEXT&)rhsBaseInStructure;
+        return *(const VkDrmFormatModifierPropertiesListEXT*)lhs.pNext < *(const VkDrmFormatModifierPropertiesListEXT*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_EXPORT_FENCE_WIN32_HANDLE_INFO_KHR: {
-        return (const VkExportFenceWin32HandleInfoKHR&)lhsBaseInStructure < (const VkExportFenceWin32HandleInfoKHR&)rhsBaseInStructure;
+        return *(const VkExportFenceWin32HandleInfoKHR*)lhs.pNext < *(const VkExportFenceWin32HandleInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_EXPORT_MEMORY_ALLOCATE_INFO_NV: {
-        return (const VkExportMemoryAllocateInfoNV&)lhsBaseInStructure < (const VkExportMemoryAllocateInfoNV&)rhsBaseInStructure;
+        return *(const VkExportMemoryAllocateInfoNV*)lhs.pNext < *(const VkExportMemoryAllocateInfoNV*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_EXPORT_MEMORY_WIN32_HANDLE_INFO_KHR: {
-        return (const VkExportMemoryWin32HandleInfoKHR&)lhsBaseInStructure < (const VkExportMemoryWin32HandleInfoKHR&)rhsBaseInStructure;
+        return *(const VkExportMemoryWin32HandleInfoKHR*)lhs.pNext < *(const VkExportMemoryWin32HandleInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_EXPORT_MEMORY_WIN32_HANDLE_INFO_NV: {
-        return (const VkExportMemoryWin32HandleInfoNV&)lhsBaseInStructure < (const VkExportMemoryWin32HandleInfoNV&)rhsBaseInStructure;
+        return *(const VkExportMemoryWin32HandleInfoNV*)lhs.pNext < *(const VkExportMemoryWin32HandleInfoNV*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_EXPORT_SEMAPHORE_WIN32_HANDLE_INFO_KHR: {
-        return (const VkExportSemaphoreWin32HandleInfoKHR&)lhsBaseInStructure < (const VkExportSemaphoreWin32HandleInfoKHR&)rhsBaseInStructure;
+        return *(const VkExportSemaphoreWin32HandleInfoKHR*)lhs.pNext < *(const VkExportSemaphoreWin32HandleInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     #ifdef VK_USE_PLATFORM_ANDROID_KHR
     case VK_STRUCTURE_TYPE_EXTERNAL_FORMAT_ANDROID: {
-        return (const VkExternalFormatANDROID&)lhsBaseInStructure < (const VkExternalFormatANDROID&)rhsBaseInStructure;
+        return *(const VkExternalFormatANDROID*)lhs.pNext < *(const VkExternalFormatANDROID*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_ANDROID_KHR
     case VK_STRUCTURE_TYPE_EXTERNAL_MEMORY_IMAGE_CREATE_INFO_NV: {
-        return (const VkExternalMemoryImageCreateInfoNV&)lhsBaseInStructure < (const VkExternalMemoryImageCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkExternalMemoryImageCreateInfoNV*)lhs.pNext < *(const VkExternalMemoryImageCreateInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_FENCE_GET_FD_INFO_KHR: {
-        return (const VkFenceGetFdInfoKHR&)lhsBaseInStructure < (const VkFenceGetFdInfoKHR&)rhsBaseInStructure;
+        return *(const VkFenceGetFdInfoKHR*)lhs.pNext < *(const VkFenceGetFdInfoKHR*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_FENCE_GET_WIN32_HANDLE_INFO_KHR: {
-        return (const VkFenceGetWin32HandleInfoKHR&)lhsBaseInStructure < (const VkFenceGetWin32HandleInfoKHR&)rhsBaseInStructure;
+        return *(const VkFenceGetWin32HandleInfoKHR*)lhs.pNext < *(const VkFenceGetWin32HandleInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_FILTER_CUBIC_IMAGE_VIEW_IMAGE_FORMAT_PROPERTIES_EXT: {
-        return (const VkFilterCubicImageViewImageFormatPropertiesEXT&)lhsBaseInStructure < (const VkFilterCubicImageViewImageFormatPropertiesEXT&)rhsBaseInStructure;
+        return *(const VkFilterCubicImageViewImageFormatPropertiesEXT*)lhs.pNext < *(const VkFilterCubicImageViewImageFormatPropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_FRAMEBUFFER_MIXED_SAMPLES_COMBINATION_NV: {
-        return (const VkFramebufferMixedSamplesCombinationNV&)lhsBaseInStructure < (const VkFramebufferMixedSamplesCombinationNV&)rhsBaseInStructure;
+        return *(const VkFramebufferMixedSamplesCombinationNV*)lhs.pNext < *(const VkFramebufferMixedSamplesCombinationNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_GENERATED_COMMANDS_INFO_NV: {
-        return (const VkGeneratedCommandsInfoNV&)lhsBaseInStructure < (const VkGeneratedCommandsInfoNV&)rhsBaseInStructure;
+        return *(const VkGeneratedCommandsInfoNV*)lhs.pNext < *(const VkGeneratedCommandsInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_GENERATED_COMMANDS_MEMORY_REQUIREMENTS_INFO_NV: {
-        return (const VkGeneratedCommandsMemoryRequirementsInfoNV&)lhsBaseInStructure < (const VkGeneratedCommandsMemoryRequirementsInfoNV&)rhsBaseInStructure;
+        return *(const VkGeneratedCommandsMemoryRequirementsInfoNV*)lhs.pNext < *(const VkGeneratedCommandsMemoryRequirementsInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_GEOMETRY_NV: {
-        return (const VkGeometryNV&)lhsBaseInStructure < (const VkGeometryNV&)rhsBaseInStructure;
+        return *(const VkGeometryNV*)lhs.pNext < *(const VkGeometryNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_GEOMETRY_TRIANGLES_NV: {
-        return (const VkGeometryTrianglesNV&)lhsBaseInStructure < (const VkGeometryTrianglesNV&)rhsBaseInStructure;
+        return *(const VkGeometryTrianglesNV*)lhs.pNext < *(const VkGeometryTrianglesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_SHADER_GROUPS_CREATE_INFO_NV: {
-        return (const VkGraphicsPipelineShaderGroupsCreateInfoNV&)lhsBaseInStructure < (const VkGraphicsPipelineShaderGroupsCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkGraphicsPipelineShaderGroupsCreateInfoNV*)lhs.pNext < *(const VkGraphicsPipelineShaderGroupsCreateInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_GRAPHICS_SHADER_GROUP_CREATE_INFO_NV: {
-        return (const VkGraphicsShaderGroupCreateInfoNV&)lhsBaseInStructure < (const VkGraphicsShaderGroupCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkGraphicsShaderGroupCreateInfoNV*)lhs.pNext < *(const VkGraphicsShaderGroupCreateInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_HDR_METADATA_EXT: {
-        return (const VkHdrMetadataEXT&)lhsBaseInStructure < (const VkHdrMetadataEXT&)rhsBaseInStructure;
+        return *(const VkHdrMetadataEXT*)lhs.pNext < *(const VkHdrMetadataEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_HEADLESS_SURFACE_CREATE_INFO_EXT: {
-        return (const VkHeadlessSurfaceCreateInfoEXT&)lhsBaseInStructure < (const VkHeadlessSurfaceCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkHeadlessSurfaceCreateInfoEXT*)lhs.pNext < *(const VkHeadlessSurfaceCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_IMAGE_DRM_FORMAT_MODIFIER_EXPLICIT_CREATE_INFO_EXT: {
-        return (const VkImageDrmFormatModifierExplicitCreateInfoEXT&)lhsBaseInStructure < (const VkImageDrmFormatModifierExplicitCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkImageDrmFormatModifierExplicitCreateInfoEXT*)lhs.pNext < *(const VkImageDrmFormatModifierExplicitCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_IMAGE_DRM_FORMAT_MODIFIER_LIST_CREATE_INFO_EXT: {
-        return (const VkImageDrmFormatModifierListCreateInfoEXT&)lhsBaseInStructure < (const VkImageDrmFormatModifierListCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkImageDrmFormatModifierListCreateInfoEXT*)lhs.pNext < *(const VkImageDrmFormatModifierListCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_IMAGE_DRM_FORMAT_MODIFIER_PROPERTIES_EXT: {
-        return (const VkImageDrmFormatModifierPropertiesEXT&)lhsBaseInStructure < (const VkImageDrmFormatModifierPropertiesEXT&)rhsBaseInStructure;
+        return *(const VkImageDrmFormatModifierPropertiesEXT*)lhs.pNext < *(const VkImageDrmFormatModifierPropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_IMAGE_SWAPCHAIN_CREATE_INFO_KHR: {
-        return (const VkImageSwapchainCreateInfoKHR&)lhsBaseInStructure < (const VkImageSwapchainCreateInfoKHR&)rhsBaseInStructure;
+        return *(const VkImageSwapchainCreateInfoKHR*)lhs.pNext < *(const VkImageSwapchainCreateInfoKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_IMAGE_VIEW_HANDLE_INFO_NVX: {
-        return (const VkImageViewHandleInfoNVX&)lhsBaseInStructure < (const VkImageViewHandleInfoNVX&)rhsBaseInStructure;
+        return *(const VkImageViewHandleInfoNVX*)lhs.pNext < *(const VkImageViewHandleInfoNVX*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_IMPORT_FENCE_FD_INFO_KHR: {
-        return (const VkImportFenceFdInfoKHR&)lhsBaseInStructure < (const VkImportFenceFdInfoKHR&)rhsBaseInStructure;
+        return *(const VkImportFenceFdInfoKHR*)lhs.pNext < *(const VkImportFenceFdInfoKHR*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_IMPORT_FENCE_WIN32_HANDLE_INFO_KHR: {
-        return (const VkImportFenceWin32HandleInfoKHR&)lhsBaseInStructure < (const VkImportFenceWin32HandleInfoKHR&)rhsBaseInStructure;
+        return *(const VkImportFenceWin32HandleInfoKHR*)lhs.pNext < *(const VkImportFenceWin32HandleInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_IMPORT_MEMORY_FD_INFO_KHR: {
-        return (const VkImportMemoryFdInfoKHR&)lhsBaseInStructure < (const VkImportMemoryFdInfoKHR&)rhsBaseInStructure;
+        return *(const VkImportMemoryFdInfoKHR*)lhs.pNext < *(const VkImportMemoryFdInfoKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_IMPORT_MEMORY_HOST_POINTER_INFO_EXT: {
-        return (const VkImportMemoryHostPointerInfoEXT&)lhsBaseInStructure < (const VkImportMemoryHostPointerInfoEXT&)rhsBaseInStructure;
+        return *(const VkImportMemoryHostPointerInfoEXT*)lhs.pNext < *(const VkImportMemoryHostPointerInfoEXT*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_IMPORT_MEMORY_WIN32_HANDLE_INFO_KHR: {
-        return (const VkImportMemoryWin32HandleInfoKHR&)lhsBaseInStructure < (const VkImportMemoryWin32HandleInfoKHR&)rhsBaseInStructure;
+        return *(const VkImportMemoryWin32HandleInfoKHR*)lhs.pNext < *(const VkImportMemoryWin32HandleInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_IMPORT_MEMORY_WIN32_HANDLE_INFO_NV: {
-        return (const VkImportMemoryWin32HandleInfoNV&)lhsBaseInStructure < (const VkImportMemoryWin32HandleInfoNV&)rhsBaseInStructure;
+        return *(const VkImportMemoryWin32HandleInfoNV*)lhs.pNext < *(const VkImportMemoryWin32HandleInfoNV*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_IMPORT_SEMAPHORE_FD_INFO_KHR: {
-        return (const VkImportSemaphoreFdInfoKHR&)lhsBaseInStructure < (const VkImportSemaphoreFdInfoKHR&)rhsBaseInStructure;
+        return *(const VkImportSemaphoreFdInfoKHR*)lhs.pNext < *(const VkImportSemaphoreFdInfoKHR*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_IMPORT_SEMAPHORE_WIN32_HANDLE_INFO_KHR: {
-        return (const VkImportSemaphoreWin32HandleInfoKHR&)lhsBaseInStructure < (const VkImportSemaphoreWin32HandleInfoKHR&)rhsBaseInStructure;
+        return *(const VkImportSemaphoreWin32HandleInfoKHR*)lhs.pNext < *(const VkImportSemaphoreWin32HandleInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_INDIRECT_COMMANDS_LAYOUT_CREATE_INFO_NV: {
-        return (const VkIndirectCommandsLayoutCreateInfoNV&)lhsBaseInStructure < (const VkIndirectCommandsLayoutCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkIndirectCommandsLayoutCreateInfoNV*)lhs.pNext < *(const VkIndirectCommandsLayoutCreateInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_INDIRECT_COMMANDS_LAYOUT_TOKEN_NV: {
-        return (const VkIndirectCommandsLayoutTokenNV&)lhsBaseInStructure < (const VkIndirectCommandsLayoutTokenNV&)rhsBaseInStructure;
+        return *(const VkIndirectCommandsLayoutTokenNV*)lhs.pNext < *(const VkIndirectCommandsLayoutTokenNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_INITIALIZE_PERFORMANCE_API_INFO_INTEL: {
-        return (const VkInitializePerformanceApiInfoINTEL&)lhsBaseInStructure < (const VkInitializePerformanceApiInfoINTEL&)rhsBaseInStructure;
+        return *(const VkInitializePerformanceApiInfoINTEL*)lhs.pNext < *(const VkInitializePerformanceApiInfoINTEL*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_MEMORY_FD_PROPERTIES_KHR: {
-        return (const VkMemoryFdPropertiesKHR&)lhsBaseInStructure < (const VkMemoryFdPropertiesKHR&)rhsBaseInStructure;
+        return *(const VkMemoryFdPropertiesKHR*)lhs.pNext < *(const VkMemoryFdPropertiesKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_MEMORY_GET_FD_INFO_KHR: {
-        return (const VkMemoryGetFdInfoKHR&)lhsBaseInStructure < (const VkMemoryGetFdInfoKHR&)rhsBaseInStructure;
+        return *(const VkMemoryGetFdInfoKHR*)lhs.pNext < *(const VkMemoryGetFdInfoKHR*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_MEMORY_GET_WIN32_HANDLE_INFO_KHR: {
-        return (const VkMemoryGetWin32HandleInfoKHR&)lhsBaseInStructure < (const VkMemoryGetWin32HandleInfoKHR&)rhsBaseInStructure;
+        return *(const VkMemoryGetWin32HandleInfoKHR*)lhs.pNext < *(const VkMemoryGetWin32HandleInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_MEMORY_HOST_POINTER_PROPERTIES_EXT: {
-        return (const VkMemoryHostPointerPropertiesEXT&)lhsBaseInStructure < (const VkMemoryHostPointerPropertiesEXT&)rhsBaseInStructure;
+        return *(const VkMemoryHostPointerPropertiesEXT*)lhs.pNext < *(const VkMemoryHostPointerPropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_MEMORY_PRIORITY_ALLOCATE_INFO_EXT: {
-        return (const VkMemoryPriorityAllocateInfoEXT&)lhsBaseInStructure < (const VkMemoryPriorityAllocateInfoEXT&)rhsBaseInStructure;
+        return *(const VkMemoryPriorityAllocateInfoEXT*)lhs.pNext < *(const VkMemoryPriorityAllocateInfoEXT*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_MEMORY_WIN32_HANDLE_PROPERTIES_KHR: {
-        return (const VkMemoryWin32HandlePropertiesKHR&)lhsBaseInStructure < (const VkMemoryWin32HandlePropertiesKHR&)rhsBaseInStructure;
+        return *(const VkMemoryWin32HandlePropertiesKHR*)lhs.pNext < *(const VkMemoryWin32HandlePropertiesKHR*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     #ifdef VK_USE_PLATFORM_METAL_EXT
     case VK_STRUCTURE_TYPE_METAL_SURFACE_CREATE_INFO_EXT: {
-        return (const VkMetalSurfaceCreateInfoEXT&)lhsBaseInStructure < (const VkMetalSurfaceCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkMetalSurfaceCreateInfoEXT*)lhs.pNext < *(const VkMetalSurfaceCreateInfoEXT*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_METAL_EXT
     case VK_STRUCTURE_TYPE_MULTISAMPLE_PROPERTIES_EXT: {
-        return (const VkMultisamplePropertiesEXT&)lhsBaseInStructure < (const VkMultisamplePropertiesEXT&)rhsBaseInStructure;
+        return *(const VkMultisamplePropertiesEXT*)lhs.pNext < *(const VkMultisamplePropertiesEXT*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_ANDROID_KHR
     case VK_STRUCTURE_TYPE_NATIVE_BUFFER_ANDROID: {
-        return (const VkNativeBufferANDROID&)lhsBaseInStructure < (const VkNativeBufferANDROID&)rhsBaseInStructure;
+        return *(const VkNativeBufferANDROID*)lhs.pNext < *(const VkNativeBufferANDROID*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_ANDROID_KHR
     case VK_STRUCTURE_TYPE_PERFORMANCE_CONFIGURATION_ACQUIRE_INFO_INTEL: {
-        return (const VkPerformanceConfigurationAcquireInfoINTEL&)lhsBaseInStructure < (const VkPerformanceConfigurationAcquireInfoINTEL&)rhsBaseInStructure;
+        return *(const VkPerformanceConfigurationAcquireInfoINTEL*)lhs.pNext < *(const VkPerformanceConfigurationAcquireInfoINTEL*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PERFORMANCE_COUNTER_DESCRIPTION_KHR: {
-        return (const VkPerformanceCounterDescriptionKHR&)lhsBaseInStructure < (const VkPerformanceCounterDescriptionKHR&)rhsBaseInStructure;
+        return *(const VkPerformanceCounterDescriptionKHR*)lhs.pNext < *(const VkPerformanceCounterDescriptionKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PERFORMANCE_COUNTER_KHR: {
-        return (const VkPerformanceCounterKHR&)lhsBaseInStructure < (const VkPerformanceCounterKHR&)rhsBaseInStructure;
+        return *(const VkPerformanceCounterKHR*)lhs.pNext < *(const VkPerformanceCounterKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PERFORMANCE_MARKER_INFO_INTEL: {
-        return (const VkPerformanceMarkerInfoINTEL&)lhsBaseInStructure < (const VkPerformanceMarkerInfoINTEL&)rhsBaseInStructure;
+        return *(const VkPerformanceMarkerInfoINTEL*)lhs.pNext < *(const VkPerformanceMarkerInfoINTEL*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PERFORMANCE_OVERRIDE_INFO_INTEL: {
-        return (const VkPerformanceOverrideInfoINTEL&)lhsBaseInStructure < (const VkPerformanceOverrideInfoINTEL&)rhsBaseInStructure;
+        return *(const VkPerformanceOverrideInfoINTEL*)lhs.pNext < *(const VkPerformanceOverrideInfoINTEL*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PERFORMANCE_QUERY_SUBMIT_INFO_KHR: {
-        return (const VkPerformanceQuerySubmitInfoKHR&)lhsBaseInStructure < (const VkPerformanceQuerySubmitInfoKHR&)rhsBaseInStructure;
+        return *(const VkPerformanceQuerySubmitInfoKHR*)lhs.pNext < *(const VkPerformanceQuerySubmitInfoKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PERFORMANCE_STREAM_MARKER_INFO_INTEL: {
-        return (const VkPerformanceStreamMarkerInfoINTEL&)lhsBaseInStructure < (const VkPerformanceStreamMarkerInfoINTEL&)rhsBaseInStructure;
+        return *(const VkPerformanceStreamMarkerInfoINTEL*)lhs.pNext < *(const VkPerformanceStreamMarkerInfoINTEL*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BLEND_OPERATION_ADVANCED_FEATURES_EXT: {
-        return (const VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT*)lhs.pNext < *(const VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BLEND_OPERATION_ADVANCED_PROPERTIES_EXT: {
-        return (const VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT*)lhs.pNext < *(const VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES_EXT: {
-        return (const VkPhysicalDeviceBufferDeviceAddressFeaturesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceBufferDeviceAddressFeaturesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceBufferDeviceAddressFeaturesEXT*)lhs.pNext < *(const VkPhysicalDeviceBufferDeviceAddressFeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COHERENT_MEMORY_FEATURES_AMD: {
-        return (const VkPhysicalDeviceCoherentMemoryFeaturesAMD&)lhsBaseInStructure < (const VkPhysicalDeviceCoherentMemoryFeaturesAMD&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceCoherentMemoryFeaturesAMD*)lhs.pNext < *(const VkPhysicalDeviceCoherentMemoryFeaturesAMD*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_NV: {
-        return (const VkPhysicalDeviceComputeShaderDerivativesFeaturesNV&)lhsBaseInStructure < (const VkPhysicalDeviceComputeShaderDerivativesFeaturesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceComputeShaderDerivativesFeaturesNV*)lhs.pNext < *(const VkPhysicalDeviceComputeShaderDerivativesFeaturesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONDITIONAL_RENDERING_FEATURES_EXT: {
-        return (const VkPhysicalDeviceConditionalRenderingFeaturesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceConditionalRenderingFeaturesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceConditionalRenderingFeaturesEXT*)lhs.pNext < *(const VkPhysicalDeviceConditionalRenderingFeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONSERVATIVE_RASTERIZATION_PROPERTIES_EXT: {
-        return (const VkPhysicalDeviceConservativeRasterizationPropertiesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceConservativeRasterizationPropertiesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceConservativeRasterizationPropertiesEXT*)lhs.pNext < *(const VkPhysicalDeviceConservativeRasterizationPropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_NV: {
-        return (const VkPhysicalDeviceCooperativeMatrixFeaturesNV&)lhsBaseInStructure < (const VkPhysicalDeviceCooperativeMatrixFeaturesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceCooperativeMatrixFeaturesNV*)lhs.pNext < *(const VkPhysicalDeviceCooperativeMatrixFeaturesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_PROPERTIES_NV: {
-        return (const VkPhysicalDeviceCooperativeMatrixPropertiesNV&)lhsBaseInStructure < (const VkPhysicalDeviceCooperativeMatrixPropertiesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceCooperativeMatrixPropertiesNV*)lhs.pNext < *(const VkPhysicalDeviceCooperativeMatrixPropertiesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CORNER_SAMPLED_IMAGE_FEATURES_NV: {
-        return (const VkPhysicalDeviceCornerSampledImageFeaturesNV&)lhsBaseInStructure < (const VkPhysicalDeviceCornerSampledImageFeaturesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceCornerSampledImageFeaturesNV*)lhs.pNext < *(const VkPhysicalDeviceCornerSampledImageFeaturesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COVERAGE_REDUCTION_MODE_FEATURES_NV: {
-        return (const VkPhysicalDeviceCoverageReductionModeFeaturesNV&)lhsBaseInStructure < (const VkPhysicalDeviceCoverageReductionModeFeaturesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceCoverageReductionModeFeaturesNV*)lhs.pNext < *(const VkPhysicalDeviceCoverageReductionModeFeaturesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEDICATED_ALLOCATION_IMAGE_ALIASING_FEATURES_NV: {
-        return (const VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV&)lhsBaseInStructure < (const VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV*)lhs.pNext < *(const VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLIP_ENABLE_FEATURES_EXT: {
-        return (const VkPhysicalDeviceDepthClipEnableFeaturesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceDepthClipEnableFeaturesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceDepthClipEnableFeaturesEXT*)lhs.pNext < *(const VkPhysicalDeviceDepthClipEnableFeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_NV: {
-        return (const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV&)lhsBaseInStructure < (const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV*)lhs.pNext < *(const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_PROPERTIES_NV: {
-        return (const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV&)lhsBaseInStructure < (const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV*)lhs.pNext < *(const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DIAGNOSTICS_CONFIG_FEATURES_NV: {
-        return (const VkPhysicalDeviceDiagnosticsConfigFeaturesNV&)lhsBaseInStructure < (const VkPhysicalDeviceDiagnosticsConfigFeaturesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceDiagnosticsConfigFeaturesNV*)lhs.pNext < *(const VkPhysicalDeviceDiagnosticsConfigFeaturesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DISCARD_RECTANGLE_PROPERTIES_EXT: {
-        return (const VkPhysicalDeviceDiscardRectanglePropertiesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceDiscardRectanglePropertiesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceDiscardRectanglePropertiesEXT*)lhs.pNext < *(const VkPhysicalDeviceDiscardRectanglePropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXCLUSIVE_SCISSOR_FEATURES_NV: {
-        return (const VkPhysicalDeviceExclusiveScissorFeaturesNV&)lhsBaseInStructure < (const VkPhysicalDeviceExclusiveScissorFeaturesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceExclusiveScissorFeaturesNV*)lhs.pNext < *(const VkPhysicalDeviceExclusiveScissorFeaturesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_MEMORY_HOST_PROPERTIES_EXT: {
-        return (const VkPhysicalDeviceExternalMemoryHostPropertiesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceExternalMemoryHostPropertiesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceExternalMemoryHostPropertiesEXT*)lhs.pNext < *(const VkPhysicalDeviceExternalMemoryHostPropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_FEATURES_EXT: {
-        return (const VkPhysicalDeviceFragmentDensityMapFeaturesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceFragmentDensityMapFeaturesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceFragmentDensityMapFeaturesEXT*)lhs.pNext < *(const VkPhysicalDeviceFragmentDensityMapFeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_PROPERTIES_EXT: {
-        return (const VkPhysicalDeviceFragmentDensityMapPropertiesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceFragmentDensityMapPropertiesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceFragmentDensityMapPropertiesEXT*)lhs.pNext < *(const VkPhysicalDeviceFragmentDensityMapPropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_BARYCENTRIC_FEATURES_NV: {
-        return (const VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV&)lhsBaseInStructure < (const VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV*)lhs.pNext < *(const VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_INTERLOCK_FEATURES_EXT: {
-        return (const VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT*)lhs.pNext < *(const VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_DRM_FORMAT_MODIFIER_INFO_EXT: {
-        return (const VkPhysicalDeviceImageDrmFormatModifierInfoEXT&)lhsBaseInStructure < (const VkPhysicalDeviceImageDrmFormatModifierInfoEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceImageDrmFormatModifierInfoEXT*)lhs.pNext < *(const VkPhysicalDeviceImageDrmFormatModifierInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_IMAGE_FORMAT_INFO_EXT: {
-        return (const VkPhysicalDeviceImageViewImageFormatInfoEXT&)lhsBaseInStructure < (const VkPhysicalDeviceImageViewImageFormatInfoEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceImageViewImageFormatInfoEXT*)lhs.pNext < *(const VkPhysicalDeviceImageViewImageFormatInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES_EXT: {
-        return (const VkPhysicalDeviceIndexTypeUint8FeaturesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceIndexTypeUint8FeaturesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceIndexTypeUint8FeaturesEXT*)lhs.pNext < *(const VkPhysicalDeviceIndexTypeUint8FeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_FEATURES_EXT: {
-        return (const VkPhysicalDeviceInlineUniformBlockFeaturesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceInlineUniformBlockFeaturesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceInlineUniformBlockFeaturesEXT*)lhs.pNext < *(const VkPhysicalDeviceInlineUniformBlockFeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_PROPERTIES_EXT: {
-        return (const VkPhysicalDeviceInlineUniformBlockPropertiesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceInlineUniformBlockPropertiesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceInlineUniformBlockPropertiesEXT*)lhs.pNext < *(const VkPhysicalDeviceInlineUniformBlockPropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES_EXT: {
-        return (const VkPhysicalDeviceLineRasterizationFeaturesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceLineRasterizationFeaturesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceLineRasterizationFeaturesEXT*)lhs.pNext < *(const VkPhysicalDeviceLineRasterizationFeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES_EXT: {
-        return (const VkPhysicalDeviceLineRasterizationPropertiesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceLineRasterizationPropertiesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceLineRasterizationPropertiesEXT*)lhs.pNext < *(const VkPhysicalDeviceLineRasterizationPropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_BUDGET_PROPERTIES_EXT: {
-        return (const VkPhysicalDeviceMemoryBudgetPropertiesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceMemoryBudgetPropertiesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceMemoryBudgetPropertiesEXT*)lhs.pNext < *(const VkPhysicalDeviceMemoryBudgetPropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_PRIORITY_FEATURES_EXT: {
-        return (const VkPhysicalDeviceMemoryPriorityFeaturesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceMemoryPriorityFeaturesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceMemoryPriorityFeaturesEXT*)lhs.pNext < *(const VkPhysicalDeviceMemoryPriorityFeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_NV: {
-        return (const VkPhysicalDeviceMeshShaderFeaturesNV&)lhsBaseInStructure < (const VkPhysicalDeviceMeshShaderFeaturesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceMeshShaderFeaturesNV*)lhs.pNext < *(const VkPhysicalDeviceMeshShaderFeaturesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_PROPERTIES_NV: {
-        return (const VkPhysicalDeviceMeshShaderPropertiesNV&)lhsBaseInStructure < (const VkPhysicalDeviceMeshShaderPropertiesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceMeshShaderPropertiesNV*)lhs.pNext < *(const VkPhysicalDeviceMeshShaderPropertiesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_PER_VIEW_ATTRIBUTES_PROPERTIES_NVX: {
-        return (const VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX&)lhsBaseInStructure < (const VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX*)lhs.pNext < *(const VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PERFORMANCE_QUERY_FEATURES_KHR: {
-        return (const VkPhysicalDevicePerformanceQueryFeaturesKHR&)lhsBaseInStructure < (const VkPhysicalDevicePerformanceQueryFeaturesKHR&)rhsBaseInStructure;
+        return *(const VkPhysicalDevicePerformanceQueryFeaturesKHR*)lhs.pNext < *(const VkPhysicalDevicePerformanceQueryFeaturesKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PERFORMANCE_QUERY_PROPERTIES_KHR: {
-        return (const VkPhysicalDevicePerformanceQueryPropertiesKHR&)lhsBaseInStructure < (const VkPhysicalDevicePerformanceQueryPropertiesKHR&)rhsBaseInStructure;
+        return *(const VkPhysicalDevicePerformanceQueryPropertiesKHR*)lhs.pNext < *(const VkPhysicalDevicePerformanceQueryPropertiesKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_CREATION_CACHE_CONTROL_FEATURES_EXT: {
-        return (const VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT&)lhsBaseInStructure < (const VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT*)lhs.pNext < *(const VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_EXECUTABLE_PROPERTIES_FEATURES_KHR: {
-        return (const VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR&)lhsBaseInStructure < (const VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR&)rhsBaseInStructure;
+        return *(const VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR*)lhs.pNext < *(const VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_ANDROID_KHR
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENTATION_PROPERTIES_ANDROID: {
-        return (const VkPhysicalDevicePresentationPropertiesANDROID&)lhsBaseInStructure < (const VkPhysicalDevicePresentationPropertiesANDROID&)rhsBaseInStructure;
+        return *(const VkPhysicalDevicePresentationPropertiesANDROID*)lhs.pNext < *(const VkPhysicalDevicePresentationPropertiesANDROID*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_ANDROID_KHR
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES_KHR: {
-        return (const VkPhysicalDevicePushDescriptorPropertiesKHR&)lhsBaseInStructure < (const VkPhysicalDevicePushDescriptorPropertiesKHR&)rhsBaseInStructure;
+        return *(const VkPhysicalDevicePushDescriptorPropertiesKHR*)lhs.pNext < *(const VkPhysicalDevicePushDescriptorPropertiesKHR*)rhs.pNext;
     } break;
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_FEATURES_KHR: {
-        return (const VkPhysicalDeviceRayTracingFeaturesKHR&)lhsBaseInStructure < (const VkPhysicalDeviceRayTracingFeaturesKHR&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceRayTracingFeaturesKHR*)lhs.pNext < *(const VkPhysicalDeviceRayTracingFeaturesKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PROPERTIES_KHR: {
-        return (const VkPhysicalDeviceRayTracingPropertiesKHR&)lhsBaseInStructure < (const VkPhysicalDeviceRayTracingPropertiesKHR&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceRayTracingPropertiesKHR*)lhs.pNext < *(const VkPhysicalDeviceRayTracingPropertiesKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PROPERTIES_NV: {
-        return (const VkPhysicalDeviceRayTracingPropertiesNV&)lhsBaseInStructure < (const VkPhysicalDeviceRayTracingPropertiesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceRayTracingPropertiesNV*)lhs.pNext < *(const VkPhysicalDeviceRayTracingPropertiesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_REPRESENTATIVE_FRAGMENT_TEST_FEATURES_NV: {
-        return (const VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV&)lhsBaseInStructure < (const VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV*)lhs.pNext < *(const VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLE_LOCATIONS_PROPERTIES_EXT: {
-        return (const VkPhysicalDeviceSampleLocationsPropertiesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceSampleLocationsPropertiesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceSampleLocationsPropertiesEXT*)lhs.pNext < *(const VkPhysicalDeviceSampleLocationsPropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CLOCK_FEATURES_KHR: {
-        return (const VkPhysicalDeviceShaderClockFeaturesKHR&)lhsBaseInStructure < (const VkPhysicalDeviceShaderClockFeaturesKHR&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceShaderClockFeaturesKHR*)lhs.pNext < *(const VkPhysicalDeviceShaderClockFeaturesKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CORE_PROPERTIES_2_AMD: {
-        return (const VkPhysicalDeviceShaderCoreProperties2AMD&)lhsBaseInStructure < (const VkPhysicalDeviceShaderCoreProperties2AMD&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceShaderCoreProperties2AMD*)lhs.pNext < *(const VkPhysicalDeviceShaderCoreProperties2AMD*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CORE_PROPERTIES_AMD: {
-        return (const VkPhysicalDeviceShaderCorePropertiesAMD&)lhsBaseInStructure < (const VkPhysicalDeviceShaderCorePropertiesAMD&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceShaderCorePropertiesAMD*)lhs.pNext < *(const VkPhysicalDeviceShaderCorePropertiesAMD*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DEMOTE_TO_HELPER_INVOCATION_FEATURES_EXT: {
-        return (const VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT*)lhs.pNext < *(const VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_IMAGE_FOOTPRINT_FEATURES_NV: {
-        return (const VkPhysicalDeviceShaderImageFootprintFeaturesNV&)lhsBaseInStructure < (const VkPhysicalDeviceShaderImageFootprintFeaturesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceShaderImageFootprintFeaturesNV*)lhs.pNext < *(const VkPhysicalDeviceShaderImageFootprintFeaturesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_INTEGER_FUNCTIONS_2_FEATURES_INTEL: {
-        return (const VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL&)lhsBaseInStructure < (const VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL*)lhs.pNext < *(const VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_FEATURES_NV: {
-        return (const VkPhysicalDeviceShadingRateImageFeaturesNV&)lhsBaseInStructure < (const VkPhysicalDeviceShadingRateImageFeaturesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceShadingRateImageFeaturesNV*)lhs.pNext < *(const VkPhysicalDeviceShadingRateImageFeaturesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_PROPERTIES_NV: {
-        return (const VkPhysicalDeviceShadingRateImagePropertiesNV&)lhsBaseInStructure < (const VkPhysicalDeviceShadingRateImagePropertiesNV&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceShadingRateImagePropertiesNV*)lhs.pNext < *(const VkPhysicalDeviceShadingRateImagePropertiesNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_FEATURES_EXT: {
-        return (const VkPhysicalDeviceSubgroupSizeControlFeaturesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceSubgroupSizeControlFeaturesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceSubgroupSizeControlFeaturesEXT*)lhs.pNext < *(const VkPhysicalDeviceSubgroupSizeControlFeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_PROPERTIES_EXT: {
-        return (const VkPhysicalDeviceSubgroupSizeControlPropertiesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceSubgroupSizeControlPropertiesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceSubgroupSizeControlPropertiesEXT*)lhs.pNext < *(const VkPhysicalDeviceSubgroupSizeControlPropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SURFACE_INFO_2_KHR: {
-        return (const VkPhysicalDeviceSurfaceInfo2KHR&)lhsBaseInStructure < (const VkPhysicalDeviceSurfaceInfo2KHR&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceSurfaceInfo2KHR*)lhs.pNext < *(const VkPhysicalDeviceSurfaceInfo2KHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXEL_BUFFER_ALIGNMENT_FEATURES_EXT: {
-        return (const VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT*)lhs.pNext < *(const VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXEL_BUFFER_ALIGNMENT_PROPERTIES_EXT: {
-        return (const VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT*)lhs.pNext < *(const VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TOOL_PROPERTIES_EXT: {
-        return (const VkPhysicalDeviceToolPropertiesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceToolPropertiesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceToolPropertiesEXT*)lhs.pNext < *(const VkPhysicalDeviceToolPropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_FEATURES_EXT: {
-        return (const VkPhysicalDeviceTransformFeedbackFeaturesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceTransformFeedbackFeaturesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceTransformFeedbackFeaturesEXT*)lhs.pNext < *(const VkPhysicalDeviceTransformFeedbackFeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_PROPERTIES_EXT: {
-        return (const VkPhysicalDeviceTransformFeedbackPropertiesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceTransformFeedbackPropertiesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceTransformFeedbackPropertiesEXT*)lhs.pNext < *(const VkPhysicalDeviceTransformFeedbackPropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_EXT: {
-        return (const VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT*)lhs.pNext < *(const VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_EXT: {
-        return (const VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT*)lhs.pNext < *(const VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_YCBCR_IMAGE_ARRAYS_FEATURES_EXT: {
-        return (const VkPhysicalDeviceYcbcrImageArraysFeaturesEXT&)lhsBaseInStructure < (const VkPhysicalDeviceYcbcrImageArraysFeaturesEXT&)rhsBaseInStructure;
+        return *(const VkPhysicalDeviceYcbcrImageArraysFeaturesEXT*)lhs.pNext < *(const VkPhysicalDeviceYcbcrImageArraysFeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_ADVANCED_STATE_CREATE_INFO_EXT: {
-        return (const VkPipelineColorBlendAdvancedStateCreateInfoEXT&)lhsBaseInStructure < (const VkPipelineColorBlendAdvancedStateCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkPipelineColorBlendAdvancedStateCreateInfoEXT*)lhs.pNext < *(const VkPipelineColorBlendAdvancedStateCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_COMPILER_CONTROL_CREATE_INFO_AMD: {
-        return (const VkPipelineCompilerControlCreateInfoAMD&)lhsBaseInStructure < (const VkPipelineCompilerControlCreateInfoAMD&)rhsBaseInStructure;
+        return *(const VkPipelineCompilerControlCreateInfoAMD*)lhs.pNext < *(const VkPipelineCompilerControlCreateInfoAMD*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_COVERAGE_MODULATION_STATE_CREATE_INFO_NV: {
-        return (const VkPipelineCoverageModulationStateCreateInfoNV&)lhsBaseInStructure < (const VkPipelineCoverageModulationStateCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkPipelineCoverageModulationStateCreateInfoNV*)lhs.pNext < *(const VkPipelineCoverageModulationStateCreateInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_COVERAGE_REDUCTION_STATE_CREATE_INFO_NV: {
-        return (const VkPipelineCoverageReductionStateCreateInfoNV&)lhsBaseInStructure < (const VkPipelineCoverageReductionStateCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkPipelineCoverageReductionStateCreateInfoNV*)lhs.pNext < *(const VkPipelineCoverageReductionStateCreateInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_COVERAGE_TO_COLOR_STATE_CREATE_INFO_NV: {
-        return (const VkPipelineCoverageToColorStateCreateInfoNV&)lhsBaseInStructure < (const VkPipelineCoverageToColorStateCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkPipelineCoverageToColorStateCreateInfoNV*)lhs.pNext < *(const VkPipelineCoverageToColorStateCreateInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_CREATION_FEEDBACK_CREATE_INFO_EXT: {
-        return (const VkPipelineCreationFeedbackCreateInfoEXT&)lhsBaseInStructure < (const VkPipelineCreationFeedbackCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkPipelineCreationFeedbackCreateInfoEXT*)lhs.pNext < *(const VkPipelineCreationFeedbackCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_DISCARD_RECTANGLE_STATE_CREATE_INFO_EXT: {
-        return (const VkPipelineDiscardRectangleStateCreateInfoEXT&)lhsBaseInStructure < (const VkPipelineDiscardRectangleStateCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkPipelineDiscardRectangleStateCreateInfoEXT*)lhs.pNext < *(const VkPipelineDiscardRectangleStateCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_INFO_KHR: {
-        return (const VkPipelineExecutableInfoKHR&)lhsBaseInStructure < (const VkPipelineExecutableInfoKHR&)rhsBaseInStructure;
+        return *(const VkPipelineExecutableInfoKHR*)lhs.pNext < *(const VkPipelineExecutableInfoKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_INTERNAL_REPRESENTATION_KHR: {
-        return (const VkPipelineExecutableInternalRepresentationKHR&)lhsBaseInStructure < (const VkPipelineExecutableInternalRepresentationKHR&)rhsBaseInStructure;
+        return *(const VkPipelineExecutableInternalRepresentationKHR*)lhs.pNext < *(const VkPipelineExecutableInternalRepresentationKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_PROPERTIES_KHR: {
-        return (const VkPipelineExecutablePropertiesKHR&)lhsBaseInStructure < (const VkPipelineExecutablePropertiesKHR&)rhsBaseInStructure;
+        return *(const VkPipelineExecutablePropertiesKHR*)lhs.pNext < *(const VkPipelineExecutablePropertiesKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_STATISTIC_KHR: {
-        return (const VkPipelineExecutableStatisticKHR&)lhsBaseInStructure < (const VkPipelineExecutableStatisticKHR&)rhsBaseInStructure;
+        return *(const VkPipelineExecutableStatisticKHR*)lhs.pNext < *(const VkPipelineExecutableStatisticKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_INFO_KHR: {
-        return (const VkPipelineInfoKHR&)lhsBaseInStructure < (const VkPipelineInfoKHR&)rhsBaseInStructure;
+        return *(const VkPipelineInfoKHR*)lhs.pNext < *(const VkPipelineInfoKHR*)rhs.pNext;
     } break;
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_PIPELINE_LIBRARY_CREATE_INFO_KHR: {
-        return (const VkPipelineLibraryCreateInfoKHR&)lhsBaseInStructure < (const VkPipelineLibraryCreateInfoKHR&)rhsBaseInStructure;
+        return *(const VkPipelineLibraryCreateInfoKHR*)lhs.pNext < *(const VkPipelineLibraryCreateInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_CONSERVATIVE_STATE_CREATE_INFO_EXT: {
-        return (const VkPipelineRasterizationConservativeStateCreateInfoEXT&)lhsBaseInStructure < (const VkPipelineRasterizationConservativeStateCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkPipelineRasterizationConservativeStateCreateInfoEXT*)lhs.pNext < *(const VkPipelineRasterizationConservativeStateCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_DEPTH_CLIP_STATE_CREATE_INFO_EXT: {
-        return (const VkPipelineRasterizationDepthClipStateCreateInfoEXT&)lhsBaseInStructure < (const VkPipelineRasterizationDepthClipStateCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkPipelineRasterizationDepthClipStateCreateInfoEXT*)lhs.pNext < *(const VkPipelineRasterizationDepthClipStateCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_LINE_STATE_CREATE_INFO_EXT: {
-        return (const VkPipelineRasterizationLineStateCreateInfoEXT&)lhsBaseInStructure < (const VkPipelineRasterizationLineStateCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkPipelineRasterizationLineStateCreateInfoEXT*)lhs.pNext < *(const VkPipelineRasterizationLineStateCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_RASTERIZATION_ORDER_AMD: {
-        return (const VkPipelineRasterizationStateRasterizationOrderAMD&)lhsBaseInStructure < (const VkPipelineRasterizationStateRasterizationOrderAMD&)rhsBaseInStructure;
+        return *(const VkPipelineRasterizationStateRasterizationOrderAMD*)lhs.pNext < *(const VkPipelineRasterizationStateRasterizationOrderAMD*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_STREAM_CREATE_INFO_EXT: {
-        return (const VkPipelineRasterizationStateStreamCreateInfoEXT&)lhsBaseInStructure < (const VkPipelineRasterizationStateStreamCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkPipelineRasterizationStateStreamCreateInfoEXT*)lhs.pNext < *(const VkPipelineRasterizationStateStreamCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_REPRESENTATIVE_FRAGMENT_TEST_STATE_CREATE_INFO_NV: {
-        return (const VkPipelineRepresentativeFragmentTestStateCreateInfoNV&)lhsBaseInStructure < (const VkPipelineRepresentativeFragmentTestStateCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkPipelineRepresentativeFragmentTestStateCreateInfoNV*)lhs.pNext < *(const VkPipelineRepresentativeFragmentTestStateCreateInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_SAMPLE_LOCATIONS_STATE_CREATE_INFO_EXT: {
-        return (const VkPipelineSampleLocationsStateCreateInfoEXT&)lhsBaseInStructure < (const VkPipelineSampleLocationsStateCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkPipelineSampleLocationsStateCreateInfoEXT*)lhs.pNext < *(const VkPipelineSampleLocationsStateCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_REQUIRED_SUBGROUP_SIZE_CREATE_INFO_EXT: {
-        return (const VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT&)lhsBaseInStructure < (const VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT*)lhs.pNext < *(const VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_DIVISOR_STATE_CREATE_INFO_EXT: {
-        return (const VkPipelineVertexInputDivisorStateCreateInfoEXT&)lhsBaseInStructure < (const VkPipelineVertexInputDivisorStateCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkPipelineVertexInputDivisorStateCreateInfoEXT*)lhs.pNext < *(const VkPipelineVertexInputDivisorStateCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_COARSE_SAMPLE_ORDER_STATE_CREATE_INFO_NV: {
-        return (const VkPipelineViewportCoarseSampleOrderStateCreateInfoNV&)lhsBaseInStructure < (const VkPipelineViewportCoarseSampleOrderStateCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkPipelineViewportCoarseSampleOrderStateCreateInfoNV*)lhs.pNext < *(const VkPipelineViewportCoarseSampleOrderStateCreateInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_EXCLUSIVE_SCISSOR_STATE_CREATE_INFO_NV: {
-        return (const VkPipelineViewportExclusiveScissorStateCreateInfoNV&)lhsBaseInStructure < (const VkPipelineViewportExclusiveScissorStateCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkPipelineViewportExclusiveScissorStateCreateInfoNV*)lhs.pNext < *(const VkPipelineViewportExclusiveScissorStateCreateInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_SHADING_RATE_IMAGE_STATE_CREATE_INFO_NV: {
-        return (const VkPipelineViewportShadingRateImageStateCreateInfoNV&)lhsBaseInStructure < (const VkPipelineViewportShadingRateImageStateCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkPipelineViewportShadingRateImageStateCreateInfoNV*)lhs.pNext < *(const VkPipelineViewportShadingRateImageStateCreateInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_SWIZZLE_STATE_CREATE_INFO_NV: {
-        return (const VkPipelineViewportSwizzleStateCreateInfoNV&)lhsBaseInStructure < (const VkPipelineViewportSwizzleStateCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkPipelineViewportSwizzleStateCreateInfoNV*)lhs.pNext < *(const VkPipelineViewportSwizzleStateCreateInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_W_SCALING_STATE_CREATE_INFO_NV: {
-        return (const VkPipelineViewportWScalingStateCreateInfoNV&)lhsBaseInStructure < (const VkPipelineViewportWScalingStateCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkPipelineViewportWScalingStateCreateInfoNV*)lhs.pNext < *(const VkPipelineViewportWScalingStateCreateInfoNV*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_GGP
     case VK_STRUCTURE_TYPE_PRESENT_FRAME_TOKEN_GGP: {
-        return (const VkPresentFrameTokenGGP&)lhsBaseInStructure < (const VkPresentFrameTokenGGP&)rhsBaseInStructure;
+        return *(const VkPresentFrameTokenGGP*)lhs.pNext < *(const VkPresentFrameTokenGGP*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_GGP
     case VK_STRUCTURE_TYPE_PRESENT_INFO_KHR: {
-        return (const VkPresentInfoKHR&)lhsBaseInStructure < (const VkPresentInfoKHR&)rhsBaseInStructure;
+        return *(const VkPresentInfoKHR*)lhs.pNext < *(const VkPresentInfoKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PRESENT_REGIONS_KHR: {
-        return (const VkPresentRegionsKHR&)lhsBaseInStructure < (const VkPresentRegionsKHR&)rhsBaseInStructure;
+        return *(const VkPresentRegionsKHR*)lhs.pNext < *(const VkPresentRegionsKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PRESENT_TIMES_INFO_GOOGLE: {
-        return (const VkPresentTimesInfoGOOGLE&)lhsBaseInStructure < (const VkPresentTimesInfoGOOGLE&)rhsBaseInStructure;
+        return *(const VkPresentTimesInfoGOOGLE*)lhs.pNext < *(const VkPresentTimesInfoGOOGLE*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_QUERY_POOL_CREATE_INFO_INTEL: {
-        return (const VkQueryPoolCreateInfoINTEL&)lhsBaseInStructure < (const VkQueryPoolCreateInfoINTEL&)rhsBaseInStructure;
+        return *(const VkQueryPoolCreateInfoINTEL*)lhs.pNext < *(const VkQueryPoolCreateInfoINTEL*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_QUERY_POOL_PERFORMANCE_CREATE_INFO_KHR: {
-        return (const VkQueryPoolPerformanceCreateInfoKHR&)lhsBaseInStructure < (const VkQueryPoolPerformanceCreateInfoKHR&)rhsBaseInStructure;
+        return *(const VkQueryPoolPerformanceCreateInfoKHR*)lhs.pNext < *(const VkQueryPoolPerformanceCreateInfoKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_QUEUE_FAMILY_CHECKPOINT_PROPERTIES_NV: {
-        return (const VkQueueFamilyCheckpointPropertiesNV&)lhsBaseInStructure < (const VkQueueFamilyCheckpointPropertiesNV&)rhsBaseInStructure;
+        return *(const VkQueueFamilyCheckpointPropertiesNV*)lhs.pNext < *(const VkQueueFamilyCheckpointPropertiesNV*)rhs.pNext;
     } break;
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_RAY_TRACING_PIPELINE_CREATE_INFO_KHR: {
-        return (const VkRayTracingPipelineCreateInfoKHR&)lhsBaseInStructure < (const VkRayTracingPipelineCreateInfoKHR&)rhsBaseInStructure;
+        return *(const VkRayTracingPipelineCreateInfoKHR*)lhs.pNext < *(const VkRayTracingPipelineCreateInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_RAY_TRACING_PIPELINE_CREATE_INFO_NV: {
-        return (const VkRayTracingPipelineCreateInfoNV&)lhsBaseInStructure < (const VkRayTracingPipelineCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkRayTracingPipelineCreateInfoNV*)lhs.pNext < *(const VkRayTracingPipelineCreateInfoNV*)rhs.pNext;
     } break;
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_RAY_TRACING_PIPELINE_INTERFACE_CREATE_INFO_KHR: {
-        return (const VkRayTracingPipelineInterfaceCreateInfoKHR&)lhsBaseInStructure < (const VkRayTracingPipelineInterfaceCreateInfoKHR&)rhsBaseInStructure;
+        return *(const VkRayTracingPipelineInterfaceCreateInfoKHR*)lhs.pNext < *(const VkRayTracingPipelineInterfaceCreateInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_RAY_TRACING_SHADER_GROUP_CREATE_INFO_KHR: {
-        return (const VkRayTracingShaderGroupCreateInfoKHR&)lhsBaseInStructure < (const VkRayTracingShaderGroupCreateInfoKHR&)rhsBaseInStructure;
+        return *(const VkRayTracingShaderGroupCreateInfoKHR*)lhs.pNext < *(const VkRayTracingShaderGroupCreateInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_RAY_TRACING_SHADER_GROUP_CREATE_INFO_NV: {
-        return (const VkRayTracingShaderGroupCreateInfoNV&)lhsBaseInStructure < (const VkRayTracingShaderGroupCreateInfoNV&)rhsBaseInStructure;
+        return *(const VkRayTracingShaderGroupCreateInfoNV*)lhs.pNext < *(const VkRayTracingShaderGroupCreateInfoNV*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_RENDER_PASS_FRAGMENT_DENSITY_MAP_CREATE_INFO_EXT: {
-        return (const VkRenderPassFragmentDensityMapCreateInfoEXT&)lhsBaseInStructure < (const VkRenderPassFragmentDensityMapCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkRenderPassFragmentDensityMapCreateInfoEXT*)lhs.pNext < *(const VkRenderPassFragmentDensityMapCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_RENDER_PASS_SAMPLE_LOCATIONS_BEGIN_INFO_EXT: {
-        return (const VkRenderPassSampleLocationsBeginInfoEXT&)lhsBaseInStructure < (const VkRenderPassSampleLocationsBeginInfoEXT&)rhsBaseInStructure;
+        return *(const VkRenderPassSampleLocationsBeginInfoEXT*)lhs.pNext < *(const VkRenderPassSampleLocationsBeginInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_RENDER_PASS_TRANSFORM_BEGIN_INFO_QCOM: {
-        return (const VkRenderPassTransformBeginInfoQCOM&)lhsBaseInStructure < (const VkRenderPassTransformBeginInfoQCOM&)rhsBaseInStructure;
+        return *(const VkRenderPassTransformBeginInfoQCOM*)lhs.pNext < *(const VkRenderPassTransformBeginInfoQCOM*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_SAMPLE_LOCATIONS_INFO_EXT: {
-        return (const VkSampleLocationsInfoEXT&)lhsBaseInStructure < (const VkSampleLocationsInfoEXT&)rhsBaseInStructure;
+        return *(const VkSampleLocationsInfoEXT*)lhs.pNext < *(const VkSampleLocationsInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_SEMAPHORE_GET_FD_INFO_KHR: {
-        return (const VkSemaphoreGetFdInfoKHR&)lhsBaseInStructure < (const VkSemaphoreGetFdInfoKHR&)rhsBaseInStructure;
+        return *(const VkSemaphoreGetFdInfoKHR*)lhs.pNext < *(const VkSemaphoreGetFdInfoKHR*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_SEMAPHORE_GET_WIN32_HANDLE_INFO_KHR: {
-        return (const VkSemaphoreGetWin32HandleInfoKHR&)lhsBaseInStructure < (const VkSemaphoreGetWin32HandleInfoKHR&)rhsBaseInStructure;
+        return *(const VkSemaphoreGetWin32HandleInfoKHR*)lhs.pNext < *(const VkSemaphoreGetWin32HandleInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_SHADER_MODULE_VALIDATION_CACHE_CREATE_INFO_EXT: {
-        return (const VkShaderModuleValidationCacheCreateInfoEXT&)lhsBaseInStructure < (const VkShaderModuleValidationCacheCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkShaderModuleValidationCacheCreateInfoEXT*)lhs.pNext < *(const VkShaderModuleValidationCacheCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_SHARED_PRESENT_SURFACE_CAPABILITIES_KHR: {
-        return (const VkSharedPresentSurfaceCapabilitiesKHR&)lhsBaseInStructure < (const VkSharedPresentSurfaceCapabilitiesKHR&)rhsBaseInStructure;
+        return *(const VkSharedPresentSurfaceCapabilitiesKHR*)lhs.pNext < *(const VkSharedPresentSurfaceCapabilitiesKHR*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_GGP
     case VK_STRUCTURE_TYPE_STREAM_DESCRIPTOR_SURFACE_CREATE_INFO_GGP: {
-        return (const VkStreamDescriptorSurfaceCreateInfoGGP&)lhsBaseInStructure < (const VkStreamDescriptorSurfaceCreateInfoGGP&)rhsBaseInStructure;
+        return *(const VkStreamDescriptorSurfaceCreateInfoGGP*)lhs.pNext < *(const VkStreamDescriptorSurfaceCreateInfoGGP*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_GGP
     case VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_2_EXT: {
-        return (const VkSurfaceCapabilities2EXT&)lhsBaseInStructure < (const VkSurfaceCapabilities2EXT&)rhsBaseInStructure;
+        return *(const VkSurfaceCapabilities2EXT*)lhs.pNext < *(const VkSurfaceCapabilities2EXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_2_KHR: {
-        return (const VkSurfaceCapabilities2KHR&)lhsBaseInStructure < (const VkSurfaceCapabilities2KHR&)rhsBaseInStructure;
+        return *(const VkSurfaceCapabilities2KHR*)lhs.pNext < *(const VkSurfaceCapabilities2KHR*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_FULL_SCREEN_EXCLUSIVE_EXT: {
-        return (const VkSurfaceCapabilitiesFullScreenExclusiveEXT&)lhsBaseInStructure < (const VkSurfaceCapabilitiesFullScreenExclusiveEXT&)rhsBaseInStructure;
+        return *(const VkSurfaceCapabilitiesFullScreenExclusiveEXT*)lhs.pNext < *(const VkSurfaceCapabilitiesFullScreenExclusiveEXT*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_SURFACE_FORMAT_2_KHR: {
-        return (const VkSurfaceFormat2KHR&)lhsBaseInStructure < (const VkSurfaceFormat2KHR&)rhsBaseInStructure;
+        return *(const VkSurfaceFormat2KHR*)lhs.pNext < *(const VkSurfaceFormat2KHR*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_SURFACE_FULL_SCREEN_EXCLUSIVE_INFO_EXT: {
-        return (const VkSurfaceFullScreenExclusiveInfoEXT&)lhsBaseInStructure < (const VkSurfaceFullScreenExclusiveInfoEXT&)rhsBaseInStructure;
+        return *(const VkSurfaceFullScreenExclusiveInfoEXT*)lhs.pNext < *(const VkSurfaceFullScreenExclusiveInfoEXT*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_SURFACE_FULL_SCREEN_EXCLUSIVE_WIN32_INFO_EXT: {
-        return (const VkSurfaceFullScreenExclusiveWin32InfoEXT&)lhsBaseInStructure < (const VkSurfaceFullScreenExclusiveWin32InfoEXT&)rhsBaseInStructure;
+        return *(const VkSurfaceFullScreenExclusiveWin32InfoEXT*)lhs.pNext < *(const VkSurfaceFullScreenExclusiveWin32InfoEXT*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_SURFACE_PROTECTED_CAPABILITIES_KHR: {
-        return (const VkSurfaceProtectedCapabilitiesKHR&)lhsBaseInStructure < (const VkSurfaceProtectedCapabilitiesKHR&)rhsBaseInStructure;
+        return *(const VkSurfaceProtectedCapabilitiesKHR*)lhs.pNext < *(const VkSurfaceProtectedCapabilitiesKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_SWAPCHAIN_COUNTER_CREATE_INFO_EXT: {
-        return (const VkSwapchainCounterCreateInfoEXT&)lhsBaseInStructure < (const VkSwapchainCounterCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkSwapchainCounterCreateInfoEXT*)lhs.pNext < *(const VkSwapchainCounterCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR: {
-        return (const VkSwapchainCreateInfoKHR&)lhsBaseInStructure < (const VkSwapchainCreateInfoKHR&)rhsBaseInStructure;
+        return *(const VkSwapchainCreateInfoKHR*)lhs.pNext < *(const VkSwapchainCreateInfoKHR*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_SWAPCHAIN_DISPLAY_NATIVE_HDR_CREATE_INFO_AMD: {
-        return (const VkSwapchainDisplayNativeHdrCreateInfoAMD&)lhsBaseInStructure < (const VkSwapchainDisplayNativeHdrCreateInfoAMD&)rhsBaseInStructure;
+        return *(const VkSwapchainDisplayNativeHdrCreateInfoAMD*)lhs.pNext < *(const VkSwapchainDisplayNativeHdrCreateInfoAMD*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_ANDROID_KHR
     case VK_STRUCTURE_TYPE_SWAPCHAIN_IMAGE_CREATE_INFO_ANDROID: {
-        return (const VkSwapchainImageCreateInfoANDROID&)lhsBaseInStructure < (const VkSwapchainImageCreateInfoANDROID&)rhsBaseInStructure;
+        return *(const VkSwapchainImageCreateInfoANDROID*)lhs.pNext < *(const VkSwapchainImageCreateInfoANDROID*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_ANDROID_KHR
     case VK_STRUCTURE_TYPE_VALIDATION_CACHE_CREATE_INFO_EXT: {
-        return (const VkValidationCacheCreateInfoEXT&)lhsBaseInStructure < (const VkValidationCacheCreateInfoEXT&)rhsBaseInStructure;
+        return *(const VkValidationCacheCreateInfoEXT*)lhs.pNext < *(const VkValidationCacheCreateInfoEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT: {
-        return (const VkValidationFeaturesEXT&)lhsBaseInStructure < (const VkValidationFeaturesEXT&)rhsBaseInStructure;
+        return *(const VkValidationFeaturesEXT*)lhs.pNext < *(const VkValidationFeaturesEXT*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_VALIDATION_FLAGS_EXT: {
-        return (const VkValidationFlagsEXT&)lhsBaseInStructure < (const VkValidationFlagsEXT&)rhsBaseInStructure;
+        return *(const VkValidationFlagsEXT*)lhs.pNext < *(const VkValidationFlagsEXT*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_VI_NN
     case VK_STRUCTURE_TYPE_VI_SURFACE_CREATE_INFO_NN: {
-        return (const VkViSurfaceCreateInfoNN&)lhsBaseInStructure < (const VkViSurfaceCreateInfoNN&)rhsBaseInStructure;
+        return *(const VkViSurfaceCreateInfoNN*)lhs.pNext < *(const VkViSurfaceCreateInfoNN*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_VI_NN
     #ifdef VK_USE_PLATFORM_WAYLAND_KHR
     case VK_STRUCTURE_TYPE_WAYLAND_SURFACE_CREATE_INFO_KHR: {
-        return (const VkWaylandSurfaceCreateInfoKHR&)lhsBaseInStructure < (const VkWaylandSurfaceCreateInfoKHR&)rhsBaseInStructure;
+        return *(const VkWaylandSurfaceCreateInfoKHR*)lhs.pNext < *(const VkWaylandSurfaceCreateInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WAYLAND_KHR
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_WIN32_KEYED_MUTEX_ACQUIRE_RELEASE_INFO_KHR: {
-        return (const VkWin32KeyedMutexAcquireReleaseInfoKHR&)lhsBaseInStructure < (const VkWin32KeyedMutexAcquireReleaseInfoKHR&)rhsBaseInStructure;
+        return *(const VkWin32KeyedMutexAcquireReleaseInfoKHR*)lhs.pNext < *(const VkWin32KeyedMutexAcquireReleaseInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_WIN32_KEYED_MUTEX_ACQUIRE_RELEASE_INFO_NV: {
-        return (const VkWin32KeyedMutexAcquireReleaseInfoNV&)lhsBaseInStructure < (const VkWin32KeyedMutexAcquireReleaseInfoNV&)rhsBaseInStructure;
+        return *(const VkWin32KeyedMutexAcquireReleaseInfoNV*)lhs.pNext < *(const VkWin32KeyedMutexAcquireReleaseInfoNV*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     #ifdef VK_USE_PLATFORM_WIN32_KHR
     case VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR: {
-        return (const VkWin32SurfaceCreateInfoKHR&)lhsBaseInStructure < (const VkWin32SurfaceCreateInfoKHR&)rhsBaseInStructure;
+        return *(const VkWin32SurfaceCreateInfoKHR*)lhs.pNext < *(const VkWin32SurfaceCreateInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_ACCELERATION_STRUCTURE_KHR: {
-        return (const VkWriteDescriptorSetAccelerationStructureKHR&)lhsBaseInStructure < (const VkWriteDescriptorSetAccelerationStructureKHR&)rhsBaseInStructure;
+        return *(const VkWriteDescriptorSetAccelerationStructureKHR*)lhs.pNext < *(const VkWriteDescriptorSetAccelerationStructureKHR*)rhs.pNext;
     } break;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_INLINE_UNIFORM_BLOCK_EXT: {
-        return (const VkWriteDescriptorSetInlineUniformBlockEXT&)lhsBaseInStructure < (const VkWriteDescriptorSetInlineUniformBlockEXT&)rhsBaseInStructure;
+        return *(const VkWriteDescriptorSetInlineUniformBlockEXT*)lhs.pNext < *(const VkWriteDescriptorSetInlineUniformBlockEXT*)rhs.pNext;
     } break;
     #ifdef VK_USE_PLATFORM_XCB_KHR
     case VK_STRUCTURE_TYPE_XCB_SURFACE_CREATE_INFO_KHR: {
-        return (const VkXcbSurfaceCreateInfoKHR&)lhsBaseInStructure < (const VkXcbSurfaceCreateInfoKHR&)rhsBaseInStructure;
+        return *(const VkXcbSurfaceCreateInfoKHR*)lhs.pNext < *(const VkXcbSurfaceCreateInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_XCB_KHR
     #ifdef VK_USE_PLATFORM_XLIB_KHR
     case VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR: {
-        return (const VkXlibSurfaceCreateInfoKHR&)lhsBaseInStructure < (const VkXlibSurfaceCreateInfoKHR&)rhsBaseInStructure;
+        return *(const VkXlibSurfaceCreateInfoKHR*)lhs.pNext < *(const VkXlibSurfaceCreateInfoKHR*)rhs.pNext;
     } break;
     #endif // VK_USE_PLATFORM_XLIB_KHR
     case VK_STRUCTURE_TYPE_APPLICATION_INFO: {
-        return (const VkApplicationInfo&)lhsBaseInStructure < (const VkApplicationInfo&)rhsBaseInStructure;
+        return *(const VkApplicationInfo*)lhs.pNext < *(const VkApplicationInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO: {
-        return (const VkInstanceCreateInfo&)lhsBaseInStructure < (const VkInstanceCreateInfo&)rhsBaseInStructure;
+        return *(const VkInstanceCreateInfo*)lhs.pNext < *(const VkInstanceCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_EVENT_CREATE_INFO: {
-        return (const VkEventCreateInfo&)lhsBaseInStructure < (const VkEventCreateInfo&)rhsBaseInStructure;
+        return *(const VkEventCreateInfo*)lhs.pNext < *(const VkEventCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_QUERY_POOL_CREATE_INFO: {
-        return (const VkQueryPoolCreateInfo&)lhsBaseInStructure < (const VkQueryPoolCreateInfo&)rhsBaseInStructure;
+        return *(const VkQueryPoolCreateInfo*)lhs.pNext < *(const VkQueryPoolCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO: {
-        return (const VkBufferCreateInfo&)lhsBaseInStructure < (const VkBufferCreateInfo&)rhsBaseInStructure;
+        return *(const VkBufferCreateInfo*)lhs.pNext < *(const VkBufferCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_BUFFER_VIEW_CREATE_INFO: {
-        return (const VkBufferViewCreateInfo&)lhsBaseInStructure < (const VkBufferViewCreateInfo&)rhsBaseInStructure;
+        return *(const VkBufferViewCreateInfo*)lhs.pNext < *(const VkBufferViewCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO: {
-        return (const VkImageCreateInfo&)lhsBaseInStructure < (const VkImageCreateInfo&)rhsBaseInStructure;
+        return *(const VkImageCreateInfo*)lhs.pNext < *(const VkImageCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO: {
-        return (const VkImageViewCreateInfo&)lhsBaseInStructure < (const VkImageViewCreateInfo&)rhsBaseInStructure;
+        return *(const VkImageViewCreateInfo*)lhs.pNext < *(const VkImageViewCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO: {
-        return (const VkShaderModuleCreateInfo&)lhsBaseInStructure < (const VkShaderModuleCreateInfo&)rhsBaseInStructure;
+        return *(const VkShaderModuleCreateInfo*)lhs.pNext < *(const VkShaderModuleCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO: {
-        return (const VkPipelineCacheCreateInfo&)lhsBaseInStructure < (const VkPipelineCacheCreateInfo&)rhsBaseInStructure;
+        return *(const VkPipelineCacheCreateInfo*)lhs.pNext < *(const VkPipelineCacheCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO: {
-        return (const VkPipelineShaderStageCreateInfo&)lhsBaseInStructure < (const VkPipelineShaderStageCreateInfo&)rhsBaseInStructure;
+        return *(const VkPipelineShaderStageCreateInfo*)lhs.pNext < *(const VkPipelineShaderStageCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO: {
-        return (const VkPipelineVertexInputStateCreateInfo&)lhsBaseInStructure < (const VkPipelineVertexInputStateCreateInfo&)rhsBaseInStructure;
+        return *(const VkPipelineVertexInputStateCreateInfo*)lhs.pNext < *(const VkPipelineVertexInputStateCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO: {
-        return (const VkDeviceQueueCreateInfo&)lhsBaseInStructure < (const VkDeviceQueueCreateInfo&)rhsBaseInStructure;
+        return *(const VkDeviceQueueCreateInfo*)lhs.pNext < *(const VkDeviceQueueCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO: {
-        return (const VkPipelineInputAssemblyStateCreateInfo&)lhsBaseInStructure < (const VkPipelineInputAssemblyStateCreateInfo&)rhsBaseInStructure;
+        return *(const VkPipelineInputAssemblyStateCreateInfo*)lhs.pNext < *(const VkPipelineInputAssemblyStateCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO: {
-        return (const VkPipelineTessellationStateCreateInfo&)lhsBaseInStructure < (const VkPipelineTessellationStateCreateInfo&)rhsBaseInStructure;
+        return *(const VkPipelineTessellationStateCreateInfo*)lhs.pNext < *(const VkPipelineTessellationStateCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO: {
-        return (const VkPipelineViewportStateCreateInfo&)lhsBaseInStructure < (const VkPipelineViewportStateCreateInfo&)rhsBaseInStructure;
+        return *(const VkPipelineViewportStateCreateInfo*)lhs.pNext < *(const VkPipelineViewportStateCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO: {
-        return (const VkPipelineRasterizationStateCreateInfo&)lhsBaseInStructure < (const VkPipelineRasterizationStateCreateInfo&)rhsBaseInStructure;
+        return *(const VkPipelineRasterizationStateCreateInfo*)lhs.pNext < *(const VkPipelineRasterizationStateCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO: {
-        return (const VkPipelineMultisampleStateCreateInfo&)lhsBaseInStructure < (const VkPipelineMultisampleStateCreateInfo&)rhsBaseInStructure;
+        return *(const VkPipelineMultisampleStateCreateInfo*)lhs.pNext < *(const VkPipelineMultisampleStateCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO: {
-        return (const VkPipelineDepthStencilStateCreateInfo&)lhsBaseInStructure < (const VkPipelineDepthStencilStateCreateInfo&)rhsBaseInStructure;
+        return *(const VkPipelineDepthStencilStateCreateInfo*)lhs.pNext < *(const VkPipelineDepthStencilStateCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO: {
-        return (const VkPipelineColorBlendStateCreateInfo&)lhsBaseInStructure < (const VkPipelineColorBlendStateCreateInfo&)rhsBaseInStructure;
+        return *(const VkPipelineColorBlendStateCreateInfo*)lhs.pNext < *(const VkPipelineColorBlendStateCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO: {
-        return (const VkPipelineDynamicStateCreateInfo&)lhsBaseInStructure < (const VkPipelineDynamicStateCreateInfo&)rhsBaseInStructure;
+        return *(const VkPipelineDynamicStateCreateInfo*)lhs.pNext < *(const VkPipelineDynamicStateCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO: {
-        return (const VkGraphicsPipelineCreateInfo&)lhsBaseInStructure < (const VkGraphicsPipelineCreateInfo&)rhsBaseInStructure;
+        return *(const VkGraphicsPipelineCreateInfo*)lhs.pNext < *(const VkGraphicsPipelineCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO: {
-        return (const VkComputePipelineCreateInfo&)lhsBaseInStructure < (const VkComputePipelineCreateInfo&)rhsBaseInStructure;
+        return *(const VkComputePipelineCreateInfo*)lhs.pNext < *(const VkComputePipelineCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO: {
-        return (const VkDeviceCreateInfo&)lhsBaseInStructure < (const VkDeviceCreateInfo&)rhsBaseInStructure;
+        return *(const VkDeviceCreateInfo*)lhs.pNext < *(const VkDeviceCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO: {
-        return (const VkPipelineLayoutCreateInfo&)lhsBaseInStructure < (const VkPipelineLayoutCreateInfo&)rhsBaseInStructure;
+        return *(const VkPipelineLayoutCreateInfo*)lhs.pNext < *(const VkPipelineLayoutCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO: {
-        return (const VkSamplerCreateInfo&)lhsBaseInStructure < (const VkSamplerCreateInfo&)rhsBaseInStructure;
+        return *(const VkSamplerCreateInfo*)lhs.pNext < *(const VkSamplerCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO: {
-        return (const VkDescriptorSetLayoutCreateInfo&)lhsBaseInStructure < (const VkDescriptorSetLayoutCreateInfo&)rhsBaseInStructure;
+        return *(const VkDescriptorSetLayoutCreateInfo*)lhs.pNext < *(const VkDescriptorSetLayoutCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO: {
-        return (const VkDescriptorPoolCreateInfo&)lhsBaseInStructure < (const VkDescriptorPoolCreateInfo&)rhsBaseInStructure;
+        return *(const VkDescriptorPoolCreateInfo*)lhs.pNext < *(const VkDescriptorPoolCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO: {
-        return (const VkDescriptorSetAllocateInfo&)lhsBaseInStructure < (const VkDescriptorSetAllocateInfo&)rhsBaseInStructure;
+        return *(const VkDescriptorSetAllocateInfo*)lhs.pNext < *(const VkDescriptorSetAllocateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET: {
-        return (const VkWriteDescriptorSet&)lhsBaseInStructure < (const VkWriteDescriptorSet&)rhsBaseInStructure;
+        return *(const VkWriteDescriptorSet*)lhs.pNext < *(const VkWriteDescriptorSet*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_COPY_DESCRIPTOR_SET: {
-        return (const VkCopyDescriptorSet&)lhsBaseInStructure < (const VkCopyDescriptorSet&)rhsBaseInStructure;
+        return *(const VkCopyDescriptorSet*)lhs.pNext < *(const VkCopyDescriptorSet*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO: {
-        return (const VkFramebufferCreateInfo&)lhsBaseInStructure < (const VkFramebufferCreateInfo&)rhsBaseInStructure;
+        return *(const VkFramebufferCreateInfo*)lhs.pNext < *(const VkFramebufferCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO: {
-        return (const VkRenderPassCreateInfo&)lhsBaseInStructure < (const VkRenderPassCreateInfo&)rhsBaseInStructure;
+        return *(const VkRenderPassCreateInfo*)lhs.pNext < *(const VkRenderPassCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO: {
-        return (const VkCommandPoolCreateInfo&)lhsBaseInStructure < (const VkCommandPoolCreateInfo&)rhsBaseInStructure;
+        return *(const VkCommandPoolCreateInfo*)lhs.pNext < *(const VkCommandPoolCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_SUBMIT_INFO: {
-        return (const VkSubmitInfo&)lhsBaseInStructure < (const VkSubmitInfo&)rhsBaseInStructure;
+        return *(const VkSubmitInfo*)lhs.pNext < *(const VkSubmitInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO: {
-        return (const VkCommandBufferAllocateInfo&)lhsBaseInStructure < (const VkCommandBufferAllocateInfo&)rhsBaseInStructure;
+        return *(const VkCommandBufferAllocateInfo*)lhs.pNext < *(const VkCommandBufferAllocateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO: {
-        return (const VkCommandBufferInheritanceInfo&)lhsBaseInStructure < (const VkCommandBufferInheritanceInfo&)rhsBaseInStructure;
+        return *(const VkCommandBufferInheritanceInfo*)lhs.pNext < *(const VkCommandBufferInheritanceInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO: {
-        return (const VkCommandBufferBeginInfo&)lhsBaseInStructure < (const VkCommandBufferBeginInfo&)rhsBaseInStructure;
+        return *(const VkCommandBufferBeginInfo*)lhs.pNext < *(const VkCommandBufferBeginInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO: {
-        return (const VkRenderPassBeginInfo&)lhsBaseInStructure < (const VkRenderPassBeginInfo&)rhsBaseInStructure;
+        return *(const VkRenderPassBeginInfo*)lhs.pNext < *(const VkRenderPassBeginInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER: {
-        return (const VkBufferMemoryBarrier&)lhsBaseInStructure < (const VkBufferMemoryBarrier&)rhsBaseInStructure;
+        return *(const VkBufferMemoryBarrier*)lhs.pNext < *(const VkBufferMemoryBarrier*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER: {
-        return (const VkImageMemoryBarrier&)lhsBaseInStructure < (const VkImageMemoryBarrier&)rhsBaseInStructure;
+        return *(const VkImageMemoryBarrier*)lhs.pNext < *(const VkImageMemoryBarrier*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_MEMORY_BARRIER: {
-        return (const VkMemoryBarrier&)lhsBaseInStructure < (const VkMemoryBarrier&)rhsBaseInStructure;
+        return *(const VkMemoryBarrier*)lhs.pNext < *(const VkMemoryBarrier*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO: {
-        return (const VkMemoryAllocateInfo&)lhsBaseInStructure < (const VkMemoryAllocateInfo&)rhsBaseInStructure;
+        return *(const VkMemoryAllocateInfo*)lhs.pNext < *(const VkMemoryAllocateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE: {
-        return (const VkMappedMemoryRange&)lhsBaseInStructure < (const VkMappedMemoryRange&)rhsBaseInStructure;
+        return *(const VkMappedMemoryRange*)lhs.pNext < *(const VkMappedMemoryRange*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_BIND_SPARSE_INFO: {
-        return (const VkBindSparseInfo&)lhsBaseInStructure < (const VkBindSparseInfo&)rhsBaseInStructure;
+        return *(const VkBindSparseInfo*)lhs.pNext < *(const VkBindSparseInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_FENCE_CREATE_INFO: {
-        return (const VkFenceCreateInfo&)lhsBaseInStructure < (const VkFenceCreateInfo&)rhsBaseInStructure;
+        return *(const VkFenceCreateInfo*)lhs.pNext < *(const VkFenceCreateInfo*)rhs.pNext;
     } break;
     case VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO: {
-        return (const VkSemaphoreCreateInfo&)lhsBaseInStructure < (const VkSemaphoreCreateInfo&)rhsBaseInStructure;
+        return *(const VkSemaphoreCreateInfo*)lhs.pNext < *(const VkSemaphoreCreateInfo*)rhs.pNext;
     } break;
     default: {
     } break;

@@ -90,6 +90,8 @@ DstAddStaticLibrary(
     includeFiles
         "${includePath}/vulkan/detail/comparison-operators-utilities.hpp"
         "${includePath}/vulkan/detail/structure-copy-utilities.hpp"
+        "${includePath}/vulkan/detail/structure-to-tuple.hpp"
+        "${includePath}/vulkan/detail/structure-to-tuple-manual.hpp"
         "${includePath}/vulkan/detail/structure-to-tuple-utilities.hpp"
         "${includePath}/vulkan/detail/tuple-element-wrappers.hpp"
         "${includePath}/vulkan/comparison-operators.hpp"

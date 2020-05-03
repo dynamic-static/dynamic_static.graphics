@@ -23,6 +23,1770 @@ namespace detail {
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
+auto structure_to_tuple<VkAabbPositionsKHR>(const VkAabbPositionsKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkAccelerationStructureBuildGeometryInfoKHR>(const VkAccelerationStructureBuildGeometryInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkAccelerationStructureBuildOffsetInfoKHR>(const VkAccelerationStructureBuildOffsetInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkAccelerationStructureCreateGeometryTypeInfoKHR>(const VkAccelerationStructureCreateGeometryTypeInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkAccelerationStructureCreateInfoKHR>(const VkAccelerationStructureCreateInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+auto structure_to_tuple<VkAccelerationStructureCreateInfoNV>(const VkAccelerationStructureCreateInfoNV& obj);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkAccelerationStructureDeviceAddressInfoKHR>(const VkAccelerationStructureDeviceAddressInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkAccelerationStructureGeometryAabbsDataKHR>(const VkAccelerationStructureGeometryAabbsDataKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkAccelerationStructureGeometryDataKHR>(const VkAccelerationStructureGeometryDataKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkAccelerationStructureGeometryInstancesDataKHR>(const VkAccelerationStructureGeometryInstancesDataKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkAccelerationStructureGeometryKHR>(const VkAccelerationStructureGeometryKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkAccelerationStructureGeometryTrianglesDataKHR>(const VkAccelerationStructureGeometryTrianglesDataKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+auto structure_to_tuple<VkAccelerationStructureInfoNV>(const VkAccelerationStructureInfoNV& obj);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkAccelerationStructureMemoryRequirementsInfoKHR>(const VkAccelerationStructureMemoryRequirementsInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+auto structure_to_tuple<VkAccelerationStructureMemoryRequirementsInfoNV>(const VkAccelerationStructureMemoryRequirementsInfoNV& obj);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkAccelerationStructureVersionKHR>(const VkAccelerationStructureVersionKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+auto structure_to_tuple<VkAcquireNextImageInfoKHR>(const VkAcquireNextImageInfoKHR& obj);
+
+template <>
+auto structure_to_tuple<VkAcquireProfilingLockInfoKHR>(const VkAcquireProfilingLockInfoKHR& obj);
+
+template <>
+auto structure_to_tuple<VkAllocationCallbacks>(const VkAllocationCallbacks& obj);
+
+#ifdef VK_USE_PLATFORM_ANDROID_KHR
+template <>
+auto structure_to_tuple<VkAndroidHardwareBufferFormatPropertiesANDROID>(const VkAndroidHardwareBufferFormatPropertiesANDROID& obj);
+#endif // VK_USE_PLATFORM_ANDROID_KHR
+
+#ifdef VK_USE_PLATFORM_ANDROID_KHR
+template <>
+auto structure_to_tuple<VkAndroidHardwareBufferPropertiesANDROID>(const VkAndroidHardwareBufferPropertiesANDROID& obj);
+#endif // VK_USE_PLATFORM_ANDROID_KHR
+
+#ifdef VK_USE_PLATFORM_ANDROID_KHR
+template <>
+auto structure_to_tuple<VkAndroidHardwareBufferUsageANDROID>(const VkAndroidHardwareBufferUsageANDROID& obj);
+#endif // VK_USE_PLATFORM_ANDROID_KHR
+
+#ifdef VK_USE_PLATFORM_ANDROID_KHR
+template <>
+auto structure_to_tuple<VkAndroidSurfaceCreateInfoKHR>(const VkAndroidSurfaceCreateInfoKHR& obj);
+#endif // VK_USE_PLATFORM_ANDROID_KHR
+
+template <>
+auto structure_to_tuple<VkApplicationInfo>(const VkApplicationInfo& obj);
+
+template <>
+auto structure_to_tuple<VkAttachmentDescription>(const VkAttachmentDescription& obj);
+
+template <>
+auto structure_to_tuple<VkAttachmentDescription2>(const VkAttachmentDescription2& obj);
+
+template <>
+auto structure_to_tuple<VkAttachmentDescriptionStencilLayout>(const VkAttachmentDescriptionStencilLayout& obj);
+
+template <>
+auto structure_to_tuple<VkAttachmentReference>(const VkAttachmentReference& obj);
+
+template <>
+auto structure_to_tuple<VkAttachmentReference2>(const VkAttachmentReference2& obj);
+
+template <>
+auto structure_to_tuple<VkAttachmentReferenceStencilLayout>(const VkAttachmentReferenceStencilLayout& obj);
+
+template <>
+auto structure_to_tuple<VkAttachmentSampleLocationsEXT>(const VkAttachmentSampleLocationsEXT& obj);
+
+template <>
+auto structure_to_tuple<VkBaseInStructure>(const VkBaseInStructure& obj);
+
+template <>
+auto structure_to_tuple<VkBaseOutStructure>(const VkBaseOutStructure& obj);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkBindAccelerationStructureMemoryInfoKHR>(const VkBindAccelerationStructureMemoryInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+auto structure_to_tuple<VkBindBufferMemoryDeviceGroupInfo>(const VkBindBufferMemoryDeviceGroupInfo& obj);
+
+template <>
+auto structure_to_tuple<VkBindBufferMemoryInfo>(const VkBindBufferMemoryInfo& obj);
+
+template <>
+auto structure_to_tuple<VkBindImageMemoryDeviceGroupInfo>(const VkBindImageMemoryDeviceGroupInfo& obj);
+
+template <>
+auto structure_to_tuple<VkBindImageMemoryInfo>(const VkBindImageMemoryInfo& obj);
+
+template <>
+auto structure_to_tuple<VkBindImageMemorySwapchainInfoKHR>(const VkBindImageMemorySwapchainInfoKHR& obj);
+
+template <>
+auto structure_to_tuple<VkBindImagePlaneMemoryInfo>(const VkBindImagePlaneMemoryInfo& obj);
+
+template <>
+auto structure_to_tuple<VkBindIndexBufferIndirectCommandNV>(const VkBindIndexBufferIndirectCommandNV& obj);
+
+template <>
+auto structure_to_tuple<VkBindShaderGroupIndirectCommandNV>(const VkBindShaderGroupIndirectCommandNV& obj);
+
+template <>
+auto structure_to_tuple<VkBindSparseInfo>(const VkBindSparseInfo& obj);
+
+template <>
+auto structure_to_tuple<VkBindVertexBufferIndirectCommandNV>(const VkBindVertexBufferIndirectCommandNV& obj);
+
+template <>
+auto structure_to_tuple<VkBufferCopy>(const VkBufferCopy& obj);
+
+template <>
+auto structure_to_tuple<VkBufferCreateInfo>(const VkBufferCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkBufferDeviceAddressCreateInfoEXT>(const VkBufferDeviceAddressCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkBufferDeviceAddressInfo>(const VkBufferDeviceAddressInfo& obj);
+
+template <>
+auto structure_to_tuple<VkBufferImageCopy>(const VkBufferImageCopy& obj);
+
+template <>
+auto structure_to_tuple<VkBufferMemoryBarrier>(const VkBufferMemoryBarrier& obj);
+
+template <>
+auto structure_to_tuple<VkBufferMemoryRequirementsInfo2>(const VkBufferMemoryRequirementsInfo2& obj);
+
+template <>
+auto structure_to_tuple<VkBufferOpaqueCaptureAddressCreateInfo>(const VkBufferOpaqueCaptureAddressCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkBufferViewCreateInfo>(const VkBufferViewCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkCalibratedTimestampInfoEXT>(const VkCalibratedTimestampInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkCheckpointDataNV>(const VkCheckpointDataNV& obj);
+
+template <>
+auto structure_to_tuple<VkClearAttachment>(const VkClearAttachment& obj);
+
+template <>
+auto structure_to_tuple<VkClearColorValue>(const VkClearColorValue& obj);
+
+template <>
+auto structure_to_tuple<VkClearDepthStencilValue>(const VkClearDepthStencilValue& obj);
+
+template <>
+auto structure_to_tuple<VkClearRect>(const VkClearRect& obj);
+
+template <>
+auto structure_to_tuple<VkClearValue>(const VkClearValue& obj);
+
+template <>
+auto structure_to_tuple<VkCoarseSampleLocationNV>(const VkCoarseSampleLocationNV& obj);
+
+template <>
+auto structure_to_tuple<VkCoarseSampleOrderCustomNV>(const VkCoarseSampleOrderCustomNV& obj);
+
+template <>
+auto structure_to_tuple<VkCommandBufferAllocateInfo>(const VkCommandBufferAllocateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkCommandBufferBeginInfo>(const VkCommandBufferBeginInfo& obj);
+
+template <>
+auto structure_to_tuple<VkCommandBufferInheritanceConditionalRenderingInfoEXT>(const VkCommandBufferInheritanceConditionalRenderingInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkCommandBufferInheritanceInfo>(const VkCommandBufferInheritanceInfo& obj);
+
+template <>
+auto structure_to_tuple<VkCommandBufferInheritanceRenderPassTransformInfoQCOM>(const VkCommandBufferInheritanceRenderPassTransformInfoQCOM& obj);
+
+template <>
+auto structure_to_tuple<VkCommandPoolCreateInfo>(const VkCommandPoolCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkComponentMapping>(const VkComponentMapping& obj);
+
+template <>
+auto structure_to_tuple<VkComputePipelineCreateInfo>(const VkComputePipelineCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkConditionalRenderingBeginInfoEXT>(const VkConditionalRenderingBeginInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkConformanceVersion>(const VkConformanceVersion& obj);
+
+template <>
+auto structure_to_tuple<VkCooperativeMatrixPropertiesNV>(const VkCooperativeMatrixPropertiesNV& obj);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkCopyAccelerationStructureInfoKHR>(const VkCopyAccelerationStructureInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkCopyAccelerationStructureToMemoryInfoKHR>(const VkCopyAccelerationStructureToMemoryInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+auto structure_to_tuple<VkCopyDescriptorSet>(const VkCopyDescriptorSet& obj);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkCopyMemoryToAccelerationStructureInfoKHR>(const VkCopyMemoryToAccelerationStructureInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkD3D12FenceSubmitInfoKHR>(const VkD3D12FenceSubmitInfoKHR& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+auto structure_to_tuple<VkDebugMarkerMarkerInfoEXT>(const VkDebugMarkerMarkerInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkDebugMarkerObjectNameInfoEXT>(const VkDebugMarkerObjectNameInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkDebugMarkerObjectTagInfoEXT>(const VkDebugMarkerObjectTagInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkDebugReportCallbackCreateInfoEXT>(const VkDebugReportCallbackCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkDebugUtilsLabelEXT>(const VkDebugUtilsLabelEXT& obj);
+
+template <>
+auto structure_to_tuple<VkDebugUtilsMessengerCallbackDataEXT>(const VkDebugUtilsMessengerCallbackDataEXT& obj);
+
+template <>
+auto structure_to_tuple<VkDebugUtilsMessengerCreateInfoEXT>(const VkDebugUtilsMessengerCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkDebugUtilsObjectNameInfoEXT>(const VkDebugUtilsObjectNameInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkDebugUtilsObjectTagInfoEXT>(const VkDebugUtilsObjectTagInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkDedicatedAllocationBufferCreateInfoNV>(const VkDedicatedAllocationBufferCreateInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkDedicatedAllocationImageCreateInfoNV>(const VkDedicatedAllocationImageCreateInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkDedicatedAllocationMemoryAllocateInfoNV>(const VkDedicatedAllocationMemoryAllocateInfoNV& obj);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkDeferredOperationInfoKHR>(const VkDeferredOperationInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+auto structure_to_tuple<VkDescriptorBufferInfo>(const VkDescriptorBufferInfo& obj);
+
+template <>
+auto structure_to_tuple<VkDescriptorImageInfo>(const VkDescriptorImageInfo& obj);
+
+template <>
+auto structure_to_tuple<VkDescriptorPoolCreateInfo>(const VkDescriptorPoolCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkDescriptorPoolInlineUniformBlockCreateInfoEXT>(const VkDescriptorPoolInlineUniformBlockCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkDescriptorPoolSize>(const VkDescriptorPoolSize& obj);
+
+template <>
+auto structure_to_tuple<VkDescriptorSetAllocateInfo>(const VkDescriptorSetAllocateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkDescriptorSetLayoutBinding>(const VkDescriptorSetLayoutBinding& obj);
+
+template <>
+auto structure_to_tuple<VkDescriptorSetLayoutBindingFlagsCreateInfo>(const VkDescriptorSetLayoutBindingFlagsCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkDescriptorSetLayoutCreateInfo>(const VkDescriptorSetLayoutCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkDescriptorSetLayoutSupport>(const VkDescriptorSetLayoutSupport& obj);
+
+template <>
+auto structure_to_tuple<VkDescriptorSetVariableDescriptorCountAllocateInfo>(const VkDescriptorSetVariableDescriptorCountAllocateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkDescriptorSetVariableDescriptorCountLayoutSupport>(const VkDescriptorSetVariableDescriptorCountLayoutSupport& obj);
+
+template <>
+auto structure_to_tuple<VkDescriptorUpdateTemplateCreateInfo>(const VkDescriptorUpdateTemplateCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkDescriptorUpdateTemplateEntry>(const VkDescriptorUpdateTemplateEntry& obj);
+
+template <>
+auto structure_to_tuple<VkDeviceCreateInfo>(const VkDeviceCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkDeviceDiagnosticsConfigCreateInfoNV>(const VkDeviceDiagnosticsConfigCreateInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkDeviceEventInfoEXT>(const VkDeviceEventInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkDeviceGroupBindSparseInfo>(const VkDeviceGroupBindSparseInfo& obj);
+
+template <>
+auto structure_to_tuple<VkDeviceGroupCommandBufferBeginInfo>(const VkDeviceGroupCommandBufferBeginInfo& obj);
+
+template <>
+auto structure_to_tuple<VkDeviceGroupDeviceCreateInfo>(const VkDeviceGroupDeviceCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkDeviceGroupPresentCapabilitiesKHR>(const VkDeviceGroupPresentCapabilitiesKHR& obj);
+
+template <>
+auto structure_to_tuple<VkDeviceGroupPresentInfoKHR>(const VkDeviceGroupPresentInfoKHR& obj);
+
+template <>
+auto structure_to_tuple<VkDeviceGroupRenderPassBeginInfo>(const VkDeviceGroupRenderPassBeginInfo& obj);
+
+template <>
+auto structure_to_tuple<VkDeviceGroupSubmitInfo>(const VkDeviceGroupSubmitInfo& obj);
+
+template <>
+auto structure_to_tuple<VkDeviceGroupSwapchainCreateInfoKHR>(const VkDeviceGroupSwapchainCreateInfoKHR& obj);
+
+template <>
+auto structure_to_tuple<VkDeviceMemoryOpaqueCaptureAddressInfo>(const VkDeviceMemoryOpaqueCaptureAddressInfo& obj);
+
+template <>
+auto structure_to_tuple<VkDeviceMemoryOverallocationCreateInfoAMD>(const VkDeviceMemoryOverallocationCreateInfoAMD& obj);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkDeviceOrHostAddressConstKHR>(const VkDeviceOrHostAddressConstKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkDeviceOrHostAddressKHR>(const VkDeviceOrHostAddressKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+auto structure_to_tuple<VkDeviceQueueCreateInfo>(const VkDeviceQueueCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkDeviceQueueGlobalPriorityCreateInfoEXT>(const VkDeviceQueueGlobalPriorityCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkDeviceQueueInfo2>(const VkDeviceQueueInfo2& obj);
+
+template <>
+auto structure_to_tuple<VkDispatchIndirectCommand>(const VkDispatchIndirectCommand& obj);
+
+template <>
+auto structure_to_tuple<VkDisplayEventInfoEXT>(const VkDisplayEventInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkDisplayModeCreateInfoKHR>(const VkDisplayModeCreateInfoKHR& obj);
+
+template <>
+auto structure_to_tuple<VkDisplayModeParametersKHR>(const VkDisplayModeParametersKHR& obj);
+
+template <>
+auto structure_to_tuple<VkDisplayModeProperties2KHR>(const VkDisplayModeProperties2KHR& obj);
+
+template <>
+auto structure_to_tuple<VkDisplayModePropertiesKHR>(const VkDisplayModePropertiesKHR& obj);
+
+template <>
+auto structure_to_tuple<VkDisplayNativeHdrSurfaceCapabilitiesAMD>(const VkDisplayNativeHdrSurfaceCapabilitiesAMD& obj);
+
+template <>
+auto structure_to_tuple<VkDisplayPlaneCapabilities2KHR>(const VkDisplayPlaneCapabilities2KHR& obj);
+
+template <>
+auto structure_to_tuple<VkDisplayPlaneCapabilitiesKHR>(const VkDisplayPlaneCapabilitiesKHR& obj);
+
+template <>
+auto structure_to_tuple<VkDisplayPlaneInfo2KHR>(const VkDisplayPlaneInfo2KHR& obj);
+
+template <>
+auto structure_to_tuple<VkDisplayPlaneProperties2KHR>(const VkDisplayPlaneProperties2KHR& obj);
+
+template <>
+auto structure_to_tuple<VkDisplayPlanePropertiesKHR>(const VkDisplayPlanePropertiesKHR& obj);
+
+template <>
+auto structure_to_tuple<VkDisplayPowerInfoEXT>(const VkDisplayPowerInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkDisplayPresentInfoKHR>(const VkDisplayPresentInfoKHR& obj);
+
+template <>
+auto structure_to_tuple<VkDisplayProperties2KHR>(const VkDisplayProperties2KHR& obj);
+
+template <>
+auto structure_to_tuple<VkDisplayPropertiesKHR>(const VkDisplayPropertiesKHR& obj);
+
+template <>
+auto structure_to_tuple<VkDisplaySurfaceCreateInfoKHR>(const VkDisplaySurfaceCreateInfoKHR& obj);
+
+template <>
+auto structure_to_tuple<VkDrawIndexedIndirectCommand>(const VkDrawIndexedIndirectCommand& obj);
+
+template <>
+auto structure_to_tuple<VkDrawIndirectCommand>(const VkDrawIndirectCommand& obj);
+
+template <>
+auto structure_to_tuple<VkDrawMeshTasksIndirectCommandNV>(const VkDrawMeshTasksIndirectCommandNV& obj);
+
+template <>
+auto structure_to_tuple<VkDrmFormatModifierPropertiesEXT>(const VkDrmFormatModifierPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkDrmFormatModifierPropertiesListEXT>(const VkDrmFormatModifierPropertiesListEXT& obj);
+
+template <>
+auto structure_to_tuple<VkEventCreateInfo>(const VkEventCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkExportFenceCreateInfo>(const VkExportFenceCreateInfo& obj);
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkExportFenceWin32HandleInfoKHR>(const VkExportFenceWin32HandleInfoKHR& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+auto structure_to_tuple<VkExportMemoryAllocateInfo>(const VkExportMemoryAllocateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkExportMemoryAllocateInfoNV>(const VkExportMemoryAllocateInfoNV& obj);
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkExportMemoryWin32HandleInfoKHR>(const VkExportMemoryWin32HandleInfoKHR& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkExportMemoryWin32HandleInfoNV>(const VkExportMemoryWin32HandleInfoNV& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+auto structure_to_tuple<VkExportSemaphoreCreateInfo>(const VkExportSemaphoreCreateInfo& obj);
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkExportSemaphoreWin32HandleInfoKHR>(const VkExportSemaphoreWin32HandleInfoKHR& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+auto structure_to_tuple<VkExtensionProperties>(const VkExtensionProperties& obj);
+
+template <>
+auto structure_to_tuple<VkExtent2D>(const VkExtent2D& obj);
+
+template <>
+auto structure_to_tuple<VkExtent3D>(const VkExtent3D& obj);
+
+template <>
+auto structure_to_tuple<VkExternalBufferProperties>(const VkExternalBufferProperties& obj);
+
+template <>
+auto structure_to_tuple<VkExternalFenceProperties>(const VkExternalFenceProperties& obj);
+
+#ifdef VK_USE_PLATFORM_ANDROID_KHR
+template <>
+auto structure_to_tuple<VkExternalFormatANDROID>(const VkExternalFormatANDROID& obj);
+#endif // VK_USE_PLATFORM_ANDROID_KHR
+
+template <>
+auto structure_to_tuple<VkExternalImageFormatProperties>(const VkExternalImageFormatProperties& obj);
+
+template <>
+auto structure_to_tuple<VkExternalImageFormatPropertiesNV>(const VkExternalImageFormatPropertiesNV& obj);
+
+template <>
+auto structure_to_tuple<VkExternalMemoryBufferCreateInfo>(const VkExternalMemoryBufferCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkExternalMemoryImageCreateInfo>(const VkExternalMemoryImageCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkExternalMemoryImageCreateInfoNV>(const VkExternalMemoryImageCreateInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkExternalMemoryProperties>(const VkExternalMemoryProperties& obj);
+
+template <>
+auto structure_to_tuple<VkExternalSemaphoreProperties>(const VkExternalSemaphoreProperties& obj);
+
+template <>
+auto structure_to_tuple<VkFenceCreateInfo>(const VkFenceCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkFenceGetFdInfoKHR>(const VkFenceGetFdInfoKHR& obj);
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkFenceGetWin32HandleInfoKHR>(const VkFenceGetWin32HandleInfoKHR& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+auto structure_to_tuple<VkFilterCubicImageViewImageFormatPropertiesEXT>(const VkFilterCubicImageViewImageFormatPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkFormatProperties>(const VkFormatProperties& obj);
+
+template <>
+auto structure_to_tuple<VkFormatProperties2>(const VkFormatProperties2& obj);
+
+template <>
+auto structure_to_tuple<VkFramebufferAttachmentImageInfo>(const VkFramebufferAttachmentImageInfo& obj);
+
+template <>
+auto structure_to_tuple<VkFramebufferAttachmentsCreateInfo>(const VkFramebufferAttachmentsCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkFramebufferCreateInfo>(const VkFramebufferCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkFramebufferMixedSamplesCombinationNV>(const VkFramebufferMixedSamplesCombinationNV& obj);
+
+template <>
+auto structure_to_tuple<VkGeneratedCommandsInfoNV>(const VkGeneratedCommandsInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkGeneratedCommandsMemoryRequirementsInfoNV>(const VkGeneratedCommandsMemoryRequirementsInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkGeometryAABBNV>(const VkGeometryAABBNV& obj);
+
+template <>
+auto structure_to_tuple<VkGeometryDataNV>(const VkGeometryDataNV& obj);
+
+template <>
+auto structure_to_tuple<VkGeometryNV>(const VkGeometryNV& obj);
+
+template <>
+auto structure_to_tuple<VkGeometryTrianglesNV>(const VkGeometryTrianglesNV& obj);
+
+template <>
+auto structure_to_tuple<VkGraphicsPipelineCreateInfo>(const VkGraphicsPipelineCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkGraphicsPipelineShaderGroupsCreateInfoNV>(const VkGraphicsPipelineShaderGroupsCreateInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkGraphicsShaderGroupCreateInfoNV>(const VkGraphicsShaderGroupCreateInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkHdrMetadataEXT>(const VkHdrMetadataEXT& obj);
+
+template <>
+auto structure_to_tuple<VkHeadlessSurfaceCreateInfoEXT>(const VkHeadlessSurfaceCreateInfoEXT& obj);
+
+#ifdef VK_USE_PLATFORM_IOS_MVK
+template <>
+auto structure_to_tuple<VkIOSSurfaceCreateInfoMVK>(const VkIOSSurfaceCreateInfoMVK& obj);
+#endif // VK_USE_PLATFORM_IOS_MVK
+
+template <>
+auto structure_to_tuple<VkImageBlit>(const VkImageBlit& obj);
+
+template <>
+auto structure_to_tuple<VkImageCopy>(const VkImageCopy& obj);
+
+template <>
+auto structure_to_tuple<VkImageCreateInfo>(const VkImageCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkImageDrmFormatModifierExplicitCreateInfoEXT>(const VkImageDrmFormatModifierExplicitCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkImageDrmFormatModifierListCreateInfoEXT>(const VkImageDrmFormatModifierListCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkImageDrmFormatModifierPropertiesEXT>(const VkImageDrmFormatModifierPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkImageFormatListCreateInfo>(const VkImageFormatListCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkImageFormatProperties>(const VkImageFormatProperties& obj);
+
+template <>
+auto structure_to_tuple<VkImageFormatProperties2>(const VkImageFormatProperties2& obj);
+
+template <>
+auto structure_to_tuple<VkImageMemoryBarrier>(const VkImageMemoryBarrier& obj);
+
+template <>
+auto structure_to_tuple<VkImageMemoryRequirementsInfo2>(const VkImageMemoryRequirementsInfo2& obj);
+
+#ifdef VK_USE_PLATFORM_FUCHSIA
+template <>
+auto structure_to_tuple<VkImagePipeSurfaceCreateInfoFUCHSIA>(const VkImagePipeSurfaceCreateInfoFUCHSIA& obj);
+#endif // VK_USE_PLATFORM_FUCHSIA
+
+template <>
+auto structure_to_tuple<VkImagePlaneMemoryRequirementsInfo>(const VkImagePlaneMemoryRequirementsInfo& obj);
+
+template <>
+auto structure_to_tuple<VkImageResolve>(const VkImageResolve& obj);
+
+template <>
+auto structure_to_tuple<VkImageSparseMemoryRequirementsInfo2>(const VkImageSparseMemoryRequirementsInfo2& obj);
+
+template <>
+auto structure_to_tuple<VkImageStencilUsageCreateInfo>(const VkImageStencilUsageCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkImageSubresource>(const VkImageSubresource& obj);
+
+template <>
+auto structure_to_tuple<VkImageSubresourceLayers>(const VkImageSubresourceLayers& obj);
+
+template <>
+auto structure_to_tuple<VkImageSubresourceRange>(const VkImageSubresourceRange& obj);
+
+template <>
+auto structure_to_tuple<VkImageSwapchainCreateInfoKHR>(const VkImageSwapchainCreateInfoKHR& obj);
+
+template <>
+auto structure_to_tuple<VkImageViewASTCDecodeModeEXT>(const VkImageViewASTCDecodeModeEXT& obj);
+
+template <>
+auto structure_to_tuple<VkImageViewCreateInfo>(const VkImageViewCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkImageViewHandleInfoNVX>(const VkImageViewHandleInfoNVX& obj);
+
+template <>
+auto structure_to_tuple<VkImageViewUsageCreateInfo>(const VkImageViewUsageCreateInfo& obj);
+
+#ifdef VK_USE_PLATFORM_ANDROID_KHR
+template <>
+auto structure_to_tuple<VkImportAndroidHardwareBufferInfoANDROID>(const VkImportAndroidHardwareBufferInfoANDROID& obj);
+#endif // VK_USE_PLATFORM_ANDROID_KHR
+
+template <>
+auto structure_to_tuple<VkImportFenceFdInfoKHR>(const VkImportFenceFdInfoKHR& obj);
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkImportFenceWin32HandleInfoKHR>(const VkImportFenceWin32HandleInfoKHR& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+auto structure_to_tuple<VkImportMemoryFdInfoKHR>(const VkImportMemoryFdInfoKHR& obj);
+
+template <>
+auto structure_to_tuple<VkImportMemoryHostPointerInfoEXT>(const VkImportMemoryHostPointerInfoEXT& obj);
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkImportMemoryWin32HandleInfoKHR>(const VkImportMemoryWin32HandleInfoKHR& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkImportMemoryWin32HandleInfoNV>(const VkImportMemoryWin32HandleInfoNV& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+auto structure_to_tuple<VkImportSemaphoreFdInfoKHR>(const VkImportSemaphoreFdInfoKHR& obj);
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkImportSemaphoreWin32HandleInfoKHR>(const VkImportSemaphoreWin32HandleInfoKHR& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+auto structure_to_tuple<VkIndirectCommandsLayoutCreateInfoNV>(const VkIndirectCommandsLayoutCreateInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkIndirectCommandsLayoutTokenNV>(const VkIndirectCommandsLayoutTokenNV& obj);
+
+template <>
+auto structure_to_tuple<VkIndirectCommandsStreamNV>(const VkIndirectCommandsStreamNV& obj);
+
+template <>
+auto structure_to_tuple<VkInitializePerformanceApiInfoINTEL>(const VkInitializePerformanceApiInfoINTEL& obj);
+
+template <>
+auto structure_to_tuple<VkInputAttachmentAspectReference>(const VkInputAttachmentAspectReference& obj);
+
+template <>
+auto structure_to_tuple<VkInstanceCreateInfo>(const VkInstanceCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkLayerProperties>(const VkLayerProperties& obj);
+
+#ifdef VK_USE_PLATFORM_MACOS_MVK
+template <>
+auto structure_to_tuple<VkMacOSSurfaceCreateInfoMVK>(const VkMacOSSurfaceCreateInfoMVK& obj);
+#endif // VK_USE_PLATFORM_MACOS_MVK
+
+template <>
+auto structure_to_tuple<VkMappedMemoryRange>(const VkMappedMemoryRange& obj);
+
+template <>
+auto structure_to_tuple<VkMemoryAllocateFlagsInfo>(const VkMemoryAllocateFlagsInfo& obj);
+
+template <>
+auto structure_to_tuple<VkMemoryAllocateInfo>(const VkMemoryAllocateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkMemoryBarrier>(const VkMemoryBarrier& obj);
+
+template <>
+auto structure_to_tuple<VkMemoryDedicatedAllocateInfo>(const VkMemoryDedicatedAllocateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkMemoryDedicatedRequirements>(const VkMemoryDedicatedRequirements& obj);
+
+template <>
+auto structure_to_tuple<VkMemoryFdPropertiesKHR>(const VkMemoryFdPropertiesKHR& obj);
+
+#ifdef VK_USE_PLATFORM_ANDROID_KHR
+template <>
+auto structure_to_tuple<VkMemoryGetAndroidHardwareBufferInfoANDROID>(const VkMemoryGetAndroidHardwareBufferInfoANDROID& obj);
+#endif // VK_USE_PLATFORM_ANDROID_KHR
+
+template <>
+auto structure_to_tuple<VkMemoryGetFdInfoKHR>(const VkMemoryGetFdInfoKHR& obj);
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkMemoryGetWin32HandleInfoKHR>(const VkMemoryGetWin32HandleInfoKHR& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+auto structure_to_tuple<VkMemoryHeap>(const VkMemoryHeap& obj);
+
+template <>
+auto structure_to_tuple<VkMemoryHostPointerPropertiesEXT>(const VkMemoryHostPointerPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkMemoryOpaqueCaptureAddressAllocateInfo>(const VkMemoryOpaqueCaptureAddressAllocateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkMemoryPriorityAllocateInfoEXT>(const VkMemoryPriorityAllocateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkMemoryRequirements>(const VkMemoryRequirements& obj);
+
+template <>
+auto structure_to_tuple<VkMemoryRequirements2>(const VkMemoryRequirements2& obj);
+
+template <>
+auto structure_to_tuple<VkMemoryType>(const VkMemoryType& obj);
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkMemoryWin32HandlePropertiesKHR>(const VkMemoryWin32HandlePropertiesKHR& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+#ifdef VK_USE_PLATFORM_METAL_EXT
+template <>
+auto structure_to_tuple<VkMetalSurfaceCreateInfoEXT>(const VkMetalSurfaceCreateInfoEXT& obj);
+#endif // VK_USE_PLATFORM_METAL_EXT
+
+template <>
+auto structure_to_tuple<VkMultisamplePropertiesEXT>(const VkMultisamplePropertiesEXT& obj);
+
+#ifdef VK_USE_PLATFORM_ANDROID_KHR
+template <>
+auto structure_to_tuple<VkNativeBufferANDROID>(const VkNativeBufferANDROID& obj);
+#endif // VK_USE_PLATFORM_ANDROID_KHR
+
+#ifdef VK_USE_PLATFORM_ANDROID_KHR
+template <>
+auto structure_to_tuple<VkNativeBufferUsage2ANDROID>(const VkNativeBufferUsage2ANDROID& obj);
+#endif // VK_USE_PLATFORM_ANDROID_KHR
+
+template <>
+auto structure_to_tuple<VkOffset2D>(const VkOffset2D& obj);
+
+template <>
+auto structure_to_tuple<VkOffset3D>(const VkOffset3D& obj);
+
+template <>
+auto structure_to_tuple<VkPastPresentationTimingGOOGLE>(const VkPastPresentationTimingGOOGLE& obj);
+
+template <>
+auto structure_to_tuple<VkPerformanceConfigurationAcquireInfoINTEL>(const VkPerformanceConfigurationAcquireInfoINTEL& obj);
+
+template <>
+auto structure_to_tuple<VkPerformanceCounterDescriptionKHR>(const VkPerformanceCounterDescriptionKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPerformanceCounterKHR>(const VkPerformanceCounterKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPerformanceMarkerInfoINTEL>(const VkPerformanceMarkerInfoINTEL& obj);
+
+template <>
+auto structure_to_tuple<VkPerformanceOverrideInfoINTEL>(const VkPerformanceOverrideInfoINTEL& obj);
+
+template <>
+auto structure_to_tuple<VkPerformanceQuerySubmitInfoKHR>(const VkPerformanceQuerySubmitInfoKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPerformanceStreamMarkerInfoINTEL>(const VkPerformanceStreamMarkerInfoINTEL& obj);
+
+template <>
+auto structure_to_tuple<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj);
+
+template <>
+auto structure_to_tuple<VkPerformanceValueINTEL>(const VkPerformanceValueINTEL& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDevice16BitStorageFeatures>(const VkPhysicalDevice16BitStorageFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDevice8BitStorageFeatures>(const VkPhysicalDevice8BitStorageFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceASTCDecodeFeaturesEXT>(const VkPhysicalDeviceASTCDecodeFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT>(const VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT>(const VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceBufferDeviceAddressFeatures>(const VkPhysicalDeviceBufferDeviceAddressFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceBufferDeviceAddressFeaturesEXT>(const VkPhysicalDeviceBufferDeviceAddressFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceCoherentMemoryFeaturesAMD>(const VkPhysicalDeviceCoherentMemoryFeaturesAMD& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceComputeShaderDerivativesFeaturesNV>(const VkPhysicalDeviceComputeShaderDerivativesFeaturesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceConditionalRenderingFeaturesEXT>(const VkPhysicalDeviceConditionalRenderingFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceConservativeRasterizationPropertiesEXT>(const VkPhysicalDeviceConservativeRasterizationPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceCooperativeMatrixFeaturesNV>(const VkPhysicalDeviceCooperativeMatrixFeaturesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceCooperativeMatrixPropertiesNV>(const VkPhysicalDeviceCooperativeMatrixPropertiesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceCornerSampledImageFeaturesNV>(const VkPhysicalDeviceCornerSampledImageFeaturesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceCoverageReductionModeFeaturesNV>(const VkPhysicalDeviceCoverageReductionModeFeaturesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV>(const VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceDepthClipEnableFeaturesEXT>(const VkPhysicalDeviceDepthClipEnableFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceDepthStencilResolveProperties>(const VkPhysicalDeviceDepthStencilResolveProperties& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceDescriptorIndexingFeatures>(const VkPhysicalDeviceDescriptorIndexingFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceDescriptorIndexingProperties>(const VkPhysicalDeviceDescriptorIndexingProperties& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV>(const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV>(const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceDiagnosticsConfigFeaturesNV>(const VkPhysicalDeviceDiagnosticsConfigFeaturesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceDiscardRectanglePropertiesEXT>(const VkPhysicalDeviceDiscardRectanglePropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceDriverProperties>(const VkPhysicalDeviceDriverProperties& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceExclusiveScissorFeaturesNV>(const VkPhysicalDeviceExclusiveScissorFeaturesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceExternalBufferInfo>(const VkPhysicalDeviceExternalBufferInfo& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceExternalFenceInfo>(const VkPhysicalDeviceExternalFenceInfo& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceExternalImageFormatInfo>(const VkPhysicalDeviceExternalImageFormatInfo& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceExternalMemoryHostPropertiesEXT>(const VkPhysicalDeviceExternalMemoryHostPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceExternalSemaphoreInfo>(const VkPhysicalDeviceExternalSemaphoreInfo& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceFeatures>(const VkPhysicalDeviceFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceFeatures2>(const VkPhysicalDeviceFeatures2& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceFloatControlsProperties>(const VkPhysicalDeviceFloatControlsProperties& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceFragmentDensityMapFeaturesEXT>(const VkPhysicalDeviceFragmentDensityMapFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceFragmentDensityMapPropertiesEXT>(const VkPhysicalDeviceFragmentDensityMapPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV>(const VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT>(const VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceGroupProperties>(const VkPhysicalDeviceGroupProperties& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceHostQueryResetFeatures>(const VkPhysicalDeviceHostQueryResetFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceIDProperties>(const VkPhysicalDeviceIDProperties& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceImageDrmFormatModifierInfoEXT>(const VkPhysicalDeviceImageDrmFormatModifierInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceImageFormatInfo2>(const VkPhysicalDeviceImageFormatInfo2& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceImageViewImageFormatInfoEXT>(const VkPhysicalDeviceImageViewImageFormatInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceImagelessFramebufferFeatures>(const VkPhysicalDeviceImagelessFramebufferFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceIndexTypeUint8FeaturesEXT>(const VkPhysicalDeviceIndexTypeUint8FeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceInlineUniformBlockFeaturesEXT>(const VkPhysicalDeviceInlineUniformBlockFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceInlineUniformBlockPropertiesEXT>(const VkPhysicalDeviceInlineUniformBlockPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceLimits>(const VkPhysicalDeviceLimits& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceLineRasterizationFeaturesEXT>(const VkPhysicalDeviceLineRasterizationFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceLineRasterizationPropertiesEXT>(const VkPhysicalDeviceLineRasterizationPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceMaintenance3Properties>(const VkPhysicalDeviceMaintenance3Properties& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceMemoryBudgetPropertiesEXT>(const VkPhysicalDeviceMemoryBudgetPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceMemoryPriorityFeaturesEXT>(const VkPhysicalDeviceMemoryPriorityFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceMemoryProperties>(const VkPhysicalDeviceMemoryProperties& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceMemoryProperties2>(const VkPhysicalDeviceMemoryProperties2& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceMeshShaderFeaturesNV>(const VkPhysicalDeviceMeshShaderFeaturesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceMeshShaderPropertiesNV>(const VkPhysicalDeviceMeshShaderPropertiesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceMultiviewFeatures>(const VkPhysicalDeviceMultiviewFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX>(const VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceMultiviewProperties>(const VkPhysicalDeviceMultiviewProperties& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDevicePCIBusInfoPropertiesEXT>(const VkPhysicalDevicePCIBusInfoPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDevicePerformanceQueryFeaturesKHR>(const VkPhysicalDevicePerformanceQueryFeaturesKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDevicePerformanceQueryPropertiesKHR>(const VkPhysicalDevicePerformanceQueryPropertiesKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT>(const VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR>(const VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDevicePointClippingProperties>(const VkPhysicalDevicePointClippingProperties& obj);
+
+#ifdef VK_USE_PLATFORM_ANDROID_KHR
+template <>
+auto structure_to_tuple<VkPhysicalDevicePresentationPropertiesANDROID>(const VkPhysicalDevicePresentationPropertiesANDROID& obj);
+#endif // VK_USE_PLATFORM_ANDROID_KHR
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceProperties>(const VkPhysicalDeviceProperties& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceProperties2>(const VkPhysicalDeviceProperties2& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceProtectedMemoryFeatures>(const VkPhysicalDeviceProtectedMemoryFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceProtectedMemoryProperties>(const VkPhysicalDeviceProtectedMemoryProperties& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDevicePushDescriptorPropertiesKHR>(const VkPhysicalDevicePushDescriptorPropertiesKHR& obj);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkPhysicalDeviceRayTracingFeaturesKHR>(const VkPhysicalDeviceRayTracingFeaturesKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkPhysicalDeviceRayTracingPropertiesKHR>(const VkPhysicalDeviceRayTracingPropertiesKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceRayTracingPropertiesNV>(const VkPhysicalDeviceRayTracingPropertiesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV>(const VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceSampleLocationsPropertiesEXT>(const VkPhysicalDeviceSampleLocationsPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceSamplerFilterMinmaxProperties>(const VkPhysicalDeviceSamplerFilterMinmaxProperties& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceSamplerYcbcrConversionFeatures>(const VkPhysicalDeviceSamplerYcbcrConversionFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceScalarBlockLayoutFeatures>(const VkPhysicalDeviceScalarBlockLayoutFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures>(const VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceShaderAtomicInt64Features>(const VkPhysicalDeviceShaderAtomicInt64Features& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceShaderClockFeaturesKHR>(const VkPhysicalDeviceShaderClockFeaturesKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceShaderCoreProperties2AMD>(const VkPhysicalDeviceShaderCoreProperties2AMD& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceShaderCorePropertiesAMD>(const VkPhysicalDeviceShaderCorePropertiesAMD& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT>(const VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceShaderDrawParametersFeatures>(const VkPhysicalDeviceShaderDrawParametersFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceShaderFloat16Int8Features>(const VkPhysicalDeviceShaderFloat16Int8Features& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceShaderImageFootprintFeaturesNV>(const VkPhysicalDeviceShaderImageFootprintFeaturesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL>(const VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceShaderSMBuiltinsFeaturesNV>(const VkPhysicalDeviceShaderSMBuiltinsFeaturesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceShaderSMBuiltinsPropertiesNV>(const VkPhysicalDeviceShaderSMBuiltinsPropertiesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures>(const VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceShadingRateImageFeaturesNV>(const VkPhysicalDeviceShadingRateImageFeaturesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceShadingRateImagePropertiesNV>(const VkPhysicalDeviceShadingRateImagePropertiesNV& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceSparseImageFormatInfo2>(const VkPhysicalDeviceSparseImageFormatInfo2& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceSparseProperties>(const VkPhysicalDeviceSparseProperties& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceSubgroupProperties>(const VkPhysicalDeviceSubgroupProperties& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceSubgroupSizeControlFeaturesEXT>(const VkPhysicalDeviceSubgroupSizeControlFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceSubgroupSizeControlPropertiesEXT>(const VkPhysicalDeviceSubgroupSizeControlPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceSurfaceInfo2KHR>(const VkPhysicalDeviceSurfaceInfo2KHR& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT>(const VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT>(const VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT>(const VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceTimelineSemaphoreFeatures>(const VkPhysicalDeviceTimelineSemaphoreFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceTimelineSemaphoreProperties>(const VkPhysicalDeviceTimelineSemaphoreProperties& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceToolPropertiesEXT>(const VkPhysicalDeviceToolPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceTransformFeedbackFeaturesEXT>(const VkPhysicalDeviceTransformFeedbackFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceTransformFeedbackPropertiesEXT>(const VkPhysicalDeviceTransformFeedbackPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceUniformBufferStandardLayoutFeatures>(const VkPhysicalDeviceUniformBufferStandardLayoutFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceVariablePointersFeatures>(const VkPhysicalDeviceVariablePointersFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT>(const VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT>(const VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceVulkan11Features>(const VkPhysicalDeviceVulkan11Features& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceVulkan11Properties>(const VkPhysicalDeviceVulkan11Properties& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceVulkan12Features>(const VkPhysicalDeviceVulkan12Features& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceVulkan12Properties>(const VkPhysicalDeviceVulkan12Properties& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceVulkanMemoryModelFeatures>(const VkPhysicalDeviceVulkanMemoryModelFeatures& obj);
+
+template <>
+auto structure_to_tuple<VkPhysicalDeviceYcbcrImageArraysFeaturesEXT>(const VkPhysicalDeviceYcbcrImageArraysFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineCacheCreateInfo>(const VkPipelineCacheCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineColorBlendAdvancedStateCreateInfoEXT>(const VkPipelineColorBlendAdvancedStateCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineColorBlendAttachmentState>(const VkPipelineColorBlendAttachmentState& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineColorBlendStateCreateInfo>(const VkPipelineColorBlendStateCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineCompilerControlCreateInfoAMD>(const VkPipelineCompilerControlCreateInfoAMD& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineCoverageModulationStateCreateInfoNV>(const VkPipelineCoverageModulationStateCreateInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineCoverageReductionStateCreateInfoNV>(const VkPipelineCoverageReductionStateCreateInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineCoverageToColorStateCreateInfoNV>(const VkPipelineCoverageToColorStateCreateInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineCreationFeedbackCreateInfoEXT>(const VkPipelineCreationFeedbackCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineCreationFeedbackEXT>(const VkPipelineCreationFeedbackEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineDepthStencilStateCreateInfo>(const VkPipelineDepthStencilStateCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineDiscardRectangleStateCreateInfoEXT>(const VkPipelineDiscardRectangleStateCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineDynamicStateCreateInfo>(const VkPipelineDynamicStateCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineExecutableInfoKHR>(const VkPipelineExecutableInfoKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineExecutableInternalRepresentationKHR>(const VkPipelineExecutableInternalRepresentationKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineExecutablePropertiesKHR>(const VkPipelineExecutablePropertiesKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineExecutableStatisticKHR>(const VkPipelineExecutableStatisticKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineInfoKHR>(const VkPipelineInfoKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineInputAssemblyStateCreateInfo>(const VkPipelineInputAssemblyStateCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineLayoutCreateInfo>(const VkPipelineLayoutCreateInfo& obj);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkPipelineLibraryCreateInfoKHR>(const VkPipelineLibraryCreateInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+auto structure_to_tuple<VkPipelineMultisampleStateCreateInfo>(const VkPipelineMultisampleStateCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineRasterizationConservativeStateCreateInfoEXT>(const VkPipelineRasterizationConservativeStateCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineRasterizationDepthClipStateCreateInfoEXT>(const VkPipelineRasterizationDepthClipStateCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineRasterizationLineStateCreateInfoEXT>(const VkPipelineRasterizationLineStateCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineRasterizationStateCreateInfo>(const VkPipelineRasterizationStateCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineRasterizationStateRasterizationOrderAMD>(const VkPipelineRasterizationStateRasterizationOrderAMD& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineRasterizationStateStreamCreateInfoEXT>(const VkPipelineRasterizationStateStreamCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineRepresentativeFragmentTestStateCreateInfoNV>(const VkPipelineRepresentativeFragmentTestStateCreateInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineSampleLocationsStateCreateInfoEXT>(const VkPipelineSampleLocationsStateCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineShaderStageCreateInfo>(const VkPipelineShaderStageCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT>(const VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineTessellationDomainOriginStateCreateInfo>(const VkPipelineTessellationDomainOriginStateCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineTessellationStateCreateInfo>(const VkPipelineTessellationStateCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineVertexInputDivisorStateCreateInfoEXT>(const VkPipelineVertexInputDivisorStateCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineVertexInputStateCreateInfo>(const VkPipelineVertexInputStateCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineViewportCoarseSampleOrderStateCreateInfoNV>(const VkPipelineViewportCoarseSampleOrderStateCreateInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineViewportExclusiveScissorStateCreateInfoNV>(const VkPipelineViewportExclusiveScissorStateCreateInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineViewportShadingRateImageStateCreateInfoNV>(const VkPipelineViewportShadingRateImageStateCreateInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineViewportStateCreateInfo>(const VkPipelineViewportStateCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineViewportSwizzleStateCreateInfoNV>(const VkPipelineViewportSwizzleStateCreateInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineViewportWScalingStateCreateInfoNV>(const VkPipelineViewportWScalingStateCreateInfoNV& obj);
+
+#ifdef VK_USE_PLATFORM_GGP
+template <>
+auto structure_to_tuple<VkPresentFrameTokenGGP>(const VkPresentFrameTokenGGP& obj);
+#endif // VK_USE_PLATFORM_GGP
+
+template <>
+auto structure_to_tuple<VkPresentInfoKHR>(const VkPresentInfoKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPresentRegionKHR>(const VkPresentRegionKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPresentRegionsKHR>(const VkPresentRegionsKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPresentTimeGOOGLE>(const VkPresentTimeGOOGLE& obj);
+
+template <>
+auto structure_to_tuple<VkPresentTimesInfoGOOGLE>(const VkPresentTimesInfoGOOGLE& obj);
+
+template <>
+auto structure_to_tuple<VkProtectedSubmitInfo>(const VkProtectedSubmitInfo& obj);
+
+template <>
+auto structure_to_tuple<VkPushConstantRange>(const VkPushConstantRange& obj);
+
+template <>
+auto structure_to_tuple<VkQueryPoolCreateInfo>(const VkQueryPoolCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkQueryPoolPerformanceCreateInfoKHR>(const VkQueryPoolPerformanceCreateInfoKHR& obj);
+
+template <>
+auto structure_to_tuple<VkQueryPoolPerformanceQueryCreateInfoINTEL>(const VkQueryPoolPerformanceQueryCreateInfoINTEL& obj);
+
+template <>
+auto structure_to_tuple<VkQueueFamilyCheckpointPropertiesNV>(const VkQueueFamilyCheckpointPropertiesNV& obj);
+
+template <>
+auto structure_to_tuple<VkQueueFamilyProperties>(const VkQueueFamilyProperties& obj);
+
+template <>
+auto structure_to_tuple<VkQueueFamilyProperties2>(const VkQueueFamilyProperties2& obj);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkRayTracingPipelineCreateInfoKHR>(const VkRayTracingPipelineCreateInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+auto structure_to_tuple<VkRayTracingPipelineCreateInfoNV>(const VkRayTracingPipelineCreateInfoNV& obj);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkRayTracingPipelineInterfaceCreateInfoKHR>(const VkRayTracingPipelineInterfaceCreateInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkRayTracingShaderGroupCreateInfoKHR>(const VkRayTracingShaderGroupCreateInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+auto structure_to_tuple<VkRayTracingShaderGroupCreateInfoNV>(const VkRayTracingShaderGroupCreateInfoNV& obj);
+
+template <>
+auto structure_to_tuple<VkRect2D>(const VkRect2D& obj);
+
+template <>
+auto structure_to_tuple<VkRectLayerKHR>(const VkRectLayerKHR& obj);
+
+template <>
+auto structure_to_tuple<VkRefreshCycleDurationGOOGLE>(const VkRefreshCycleDurationGOOGLE& obj);
+
+template <>
+auto structure_to_tuple<VkRenderPassAttachmentBeginInfo>(const VkRenderPassAttachmentBeginInfo& obj);
+
+template <>
+auto structure_to_tuple<VkRenderPassBeginInfo>(const VkRenderPassBeginInfo& obj);
+
+template <>
+auto structure_to_tuple<VkRenderPassCreateInfo>(const VkRenderPassCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkRenderPassCreateInfo2>(const VkRenderPassCreateInfo2& obj);
+
+template <>
+auto structure_to_tuple<VkRenderPassFragmentDensityMapCreateInfoEXT>(const VkRenderPassFragmentDensityMapCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkRenderPassInputAttachmentAspectCreateInfo>(const VkRenderPassInputAttachmentAspectCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkRenderPassMultiviewCreateInfo>(const VkRenderPassMultiviewCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkRenderPassSampleLocationsBeginInfoEXT>(const VkRenderPassSampleLocationsBeginInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkRenderPassTransformBeginInfoQCOM>(const VkRenderPassTransformBeginInfoQCOM& obj);
+
+template <>
+auto structure_to_tuple<VkSampleLocationEXT>(const VkSampleLocationEXT& obj);
+
+template <>
+auto structure_to_tuple<VkSampleLocationsInfoEXT>(const VkSampleLocationsInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkSamplerCreateInfo>(const VkSamplerCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkSamplerReductionModeCreateInfo>(const VkSamplerReductionModeCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkSamplerYcbcrConversionCreateInfo>(const VkSamplerYcbcrConversionCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkSamplerYcbcrConversionImageFormatProperties>(const VkSamplerYcbcrConversionImageFormatProperties& obj);
+
+template <>
+auto structure_to_tuple<VkSamplerYcbcrConversionInfo>(const VkSamplerYcbcrConversionInfo& obj);
+
+template <>
+auto structure_to_tuple<VkSemaphoreCreateInfo>(const VkSemaphoreCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkSemaphoreGetFdInfoKHR>(const VkSemaphoreGetFdInfoKHR& obj);
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkSemaphoreGetWin32HandleInfoKHR>(const VkSemaphoreGetWin32HandleInfoKHR& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+auto structure_to_tuple<VkSemaphoreSignalInfo>(const VkSemaphoreSignalInfo& obj);
+
+template <>
+auto structure_to_tuple<VkSemaphoreTypeCreateInfo>(const VkSemaphoreTypeCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkSemaphoreWaitInfo>(const VkSemaphoreWaitInfo& obj);
+
+template <>
+auto structure_to_tuple<VkSetStateFlagsIndirectCommandNV>(const VkSetStateFlagsIndirectCommandNV& obj);
+
+template <>
+auto structure_to_tuple<VkShaderModuleCreateInfo>(const VkShaderModuleCreateInfo& obj);
+
+template <>
+auto structure_to_tuple<VkShaderModuleValidationCacheCreateInfoEXT>(const VkShaderModuleValidationCacheCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkShaderResourceUsageAMD>(const VkShaderResourceUsageAMD& obj);
+
+template <>
+auto structure_to_tuple<VkShaderStatisticsInfoAMD>(const VkShaderStatisticsInfoAMD& obj);
+
+template <>
+auto structure_to_tuple<VkShadingRatePaletteNV>(const VkShadingRatePaletteNV& obj);
+
+template <>
+auto structure_to_tuple<VkSharedPresentSurfaceCapabilitiesKHR>(const VkSharedPresentSurfaceCapabilitiesKHR& obj);
+
+template <>
+auto structure_to_tuple<VkSparseBufferMemoryBindInfo>(const VkSparseBufferMemoryBindInfo& obj);
+
+template <>
+auto structure_to_tuple<VkSparseImageFormatProperties>(const VkSparseImageFormatProperties& obj);
+
+template <>
+auto structure_to_tuple<VkSparseImageFormatProperties2>(const VkSparseImageFormatProperties2& obj);
+
+template <>
+auto structure_to_tuple<VkSparseImageMemoryBind>(const VkSparseImageMemoryBind& obj);
+
+template <>
+auto structure_to_tuple<VkSparseImageMemoryBindInfo>(const VkSparseImageMemoryBindInfo& obj);
+
+template <>
+auto structure_to_tuple<VkSparseImageMemoryRequirements>(const VkSparseImageMemoryRequirements& obj);
+
+template <>
+auto structure_to_tuple<VkSparseImageMemoryRequirements2>(const VkSparseImageMemoryRequirements2& obj);
+
+template <>
+auto structure_to_tuple<VkSparseImageOpaqueMemoryBindInfo>(const VkSparseImageOpaqueMemoryBindInfo& obj);
+
+template <>
+auto structure_to_tuple<VkSparseMemoryBind>(const VkSparseMemoryBind& obj);
+
+template <>
+auto structure_to_tuple<VkSpecializationInfo>(const VkSpecializationInfo& obj);
+
+template <>
+auto structure_to_tuple<VkSpecializationMapEntry>(const VkSpecializationMapEntry& obj);
+
+template <>
+auto structure_to_tuple<VkStencilOpState>(const VkStencilOpState& obj);
+
+#ifdef VK_USE_PLATFORM_GGP
+template <>
+auto structure_to_tuple<VkStreamDescriptorSurfaceCreateInfoGGP>(const VkStreamDescriptorSurfaceCreateInfoGGP& obj);
+#endif // VK_USE_PLATFORM_GGP
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkStridedBufferRegionKHR>(const VkStridedBufferRegionKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+auto structure_to_tuple<VkSubmitInfo>(const VkSubmitInfo& obj);
+
+template <>
+auto structure_to_tuple<VkSubpassBeginInfo>(const VkSubpassBeginInfo& obj);
+
+template <>
+auto structure_to_tuple<VkSubpassDependency>(const VkSubpassDependency& obj);
+
+template <>
+auto structure_to_tuple<VkSubpassDependency2>(const VkSubpassDependency2& obj);
+
+template <>
+auto structure_to_tuple<VkSubpassDescription>(const VkSubpassDescription& obj);
+
+template <>
+auto structure_to_tuple<VkSubpassDescription2>(const VkSubpassDescription2& obj);
+
+template <>
+auto structure_to_tuple<VkSubpassDescriptionDepthStencilResolve>(const VkSubpassDescriptionDepthStencilResolve& obj);
+
+template <>
+auto structure_to_tuple<VkSubpassEndInfo>(const VkSubpassEndInfo& obj);
+
+template <>
+auto structure_to_tuple<VkSubpassSampleLocationsEXT>(const VkSubpassSampleLocationsEXT& obj);
+
+template <>
+auto structure_to_tuple<VkSubresourceLayout>(const VkSubresourceLayout& obj);
+
+template <>
+auto structure_to_tuple<VkSurfaceCapabilities2EXT>(const VkSurfaceCapabilities2EXT& obj);
+
+template <>
+auto structure_to_tuple<VkSurfaceCapabilities2KHR>(const VkSurfaceCapabilities2KHR& obj);
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkSurfaceCapabilitiesFullScreenExclusiveEXT>(const VkSurfaceCapabilitiesFullScreenExclusiveEXT& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+auto structure_to_tuple<VkSurfaceCapabilitiesKHR>(const VkSurfaceCapabilitiesKHR& obj);
+
+template <>
+auto structure_to_tuple<VkSurfaceFormat2KHR>(const VkSurfaceFormat2KHR& obj);
+
+template <>
+auto structure_to_tuple<VkSurfaceFormatKHR>(const VkSurfaceFormatKHR& obj);
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkSurfaceFullScreenExclusiveInfoEXT>(const VkSurfaceFullScreenExclusiveInfoEXT& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkSurfaceFullScreenExclusiveWin32InfoEXT>(const VkSurfaceFullScreenExclusiveWin32InfoEXT& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+auto structure_to_tuple<VkSurfaceProtectedCapabilitiesKHR>(const VkSurfaceProtectedCapabilitiesKHR& obj);
+
+template <>
+auto structure_to_tuple<VkSwapchainCounterCreateInfoEXT>(const VkSwapchainCounterCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkSwapchainCreateInfoKHR>(const VkSwapchainCreateInfoKHR& obj);
+
+template <>
+auto structure_to_tuple<VkSwapchainDisplayNativeHdrCreateInfoAMD>(const VkSwapchainDisplayNativeHdrCreateInfoAMD& obj);
+
+#ifdef VK_USE_PLATFORM_ANDROID_KHR
+template <>
+auto structure_to_tuple<VkSwapchainImageCreateInfoANDROID>(const VkSwapchainImageCreateInfoANDROID& obj);
+#endif // VK_USE_PLATFORM_ANDROID_KHR
+
+template <>
+auto structure_to_tuple<VkTextureLODGatherFormatPropertiesAMD>(const VkTextureLODGatherFormatPropertiesAMD& obj);
+
+template <>
+auto structure_to_tuple<VkTimelineSemaphoreSubmitInfo>(const VkTimelineSemaphoreSubmitInfo& obj);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkTraceRaysIndirectCommandKHR>(const VkTraceRaysIndirectCommandKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkTransformMatrixKHR>(const VkTransformMatrixKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+auto structure_to_tuple<VkValidationCacheCreateInfoEXT>(const VkValidationCacheCreateInfoEXT& obj);
+
+template <>
+auto structure_to_tuple<VkValidationFeaturesEXT>(const VkValidationFeaturesEXT& obj);
+
+template <>
+auto structure_to_tuple<VkValidationFlagsEXT>(const VkValidationFlagsEXT& obj);
+
+template <>
+auto structure_to_tuple<VkVertexInputAttributeDescription>(const VkVertexInputAttributeDescription& obj);
+
+template <>
+auto structure_to_tuple<VkVertexInputBindingDescription>(const VkVertexInputBindingDescription& obj);
+
+template <>
+auto structure_to_tuple<VkVertexInputBindingDivisorDescriptionEXT>(const VkVertexInputBindingDivisorDescriptionEXT& obj);
+
+#ifdef VK_USE_PLATFORM_VI_NN
+template <>
+auto structure_to_tuple<VkViSurfaceCreateInfoNN>(const VkViSurfaceCreateInfoNN& obj);
+#endif // VK_USE_PLATFORM_VI_NN
+
+template <>
+auto structure_to_tuple<VkViewport>(const VkViewport& obj);
+
+template <>
+auto structure_to_tuple<VkViewportSwizzleNV>(const VkViewportSwizzleNV& obj);
+
+template <>
+auto structure_to_tuple<VkViewportWScalingNV>(const VkViewportWScalingNV& obj);
+
+#ifdef VK_USE_PLATFORM_WAYLAND_KHR
+template <>
+auto structure_to_tuple<VkWaylandSurfaceCreateInfoKHR>(const VkWaylandSurfaceCreateInfoKHR& obj);
+#endif // VK_USE_PLATFORM_WAYLAND_KHR
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkWin32KeyedMutexAcquireReleaseInfoKHR>(const VkWin32KeyedMutexAcquireReleaseInfoKHR& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkWin32KeyedMutexAcquireReleaseInfoNV>(const VkWin32KeyedMutexAcquireReleaseInfoNV& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+template <>
+auto structure_to_tuple<VkWin32SurfaceCreateInfoKHR>(const VkWin32SurfaceCreateInfoKHR& obj);
+#endif // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+auto structure_to_tuple<VkWriteDescriptorSet>(const VkWriteDescriptorSet& obj);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+auto structure_to_tuple<VkWriteDescriptorSetAccelerationStructureKHR>(const VkWriteDescriptorSetAccelerationStructureKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+auto structure_to_tuple<VkWriteDescriptorSetInlineUniformBlockEXT>(const VkWriteDescriptorSetInlineUniformBlockEXT& obj);
+
+template <>
+auto structure_to_tuple<VkXYColorEXT>(const VkXYColorEXT& obj);
+
+#ifdef VK_USE_PLATFORM_XCB_KHR
+template <>
+auto structure_to_tuple<VkXcbSurfaceCreateInfoKHR>(const VkXcbSurfaceCreateInfoKHR& obj);
+#endif // VK_USE_PLATFORM_XCB_KHR
+
+#ifdef VK_USE_PLATFORM_XLIB_KHR
+template <>
+auto structure_to_tuple<VkXlibSurfaceCreateInfoKHR>(const VkXlibSurfaceCreateInfoKHR& obj);
+#endif // VK_USE_PLATFORM_XLIB_KHR
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
 inline auto structure_to_tuple<VkAabbPositionsKHR>(const VkAabbPositionsKHR& obj)
 {
     return std::forward_as_tuple(
@@ -249,7 +2013,7 @@ inline auto structure_to_tuple<VkAccelerationStructureMemoryRequirementsInfoNV>(
     );
 }
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION
+#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureVersionKHR>(const VkAccelerationStructureVersionKHR& obj)
@@ -261,7 +2025,7 @@ inline auto structure_to_tuple<VkAccelerationStructureVersionKHR>(const VkAccele
     );
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION
+#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 inline auto structure_to_tuple<VkAcquireNextImageInfoKHR>(const VkAcquireNextImageInfoKHR& obj)
@@ -746,6 +2510,7 @@ inline auto structure_to_tuple<VkClearAttachment>(const VkClearAttachment& obj)
     );
 }
 
+#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 template <>
 inline auto structure_to_tuple<VkClearColorValue>(const VkClearColorValue& obj)
 {
@@ -755,6 +2520,7 @@ inline auto structure_to_tuple<VkClearColorValue>(const VkClearColorValue& obj)
         Span(obj.uint32, 4)
     );
 }
+#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 inline auto structure_to_tuple<VkClearDepthStencilValue>(const VkClearDepthStencilValue& obj)
@@ -5216,7 +6982,7 @@ inline auto structure_to_tuple<VkPipelineLibraryCreateInfoKHR>(const VkPipelineL
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION
+#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 template <>
 inline auto structure_to_tuple<VkPipelineMultisampleStateCreateInfo>(const VkPipelineMultisampleStateCreateInfo& obj)
 {
@@ -5232,7 +6998,7 @@ inline auto structure_to_tuple<VkPipelineMultisampleStateCreateInfo>(const VkPip
         obj.alphaToOneEnable
     );
 }
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION
+#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 inline auto structure_to_tuple<VkPipelineRasterizationConservativeStateCreateInfoEXT>(const VkPipelineRasterizationConservativeStateCreateInfoEXT& obj)
@@ -6029,7 +7795,7 @@ inline auto structure_to_tuple<VkSetStateFlagsIndirectCommandNV>(const VkSetStat
     );
 }
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION
+#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 template <>
 inline auto structure_to_tuple<VkShaderModuleCreateInfo>(const VkShaderModuleCreateInfo& obj)
 {
@@ -6041,7 +7807,7 @@ inline auto structure_to_tuple<VkShaderModuleCreateInfo>(const VkShaderModuleCre
         Span(obj.pCode, obj.latexmath:[\textrm{codeSize} \over 4])
     );
 }
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION
+#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 inline auto structure_to_tuple<VkShaderModuleValidationCacheCreateInfoEXT>(const VkShaderModuleValidationCacheCreateInfoEXT& obj)
@@ -6596,7 +8362,7 @@ inline auto structure_to_tuple<VkTraceRaysIndirectCommandKHR>(const VkTraceRaysI
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION
+#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkTransformMatrixKHR>(const VkTransformMatrixKHR& obj)
@@ -6606,7 +8372,7 @@ inline auto structure_to_tuple<VkTransformMatrixKHR>(const VkTransformMatrixKHR&
     );
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION
+#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 inline auto structure_to_tuple<VkValidationCacheCreateInfoEXT>(const VkValidationCacheCreateInfoEXT& obj)

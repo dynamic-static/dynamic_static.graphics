@@ -10,7 +10,7 @@
 
 #include "dynamic_static/graphics/vulkan/generated/equality-operators.hpp"
 #include "dynamic_static/graphics/vulkan/detail/comparison-operators-utilities.hpp"
-#include "dynamic_static/graphics/vulkan/generated/structure-to-tuple.hpp"
+#include "dynamic_static/graphics/vulkan/detail/structure-to-tuple.hpp"
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkAabbPositionsKHR& lhs, const VkAabbPositionsKHR& rhs)
@@ -6263,7 +6263,7 @@ bool operator==(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrap
     if (((const VkBaseInStructure*)lhs.pNext)->sType != ((const VkBaseInStructure*)rhs.pNext)->sType) {
         return false;
     }
-    switch (((const VkBaseInStructure*)lhs.pNext)->sType) {
+    switch (*(VkStructureType*)lhs.pNext) {
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_BUILD_GEOMETRY_INFO_KHR: {
         return (const VkAccelerationStructureBuildGeometryInfoKHR*)lhs.pNext == (const VkAccelerationStructureBuildGeometryInfoKHR*)rhs.pNext;

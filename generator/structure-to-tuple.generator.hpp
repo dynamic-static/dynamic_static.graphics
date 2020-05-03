@@ -50,9 +50,7 @@ public:
                 CppParameter vkStructureParameter;
                 vkStructureParameter.type = "const " + structure.name + "&";
                 vkStructureParameter.name = "obj";
-                structureToTupleFunction.cppParameters = {
-                    vkStructureParameter,
-                };
+                structureToTupleFunction.cppParameters = { vkStructureParameter };
                 CppParameter pAllocationCallbacksCppParameter;
                 pAllocationCallbacksCppParameter.type = "const VkAllocationCallbacks*";
                 pAllocationCallbacksCppParameter.name = "pAllocationCallbacks";
@@ -82,10 +80,10 @@ public:
             }
         }
         headerFile << CppNamespace("dst::gfx::vk::detail").open();
+        headerFile << structureToTupleFunctions.generate_declaration();
         for (auto& cppFunction : structureToTupleFunctions) {
-            if (structure_requires_custom_handling(cppFunction)) {
-                cppFunction.cppCompileGuards.insert("DYNAMIC_STATIC_VK_STRUCTURE_REQUIRES_MANUAL_IMPLEMENTATION");
-            }
+            auto unqualifiedVkStructureTypeName = cppFunction.cppParameters[0].get_unqualified_type();
+            cppFunction.cppCompileGuards.insert(manual_implemntation_compile_guard(unqualifiedVkStructureTypeName));
         }
         headerFile << structureToTupleFunctions.generate_inline_definition();
         headerFile << CppNamespace("dst::gfx::vk::detail").close();
