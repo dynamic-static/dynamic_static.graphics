@@ -43,7 +43,7 @@ public:
             const auto& structure = structureitr.second;
             if (structure.alias.empty()) {
                 CppFunction structureToTupleFunction;
-                structureToTupleFunction.cppCompileGuards.insert(structure.compileGuard);
+                structureToTupleFunction.cppCompileGuards = { structure.compileGuard };
                 structureToTupleFunction.cppTemplate.cppSpecializations = { structure.name };
                 structureToTupleFunction.cppReturn = "auto";
                 structureToTupleFunction.name = "structure_to_tuple";
@@ -79,12 +79,20 @@ public:
                 structureToTupleFunctions.push_back(structureToTupleFunction);
             }
         }
-        headerFile << CppNamespace("dst::gfx::vk::detail").open();
-        headerFile << structureToTupleFunctions.generate_declaration();
-        for (auto& cppFunction : structureToTupleFunctions) {
-            auto unqualifiedVkStructureTypeName = cppFunction.cppParameters[0].get_unqualified_type();
-            cppFunction.cppCompileGuards.insert(manual_implemntation_compile_guard(unqualifiedVkStructureTypeName));
+        CppFunction::Collection manuallyImplementedStructureToTupleFunctions;
+        for (auto itr = structureToTupleFunctions.begin(); itr != structureToTupleFunctions.end(); ++itr) {
+            auto unqualifiedVkStructureTypeName = itr->cppParameters[0].get_unqualified_type();
+            if (structure_requires_manual_implementation(unqualifiedVkStructureTypeName)) {
+                manuallyImplementedStructureToTupleFunctions.push_back(*itr);
+                itr = structureToTupleFunctions.erase(itr);
+            }
         }
+        headerFile << CppNamespace("dst::gfx::vk::detail").open();
+        headerFile << "///////////////////////////////////////////////////////////////////////////////" << std::endl;
+        headerFile << "// NOTE : The following structure_to_tuple<> functions are manually implemented" << std::endl;
+        headerFile << manuallyImplementedStructureToTupleFunctions.generate_declaration();
+        headerFile << "///////////////////////////////////////////////////////////////////////////////" << std::endl;
+        headerFile << std::endl;
         headerFile << structureToTupleFunctions.generate_inline_definition();
         headerFile << CppNamespace("dst::gfx::vk::detail").close();
     }
