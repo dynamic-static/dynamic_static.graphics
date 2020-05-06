@@ -22,32 +22,42 @@ namespace cppgen {
 /**
 TODO : Documentation
 */
-inline bool structure_requires_manual_implementation(const std::string& structureName)
+inline bool vk_structure_requires_manual_implementation(const std::string& structureName)
 {
-    static const std::set<std::string> sStructuresRequiringCustomHandling {
+    static const std::set<std::string> sStructuresRequiringManualImplementation {
+        // Structures with bitfields
+        "VkAccelerationStructureInstanceKHR",
         "VkAccelerationStructureVersionKHR",
         //"VkAllocationCallbacks",
         //"VkCheckpointDataNV",
-        "VkClearColorValue",
+        
         //"VkDebugMarkerObjectTagInfoEXT",
         //"VkDebugReportCallbackCreateInfoEXT",
         //"VkDebugUtilsMessengerCreateInfoEXT",
         //"VkDebugUtilsObjectTagInfoEXT",
         //"VkImportMemoryHostPointerInfoEXT",
         //"VkInitializePerformanceApiInfoINTEL",
+        
+        // Structures with members with special case length
         "VkPipelineMultisampleStateCreateInfo",
         "VkShaderModuleCreateInfo",
         "VkTransformMatrixKHR",
+        // Unions
+        "VkClearColorValue",
+        "VkClearValue",
+        "VkPerformanceCounterResultKHR",
+        "VkPerformanceValueDataINTEL",
+        "VkPipelineExecutableStatisticValueKHR",
     };
-    return sStructuresRequiringCustomHandling.count(structureName);
+    return sStructuresRequiringManualImplementation.count(structureName);
 }
 
 /**
 TODO : Documentation
 */
-inline std::string manual_implemntation_compile_guard(const std::string& structureName)
+inline std::string vk_structure_manual_implemntation_compile_guard(const std::string& structureName)
 {
-    return structure_requires_manual_implementation(structureName) ? "DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION" : std::string();
+    return vk_structure_requires_manual_implementation(structureName) ? "DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION" : std::string();
 }
 
 /**

@@ -61,7 +61,7 @@ TODO : Documentation
 */
 inline bool operator==(const DynamicStringTupleElementWrapper& lhs, const DynamicStringTupleElementWrapper& rhs)
 {
-    return lhs.pStr && rhs.pStr ? strcmp(lhs.pStr, rhs.pStr) == 0 : !lhs.pStr && !rhs.pStr;
+    return lhs.pStr && rhs.pStr ? std::string_view(lhs.pStr) == std::string_view(rhs.pStr) : !lhs.pStr && !rhs.pStr;
 }
 
 /**

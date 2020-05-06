@@ -14,7 +14,9 @@
 #include "dynamic_static/graphics/vulkan/detail/structure-to-tuple-utilities.hpp"
 #include "dynamic_static/graphics/vulkan/detail/tuple-element-wrappers.hpp"
 #include "dynamic_static/graphics/vulkan/defines.hpp"
+#include <string_view>
 #include <tuple>
+#include <utility>
 
 namespace dst {
 namespace gfx {
@@ -25,11 +27,28 @@ namespace detail {
 // NOTE : The following structure_to_tuple<> functions are manually implemented
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
+auto structure_to_tuple<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
 auto structure_to_tuple<VkAccelerationStructureVersionKHR>(const VkAccelerationStructureVersionKHR& obj);
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
 template <>
 auto structure_to_tuple<VkClearColorValue>(const VkClearColorValue& obj);
+
+template <>
+auto structure_to_tuple<VkClearValue>(const VkClearValue& obj);
+
+template <>
+auto structure_to_tuple<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR& obj);
+
+template <>
+auto structure_to_tuple<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj);
+
+template <>
+auto structure_to_tuple<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR& obj);
 
 template <>
 auto structure_to_tuple<VkPipelineMultisampleStateCreateInfo>(const VkPipelineMultisampleStateCreateInfo& obj);
@@ -47,7 +66,7 @@ auto structure_to_tuple<VkTransformMatrixKHR>(const VkTransformMatrixKHR& obj);
 template <>
 inline auto structure_to_tuple<VkAabbPositionsKHR>(const VkAabbPositionsKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.minX,
         obj.minY,
         obj.minZ,
@@ -62,7 +81,7 @@ inline auto structure_to_tuple<VkAabbPositionsKHR>(const VkAabbPositionsKHR& obj
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureBuildGeometryInfoKHR>(const VkAccelerationStructureBuildGeometryInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.type,
@@ -72,8 +91,8 @@ inline auto structure_to_tuple<VkAccelerationStructureBuildGeometryInfoKHR>(cons
         obj.dstAccelerationStructure,
         obj.geometryArrayOfPointers,
         obj.geometryCount,
-        obj.ppGeometries,
-        obj.scratchData
+        Span(obj.ppGeometries, 1),
+        std::ref(obj.scratchData)
     );
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -82,7 +101,7 @@ inline auto structure_to_tuple<VkAccelerationStructureBuildGeometryInfoKHR>(cons
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureBuildOffsetInfoKHR>(const VkAccelerationStructureBuildOffsetInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.primitiveCount,
         obj.primitiveOffset,
         obj.firstVertex,
@@ -95,7 +114,7 @@ inline auto structure_to_tuple<VkAccelerationStructureBuildOffsetInfoKHR>(const 
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureCreateGeometryTypeInfoKHR>(const VkAccelerationStructureCreateGeometryTypeInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.geometryType,
@@ -112,7 +131,7 @@ inline auto structure_to_tuple<VkAccelerationStructureCreateGeometryTypeInfoKHR>
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureCreateInfoKHR>(const VkAccelerationStructureCreateInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.compactedSize,
@@ -128,11 +147,11 @@ inline auto structure_to_tuple<VkAccelerationStructureCreateInfoKHR>(const VkAcc
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureCreateInfoNV>(const VkAccelerationStructureCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.compactedSize,
-        obj.info
+        std::ref(obj.info)
     );
 }
 
@@ -140,7 +159,7 @@ inline auto structure_to_tuple<VkAccelerationStructureCreateInfoNV>(const VkAcce
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureDeviceAddressInfoKHR>(const VkAccelerationStructureDeviceAddressInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.accelerationStructure
@@ -152,10 +171,10 @@ inline auto structure_to_tuple<VkAccelerationStructureDeviceAddressInfoKHR>(cons
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureGeometryAabbsDataKHR>(const VkAccelerationStructureGeometryAabbsDataKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.data,
+        std::ref(obj.data),
         obj.stride
     );
 }
@@ -165,10 +184,10 @@ inline auto structure_to_tuple<VkAccelerationStructureGeometryAabbsDataKHR>(cons
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureGeometryDataKHR>(const VkAccelerationStructureGeometryDataKHR& obj)
 {
-    return std::forward_as_tuple(
-        obj.triangles,
-        obj.aabbs,
-        obj.instances
+    return std::make_tuple(
+        std::ref(obj.triangles),
+        std::ref(obj.aabbs),
+        std::ref(obj.instances)
     );
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -177,11 +196,11 @@ inline auto structure_to_tuple<VkAccelerationStructureGeometryDataKHR>(const VkA
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureGeometryInstancesDataKHR>(const VkAccelerationStructureGeometryInstancesDataKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.arrayOfPointers,
-        obj.data
+        std::ref(obj.data)
     );
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -190,11 +209,11 @@ inline auto structure_to_tuple<VkAccelerationStructureGeometryInstancesDataKHR>(
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureGeometryKHR>(const VkAccelerationStructureGeometryKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.geometryType,
-        obj.geometry,
+        std::ref(obj.geometry),
         obj.flags
     );
 }
@@ -204,15 +223,15 @@ inline auto structure_to_tuple<VkAccelerationStructureGeometryKHR>(const VkAccel
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureGeometryTrianglesDataKHR>(const VkAccelerationStructureGeometryTrianglesDataKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.vertexFormat,
-        obj.vertexData,
+        std::ref(obj.vertexData),
         obj.vertexStride,
         obj.indexType,
-        obj.indexData,
-        obj.transformData
+        std::ref(obj.indexData),
+        std::ref(obj.transformData)
     );
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -220,7 +239,7 @@ inline auto structure_to_tuple<VkAccelerationStructureGeometryTrianglesDataKHR>(
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureInfoNV>(const VkAccelerationStructureInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.type,
@@ -233,24 +252,9 @@ inline auto structure_to_tuple<VkAccelerationStructureInfoNV>(const VkAccelerati
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
-inline auto structure_to_tuple<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR& obj)
-{
-    return std::forward_as_tuple(
-        obj.transform,
-        obj.instanceCustomIndex,
-        obj.mask,
-        obj.instanceShaderBindingTableRecordOffset,
-        obj.flags,
-        obj.accelerationStructureReference
-    );
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
 inline auto structure_to_tuple<VkAccelerationStructureMemoryRequirementsInfoKHR>(const VkAccelerationStructureMemoryRequirementsInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.type,
@@ -263,7 +267,7 @@ inline auto structure_to_tuple<VkAccelerationStructureMemoryRequirementsInfoKHR>
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureMemoryRequirementsInfoNV>(const VkAccelerationStructureMemoryRequirementsInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.type,
@@ -274,7 +278,7 @@ inline auto structure_to_tuple<VkAccelerationStructureMemoryRequirementsInfoNV>(
 template <>
 inline auto structure_to_tuple<VkAcquireNextImageInfoKHR>(const VkAcquireNextImageInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.swapchain,
@@ -288,7 +292,7 @@ inline auto structure_to_tuple<VkAcquireNextImageInfoKHR>(const VkAcquireNextIma
 template <>
 inline auto structure_to_tuple<VkAcquireProfilingLockInfoKHR>(const VkAcquireProfilingLockInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -299,7 +303,7 @@ inline auto structure_to_tuple<VkAcquireProfilingLockInfoKHR>(const VkAcquirePro
 template <>
 inline auto structure_to_tuple<VkAllocationCallbacks>(const VkAllocationCallbacks& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.pUserData,
         obj.pfnAllocation,
         obj.pfnReallocation,
@@ -313,13 +317,13 @@ inline auto structure_to_tuple<VkAllocationCallbacks>(const VkAllocationCallback
 template <>
 inline auto structure_to_tuple<VkAndroidHardwareBufferFormatPropertiesANDROID>(const VkAndroidHardwareBufferFormatPropertiesANDROID& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.format,
         obj.externalFormat,
         obj.formatFeatures,
-        obj.samplerYcbcrConversionComponents,
+        std::ref(obj.samplerYcbcrConversionComponents),
         obj.suggestedYcbcrModel,
         obj.suggestedYcbcrRange,
         obj.suggestedXChromaOffset,
@@ -332,7 +336,7 @@ inline auto structure_to_tuple<VkAndroidHardwareBufferFormatPropertiesANDROID>(c
 template <>
 inline auto structure_to_tuple<VkAndroidHardwareBufferPropertiesANDROID>(const VkAndroidHardwareBufferPropertiesANDROID& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.allocationSize,
@@ -345,7 +349,7 @@ inline auto structure_to_tuple<VkAndroidHardwareBufferPropertiesANDROID>(const V
 template <>
 inline auto structure_to_tuple<VkAndroidHardwareBufferUsageANDROID>(const VkAndroidHardwareBufferUsageANDROID& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.androidHardwareBufferUsage
@@ -357,7 +361,7 @@ inline auto structure_to_tuple<VkAndroidHardwareBufferUsageANDROID>(const VkAndr
 template <>
 inline auto structure_to_tuple<VkAndroidSurfaceCreateInfoKHR>(const VkAndroidSurfaceCreateInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -369,12 +373,12 @@ inline auto structure_to_tuple<VkAndroidSurfaceCreateInfoKHR>(const VkAndroidSur
 template <>
 inline auto structure_to_tuple<VkApplicationInfo>(const VkApplicationInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        DynamicStringTupleElementWrapper { obj.pApplicationName },
+        obj.pApplicationName ? std::string_view(obj.pApplicationName) : std::string_view(),
         obj.applicationVersion,
-        DynamicStringTupleElementWrapper { obj.pEngineName },
+        obj.pEngineName ? std::string_view(obj.pEngineName) : std::string_view(),
         obj.engineVersion,
         obj.apiVersion
     );
@@ -383,7 +387,7 @@ inline auto structure_to_tuple<VkApplicationInfo>(const VkApplicationInfo& obj)
 template <>
 inline auto structure_to_tuple<VkAttachmentDescription>(const VkAttachmentDescription& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.flags,
         obj.format,
         obj.samples,
@@ -399,7 +403,7 @@ inline auto structure_to_tuple<VkAttachmentDescription>(const VkAttachmentDescri
 template <>
 inline auto structure_to_tuple<VkAttachmentDescription2>(const VkAttachmentDescription2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -417,7 +421,7 @@ inline auto structure_to_tuple<VkAttachmentDescription2>(const VkAttachmentDescr
 template <>
 inline auto structure_to_tuple<VkAttachmentDescriptionStencilLayout>(const VkAttachmentDescriptionStencilLayout& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.stencilInitialLayout,
@@ -428,7 +432,7 @@ inline auto structure_to_tuple<VkAttachmentDescriptionStencilLayout>(const VkAtt
 template <>
 inline auto structure_to_tuple<VkAttachmentReference>(const VkAttachmentReference& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.attachment,
         obj.layout
     );
@@ -437,7 +441,7 @@ inline auto structure_to_tuple<VkAttachmentReference>(const VkAttachmentReferenc
 template <>
 inline auto structure_to_tuple<VkAttachmentReference2>(const VkAttachmentReference2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.attachment,
@@ -449,7 +453,7 @@ inline auto structure_to_tuple<VkAttachmentReference2>(const VkAttachmentReferen
 template <>
 inline auto structure_to_tuple<VkAttachmentReferenceStencilLayout>(const VkAttachmentReferenceStencilLayout& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.stencilLayout
@@ -459,16 +463,16 @@ inline auto structure_to_tuple<VkAttachmentReferenceStencilLayout>(const VkAttac
 template <>
 inline auto structure_to_tuple<VkAttachmentSampleLocationsEXT>(const VkAttachmentSampleLocationsEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.attachmentIndex,
-        obj.sampleLocationsInfo
+        std::ref(obj.sampleLocationsInfo)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkBaseInStructure>(const VkBaseInStructure& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext }
     );
@@ -477,7 +481,7 @@ inline auto structure_to_tuple<VkBaseInStructure>(const VkBaseInStructure& obj)
 template <>
 inline auto structure_to_tuple<VkBaseOutStructure>(const VkBaseOutStructure& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext }
     );
@@ -487,7 +491,7 @@ inline auto structure_to_tuple<VkBaseOutStructure>(const VkBaseOutStructure& obj
 template <>
 inline auto structure_to_tuple<VkBindAccelerationStructureMemoryInfoKHR>(const VkBindAccelerationStructureMemoryInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.accelerationStructure,
@@ -502,7 +506,7 @@ inline auto structure_to_tuple<VkBindAccelerationStructureMemoryInfoKHR>(const V
 template <>
 inline auto structure_to_tuple<VkBindBufferMemoryDeviceGroupInfo>(const VkBindBufferMemoryDeviceGroupInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.deviceIndexCount,
@@ -513,7 +517,7 @@ inline auto structure_to_tuple<VkBindBufferMemoryDeviceGroupInfo>(const VkBindBu
 template <>
 inline auto structure_to_tuple<VkBindBufferMemoryInfo>(const VkBindBufferMemoryInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.buffer,
@@ -525,7 +529,7 @@ inline auto structure_to_tuple<VkBindBufferMemoryInfo>(const VkBindBufferMemoryI
 template <>
 inline auto structure_to_tuple<VkBindImageMemoryDeviceGroupInfo>(const VkBindImageMemoryDeviceGroupInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.deviceIndexCount,
@@ -538,7 +542,7 @@ inline auto structure_to_tuple<VkBindImageMemoryDeviceGroupInfo>(const VkBindIma
 template <>
 inline auto structure_to_tuple<VkBindImageMemoryInfo>(const VkBindImageMemoryInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.image,
@@ -550,7 +554,7 @@ inline auto structure_to_tuple<VkBindImageMemoryInfo>(const VkBindImageMemoryInf
 template <>
 inline auto structure_to_tuple<VkBindImageMemorySwapchainInfoKHR>(const VkBindImageMemorySwapchainInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.swapchain,
@@ -561,7 +565,7 @@ inline auto structure_to_tuple<VkBindImageMemorySwapchainInfoKHR>(const VkBindIm
 template <>
 inline auto structure_to_tuple<VkBindImagePlaneMemoryInfo>(const VkBindImagePlaneMemoryInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.planeAspect
@@ -571,7 +575,7 @@ inline auto structure_to_tuple<VkBindImagePlaneMemoryInfo>(const VkBindImagePlan
 template <>
 inline auto structure_to_tuple<VkBindIndexBufferIndirectCommandNV>(const VkBindIndexBufferIndirectCommandNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.bufferAddress,
         obj.size,
         obj.indexType
@@ -581,7 +585,7 @@ inline auto structure_to_tuple<VkBindIndexBufferIndirectCommandNV>(const VkBindI
 template <>
 inline auto structure_to_tuple<VkBindShaderGroupIndirectCommandNV>(const VkBindShaderGroupIndirectCommandNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.groupIndex
     );
 }
@@ -589,7 +593,7 @@ inline auto structure_to_tuple<VkBindShaderGroupIndirectCommandNV>(const VkBindS
 template <>
 inline auto structure_to_tuple<VkBindSparseInfo>(const VkBindSparseInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.waitSemaphoreCount,
@@ -608,7 +612,7 @@ inline auto structure_to_tuple<VkBindSparseInfo>(const VkBindSparseInfo& obj)
 template <>
 inline auto structure_to_tuple<VkBindVertexBufferIndirectCommandNV>(const VkBindVertexBufferIndirectCommandNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.bufferAddress,
         obj.size,
         obj.stride
@@ -618,7 +622,7 @@ inline auto structure_to_tuple<VkBindVertexBufferIndirectCommandNV>(const VkBind
 template <>
 inline auto structure_to_tuple<VkBufferCopy>(const VkBufferCopy& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.srcOffset,
         obj.dstOffset,
         obj.size
@@ -628,7 +632,7 @@ inline auto structure_to_tuple<VkBufferCopy>(const VkBufferCopy& obj)
 template <>
 inline auto structure_to_tuple<VkBufferCreateInfo>(const VkBufferCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -643,7 +647,7 @@ inline auto structure_to_tuple<VkBufferCreateInfo>(const VkBufferCreateInfo& obj
 template <>
 inline auto structure_to_tuple<VkBufferDeviceAddressCreateInfoEXT>(const VkBufferDeviceAddressCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.deviceAddress
@@ -653,7 +657,7 @@ inline auto structure_to_tuple<VkBufferDeviceAddressCreateInfoEXT>(const VkBuffe
 template <>
 inline auto structure_to_tuple<VkBufferDeviceAddressInfo>(const VkBufferDeviceAddressInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.buffer
@@ -663,20 +667,20 @@ inline auto structure_to_tuple<VkBufferDeviceAddressInfo>(const VkBufferDeviceAd
 template <>
 inline auto structure_to_tuple<VkBufferImageCopy>(const VkBufferImageCopy& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.bufferOffset,
         obj.bufferRowLength,
         obj.bufferImageHeight,
-        obj.imageSubresource,
-        obj.imageOffset,
-        obj.imageExtent
+        std::ref(obj.imageSubresource),
+        std::ref(obj.imageOffset),
+        std::ref(obj.imageExtent)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkBufferMemoryBarrier>(const VkBufferMemoryBarrier& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.srcAccessMask,
@@ -692,7 +696,7 @@ inline auto structure_to_tuple<VkBufferMemoryBarrier>(const VkBufferMemoryBarrie
 template <>
 inline auto structure_to_tuple<VkBufferMemoryRequirementsInfo2>(const VkBufferMemoryRequirementsInfo2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.buffer
@@ -702,7 +706,7 @@ inline auto structure_to_tuple<VkBufferMemoryRequirementsInfo2>(const VkBufferMe
 template <>
 inline auto structure_to_tuple<VkBufferOpaqueCaptureAddressCreateInfo>(const VkBufferOpaqueCaptureAddressCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.opaqueCaptureAddress
@@ -712,7 +716,7 @@ inline auto structure_to_tuple<VkBufferOpaqueCaptureAddressCreateInfo>(const VkB
 template <>
 inline auto structure_to_tuple<VkBufferViewCreateInfo>(const VkBufferViewCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -726,7 +730,7 @@ inline auto structure_to_tuple<VkBufferViewCreateInfo>(const VkBufferViewCreateI
 template <>
 inline auto structure_to_tuple<VkCalibratedTimestampInfoEXT>(const VkCalibratedTimestampInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.timeDomain
@@ -736,7 +740,7 @@ inline auto structure_to_tuple<VkCalibratedTimestampInfoEXT>(const VkCalibratedT
 template <>
 inline auto structure_to_tuple<VkCheckpointDataNV>(const VkCheckpointDataNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.stage,
@@ -747,17 +751,17 @@ inline auto structure_to_tuple<VkCheckpointDataNV>(const VkCheckpointDataNV& obj
 template <>
 inline auto structure_to_tuple<VkClearAttachment>(const VkClearAttachment& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.aspectMask,
         obj.colorAttachment,
-        obj.clearValue
+        std::ref(obj.clearValue)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkClearDepthStencilValue>(const VkClearDepthStencilValue& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.depth,
         obj.stencil
     );
@@ -766,26 +770,17 @@ inline auto structure_to_tuple<VkClearDepthStencilValue>(const VkClearDepthStenc
 template <>
 inline auto structure_to_tuple<VkClearRect>(const VkClearRect& obj)
 {
-    return std::forward_as_tuple(
-        obj.rect,
+    return std::make_tuple(
+        std::ref(obj.rect),
         obj.baseArrayLayer,
         obj.layerCount
     );
 }
 
 template <>
-inline auto structure_to_tuple<VkClearValue>(const VkClearValue& obj)
-{
-    return std::forward_as_tuple(
-        obj.color,
-        obj.depthStencil
-    );
-}
-
-template <>
 inline auto structure_to_tuple<VkCoarseSampleLocationNV>(const VkCoarseSampleLocationNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.pixelX,
         obj.pixelY,
         obj.sample
@@ -795,7 +790,7 @@ inline auto structure_to_tuple<VkCoarseSampleLocationNV>(const VkCoarseSampleLoc
 template <>
 inline auto structure_to_tuple<VkCoarseSampleOrderCustomNV>(const VkCoarseSampleOrderCustomNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.shadingRate,
         obj.sampleCount,
         obj.sampleLocationCount,
@@ -806,7 +801,7 @@ inline auto structure_to_tuple<VkCoarseSampleOrderCustomNV>(const VkCoarseSample
 template <>
 inline auto structure_to_tuple<VkCommandBufferAllocateInfo>(const VkCommandBufferAllocateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.commandPool,
@@ -818,18 +813,18 @@ inline auto structure_to_tuple<VkCommandBufferAllocateInfo>(const VkCommandBuffe
 template <>
 inline auto structure_to_tuple<VkCommandBufferBeginInfo>(const VkCommandBufferBeginInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
-        obj.pInheritanceInfo
+        Span(obj.pInheritanceInfo, 1)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkCommandBufferInheritanceConditionalRenderingInfoEXT>(const VkCommandBufferInheritanceConditionalRenderingInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.conditionalRenderingEnable
@@ -839,7 +834,7 @@ inline auto structure_to_tuple<VkCommandBufferInheritanceConditionalRenderingInf
 template <>
 inline auto structure_to_tuple<VkCommandBufferInheritanceInfo>(const VkCommandBufferInheritanceInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.renderPass,
@@ -854,18 +849,18 @@ inline auto structure_to_tuple<VkCommandBufferInheritanceInfo>(const VkCommandBu
 template <>
 inline auto structure_to_tuple<VkCommandBufferInheritanceRenderPassTransformInfoQCOM>(const VkCommandBufferInheritanceRenderPassTransformInfoQCOM& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.transform,
-        obj.renderArea
+        std::ref(obj.renderArea)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkCommandPoolCreateInfo>(const VkCommandPoolCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -876,7 +871,7 @@ inline auto structure_to_tuple<VkCommandPoolCreateInfo>(const VkCommandPoolCreat
 template <>
 inline auto structure_to_tuple<VkComponentMapping>(const VkComponentMapping& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.r,
         obj.g,
         obj.b,
@@ -887,11 +882,11 @@ inline auto structure_to_tuple<VkComponentMapping>(const VkComponentMapping& obj
 template <>
 inline auto structure_to_tuple<VkComputePipelineCreateInfo>(const VkComputePipelineCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
-        obj.stage,
+        std::ref(obj.stage),
         obj.layout,
         obj.basePipelineHandle,
         obj.basePipelineIndex
@@ -901,7 +896,7 @@ inline auto structure_to_tuple<VkComputePipelineCreateInfo>(const VkComputePipel
 template <>
 inline auto structure_to_tuple<VkConditionalRenderingBeginInfoEXT>(const VkConditionalRenderingBeginInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.buffer,
@@ -913,7 +908,7 @@ inline auto structure_to_tuple<VkConditionalRenderingBeginInfoEXT>(const VkCondi
 template <>
 inline auto structure_to_tuple<VkConformanceVersion>(const VkConformanceVersion& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.major,
         obj.minor,
         obj.subminor,
@@ -924,7 +919,7 @@ inline auto structure_to_tuple<VkConformanceVersion>(const VkConformanceVersion&
 template <>
 inline auto structure_to_tuple<VkCooperativeMatrixPropertiesNV>(const VkCooperativeMatrixPropertiesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.MSize,
@@ -942,7 +937,7 @@ inline auto structure_to_tuple<VkCooperativeMatrixPropertiesNV>(const VkCooperat
 template <>
 inline auto structure_to_tuple<VkCopyAccelerationStructureInfoKHR>(const VkCopyAccelerationStructureInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.src,
@@ -956,11 +951,11 @@ inline auto structure_to_tuple<VkCopyAccelerationStructureInfoKHR>(const VkCopyA
 template <>
 inline auto structure_to_tuple<VkCopyAccelerationStructureToMemoryInfoKHR>(const VkCopyAccelerationStructureToMemoryInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.src,
-        obj.dst,
+        std::ref(obj.dst),
         obj.mode
     );
 }
@@ -969,7 +964,7 @@ inline auto structure_to_tuple<VkCopyAccelerationStructureToMemoryInfoKHR>(const
 template <>
 inline auto structure_to_tuple<VkCopyDescriptorSet>(const VkCopyDescriptorSet& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.srcSet,
@@ -986,10 +981,10 @@ inline auto structure_to_tuple<VkCopyDescriptorSet>(const VkCopyDescriptorSet& o
 template <>
 inline auto structure_to_tuple<VkCopyMemoryToAccelerationStructureInfoKHR>(const VkCopyMemoryToAccelerationStructureInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.src,
+        std::ref(obj.src),
         obj.dst,
         obj.mode
     );
@@ -1000,7 +995,7 @@ inline auto structure_to_tuple<VkCopyMemoryToAccelerationStructureInfoKHR>(const
 template <>
 inline auto structure_to_tuple<VkD3D12FenceSubmitInfoKHR>(const VkD3D12FenceSubmitInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.waitSemaphoreValuesCount,
@@ -1014,10 +1009,10 @@ inline auto structure_to_tuple<VkD3D12FenceSubmitInfoKHR>(const VkD3D12FenceSubm
 template <>
 inline auto structure_to_tuple<VkDebugMarkerMarkerInfoEXT>(const VkDebugMarkerMarkerInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        DynamicStringTupleElementWrapper { obj.pMarkerName },
+        obj.pMarkerName ? std::string_view(obj.pMarkerName) : std::string_view(),
         Span(obj.color, 4)
     );
 }
@@ -1025,19 +1020,19 @@ inline auto structure_to_tuple<VkDebugMarkerMarkerInfoEXT>(const VkDebugMarkerMa
 template <>
 inline auto structure_to_tuple<VkDebugMarkerObjectNameInfoEXT>(const VkDebugMarkerObjectNameInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.objectType,
         obj.object,
-        DynamicStringTupleElementWrapper { obj.pObjectName }
+        obj.pObjectName ? std::string_view(obj.pObjectName) : std::string_view()
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkDebugMarkerObjectTagInfoEXT>(const VkDebugMarkerObjectTagInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.objectType,
@@ -1051,7 +1046,7 @@ inline auto structure_to_tuple<VkDebugMarkerObjectTagInfoEXT>(const VkDebugMarke
 template <>
 inline auto structure_to_tuple<VkDebugReportCallbackCreateInfoEXT>(const VkDebugReportCallbackCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -1063,10 +1058,10 @@ inline auto structure_to_tuple<VkDebugReportCallbackCreateInfoEXT>(const VkDebug
 template <>
 inline auto structure_to_tuple<VkDebugUtilsLabelEXT>(const VkDebugUtilsLabelEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        DynamicStringTupleElementWrapper { obj.pLabelName },
+        obj.pLabelName ? std::string_view(obj.pLabelName) : std::string_view(),
         Span(obj.color, 4)
     );
 }
@@ -1074,13 +1069,13 @@ inline auto structure_to_tuple<VkDebugUtilsLabelEXT>(const VkDebugUtilsLabelEXT&
 template <>
 inline auto structure_to_tuple<VkDebugUtilsMessengerCallbackDataEXT>(const VkDebugUtilsMessengerCallbackDataEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
-        DynamicStringTupleElementWrapper { obj.pMessageIdName },
+        obj.pMessageIdName ? std::string_view(obj.pMessageIdName) : std::string_view(),
         obj.messageIdNumber,
-        DynamicStringTupleElementWrapper { obj.pMessage },
+        obj.pMessage ? std::string_view(obj.pMessage) : std::string_view(),
         obj.queueLabelCount,
         Span(obj.pQueueLabels, obj.queueLabelCount),
         obj.cmdBufLabelCount,
@@ -1093,7 +1088,7 @@ inline auto structure_to_tuple<VkDebugUtilsMessengerCallbackDataEXT>(const VkDeb
 template <>
 inline auto structure_to_tuple<VkDebugUtilsMessengerCreateInfoEXT>(const VkDebugUtilsMessengerCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -1107,19 +1102,19 @@ inline auto structure_to_tuple<VkDebugUtilsMessengerCreateInfoEXT>(const VkDebug
 template <>
 inline auto structure_to_tuple<VkDebugUtilsObjectNameInfoEXT>(const VkDebugUtilsObjectNameInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.objectType,
         obj.objectHandle,
-        DynamicStringTupleElementWrapper { obj.pObjectName }
+        obj.pObjectName ? std::string_view(obj.pObjectName) : std::string_view()
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkDebugUtilsObjectTagInfoEXT>(const VkDebugUtilsObjectTagInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.objectType,
@@ -1133,7 +1128,7 @@ inline auto structure_to_tuple<VkDebugUtilsObjectTagInfoEXT>(const VkDebugUtilsO
 template <>
 inline auto structure_to_tuple<VkDedicatedAllocationBufferCreateInfoNV>(const VkDedicatedAllocationBufferCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.dedicatedAllocation
@@ -1143,7 +1138,7 @@ inline auto structure_to_tuple<VkDedicatedAllocationBufferCreateInfoNV>(const Vk
 template <>
 inline auto structure_to_tuple<VkDedicatedAllocationImageCreateInfoNV>(const VkDedicatedAllocationImageCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.dedicatedAllocation
@@ -1153,7 +1148,7 @@ inline auto structure_to_tuple<VkDedicatedAllocationImageCreateInfoNV>(const VkD
 template <>
 inline auto structure_to_tuple<VkDedicatedAllocationMemoryAllocateInfoNV>(const VkDedicatedAllocationMemoryAllocateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.image,
@@ -1165,7 +1160,7 @@ inline auto structure_to_tuple<VkDedicatedAllocationMemoryAllocateInfoNV>(const 
 template <>
 inline auto structure_to_tuple<VkDeferredOperationInfoKHR>(const VkDeferredOperationInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.operationHandle
@@ -1176,7 +1171,7 @@ inline auto structure_to_tuple<VkDeferredOperationInfoKHR>(const VkDeferredOpera
 template <>
 inline auto structure_to_tuple<VkDescriptorBufferInfo>(const VkDescriptorBufferInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.buffer,
         obj.offset,
         obj.range
@@ -1186,7 +1181,7 @@ inline auto structure_to_tuple<VkDescriptorBufferInfo>(const VkDescriptorBufferI
 template <>
 inline auto structure_to_tuple<VkDescriptorImageInfo>(const VkDescriptorImageInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sampler,
         obj.imageView,
         obj.imageLayout
@@ -1196,7 +1191,7 @@ inline auto structure_to_tuple<VkDescriptorImageInfo>(const VkDescriptorImageInf
 template <>
 inline auto structure_to_tuple<VkDescriptorPoolCreateInfo>(const VkDescriptorPoolCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -1209,7 +1204,7 @@ inline auto structure_to_tuple<VkDescriptorPoolCreateInfo>(const VkDescriptorPoo
 template <>
 inline auto structure_to_tuple<VkDescriptorPoolInlineUniformBlockCreateInfoEXT>(const VkDescriptorPoolInlineUniformBlockCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.maxInlineUniformBlockBindings
@@ -1219,7 +1214,7 @@ inline auto structure_to_tuple<VkDescriptorPoolInlineUniformBlockCreateInfoEXT>(
 template <>
 inline auto structure_to_tuple<VkDescriptorPoolSize>(const VkDescriptorPoolSize& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.type,
         obj.descriptorCount
     );
@@ -1228,7 +1223,7 @@ inline auto structure_to_tuple<VkDescriptorPoolSize>(const VkDescriptorPoolSize&
 template <>
 inline auto structure_to_tuple<VkDescriptorSetAllocateInfo>(const VkDescriptorSetAllocateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.descriptorPool,
@@ -1240,7 +1235,7 @@ inline auto structure_to_tuple<VkDescriptorSetAllocateInfo>(const VkDescriptorSe
 template <>
 inline auto structure_to_tuple<VkDescriptorSetLayoutBinding>(const VkDescriptorSetLayoutBinding& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.binding,
         obj.descriptorType,
         obj.descriptorCount,
@@ -1252,7 +1247,7 @@ inline auto structure_to_tuple<VkDescriptorSetLayoutBinding>(const VkDescriptorS
 template <>
 inline auto structure_to_tuple<VkDescriptorSetLayoutBindingFlagsCreateInfo>(const VkDescriptorSetLayoutBindingFlagsCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.bindingCount,
@@ -1263,7 +1258,7 @@ inline auto structure_to_tuple<VkDescriptorSetLayoutBindingFlagsCreateInfo>(cons
 template <>
 inline auto structure_to_tuple<VkDescriptorSetLayoutCreateInfo>(const VkDescriptorSetLayoutCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -1275,7 +1270,7 @@ inline auto structure_to_tuple<VkDescriptorSetLayoutCreateInfo>(const VkDescript
 template <>
 inline auto structure_to_tuple<VkDescriptorSetLayoutSupport>(const VkDescriptorSetLayoutSupport& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.supported
@@ -1285,7 +1280,7 @@ inline auto structure_to_tuple<VkDescriptorSetLayoutSupport>(const VkDescriptorS
 template <>
 inline auto structure_to_tuple<VkDescriptorSetVariableDescriptorCountAllocateInfo>(const VkDescriptorSetVariableDescriptorCountAllocateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.descriptorSetCount,
@@ -1296,7 +1291,7 @@ inline auto structure_to_tuple<VkDescriptorSetVariableDescriptorCountAllocateInf
 template <>
 inline auto structure_to_tuple<VkDescriptorSetVariableDescriptorCountLayoutSupport>(const VkDescriptorSetVariableDescriptorCountLayoutSupport& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.maxVariableDescriptorCount
@@ -1306,7 +1301,7 @@ inline auto structure_to_tuple<VkDescriptorSetVariableDescriptorCountLayoutSuppo
 template <>
 inline auto structure_to_tuple<VkDescriptorUpdateTemplateCreateInfo>(const VkDescriptorUpdateTemplateCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -1323,7 +1318,7 @@ inline auto structure_to_tuple<VkDescriptorUpdateTemplateCreateInfo>(const VkDes
 template <>
 inline auto structure_to_tuple<VkDescriptorUpdateTemplateEntry>(const VkDescriptorUpdateTemplateEntry& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.dstBinding,
         obj.dstArrayElement,
         obj.descriptorCount,
@@ -1336,7 +1331,7 @@ inline auto structure_to_tuple<VkDescriptorUpdateTemplateEntry>(const VkDescript
 template <>
 inline auto structure_to_tuple<VkDeviceCreateInfo>(const VkDeviceCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -1346,14 +1341,14 @@ inline auto structure_to_tuple<VkDeviceCreateInfo>(const VkDeviceCreateInfo& obj
         DynamicStringArrayTupleElementWrapper { obj.enabledLayerCount, obj.ppEnabledLayerNames },
         obj.enabledExtensionCount,
         DynamicStringArrayTupleElementWrapper { obj.enabledExtensionCount, obj.ppEnabledExtensionNames },
-        obj.pEnabledFeatures
+        Span(obj.pEnabledFeatures, 1)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkDeviceDiagnosticsConfigCreateInfoNV>(const VkDeviceDiagnosticsConfigCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags
@@ -1363,7 +1358,7 @@ inline auto structure_to_tuple<VkDeviceDiagnosticsConfigCreateInfoNV>(const VkDe
 template <>
 inline auto structure_to_tuple<VkDeviceEventInfoEXT>(const VkDeviceEventInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.deviceEvent
@@ -1373,7 +1368,7 @@ inline auto structure_to_tuple<VkDeviceEventInfoEXT>(const VkDeviceEventInfoEXT&
 template <>
 inline auto structure_to_tuple<VkDeviceGroupBindSparseInfo>(const VkDeviceGroupBindSparseInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.resourceDeviceIndex,
@@ -1384,7 +1379,7 @@ inline auto structure_to_tuple<VkDeviceGroupBindSparseInfo>(const VkDeviceGroupB
 template <>
 inline auto structure_to_tuple<VkDeviceGroupCommandBufferBeginInfo>(const VkDeviceGroupCommandBufferBeginInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.deviceMask
@@ -1394,7 +1389,7 @@ inline auto structure_to_tuple<VkDeviceGroupCommandBufferBeginInfo>(const VkDevi
 template <>
 inline auto structure_to_tuple<VkDeviceGroupDeviceCreateInfo>(const VkDeviceGroupDeviceCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.physicalDeviceCount,
@@ -1405,7 +1400,7 @@ inline auto structure_to_tuple<VkDeviceGroupDeviceCreateInfo>(const VkDeviceGrou
 template <>
 inline auto structure_to_tuple<VkDeviceGroupPresentCapabilitiesKHR>(const VkDeviceGroupPresentCapabilitiesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         Span(obj.presentMask, VK_MAX_DEVICE_GROUP_SIZE),
@@ -1416,7 +1411,7 @@ inline auto structure_to_tuple<VkDeviceGroupPresentCapabilitiesKHR>(const VkDevi
 template <>
 inline auto structure_to_tuple<VkDeviceGroupPresentInfoKHR>(const VkDeviceGroupPresentInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.swapchainCount,
@@ -1428,7 +1423,7 @@ inline auto structure_to_tuple<VkDeviceGroupPresentInfoKHR>(const VkDeviceGroupP
 template <>
 inline auto structure_to_tuple<VkDeviceGroupRenderPassBeginInfo>(const VkDeviceGroupRenderPassBeginInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.deviceMask,
@@ -1440,7 +1435,7 @@ inline auto structure_to_tuple<VkDeviceGroupRenderPassBeginInfo>(const VkDeviceG
 template <>
 inline auto structure_to_tuple<VkDeviceGroupSubmitInfo>(const VkDeviceGroupSubmitInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.waitSemaphoreCount,
@@ -1455,7 +1450,7 @@ inline auto structure_to_tuple<VkDeviceGroupSubmitInfo>(const VkDeviceGroupSubmi
 template <>
 inline auto structure_to_tuple<VkDeviceGroupSwapchainCreateInfoKHR>(const VkDeviceGroupSwapchainCreateInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.modes
@@ -1465,7 +1460,7 @@ inline auto structure_to_tuple<VkDeviceGroupSwapchainCreateInfoKHR>(const VkDevi
 template <>
 inline auto structure_to_tuple<VkDeviceMemoryOpaqueCaptureAddressInfo>(const VkDeviceMemoryOpaqueCaptureAddressInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.memory
@@ -1475,7 +1470,7 @@ inline auto structure_to_tuple<VkDeviceMemoryOpaqueCaptureAddressInfo>(const VkD
 template <>
 inline auto structure_to_tuple<VkDeviceMemoryOverallocationCreateInfoAMD>(const VkDeviceMemoryOverallocationCreateInfoAMD& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.overallocationBehavior
@@ -1486,7 +1481,7 @@ inline auto structure_to_tuple<VkDeviceMemoryOverallocationCreateInfoAMD>(const 
 template <>
 inline auto structure_to_tuple<VkDeviceOrHostAddressConstKHR>(const VkDeviceOrHostAddressConstKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.deviceAddress,
         obj.hostAddress
     );
@@ -1497,7 +1492,7 @@ inline auto structure_to_tuple<VkDeviceOrHostAddressConstKHR>(const VkDeviceOrHo
 template <>
 inline auto structure_to_tuple<VkDeviceOrHostAddressKHR>(const VkDeviceOrHostAddressKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.deviceAddress,
         obj.hostAddress
     );
@@ -1507,7 +1502,7 @@ inline auto structure_to_tuple<VkDeviceOrHostAddressKHR>(const VkDeviceOrHostAdd
 template <>
 inline auto structure_to_tuple<VkDeviceQueueCreateInfo>(const VkDeviceQueueCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -1520,7 +1515,7 @@ inline auto structure_to_tuple<VkDeviceQueueCreateInfo>(const VkDeviceQueueCreat
 template <>
 inline auto structure_to_tuple<VkDeviceQueueGlobalPriorityCreateInfoEXT>(const VkDeviceQueueGlobalPriorityCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.globalPriority
@@ -1530,7 +1525,7 @@ inline auto structure_to_tuple<VkDeviceQueueGlobalPriorityCreateInfoEXT>(const V
 template <>
 inline auto structure_to_tuple<VkDeviceQueueInfo2>(const VkDeviceQueueInfo2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -1542,7 +1537,7 @@ inline auto structure_to_tuple<VkDeviceQueueInfo2>(const VkDeviceQueueInfo2& obj
 template <>
 inline auto structure_to_tuple<VkDispatchIndirectCommand>(const VkDispatchIndirectCommand& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.x,
         obj.y,
         obj.z
@@ -1552,7 +1547,7 @@ inline auto structure_to_tuple<VkDispatchIndirectCommand>(const VkDispatchIndire
 template <>
 inline auto structure_to_tuple<VkDisplayEventInfoEXT>(const VkDisplayEventInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.displayEvent
@@ -1562,19 +1557,19 @@ inline auto structure_to_tuple<VkDisplayEventInfoEXT>(const VkDisplayEventInfoEX
 template <>
 inline auto structure_to_tuple<VkDisplayModeCreateInfoKHR>(const VkDisplayModeCreateInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
-        obj.parameters
+        std::ref(obj.parameters)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkDisplayModeParametersKHR>(const VkDisplayModeParametersKHR& obj)
 {
-    return std::forward_as_tuple(
-        obj.visibleRegion,
+    return std::make_tuple(
+        std::ref(obj.visibleRegion),
         obj.refreshRate
     );
 }
@@ -1582,26 +1577,26 @@ inline auto structure_to_tuple<VkDisplayModeParametersKHR>(const VkDisplayModePa
 template <>
 inline auto structure_to_tuple<VkDisplayModeProperties2KHR>(const VkDisplayModeProperties2KHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.displayModeProperties
+        std::ref(obj.displayModeProperties)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkDisplayModePropertiesKHR>(const VkDisplayModePropertiesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.displayMode,
-        obj.parameters
+        std::ref(obj.parameters)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkDisplayNativeHdrSurfaceCapabilitiesAMD>(const VkDisplayNativeHdrSurfaceCapabilitiesAMD& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.localDimmingSupport
@@ -1611,33 +1606,33 @@ inline auto structure_to_tuple<VkDisplayNativeHdrSurfaceCapabilitiesAMD>(const V
 template <>
 inline auto structure_to_tuple<VkDisplayPlaneCapabilities2KHR>(const VkDisplayPlaneCapabilities2KHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.capabilities
+        std::ref(obj.capabilities)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkDisplayPlaneCapabilitiesKHR>(const VkDisplayPlaneCapabilitiesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.supportedAlpha,
-        obj.minSrcPosition,
-        obj.maxSrcPosition,
-        obj.minSrcExtent,
-        obj.maxSrcExtent,
-        obj.minDstPosition,
-        obj.maxDstPosition,
-        obj.minDstExtent,
-        obj.maxDstExtent
+        std::ref(obj.minSrcPosition),
+        std::ref(obj.maxSrcPosition),
+        std::ref(obj.minSrcExtent),
+        std::ref(obj.maxSrcExtent),
+        std::ref(obj.minDstPosition),
+        std::ref(obj.maxDstPosition),
+        std::ref(obj.minDstExtent),
+        std::ref(obj.maxDstExtent)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkDisplayPlaneInfo2KHR>(const VkDisplayPlaneInfo2KHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.mode,
@@ -1648,17 +1643,17 @@ inline auto structure_to_tuple<VkDisplayPlaneInfo2KHR>(const VkDisplayPlaneInfo2
 template <>
 inline auto structure_to_tuple<VkDisplayPlaneProperties2KHR>(const VkDisplayPlaneProperties2KHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.displayPlaneProperties
+        std::ref(obj.displayPlaneProperties)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkDisplayPlanePropertiesKHR>(const VkDisplayPlanePropertiesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.currentDisplay,
         obj.currentStackIndex
     );
@@ -1667,7 +1662,7 @@ inline auto structure_to_tuple<VkDisplayPlanePropertiesKHR>(const VkDisplayPlane
 template <>
 inline auto structure_to_tuple<VkDisplayPowerInfoEXT>(const VkDisplayPowerInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.powerState
@@ -1677,11 +1672,11 @@ inline auto structure_to_tuple<VkDisplayPowerInfoEXT>(const VkDisplayPowerInfoEX
 template <>
 inline auto structure_to_tuple<VkDisplayPresentInfoKHR>(const VkDisplayPresentInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.srcRect,
-        obj.dstRect,
+        std::ref(obj.srcRect),
+        std::ref(obj.dstRect),
         obj.persistent
     );
 }
@@ -1689,21 +1684,21 @@ inline auto structure_to_tuple<VkDisplayPresentInfoKHR>(const VkDisplayPresentIn
 template <>
 inline auto structure_to_tuple<VkDisplayProperties2KHR>(const VkDisplayProperties2KHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.displayProperties
+        std::ref(obj.displayProperties)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkDisplayPropertiesKHR>(const VkDisplayPropertiesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.display,
-        DynamicStringTupleElementWrapper { obj.displayName },
-        obj.physicalDimensions,
-        obj.physicalResolution,
+        obj.displayName ? std::string_view(obj.displayName) : std::string_view(),
+        std::ref(obj.physicalDimensions),
+        std::ref(obj.physicalResolution),
         obj.supportedTransforms,
         obj.planeReorderPossible,
         obj.persistentContent
@@ -1713,7 +1708,7 @@ inline auto structure_to_tuple<VkDisplayPropertiesKHR>(const VkDisplayProperties
 template <>
 inline auto structure_to_tuple<VkDisplaySurfaceCreateInfoKHR>(const VkDisplaySurfaceCreateInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -1723,14 +1718,14 @@ inline auto structure_to_tuple<VkDisplaySurfaceCreateInfoKHR>(const VkDisplaySur
         obj.transform,
         obj.globalAlpha,
         obj.alphaMode,
-        obj.imageExtent
+        std::ref(obj.imageExtent)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkDrawIndexedIndirectCommand>(const VkDrawIndexedIndirectCommand& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.indexCount,
         obj.instanceCount,
         obj.firstIndex,
@@ -1742,7 +1737,7 @@ inline auto structure_to_tuple<VkDrawIndexedIndirectCommand>(const VkDrawIndexed
 template <>
 inline auto structure_to_tuple<VkDrawIndirectCommand>(const VkDrawIndirectCommand& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.vertexCount,
         obj.instanceCount,
         obj.firstVertex,
@@ -1753,7 +1748,7 @@ inline auto structure_to_tuple<VkDrawIndirectCommand>(const VkDrawIndirectComman
 template <>
 inline auto structure_to_tuple<VkDrawMeshTasksIndirectCommandNV>(const VkDrawMeshTasksIndirectCommandNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.taskCount,
         obj.firstTask
     );
@@ -1762,7 +1757,7 @@ inline auto structure_to_tuple<VkDrawMeshTasksIndirectCommandNV>(const VkDrawMes
 template <>
 inline auto structure_to_tuple<VkDrmFormatModifierPropertiesEXT>(const VkDrmFormatModifierPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.drmFormatModifier,
         obj.drmFormatModifierPlaneCount,
         obj.drmFormatModifierTilingFeatures
@@ -1772,7 +1767,7 @@ inline auto structure_to_tuple<VkDrmFormatModifierPropertiesEXT>(const VkDrmForm
 template <>
 inline auto structure_to_tuple<VkDrmFormatModifierPropertiesListEXT>(const VkDrmFormatModifierPropertiesListEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.drmFormatModifierCount,
@@ -1783,7 +1778,7 @@ inline auto structure_to_tuple<VkDrmFormatModifierPropertiesListEXT>(const VkDrm
 template <>
 inline auto structure_to_tuple<VkEventCreateInfo>(const VkEventCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags
@@ -1793,7 +1788,7 @@ inline auto structure_to_tuple<VkEventCreateInfo>(const VkEventCreateInfo& obj)
 template <>
 inline auto structure_to_tuple<VkExportFenceCreateInfo>(const VkExportFenceCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.handleTypes
@@ -1804,7 +1799,7 @@ inline auto structure_to_tuple<VkExportFenceCreateInfo>(const VkExportFenceCreat
 template <>
 inline auto structure_to_tuple<VkExportFenceWin32HandleInfoKHR>(const VkExportFenceWin32HandleInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.pAttributes,
@@ -1817,7 +1812,7 @@ inline auto structure_to_tuple<VkExportFenceWin32HandleInfoKHR>(const VkExportFe
 template <>
 inline auto structure_to_tuple<VkExportMemoryAllocateInfo>(const VkExportMemoryAllocateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.handleTypes
@@ -1827,7 +1822,7 @@ inline auto structure_to_tuple<VkExportMemoryAllocateInfo>(const VkExportMemoryA
 template <>
 inline auto structure_to_tuple<VkExportMemoryAllocateInfoNV>(const VkExportMemoryAllocateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.handleTypes
@@ -1838,7 +1833,7 @@ inline auto structure_to_tuple<VkExportMemoryAllocateInfoNV>(const VkExportMemor
 template <>
 inline auto structure_to_tuple<VkExportMemoryWin32HandleInfoKHR>(const VkExportMemoryWin32HandleInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.pAttributes,
@@ -1852,7 +1847,7 @@ inline auto structure_to_tuple<VkExportMemoryWin32HandleInfoKHR>(const VkExportM
 template <>
 inline auto structure_to_tuple<VkExportMemoryWin32HandleInfoNV>(const VkExportMemoryWin32HandleInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.pAttributes,
@@ -1864,7 +1859,7 @@ inline auto structure_to_tuple<VkExportMemoryWin32HandleInfoNV>(const VkExportMe
 template <>
 inline auto structure_to_tuple<VkExportSemaphoreCreateInfo>(const VkExportSemaphoreCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.handleTypes
@@ -1875,7 +1870,7 @@ inline auto structure_to_tuple<VkExportSemaphoreCreateInfo>(const VkExportSemaph
 template <>
 inline auto structure_to_tuple<VkExportSemaphoreWin32HandleInfoKHR>(const VkExportSemaphoreWin32HandleInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.pAttributes,
@@ -1888,7 +1883,7 @@ inline auto structure_to_tuple<VkExportSemaphoreWin32HandleInfoKHR>(const VkExpo
 template <>
 inline auto structure_to_tuple<VkExtensionProperties>(const VkExtensionProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         Span(obj.extensionName, VK_MAX_EXTENSION_NAME_SIZE),
         obj.specVersion
     );
@@ -1897,7 +1892,7 @@ inline auto structure_to_tuple<VkExtensionProperties>(const VkExtensionPropertie
 template <>
 inline auto structure_to_tuple<VkExtent2D>(const VkExtent2D& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.width,
         obj.height
     );
@@ -1906,7 +1901,7 @@ inline auto structure_to_tuple<VkExtent2D>(const VkExtent2D& obj)
 template <>
 inline auto structure_to_tuple<VkExtent3D>(const VkExtent3D& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.width,
         obj.height,
         obj.depth
@@ -1916,17 +1911,17 @@ inline auto structure_to_tuple<VkExtent3D>(const VkExtent3D& obj)
 template <>
 inline auto structure_to_tuple<VkExternalBufferProperties>(const VkExternalBufferProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.externalMemoryProperties
+        std::ref(obj.externalMemoryProperties)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkExternalFenceProperties>(const VkExternalFenceProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.exportFromImportedHandleTypes,
@@ -1939,7 +1934,7 @@ inline auto structure_to_tuple<VkExternalFenceProperties>(const VkExternalFenceP
 template <>
 inline auto structure_to_tuple<VkExternalFormatANDROID>(const VkExternalFormatANDROID& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.externalFormat
@@ -1950,18 +1945,18 @@ inline auto structure_to_tuple<VkExternalFormatANDROID>(const VkExternalFormatAN
 template <>
 inline auto structure_to_tuple<VkExternalImageFormatProperties>(const VkExternalImageFormatProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.externalMemoryProperties
+        std::ref(obj.externalMemoryProperties)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkExternalImageFormatPropertiesNV>(const VkExternalImageFormatPropertiesNV& obj)
 {
-    return std::forward_as_tuple(
-        obj.imageFormatProperties,
+    return std::make_tuple(
+        std::ref(obj.imageFormatProperties),
         obj.externalMemoryFeatures,
         obj.exportFromImportedHandleTypes,
         obj.compatibleHandleTypes
@@ -1971,7 +1966,7 @@ inline auto structure_to_tuple<VkExternalImageFormatPropertiesNV>(const VkExtern
 template <>
 inline auto structure_to_tuple<VkExternalMemoryBufferCreateInfo>(const VkExternalMemoryBufferCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.handleTypes
@@ -1981,7 +1976,7 @@ inline auto structure_to_tuple<VkExternalMemoryBufferCreateInfo>(const VkExterna
 template <>
 inline auto structure_to_tuple<VkExternalMemoryImageCreateInfo>(const VkExternalMemoryImageCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.handleTypes
@@ -1991,7 +1986,7 @@ inline auto structure_to_tuple<VkExternalMemoryImageCreateInfo>(const VkExternal
 template <>
 inline auto structure_to_tuple<VkExternalMemoryImageCreateInfoNV>(const VkExternalMemoryImageCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.handleTypes
@@ -2001,7 +1996,7 @@ inline auto structure_to_tuple<VkExternalMemoryImageCreateInfoNV>(const VkExtern
 template <>
 inline auto structure_to_tuple<VkExternalMemoryProperties>(const VkExternalMemoryProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.externalMemoryFeatures,
         obj.exportFromImportedHandleTypes,
         obj.compatibleHandleTypes
@@ -2011,7 +2006,7 @@ inline auto structure_to_tuple<VkExternalMemoryProperties>(const VkExternalMemor
 template <>
 inline auto structure_to_tuple<VkExternalSemaphoreProperties>(const VkExternalSemaphoreProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.exportFromImportedHandleTypes,
@@ -2023,7 +2018,7 @@ inline auto structure_to_tuple<VkExternalSemaphoreProperties>(const VkExternalSe
 template <>
 inline auto structure_to_tuple<VkFenceCreateInfo>(const VkFenceCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags
@@ -2033,7 +2028,7 @@ inline auto structure_to_tuple<VkFenceCreateInfo>(const VkFenceCreateInfo& obj)
 template <>
 inline auto structure_to_tuple<VkFenceGetFdInfoKHR>(const VkFenceGetFdInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.fence,
@@ -2045,7 +2040,7 @@ inline auto structure_to_tuple<VkFenceGetFdInfoKHR>(const VkFenceGetFdInfoKHR& o
 template <>
 inline auto structure_to_tuple<VkFenceGetWin32HandleInfoKHR>(const VkFenceGetWin32HandleInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.fence,
@@ -2057,7 +2052,7 @@ inline auto structure_to_tuple<VkFenceGetWin32HandleInfoKHR>(const VkFenceGetWin
 template <>
 inline auto structure_to_tuple<VkFilterCubicImageViewImageFormatPropertiesEXT>(const VkFilterCubicImageViewImageFormatPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.filterCubic,
@@ -2068,7 +2063,7 @@ inline auto structure_to_tuple<VkFilterCubicImageViewImageFormatPropertiesEXT>(c
 template <>
 inline auto structure_to_tuple<VkFormatProperties>(const VkFormatProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.linearTilingFeatures,
         obj.optimalTilingFeatures,
         obj.bufferFeatures
@@ -2078,17 +2073,17 @@ inline auto structure_to_tuple<VkFormatProperties>(const VkFormatProperties& obj
 template <>
 inline auto structure_to_tuple<VkFormatProperties2>(const VkFormatProperties2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.formatProperties
+        std::ref(obj.formatProperties)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkFramebufferAttachmentImageInfo>(const VkFramebufferAttachmentImageInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -2104,7 +2099,7 @@ inline auto structure_to_tuple<VkFramebufferAttachmentImageInfo>(const VkFramebu
 template <>
 inline auto structure_to_tuple<VkFramebufferAttachmentsCreateInfo>(const VkFramebufferAttachmentsCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.attachmentImageInfoCount,
@@ -2115,7 +2110,7 @@ inline auto structure_to_tuple<VkFramebufferAttachmentsCreateInfo>(const VkFrame
 template <>
 inline auto structure_to_tuple<VkFramebufferCreateInfo>(const VkFramebufferCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -2131,7 +2126,7 @@ inline auto structure_to_tuple<VkFramebufferCreateInfo>(const VkFramebufferCreat
 template <>
 inline auto structure_to_tuple<VkFramebufferMixedSamplesCombinationNV>(const VkFramebufferMixedSamplesCombinationNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.coverageReductionMode,
@@ -2144,7 +2139,7 @@ inline auto structure_to_tuple<VkFramebufferMixedSamplesCombinationNV>(const VkF
 template <>
 inline auto structure_to_tuple<VkGeneratedCommandsInfoNV>(const VkGeneratedCommandsInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.pipelineBindPoint,
@@ -2166,7 +2161,7 @@ inline auto structure_to_tuple<VkGeneratedCommandsInfoNV>(const VkGeneratedComma
 template <>
 inline auto structure_to_tuple<VkGeneratedCommandsMemoryRequirementsInfoNV>(const VkGeneratedCommandsMemoryRequirementsInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.pipelineBindPoint,
@@ -2179,7 +2174,7 @@ inline auto structure_to_tuple<VkGeneratedCommandsMemoryRequirementsInfoNV>(cons
 template <>
 inline auto structure_to_tuple<VkGeometryAABBNV>(const VkGeometryAABBNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.aabbData,
@@ -2192,20 +2187,20 @@ inline auto structure_to_tuple<VkGeometryAABBNV>(const VkGeometryAABBNV& obj)
 template <>
 inline auto structure_to_tuple<VkGeometryDataNV>(const VkGeometryDataNV& obj)
 {
-    return std::forward_as_tuple(
-        obj.triangles,
-        obj.aabbs
+    return std::make_tuple(
+        std::ref(obj.triangles),
+        std::ref(obj.aabbs)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkGeometryNV>(const VkGeometryNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.geometryType,
-        obj.geometry,
+        std::ref(obj.geometry),
         obj.flags
     );
 }
@@ -2213,7 +2208,7 @@ inline auto structure_to_tuple<VkGeometryNV>(const VkGeometryNV& obj)
 template <>
 inline auto structure_to_tuple<VkGeometryTrianglesNV>(const VkGeometryTrianglesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.vertexData,
@@ -2233,21 +2228,21 @@ inline auto structure_to_tuple<VkGeometryTrianglesNV>(const VkGeometryTrianglesN
 template <>
 inline auto structure_to_tuple<VkGraphicsPipelineCreateInfo>(const VkGraphicsPipelineCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
         obj.stageCount,
         Span(obj.pStages, obj.stageCount),
-        obj.pVertexInputState,
-        obj.pInputAssemblyState,
-        obj.pTessellationState,
-        obj.pViewportState,
-        obj.pRasterizationState,
-        obj.pMultisampleState,
-        obj.pDepthStencilState,
-        obj.pColorBlendState,
-        obj.pDynamicState,
+        Span(obj.pVertexInputState, 1),
+        Span(obj.pInputAssemblyState, 1),
+        Span(obj.pTessellationState, 1),
+        Span(obj.pViewportState, 1),
+        Span(obj.pRasterizationState, 1),
+        Span(obj.pMultisampleState, 1),
+        Span(obj.pDepthStencilState, 1),
+        Span(obj.pColorBlendState, 1),
+        Span(obj.pDynamicState, 1),
         obj.layout,
         obj.renderPass,
         obj.subpass,
@@ -2259,7 +2254,7 @@ inline auto structure_to_tuple<VkGraphicsPipelineCreateInfo>(const VkGraphicsPip
 template <>
 inline auto structure_to_tuple<VkGraphicsPipelineShaderGroupsCreateInfoNV>(const VkGraphicsPipelineShaderGroupsCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.groupCount,
@@ -2272,26 +2267,26 @@ inline auto structure_to_tuple<VkGraphicsPipelineShaderGroupsCreateInfoNV>(const
 template <>
 inline auto structure_to_tuple<VkGraphicsShaderGroupCreateInfoNV>(const VkGraphicsShaderGroupCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.stageCount,
         Span(obj.pStages, obj.stageCount),
-        obj.pVertexInputState,
-        obj.pTessellationState
+        Span(obj.pVertexInputState, 1),
+        Span(obj.pTessellationState, 1)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkHdrMetadataEXT>(const VkHdrMetadataEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.displayPrimaryRed,
-        obj.displayPrimaryGreen,
-        obj.displayPrimaryBlue,
-        obj.whitePoint,
+        std::ref(obj.displayPrimaryRed),
+        std::ref(obj.displayPrimaryGreen),
+        std::ref(obj.displayPrimaryBlue),
+        std::ref(obj.whitePoint),
         obj.maxLuminance,
         obj.minLuminance,
         obj.maxContentLightLevel,
@@ -2302,7 +2297,7 @@ inline auto structure_to_tuple<VkHdrMetadataEXT>(const VkHdrMetadataEXT& obj)
 template <>
 inline auto structure_to_tuple<VkHeadlessSurfaceCreateInfoEXT>(const VkHeadlessSurfaceCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags
@@ -2313,7 +2308,7 @@ inline auto structure_to_tuple<VkHeadlessSurfaceCreateInfoEXT>(const VkHeadlessS
 template <>
 inline auto structure_to_tuple<VkIOSSurfaceCreateInfoMVK>(const VkIOSSurfaceCreateInfoMVK& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -2325,10 +2320,10 @@ inline auto structure_to_tuple<VkIOSSurfaceCreateInfoMVK>(const VkIOSSurfaceCrea
 template <>
 inline auto structure_to_tuple<VkImageBlit>(const VkImageBlit& obj)
 {
-    return std::forward_as_tuple(
-        obj.srcSubresource,
+    return std::make_tuple(
+        std::ref(obj.srcSubresource),
         Span(obj.srcOffsets, 2),
-        obj.dstSubresource,
+        std::ref(obj.dstSubresource),
         Span(obj.dstOffsets, 2)
     );
 }
@@ -2336,25 +2331,25 @@ inline auto structure_to_tuple<VkImageBlit>(const VkImageBlit& obj)
 template <>
 inline auto structure_to_tuple<VkImageCopy>(const VkImageCopy& obj)
 {
-    return std::forward_as_tuple(
-        obj.srcSubresource,
-        obj.srcOffset,
-        obj.dstSubresource,
-        obj.dstOffset,
-        obj.extent
+    return std::make_tuple(
+        std::ref(obj.srcSubresource),
+        std::ref(obj.srcOffset),
+        std::ref(obj.dstSubresource),
+        std::ref(obj.dstOffset),
+        std::ref(obj.extent)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkImageCreateInfo>(const VkImageCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
         obj.imageType,
         obj.format,
-        obj.extent,
+        std::ref(obj.extent),
         obj.mipLevels,
         obj.arrayLayers,
         obj.samples,
@@ -2370,7 +2365,7 @@ inline auto structure_to_tuple<VkImageCreateInfo>(const VkImageCreateInfo& obj)
 template <>
 inline auto structure_to_tuple<VkImageDrmFormatModifierExplicitCreateInfoEXT>(const VkImageDrmFormatModifierExplicitCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.drmFormatModifier,
@@ -2382,7 +2377,7 @@ inline auto structure_to_tuple<VkImageDrmFormatModifierExplicitCreateInfoEXT>(co
 template <>
 inline auto structure_to_tuple<VkImageDrmFormatModifierListCreateInfoEXT>(const VkImageDrmFormatModifierListCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.drmFormatModifierCount,
@@ -2393,7 +2388,7 @@ inline auto structure_to_tuple<VkImageDrmFormatModifierListCreateInfoEXT>(const 
 template <>
 inline auto structure_to_tuple<VkImageDrmFormatModifierPropertiesEXT>(const VkImageDrmFormatModifierPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.drmFormatModifier
@@ -2403,7 +2398,7 @@ inline auto structure_to_tuple<VkImageDrmFormatModifierPropertiesEXT>(const VkIm
 template <>
 inline auto structure_to_tuple<VkImageFormatListCreateInfo>(const VkImageFormatListCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.viewFormatCount,
@@ -2414,8 +2409,8 @@ inline auto structure_to_tuple<VkImageFormatListCreateInfo>(const VkImageFormatL
 template <>
 inline auto structure_to_tuple<VkImageFormatProperties>(const VkImageFormatProperties& obj)
 {
-    return std::forward_as_tuple(
-        obj.maxExtent,
+    return std::make_tuple(
+        std::ref(obj.maxExtent),
         obj.maxMipLevels,
         obj.maxArrayLayers,
         obj.sampleCounts,
@@ -2426,17 +2421,17 @@ inline auto structure_to_tuple<VkImageFormatProperties>(const VkImageFormatPrope
 template <>
 inline auto structure_to_tuple<VkImageFormatProperties2>(const VkImageFormatProperties2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.imageFormatProperties
+        std::ref(obj.imageFormatProperties)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkImageMemoryBarrier>(const VkImageMemoryBarrier& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.srcAccessMask,
@@ -2446,14 +2441,14 @@ inline auto structure_to_tuple<VkImageMemoryBarrier>(const VkImageMemoryBarrier&
         obj.srcQueueFamilyIndex,
         obj.dstQueueFamilyIndex,
         obj.image,
-        obj.subresourceRange
+        std::ref(obj.subresourceRange)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkImageMemoryRequirementsInfo2>(const VkImageMemoryRequirementsInfo2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.image
@@ -2464,7 +2459,7 @@ inline auto structure_to_tuple<VkImageMemoryRequirementsInfo2>(const VkImageMemo
 template <>
 inline auto structure_to_tuple<VkImagePipeSurfaceCreateInfoFUCHSIA>(const VkImagePipeSurfaceCreateInfoFUCHSIA& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -2476,7 +2471,7 @@ inline auto structure_to_tuple<VkImagePipeSurfaceCreateInfoFUCHSIA>(const VkImag
 template <>
 inline auto structure_to_tuple<VkImagePlaneMemoryRequirementsInfo>(const VkImagePlaneMemoryRequirementsInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.planeAspect
@@ -2486,19 +2481,19 @@ inline auto structure_to_tuple<VkImagePlaneMemoryRequirementsInfo>(const VkImage
 template <>
 inline auto structure_to_tuple<VkImageResolve>(const VkImageResolve& obj)
 {
-    return std::forward_as_tuple(
-        obj.srcSubresource,
-        obj.srcOffset,
-        obj.dstSubresource,
-        obj.dstOffset,
-        obj.extent
+    return std::make_tuple(
+        std::ref(obj.srcSubresource),
+        std::ref(obj.srcOffset),
+        std::ref(obj.dstSubresource),
+        std::ref(obj.dstOffset),
+        std::ref(obj.extent)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkImageSparseMemoryRequirementsInfo2>(const VkImageSparseMemoryRequirementsInfo2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.image
@@ -2508,7 +2503,7 @@ inline auto structure_to_tuple<VkImageSparseMemoryRequirementsInfo2>(const VkIma
 template <>
 inline auto structure_to_tuple<VkImageStencilUsageCreateInfo>(const VkImageStencilUsageCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.stencilUsage
@@ -2518,7 +2513,7 @@ inline auto structure_to_tuple<VkImageStencilUsageCreateInfo>(const VkImageStenc
 template <>
 inline auto structure_to_tuple<VkImageSubresource>(const VkImageSubresource& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.aspectMask,
         obj.mipLevel,
         obj.arrayLayer
@@ -2528,7 +2523,7 @@ inline auto structure_to_tuple<VkImageSubresource>(const VkImageSubresource& obj
 template <>
 inline auto structure_to_tuple<VkImageSubresourceLayers>(const VkImageSubresourceLayers& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.aspectMask,
         obj.mipLevel,
         obj.baseArrayLayer,
@@ -2539,7 +2534,7 @@ inline auto structure_to_tuple<VkImageSubresourceLayers>(const VkImageSubresourc
 template <>
 inline auto structure_to_tuple<VkImageSubresourceRange>(const VkImageSubresourceRange& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.aspectMask,
         obj.baseMipLevel,
         obj.levelCount,
@@ -2551,7 +2546,7 @@ inline auto structure_to_tuple<VkImageSubresourceRange>(const VkImageSubresource
 template <>
 inline auto structure_to_tuple<VkImageSwapchainCreateInfoKHR>(const VkImageSwapchainCreateInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.swapchain
@@ -2561,7 +2556,7 @@ inline auto structure_to_tuple<VkImageSwapchainCreateInfoKHR>(const VkImageSwapc
 template <>
 inline auto structure_to_tuple<VkImageViewASTCDecodeModeEXT>(const VkImageViewASTCDecodeModeEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.decodeMode
@@ -2571,22 +2566,22 @@ inline auto structure_to_tuple<VkImageViewASTCDecodeModeEXT>(const VkImageViewAS
 template <>
 inline auto structure_to_tuple<VkImageViewCreateInfo>(const VkImageViewCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
         obj.image,
         obj.viewType,
         obj.format,
-        obj.components,
-        obj.subresourceRange
+        std::ref(obj.components),
+        std::ref(obj.subresourceRange)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkImageViewHandleInfoNVX>(const VkImageViewHandleInfoNVX& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.imageView,
@@ -2598,7 +2593,7 @@ inline auto structure_to_tuple<VkImageViewHandleInfoNVX>(const VkImageViewHandle
 template <>
 inline auto structure_to_tuple<VkImageViewUsageCreateInfo>(const VkImageViewUsageCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.usage
@@ -2609,7 +2604,7 @@ inline auto structure_to_tuple<VkImageViewUsageCreateInfo>(const VkImageViewUsag
 template <>
 inline auto structure_to_tuple<VkImportAndroidHardwareBufferInfoANDROID>(const VkImportAndroidHardwareBufferInfoANDROID& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.buffer
@@ -2620,7 +2615,7 @@ inline auto structure_to_tuple<VkImportAndroidHardwareBufferInfoANDROID>(const V
 template <>
 inline auto structure_to_tuple<VkImportFenceFdInfoKHR>(const VkImportFenceFdInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.fence,
@@ -2634,7 +2629,7 @@ inline auto structure_to_tuple<VkImportFenceFdInfoKHR>(const VkImportFenceFdInfo
 template <>
 inline auto structure_to_tuple<VkImportFenceWin32HandleInfoKHR>(const VkImportFenceWin32HandleInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.fence,
@@ -2649,7 +2644,7 @@ inline auto structure_to_tuple<VkImportFenceWin32HandleInfoKHR>(const VkImportFe
 template <>
 inline auto structure_to_tuple<VkImportMemoryFdInfoKHR>(const VkImportMemoryFdInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.handleType,
@@ -2660,7 +2655,7 @@ inline auto structure_to_tuple<VkImportMemoryFdInfoKHR>(const VkImportMemoryFdIn
 template <>
 inline auto structure_to_tuple<VkImportMemoryHostPointerInfoEXT>(const VkImportMemoryHostPointerInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.handleType,
@@ -2672,7 +2667,7 @@ inline auto structure_to_tuple<VkImportMemoryHostPointerInfoEXT>(const VkImportM
 template <>
 inline auto structure_to_tuple<VkImportMemoryWin32HandleInfoKHR>(const VkImportMemoryWin32HandleInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.handleType,
@@ -2686,7 +2681,7 @@ inline auto structure_to_tuple<VkImportMemoryWin32HandleInfoKHR>(const VkImportM
 template <>
 inline auto structure_to_tuple<VkImportMemoryWin32HandleInfoNV>(const VkImportMemoryWin32HandleInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.handleType,
@@ -2698,7 +2693,7 @@ inline auto structure_to_tuple<VkImportMemoryWin32HandleInfoNV>(const VkImportMe
 template <>
 inline auto structure_to_tuple<VkImportSemaphoreFdInfoKHR>(const VkImportSemaphoreFdInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.semaphore,
@@ -2712,7 +2707,7 @@ inline auto structure_to_tuple<VkImportSemaphoreFdInfoKHR>(const VkImportSemapho
 template <>
 inline auto structure_to_tuple<VkImportSemaphoreWin32HandleInfoKHR>(const VkImportSemaphoreWin32HandleInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.semaphore,
@@ -2727,7 +2722,7 @@ inline auto structure_to_tuple<VkImportSemaphoreWin32HandleInfoKHR>(const VkImpo
 template <>
 inline auto structure_to_tuple<VkIndirectCommandsLayoutCreateInfoNV>(const VkIndirectCommandsLayoutCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -2742,7 +2737,7 @@ inline auto structure_to_tuple<VkIndirectCommandsLayoutCreateInfoNV>(const VkInd
 template <>
 inline auto structure_to_tuple<VkIndirectCommandsLayoutTokenNV>(const VkIndirectCommandsLayoutTokenNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.tokenType,
@@ -2764,7 +2759,7 @@ inline auto structure_to_tuple<VkIndirectCommandsLayoutTokenNV>(const VkIndirect
 template <>
 inline auto structure_to_tuple<VkIndirectCommandsStreamNV>(const VkIndirectCommandsStreamNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.buffer,
         obj.offset
     );
@@ -2773,7 +2768,7 @@ inline auto structure_to_tuple<VkIndirectCommandsStreamNV>(const VkIndirectComma
 template <>
 inline auto structure_to_tuple<VkInitializePerformanceApiInfoINTEL>(const VkInitializePerformanceApiInfoINTEL& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.pUserData
@@ -2783,7 +2778,7 @@ inline auto structure_to_tuple<VkInitializePerformanceApiInfoINTEL>(const VkInit
 template <>
 inline auto structure_to_tuple<VkInputAttachmentAspectReference>(const VkInputAttachmentAspectReference& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.subpass,
         obj.inputAttachmentIndex,
         obj.aspectMask
@@ -2793,11 +2788,11 @@ inline auto structure_to_tuple<VkInputAttachmentAspectReference>(const VkInputAt
 template <>
 inline auto structure_to_tuple<VkInstanceCreateInfo>(const VkInstanceCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
-        obj.pApplicationInfo,
+        Span(obj.pApplicationInfo, 1),
         obj.enabledLayerCount,
         DynamicStringArrayTupleElementWrapper { obj.enabledLayerCount, obj.ppEnabledLayerNames },
         obj.enabledExtensionCount,
@@ -2808,7 +2803,7 @@ inline auto structure_to_tuple<VkInstanceCreateInfo>(const VkInstanceCreateInfo&
 template <>
 inline auto structure_to_tuple<VkLayerProperties>(const VkLayerProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         Span(obj.layerName, VK_MAX_EXTENSION_NAME_SIZE),
         obj.specVersion,
         obj.implementationVersion,
@@ -2820,7 +2815,7 @@ inline auto structure_to_tuple<VkLayerProperties>(const VkLayerProperties& obj)
 template <>
 inline auto structure_to_tuple<VkMacOSSurfaceCreateInfoMVK>(const VkMacOSSurfaceCreateInfoMVK& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -2832,7 +2827,7 @@ inline auto structure_to_tuple<VkMacOSSurfaceCreateInfoMVK>(const VkMacOSSurface
 template <>
 inline auto structure_to_tuple<VkMappedMemoryRange>(const VkMappedMemoryRange& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.memory,
@@ -2844,7 +2839,7 @@ inline auto structure_to_tuple<VkMappedMemoryRange>(const VkMappedMemoryRange& o
 template <>
 inline auto structure_to_tuple<VkMemoryAllocateFlagsInfo>(const VkMemoryAllocateFlagsInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -2855,7 +2850,7 @@ inline auto structure_to_tuple<VkMemoryAllocateFlagsInfo>(const VkMemoryAllocate
 template <>
 inline auto structure_to_tuple<VkMemoryAllocateInfo>(const VkMemoryAllocateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.allocationSize,
@@ -2866,7 +2861,7 @@ inline auto structure_to_tuple<VkMemoryAllocateInfo>(const VkMemoryAllocateInfo&
 template <>
 inline auto structure_to_tuple<VkMemoryBarrier>(const VkMemoryBarrier& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.srcAccessMask,
@@ -2877,7 +2872,7 @@ inline auto structure_to_tuple<VkMemoryBarrier>(const VkMemoryBarrier& obj)
 template <>
 inline auto structure_to_tuple<VkMemoryDedicatedAllocateInfo>(const VkMemoryDedicatedAllocateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.image,
@@ -2888,7 +2883,7 @@ inline auto structure_to_tuple<VkMemoryDedicatedAllocateInfo>(const VkMemoryDedi
 template <>
 inline auto structure_to_tuple<VkMemoryDedicatedRequirements>(const VkMemoryDedicatedRequirements& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.prefersDedicatedAllocation,
@@ -2899,7 +2894,7 @@ inline auto structure_to_tuple<VkMemoryDedicatedRequirements>(const VkMemoryDedi
 template <>
 inline auto structure_to_tuple<VkMemoryFdPropertiesKHR>(const VkMemoryFdPropertiesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.memoryTypeBits
@@ -2910,7 +2905,7 @@ inline auto structure_to_tuple<VkMemoryFdPropertiesKHR>(const VkMemoryFdProperti
 template <>
 inline auto structure_to_tuple<VkMemoryGetAndroidHardwareBufferInfoANDROID>(const VkMemoryGetAndroidHardwareBufferInfoANDROID& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.memory
@@ -2921,7 +2916,7 @@ inline auto structure_to_tuple<VkMemoryGetAndroidHardwareBufferInfoANDROID>(cons
 template <>
 inline auto structure_to_tuple<VkMemoryGetFdInfoKHR>(const VkMemoryGetFdInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.memory,
@@ -2933,7 +2928,7 @@ inline auto structure_to_tuple<VkMemoryGetFdInfoKHR>(const VkMemoryGetFdInfoKHR&
 template <>
 inline auto structure_to_tuple<VkMemoryGetWin32HandleInfoKHR>(const VkMemoryGetWin32HandleInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.memory,
@@ -2945,7 +2940,7 @@ inline auto structure_to_tuple<VkMemoryGetWin32HandleInfoKHR>(const VkMemoryGetW
 template <>
 inline auto structure_to_tuple<VkMemoryHeap>(const VkMemoryHeap& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.size,
         obj.flags
     );
@@ -2954,7 +2949,7 @@ inline auto structure_to_tuple<VkMemoryHeap>(const VkMemoryHeap& obj)
 template <>
 inline auto structure_to_tuple<VkMemoryHostPointerPropertiesEXT>(const VkMemoryHostPointerPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.memoryTypeBits
@@ -2964,7 +2959,7 @@ inline auto structure_to_tuple<VkMemoryHostPointerPropertiesEXT>(const VkMemoryH
 template <>
 inline auto structure_to_tuple<VkMemoryOpaqueCaptureAddressAllocateInfo>(const VkMemoryOpaqueCaptureAddressAllocateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.opaqueCaptureAddress
@@ -2974,7 +2969,7 @@ inline auto structure_to_tuple<VkMemoryOpaqueCaptureAddressAllocateInfo>(const V
 template <>
 inline auto structure_to_tuple<VkMemoryPriorityAllocateInfoEXT>(const VkMemoryPriorityAllocateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.priority
@@ -2984,7 +2979,7 @@ inline auto structure_to_tuple<VkMemoryPriorityAllocateInfoEXT>(const VkMemoryPr
 template <>
 inline auto structure_to_tuple<VkMemoryRequirements>(const VkMemoryRequirements& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.size,
         obj.alignment,
         obj.memoryTypeBits
@@ -2994,17 +2989,17 @@ inline auto structure_to_tuple<VkMemoryRequirements>(const VkMemoryRequirements&
 template <>
 inline auto structure_to_tuple<VkMemoryRequirements2>(const VkMemoryRequirements2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.memoryRequirements
+        std::ref(obj.memoryRequirements)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkMemoryType>(const VkMemoryType& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.propertyFlags,
         obj.heapIndex
     );
@@ -3014,7 +3009,7 @@ inline auto structure_to_tuple<VkMemoryType>(const VkMemoryType& obj)
 template <>
 inline auto structure_to_tuple<VkMemoryWin32HandlePropertiesKHR>(const VkMemoryWin32HandlePropertiesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.memoryTypeBits
@@ -3026,7 +3021,7 @@ inline auto structure_to_tuple<VkMemoryWin32HandlePropertiesKHR>(const VkMemoryW
 template <>
 inline auto structure_to_tuple<VkMetalSurfaceCreateInfoEXT>(const VkMetalSurfaceCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -3038,10 +3033,10 @@ inline auto structure_to_tuple<VkMetalSurfaceCreateInfoEXT>(const VkMetalSurface
 template <>
 inline auto structure_to_tuple<VkMultisamplePropertiesEXT>(const VkMultisamplePropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.maxSampleLocationGridSize
+        std::ref(obj.maxSampleLocationGridSize)
     );
 }
 
@@ -3049,14 +3044,14 @@ inline auto structure_to_tuple<VkMultisamplePropertiesEXT>(const VkMultisamplePr
 template <>
 inline auto structure_to_tuple<VkNativeBufferANDROID>(const VkNativeBufferANDROID& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.handle,
         obj.stride,
         obj.format,
         obj.usage,
-        obj.usage2
+        std::ref(obj.usage2)
     );
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -3065,7 +3060,7 @@ inline auto structure_to_tuple<VkNativeBufferANDROID>(const VkNativeBufferANDROI
 template <>
 inline auto structure_to_tuple<VkNativeBufferUsage2ANDROID>(const VkNativeBufferUsage2ANDROID& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.consumer,
         obj.producer
     );
@@ -3075,7 +3070,7 @@ inline auto structure_to_tuple<VkNativeBufferUsage2ANDROID>(const VkNativeBuffer
 template <>
 inline auto structure_to_tuple<VkOffset2D>(const VkOffset2D& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.x,
         obj.y
     );
@@ -3084,7 +3079,7 @@ inline auto structure_to_tuple<VkOffset2D>(const VkOffset2D& obj)
 template <>
 inline auto structure_to_tuple<VkOffset3D>(const VkOffset3D& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.x,
         obj.y,
         obj.z
@@ -3094,7 +3089,7 @@ inline auto structure_to_tuple<VkOffset3D>(const VkOffset3D& obj)
 template <>
 inline auto structure_to_tuple<VkPastPresentationTimingGOOGLE>(const VkPastPresentationTimingGOOGLE& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.presentID,
         obj.desiredPresentTime,
         obj.actualPresentTime,
@@ -3106,7 +3101,7 @@ inline auto structure_to_tuple<VkPastPresentationTimingGOOGLE>(const VkPastPrese
 template <>
 inline auto structure_to_tuple<VkPerformanceConfigurationAcquireInfoINTEL>(const VkPerformanceConfigurationAcquireInfoINTEL& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.type
@@ -3116,7 +3111,7 @@ inline auto structure_to_tuple<VkPerformanceConfigurationAcquireInfoINTEL>(const
 template <>
 inline auto structure_to_tuple<VkPerformanceCounterDescriptionKHR>(const VkPerformanceCounterDescriptionKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -3129,7 +3124,7 @@ inline auto structure_to_tuple<VkPerformanceCounterDescriptionKHR>(const VkPerfo
 template <>
 inline auto structure_to_tuple<VkPerformanceCounterKHR>(const VkPerformanceCounterKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.unit,
@@ -3140,22 +3135,9 @@ inline auto structure_to_tuple<VkPerformanceCounterKHR>(const VkPerformanceCount
 }
 
 template <>
-inline auto structure_to_tuple<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR& obj)
-{
-    return std::forward_as_tuple(
-        obj.int32,
-        obj.int64,
-        obj.uint32,
-        obj.uint64,
-        obj.float32,
-        obj.float64
-    );
-}
-
-template <>
 inline auto structure_to_tuple<VkPerformanceMarkerInfoINTEL>(const VkPerformanceMarkerInfoINTEL& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.marker
@@ -3165,7 +3147,7 @@ inline auto structure_to_tuple<VkPerformanceMarkerInfoINTEL>(const VkPerformance
 template <>
 inline auto structure_to_tuple<VkPerformanceOverrideInfoINTEL>(const VkPerformanceOverrideInfoINTEL& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.type,
@@ -3177,7 +3159,7 @@ inline auto structure_to_tuple<VkPerformanceOverrideInfoINTEL>(const VkPerforman
 template <>
 inline auto structure_to_tuple<VkPerformanceQuerySubmitInfoKHR>(const VkPerformanceQuerySubmitInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.counterPassIndex
@@ -3187,7 +3169,7 @@ inline auto structure_to_tuple<VkPerformanceQuerySubmitInfoKHR>(const VkPerforma
 template <>
 inline auto structure_to_tuple<VkPerformanceStreamMarkerInfoINTEL>(const VkPerformanceStreamMarkerInfoINTEL& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.marker
@@ -3195,30 +3177,18 @@ inline auto structure_to_tuple<VkPerformanceStreamMarkerInfoINTEL>(const VkPerfo
 }
 
 template <>
-inline auto structure_to_tuple<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj)
-{
-    return std::forward_as_tuple(
-        obj.value32,
-        obj.value64,
-        obj.valueFloat,
-        obj.valueBool,
-        obj.valueString
-    );
-}
-
-template <>
 inline auto structure_to_tuple<VkPerformanceValueINTEL>(const VkPerformanceValueINTEL& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.type,
-        obj.data
+        std::ref(obj.data)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkPhysicalDevice16BitStorageFeatures>(const VkPhysicalDevice16BitStorageFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.storageBuffer16BitAccess,
@@ -3231,7 +3201,7 @@ inline auto structure_to_tuple<VkPhysicalDevice16BitStorageFeatures>(const VkPhy
 template <>
 inline auto structure_to_tuple<VkPhysicalDevice8BitStorageFeatures>(const VkPhysicalDevice8BitStorageFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.storageBuffer8BitAccess,
@@ -3243,7 +3213,7 @@ inline auto structure_to_tuple<VkPhysicalDevice8BitStorageFeatures>(const VkPhys
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceASTCDecodeFeaturesEXT>(const VkPhysicalDeviceASTCDecodeFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.decodeModeSharedExponent
@@ -3253,7 +3223,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceASTCDecodeFeaturesEXT>(const VkPh
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT>(const VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.advancedBlendCoherentOperations
@@ -3263,7 +3233,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT>(const VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.advancedBlendMaxColorAttachments,
@@ -3278,7 +3248,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceBlendOperationAdvancedPropertiesE
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceBufferDeviceAddressFeatures>(const VkPhysicalDeviceBufferDeviceAddressFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.bufferDeviceAddress,
@@ -3290,7 +3260,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceBufferDeviceAddressFeatures>(cons
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceBufferDeviceAddressFeaturesEXT>(const VkPhysicalDeviceBufferDeviceAddressFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.bufferDeviceAddress,
@@ -3302,7 +3272,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceBufferDeviceAddressFeaturesEXT>(c
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceCoherentMemoryFeaturesAMD>(const VkPhysicalDeviceCoherentMemoryFeaturesAMD& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.deviceCoherentMemory
@@ -3312,7 +3282,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceCoherentMemoryFeaturesAMD>(const 
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceComputeShaderDerivativesFeaturesNV>(const VkPhysicalDeviceComputeShaderDerivativesFeaturesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.computeDerivativeGroupQuads,
@@ -3323,7 +3293,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceComputeShaderDerivativesFeaturesN
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceConditionalRenderingFeaturesEXT>(const VkPhysicalDeviceConditionalRenderingFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.conditionalRendering,
@@ -3334,7 +3304,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceConditionalRenderingFeaturesEXT>(
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceConservativeRasterizationPropertiesEXT>(const VkPhysicalDeviceConservativeRasterizationPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.primitiveOverestimationSize,
@@ -3352,7 +3322,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceConservativeRasterizationProperti
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceCooperativeMatrixFeaturesNV>(const VkPhysicalDeviceCooperativeMatrixFeaturesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.cooperativeMatrix,
@@ -3363,7 +3333,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceCooperativeMatrixFeaturesNV>(cons
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceCooperativeMatrixPropertiesNV>(const VkPhysicalDeviceCooperativeMatrixPropertiesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.cooperativeMatrixSupportedStages
@@ -3373,7 +3343,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceCooperativeMatrixPropertiesNV>(co
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceCornerSampledImageFeaturesNV>(const VkPhysicalDeviceCornerSampledImageFeaturesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.cornerSampledImage
@@ -3383,7 +3353,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceCornerSampledImageFeaturesNV>(con
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceCoverageReductionModeFeaturesNV>(const VkPhysicalDeviceCoverageReductionModeFeaturesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.coverageReductionMode
@@ -3393,7 +3363,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceCoverageReductionModeFeaturesNV>(
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV>(const VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.dedicatedAllocationImageAliasing
@@ -3403,7 +3373,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceDedicatedAllocationImageAliasingF
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDepthClipEnableFeaturesEXT>(const VkPhysicalDeviceDepthClipEnableFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.depthClipEnable
@@ -3413,7 +3383,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceDepthClipEnableFeaturesEXT>(const
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDepthStencilResolveProperties>(const VkPhysicalDeviceDepthStencilResolveProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.supportedDepthResolveModes,
@@ -3426,7 +3396,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceDepthStencilResolveProperties>(co
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDescriptorIndexingFeatures>(const VkPhysicalDeviceDescriptorIndexingFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.shaderInputAttachmentArrayDynamicIndexing,
@@ -3455,7 +3425,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceDescriptorIndexingFeatures>(const
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDescriptorIndexingProperties>(const VkPhysicalDeviceDescriptorIndexingProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.maxUpdateAfterBindDescriptorsInAllPools,
@@ -3487,7 +3457,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceDescriptorIndexingProperties>(con
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV>(const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.deviceGeneratedCommands
@@ -3497,7 +3467,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV>(const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.maxGraphicsShaderGroupCount,
@@ -3515,7 +3485,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceDeviceGeneratedCommandsProperties
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDiagnosticsConfigFeaturesNV>(const VkPhysicalDeviceDiagnosticsConfigFeaturesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.diagnosticsConfig
@@ -3525,7 +3495,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceDiagnosticsConfigFeaturesNV>(cons
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDiscardRectanglePropertiesEXT>(const VkPhysicalDeviceDiscardRectanglePropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.maxDiscardRectangles
@@ -3535,20 +3505,20 @@ inline auto structure_to_tuple<VkPhysicalDeviceDiscardRectanglePropertiesEXT>(co
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDriverProperties>(const VkPhysicalDeviceDriverProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.driverID,
         Span(obj.driverName, VK_MAX_DRIVER_NAME_SIZE),
         Span(obj.driverInfo, VK_MAX_DRIVER_INFO_SIZE),
-        obj.conformanceVersion
+        std::ref(obj.conformanceVersion)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceExclusiveScissorFeaturesNV>(const VkPhysicalDeviceExclusiveScissorFeaturesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.exclusiveScissor
@@ -3558,7 +3528,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceExclusiveScissorFeaturesNV>(const
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceExternalBufferInfo>(const VkPhysicalDeviceExternalBufferInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -3570,7 +3540,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceExternalBufferInfo>(const VkPhysi
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceExternalFenceInfo>(const VkPhysicalDeviceExternalFenceInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.handleType
@@ -3580,7 +3550,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceExternalFenceInfo>(const VkPhysic
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceExternalImageFormatInfo>(const VkPhysicalDeviceExternalImageFormatInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.handleType
@@ -3590,7 +3560,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceExternalImageFormatInfo>(const Vk
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceExternalMemoryHostPropertiesEXT>(const VkPhysicalDeviceExternalMemoryHostPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.minImportedHostPointerAlignment
@@ -3600,7 +3570,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceExternalMemoryHostPropertiesEXT>(
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceExternalSemaphoreInfo>(const VkPhysicalDeviceExternalSemaphoreInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.handleType
@@ -3610,7 +3580,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceExternalSemaphoreInfo>(const VkPh
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceFeatures>(const VkPhysicalDeviceFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.robustBufferAccess,
         obj.fullDrawIndexUint32,
         obj.imageCubeArray,
@@ -3672,17 +3642,17 @@ inline auto structure_to_tuple<VkPhysicalDeviceFeatures>(const VkPhysicalDeviceF
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceFeatures2>(const VkPhysicalDeviceFeatures2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.features
+        std::ref(obj.features)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceFloatControlsProperties>(const VkPhysicalDeviceFloatControlsProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.denormBehaviorIndependence,
@@ -3708,7 +3678,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceFloatControlsProperties>(const Vk
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceFragmentDensityMapFeaturesEXT>(const VkPhysicalDeviceFragmentDensityMapFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.fragmentDensityMap,
@@ -3720,11 +3690,11 @@ inline auto structure_to_tuple<VkPhysicalDeviceFragmentDensityMapFeaturesEXT>(co
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceFragmentDensityMapPropertiesEXT>(const VkPhysicalDeviceFragmentDensityMapPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.minFragmentDensityTexelSize,
-        obj.maxFragmentDensityTexelSize,
+        std::ref(obj.minFragmentDensityTexelSize),
+        std::ref(obj.maxFragmentDensityTexelSize),
         obj.fragmentDensityInvocations
     );
 }
@@ -3732,7 +3702,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceFragmentDensityMapPropertiesEXT>(
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV>(const VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.fragmentShaderBarycentric
@@ -3742,7 +3712,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceFragmentShaderBarycentricFeatures
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT>(const VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.fragmentShaderSampleInterlock,
@@ -3754,7 +3724,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceFragmentShaderInterlockFeaturesEX
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceGroupProperties>(const VkPhysicalDeviceGroupProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.physicalDeviceCount,
@@ -3766,7 +3736,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceGroupProperties>(const VkPhysical
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceHostQueryResetFeatures>(const VkPhysicalDeviceHostQueryResetFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.hostQueryReset
@@ -3776,7 +3746,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceHostQueryResetFeatures>(const VkP
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceIDProperties>(const VkPhysicalDeviceIDProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         Span(obj.deviceUUID, VK_UUID_SIZE),
@@ -3790,7 +3760,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceIDProperties>(const VkPhysicalDev
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceImageDrmFormatModifierInfoEXT>(const VkPhysicalDeviceImageDrmFormatModifierInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.drmFormatModifier,
@@ -3803,7 +3773,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceImageDrmFormatModifierInfoEXT>(co
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceImageFormatInfo2>(const VkPhysicalDeviceImageFormatInfo2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.format,
@@ -3817,7 +3787,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceImageFormatInfo2>(const VkPhysica
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceImageViewImageFormatInfoEXT>(const VkPhysicalDeviceImageViewImageFormatInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.imageViewType
@@ -3827,7 +3797,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceImageViewImageFormatInfoEXT>(cons
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceImagelessFramebufferFeatures>(const VkPhysicalDeviceImagelessFramebufferFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.imagelessFramebuffer
@@ -3837,7 +3807,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceImagelessFramebufferFeatures>(con
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceIndexTypeUint8FeaturesEXT>(const VkPhysicalDeviceIndexTypeUint8FeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.indexTypeUint8
@@ -3847,7 +3817,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceIndexTypeUint8FeaturesEXT>(const 
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceInlineUniformBlockFeaturesEXT>(const VkPhysicalDeviceInlineUniformBlockFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.inlineUniformBlock,
@@ -3858,7 +3828,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceInlineUniformBlockFeaturesEXT>(co
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceInlineUniformBlockPropertiesEXT>(const VkPhysicalDeviceInlineUniformBlockPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.maxInlineUniformBlockSize,
@@ -3872,7 +3842,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceInlineUniformBlockPropertiesEXT>(
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceLimits>(const VkPhysicalDeviceLimits& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.maxImageDimension1D,
         obj.maxImageDimension2D,
         obj.maxImageDimension3D,
@@ -3985,7 +3955,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceLimits>(const VkPhysicalDeviceLim
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceLineRasterizationFeaturesEXT>(const VkPhysicalDeviceLineRasterizationFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.rectangularLines,
@@ -4000,7 +3970,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceLineRasterizationFeaturesEXT>(con
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceLineRasterizationPropertiesEXT>(const VkPhysicalDeviceLineRasterizationPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.lineSubPixelPrecisionBits
@@ -4010,7 +3980,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceLineRasterizationPropertiesEXT>(c
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMaintenance3Properties>(const VkPhysicalDeviceMaintenance3Properties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.maxPerSetDescriptors,
@@ -4021,7 +3991,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceMaintenance3Properties>(const VkP
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMemoryBudgetPropertiesEXT>(const VkPhysicalDeviceMemoryBudgetPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         Span(obj.heapBudget, VK_MAX_MEMORY_HEAPS),
@@ -4032,7 +4002,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceMemoryBudgetPropertiesEXT>(const 
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMemoryPriorityFeaturesEXT>(const VkPhysicalDeviceMemoryPriorityFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.memoryPriority
@@ -4042,7 +4012,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceMemoryPriorityFeaturesEXT>(const 
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMemoryProperties>(const VkPhysicalDeviceMemoryProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.memoryTypeCount,
         Span(obj.memoryTypes, VK_MAX_MEMORY_TYPES),
         obj.memoryHeapCount,
@@ -4053,17 +4023,17 @@ inline auto structure_to_tuple<VkPhysicalDeviceMemoryProperties>(const VkPhysica
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMemoryProperties2>(const VkPhysicalDeviceMemoryProperties2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.memoryProperties
+        std::ref(obj.memoryProperties)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMeshShaderFeaturesNV>(const VkPhysicalDeviceMeshShaderFeaturesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.taskShader,
@@ -4074,7 +4044,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceMeshShaderFeaturesNV>(const VkPhy
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMeshShaderPropertiesNV>(const VkPhysicalDeviceMeshShaderPropertiesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.maxDrawMeshTasksCount,
@@ -4096,7 +4066,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceMeshShaderPropertiesNV>(const VkP
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMultiviewFeatures>(const VkPhysicalDeviceMultiviewFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.multiview,
@@ -4108,7 +4078,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceMultiviewFeatures>(const VkPhysic
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX>(const VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.perViewPositionAllComponents
@@ -4118,7 +4088,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceMultiviewPerViewAttributesPropert
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMultiviewProperties>(const VkPhysicalDeviceMultiviewProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.maxMultiviewViewCount,
@@ -4129,7 +4099,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceMultiviewProperties>(const VkPhys
 template <>
 inline auto structure_to_tuple<VkPhysicalDevicePCIBusInfoPropertiesEXT>(const VkPhysicalDevicePCIBusInfoPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.pciDomain,
@@ -4142,7 +4112,7 @@ inline auto structure_to_tuple<VkPhysicalDevicePCIBusInfoPropertiesEXT>(const Vk
 template <>
 inline auto structure_to_tuple<VkPhysicalDevicePerformanceQueryFeaturesKHR>(const VkPhysicalDevicePerformanceQueryFeaturesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.performanceCounterQueryPools,
@@ -4153,7 +4123,7 @@ inline auto structure_to_tuple<VkPhysicalDevicePerformanceQueryFeaturesKHR>(cons
 template <>
 inline auto structure_to_tuple<VkPhysicalDevicePerformanceQueryPropertiesKHR>(const VkPhysicalDevicePerformanceQueryPropertiesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.allowCommandBufferQueryCopies
@@ -4163,7 +4133,7 @@ inline auto structure_to_tuple<VkPhysicalDevicePerformanceQueryPropertiesKHR>(co
 template <>
 inline auto structure_to_tuple<VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT>(const VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.pipelineCreationCacheControl
@@ -4173,7 +4143,7 @@ inline auto structure_to_tuple<VkPhysicalDevicePipelineCreationCacheControlFeatu
 template <>
 inline auto structure_to_tuple<VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR>(const VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.pipelineExecutableInfo
@@ -4183,7 +4153,7 @@ inline auto structure_to_tuple<VkPhysicalDevicePipelineExecutablePropertiesFeatu
 template <>
 inline auto structure_to_tuple<VkPhysicalDevicePointClippingProperties>(const VkPhysicalDevicePointClippingProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.pointClippingBehavior
@@ -4194,7 +4164,7 @@ inline auto structure_to_tuple<VkPhysicalDevicePointClippingProperties>(const Vk
 template <>
 inline auto structure_to_tuple<VkPhysicalDevicePresentationPropertiesANDROID>(const VkPhysicalDevicePresentationPropertiesANDROID& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.sharedImage
@@ -4205,7 +4175,7 @@ inline auto structure_to_tuple<VkPhysicalDevicePresentationPropertiesANDROID>(co
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceProperties>(const VkPhysicalDeviceProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.apiVersion,
         obj.driverVersion,
         obj.vendorID,
@@ -4213,25 +4183,25 @@ inline auto structure_to_tuple<VkPhysicalDeviceProperties>(const VkPhysicalDevic
         obj.deviceType,
         Span(obj.deviceName, VK_MAX_PHYSICAL_DEVICE_NAME_SIZE),
         Span(obj.pipelineCacheUUID, VK_UUID_SIZE),
-        obj.limits,
-        obj.sparseProperties
+        std::ref(obj.limits),
+        std::ref(obj.sparseProperties)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceProperties2>(const VkPhysicalDeviceProperties2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.properties
+        std::ref(obj.properties)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceProtectedMemoryFeatures>(const VkPhysicalDeviceProtectedMemoryFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.protectedMemory
@@ -4241,7 +4211,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceProtectedMemoryFeatures>(const Vk
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceProtectedMemoryProperties>(const VkPhysicalDeviceProtectedMemoryProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.protectedNoFault
@@ -4251,7 +4221,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceProtectedMemoryProperties>(const 
 template <>
 inline auto structure_to_tuple<VkPhysicalDevicePushDescriptorPropertiesKHR>(const VkPhysicalDevicePushDescriptorPropertiesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.maxPushDescriptors
@@ -4262,7 +4232,7 @@ inline auto structure_to_tuple<VkPhysicalDevicePushDescriptorPropertiesKHR>(cons
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceRayTracingFeaturesKHR>(const VkPhysicalDeviceRayTracingFeaturesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.rayTracing,
@@ -4282,7 +4252,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceRayTracingFeaturesKHR>(const VkPh
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceRayTracingPropertiesKHR>(const VkPhysicalDeviceRayTracingPropertiesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.shaderGroupHandleSize,
@@ -4301,7 +4271,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceRayTracingPropertiesKHR>(const Vk
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceRayTracingPropertiesNV>(const VkPhysicalDeviceRayTracingPropertiesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.shaderGroupHandleSize,
@@ -4318,7 +4288,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceRayTracingPropertiesNV>(const VkP
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV>(const VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.representativeFragmentTest
@@ -4328,11 +4298,11 @@ inline auto structure_to_tuple<VkPhysicalDeviceRepresentativeFragmentTestFeature
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSampleLocationsPropertiesEXT>(const VkPhysicalDeviceSampleLocationsPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.sampleLocationSampleCounts,
-        obj.maxSampleLocationGridSize,
+        std::ref(obj.maxSampleLocationGridSize),
         Span(obj.sampleLocationCoordinateRange, 2),
         obj.sampleLocationSubPixelBits,
         obj.variableSampleLocations
@@ -4342,7 +4312,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceSampleLocationsPropertiesEXT>(con
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSamplerFilterMinmaxProperties>(const VkPhysicalDeviceSamplerFilterMinmaxProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.filterMinmaxSingleComponentFormats,
@@ -4353,7 +4323,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceSamplerFilterMinmaxProperties>(co
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSamplerYcbcrConversionFeatures>(const VkPhysicalDeviceSamplerYcbcrConversionFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.samplerYcbcrConversion
@@ -4363,7 +4333,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceSamplerYcbcrConversionFeatures>(c
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceScalarBlockLayoutFeatures>(const VkPhysicalDeviceScalarBlockLayoutFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.scalarBlockLayout
@@ -4373,7 +4343,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceScalarBlockLayoutFeatures>(const 
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures>(const VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.separateDepthStencilLayouts
@@ -4383,7 +4353,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceSeparateDepthStencilLayoutsFeatur
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderAtomicInt64Features>(const VkPhysicalDeviceShaderAtomicInt64Features& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.shaderBufferInt64Atomics,
@@ -4394,7 +4364,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceShaderAtomicInt64Features>(const 
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderClockFeaturesKHR>(const VkPhysicalDeviceShaderClockFeaturesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.shaderSubgroupClock,
@@ -4405,7 +4375,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceShaderClockFeaturesKHR>(const VkP
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderCoreProperties2AMD>(const VkPhysicalDeviceShaderCoreProperties2AMD& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.shaderCoreFeatures,
@@ -4416,7 +4386,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceShaderCoreProperties2AMD>(const V
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderCorePropertiesAMD>(const VkPhysicalDeviceShaderCorePropertiesAMD& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.shaderEngineCount,
@@ -4439,7 +4409,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceShaderCorePropertiesAMD>(const Vk
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT>(const VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.shaderDemoteToHelperInvocation
@@ -4449,7 +4419,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceShaderDemoteToHelperInvocationFea
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderDrawParametersFeatures>(const VkPhysicalDeviceShaderDrawParametersFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.shaderDrawParameters
@@ -4459,7 +4429,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceShaderDrawParametersFeatures>(con
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderFloat16Int8Features>(const VkPhysicalDeviceShaderFloat16Int8Features& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.shaderFloat16,
@@ -4470,7 +4440,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceShaderFloat16Int8Features>(const 
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderImageFootprintFeaturesNV>(const VkPhysicalDeviceShaderImageFootprintFeaturesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.imageFootprint
@@ -4480,7 +4450,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceShaderImageFootprintFeaturesNV>(c
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL>(const VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.shaderIntegerFunctions2
@@ -4490,7 +4460,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceShaderIntegerFunctions2FeaturesIN
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderSMBuiltinsFeaturesNV>(const VkPhysicalDeviceShaderSMBuiltinsFeaturesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.shaderSMBuiltins
@@ -4500,7 +4470,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceShaderSMBuiltinsFeaturesNV>(const
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderSMBuiltinsPropertiesNV>(const VkPhysicalDeviceShaderSMBuiltinsPropertiesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.shaderSMCount,
@@ -4511,7 +4481,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceShaderSMBuiltinsPropertiesNV>(con
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures>(const VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.shaderSubgroupExtendedTypes
@@ -4521,7 +4491,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceShaderSubgroupExtendedTypesFeatur
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShadingRateImageFeaturesNV>(const VkPhysicalDeviceShadingRateImageFeaturesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.shadingRateImage,
@@ -4532,10 +4502,10 @@ inline auto structure_to_tuple<VkPhysicalDeviceShadingRateImageFeaturesNV>(const
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShadingRateImagePropertiesNV>(const VkPhysicalDeviceShadingRateImagePropertiesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.shadingRateTexelSize,
+        std::ref(obj.shadingRateTexelSize),
         obj.shadingRatePaletteSize,
         obj.shadingRateMaxCoarseSamples
     );
@@ -4544,7 +4514,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceShadingRateImagePropertiesNV>(con
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSparseImageFormatInfo2>(const VkPhysicalDeviceSparseImageFormatInfo2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.format,
@@ -4558,7 +4528,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceSparseImageFormatInfo2>(const VkP
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSparseProperties>(const VkPhysicalDeviceSparseProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.residencyStandard2DBlockShape,
         obj.residencyStandard2DMultisampleBlockShape,
         obj.residencyStandard3DBlockShape,
@@ -4570,7 +4540,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceSparseProperties>(const VkPhysica
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSubgroupProperties>(const VkPhysicalDeviceSubgroupProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.subgroupSize,
@@ -4583,7 +4553,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceSubgroupProperties>(const VkPhysi
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSubgroupSizeControlFeaturesEXT>(const VkPhysicalDeviceSubgroupSizeControlFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.subgroupSizeControl,
@@ -4594,7 +4564,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceSubgroupSizeControlFeaturesEXT>(c
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSubgroupSizeControlPropertiesEXT>(const VkPhysicalDeviceSubgroupSizeControlPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.minSubgroupSize,
@@ -4607,7 +4577,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceSubgroupSizeControlPropertiesEXT>
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSurfaceInfo2KHR>(const VkPhysicalDeviceSurfaceInfo2KHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.surface
@@ -4617,7 +4587,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceSurfaceInfo2KHR>(const VkPhysical
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT>(const VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.texelBufferAlignment
@@ -4627,7 +4597,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT>(
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT>(const VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.storageTexelBufferOffsetAlignmentBytes,
@@ -4640,7 +4610,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT>(const VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.textureCompressionASTC_HDR
@@ -4650,7 +4620,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceTextureCompressionASTCHDRFeatures
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceTimelineSemaphoreFeatures>(const VkPhysicalDeviceTimelineSemaphoreFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.timelineSemaphore
@@ -4660,7 +4630,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceTimelineSemaphoreFeatures>(const 
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceTimelineSemaphoreProperties>(const VkPhysicalDeviceTimelineSemaphoreProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.maxTimelineSemaphoreValueDifference
@@ -4670,7 +4640,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceTimelineSemaphoreProperties>(cons
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceToolPropertiesEXT>(const VkPhysicalDeviceToolPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         Span(obj.name, VK_MAX_EXTENSION_NAME_SIZE),
@@ -4684,7 +4654,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceToolPropertiesEXT>(const VkPhysic
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceTransformFeedbackFeaturesEXT>(const VkPhysicalDeviceTransformFeedbackFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.transformFeedback,
@@ -4695,7 +4665,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceTransformFeedbackFeaturesEXT>(con
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceTransformFeedbackPropertiesEXT>(const VkPhysicalDeviceTransformFeedbackPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.maxTransformFeedbackStreams,
@@ -4714,7 +4684,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceTransformFeedbackPropertiesEXT>(c
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceUniformBufferStandardLayoutFeatures>(const VkPhysicalDeviceUniformBufferStandardLayoutFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.uniformBufferStandardLayout
@@ -4724,7 +4694,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceUniformBufferStandardLayoutFeatur
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceVariablePointersFeatures>(const VkPhysicalDeviceVariablePointersFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.variablePointersStorageBuffer,
@@ -4735,7 +4705,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceVariablePointersFeatures>(const V
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT>(const VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.vertexAttributeInstanceRateDivisor,
@@ -4746,7 +4716,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT>(const VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.maxVertexAttribDivisor
@@ -4756,7 +4726,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceVertexAttributeDivisorPropertiesE
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceVulkan11Features>(const VkPhysicalDeviceVulkan11Features& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.storageBuffer16BitAccess,
@@ -4777,7 +4747,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceVulkan11Features>(const VkPhysica
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceVulkan11Properties>(const VkPhysicalDeviceVulkan11Properties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         Span(obj.deviceUUID, VK_UUID_SIZE),
@@ -4801,7 +4771,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceVulkan11Properties>(const VkPhysi
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceVulkan12Features>(const VkPhysicalDeviceVulkan12Features& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.samplerMirrorClampToEdge,
@@ -4857,13 +4827,13 @@ inline auto structure_to_tuple<VkPhysicalDeviceVulkan12Features>(const VkPhysica
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceVulkan12Properties>(const VkPhysicalDeviceVulkan12Properties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.driverID,
         Span(obj.driverName, VK_MAX_DRIVER_NAME_SIZE),
         Span(obj.driverInfo, VK_MAX_DRIVER_INFO_SIZE),
-        obj.conformanceVersion,
+        std::ref(obj.conformanceVersion),
         obj.denormBehaviorIndependence,
         obj.roundingModeIndependence,
         obj.shaderSignedZeroInfNanPreserveFloat16,
@@ -4918,7 +4888,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceVulkan12Properties>(const VkPhysi
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceVulkanMemoryModelFeatures>(const VkPhysicalDeviceVulkanMemoryModelFeatures& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.vulkanMemoryModel,
@@ -4930,7 +4900,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceVulkanMemoryModelFeatures>(const 
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceYcbcrImageArraysFeaturesEXT>(const VkPhysicalDeviceYcbcrImageArraysFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.ycbcrImageArrays
@@ -4940,7 +4910,7 @@ inline auto structure_to_tuple<VkPhysicalDeviceYcbcrImageArraysFeaturesEXT>(cons
 template <>
 inline auto structure_to_tuple<VkPipelineCacheCreateInfo>(const VkPipelineCacheCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -4952,7 +4922,7 @@ inline auto structure_to_tuple<VkPipelineCacheCreateInfo>(const VkPipelineCacheC
 template <>
 inline auto structure_to_tuple<VkPipelineColorBlendAdvancedStateCreateInfoEXT>(const VkPipelineColorBlendAdvancedStateCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.srcPremultiplied,
@@ -4964,7 +4934,7 @@ inline auto structure_to_tuple<VkPipelineColorBlendAdvancedStateCreateInfoEXT>(c
 template <>
 inline auto structure_to_tuple<VkPipelineColorBlendAttachmentState>(const VkPipelineColorBlendAttachmentState& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.blendEnable,
         obj.srcColorBlendFactor,
         obj.dstColorBlendFactor,
@@ -4979,7 +4949,7 @@ inline auto structure_to_tuple<VkPipelineColorBlendAttachmentState>(const VkPipe
 template <>
 inline auto structure_to_tuple<VkPipelineColorBlendStateCreateInfo>(const VkPipelineColorBlendStateCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -4994,7 +4964,7 @@ inline auto structure_to_tuple<VkPipelineColorBlendStateCreateInfo>(const VkPipe
 template <>
 inline auto structure_to_tuple<VkPipelineCompilerControlCreateInfoAMD>(const VkPipelineCompilerControlCreateInfoAMD& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.compilerControlFlags
@@ -5004,7 +4974,7 @@ inline auto structure_to_tuple<VkPipelineCompilerControlCreateInfoAMD>(const VkP
 template <>
 inline auto structure_to_tuple<VkPipelineCoverageModulationStateCreateInfoNV>(const VkPipelineCoverageModulationStateCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5018,7 +4988,7 @@ inline auto structure_to_tuple<VkPipelineCoverageModulationStateCreateInfoNV>(co
 template <>
 inline auto structure_to_tuple<VkPipelineCoverageReductionStateCreateInfoNV>(const VkPipelineCoverageReductionStateCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5029,7 +4999,7 @@ inline auto structure_to_tuple<VkPipelineCoverageReductionStateCreateInfoNV>(con
 template <>
 inline auto structure_to_tuple<VkPipelineCoverageToColorStateCreateInfoNV>(const VkPipelineCoverageToColorStateCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5041,10 +5011,10 @@ inline auto structure_to_tuple<VkPipelineCoverageToColorStateCreateInfoNV>(const
 template <>
 inline auto structure_to_tuple<VkPipelineCreationFeedbackCreateInfoEXT>(const VkPipelineCreationFeedbackCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.pPipelineCreationFeedback,
+        Span(obj.pPipelineCreationFeedback, 1),
         obj.pipelineStageCreationFeedbackCount,
         Span(obj.pPipelineStageCreationFeedbacks, obj.pipelineStageCreationFeedbackCount)
     );
@@ -5053,7 +5023,7 @@ inline auto structure_to_tuple<VkPipelineCreationFeedbackCreateInfoEXT>(const Vk
 template <>
 inline auto structure_to_tuple<VkPipelineCreationFeedbackEXT>(const VkPipelineCreationFeedbackEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.flags,
         obj.duration
     );
@@ -5062,7 +5032,7 @@ inline auto structure_to_tuple<VkPipelineCreationFeedbackEXT>(const VkPipelineCr
 template <>
 inline auto structure_to_tuple<VkPipelineDepthStencilStateCreateInfo>(const VkPipelineDepthStencilStateCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5071,8 +5041,8 @@ inline auto structure_to_tuple<VkPipelineDepthStencilStateCreateInfo>(const VkPi
         obj.depthCompareOp,
         obj.depthBoundsTestEnable,
         obj.stencilTestEnable,
-        obj.front,
-        obj.back,
+        std::ref(obj.front),
+        std::ref(obj.back),
         obj.minDepthBounds,
         obj.maxDepthBounds
     );
@@ -5081,7 +5051,7 @@ inline auto structure_to_tuple<VkPipelineDepthStencilStateCreateInfo>(const VkPi
 template <>
 inline auto structure_to_tuple<VkPipelineDiscardRectangleStateCreateInfoEXT>(const VkPipelineDiscardRectangleStateCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5094,7 +5064,7 @@ inline auto structure_to_tuple<VkPipelineDiscardRectangleStateCreateInfoEXT>(con
 template <>
 inline auto structure_to_tuple<VkPipelineDynamicStateCreateInfo>(const VkPipelineDynamicStateCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5106,7 +5076,7 @@ inline auto structure_to_tuple<VkPipelineDynamicStateCreateInfo>(const VkPipelin
 template <>
 inline auto structure_to_tuple<VkPipelineExecutableInfoKHR>(const VkPipelineExecutableInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.pipeline,
@@ -5117,7 +5087,7 @@ inline auto structure_to_tuple<VkPipelineExecutableInfoKHR>(const VkPipelineExec
 template <>
 inline auto structure_to_tuple<VkPipelineExecutableInternalRepresentationKHR>(const VkPipelineExecutableInternalRepresentationKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         Span(obj.name, VK_MAX_DESCRIPTION_SIZE),
@@ -5131,7 +5101,7 @@ inline auto structure_to_tuple<VkPipelineExecutableInternalRepresentationKHR>(co
 template <>
 inline auto structure_to_tuple<VkPipelineExecutablePropertiesKHR>(const VkPipelineExecutablePropertiesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.stages,
@@ -5144,31 +5114,20 @@ inline auto structure_to_tuple<VkPipelineExecutablePropertiesKHR>(const VkPipeli
 template <>
 inline auto structure_to_tuple<VkPipelineExecutableStatisticKHR>(const VkPipelineExecutableStatisticKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         Span(obj.name, VK_MAX_DESCRIPTION_SIZE),
         Span(obj.description, VK_MAX_DESCRIPTION_SIZE),
         obj.format,
-        obj.value
-    );
-}
-
-template <>
-inline auto structure_to_tuple<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR& obj)
-{
-    return std::forward_as_tuple(
-        obj.b32,
-        obj.i64,
-        obj.u64,
-        obj.f64
+        std::ref(obj.value)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkPipelineInfoKHR>(const VkPipelineInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.pipeline
@@ -5178,7 +5137,7 @@ inline auto structure_to_tuple<VkPipelineInfoKHR>(const VkPipelineInfoKHR& obj)
 template <>
 inline auto structure_to_tuple<VkPipelineInputAssemblyStateCreateInfo>(const VkPipelineInputAssemblyStateCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5190,7 +5149,7 @@ inline auto structure_to_tuple<VkPipelineInputAssemblyStateCreateInfo>(const VkP
 template <>
 inline auto structure_to_tuple<VkPipelineLayoutCreateInfo>(const VkPipelineLayoutCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5205,7 +5164,7 @@ inline auto structure_to_tuple<VkPipelineLayoutCreateInfo>(const VkPipelineLayou
 template <>
 inline auto structure_to_tuple<VkPipelineLibraryCreateInfoKHR>(const VkPipelineLibraryCreateInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.libraryCount,
@@ -5217,7 +5176,7 @@ inline auto structure_to_tuple<VkPipelineLibraryCreateInfoKHR>(const VkPipelineL
 template <>
 inline auto structure_to_tuple<VkPipelineRasterizationConservativeStateCreateInfoEXT>(const VkPipelineRasterizationConservativeStateCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5229,7 +5188,7 @@ inline auto structure_to_tuple<VkPipelineRasterizationConservativeStateCreateInf
 template <>
 inline auto structure_to_tuple<VkPipelineRasterizationDepthClipStateCreateInfoEXT>(const VkPipelineRasterizationDepthClipStateCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5240,7 +5199,7 @@ inline auto structure_to_tuple<VkPipelineRasterizationDepthClipStateCreateInfoEX
 template <>
 inline auto structure_to_tuple<VkPipelineRasterizationLineStateCreateInfoEXT>(const VkPipelineRasterizationLineStateCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.lineRasterizationMode,
@@ -5253,7 +5212,7 @@ inline auto structure_to_tuple<VkPipelineRasterizationLineStateCreateInfoEXT>(co
 template <>
 inline auto structure_to_tuple<VkPipelineRasterizationStateCreateInfo>(const VkPipelineRasterizationStateCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5273,7 +5232,7 @@ inline auto structure_to_tuple<VkPipelineRasterizationStateCreateInfo>(const VkP
 template <>
 inline auto structure_to_tuple<VkPipelineRasterizationStateRasterizationOrderAMD>(const VkPipelineRasterizationStateRasterizationOrderAMD& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.rasterizationOrder
@@ -5283,7 +5242,7 @@ inline auto structure_to_tuple<VkPipelineRasterizationStateRasterizationOrderAMD
 template <>
 inline auto structure_to_tuple<VkPipelineRasterizationStateStreamCreateInfoEXT>(const VkPipelineRasterizationStateStreamCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5294,7 +5253,7 @@ inline auto structure_to_tuple<VkPipelineRasterizationStateStreamCreateInfoEXT>(
 template <>
 inline auto structure_to_tuple<VkPipelineRepresentativeFragmentTestStateCreateInfoNV>(const VkPipelineRepresentativeFragmentTestStateCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.representativeFragmentTestEnable
@@ -5304,32 +5263,32 @@ inline auto structure_to_tuple<VkPipelineRepresentativeFragmentTestStateCreateIn
 template <>
 inline auto structure_to_tuple<VkPipelineSampleLocationsStateCreateInfoEXT>(const VkPipelineSampleLocationsStateCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.sampleLocationsEnable,
-        obj.sampleLocationsInfo
+        std::ref(obj.sampleLocationsInfo)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkPipelineShaderStageCreateInfo>(const VkPipelineShaderStageCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
         obj.stage,
         obj.module,
-        DynamicStringTupleElementWrapper { obj.pName },
-        obj.pSpecializationInfo
+        obj.pName ? std::string_view(obj.pName) : std::string_view(),
+        Span(obj.pSpecializationInfo, 1)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT>(const VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.requiredSubgroupSize
@@ -5339,7 +5298,7 @@ inline auto structure_to_tuple<VkPipelineShaderStageRequiredSubgroupSizeCreateIn
 template <>
 inline auto structure_to_tuple<VkPipelineTessellationDomainOriginStateCreateInfo>(const VkPipelineTessellationDomainOriginStateCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.domainOrigin
@@ -5349,7 +5308,7 @@ inline auto structure_to_tuple<VkPipelineTessellationDomainOriginStateCreateInfo
 template <>
 inline auto structure_to_tuple<VkPipelineTessellationStateCreateInfo>(const VkPipelineTessellationStateCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5360,7 +5319,7 @@ inline auto structure_to_tuple<VkPipelineTessellationStateCreateInfo>(const VkPi
 template <>
 inline auto structure_to_tuple<VkPipelineVertexInputDivisorStateCreateInfoEXT>(const VkPipelineVertexInputDivisorStateCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.vertexBindingDivisorCount,
@@ -5371,7 +5330,7 @@ inline auto structure_to_tuple<VkPipelineVertexInputDivisorStateCreateInfoEXT>(c
 template <>
 inline auto structure_to_tuple<VkPipelineVertexInputStateCreateInfo>(const VkPipelineVertexInputStateCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5385,7 +5344,7 @@ inline auto structure_to_tuple<VkPipelineVertexInputStateCreateInfo>(const VkPip
 template <>
 inline auto structure_to_tuple<VkPipelineViewportCoarseSampleOrderStateCreateInfoNV>(const VkPipelineViewportCoarseSampleOrderStateCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.sampleOrderType,
@@ -5397,7 +5356,7 @@ inline auto structure_to_tuple<VkPipelineViewportCoarseSampleOrderStateCreateInf
 template <>
 inline auto structure_to_tuple<VkPipelineViewportExclusiveScissorStateCreateInfoNV>(const VkPipelineViewportExclusiveScissorStateCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.exclusiveScissorCount,
@@ -5408,7 +5367,7 @@ inline auto structure_to_tuple<VkPipelineViewportExclusiveScissorStateCreateInfo
 template <>
 inline auto structure_to_tuple<VkPipelineViewportShadingRateImageStateCreateInfoNV>(const VkPipelineViewportShadingRateImageStateCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.shadingRateImageEnable,
@@ -5420,7 +5379,7 @@ inline auto structure_to_tuple<VkPipelineViewportShadingRateImageStateCreateInfo
 template <>
 inline auto structure_to_tuple<VkPipelineViewportStateCreateInfo>(const VkPipelineViewportStateCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5434,7 +5393,7 @@ inline auto structure_to_tuple<VkPipelineViewportStateCreateInfo>(const VkPipeli
 template <>
 inline auto structure_to_tuple<VkPipelineViewportSwizzleStateCreateInfoNV>(const VkPipelineViewportSwizzleStateCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5446,7 +5405,7 @@ inline auto structure_to_tuple<VkPipelineViewportSwizzleStateCreateInfoNV>(const
 template <>
 inline auto structure_to_tuple<VkPipelineViewportWScalingStateCreateInfoNV>(const VkPipelineViewportWScalingStateCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.viewportWScalingEnable,
@@ -5459,7 +5418,7 @@ inline auto structure_to_tuple<VkPipelineViewportWScalingStateCreateInfoNV>(cons
 template <>
 inline auto structure_to_tuple<VkPresentFrameTokenGGP>(const VkPresentFrameTokenGGP& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.frameToken
@@ -5470,7 +5429,7 @@ inline auto structure_to_tuple<VkPresentFrameTokenGGP>(const VkPresentFrameToken
 template <>
 inline auto structure_to_tuple<VkPresentInfoKHR>(const VkPresentInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.waitSemaphoreCount,
@@ -5485,7 +5444,7 @@ inline auto structure_to_tuple<VkPresentInfoKHR>(const VkPresentInfoKHR& obj)
 template <>
 inline auto structure_to_tuple<VkPresentRegionKHR>(const VkPresentRegionKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.rectangleCount,
         Span(obj.pRectangles, obj.rectangleCount)
     );
@@ -5494,7 +5453,7 @@ inline auto structure_to_tuple<VkPresentRegionKHR>(const VkPresentRegionKHR& obj
 template <>
 inline auto structure_to_tuple<VkPresentRegionsKHR>(const VkPresentRegionsKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.swapchainCount,
@@ -5505,7 +5464,7 @@ inline auto structure_to_tuple<VkPresentRegionsKHR>(const VkPresentRegionsKHR& o
 template <>
 inline auto structure_to_tuple<VkPresentTimeGOOGLE>(const VkPresentTimeGOOGLE& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.presentID,
         obj.desiredPresentTime
     );
@@ -5514,7 +5473,7 @@ inline auto structure_to_tuple<VkPresentTimeGOOGLE>(const VkPresentTimeGOOGLE& o
 template <>
 inline auto structure_to_tuple<VkPresentTimesInfoGOOGLE>(const VkPresentTimesInfoGOOGLE& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.swapchainCount,
@@ -5525,7 +5484,7 @@ inline auto structure_to_tuple<VkPresentTimesInfoGOOGLE>(const VkPresentTimesInf
 template <>
 inline auto structure_to_tuple<VkProtectedSubmitInfo>(const VkProtectedSubmitInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.protectedSubmit
@@ -5535,7 +5494,7 @@ inline auto structure_to_tuple<VkProtectedSubmitInfo>(const VkProtectedSubmitInf
 template <>
 inline auto structure_to_tuple<VkPushConstantRange>(const VkPushConstantRange& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.stageFlags,
         obj.offset,
         obj.size
@@ -5545,7 +5504,7 @@ inline auto structure_to_tuple<VkPushConstantRange>(const VkPushConstantRange& o
 template <>
 inline auto structure_to_tuple<VkQueryPoolCreateInfo>(const VkQueryPoolCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5558,7 +5517,7 @@ inline auto structure_to_tuple<VkQueryPoolCreateInfo>(const VkQueryPoolCreateInf
 template <>
 inline auto structure_to_tuple<VkQueryPoolPerformanceCreateInfoKHR>(const VkQueryPoolPerformanceCreateInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.queueFamilyIndex,
@@ -5570,7 +5529,7 @@ inline auto structure_to_tuple<VkQueryPoolPerformanceCreateInfoKHR>(const VkQuer
 template <>
 inline auto structure_to_tuple<VkQueryPoolPerformanceQueryCreateInfoINTEL>(const VkQueryPoolPerformanceQueryCreateInfoINTEL& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.performanceCountersSampling
@@ -5580,7 +5539,7 @@ inline auto structure_to_tuple<VkQueryPoolPerformanceQueryCreateInfoINTEL>(const
 template <>
 inline auto structure_to_tuple<VkQueueFamilyCheckpointPropertiesNV>(const VkQueueFamilyCheckpointPropertiesNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.checkpointExecutionStageMask
@@ -5590,21 +5549,21 @@ inline auto structure_to_tuple<VkQueueFamilyCheckpointPropertiesNV>(const VkQueu
 template <>
 inline auto structure_to_tuple<VkQueueFamilyProperties>(const VkQueueFamilyProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.queueFlags,
         obj.queueCount,
         obj.timestampValidBits,
-        obj.minImageTransferGranularity
+        std::ref(obj.minImageTransferGranularity)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkQueueFamilyProperties2>(const VkQueueFamilyProperties2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.queueFamilyProperties
+        std::ref(obj.queueFamilyProperties)
     );
 }
 
@@ -5612,7 +5571,7 @@ inline auto structure_to_tuple<VkQueueFamilyProperties2>(const VkQueueFamilyProp
 template <>
 inline auto structure_to_tuple<VkRayTracingPipelineCreateInfoKHR>(const VkRayTracingPipelineCreateInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5621,8 +5580,8 @@ inline auto structure_to_tuple<VkRayTracingPipelineCreateInfoKHR>(const VkRayTra
         obj.groupCount,
         Span(obj.pGroups, obj.groupCount),
         obj.maxRecursionDepth,
-        obj.libraries,
-        obj.pLibraryInterface,
+        std::ref(obj.libraries),
+        Span(obj.pLibraryInterface, 1),
         obj.layout,
         obj.basePipelineHandle,
         obj.basePipelineIndex
@@ -5633,7 +5592,7 @@ inline auto structure_to_tuple<VkRayTracingPipelineCreateInfoKHR>(const VkRayTra
 template <>
 inline auto structure_to_tuple<VkRayTracingPipelineCreateInfoNV>(const VkRayTracingPipelineCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5652,7 +5611,7 @@ inline auto structure_to_tuple<VkRayTracingPipelineCreateInfoNV>(const VkRayTrac
 template <>
 inline auto structure_to_tuple<VkRayTracingPipelineInterfaceCreateInfoKHR>(const VkRayTracingPipelineInterfaceCreateInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.maxPayloadSize,
@@ -5666,7 +5625,7 @@ inline auto structure_to_tuple<VkRayTracingPipelineInterfaceCreateInfoKHR>(const
 template <>
 inline auto structure_to_tuple<VkRayTracingShaderGroupCreateInfoKHR>(const VkRayTracingShaderGroupCreateInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.type,
@@ -5682,7 +5641,7 @@ inline auto structure_to_tuple<VkRayTracingShaderGroupCreateInfoKHR>(const VkRay
 template <>
 inline auto structure_to_tuple<VkRayTracingShaderGroupCreateInfoNV>(const VkRayTracingShaderGroupCreateInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.type,
@@ -5696,18 +5655,18 @@ inline auto structure_to_tuple<VkRayTracingShaderGroupCreateInfoNV>(const VkRayT
 template <>
 inline auto structure_to_tuple<VkRect2D>(const VkRect2D& obj)
 {
-    return std::forward_as_tuple(
-        obj.offset,
-        obj.extent
+    return std::make_tuple(
+        std::ref(obj.offset),
+        std::ref(obj.extent)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkRectLayerKHR>(const VkRectLayerKHR& obj)
 {
-    return std::forward_as_tuple(
-        obj.offset,
-        obj.extent,
+    return std::make_tuple(
+        std::ref(obj.offset),
+        std::ref(obj.extent),
         obj.layer
     );
 }
@@ -5715,7 +5674,7 @@ inline auto structure_to_tuple<VkRectLayerKHR>(const VkRectLayerKHR& obj)
 template <>
 inline auto structure_to_tuple<VkRefreshCycleDurationGOOGLE>(const VkRefreshCycleDurationGOOGLE& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.refreshDuration
     );
 }
@@ -5723,7 +5682,7 @@ inline auto structure_to_tuple<VkRefreshCycleDurationGOOGLE>(const VkRefreshCycl
 template <>
 inline auto structure_to_tuple<VkRenderPassAttachmentBeginInfo>(const VkRenderPassAttachmentBeginInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.attachmentCount,
@@ -5734,12 +5693,12 @@ inline auto structure_to_tuple<VkRenderPassAttachmentBeginInfo>(const VkRenderPa
 template <>
 inline auto structure_to_tuple<VkRenderPassBeginInfo>(const VkRenderPassBeginInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.renderPass,
         obj.framebuffer,
-        obj.renderArea,
+        std::ref(obj.renderArea),
         obj.clearValueCount,
         Span(obj.pClearValues, obj.clearValueCount)
     );
@@ -5748,7 +5707,7 @@ inline auto structure_to_tuple<VkRenderPassBeginInfo>(const VkRenderPassBeginInf
 template <>
 inline auto structure_to_tuple<VkRenderPassCreateInfo>(const VkRenderPassCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5764,7 +5723,7 @@ inline auto structure_to_tuple<VkRenderPassCreateInfo>(const VkRenderPassCreateI
 template <>
 inline auto structure_to_tuple<VkRenderPassCreateInfo2>(const VkRenderPassCreateInfo2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5782,17 +5741,17 @@ inline auto structure_to_tuple<VkRenderPassCreateInfo2>(const VkRenderPassCreate
 template <>
 inline auto structure_to_tuple<VkRenderPassFragmentDensityMapCreateInfoEXT>(const VkRenderPassFragmentDensityMapCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.fragmentDensityMapAttachment
+        std::ref(obj.fragmentDensityMapAttachment)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkRenderPassInputAttachmentAspectCreateInfo>(const VkRenderPassInputAttachmentAspectCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.aspectReferenceCount,
@@ -5803,7 +5762,7 @@ inline auto structure_to_tuple<VkRenderPassInputAttachmentAspectCreateInfo>(cons
 template <>
 inline auto structure_to_tuple<VkRenderPassMultiviewCreateInfo>(const VkRenderPassMultiviewCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.subpassCount,
@@ -5818,7 +5777,7 @@ inline auto structure_to_tuple<VkRenderPassMultiviewCreateInfo>(const VkRenderPa
 template <>
 inline auto structure_to_tuple<VkRenderPassSampleLocationsBeginInfoEXT>(const VkRenderPassSampleLocationsBeginInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.attachmentInitialSampleLocationsCount,
@@ -5831,7 +5790,7 @@ inline auto structure_to_tuple<VkRenderPassSampleLocationsBeginInfoEXT>(const Vk
 template <>
 inline auto structure_to_tuple<VkRenderPassTransformBeginInfoQCOM>(const VkRenderPassTransformBeginInfoQCOM& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.transform
@@ -5841,7 +5800,7 @@ inline auto structure_to_tuple<VkRenderPassTransformBeginInfoQCOM>(const VkRende
 template <>
 inline auto structure_to_tuple<VkSampleLocationEXT>(const VkSampleLocationEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.x,
         obj.y
     );
@@ -5850,11 +5809,11 @@ inline auto structure_to_tuple<VkSampleLocationEXT>(const VkSampleLocationEXT& o
 template <>
 inline auto structure_to_tuple<VkSampleLocationsInfoEXT>(const VkSampleLocationsInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.sampleLocationsPerPixel,
-        obj.sampleLocationGridSize,
+        std::ref(obj.sampleLocationGridSize),
         obj.sampleLocationsCount,
         Span(obj.pSampleLocations, obj.sampleLocationsCount)
     );
@@ -5863,7 +5822,7 @@ inline auto structure_to_tuple<VkSampleLocationsInfoEXT>(const VkSampleLocations
 template <>
 inline auto structure_to_tuple<VkSamplerCreateInfo>(const VkSamplerCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -5888,7 +5847,7 @@ inline auto structure_to_tuple<VkSamplerCreateInfo>(const VkSamplerCreateInfo& o
 template <>
 inline auto structure_to_tuple<VkSamplerReductionModeCreateInfo>(const VkSamplerReductionModeCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.reductionMode
@@ -5898,13 +5857,13 @@ inline auto structure_to_tuple<VkSamplerReductionModeCreateInfo>(const VkSampler
 template <>
 inline auto structure_to_tuple<VkSamplerYcbcrConversionCreateInfo>(const VkSamplerYcbcrConversionCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.format,
         obj.ycbcrModel,
         obj.ycbcrRange,
-        obj.components,
+        std::ref(obj.components),
         obj.xChromaOffset,
         obj.yChromaOffset,
         obj.chromaFilter,
@@ -5915,7 +5874,7 @@ inline auto structure_to_tuple<VkSamplerYcbcrConversionCreateInfo>(const VkSampl
 template <>
 inline auto structure_to_tuple<VkSamplerYcbcrConversionImageFormatProperties>(const VkSamplerYcbcrConversionImageFormatProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.combinedImageSamplerDescriptorCount
@@ -5925,7 +5884,7 @@ inline auto structure_to_tuple<VkSamplerYcbcrConversionImageFormatProperties>(co
 template <>
 inline auto structure_to_tuple<VkSamplerYcbcrConversionInfo>(const VkSamplerYcbcrConversionInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.conversion
@@ -5935,7 +5894,7 @@ inline auto structure_to_tuple<VkSamplerYcbcrConversionInfo>(const VkSamplerYcbc
 template <>
 inline auto structure_to_tuple<VkSemaphoreCreateInfo>(const VkSemaphoreCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags
@@ -5945,7 +5904,7 @@ inline auto structure_to_tuple<VkSemaphoreCreateInfo>(const VkSemaphoreCreateInf
 template <>
 inline auto structure_to_tuple<VkSemaphoreGetFdInfoKHR>(const VkSemaphoreGetFdInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.semaphore,
@@ -5957,7 +5916,7 @@ inline auto structure_to_tuple<VkSemaphoreGetFdInfoKHR>(const VkSemaphoreGetFdIn
 template <>
 inline auto structure_to_tuple<VkSemaphoreGetWin32HandleInfoKHR>(const VkSemaphoreGetWin32HandleInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.semaphore,
@@ -5969,7 +5928,7 @@ inline auto structure_to_tuple<VkSemaphoreGetWin32HandleInfoKHR>(const VkSemapho
 template <>
 inline auto structure_to_tuple<VkSemaphoreSignalInfo>(const VkSemaphoreSignalInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.semaphore,
@@ -5980,7 +5939,7 @@ inline auto structure_to_tuple<VkSemaphoreSignalInfo>(const VkSemaphoreSignalInf
 template <>
 inline auto structure_to_tuple<VkSemaphoreTypeCreateInfo>(const VkSemaphoreTypeCreateInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.semaphoreType,
@@ -5991,7 +5950,7 @@ inline auto structure_to_tuple<VkSemaphoreTypeCreateInfo>(const VkSemaphoreTypeC
 template <>
 inline auto structure_to_tuple<VkSemaphoreWaitInfo>(const VkSemaphoreWaitInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -6004,7 +5963,7 @@ inline auto structure_to_tuple<VkSemaphoreWaitInfo>(const VkSemaphoreWaitInfo& o
 template <>
 inline auto structure_to_tuple<VkSetStateFlagsIndirectCommandNV>(const VkSetStateFlagsIndirectCommandNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.data
     );
 }
@@ -6012,7 +5971,7 @@ inline auto structure_to_tuple<VkSetStateFlagsIndirectCommandNV>(const VkSetStat
 template <>
 inline auto structure_to_tuple<VkShaderModuleValidationCacheCreateInfoEXT>(const VkShaderModuleValidationCacheCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.validationCache
@@ -6022,7 +5981,7 @@ inline auto structure_to_tuple<VkShaderModuleValidationCacheCreateInfoEXT>(const
 template <>
 inline auto structure_to_tuple<VkShaderResourceUsageAMD>(const VkShaderResourceUsageAMD& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.numUsedVgprs,
         obj.numUsedSgprs,
         obj.ldsSizePerLocalWorkGroup,
@@ -6034,9 +5993,9 @@ inline auto structure_to_tuple<VkShaderResourceUsageAMD>(const VkShaderResourceU
 template <>
 inline auto structure_to_tuple<VkShaderStatisticsInfoAMD>(const VkShaderStatisticsInfoAMD& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.shaderStageMask,
-        obj.resourceUsage,
+        std::ref(obj.resourceUsage),
         obj.numPhysicalVgprs,
         obj.numPhysicalSgprs,
         obj.numAvailableVgprs,
@@ -6048,7 +6007,7 @@ inline auto structure_to_tuple<VkShaderStatisticsInfoAMD>(const VkShaderStatisti
 template <>
 inline auto structure_to_tuple<VkShadingRatePaletteNV>(const VkShadingRatePaletteNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.shadingRatePaletteEntryCount,
         Span(obj.pShadingRatePaletteEntries, obj.shadingRatePaletteEntryCount)
     );
@@ -6057,7 +6016,7 @@ inline auto structure_to_tuple<VkShadingRatePaletteNV>(const VkShadingRatePalett
 template <>
 inline auto structure_to_tuple<VkSharedPresentSurfaceCapabilitiesKHR>(const VkSharedPresentSurfaceCapabilitiesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.sharedPresentSupportedUsageFlags
@@ -6067,7 +6026,7 @@ inline auto structure_to_tuple<VkSharedPresentSurfaceCapabilitiesKHR>(const VkSh
 template <>
 inline auto structure_to_tuple<VkSparseBufferMemoryBindInfo>(const VkSparseBufferMemoryBindInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.buffer,
         obj.bindCount,
         Span(obj.pBinds, obj.bindCount)
@@ -6077,9 +6036,9 @@ inline auto structure_to_tuple<VkSparseBufferMemoryBindInfo>(const VkSparseBuffe
 template <>
 inline auto structure_to_tuple<VkSparseImageFormatProperties>(const VkSparseImageFormatProperties& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.aspectMask,
-        obj.imageGranularity,
+        std::ref(obj.imageGranularity),
         obj.flags
     );
 }
@@ -6087,20 +6046,20 @@ inline auto structure_to_tuple<VkSparseImageFormatProperties>(const VkSparseImag
 template <>
 inline auto structure_to_tuple<VkSparseImageFormatProperties2>(const VkSparseImageFormatProperties2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.properties
+        std::ref(obj.properties)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkSparseImageMemoryBind>(const VkSparseImageMemoryBind& obj)
 {
-    return std::forward_as_tuple(
-        obj.subresource,
-        obj.offset,
-        obj.extent,
+    return std::make_tuple(
+        std::ref(obj.subresource),
+        std::ref(obj.offset),
+        std::ref(obj.extent),
         obj.memory,
         obj.memoryOffset,
         obj.flags
@@ -6110,7 +6069,7 @@ inline auto structure_to_tuple<VkSparseImageMemoryBind>(const VkSparseImageMemor
 template <>
 inline auto structure_to_tuple<VkSparseImageMemoryBindInfo>(const VkSparseImageMemoryBindInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.image,
         obj.bindCount,
         Span(obj.pBinds, obj.bindCount)
@@ -6120,8 +6079,8 @@ inline auto structure_to_tuple<VkSparseImageMemoryBindInfo>(const VkSparseImageM
 template <>
 inline auto structure_to_tuple<VkSparseImageMemoryRequirements>(const VkSparseImageMemoryRequirements& obj)
 {
-    return std::forward_as_tuple(
-        obj.formatProperties,
+    return std::make_tuple(
+        std::ref(obj.formatProperties),
         obj.imageMipTailFirstLod,
         obj.imageMipTailSize,
         obj.imageMipTailOffset,
@@ -6132,17 +6091,17 @@ inline auto structure_to_tuple<VkSparseImageMemoryRequirements>(const VkSparseIm
 template <>
 inline auto structure_to_tuple<VkSparseImageMemoryRequirements2>(const VkSparseImageMemoryRequirements2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.memoryRequirements
+        std::ref(obj.memoryRequirements)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkSparseImageOpaqueMemoryBindInfo>(const VkSparseImageOpaqueMemoryBindInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.image,
         obj.bindCount,
         Span(obj.pBinds, obj.bindCount)
@@ -6152,7 +6111,7 @@ inline auto structure_to_tuple<VkSparseImageOpaqueMemoryBindInfo>(const VkSparse
 template <>
 inline auto structure_to_tuple<VkSparseMemoryBind>(const VkSparseMemoryBind& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.resourceOffset,
         obj.size,
         obj.memory,
@@ -6164,7 +6123,7 @@ inline auto structure_to_tuple<VkSparseMemoryBind>(const VkSparseMemoryBind& obj
 template <>
 inline auto structure_to_tuple<VkSpecializationInfo>(const VkSpecializationInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.mapEntryCount,
         Span(obj.pMapEntries, obj.mapEntryCount),
         obj.dataSize,
@@ -6175,7 +6134,7 @@ inline auto structure_to_tuple<VkSpecializationInfo>(const VkSpecializationInfo&
 template <>
 inline auto structure_to_tuple<VkSpecializationMapEntry>(const VkSpecializationMapEntry& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.constantID,
         obj.offset,
         obj.size
@@ -6185,7 +6144,7 @@ inline auto structure_to_tuple<VkSpecializationMapEntry>(const VkSpecializationM
 template <>
 inline auto structure_to_tuple<VkStencilOpState>(const VkStencilOpState& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.failOp,
         obj.passOp,
         obj.depthFailOp,
@@ -6200,7 +6159,7 @@ inline auto structure_to_tuple<VkStencilOpState>(const VkStencilOpState& obj)
 template <>
 inline auto structure_to_tuple<VkStreamDescriptorSurfaceCreateInfoGGP>(const VkStreamDescriptorSurfaceCreateInfoGGP& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -6213,7 +6172,7 @@ inline auto structure_to_tuple<VkStreamDescriptorSurfaceCreateInfoGGP>(const VkS
 template <>
 inline auto structure_to_tuple<VkStridedBufferRegionKHR>(const VkStridedBufferRegionKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.buffer,
         obj.offset,
         obj.stride,
@@ -6225,7 +6184,7 @@ inline auto structure_to_tuple<VkStridedBufferRegionKHR>(const VkStridedBufferRe
 template <>
 inline auto structure_to_tuple<VkSubmitInfo>(const VkSubmitInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.waitSemaphoreCount,
@@ -6241,7 +6200,7 @@ inline auto structure_to_tuple<VkSubmitInfo>(const VkSubmitInfo& obj)
 template <>
 inline auto structure_to_tuple<VkSubpassBeginInfo>(const VkSubpassBeginInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.contents
@@ -6251,7 +6210,7 @@ inline auto structure_to_tuple<VkSubpassBeginInfo>(const VkSubpassBeginInfo& obj
 template <>
 inline auto structure_to_tuple<VkSubpassDependency>(const VkSubpassDependency& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.srcSubpass,
         obj.dstSubpass,
         obj.srcStageMask,
@@ -6265,7 +6224,7 @@ inline auto structure_to_tuple<VkSubpassDependency>(const VkSubpassDependency& o
 template <>
 inline auto structure_to_tuple<VkSubpassDependency2>(const VkSubpassDependency2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.srcSubpass,
@@ -6282,7 +6241,7 @@ inline auto structure_to_tuple<VkSubpassDependency2>(const VkSubpassDependency2&
 template <>
 inline auto structure_to_tuple<VkSubpassDescription>(const VkSubpassDescription& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.flags,
         obj.pipelineBindPoint,
         obj.inputAttachmentCount,
@@ -6290,7 +6249,7 @@ inline auto structure_to_tuple<VkSubpassDescription>(const VkSubpassDescription&
         obj.colorAttachmentCount,
         Span(obj.pColorAttachments, obj.colorAttachmentCount),
         Span(obj.pResolveAttachments, obj.colorAttachmentCount),
-        obj.pDepthStencilAttachment,
+        Span(obj.pDepthStencilAttachment, 1),
         obj.preserveAttachmentCount,
         Span(obj.pPreserveAttachments, obj.preserveAttachmentCount)
     );
@@ -6299,7 +6258,7 @@ inline auto structure_to_tuple<VkSubpassDescription>(const VkSubpassDescription&
 template <>
 inline auto structure_to_tuple<VkSubpassDescription2>(const VkSubpassDescription2& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -6310,7 +6269,7 @@ inline auto structure_to_tuple<VkSubpassDescription2>(const VkSubpassDescription
         obj.colorAttachmentCount,
         Span(obj.pColorAttachments, obj.colorAttachmentCount),
         Span(obj.pResolveAttachments, obj.colorAttachmentCount),
-        obj.pDepthStencilAttachment,
+        Span(obj.pDepthStencilAttachment, 1),
         obj.preserveAttachmentCount,
         Span(obj.pPreserveAttachments, obj.preserveAttachmentCount)
     );
@@ -6319,19 +6278,19 @@ inline auto structure_to_tuple<VkSubpassDescription2>(const VkSubpassDescription
 template <>
 inline auto structure_to_tuple<VkSubpassDescriptionDepthStencilResolve>(const VkSubpassDescriptionDepthStencilResolve& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.depthResolveMode,
         obj.stencilResolveMode,
-        obj.pDepthStencilResolveAttachment
+        Span(obj.pDepthStencilResolveAttachment, 1)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkSubpassEndInfo>(const VkSubpassEndInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext }
     );
@@ -6340,16 +6299,16 @@ inline auto structure_to_tuple<VkSubpassEndInfo>(const VkSubpassEndInfo& obj)
 template <>
 inline auto structure_to_tuple<VkSubpassSampleLocationsEXT>(const VkSubpassSampleLocationsEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.subpassIndex,
-        obj.sampleLocationsInfo
+        std::ref(obj.sampleLocationsInfo)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkSubresourceLayout>(const VkSubresourceLayout& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.offset,
         obj.size,
         obj.rowPitch,
@@ -6361,14 +6320,14 @@ inline auto structure_to_tuple<VkSubresourceLayout>(const VkSubresourceLayout& o
 template <>
 inline auto structure_to_tuple<VkSurfaceCapabilities2EXT>(const VkSurfaceCapabilities2EXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.minImageCount,
         obj.maxImageCount,
-        obj.currentExtent,
-        obj.minImageExtent,
-        obj.maxImageExtent,
+        std::ref(obj.currentExtent),
+        std::ref(obj.minImageExtent),
+        std::ref(obj.maxImageExtent),
         obj.maxImageArrayLayers,
         obj.supportedTransforms,
         obj.currentTransform,
@@ -6381,10 +6340,10 @@ inline auto structure_to_tuple<VkSurfaceCapabilities2EXT>(const VkSurfaceCapabil
 template <>
 inline auto structure_to_tuple<VkSurfaceCapabilities2KHR>(const VkSurfaceCapabilities2KHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.surfaceCapabilities
+        std::ref(obj.surfaceCapabilities)
     );
 }
 
@@ -6392,7 +6351,7 @@ inline auto structure_to_tuple<VkSurfaceCapabilities2KHR>(const VkSurfaceCapabil
 template <>
 inline auto structure_to_tuple<VkSurfaceCapabilitiesFullScreenExclusiveEXT>(const VkSurfaceCapabilitiesFullScreenExclusiveEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.fullScreenExclusiveSupported
@@ -6403,12 +6362,12 @@ inline auto structure_to_tuple<VkSurfaceCapabilitiesFullScreenExclusiveEXT>(cons
 template <>
 inline auto structure_to_tuple<VkSurfaceCapabilitiesKHR>(const VkSurfaceCapabilitiesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.minImageCount,
         obj.maxImageCount,
-        obj.currentExtent,
-        obj.minImageExtent,
-        obj.maxImageExtent,
+        std::ref(obj.currentExtent),
+        std::ref(obj.minImageExtent),
+        std::ref(obj.maxImageExtent),
         obj.maxImageArrayLayers,
         obj.supportedTransforms,
         obj.currentTransform,
@@ -6420,17 +6379,17 @@ inline auto structure_to_tuple<VkSurfaceCapabilitiesKHR>(const VkSurfaceCapabili
 template <>
 inline auto structure_to_tuple<VkSurfaceFormat2KHR>(const VkSurfaceFormat2KHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
-        obj.surfaceFormat
+        std::ref(obj.surfaceFormat)
     );
 }
 
 template <>
 inline auto structure_to_tuple<VkSurfaceFormatKHR>(const VkSurfaceFormatKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.format,
         obj.colorSpace
     );
@@ -6440,7 +6399,7 @@ inline auto structure_to_tuple<VkSurfaceFormatKHR>(const VkSurfaceFormatKHR& obj
 template <>
 inline auto structure_to_tuple<VkSurfaceFullScreenExclusiveInfoEXT>(const VkSurfaceFullScreenExclusiveInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.fullScreenExclusive
@@ -6452,7 +6411,7 @@ inline auto structure_to_tuple<VkSurfaceFullScreenExclusiveInfoEXT>(const VkSurf
 template <>
 inline auto structure_to_tuple<VkSurfaceFullScreenExclusiveWin32InfoEXT>(const VkSurfaceFullScreenExclusiveWin32InfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.hmonitor
@@ -6463,7 +6422,7 @@ inline auto structure_to_tuple<VkSurfaceFullScreenExclusiveWin32InfoEXT>(const V
 template <>
 inline auto structure_to_tuple<VkSurfaceProtectedCapabilitiesKHR>(const VkSurfaceProtectedCapabilitiesKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.supportsProtected
@@ -6473,7 +6432,7 @@ inline auto structure_to_tuple<VkSurfaceProtectedCapabilitiesKHR>(const VkSurfac
 template <>
 inline auto structure_to_tuple<VkSwapchainCounterCreateInfoEXT>(const VkSwapchainCounterCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.surfaceCounters
@@ -6483,7 +6442,7 @@ inline auto structure_to_tuple<VkSwapchainCounterCreateInfoEXT>(const VkSwapchai
 template <>
 inline auto structure_to_tuple<VkSwapchainCreateInfoKHR>(const VkSwapchainCreateInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -6491,7 +6450,7 @@ inline auto structure_to_tuple<VkSwapchainCreateInfoKHR>(const VkSwapchainCreate
         obj.minImageCount,
         obj.imageFormat,
         obj.imageColorSpace,
-        obj.imageExtent,
+        std::ref(obj.imageExtent),
         obj.imageArrayLayers,
         obj.imageUsage,
         obj.imageSharingMode,
@@ -6508,7 +6467,7 @@ inline auto structure_to_tuple<VkSwapchainCreateInfoKHR>(const VkSwapchainCreate
 template <>
 inline auto structure_to_tuple<VkSwapchainDisplayNativeHdrCreateInfoAMD>(const VkSwapchainDisplayNativeHdrCreateInfoAMD& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.localDimmingEnable
@@ -6519,7 +6478,7 @@ inline auto structure_to_tuple<VkSwapchainDisplayNativeHdrCreateInfoAMD>(const V
 template <>
 inline auto structure_to_tuple<VkSwapchainImageCreateInfoANDROID>(const VkSwapchainImageCreateInfoANDROID& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.usage
@@ -6530,7 +6489,7 @@ inline auto structure_to_tuple<VkSwapchainImageCreateInfoANDROID>(const VkSwapch
 template <>
 inline auto structure_to_tuple<VkTextureLODGatherFormatPropertiesAMD>(const VkTextureLODGatherFormatPropertiesAMD& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.supportsTextureGatherLODBiasAMD
@@ -6540,7 +6499,7 @@ inline auto structure_to_tuple<VkTextureLODGatherFormatPropertiesAMD>(const VkTe
 template <>
 inline auto structure_to_tuple<VkTimelineSemaphoreSubmitInfo>(const VkTimelineSemaphoreSubmitInfo& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.waitSemaphoreValueCount,
@@ -6554,7 +6513,7 @@ inline auto structure_to_tuple<VkTimelineSemaphoreSubmitInfo>(const VkTimelineSe
 template <>
 inline auto structure_to_tuple<VkTraceRaysIndirectCommandKHR>(const VkTraceRaysIndirectCommandKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.width,
         obj.height,
         obj.depth
@@ -6565,7 +6524,7 @@ inline auto structure_to_tuple<VkTraceRaysIndirectCommandKHR>(const VkTraceRaysI
 template <>
 inline auto structure_to_tuple<VkValidationCacheCreateInfoEXT>(const VkValidationCacheCreateInfoEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -6577,7 +6536,7 @@ inline auto structure_to_tuple<VkValidationCacheCreateInfoEXT>(const VkValidatio
 template <>
 inline auto structure_to_tuple<VkValidationFeaturesEXT>(const VkValidationFeaturesEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.enabledValidationFeatureCount,
@@ -6590,7 +6549,7 @@ inline auto structure_to_tuple<VkValidationFeaturesEXT>(const VkValidationFeatur
 template <>
 inline auto structure_to_tuple<VkValidationFlagsEXT>(const VkValidationFlagsEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.disabledValidationCheckCount,
@@ -6601,7 +6560,7 @@ inline auto structure_to_tuple<VkValidationFlagsEXT>(const VkValidationFlagsEXT&
 template <>
 inline auto structure_to_tuple<VkVertexInputAttributeDescription>(const VkVertexInputAttributeDescription& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.location,
         obj.binding,
         obj.format,
@@ -6612,7 +6571,7 @@ inline auto structure_to_tuple<VkVertexInputAttributeDescription>(const VkVertex
 template <>
 inline auto structure_to_tuple<VkVertexInputBindingDescription>(const VkVertexInputBindingDescription& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.binding,
         obj.stride,
         obj.inputRate
@@ -6622,7 +6581,7 @@ inline auto structure_to_tuple<VkVertexInputBindingDescription>(const VkVertexIn
 template <>
 inline auto structure_to_tuple<VkVertexInputBindingDivisorDescriptionEXT>(const VkVertexInputBindingDivisorDescriptionEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.binding,
         obj.divisor
     );
@@ -6632,7 +6591,7 @@ inline auto structure_to_tuple<VkVertexInputBindingDivisorDescriptionEXT>(const 
 template <>
 inline auto structure_to_tuple<VkViSurfaceCreateInfoNN>(const VkViSurfaceCreateInfoNN& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -6644,7 +6603,7 @@ inline auto structure_to_tuple<VkViSurfaceCreateInfoNN>(const VkViSurfaceCreateI
 template <>
 inline auto structure_to_tuple<VkViewport>(const VkViewport& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.x,
         obj.y,
         obj.width,
@@ -6657,7 +6616,7 @@ inline auto structure_to_tuple<VkViewport>(const VkViewport& obj)
 template <>
 inline auto structure_to_tuple<VkViewportSwizzleNV>(const VkViewportSwizzleNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.x,
         obj.y,
         obj.z,
@@ -6668,7 +6627,7 @@ inline auto structure_to_tuple<VkViewportSwizzleNV>(const VkViewportSwizzleNV& o
 template <>
 inline auto structure_to_tuple<VkViewportWScalingNV>(const VkViewportWScalingNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.xcoeff,
         obj.ycoeff
     );
@@ -6678,7 +6637,7 @@ inline auto structure_to_tuple<VkViewportWScalingNV>(const VkViewportWScalingNV&
 template <>
 inline auto structure_to_tuple<VkWaylandSurfaceCreateInfoKHR>(const VkWaylandSurfaceCreateInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -6692,7 +6651,7 @@ inline auto structure_to_tuple<VkWaylandSurfaceCreateInfoKHR>(const VkWaylandSur
 template <>
 inline auto structure_to_tuple<VkWin32KeyedMutexAcquireReleaseInfoKHR>(const VkWin32KeyedMutexAcquireReleaseInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.acquireCount,
@@ -6710,7 +6669,7 @@ inline auto structure_to_tuple<VkWin32KeyedMutexAcquireReleaseInfoKHR>(const VkW
 template <>
 inline auto structure_to_tuple<VkWin32KeyedMutexAcquireReleaseInfoNV>(const VkWin32KeyedMutexAcquireReleaseInfoNV& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.acquireCount,
@@ -6728,7 +6687,7 @@ inline auto structure_to_tuple<VkWin32KeyedMutexAcquireReleaseInfoNV>(const VkWi
 template <>
 inline auto structure_to_tuple<VkWin32SurfaceCreateInfoKHR>(const VkWin32SurfaceCreateInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -6741,7 +6700,7 @@ inline auto structure_to_tuple<VkWin32SurfaceCreateInfoKHR>(const VkWin32Surface
 template <>
 inline auto structure_to_tuple<VkWriteDescriptorSet>(const VkWriteDescriptorSet& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.dstSet,
@@ -6759,7 +6718,7 @@ inline auto structure_to_tuple<VkWriteDescriptorSet>(const VkWriteDescriptorSet&
 template <>
 inline auto structure_to_tuple<VkWriteDescriptorSetAccelerationStructureKHR>(const VkWriteDescriptorSetAccelerationStructureKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.accelerationStructureCount,
@@ -6771,7 +6730,7 @@ inline auto structure_to_tuple<VkWriteDescriptorSetAccelerationStructureKHR>(con
 template <>
 inline auto structure_to_tuple<VkWriteDescriptorSetInlineUniformBlockEXT>(const VkWriteDescriptorSetInlineUniformBlockEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.dataSize,
@@ -6782,7 +6741,7 @@ inline auto structure_to_tuple<VkWriteDescriptorSetInlineUniformBlockEXT>(const 
 template <>
 inline auto structure_to_tuple<VkXYColorEXT>(const VkXYColorEXT& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.x,
         obj.y
     );
@@ -6792,7 +6751,7 @@ inline auto structure_to_tuple<VkXYColorEXT>(const VkXYColorEXT& obj)
 template <>
 inline auto structure_to_tuple<VkXcbSurfaceCreateInfoKHR>(const VkXcbSurfaceCreateInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,
@@ -6806,7 +6765,7 @@ inline auto structure_to_tuple<VkXcbSurfaceCreateInfoKHR>(const VkXcbSurfaceCrea
 template <>
 inline auto structure_to_tuple<VkXlibSurfaceCreateInfoKHR>(const VkXlibSurfaceCreateInfoKHR& obj)
 {
-    return std::forward_as_tuple(
+    return std::make_tuple(
         obj.sType,
         PNextTupleElementWrapper { obj.pNext },
         obj.flags,

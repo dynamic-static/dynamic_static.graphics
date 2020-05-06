@@ -36,7 +36,9 @@ public:
         headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/structure-to-tuple-utilities.hpp" };
         headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/tuple-element-wrappers.hpp" };
         headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/defines.hpp" };
+        headerFile << CppInclude { CppInclude::Type::System, "string_view" };
         headerFile << CppInclude { CppInclude::Type::System, "tuple" };
+        headerFile << CppInclude { CppInclude::Type::System, "utility" };
         headerFile << std::endl;
         CppFunction::Collection structureToTupleFunctions;
         for (const auto& structureitr : xmlManifest.structures) {
@@ -59,7 +61,7 @@ public:
                     { "${VK_STRUCTURE_TYPE}", structure.name },
                 };
                 structureToTupleFunction.cppSourceBlock.add_snippet(R"(
-                    return std::forward_as_tuple(
+                    return std::make_tuple(
                 )");
                 for (size_t i = 0; i < structure.members.size(); ++i) {
                     const auto& member = structure.members[i];
@@ -67,6 +69,7 @@ public:
                         Tab { 1 },
                         get_member_snippet(xmlManifest, member) + (i < structure.members.size() - 1 ? "," : std::string()),
                         {
+                            { "${MEMBER_TYPE}", member.type },
                             { "${MEMBER_NAME}", member.name },
                             { "${MEMBER_LENGTH}", member.length },
                             { "${VOID_PTR_TO_UINT8_PTR_CAST}", member.unqualifiedType == "void" ? "(const uint8_t*)" : std::string() },
@@ -82,7 +85,7 @@ public:
         CppFunction::Collection manuallyImplementedStructureToTupleFunctions;
         for (auto itr = structureToTupleFunctions.begin(); itr != structureToTupleFunctions.end(); ++itr) {
             auto unqualifiedVkStructureTypeName = itr->cppParameters[0].get_unqualified_type();
-            if (structure_requires_manual_implementation(unqualifiedVkStructureTypeName)) {
+            if (vk_structure_requires_manual_implementation(unqualifiedVkStructureTypeName)) {
                 manuallyImplementedStructureToTupleFunctions.push_back(*itr);
                 itr = structureToTupleFunctions.erase(itr);
             }
@@ -119,7 +122,7 @@ private:
             }
             if (vkXmlStructureMember.flags & xml::Parameter::DynamicArray) {
                 if (vkXmlStructureMember.flags & xml::Parameter::String) {
-                    return "DynamicStringTupleElementWrapper { obj.${MEMBER_NAME} }";
+                    return "obj.${MEMBER_NAME} ? std::string_view(obj.${MEMBER_NAME}) : std::string_view()";
                 } else {
                     return "Span(${VOID_PTR_TO_UINT8_PTR_CAST}obj.${MEMBER_NAME}, obj.${MEMBER_LENGTH})";
                 }
@@ -129,11 +132,15 @@ private:
             if (vkXmlStructureMember.flags & xml::Parameter::FunctionPointer) {
                 return "obj.${MEMBER_NAME}";
             } else {
-                return "obj.${MEMBER_NAME}";
+                if (vkXmlManifest.structures.count(vkXmlStructureMember.unqualifiedType)) {
+                    return "Span(obj.${MEMBER_NAME}, 1)";
+                } else {
+                    return "obj.${MEMBER_NAME}";
+                }
             }
         } else
-        if (vkXmlManifest.handles.find(vkXmlStructureMember.type) != vkXmlManifest.handles.end()) {
-            return "obj.${MEMBER_NAME}";
+        if (vkXmlManifest.structures.count(vkXmlStructureMember.unqualifiedType)) {
+            return "std::ref(obj.${MEMBER_NAME})";
         }
         return "obj.${MEMBER_NAME}";
     }

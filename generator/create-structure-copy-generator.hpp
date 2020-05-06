@@ -79,7 +79,7 @@ public:
         headerFile << CppNamespace("dst::gfx::vk::detail").close();
         for (auto& cppFunction : cppFunctions) {
             auto unqualifiedVkStructureTypeName = cppFunction.cppParameters[0].get_unqualified_type();
-            cppFunction.cppCompileGuards.insert(manual_implemntation_compile_guard(unqualifiedVkStructureTypeName));
+            cppFunction.cppCompileGuards.insert(vk_structure_manual_implemntation_compile_guard(unqualifiedVkStructureTypeName));
         }
         sourceFile << CppNamespace("dst::gfx::vk::detail").open();
         auto pNextHandlerFunction = create_pnext_handler_function(xmlManifest);

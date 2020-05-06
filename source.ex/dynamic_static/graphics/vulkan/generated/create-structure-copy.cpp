@@ -205,6 +205,7 @@ VkAccelerationStructureInfoNV create_structure_copy<VkAccelerationStructureInfoN
     return result;
 }
 
+#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 VkAccelerationStructureInstanceKHR create_structure_copy<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -219,6 +220,7 @@ VkAccelerationStructureInstanceKHR create_structure_copy<VkAccelerationStructure
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
@@ -773,6 +775,7 @@ VkClearRect create_structure_copy<VkClearRect>(const VkClearRect& obj, const VkA
     return result;
 }
 
+#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 template <>
 VkClearValue create_structure_copy<VkClearValue>(const VkClearValue& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
@@ -781,6 +784,7 @@ VkClearValue create_structure_copy<VkClearValue>(const VkClearValue& obj, const 
     result.depthStencil = create_structure_copy(obj.depthStencil, pAllocationCallbacks);
     return result;
 }
+#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 VkCoarseSampleLocationNV create_structure_copy<VkCoarseSampleLocationNV>(const VkCoarseSampleLocationNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -3139,6 +3143,7 @@ VkPerformanceCounterKHR create_structure_copy<VkPerformanceCounterKHR>(const VkP
     return result;
 }
 
+#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 template <>
 VkPerformanceCounterResultKHR create_structure_copy<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
@@ -3151,6 +3156,7 @@ VkPerformanceCounterResultKHR create_structure_copy<VkPerformanceCounterResultKH
     result.float64 = create_structure_copy(obj.float64, pAllocationCallbacks);
     return result;
 }
+#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 VkPerformanceMarkerInfoINTEL create_structure_copy<VkPerformanceMarkerInfoINTEL>(const VkPerformanceMarkerInfoINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -3194,6 +3200,7 @@ VkPerformanceStreamMarkerInfoINTEL create_structure_copy<VkPerformanceStreamMark
     return result;
 }
 
+#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 template <>
 VkPerformanceValueDataINTEL create_structure_copy<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
@@ -3205,6 +3212,7 @@ VkPerformanceValueDataINTEL create_structure_copy<VkPerformanceValueDataINTEL>(c
     result.valueString = obj.valueString;
     return result;
 }
+#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 VkPerformanceValueINTEL create_structure_copy<VkPerformanceValueINTEL>(const VkPerformanceValueINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -5154,6 +5162,7 @@ VkPipelineExecutableStatisticKHR create_structure_copy<VkPipelineExecutableStati
     return result;
 }
 
+#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 template <>
 VkPipelineExecutableStatisticValueKHR create_structure_copy<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
@@ -5164,6 +5173,7 @@ VkPipelineExecutableStatisticValueKHR create_structure_copy<VkPipelineExecutable
     result.f64 = create_structure_copy(obj.f64, pAllocationCallbacks);
     return result;
 }
+#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 VkPipelineInfoKHR create_structure_copy<VkPipelineInfoKHR>(const VkPipelineInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
