@@ -70,8 +70,9 @@ inline void randomize_bytes(RngContext& rngContext, size_t byteCount, uint8_t* p
 TODO : Documentation
 */
 template <typename T>
-inline void randomize_structure(RngContext& rngContext, T& obj)
+inline void randomize_structure(RngContext& rngContext, T& obj, bool randomizePNext = false)
 {
+    (void)randomizePNext;
     randomize_bytes(rngContext, sizeof(obj), (uint8_t*)&obj);
 }
 
@@ -79,10 +80,10 @@ inline void randomize_structure(RngContext& rngContext, T& obj)
 TODO : Documentation
 */
 template <typename T>
-inline void randomize_structure_ptr(RngContext& rngContext, const T*& pObj)
+inline void randomize_structure_ptr(RngContext& rngContext, const T*& pObj, bool randomizePNext = false)
 {
     T* pNewObj = rngContext.allocate<T>();
-    randomize_structure(rngContext, *pNewObj);
+    randomize_structure(rngContext, *pNewObj, randomizePNext);
     pObj = pNewObj;
 }
 
@@ -90,14 +91,14 @@ inline void randomize_structure_ptr(RngContext& rngContext, const T*& pObj)
 TODO : Documentation
 */
 template <typename CountType, typename T>
-inline void randomize_array(RngContext& rngContext, CountType& count, const T*& pObjs)
+inline void randomize_array(RngContext& rngContext, CountType& count, const T*& pObjs, bool randomizePNext = false)
 {
     count = rngContext.rng.range<CountType>(4, 8);
     T* pNewObjs = nullptr;
     if (count) {
         pNewObjs = rngContext.allocate<T>(count);
         for (CountType i = 0; i < count; ++i) {
-            randomize_structure(rngContext, pNewObjs[i]);
+            randomize_structure(rngContext, pNewObjs[i], randomizePNext);
         }
     }
     pObjs = pNewObjs;
@@ -140,12 +141,37 @@ inline void randomize_string_array(RngContext& rngContext, CountType& count, con
 
 /**
 TODO : Documentation
+    @note The pNext chains created by this function aren't valid in a Vulkan application but are suitable for test scenarios
+*/
+inline const void* randomize_pnext(RngContext& rngContext, bool randomizePNext = true)
+{
+    switch (rngContext.rng.die_roll(3)) {
+    case 1: {
+        auto pNext = rngContext.allocate<VkFenceCreateInfo>();
+        pNext->sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+        pNext->pNext = randomizePNext && rngContext.rng.probability(0.5f) ? randomize_pnext(rngContext, false) : nullptr;
+        pNext->flags = rngContext.rng.probability(0.5f) ? 0 : 1;
+        return pNext;
+    } break;
+    case 2: {
+        auto pNext = rngContext.allocate<VkSemaphoreCreateInfo>();
+        pNext->sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+        pNext->pNext = randomizePNext && rngContext.rng.probability(0.5f) ? randomize_pnext(rngContext, false) : nullptr;
+        pNext->flags = rngContext.rng.probability(0.5f) ? 0 : 1;
+        return pNext;
+    } break;
+    };
+    return nullptr;
+}
+
+/**
+TODO : Documentation
 */
 template <>
-inline void randomize_structure<VkApplicationInfo>(RngContext& rngContext, VkApplicationInfo& obj)
+inline void randomize_structure<VkApplicationInfo>(RngContext& rngContext, VkApplicationInfo& obj, bool randomizePNext)
 {
     randomize_bytes(rngContext, sizeof(obj), (uint8_t*)&obj);
-    obj.pNext = nullptr;
+    obj.pNext = randomizePNext ? randomize_pnext(rngContext) : nullptr;
     randomize_string(rngContext, obj.pApplicationName);
     randomize_string(rngContext, obj.pEngineName);
 }
@@ -154,10 +180,10 @@ inline void randomize_structure<VkApplicationInfo>(RngContext& rngContext, VkApp
 TODO : Documentation
 */
 template <>
-inline void randomize_structure<VkInstanceCreateInfo>(RngContext& rngContext, VkInstanceCreateInfo& obj)
+inline void randomize_structure<VkInstanceCreateInfo>(RngContext& rngContext, VkInstanceCreateInfo& obj, bool randomizePNext)
 {
     randomize_bytes(rngContext, sizeof(obj), (uint8_t*)&obj);
-    obj.pNext = nullptr;
+    obj.pNext = randomizePNext ? randomize_pnext(rngContext) : nullptr;
     randomize_structure_ptr(rngContext, obj.pApplicationInfo);
     randomize_string_array(rngContext, obj.enabledLayerCount, obj.ppEnabledLayerNames);
     randomize_string_array(rngContext, obj.enabledExtensionCount, obj.ppEnabledExtensionNames);
@@ -167,10 +193,10 @@ inline void randomize_structure<VkInstanceCreateInfo>(RngContext& rngContext, Vk
 TODO : Documentation
 */
 template <>
-inline void randomize_structure<VkImageCreateInfo>(RngContext& rngContext, VkImageCreateInfo& obj)
+inline void randomize_structure<VkImageCreateInfo>(RngContext& rngContext, VkImageCreateInfo& obj, bool randomizePNext)
 {
     randomize_bytes(rngContext, sizeof(obj), (uint8_t*)&obj);
-    obj.pNext = nullptr;
+    obj.pNext = randomizePNext ? randomize_pnext(rngContext) : nullptr;
     randomize_array(rngContext, obj.queueFamilyIndexCount, obj.pQueueFamilyIndices);
 }
 
@@ -178,8 +204,9 @@ inline void randomize_structure<VkImageCreateInfo>(RngContext& rngContext, VkIma
 TODO : Documentation
 */
 template <>
-inline void randomize_structure<VkViewport>(RngContext& rngContext, VkViewport& obj)
+inline void randomize_structure<VkViewport>(RngContext& rngContext, VkViewport& obj, bool randomizePNext)
 {
+    (void)randomizePNext;
     obj.x = rngContext.rng.value<float>();
     obj.y = rngContext.rng.value<float>();
     obj.width = rngContext.rng.value<float>();
@@ -192,10 +219,10 @@ inline void randomize_structure<VkViewport>(RngContext& rngContext, VkViewport& 
 TODO : Documentation
 */
 template <>
-inline void randomize_structure<VkPipelineViewportStateCreateInfo>(RngContext& rngContext, VkPipelineViewportStateCreateInfo& obj)
+inline void randomize_structure<VkPipelineViewportStateCreateInfo>(RngContext& rngContext, VkPipelineViewportStateCreateInfo& obj, bool randomizePNext)
 {
     randomize_bytes(rngContext, sizeof(obj), (uint8_t*)&obj);
-    obj.pNext = nullptr;
+    obj.pNext = randomizePNext ? randomize_pnext(rngContext) : nullptr;
     randomize_array(rngContext, obj.viewportCount, obj.pViewports);
     randomize_array(rngContext, obj.scissorCount, obj.pScissors);
 }
@@ -204,22 +231,50 @@ inline void randomize_structure<VkPipelineViewportStateCreateInfo>(RngContext& r
 TODO : Documentation
 */
 template <>
-inline void randomize_structure<VkDeviceCreateInfo>(RngContext& rngContext, VkDeviceCreateInfo& obj)
+inline void randomize_structure<VkDeviceQueueCreateInfo>(RngContext& rngContext, VkDeviceQueueCreateInfo& obj, bool randomizePNext)
 {
     randomize_bytes(rngContext, sizeof(obj), (uint8_t*)&obj);
-    obj.pNext = nullptr;
-
+    obj.pNext = randomizePNext ? randomize_pnext(rngContext) : nullptr;
+    randomize_array(rngContext, obj.queueCount, obj.pQueuePriorities);
+    for (uint32_t i = 0; i < obj.queueCount; ++i) {
+        ((float*)obj.pQueuePriorities)[i] = rngContext.rng.value<float>();
+    }
 }
 
 /**
 TODO : Documentation
 */
 template <>
-inline void randomize_structure<VkPipelineCacheCreateInfo>(RngContext& rngContext, VkPipelineCacheCreateInfo& obj)
+inline void randomize_structure<VkDeviceCreateInfo>(RngContext& rngContext, VkDeviceCreateInfo& obj, bool randomizePNext)
 {
     randomize_bytes(rngContext, sizeof(obj), (uint8_t*)&obj);
-    obj.pNext = nullptr;
+    obj.pNext = randomizePNext ? randomize_pnext(rngContext) : nullptr;
+    randomize_array(rngContext, obj.queueCreateInfoCount, obj.pQueueCreateInfos);
+    randomize_string_array(rngContext, obj.enabledLayerCount, obj.ppEnabledLayerNames);
+    randomize_string_array(rngContext, obj.enabledExtensionCount, obj.ppEnabledExtensionNames);
+    randomize_structure_ptr(rngContext, obj.pEnabledFeatures);
+}
+
+/**
+TODO : Documentation
+*/
+template <>
+inline void randomize_structure<VkPipelineCacheCreateInfo>(RngContext& rngContext, VkPipelineCacheCreateInfo& obj, bool randomizePNext)
+{
+    randomize_bytes(rngContext, sizeof(obj), (uint8_t*)&obj);
+    obj.pNext = randomizePNext ? randomize_pnext(rngContext) : nullptr;
     randomize_void_data(rngContext, obj.initialDataSize, obj.pInitialData);
+}
+
+/**
+TODO : Documentation
+*/
+template <>
+inline void randomize_structure<VkEventCreateInfo>(RngContext& rngContext, VkEventCreateInfo& obj, bool randomizePNext)
+{
+    obj.sType = VK_STRUCTURE_TYPE_EVENT_CREATE_INFO;
+    obj.pNext = randomizePNext ? randomize_pnext(rngContext) : nullptr;
+    obj.flags = rngContext.rng.probability(0.5f) ? 0 : 1;
 }
 
 /**

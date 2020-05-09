@@ -28,7 +28,10 @@ namespace tests {
 //  ordering requirements for sorting using std functions and containers.
 
 /**
-TODO : Documentation
+Validates comparison operators for objects that are expected to evaluate as equal
+@param <VulkanStructureType> The type of objects to validate comparison operators for
+@param [in] lhs The left hand side object to compare
+@param [in] rhs The right hand side object to compare
 */
 template <typename VulkanStructureType>
 inline void validate_equality(const VulkanStructureType& lhs, const VulkanStructureType& rhs)
@@ -42,13 +45,28 @@ inline void validate_equality(const VulkanStructureType& lhs, const VulkanStruct
 }
 
 /**
-TODO : Documentation
+Validates equality operators for objects that are expected to evaluate as inequal
+@param <VulkanStructureType> The type of objects to validate comparison operators for
+@param [in] lhs The left hand side object to compare
+@param [in] rhs The right hand side object to compare
+*/
+template <typename VulkanStructureType>
+inline void validate_inequality(const VulkanStructureType& lhs, const VulkanStructureType& rhs)
+{
+    REQUIRE_FALSE(lhs == rhs);
+    REQUIRE      (lhs != rhs);
+}
+
+/**
+Validates comparison operators for objects where the given left hand side is expected to evaluate as less than the given right hand side object
+@param <VulkanStructureType> The type of objects to validate comparison operators for
+@param [in] lhs The left hand side object to compare
+@param [in] rhs The right hand side object to compare
 */
 template <typename VulkanStructureType>
 inline void validate_less_than(const VulkanStructureType& lhs, const VulkanStructureType& rhs)
 {
-    REQUIRE_FALSE(lhs == rhs);
-    REQUIRE      (lhs != rhs);
+    validate_inequality(lhs, rhs);
     REQUIRE      (lhs <  rhs);
     REQUIRE      (lhs <= rhs);
     REQUIRE_FALSE(lhs >  rhs);
@@ -56,12 +74,15 @@ inline void validate_less_than(const VulkanStructureType& lhs, const VulkanStruc
 }
 
 /**
-TODO : Documentation
+Validates comparison operators for objects where the given left hand side is expected to evaluate as greater than the given right hand side object
+@param <VulkanStructureType> The type of objects to validate comparison operators for
+@param [in] lhs The left hand side object to compare
+@param [in] rhs The right hand side object to compare
 */
 template <typename VulkanStructureType>
 inline void validate_greater_than(const VulkanStructureType& lhs, const VulkanStructureType& rhs)
 {
-    REQUIRE_FALSE(lhs == rhs);
+    validate_inequality(lhs, rhs);
     REQUIRE      (lhs != rhs);
     REQUIRE_FALSE(lhs <  rhs);
     REQUIRE_FALSE(lhs <= rhs);
@@ -70,7 +91,9 @@ inline void validate_greater_than(const VulkanStructureType& lhs, const VulkanSt
 }
 
 /**
-TODO : Documentation
+Validates comparison operators for objects of a specified type
+@param <VulkanStructureType> The type of objects to validate comparison operators for
+@param [in] rngContext The RngContext to use for randomizing objects of the specified type
 */
 template <typename VulkanStructureType>
 inline void validate_comparison_operators(RngContext& rngContext)
@@ -101,7 +124,7 @@ inline void validate_comparison_operators(RngContext& rngContext)
 }
 
 /**
-TODO : Documentation
+Validates comparison operators for POD structures
 */
 TEST_CASE("Comparison operators for POD structures")
 {
@@ -112,7 +135,7 @@ TEST_CASE("Comparison operators for POD structures")
 }
 
 /**
-TODO : Documentation
+Validates comparison operators for unions
 */
 TEST_CASE("Comparison operators for unions")
 {
@@ -130,7 +153,7 @@ TEST_CASE("Comparison operators for unions")
 }
 
 /**
-TODO : Documentation
+Validates comparison operators for structures with statically sized array members
 */
 TEST_CASE("Comparison operators for structures with statically sized array members")
 {
@@ -150,7 +173,7 @@ TEST_CASE("Comparison operators for structures with statically sized array membe
 }
 
 /**
-TODO : Documentation
+Validates comparison operators for structures with dynamically sized array members
 */
 TEST_CASE("Comparison operators for structures with dynamically sized array members")
 {
@@ -177,32 +200,26 @@ TEST_CASE("Comparison operators for structures with dynamically sized array memb
     }
     SECTION("Structure with dynamically sized VkStructure array member with dynamically sized array member")
     {
-        // TODO :
+        validate_comparison_operators<VkDeviceCreateInfo>(rngContext);
     }
 }
 
 /**
-TODO : Documentation
+Validates comparison operators for structures with pointers to structures
 */
 TEST_CASE("Comparison operators for structures with pointers to structures")
 {
     RngContext rngContext;
+    validate_comparison_operators<VkInstanceCreateInfo>(rngContext);
 }
 
 /**
-TODO : Documentation
+Validates comparison operators for structures with pNext members
 */
 TEST_CASE("Comparison operators for structures with pNext members")
 {
     RngContext rngContext;
-    SECTION("Structure with pNext member")
-    {
-        // TODO :
-    }
-    SECTION("Structure with chained pNext member")
-    {
-        // TODO :
-    }
+    validate_comparison_operators<VkEventCreateInfo>(rngContext);
 }
 
 } // namespace tests
