@@ -27,13 +27,13 @@ namespace tests {
 //  point members are randomized manually to avoid the NaNs.  May revisit.
 
 /**
-TODO : Documentation
+Random number generator context for test scenarios
 */
 class RngContext final
 {
 public:
     /**
-    TODO : Documentation
+    Constructs an instance of RngContext
     */
     inline RngContext()
         : rng(0)
@@ -41,7 +41,10 @@ public:
     }
 
     /**
-    TODO : Documentation
+    Allocates storage for a specified number of objects of a specified type
+    @param <T> The type of object to allocate
+    @param [in](optional = 1) count The number of objects to allocate
+    @return A pointer to the allocated storage
     */
     template <typename T>
     inline T* allocate(size_t count = 1)
@@ -50,14 +53,17 @@ public:
         return (T*)mAllocations.back().data();
     }
 
-    RandomNumberGenerator<> rng; //!< TODO : Documentation
+    RandomNumberGenerator<> rng; //!< This RngContext object's RandomNumberGenerator<>
 
 private:
     std::vector<std::vector<uint8_t>> mAllocations;
 };
 
 /**
-TODO : Documentation
+Randomizes the contents of a given array of bytes
+@param [in] rngContext The RngContext to use for randomizing bytes
+@param [in] byteCount The number of bytes to randomize
+@param [in] pBytes A pointer to the array of bytes to randomize
 */
 inline void randomize_bytes(RngContext& rngContext, size_t byteCount, uint8_t* pBytes)
 {
@@ -67,7 +73,11 @@ inline void randomize_bytes(RngContext& rngContext, size_t byteCount, uint8_t* p
 }
 
 /**
-TODO : Documentation
+Randomizes a given object of a specified type
+@param <T> The type of object to randomize
+@param [in] rngContext The RngContext to use for randomizing the given object
+@param [out] obj A reference to the object to randomize
+@param [in](optional = false) randomizePNext Whether or not to randomize the given object's pNext member
 */
 template <typename T>
 inline void randomize_structure(RngContext& rngContext, T& obj, bool randomizePNext = false)
@@ -77,7 +87,11 @@ inline void randomize_structure(RngContext& rngContext, T& obj, bool randomizePN
 }
 
 /**
-TODO : Documentation
+Allocates and randomizes an object of a specified type
+@param <T> The type of object to allocate and randomize
+@param [in] rngContext The RngContext to use for randomizing the allocated object
+@param [out] obj A pointer to populate with the allocated object's storage address
+@param [in](optional = false) randomizePNext Whether or not to randomize the allocated object's pNext member
 */
 template <typename T>
 inline void randomize_structure_ptr(RngContext& rngContext, const T*& pObj, bool randomizePNext = false)
@@ -88,7 +102,13 @@ inline void randomize_structure_ptr(RngContext& rngContext, const T*& pObj, bool
 }
 
 /**
-TODO : Documentation
+Allocates and randomizes an array of a specified type
+@param <CountType> The type of value used as the allocated array's count
+@param <T> The type of objects to allocate and randomize
+@param [in] rngContext The RngContext to use for randomizing the allocated objects
+@param [out] count A reference to a value to populate with the number of allocated objects
+@param [out] pObjs A reference to a pointer to populate with the allocated objects' storage address
+@param [in](optional = false) randomizePNext Whether or not to randomize the allocated objects' pNext members
 */
 template <typename CountType, typename T>
 inline void randomize_array(RngContext& rngContext, CountType& count, const T*& pObjs, bool randomizePNext = false)
@@ -105,7 +125,11 @@ inline void randomize_array(RngContext& rngContext, CountType& count, const T*& 
 }
 
 /**
-TODO : Documentation
+Allocates and randomizes an array of bytes referenced as a const void*
+@param <CountType> The type of value used for the allocated byte count
+@param [in] rngContext The RngContext to use for randomizing the allocated objects
+@param [out] count A reference to a value to populate with the number of allocated bytes
+@param [out] pData A pointer to populate with the allocated bytes' storage address
 */
 template <typename CountType>
 inline void randomize_void_data(RngContext& rngContext, CountType& count, const void*& pData)
@@ -116,7 +140,9 @@ inline void randomize_void_data(RngContext& rngContext, CountType& count, const 
 }
 
 /**
-TODO : Documentation
+Allocates and randomizes a string
+@param [in] rngContext The RngContext to use for randomizing the allocated string
+@param [out] pStr A reference to a pointer to populate with the allocated string's storage address
 */
 inline void randomize_string(RngContext& rngContext, const char*& pStr)
 {
@@ -126,7 +152,11 @@ inline void randomize_string(RngContext& rngContext, const char*& pStr)
 }
 
 /**
-TODO : Documentation
+Allocates and randomizes an array of a strings
+@param <CountType> The type of value used as the allocated array's count
+@param [in] rngContext The RngContext to use for randomizing the allocated objects
+@param [out] count A reference to a value to populate with the number of allocated objects
+@param [out] ppStr A reference to a pointer to populate with the allocated strings array's storage address
 */
 template <typename CountType>
 inline void randomize_string_array(RngContext& rngContext, CountType& count, const char* const*& ppStr)
@@ -140,7 +170,9 @@ inline void randomize_string_array(RngContext& rngContext, CountType& count, con
 }
 
 /**
-TODO : Documentation
+Allocates and randomizes an object to use as a pNext member
+@param [in] rngContext The RngContext to use for randomizing the allocated pNext object
+@param [in](optional = true) randomizePNext Whether or not to randomly generate a pNext chain
     @note The pNext chains created by this function aren't valid in a Vulkan application but are suitable for test scenarios
 */
 inline const void* randomize_pnext(RngContext& rngContext, bool randomizePNext = true)
@@ -165,7 +197,10 @@ inline const void* randomize_pnext(RngContext& rngContext, bool randomizePNext =
 }
 
 /**
-TODO : Documentation
+Randomizes a given VkApplicationInfo
+@param [in] rngContext The RngContext to use for randomizing the given VkApplicationInfo
+@param [out] obj A reference to the VkApplicationInfo to randomize
+@param [in](optional = false) randomizePNext Whether or not to randomize the given VkApplicationInfo object's pNext member
 */
 template <>
 inline void randomize_structure<VkApplicationInfo>(RngContext& rngContext, VkApplicationInfo& obj, bool randomizePNext)
@@ -177,7 +212,10 @@ inline void randomize_structure<VkApplicationInfo>(RngContext& rngContext, VkApp
 }
 
 /**
-TODO : Documentation
+Randomizes a given VkInstanceCreateInfo
+@param [in] rngContext The RngContext to use for randomizing the given VkInstanceCreateInfo
+@param [out] obj A reference to the VkInstanceCreateInfo to randomize
+@param [in](optional = false) randomizePNext Whether or not to randomize the given VkInstanceCreateInfo object's pNext member
 */
 template <>
 inline void randomize_structure<VkInstanceCreateInfo>(RngContext& rngContext, VkInstanceCreateInfo& obj, bool randomizePNext)
@@ -190,18 +228,45 @@ inline void randomize_structure<VkInstanceCreateInfo>(RngContext& rngContext, Vk
 }
 
 /**
-TODO : Documentation
+Randomizes a given VkDeviceQueueCreateInfo
+@param [in] rngContext The RngContext to use for randomizing the given VkDeviceQueueCreateInfo
+@param [out] obj A reference to the VkDeviceQueueCreateInfo to randomize
+@param [in](optional = false) randomizePNext Whether or not to randomize the given VkDeviceQueueCreateInfo object's pNext member
 */
 template <>
-inline void randomize_structure<VkImageCreateInfo>(RngContext& rngContext, VkImageCreateInfo& obj, bool randomizePNext)
+inline void randomize_structure<VkDeviceQueueCreateInfo>(RngContext& rngContext, VkDeviceQueueCreateInfo& obj, bool randomizePNext)
 {
     randomize_bytes(rngContext, sizeof(obj), (uint8_t*)&obj);
     obj.pNext = randomizePNext ? randomize_pnext(rngContext) : nullptr;
-    randomize_array(rngContext, obj.queueFamilyIndexCount, obj.pQueueFamilyIndices);
+    randomize_array(rngContext, obj.queueCount, obj.pQueuePriorities);
+    for (uint32_t i = 0; i < obj.queueCount; ++i) {
+        ((float*)obj.pQueuePriorities)[i] = rngContext.rng.value<float>();
+    }
 }
 
 /**
-TODO : Documentation
+/**
+Randomizes a given VkDeviceCreateInfo
+@param [in] rngContext The RngContext to use for randomizing the given VkDeviceCreateInfo
+@param [out] obj A reference to the VkDeviceCreateInfo to randomize
+@param [in](optional = false) randomizePNext Whether or not to randomize the given VkDeviceCreateInfo object's pNext member
+*/
+template <>
+inline void randomize_structure<VkDeviceCreateInfo>(RngContext& rngContext, VkDeviceCreateInfo& obj, bool randomizePNext)
+{
+    randomize_bytes(rngContext, sizeof(obj), (uint8_t*)&obj);
+    obj.pNext = randomizePNext ? randomize_pnext(rngContext) : nullptr;
+    randomize_array(rngContext, obj.queueCreateInfoCount, obj.pQueueCreateInfos);
+    randomize_string_array(rngContext, obj.enabledLayerCount, obj.ppEnabledLayerNames);
+    randomize_string_array(rngContext, obj.enabledExtensionCount, obj.ppEnabledExtensionNames);
+    randomize_structure_ptr(rngContext, obj.pEnabledFeatures);
+}
+
+/**
+Randomizes a given VkViewport
+@param [in] rngContext The RngContext to use for randomizing the given VkViewport
+@param [out] obj A reference to the VkViewport to randomize
+@param [in](optional = false) randomizePNext Whether or not to randomize the given VkViewport object's pNext member
 */
 template <>
 inline void randomize_structure<VkViewport>(RngContext& rngContext, VkViewport& obj, bool randomizePNext)
@@ -216,7 +281,10 @@ inline void randomize_structure<VkViewport>(RngContext& rngContext, VkViewport& 
 }
 
 /**
-TODO : Documentation
+Randomizes a given VkPipelineViewportStateCreateInfo
+@param [in] rngContext The RngContext to use for randomizing the given VkPipelineViewportStateCreateInfo
+@param [out] obj A reference to the VkPipelineViewportStateCreateInfo to randomize
+@param [in](optional = false) randomizePNext Whether or not to randomize the given VkPipelineViewportStateCreateInfo object's pNext member
 */
 template <>
 inline void randomize_structure<VkPipelineViewportStateCreateInfo>(RngContext& rngContext, VkPipelineViewportStateCreateInfo& obj, bool randomizePNext)
@@ -228,35 +296,10 @@ inline void randomize_structure<VkPipelineViewportStateCreateInfo>(RngContext& r
 }
 
 /**
-TODO : Documentation
-*/
-template <>
-inline void randomize_structure<VkDeviceQueueCreateInfo>(RngContext& rngContext, VkDeviceQueueCreateInfo& obj, bool randomizePNext)
-{
-    randomize_bytes(rngContext, sizeof(obj), (uint8_t*)&obj);
-    obj.pNext = randomizePNext ? randomize_pnext(rngContext) : nullptr;
-    randomize_array(rngContext, obj.queueCount, obj.pQueuePriorities);
-    for (uint32_t i = 0; i < obj.queueCount; ++i) {
-        ((float*)obj.pQueuePriorities)[i] = rngContext.rng.value<float>();
-    }
-}
-
-/**
-TODO : Documentation
-*/
-template <>
-inline void randomize_structure<VkDeviceCreateInfo>(RngContext& rngContext, VkDeviceCreateInfo& obj, bool randomizePNext)
-{
-    randomize_bytes(rngContext, sizeof(obj), (uint8_t*)&obj);
-    obj.pNext = randomizePNext ? randomize_pnext(rngContext) : nullptr;
-    randomize_array(rngContext, obj.queueCreateInfoCount, obj.pQueueCreateInfos);
-    randomize_string_array(rngContext, obj.enabledLayerCount, obj.ppEnabledLayerNames);
-    randomize_string_array(rngContext, obj.enabledExtensionCount, obj.ppEnabledExtensionNames);
-    randomize_structure_ptr(rngContext, obj.pEnabledFeatures);
-}
-
-/**
-TODO : Documentation
+Randomizes a given VkPipelineCacheCreateInfo
+@param [in] rngContext The RngContext to use for randomizing the given VkPipelineCacheCreateInfo
+@param [out] obj A reference to the VkPipelineCacheCreateInfo to randomize
+@param [in](optional = false) randomizePNext Whether or not to randomize the given VkPipelineCacheCreateInfo object's pNext member
 */
 template <>
 inline void randomize_structure<VkPipelineCacheCreateInfo>(RngContext& rngContext, VkPipelineCacheCreateInfo& obj, bool randomizePNext)
@@ -267,7 +310,24 @@ inline void randomize_structure<VkPipelineCacheCreateInfo>(RngContext& rngContex
 }
 
 /**
-TODO : Documentation
+Randomizes a given VkImageCreateInfo
+@param [in] rngContext The RngContext to use for randomizing the given VkImageCreateInfo
+@param [out] obj A reference to the VkImageCreateInfo to randomize
+@param [in](optional = false) randomizePNext Whether or not to randomize the given VkImageCreateInfo object's pNext member
+*/
+template <>
+inline void randomize_structure<VkImageCreateInfo>(RngContext& rngContext, VkImageCreateInfo& obj, bool randomizePNext)
+{
+    randomize_bytes(rngContext, sizeof(obj), (uint8_t*)&obj);
+    obj.pNext = randomizePNext ? randomize_pnext(rngContext) : nullptr;
+    randomize_array(rngContext, obj.queueFamilyIndexCount, obj.pQueueFamilyIndices);
+}
+
+/**
+Randomizes a given VkEventCreateInfo
+@param [in] rngContext The RngContext to use for randomizing the given VkEventCreateInfo
+@param [out] obj A reference to the VkEventCreateInfo to randomize
+@param [in](optional = false) randomizePNext Whether or not to randomize the given VkEventCreateInfo object's pNext member
 */
 template <>
 inline void randomize_structure<VkEventCreateInfo>(RngContext& rngContext, VkEventCreateInfo& obj, bool randomizePNext)
@@ -278,7 +338,11 @@ inline void randomize_structure<VkEventCreateInfo>(RngContext& rngContext, VkEve
 }
 
 /**
-TODO : Documentation
+Gets a std::vector<> of randomized objects of a specified type
+@param <VulkanStructureType> The type of objects to allocate and randomize
+@param [in] rngContext The RngContext to use for randomizing the allocated objects
+@param [in](optional = 128) count The number of objects to allocate and randomize
+@return A std::vector<> of randomized objects of the specified type and count
 */
 template <typename VulkanStructureType>
 inline std::vector<VulkanStructureType> get_randomized_structures(RngContext& rngContext, size_t count = 128)
