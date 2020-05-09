@@ -73,15 +73,14 @@ public:
         headerFile << equalityOperatorFunctions.generate_declaration();
         sourceFile << equalityOperatorFunctions.generate_definition() << std::endl;
         sourceFile << CppNamespace("dst::gfx::vk::detail").open();
-        sourceFile << generate_pnext_equality_operator_functions(vkXmlManifest).generate_definition();
+        sourceFile << generate_pnext_equality_operator_function(vkXmlManifest).generate_definition();
         sourceFile << CppNamespace("dst::gfx::vk::detail").close();
     }
 
 private:
-    inline dst::cppgen::CppFunction::Collection generate_pnext_equality_operator_functions(const vk::xml::Manifest& vkXmlManifest)
+    inline dst::cppgen::CppFunction generate_pnext_equality_operator_function(const vk::xml::Manifest& vkXmlManifest)
     {
         using namespace dst::cppgen;
-        CppFunction::Collection equalityOperatorFunctions;
         CppParameter lhsParameter;
         lhsParameter.type = "const PNextTupleElementWrapper&";
         lhsParameter.name = "lhs";
@@ -121,16 +120,7 @@ private:
         equalityOperatorFunction.cppSourceBlock.add_snippet(R"(
             return false;
         )");
-        CppFunction inequalityOperatorFunction;
-        inequalityOperatorFunction.cppReturn = "bool";
-        inequalityOperatorFunction.name = "operator!=";
-        inequalityOperatorFunction.cppParameters = { lhsParameter, rhsParameter };
-        inequalityOperatorFunction.cppSourceBlock.add_snippet(R"(
-            return !(lhs == rhs);
-        )");
-        equalityOperatorFunctions.push_back(equalityOperatorFunction);
-        equalityOperatorFunctions.push_back(inequalityOperatorFunction);
-        return equalityOperatorFunctions;
+        return equalityOperatorFunction;
     }
 };
 

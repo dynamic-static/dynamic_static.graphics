@@ -8,11 +8,13 @@
 ==========================================
 */
 
+#include "dynamic_static/graphics/vulkan/detail/tuple-element-wrappers.hpp"
 #include "dynamic_static/graphics/vulkan/comparison-operators.hpp"
-#include "dynamic_static/core/random.hpp"
+#include "randomize-structure.hpp"
 
 #include "catch2/catch.hpp"
 
+#include <functional>
 #include <type_traits>
 #include <vector>
 
@@ -21,134 +23,75 @@ namespace gfx {
 namespace vk {
 namespace tests {
 
-template <typename CountType, typename T>
-void randomize_dynamic_array(RandomNumberGenerator<>& rng, CountType& count, T*& pObjs);
-void randomize_dynamic_string(RandomNumberGenerator<>& rng, const char*& pStr);
+// NOTE : These tests aren't concerned with the actual </> ordering of Vulkan
+//  structures, only that the comparison operators satisfy the strict weak
+//  ordering requirements for sorting using std functions and containers.
 
-template <typename T>
-inline void randomize(RandomNumberGenerator<>& rng, T& obj)
-{
-    auto pObj = (uint8_t*)&obj;
-    for (size_t i = 0; i < sizeof(T); ++i) {
-        pObj[i] = rng.value<uint8_t>();
-    }
-}
-
-template <>
-inline void randomize(RandomNumberGenerator<>& rng, VkApplicationInfo& obj)
-{
-    randomize(rng, obj.sType);
-    obj.pNext = nullptr;
-    randomize_dynamic_string(rng, obj.pApplicationName);
-    randomize(rng, obj.applicationVersion);
-    randomize_dynamic_string(rng, obj.pEngineName);
-    randomize(rng, obj.engineVersion);
-    randomize(rng, obj.apiVersion);
-}
-
-template <>
-inline void randomize(RandomNumberGenerator<>& rng, VkDeviceCreateInfo& obj)
-{
-    obj.sType = (VkStructureType)rng.value<uint32_t>();
-    obj.pNext = nullptr;
-    randomize(rng, obj.flags);
-    obj.queueCreateInfoCount = 0;
-    obj.pQueueCreateInfos = nullptr;
-}
-
-template <>
-inline void randomize(RandomNumberGenerator<>& rng, VkImageCreateInfo& obj)
-{
-    randomize(rng, obj.sType);
-    obj.pNext = nullptr;
-    randomize(rng, obj.flags);
-    randomize(rng, obj.imageType);
-    randomize(rng, obj.format);
-    randomize(rng, obj.extent);
-    randomize(rng, obj.mipLevels);
-    randomize(rng, obj.arrayLayers);
-    randomize(rng, obj.samples);
-    randomize(rng, obj.tiling);
-    randomize(rng, obj.usage);
-    randomize(rng, obj.sharingMode);
-    randomize_dynamic_array(rng, obj.queueFamilyIndexCount, obj.pQueueFamilyIndices);
-    randomize(rng, obj.initialLayout);
-}
-
-inline std::vector<std::function<void()>>& get_deleters()
-{
-    static std::vector<std::function<void()>> deleters;
-    return deleters;
-}
-
-inline void delete_allocations()
-{
-    for (const auto& deleter : get_deleters()) {
-        deleter();
-    }
-    get_deleters().clear();
-}
-
-template <typename CountType, typename T>
-inline void randomize_dynamic_array(RandomNumberGenerator<>& rng, CountType& count, T*& pObjs)
-{
-    count = rng.range<CountType>(1, 10);
-    auto& nonConstPObjs = (std::remove_const<T>*&)pObjs;
-    nonConstPObjs = new std::remove_const<T>[count];
-    get_deleters().push_back([nonConstPObjs]() { delete[] nonConstPObjs; });
-    for (CountType i = 0; i < count; ++i) {
-        randomize(rng, nonConstPObjs[i]);
-    }
-}
-
-inline void randomize_dynamic_string(RandomNumberGenerator<>& rng, const char*& pStr)
-{
-    size_t length = 0;
-    randomize_dynamic_array(rng, length, pStr);
-    ((char*)pStr)[length - 1] = '\0';
-}
-
+/**
+TODO : Documentation
+*/
 template <typename VulkanStructureType>
-inline std::vector<VulkanStructureType> get_randomized_vk_structures(RandomNumberGenerator<>& rng)
+inline void validate_equality(const VulkanStructureType& lhs, const VulkanStructureType& rhs)
 {
-    std::vector<VulkanStructureType> objs(256);
-    for (auto& obj : objs) {
-        randomize(rng, obj);
-    }
-    return objs;
+    REQUIRE      (lhs == rhs);
+    REQUIRE_FALSE(lhs != rhs);
+    REQUIRE_FALSE(lhs <  rhs);
+    REQUIRE      (lhs <= rhs);
+    REQUIRE_FALSE(lhs >  rhs);
+    REQUIRE      (lhs >= rhs);
 }
 
+/**
+TODO : Documentation
+*/
 template <typename VulkanStructureType>
-inline void validate_comparison_operators(const std::vector<VulkanStructureType>& objs)
+inline void validate_less_than(const VulkanStructureType& lhs, const VulkanStructureType& rhs)
 {
+    REQUIRE_FALSE(lhs == rhs);
+    REQUIRE      (lhs != rhs);
+    REQUIRE      (lhs <  rhs);
+    REQUIRE      (lhs <= rhs);
+    REQUIRE_FALSE(lhs >  rhs);
+    REQUIRE_FALSE(lhs >= rhs);
+}
+
+/**
+TODO : Documentation
+*/
+template <typename VulkanStructureType>
+inline void validate_greater_than(const VulkanStructureType& lhs, const VulkanStructureType& rhs)
+{
+    REQUIRE_FALSE(lhs == rhs);
+    REQUIRE      (lhs != rhs);
+    REQUIRE_FALSE(lhs <  rhs);
+    REQUIRE_FALSE(lhs <= rhs);
+    REQUIRE      (lhs >  rhs);
+    REQUIRE      (lhs >= rhs);
+}
+
+/**
+TODO : Documentation
+*/
+template <typename VulkanStructureType>
+inline void validate_comparison_operators(RngContext& rngContext)
+{
+    auto objs = get_randomized_structures<VulkanStructureType>(rngContext);
     for (size_t i = 0; i < objs.size(); ++i) {
         auto const& lhs = objs[i];
-        for (size_t j = 0; j < objs.size(); ++j) {
+        for (size_t j = i; j < objs.size(); ++j) {
             auto const& rhs = objs[j];
             INFO("{ i : " + std::to_string(i) + ", j : " + std::to_string(j) + " }");
             if (i == j || lhs == rhs) {
-                REQUIRE      (lhs == rhs);
-                REQUIRE_FALSE(lhs != rhs);
-                REQUIRE_FALSE(lhs <  rhs);
-                REQUIRE      (lhs <= rhs);
-                REQUIRE_FALSE(lhs >  rhs);
-                REQUIRE      (lhs >= rhs);
+                validate_equality(lhs, rhs);
+                validate_equality(rhs, lhs);
             } else {
                 if (lhs < rhs) {
-                    REQUIRE_FALSE(lhs == rhs);
-                    REQUIRE      (lhs != rhs);
-                    REQUIRE      (lhs <  rhs);
-                    REQUIRE      (lhs <= rhs);
-                    REQUIRE_FALSE(lhs >  rhs);
-                    REQUIRE_FALSE(lhs >= rhs);
+                    validate_less_than(lhs, rhs);
+                    validate_greater_than(rhs, lhs);
                 } else
                 if (lhs > rhs) {
-                    REQUIRE_FALSE(lhs == rhs);
-                    REQUIRE      (lhs != rhs);
-                    REQUIRE_FALSE(lhs <  rhs);
-                    REQUIRE_FALSE(lhs <= rhs);
-                    REQUIRE      (lhs >  rhs);
-                    REQUIRE      (lhs >= rhs);
+                    validate_greater_than(lhs, rhs);
+                    validate_less_than(rhs, lhs);
                 } else {
                     FAIL("None of ==, <, or > were true for the given objects");
                 }
@@ -157,93 +100,101 @@ inline void validate_comparison_operators(const std::vector<VulkanStructureType>
     }
 }
 
-template <typename VulkanStructureType>
-inline void randomize_vk_structures_and_validate_comparison_operators(RandomNumberGenerator<>& rng)
-{
-    validate_comparison_operators(get_randomized_vk_structures<VulkanStructureType>(rng));
-}
-
+/**
+TODO : Documentation
+*/
 TEST_CASE("Comparison operators for POD structures")
 {
-    RandomNumberGenerator rng(0);
-    randomize_vk_structures_and_validate_comparison_operators<VkExtent2D>(rng);
-    randomize_vk_structures_and_validate_comparison_operators<VkOffset2D>(rng);
-    randomize_vk_structures_and_validate_comparison_operators<VkRect2D>(rng);
+    RngContext rngContext;
+    validate_comparison_operators<VkExtent2D>(rngContext);
+    validate_comparison_operators<VkOffset2D>(rngContext);
+    validate_comparison_operators<VkRect2D>(rngContext);
 }
 
+/**
+TODO : Documentation
+*/
 TEST_CASE("Comparison operators for unions")
 {
-    RandomNumberGenerator rng(0);
+    RngContext rngContext;
     SECTION("Union")
     {
-        randomize_vk_structures_and_validate_comparison_operators<VkClearColorValue>(rng);
-        randomize_vk_structures_and_validate_comparison_operators<VkPerformanceCounterResultKHR>(rng);
-        randomize_vk_structures_and_validate_comparison_operators<VkPipelineExecutableStatisticValueKHR>(rng);
+        validate_comparison_operators<VkClearColorValue>(rngContext);
+        validate_comparison_operators<VkPerformanceCounterResultKHR>(rngContext);
+        validate_comparison_operators<VkPipelineExecutableStatisticValueKHR>(rngContext);
     }
     SECTION("Union with union member")
     {
-        randomize_vk_structures_and_validate_comparison_operators<VkClearValue>(rng);
+        validate_comparison_operators<VkClearValue>(rngContext);
     }
 }
 
+/**
+TODO : Documentation
+*/
 TEST_CASE("Comparison operators for structures with statically sized array members")
 {
-    RandomNumberGenerator rng(0);
+    RngContext rngContext;
     SECTION("Structure with statically sized string member")
     {
-        randomize_vk_structures_and_validate_comparison_operators<VkExtensionProperties>(rng);
-        randomize_vk_structures_and_validate_comparison_operators<VkLayerProperties>(rng);
+        validate_comparison_operators<VkLayerProperties>(rngContext);
     }
     SECTION("Structure with statically sized POD array member")
     {
-        randomize_vk_structures_and_validate_comparison_operators<VkImageBlit>(rng);
+        validate_comparison_operators<VkImageBlit>(rngContext);
     }
-    // SECTION("Structure with statically sized VkStructure array member")
-    // {
-    //     randomize_vk_structures_and_validate_comparison_operators<VkPhysicalDeviceLimits>(rng);
-    //     randomize_vk_structures_and_validate_comparison_operators<VkPhysicalDeviceMemoryProperties>(rng);
-    // }
+    SECTION("Structure with statically sized VkStructure array member")
+    {
+        validate_comparison_operators<VkPhysicalDeviceMemoryProperties>(rngContext);
+    }
 }
 
+/**
+TODO : Documentation
+*/
 TEST_CASE("Comparison operators for structures with dynamically sized array members")
 {
-    RandomNumberGenerator rng(0);
+    RngContext rngContext;
     SECTION("Structure with dynamically sized string member")
     {
-        randomize_vk_structures_and_validate_comparison_operators<VkApplicationInfo>(rng);
+        validate_comparison_operators<VkApplicationInfo>(rngContext);
     }
     SECTION("Structure with dynamically sized POD array member")
     {
-        randomize_vk_structures_and_validate_comparison_operators<VkImageCreateInfo>(rng);
+        validate_comparison_operators<VkImageCreateInfo>(rngContext);
     }
     SECTION("Structure with dynamically sized VkStructure array member")
     {
-
+        validate_comparison_operators<VkPipelineViewportStateCreateInfo>(rngContext);
     }
-    SECTION("Structure with dynamically sized data member")
+    SECTION("Structure with dynamically sized void* data member")
     {
-        // TODO :
+        validate_comparison_operators<VkPipelineCacheCreateInfo>(rngContext);
     }
     SECTION("Structure with dynamically sized array member of dynamically sized strings")
     {
-        // TODO :
+        validate_comparison_operators<VkInstanceCreateInfo>(rngContext);
     }
     SECTION("Structure with dynamically sized VkStructure array member with dynamically sized array member")
     {
-
+        // TODO :
     }
-    delete_allocations();
 }
 
+/**
+TODO : Documentation
+*/
 TEST_CASE("Comparison operators for structures with pointers to structures")
 {
-    RandomNumberGenerator rng(0);
-    delete_allocations();
+    RngContext rngContext;
 }
 
+/**
+TODO : Documentation
+*/
 TEST_CASE("Comparison operators for structures with pNext members")
 {
-    RandomNumberGenerator rng(0);
+    RngContext rngContext;
     SECTION("Structure with pNext member")
     {
         // TODO :
@@ -252,7 +203,6 @@ TEST_CASE("Comparison operators for structures with pNext members")
     {
         // TODO :
     }
-    delete_allocations();
 }
 
 } // namespace tests

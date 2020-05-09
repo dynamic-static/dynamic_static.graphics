@@ -73,15 +73,14 @@ public:
         headerFile << lessThanOperatorFunctions.generate_declaration();
         sourceFile << lessThanOperatorFunctions.generate_definition() << std::endl;
         sourceFile << CppNamespace("dst::gfx::vk::detail").open();
-        sourceFile << generate_pnext_equality_operator_functions(vkXmlManifest).generate_definition();
+        sourceFile << generate_pnext_less_than_operator_function(vkXmlManifest).generate_definition();
         sourceFile << CppNamespace("dst::gfx::vk::detail").close();
     }
 
 private:
-    inline dst::cppgen::CppFunction::Collection generate_pnext_equality_operator_functions(const vk::xml::Manifest& vkXmlManifest)
+    inline dst::cppgen::CppFunction generate_pnext_less_than_operator_function(const vk::xml::Manifest& vkXmlManifest)
     {
         using namespace dst::cppgen;
-        CppFunction::Collection lessThanOperatorFunctions;
         CppParameter lhsParameter;
         lhsParameter.type = "const PNextTupleElementWrapper&";
         lhsParameter.name = "lhs";
@@ -127,16 +126,7 @@ private:
         lessThanOperatorFunction.cppSourceBlock.add_snippet(R"(
             return false;
         )");
-        CppFunction lessThanOrEqualOperatorFunction;
-        lessThanOrEqualOperatorFunction.cppReturn = "bool";
-        lessThanOrEqualOperatorFunction.name = "operator<=";
-        lessThanOrEqualOperatorFunction.cppParameters = { lhsParameter, rhsParameter };
-        lessThanOrEqualOperatorFunction.cppSourceBlock.add_snippet(R"(
-            return !(rhs < lhs);
-        )");
-        lessThanOperatorFunctions.push_back(lessThanOperatorFunction);
-        lessThanOperatorFunctions.push_back(lessThanOrEqualOperatorFunction);
-        return lessThanOperatorFunctions;
+        return lessThanOperatorFunction;
     }
 };
 

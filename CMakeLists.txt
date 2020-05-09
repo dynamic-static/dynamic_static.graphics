@@ -229,6 +229,7 @@ if(DST_CORE_BUILD_TESTS)
         target dynamic_static.graphics
         sourceFiles
             "${testsPath}/comparison-operators.tests.cpp"
+            "${testsPath}/randomize-structure.hpp"
             "${testsPath}/structure-to-tuple.tests.cpp"
     )
 endif()

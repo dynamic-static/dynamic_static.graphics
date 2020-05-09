@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include "dynamic_static/core/span.hpp"
 #include "dynamic_static/graphics/vulkan/detail/tuple-element-wrappers.hpp"
 #include "dynamic_static/graphics/vulkan/defines.hpp"
 
@@ -28,7 +29,10 @@ bool operator==(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrap
 /**
 TODO : Documentation
 */
-bool operator!=(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs);
+inline bool operator!=(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs)
+{
+    return !(lhs == rhs);
+}
 
 /**
 TODO : Documentation
@@ -38,7 +42,10 @@ bool operator<(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapp
 /**
 TODO : Documentation
 */
-bool operator<=(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs);
+inline bool operator<=(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs)
+{
+    return !(rhs < lhs);
+}
 
 /**
 TODO : Documentation
@@ -115,7 +122,10 @@ TODO : Documentation
 */
 inline bool operator==(const DynamicStringArrayTupleElementWrapper& lhs, const DynamicStringArrayTupleElementWrapper& rhs)
 {
-    return false;
+    static_assert(sizeof(DynamicStringTupleElementWrapper) == sizeof(const char*));
+    auto lhsWrapper = (DynamicStringTupleElementWrapper*)lhs.ppStrs;
+    auto rhsWrapper = (DynamicStringTupleElementWrapper*)rhs.ppStrs;
+    return Span<DynamicStringTupleElementWrapper>(lhsWrapper, lhs.count) == Span<DynamicStringTupleElementWrapper>(rhsWrapper, rhs.count);
 }
 
 /**
@@ -131,7 +141,10 @@ TODO : Documentation
 */
 inline bool operator<(const DynamicStringArrayTupleElementWrapper& lhs, const DynamicStringArrayTupleElementWrapper& rhs)
 {
-    return false;
+    static_assert(sizeof(DynamicStringTupleElementWrapper) == sizeof(const char*));
+    auto lhsWrapper = (DynamicStringTupleElementWrapper*)lhs.ppStrs;
+    auto rhsWrapper = (DynamicStringTupleElementWrapper*)rhs.ppStrs;
+    return Span<DynamicStringTupleElementWrapper>(lhsWrapper, lhs.count) < Span<DynamicStringTupleElementWrapper>(rhsWrapper, rhs.count);
 }
 
 /**

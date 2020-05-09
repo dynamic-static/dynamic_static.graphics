@@ -7263,11 +7263,6 @@ bool operator<(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapp
     return false;
 }
 
-bool operator<=(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs)
-{
-    return !(rhs < lhs);
-}
-
 } // namespace detail
 } // namespace vk
 } // namespace gfx

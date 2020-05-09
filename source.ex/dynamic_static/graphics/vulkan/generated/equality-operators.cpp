@@ -7257,11 +7257,6 @@ bool operator==(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrap
     return false;
 }
 
-bool operator!=(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs)
-{
-    return !(lhs == rhs);
-}
-
 } // namespace detail
 } // namespace vk
 } // namespace gfx
