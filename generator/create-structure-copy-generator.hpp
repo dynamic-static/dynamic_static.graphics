@@ -74,7 +74,9 @@ public:
                 cppFunctions.push_back(createStructureCopyFunction);
             }
         }
+        auto pNextHandlerFunction = create_pnext_handler_function(xmlManifest);
         headerFile << CppNamespace("dst::gfx::vk::detail").open();
+        headerFile << pNextHandlerFunction.generate_declaration() << std::endl;
         headerFile << cppFunctions.generate_declaration();
         headerFile << CppNamespace("dst::gfx::vk::detail").close();
         for (auto& cppFunction : cppFunctions) {
@@ -82,8 +84,6 @@ public:
             cppFunction.cppCompileGuards.insert(vk_structure_manual_implemntation_compile_guard(unqualifiedVkStructureTypeName));
         }
         sourceFile << CppNamespace("dst::gfx::vk::detail").open();
-        auto pNextHandlerFunction = create_pnext_handler_function(xmlManifest);
-        sourceFile << pNextHandlerFunction.generate_declaration() << std::endl;
         sourceFile << cppFunctions.generate_definition() << std::endl;
         sourceFile << pNextHandlerFunction.generate_definition();
         sourceFile << CppNamespace("dst::gfx::vk::detail").close();
@@ -102,6 +102,10 @@ private:
             if (vkXmlStructureMember.flags & xml::Parameter::StringArray) {
                 return "result.${MEMBER_NAME} = create_dynamic_string_array_copy(obj.${MEMBER_LENGTH}, obj.${MEMBER_NAME}, pAllocationCallbacks);";
             } else 
+
+
+
+
             if (vkXmlStructureMember.flags & xml::Parameter::StaticArray) {
                 if (vkXmlStructureMember.flags & xml::Parameter::String) {
                     return "create_static_string_copy<${MEMBER_LENGTH}>(result.${MEMBER_NAME}, obj.${MEMBER_NAME});";
@@ -109,6 +113,11 @@ private:
                     return "create_static_array_copy<${MEMBER_LENGTH}>(result.${MEMBER_NAME}, obj.${MEMBER_NAME});";
                 }
             }
+            
+            // TODO : Double check this logic...
+            else
+
+
             if (vkXmlStructureMember.flags & xml::Parameter::DynamicArray) {
                 if (vkXmlStructureMember.flags & xml::Parameter::String) {
                     return "result.${MEMBER_NAME} = create_dynamic_string_copy(obj.${MEMBER_NAME}, pAllocationCallbacks);";
@@ -116,6 +125,10 @@ private:
                     return "result.${MEMBER_NAME} = create_dynamic_array_copy(obj.${MEMBER_LENGTH}, obj.${MEMBER_NAME}, pAllocationCallbacks);";
                 }
             }
+
+
+
+
         } else
         if (vkXmlStructureMember.flags & xml::Parameter::Pointer) {
             if (vkXmlStructureMember.flags & xml::Parameter::FunctionPointer | xml::Parameter::VoidPointer) {
@@ -163,7 +176,7 @@ private:
             ).generate_inline_definition()
         );
         createPNextCopyFunction.cppSourceBlock.add_snippet(R"(
-            };
+            }
             return nullptr;
         )");
         return createPNextCopyFunction;

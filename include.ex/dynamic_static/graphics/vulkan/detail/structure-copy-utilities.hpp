@@ -42,8 +42,8 @@ inline VulkanStructureType create_structure_copy(
 TODO : Documentation
 */
 template <typename VulkanStructureType>
-inline VulkanStructureType destroy_structure_copy(
-    VulkanStructureType& obj,
+inline void destroy_structure_copy(
+    const VulkanStructureType& obj,
     const VkAllocationCallbacks* pAllocationCallbacks = nullptr
 )
 {
@@ -70,47 +70,11 @@ inline const VkAllocationCallbacks* validate_allocation_callbacks(const VkAlloca
 /**
 TODO : Documentation
 */
-inline char* create_dynamic_string_copy(
-    const char* pStr,
-    const VkAllocationCallbacks* pAllocationCallbacks
-)
-{
-    char* pResult = nullptr;
-    if (pStr) {
-        pAllocationCallbacks = validate_allocation_callbacks(pAllocationCallbacks);
-        auto count = strlen(pStr) + 1;
-        pResult = (char*)pAllocationCallbacks->pfnAllocation(nullptr, sizeof(char) * count, 0, VK_SYSTEM_ALLOCATION_SCOPE_OBJECT);
-        memcpy(pResult, pStr, count);
-    }
-    return pResult;
-}
-
-/**
-TODO : Documentation
-*/
-inline char** create_dynamic_string_array_copy(
-    // TODO : size_t
-    uint32_t count,
-    const char* const* ppStrs,
-    const VkAllocationCallbacks* pAllocationCallbacks
-)
-{
-    char** ppResult = nullptr;
-    if (count && ppStrs) {
-        pAllocationCallbacks = validate_allocation_callbacks(pAllocationCallbacks);
-        ppResult = (char**)pAllocationCallbacks->pfnAllocation(nullptr, sizeof(char*) * count, 0, VK_SYSTEM_ALLOCATION_SCOPE_OBJECT);
-        for (uint32_t i = 0; i < count; ++i) {
-            ppResult[i] = create_dynamic_string_copy(ppStrs[i], pAllocationCallbacks);
-        }
-    }
-    return ppResult;
-}
-
-/**
-TODO : Documentation
-*/
 template <size_t Count, typename VulkanStructureType>
-inline void create_static_array_copy(VulkanStructureType* pDst, const VulkanStructureType* pSrc)
+inline void create_static_array_copy(
+    VulkanStructureType* pDst,
+    const VulkanStructureType* pSrc
+)
 {
     for (size_t i = 0; i < Count; ++i) {
         pDst[i] = create_structure_copy(pSrc[i]);
@@ -120,10 +84,56 @@ inline void create_static_array_copy(VulkanStructureType* pDst, const VulkanStru
 /**
 TODO : Documentation
 */
+template <size_t Count, typename VulkanStructureType>
+inline void destroy_static_array_copy(const VulkanStructureType* pObjs)
+{
+    for (size_t i = 0; i < Count; ++i) {
+        destroy_structure_copy(pObjs[i]);
+    }
+}
+
+/**
+TODO : Documentation
+*/
 template <size_t Count>
 inline void create_static_string_copy(char* pDst, const char* pSrc)
 {
+    memcpy(pDst, pSrc, Count);
+}
 
+/**
+TODO : Documentation
+*/
+inline char* create_dynamic_string_copy(
+    const char* pStr,
+    const VkAllocationCallbacks* pAllocationCallbacks
+)
+{
+    char* pResult = nullptr;
+    if (pStr) {
+        pAllocationCallbacks = validate_allocation_callbacks(pAllocationCallbacks);
+        auto count = strlen(pStr) + 1;
+        pResult = (char*)pAllocationCallbacks->pfnAllocation(
+            pAllocationCallbacks->pUserData,
+            sizeof(char) * count,
+            0,
+            VK_SYSTEM_ALLOCATION_SCOPE_OBJECT
+        );
+        memcpy(pResult, pStr, count);
+    }
+    return pResult;
+}
+
+/**
+TODO : Documentation
+*/
+inline void destroy_dynamic_string_copy(
+    const char* pStr,
+    const VkAllocationCallbacks* pAllocationCallbacks
+)
+{
+    pAllocationCallbacks = validate_allocation_callbacks(pAllocationCallbacks);
+    pAllocationCallbacks->pfnFree(pAllocationCallbacks->pUserData, (void*)pStr);
 }
 
 /**
@@ -139,7 +149,12 @@ inline VulkanStructureType* create_dynamic_array_copy(
     VulkanStructureType* pResult = nullptr;
     if (count && pObjs) {
         pAllocationCallbacks = validate_allocation_callbacks(pAllocationCallbacks);
-        pResult = (VulkanStructureType*)pAllocationCallbacks->pfnAllocation(nullptr, sizeof(VulkanStructureType) * count, 0, VK_SYSTEM_ALLOCATION_SCOPE_OBJECT);
+        pResult = (VulkanStructureType*)pAllocationCallbacks->pfnAllocation(
+            pAllocationCallbacks->pUserData,
+            sizeof(VulkanStructureType) * count,
+            0,
+            VK_SYSTEM_ALLOCATION_SCOPE_OBJECT
+        );
         for (uint32_t i = 0; i < count; ++i) {
             pResult[i] = create_structure_copy(pObjs[i], pAllocationCallbacks);
         }
@@ -150,14 +165,91 @@ inline VulkanStructureType* create_dynamic_array_copy(
 /**
 TODO : Documentation
 */
-template <>
-inline void* create_dynamic_array_copy<void>(
+template <typename VulkanStructureType>
+inline void destroy_dynamic_array_copy(
     size_t count,
-    const void* pObjs,
+    const VulkanStructureType* pObjs,
     const VkAllocationCallbacks* pAllocationCallbacks
 )
 {
-    return create_dynamic_array_copy(count, (const uint8_t*)pObjs, pAllocationCallbacks);
+    if (count && pObjs) {
+        pAllocationCallbacks = validate_allocation_callbacks(pAllocationCallbacks);
+        for (size_t i = 0; i < count; ++i) {
+            destroy_structure_copy(pObjs[i], pAllocationCallbacks);
+        }
+        pAllocationCallbacks->pfnFree(pAllocationCallbacks->pUserData, (void*)pObjs);
+    }
+}
+
+/**
+TODO : Documentation
+*/
+template <>
+inline void* create_dynamic_array_copy<void>(
+    size_t byteCount,
+    const void* pData,
+    const VkAllocationCallbacks* pAllocationCallbacks
+)
+{
+    return create_dynamic_array_copy(byteCount, (const uint8_t*)pData, pAllocationCallbacks);
+}
+
+/**
+TODO : Documentation
+*/
+template <>
+inline void destroy_dynamic_array_copy<void>(
+    size_t byteCount,
+    const void* pData,
+    const VkAllocationCallbacks* pAllocationCallbacks
+)
+{
+    destroy_dynamic_array_copy(byteCount, (const uint8_t*)pData, pAllocationCallbacks);
+}
+
+/**
+TODO : Documentation
+*/
+inline char** create_dynamic_string_array_copy(
+    // TODO : size_t
+    uint32_t count,
+    const char* const* ppStrs,
+    const VkAllocationCallbacks* pAllocationCallbacks
+)
+{
+    char** ppResult = nullptr;
+    if (count && ppStrs) {
+        pAllocationCallbacks = validate_allocation_callbacks(pAllocationCallbacks);
+        ppResult = (char**)pAllocationCallbacks->pfnAllocation(
+            pAllocationCallbacks->pUserData,
+            sizeof(char*) * count,
+            0,
+            VK_SYSTEM_ALLOCATION_SCOPE_OBJECT
+        );
+        for (uint32_t i = 0; i < count; ++i) {
+            ppResult[i] = create_dynamic_string_copy(ppStrs[i], pAllocationCallbacks);
+        }
+    }
+    return ppResult;
+}
+
+/**
+TODO : Documentation
+*/
+inline void destroy_dynamic_string_array_copy(
+    // TODO : size_t
+    uint32_t count,
+    const char* const* ppStrs,
+    const VkAllocationCallbacks* pAllocationCallbacks
+)
+{
+    if (count && ppStrs) {
+        pAllocationCallbacks = validate_allocation_callbacks(pAllocationCallbacks);
+        for (uint32_t i = 0; i < count; ++i) {
+            destroy_dynamic_string_copy(ppStrs[i], pAllocationCallbacks);
+        }
+        destroy_dynamic_array_copy(count, ppStrs, pAllocationCallbacks);
+    }
 }
 
 } // namespace detail

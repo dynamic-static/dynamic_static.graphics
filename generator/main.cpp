@@ -24,12 +24,14 @@ int main(int argc, char* argv[])
     tinyxml2::XMLDocument vkXml;
     auto result = vkXml.LoadFile(DYNAMIC_STATIC_VK_XML_FILE_PATH);
     if (result == tinyxml2::XML_SUCCESS) {
+        using namespace dst::vk::cppgen;
         dst::vk::xml::Manifest vkXmlManifest(vkXml);
-        dst::vk::cppgen::CreateStructureCopyGenerator createStructureCopyGenerator(vkXmlManifest);
-        dst::vk::cppgen::EquailtyOperatorsGenerator equalityOperatorsGenerator(vkXmlManifest);
-        dst::vk::cppgen::GreaterThanOperatorsGenerator greaterThanOperatorsGenerator(vkXmlManifest);
-        dst::vk::cppgen::LessThanOperatorsGenerator lessThanOperatorsGenerator(vkXmlManifest);
-        dst::vk::cppgen::StructureToTupleGenerator structureToTupleGenerator(vkXmlManifest);
+        CreateStructureCopyGenerator createStructureCopyGenerator(vkXmlManifest);
+        DestroyStructureCopyGenerator destroyStructureCopyGenerator(vkXmlManifest);
+        EquailtyOperatorsGenerator equalityOperatorsGenerator(vkXmlManifest);
+        GreaterThanOperatorsGenerator greaterThanOperatorsGenerator(vkXmlManifest);
+        LessThanOperatorsGenerator lessThanOperatorsGenerator(vkXmlManifest);
+        StructureToTupleGenerator structureToTupleGenerator(vkXmlManifest);
     }
     return 0;
 }

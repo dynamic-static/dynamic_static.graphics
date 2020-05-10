@@ -8,14 +8,11 @@
 ==========================================
 */
 
-#include "dynamic_static/graphics/vulkan/detail/tuple-element-wrappers.hpp"
 #include "dynamic_static/graphics/vulkan/comparison-operators.hpp"
 #include "randomize-structure.hpp"
 
 #include "catch2/catch.hpp"
 
-#include <functional>
-#include <type_traits>
 #include <vector>
 
 namespace dst {

@@ -36,7 +36,7 @@ set(generatedIncludePath "${includePath}/vulkan/generated/")
 set(generatedSourcePath "${sourcePath}//vulkan/generated/")
 set(generatedIncludeFiles
     "${generatedIncludePath}/create-structure-copy.hpp"
-    # "${generatedIncludePath}/destroy-structure-copy.hpp"
+    "${generatedIncludePath}/destroy-structure-copy.hpp"
     "${generatedIncludePath}/equality-operators.hpp"
     "${generatedIncludePath}/greater-than-operators.hpp"
     "${generatedIncludePath}/less-than-operators.hpp"
@@ -45,7 +45,7 @@ set(generatedIncludeFiles
 )
 set(generatedSourceFiles
     "${generatedSourcePath}/create-structure-copy.cpp"
-    # "${generatedSourcePath}/destroy-structure-copy.cpp"
+    "${generatedSourcePath}/destroy-structure-copy.cpp"
     "${generatedSourcePath}/equality-operators.cpp"
     "${generatedSourcePath}/greater-than-operators.cpp"
     "${generatedSourcePath}/less-than-operators.cpp"
@@ -164,6 +164,8 @@ DstAddStaticLibrary(
         ${CMAKE_CURRENT_LIST_DIR}/include/Dynamic_Static/Graphics/Vulkan.hpp
 
     sourceFiles
+        "${sourcePath}/vulkan/detail/create-structure-copy-manual.cpp"
+        "${sourcePath}/vulkan/detail/destroy-structure-copy-manual.cpp"
         "${sourcePath}/vulkan/application.cpp"
         "${sourcePath}/application.cpp"
         "${generatedSourceFiles}"
@@ -230,7 +232,7 @@ if(DST_CORE_BUILD_TESTS)
         sourceFiles
             "${testsPath}/comparison-operators.tests.cpp"
             "${testsPath}/randomize-structure.hpp"
-            "${testsPath}/structure-to-tuple.tests.cpp"
+            "${testsPath}/structure-copy-tests.cpp"
     )
 endif()
 

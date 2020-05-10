@@ -15,8 +15,6 @@ namespace gfx {
 namespace vk {
 namespace detail {
 
-void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocationCallbacks);
-
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 VkAabbPositionsKHR create_structure_copy<VkAabbPositionsKHR>(const VkAabbPositionsKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -7864,7 +7862,7 @@ void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocat
         default: {
         } break;
         }
-    };
+    }
     return nullptr;
 }
 

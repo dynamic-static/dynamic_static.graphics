@@ -71,7 +71,7 @@ inline auto structure_to_tuple<VkPerformanceCounterResultKHR>(const VkPerformanc
 template <>
 inline auto structure_to_tuple<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj)
 {
-    // NOPE : Union has a const char*
+    // NOPE : Union has const char* member
     return std::make_tuple(0);
 }
 

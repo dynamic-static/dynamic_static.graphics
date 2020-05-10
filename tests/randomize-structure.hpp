@@ -13,7 +13,6 @@
 #include "dynamic_static/graphics/vulkan/defines.hpp"
 #include "dynamic_static/core/random.hpp"
 
-#include <utility>
 #include <vector>
 
 namespace dst {
