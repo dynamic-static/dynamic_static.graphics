@@ -22,13 +22,13 @@ namespace vk {
 namespace tests {
 
 /**
-TODO : Documentation
+Validates that all allocations made during a test scenario are freed
 */
 class AllocationValidator final
 {
 public:
     /**
-    TODO : Documentation
+    Constructs an instance of AllocationValidator
     */
     AllocationValidator()
     {
@@ -38,7 +38,7 @@ public:
     }
 
     /**
-    TODO : Documentation
+    Destroys this instance of AllocationValidator
     */
     ~AllocationValidator()
     {
@@ -46,7 +46,7 @@ public:
     }
 
     /**
-    TODO : Documentation
+    Gets this AllocationValidator object's VkAllocationCallbacks
     */
     const VkAllocationCallbacks& get_allocation_callbacks() const
     {
@@ -54,9 +54,6 @@ public:
     }
 
 private:
-    /**
-    TODO : Documentation
-    */
     static void* on_allocation(void* pUserData, size_t size, size_t, VkSystemAllocationScope)
     {
         auto pAllocationTracker = (AllocationValidator*)pUserData;
@@ -65,9 +62,6 @@ private:
         return pData;
     }
 
-    /**
-    TODO : Documentation
-    */
     static void on_free(void* pUserData, void* pMemory)
     {
         auto pAllocationTracker = (AllocationValidator*)pUserData;
@@ -81,7 +75,9 @@ private:
 };
 
 /**
-TODO : Documentation
+Validates that a copied structure evaluates as equal to the structure it was copied from and that destroy_structure_copy<>() properly frees any allocations made from create_structure_copy<>()
+@param <VulkanStructureType> The type of object to validate create_structure_copy<>() and destroy_structure_copy<>() for
+@param [in] rngContext The RngContext to use for randomizing the copy source object of the specified type
 */
 template <typename VulkanStructureType>
 inline void validate_structure_copy(RngContext& rngContext)
