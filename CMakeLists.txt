@@ -41,7 +41,8 @@ set(generatedIncludeFiles
     "${generatedIncludePath}/greater-than-operators.hpp"
     "${generatedIncludePath}/less-than-operators.hpp"
     "${generatedIncludePath}/structure-to-tuple.hpp"
-    # "${generatedIncludePath}/managed-handles.hpp"
+    "${generatedIncludePath}/managed-handles.hpp"
+    "${generatedIncludePath}/managed-structures.hpp"
 )
 set(generatedSourceFiles
     "${generatedSourcePath}/create-structure-copy.cpp"
@@ -49,7 +50,7 @@ set(generatedSourceFiles
     "${generatedSourcePath}/equality-operators.cpp"
     "${generatedSourcePath}/greater-than-operators.cpp"
     "${generatedSourcePath}/less-than-operators.cpp"
-    # "${generatedSourcePath}/managed-handles.cpp"
+    "${generatedSourcePath}/managed-handles.cpp"
 )
 
 # dynamic_static.graphics.vulkan.generator
@@ -59,14 +60,15 @@ DstAddGenerator(
     folder dynamic_static.graphics
     linkLibraries dynamic_static.vk-xml-parser
     sourceFiles
-        "${generatorSourcePath}/create-structure-copy-generator.hpp"
-        "${generatorSourcePath}/destroy-structure-copy-generator.hpp"
+        "${generatorSourcePath}/create-structure-copy.generator.hpp"
+        "${generatorSourcePath}/destroy-structure-copy.generator.hpp"
         "${generatorSourcePath}/equality-operators.generator.hpp"
         "${generatorSourcePath}/greater-than-operators.generator.hpp"
         "${generatorSourcePath}/less-than-operators.generator.hpp"
-        "${generatorSourcePath}/managed-handles-generator.hpp"
-        "${generatorSourcePath}/structure-to-tuple.generator.hpp"
         "${generatorSourcePath}/main.cpp"
+        "${generatorSourcePath}/managed-handles.generator.hpp"
+        "${generatorSourcePath}/managed-structures.generator.hpp"
+        "${generatorSourcePath}/structure-to-tuple.generator.hpp"
         "${generatorSourcePath}/utilities.hpp"
     compileDefinitions
         DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH="${generatedIncludePath}/"
@@ -89,14 +91,19 @@ DstAddStaticLibrary(
 
     includeFiles
         "${includePath}/vulkan/detail/comparison-operators-utilities.hpp"
+        "${includePath}/vulkan/detail/managed.hpp"
+        "${includePath}/vulkan/detail/managed-handle.hpp"
+        "${includePath}/vulkan/detail/managed-structure.hpp"
         "${includePath}/vulkan/detail/structure-copy-utilities.hpp"
         "${includePath}/vulkan/detail/structure-to-tuple.hpp"
         "${includePath}/vulkan/detail/structure-to-tuple-manual.hpp"
         "${includePath}/vulkan/detail/structure-to-tuple-utilities.hpp"
         "${includePath}/vulkan/detail/tuple-element-wrappers.hpp"
+        "${includePath}/vulkan/managed-handles/basic-managed-handle.hpp"
         "${includePath}/vulkan/comparison-operators.hpp"
         "${includePath}/vulkan/application.hpp"
         "${includePath}/vulkan/defines.hpp"
+        "${includePath}/vulkan/managed.hpp"
         "${includePath}/application.hpp"
         "${includePath}/defines.hpp"
         "${includePath}/vulkan.hpp"
@@ -232,7 +239,7 @@ if(DST_CORE_BUILD_TESTS)
         sourceFiles
             "${testsPath}/comparison-operators.tests.cpp"
             "${testsPath}/randomize-structure.hpp"
-            "${testsPath}/structure-copy-tests.cpp"
+            "${testsPath}/structure-copy.tests.cpp"
     )
 endif()
 

@@ -9,12 +9,13 @@
 */
 
 #include "dynamic_static/vk-xml-parser.hpp"
-#include "create-structure-copy-generator.hpp"
-#include "destroy-structure-copy-generator.hpp"
+#include "create-structure-copy.generator.hpp"
+#include "destroy-structure-copy.generator.hpp"
 #include "equality-operators.generator.hpp"
 #include "greater-than-operators.generator.hpp"
 #include "less-than-operators.generator.hpp"
-#include "managed-handles-generator.hpp"
+#include "managed-handles.generator.hpp"
+#include "managed-structures.generator.hpp"
 #include "structure-to-tuple.generator.hpp"
 
 #include "tinyxml2.h"
@@ -32,6 +33,9 @@ int main(int argc, char* argv[])
         GreaterThanOperatorsGenerator greaterThanOperatorsGenerator(vkXmlManifest);
         LessThanOperatorsGenerator lessThanOperatorsGenerator(vkXmlManifest);
         StructureToTupleGenerator structureToTupleGenerator(vkXmlManifest);
+
+        generate_managed_handles(vkXmlManifest);
+        generate_managed_structures(vkXmlManifest);
     }
     return 0;
 }
