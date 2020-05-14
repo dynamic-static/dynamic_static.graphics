@@ -13,7 +13,6 @@
 #include "dynamic_static/graphics/vulkan/defines.hpp"
 #include "dynamic_static/graphics/vulkan/managed.hpp"
 
-#include <string>
 #include <utility>
 
 namespace dst {
@@ -25,23 +24,23 @@ namespace detail {
 TODO : Documentation
 */
 template <typename VulkanHandleType>
-class ManagedHandle
+class BasicManagedHandle
 {
 public:
     /**
     Constructs an instance of ManagedHandle<>
     */
-    ManagedHandle() = default;
+    BasicManagedHandle() = default;
 
     /**
     Destroys this instance of ManagedHandle<>
     */
-    virtual ~ManagedHandle() = 0;
+    virtual ~BasicManagedHandle() = 0;
 
     /**
     TODO : Documentation
     */
-    inline ManagedHandle(ManagedHandle<VulkanHandleType>&& other)
+    inline BasicManagedHandle(BasicManagedHandle<VulkanHandleType>&& other)
     {
         *this = move(std::move(other));
     }
@@ -49,7 +48,7 @@ public:
     /**
     TODO : Documentation
     */
-    inline ManagedHandle<VulkanHandleType>& operator=(ManagedHandle<VulkanHandleType>&& other)
+    inline BasicManagedHandle<VulkanHandleType>& operator=(BasicManagedHandle<VulkanHandleType>&& other)
     {
         *this = move(std::move(other));
         return *this;
@@ -66,7 +65,7 @@ public:
     /**
     TODO : Documentation
     */
-    inline operator const VulkanHandleType& () const
+    inline operator const VulkanHandleType&() const
     {
         return mHandle;
     }
@@ -95,33 +94,14 @@ public:
     }
 
     /**
-    Gets this ManagedHandle<> object's name
-    @return This ManagedHandle<> object's name
+    TODO : Documentation
     */
-    inline const std::string& get_name() const
-    {
-        return mName;
-    }
-
-    /**
-    Sets this ManagedHandle<> object's name
-    @param [in] name This ManagedHandle<> object's name
-    */
-    inline void set_name(const std::string& name)
-    {
-        // TODO : Set debug name
-        mName = name;
-    }
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0;
 
     /**
     TODO : Documentation
     */
-    virtual void reset() = 0;
-
-    /**
-    TODO : Documentation
-    */
-    inline [[nodiscard]] VulkanHandleType release()
+    inline VulkanHandleType release()
     {
         auto handle = mHandle;
         mHandle = VK_NULL_HANDLE;
@@ -130,11 +110,12 @@ public:
     }
 
 protected:
-    inline virtual ManagedHandle<VulkanHandleType>& move(ManagedHandle<VulkanHandleType>&& other)
+    inline virtual BasicManagedHandle<VulkanHandleType>& move(BasicManagedHandle<VulkanHandleType>&& other)
     {
         if (this != &other) {
             mHandle = std::move(other.mHandle);
-            mName = std::move(other.mName);
+            mResult = std::move(other.mResult);
+            other.mResult = VK_SUCCESS;
             other.mHandle = VK_NULL_HANDLE;
         }
         return *this;
@@ -145,20 +126,28 @@ protected:
 
 private:
     std::string mName;
-    ManagedHandle(const ManagedHandle<VulkanHandleType>&) = delete;
-    ManagedHandle<VulkanHandleType>& operator=(const ManagedHandle<VulkanHandleType>&) = delete;
+    BasicManagedHandle(const BasicManagedHandle<VulkanHandleType>&) = delete;
+    BasicManagedHandle<VulkanHandleType>& operator=(const BasicManagedHandle<VulkanHandleType>&) = delete;
 };
 
 template <typename VulkanHandleType>
-inline ManagedHandle<VulkanHandleType>::~ManagedHandle()
+inline BasicManagedHandle<VulkanHandleType>::~BasicManagedHandle()
 {
+}
+
+template <typename VulkanHandleType>
+inline void BasicManagedHandle<VulkanHandleType>::reset(const VkAllocationCallbacks* pAllocator)
+{
+    (void)pAllocator;
+    mHandle = VK_NULL_HANDLE;
+    mResult = VK_SUCCESS;
 }
 
 /**
 TODO : Documentation
 */
 template <typename VulkanHandleType>
-inline bool operator==(const ManagedHandle<VulkanHandleType>& lhs, const ManagedHandle<VulkanHandleType>& rhs)
+inline bool operator==(const BasicManagedHandle<VulkanHandleType>& lhs, const BasicManagedHandle<VulkanHandleType>& rhs)
 {
     return lhs.get_handle() == rhs.get_handle();
 }
@@ -167,7 +156,7 @@ inline bool operator==(const ManagedHandle<VulkanHandleType>& lhs, const Managed
 TODO : Documentation
 */
 template <typename VulkanHandleType>
-inline bool operator!=(const ManagedHandle<VulkanHandleType>& lhs, const ManagedHandle<VulkanHandleType>& rhs)
+inline bool operator!=(const BasicManagedHandle<VulkanHandleType>& lhs, const BasicManagedHandle<VulkanHandleType>& rhs)
 {
     return lhs.get_handle() != rhs.get_handle();
 }
@@ -176,7 +165,7 @@ inline bool operator!=(const ManagedHandle<VulkanHandleType>& lhs, const Managed
 TODO : Documentation
 */
 template <typename VulkanHandleType>
-inline bool operator<(const ManagedHandle<VulkanHandleType>& lhs, const ManagedHandle<VulkanHandleType>& rhs)
+inline bool operator<(const BasicManagedHandle<VulkanHandleType>& lhs, const BasicManagedHandle<VulkanHandleType>& rhs)
 {
     return lhs.get_handle() < rhs.get_handle();
 }
@@ -185,7 +174,7 @@ inline bool operator<(const ManagedHandle<VulkanHandleType>& lhs, const ManagedH
 TODO : Documentation
 */
 template <typename VulkanHandleType>
-inline bool operator<=(const ManagedHandle<VulkanHandleType>& lhs, const ManagedHandle<VulkanHandleType>& rhs)
+inline bool operator<=(const BasicManagedHandle<VulkanHandleType>& lhs, const BasicManagedHandle<VulkanHandleType>& rhs)
 {
     return lhs.get_handle() <= rhs.get_handle();
 }
@@ -194,7 +183,7 @@ inline bool operator<=(const ManagedHandle<VulkanHandleType>& lhs, const Managed
 TODO : Documentation
 */
 template <typename VulkanHandleType>
-inline bool operator<(const ManagedHandle<VulkanHandleType>& lhs, const ManagedHandle<VulkanHandleType>& rhs)
+inline bool operator<(const BasicManagedHandle<VulkanHandleType>& lhs, const BasicManagedHandle<VulkanHandleType>& rhs)
 {
     return lhs.get_handle() > rhs.get_handle();
 }
@@ -203,7 +192,7 @@ inline bool operator<(const ManagedHandle<VulkanHandleType>& lhs, const ManagedH
 TODO : Documentation
 */
 template <typename VulkanHandleType>
-inline bool operator<=(const ManagedHandle<VulkanHandleType>& lhs, const ManagedHandle<VulkanHandleType>& rhs)
+inline bool operator<=(const BasicManagedHandle<VulkanHandleType>& lhs, const BasicManagedHandle<VulkanHandleType>& rhs)
 {
     return lhs.get_handle() >= rhs.get_handle();
 }

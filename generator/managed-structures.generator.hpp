@@ -37,8 +37,9 @@ inline void generate_managed_structures(const xml::Manifest& vkXmlManifest)
         cppStructure.name = "Managed";
         cppStructure.cppTemplate.cppSpecializations = { vkStructure.name };
         auto cppBaseType = "detail::ManagedStructure<" + vkStructure.name + ">";
-        // TODO : Inherit base ctors...
         cppStructure.cppBaseTypes = {{ CppAccessModifier::Public, cppBaseType }};
+        auto cppBaseTypeConstructor = cppBaseType + "::" + string::remove(cppBaseType, "detail::");
+        cppStructure.cppDeclarations = {{ CppAccessModifier::Public, "using " + cppBaseTypeConstructor + ";" }};
         cppStructures.push_back(cppStructure);
     }
     headerFile << CppNamespace("dst::gfx::vk").open();

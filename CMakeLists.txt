@@ -99,7 +99,7 @@ DstAddStaticLibrary(
         "${includePath}/vulkan/detail/structure-to-tuple-manual.hpp"
         "${includePath}/vulkan/detail/structure-to-tuple-utilities.hpp"
         "${includePath}/vulkan/detail/tuple-element-wrappers.hpp"
-        "${includePath}/vulkan/managed-handles/basic-managed-handle.hpp"
+        "${includePath}/vulkan/managed-handles/managed-buffer.hpp"
         "${includePath}/vulkan/comparison-operators.hpp"
         "${includePath}/vulkan/application.hpp"
         "${includePath}/vulkan/defines.hpp"

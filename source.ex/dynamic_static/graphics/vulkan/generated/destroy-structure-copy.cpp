@@ -177,7 +177,7 @@ void destroy_structure_copy<VkAccelerationStructureInfoNV>(const VkAccelerationS
     destroy_dynamic_array_copy(obj.geometryCount, obj.pGeometries, pAllocationCallbacks);
 }
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#ifdef DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 void destroy_structure_copy<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -190,7 +190,7 @@ void destroy_structure_copy<VkAccelerationStructureInstanceKHR>(const VkAccelera
     destroy_structure_copy(obj.accelerationStructureReference, pAllocationCallbacks);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#endif // DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
@@ -213,7 +213,7 @@ void destroy_structure_copy<VkAccelerationStructureMemoryRequirementsInfoNV>(con
     destroy_structure_copy(obj.accelerationStructure, pAllocationCallbacks);
 }
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#ifdef DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 void destroy_structure_copy<VkAccelerationStructureVersionKHR>(const VkAccelerationStructureVersionKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -223,7 +223,7 @@ void destroy_structure_copy<VkAccelerationStructureVersionKHR>(const VkAccelerat
     destroy_dynamic_array_copy(obj.2*VK_UUID_SIZE, obj.versionData, pAllocationCallbacks);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#endif // DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 void destroy_structure_copy<VkAcquireNextImageInfoKHR>(const VkAcquireNextImageInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -628,7 +628,7 @@ void destroy_structure_copy<VkClearAttachment>(const VkClearAttachment& obj, con
     destroy_structure_copy(obj.clearValue, pAllocationCallbacks);
 }
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#ifdef DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 template <>
 void destroy_structure_copy<VkClearColorValue>(const VkClearColorValue& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
@@ -636,7 +636,7 @@ void destroy_structure_copy<VkClearColorValue>(const VkClearColorValue& obj, con
     destroy_static_array_copy<4>(obj.int32);
     destroy_static_array_copy<4>(obj.uint32);
 }
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#endif // DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 void destroy_structure_copy<VkClearDepthStencilValue>(const VkClearDepthStencilValue& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -653,14 +653,14 @@ void destroy_structure_copy<VkClearRect>(const VkClearRect& obj, const VkAllocat
     destroy_structure_copy(obj.layerCount, pAllocationCallbacks);
 }
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#ifdef DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 template <>
 void destroy_structure_copy<VkClearValue>(const VkClearValue& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     destroy_structure_copy(obj.color, pAllocationCallbacks);
     destroy_structure_copy(obj.depthStencil, pAllocationCallbacks);
 }
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#endif // DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 void destroy_structure_copy<VkCoarseSampleLocationNV>(const VkCoarseSampleLocationNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -2617,7 +2617,7 @@ void destroy_structure_copy<VkPerformanceCounterKHR>(const VkPerformanceCounterK
     destroy_static_array_copy<VK_UUID_SIZE>(obj.uuid);
 }
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#ifdef DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 template <>
 void destroy_structure_copy<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
@@ -2628,7 +2628,7 @@ void destroy_structure_copy<VkPerformanceCounterResultKHR>(const VkPerformanceCo
     destroy_structure_copy(obj.float32, pAllocationCallbacks);
     destroy_structure_copy(obj.float64, pAllocationCallbacks);
 }
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#endif // DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 void destroy_structure_copy<VkPerformanceMarkerInfoINTEL>(const VkPerformanceMarkerInfoINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -2664,7 +2664,7 @@ void destroy_structure_copy<VkPerformanceStreamMarkerInfoINTEL>(const VkPerforma
     destroy_structure_copy(obj.marker, pAllocationCallbacks);
 }
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#ifdef DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 template <>
 void destroy_structure_copy<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
@@ -2674,7 +2674,7 @@ void destroy_structure_copy<VkPerformanceValueDataINTEL>(const VkPerformanceValu
     destroy_structure_copy(obj.valueBool, pAllocationCallbacks);
     destroy_structure_copy(obj.valueString, pAllocationCallbacks);
 }
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#endif // DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 void destroy_structure_copy<VkPerformanceValueINTEL>(const VkPerformanceValueINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -4333,7 +4333,7 @@ void destroy_structure_copy<VkPipelineExecutableStatisticKHR>(const VkPipelineEx
     destroy_structure_copy(obj.value, pAllocationCallbacks);
 }
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#ifdef DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 template <>
 void destroy_structure_copy<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
@@ -4342,7 +4342,7 @@ void destroy_structure_copy<VkPipelineExecutableStatisticValueKHR>(const VkPipel
     destroy_structure_copy(obj.u64, pAllocationCallbacks);
     destroy_structure_copy(obj.f64, pAllocationCallbacks);
 }
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#endif // DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 void destroy_structure_copy<VkPipelineInfoKHR>(const VkPipelineInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -4385,7 +4385,7 @@ void destroy_structure_copy<VkPipelineLibraryCreateInfoKHR>(const VkPipelineLibr
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#ifdef DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 template <>
 void destroy_structure_copy<VkPipelineMultisampleStateCreateInfo>(const VkPipelineMultisampleStateCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
@@ -4399,7 +4399,7 @@ void destroy_structure_copy<VkPipelineMultisampleStateCreateInfo>(const VkPipeli
     destroy_structure_copy(obj.alphaToCoverageEnable, pAllocationCallbacks);
     destroy_structure_copy(obj.alphaToOneEnable, pAllocationCallbacks);
 }
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#endif // DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 void destroy_structure_copy<VkPipelineRasterizationConservativeStateCreateInfoEXT>(const VkPipelineRasterizationConservativeStateCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -5066,7 +5066,7 @@ void destroy_structure_copy<VkSetStateFlagsIndirectCommandNV>(const VkSetStateFl
     destroy_structure_copy(obj.data, pAllocationCallbacks);
 }
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#ifdef DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 template <>
 void destroy_structure_copy<VkShaderModuleCreateInfo>(const VkShaderModuleCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
@@ -5076,7 +5076,7 @@ void destroy_structure_copy<VkShaderModuleCreateInfo>(const VkShaderModuleCreate
     destroy_structure_copy(obj.codeSize, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.latexmath:[\textrm{codeSize} \over 4], obj.pCode, pAllocationCallbacks);
 }
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#endif // DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 void destroy_structure_copy<VkShaderModuleValidationCacheCreateInfoEXT>(const VkShaderModuleValidationCacheCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -5541,7 +5541,7 @@ void destroy_structure_copy<VkTraceRaysIndirectCommandKHR>(const VkTraceRaysIndi
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
-#ifdef DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#ifdef DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 void destroy_structure_copy<VkTransformMatrixKHR>(const VkTransformMatrixKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -5549,7 +5549,7 @@ void destroy_structure_copy<VkTransformMatrixKHR>(const VkTransformMatrixKHR& ob
     destroy_static_array_copy<34>(obj.matrix);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
-#endif // DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION
+#endif // DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
 
 template <>
 void destroy_structure_copy<VkValidationCacheCreateInfoEXT>(const VkValidationCacheCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)

@@ -10,19 +10,21 @@
 
 #pragma once
 
+#include "dynamic_static/graphics/vulkan/detail/managed.hpp"
+#include "dynamic_static/graphics/vulkan/generated/managed-handles.hpp"
+
 namespace dst {
 namespace gfx {
 namespace vk {
-namespace detail {
 
-template <typename VulkanHandleType>
-class BasicManagedHandle
+template <>
+class Managed<VkBuffer>
+    : public detail::BasicManagedBuffer
 {
 public:
 
 };
 
-} // namespace detail
 } // namespace vk
 } // namespace gfx
 } // namespace dst

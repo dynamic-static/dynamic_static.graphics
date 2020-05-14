@@ -18,6 +18,9 @@ namespace dst {
 namespace vk {
 namespace cppgen {
 
+// TODO : This whole file needs to be reworked...
+// Use snippets to fix...
+
 /**
 TODO : Documentation
 */
@@ -35,7 +38,7 @@ inline dst::cppgen::CppFunction::Collection generate_managed_handle_constructors
     CppFunction::Collection cppConstructors;
     CppFunction cppDefaultConstructor;
     cppDefaultConstructor.cppReturn = std::string();
-    cppDefaultConstructor.name = "Managed" + strip_vk(handle.name);
+    cppDefaultConstructor.name = "BasicManaged" + strip_vk(handle.name);
     cppDefaultConstructor.flags = CppFunction::Default;
     cppConstructors.push_back(cppDefaultConstructor);
     for (const auto& vkCreateFunctionName : handle.createFunctions) {
@@ -45,9 +48,10 @@ inline dst::cppgen::CppFunction::Collection generate_managed_handle_constructors
         CppFunction cppConstructor;
         cppConstructor.cppCompileGuards = { vkCreateFunction.compileGuard };
         cppConstructor.cppReturn = std::string();
-        cppConstructor.name = "Managed" + strip_vk(handle.name);
+        cppConstructor.name = "BasicManaged" + strip_vk(handle.name);
         std::string parentHandleMember;
         std::string parentHandleArgument;
+        std::string createInfoArgument;
         std::string createInfoMember;
         std::string createFunctionParameters;
         for (const auto& vkCreateFunctionParameter : vkCreateFunction.parameters) {
@@ -64,33 +68,30 @@ inline dst::cppgen::CppFunction::Collection generate_managed_handle_constructors
                     createFunctionParameters += vkCreateFunctionParameter.name + ", ";
                 }
                 if (handle.createInfos.count(vkCreateFunctionParameter.unqualifiedType)) {
+                    createInfoArgument = vkCreateFunctionParameter.name;
                     createInfoMember = "m" + strip_vk(vkCreateFunctionParameter.unqualifiedType);
+                }
+                if (vkCreateFunctionParameter.unqualifiedType == "VkAllocationCallbacks") {
+                    cppConstructorParameter.value = "nullptr";
                 }
                 cppConstructorParameter.name = vkCreateFunctionParameter.name;
                 cppConstructor.cppParameters.push_back(cppConstructorParameter);
             }
         }
         cppConstructor.cppSourceBlock.add_snippet(R"(
-            reset();
-            if (${PARENT_HANDLE_ARGUMENT} && pCreateInfo) {
+            if (${PARENT_HANDLE_ARGUMENT} && ${VK_CREATE_INFO_ARGUMENT}) {
                 mResult = dst_vk(${VK_CREATE_FUNCTION}(${VK_CREATE_FUNCTION_PARAMETERS}&mHandle));
                 if (mResult == VK_SUCCESS) {
                     ${PARENT_HANDLE_MEMBER} = ${PARENT_HANDLE_ARGUMENT};
-                    ${VK_CREATE_INFO_MEMBER} = *pCreateInfo;
-                    if (pAllocator) {
-                        assert(pAllocator->pfnAllocation);
-                        assert(pAllocator->pfnReallocation);
-                        assert(pAllocator->pfnFree);
-                        assert(pAllocator->pfnInternalAllocation);
-                        assert(pAllocator->pfnInternalFree);
-                        mAllocationCallbacks = *pAllocator;
-                    }
+                    ${VK_CREATE_INFO_MEMBER} = *${VK_CREATE_INFO_ARGUMENT};
+                    mAllocator = pAllocator ? *pAllocator : VkAllocationCallbacks { };
                 }
             } else {
                 mResult = VK_ERROR_INITIALIZATION_FAILED;
             }
         )", {
             { "${VK_CREATE_FUNCTION}", vkCreateFunctionName },
+            { "${VK_CREATE_INFO_ARGUMENT}", createInfoArgument },
             { "${VK_CREATE_FUNCTION_PARAMETERS}", createFunctionParameters },
             { "${PARENT_HANDLE_MEMBER}", parentHandleMember },
             { "${PARENT_HANDLE_ARGUMENT}", parentHandleArgument },
@@ -110,7 +111,7 @@ inline dst::cppgen::CppFunction generate_destructor(
     CppFunction cppFunction;
     cppFunction.cppReturn = std::string();
     cppFunction.flags = CppFunction::Virtual | CppFunction::Override;
-    cppFunction.name = "~Managed" + strip_vk(handle.name);
+    cppFunction.name = "~BasicManaged" + strip_vk(handle.name);
     cppFunction.cppSourceBlock.add_snippet(R"(
         reset();
     )");
@@ -200,36 +201,47 @@ inline dst::cppgen::CppVariable::Collection generate_managed_handle_member_varia
     CppVariable cppAllocationCallbacksMember;
     cppAllocationCallbacksMember.cppAccessModifier = CppAccessModifier::Protected;
     cppAllocationCallbacksMember.type = "VkAllocationCallbacks";
-    cppAllocationCallbacksMember.name = "mAllocationCallbacks";
+    cppAllocationCallbacksMember.name = "mAllocator";
     cppVariables.push_back(cppAllocationCallbacksMember);
     return cppVariables;
 }
 
 inline dst::cppgen::CppFunction generate_reset_method(
     const xml::Manifest& xmlManifest,
-    const xml::Handle& handle
+    const xml::Handle& handle,
+    const dst::cppgen::CppStructure& cppStructure
 )
 {
     using namespace dst::cppgen;
     CppFunction cppFunction;
-    cppFunction.flags = CppFunction::Override | CppFunction::Final;
+    cppFunction.flags = CppFunction::Virtual | CppFunction::Override;
     cppFunction.name = "reset";
+    cppFunction.cppParameters = {{ "const VkAllocationCallbacks*", "pAllocator", "nullptr" }};
     cppFunction.cppSourceBlock.add_snippet(R"(
-        #if 0
         if (mHandle) {
-            assert(${PARENT_HANDLE});
-            auto pAllocator =
-                mAllocationCallbacks.pfnAllocation &&
-                mAllocationCallbacks.pfnReallocation &&
-                mAllocationCallbacks.pfnFree &&
-                mAllocationCallbacks.pfnInternalAllocation &&
-                mAllocationCallbacks.pfnInternalFree ?
-                &mAllocationCallbacks:
-                nullptr;                
+            // TODO : assert(${PARENT_HANDLE});
+            if (!pAllocator) {
+                static const VkAllocationCallbacks sEmptyAllocator { };
+                pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
+            }
             ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
         }
-        #endif
-    )");
+        detail::BasicManaged${HANDLE_NAME}::reset();
+        ${RESET_MEMBERS}
+    )", {
+        { "${PARENT_HANDLE}", "" },
+        { "${VK_DESTROY_FUNCTION}", "" },
+        { "${VK_DESTROY_FUNCTION}", *handle.destroyFunctions.begin() },
+        { "${HANDLE_NAME}", "" },
+        { "${RESET_MEMBERS}", {
+                cppStructure.cppVariables,
+                [](const CppVariable& cppVariable)
+                {
+                    return cppVariable.name + " = { };";
+                }
+            }
+        },
+    });
     return cppFunction;
 }
 
@@ -248,26 +260,35 @@ inline void generate_managed_handles(const xml::Manifest& xmlManifest)
     headerFile << std::endl;
     CppFile sourceFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_SOURCE_PATH) / "managed-handles.cpp");
     sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/generated/managed-handles.hpp" };
+    sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/managed.hpp" };
     sourceFile << std::endl;
     CppStructure::Collection cppStructures;
     for (const auto& handleItr : xmlManifest.handles) {
         const auto& handle = handleItr.second;
-        CppStructure cppStructure;
-        cppStructure.flags = CppStructure::Class;
-        cppStructure.cppCompileGuards = { handle.compileGuard };
-        cppStructure.name = "Managed" + strip_vk(handle.name);
-        cppStructure.cppBaseTypes = {{ CppAccessModifier::Public, "detail::ManagedHandle<" + handle.name  + ">" }};
-        vector::append(cppStructure.cppFunctions, generate_managed_handle_constructors(xmlManifest, handle));
-        cppStructure.cppFunctions.push_back(generate_destructor(xmlManifest, handle));
-        vector::append(cppStructure.cppFunctions, generate_managed_handle_getters(xmlManifest, handle));
-        cppStructure.cppFunctions.push_back(generate_reset_method(xmlManifest, handle));
-        cppStructure.cppVariables = generate_managed_handle_member_variables(xmlManifest, handle);
-        cppStructures.push_back(cppStructure);
+        if (handle.alias.empty()) {
+            CppStructure cppStructure;
+            cppStructure.flags = CppStructure::Class;
+            cppStructure.cppCompileGuards = { handle.compileGuard };
+            cppStructure.name = "BasicManaged" + strip_vk(handle.name);
+            auto cppBaseType = "detail::BasicManagedHandle<" + handle.name + ">";
+            cppStructure.cppBaseTypes = {{ CppAccessModifier::Public, cppBaseType }};
+            cppStructure.cppVariables = generate_managed_handle_member_variables(xmlManifest, handle);
+            vector::append(cppStructure.cppFunctions, generate_managed_handle_constructors(xmlManifest, handle));
+            cppStructure.cppFunctions.push_back(generate_destructor(xmlManifest, handle));
+            vector::append(cppStructure.cppFunctions, generate_managed_handle_getters(xmlManifest, handle));
+            cppStructure.cppFunctions.push_back(generate_reset_method(xmlManifest, handle, cppStructure));
+            cppStructures.push_back(cppStructure);
+        }
     }
     headerFile << CppNamespace("dst::gfx::vk::detail").open();
     headerFile << cppStructures.generate_declaration();
     headerFile << CppNamespace("dst::gfx::vk::detail").close();
     sourceFile << CppNamespace("dst::gfx::vk::detail").open();
+    for (auto& cppStructure : cppStructures) {
+        if (vk_handle_requires_manual_implementation("Vk" + string::remove(cppStructure.name, "BasicManaged"))) {
+            cppStructure.cppCompileGuards.insert("DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION");
+        }
+    }
     sourceFile << cppStructures.generate_definition();
     sourceFile << CppNamespace("dst::gfx::vk::detail").close();
 }

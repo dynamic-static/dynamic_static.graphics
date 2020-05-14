@@ -22,468 +22,441 @@ namespace vk {
 namespace detail {
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-class ManagedAccelerationStructureKHR
-    : public detail::ManagedHandle<VkAccelerationStructureKHR>
+class BasicManagedAccelerationStructureKHR
+    : public detail::BasicManagedHandle<VkAccelerationStructureKHR>
 {
 public:
-    ManagedAccelerationStructureKHR() = default;
+    BasicManagedAccelerationStructureKHR() = default;
     #ifdef VK_ENABLE_BETA_EXTENSIONS
-    ManagedAccelerationStructureKHR(const std::shared_ptr<Managed<VkDevice>>& device, const VkAccelerationStructureCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator);
+    BasicManagedAccelerationStructureKHR(const std::shared_ptr<Managed<VkDevice>>& device, const VkAccelerationStructureCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
     #endif // VK_ENABLE_BETA_EXTENSIONS
-    virtual ~ManagedAccelerationStructureKHR() override;
+    virtual ~BasicManagedAccelerationStructureKHR() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     const Managed<VkAccelerationStructureCreateInfoKHR>& get_acceleration_structure_create_info_khr() const;
     #endif // VK_ENABLE_BETA_EXTENSIONS
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     Managed<VkAccelerationStructureCreateInfoKHR> mAccelerationStructureCreateInfoKHR { };
     #endif // VK_ENABLE_BETA_EXTENSIONS
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
-class ManagedAccelerationStructureNV
-    : public detail::ManagedHandle<VkAccelerationStructureNV>
+class BasicManagedBuffer
+    : public detail::BasicManagedHandle<VkBuffer>
 {
 public:
-    ManagedAccelerationStructureNV() = default;
-    ManagedAccelerationStructureNV(VkDevice device, const VkAccelerationStructureCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedAccelerationStructureNV() override;
-    VkObjectType get_object_type() const override final;
-    const Managed<VkAccelerationStructureCreateInfoNV>& get_acceleration_structure_create_info_nv() const;
-    void reset() override final;
-protected:
-    Managed<VkAccelerationStructureCreateInfoNV> mAccelerationStructureCreateInfoNV { };
-    VkAllocationCallbacks mAllocationCallbacks { };
-};
-
-class ManagedBuffer
-    : public detail::ManagedHandle<VkBuffer>
-{
-public:
-    ManagedBuffer() = default;
-    ManagedBuffer(const std::shared_ptr<Managed<VkDevice>>& device, const VkBufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedBuffer() override;
+    BasicManagedBuffer() = default;
+    BasicManagedBuffer(const std::shared_ptr<Managed<VkDevice>>& device, const VkBufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedBuffer() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkBufferCreateInfo>& get_buffer_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkBufferCreateInfo> mBufferCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedBufferView
-    : public detail::ManagedHandle<VkBufferView>
+class BasicManagedBufferView
+    : public detail::BasicManagedHandle<VkBufferView>
 {
 public:
-    ManagedBufferView() = default;
-    ManagedBufferView(const std::shared_ptr<Managed<VkDevice>>& device, const VkBufferViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedBufferView() override;
+    BasicManagedBufferView() = default;
+    BasicManagedBufferView(const std::shared_ptr<Managed<VkDevice>>& device, const VkBufferViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedBufferView() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkBufferViewCreateInfo>& get_buffer_view_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkBufferViewCreateInfo> mBufferViewCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedCommandBuffer
-    : public detail::ManagedHandle<VkCommandBuffer>
+class BasicManagedCommandBuffer
+    : public detail::BasicManagedHandle<VkCommandBuffer>
 {
 public:
-    ManagedCommandBuffer() = default;
-    ManagedCommandBuffer(VkDevice device, const VkCommandBufferAllocateInfo* pAllocateInfo);
-    virtual ~ManagedCommandBuffer() override;
+    BasicManagedCommandBuffer() = default;
+    BasicManagedCommandBuffer(VkDevice device, const VkCommandBufferAllocateInfo* pAllocateInfo);
+    virtual ~BasicManagedCommandBuffer() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkCommandPool>>& get_command_pool() const;
     const Managed<VkCommandBufferAllocateInfo>& get_command_buffer_allocate_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkCommandPool>> mCommandPool { };
     Managed<VkCommandBufferAllocateInfo> mCommandBufferAllocateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedCommandPool
-    : public detail::ManagedHandle<VkCommandPool>
+class BasicManagedCommandPool
+    : public detail::BasicManagedHandle<VkCommandPool>
 {
 public:
-    ManagedCommandPool() = default;
-    ManagedCommandPool(const std::shared_ptr<Managed<VkDevice>>& device, const VkCommandPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedCommandPool() override;
+    BasicManagedCommandPool() = default;
+    BasicManagedCommandPool(const std::shared_ptr<Managed<VkDevice>>& device, const VkCommandPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedCommandPool() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkCommandPoolCreateInfo>& get_command_pool_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkCommandPoolCreateInfo> mCommandPoolCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedDebugReportCallbackEXT
-    : public detail::ManagedHandle<VkDebugReportCallbackEXT>
+class BasicManagedDebugReportCallbackEXT
+    : public detail::BasicManagedHandle<VkDebugReportCallbackEXT>
 {
 public:
-    ManagedDebugReportCallbackEXT() = default;
-    ManagedDebugReportCallbackEXT(const std::shared_ptr<Managed<VkInstance>>& instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedDebugReportCallbackEXT() override;
+    BasicManagedDebugReportCallbackEXT() = default;
+    BasicManagedDebugReportCallbackEXT(const std::shared_ptr<Managed<VkInstance>>& instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedDebugReportCallbackEXT() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkInstance>>& get_instance() const;
     const Managed<VkDebugReportCallbackCreateInfoEXT>& get_debug_report_callback_create_info_ext() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkInstance>> mInstance { };
     Managed<VkDebugReportCallbackCreateInfoEXT> mDebugReportCallbackCreateInfoEXT { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedDebugUtilsMessengerEXT
-    : public detail::ManagedHandle<VkDebugUtilsMessengerEXT>
+class BasicManagedDebugUtilsMessengerEXT
+    : public detail::BasicManagedHandle<VkDebugUtilsMessengerEXT>
 {
 public:
-    ManagedDebugUtilsMessengerEXT() = default;
-    ManagedDebugUtilsMessengerEXT(const std::shared_ptr<Managed<VkInstance>>& instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedDebugUtilsMessengerEXT() override;
+    BasicManagedDebugUtilsMessengerEXT() = default;
+    BasicManagedDebugUtilsMessengerEXT(const std::shared_ptr<Managed<VkInstance>>& instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedDebugUtilsMessengerEXT() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkInstance>>& get_instance() const;
     const Managed<VkDebugUtilsMessengerCreateInfoEXT>& get_debug_utils_messenger_create_info_ext() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkInstance>> mInstance { };
     Managed<VkDebugUtilsMessengerCreateInfoEXT> mDebugUtilsMessengerCreateInfoEXT { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-class ManagedDeferredOperationKHR
-    : public detail::ManagedHandle<VkDeferredOperationKHR>
+class BasicManagedDeferredOperationKHR
+    : public detail::BasicManagedHandle<VkDeferredOperationKHR>
 {
 public:
-    ManagedDeferredOperationKHR() = default;
+    BasicManagedDeferredOperationKHR() = default;
     #ifdef VK_ENABLE_BETA_EXTENSIONS
-    ManagedDeferredOperationKHR(const std::shared_ptr<Managed<VkDevice>>& device, const VkAllocationCallbacks* pAllocator);
+    BasicManagedDeferredOperationKHR(const std::shared_ptr<Managed<VkDevice>>& device, const VkAllocationCallbacks* pAllocator = nullptr);
     #endif // VK_ENABLE_BETA_EXTENSIONS
-    virtual ~ManagedDeferredOperationKHR() override;
+    virtual ~BasicManagedDeferredOperationKHR() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
-class ManagedDescriptorPool
-    : public detail::ManagedHandle<VkDescriptorPool>
+class BasicManagedDescriptorPool
+    : public detail::BasicManagedHandle<VkDescriptorPool>
 {
 public:
-    ManagedDescriptorPool() = default;
-    ManagedDescriptorPool(const std::shared_ptr<Managed<VkDevice>>& device, const VkDescriptorPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedDescriptorPool() override;
+    BasicManagedDescriptorPool() = default;
+    BasicManagedDescriptorPool(const std::shared_ptr<Managed<VkDevice>>& device, const VkDescriptorPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedDescriptorPool() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkDescriptorPoolCreateInfo>& get_descriptor_pool_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkDescriptorPoolCreateInfo> mDescriptorPoolCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedDescriptorSet
-    : public detail::ManagedHandle<VkDescriptorSet>
+class BasicManagedDescriptorSet
+    : public detail::BasicManagedHandle<VkDescriptorSet>
 {
 public:
-    ManagedDescriptorSet() = default;
-    ManagedDescriptorSet(VkDevice device, const VkDescriptorSetAllocateInfo* pAllocateInfo);
-    virtual ~ManagedDescriptorSet() override;
+    BasicManagedDescriptorSet() = default;
+    BasicManagedDescriptorSet(VkDevice device, const VkDescriptorSetAllocateInfo* pAllocateInfo);
+    virtual ~BasicManagedDescriptorSet() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDescriptorPool>>& get_descriptor_pool() const;
     const Managed<VkDescriptorSetAllocateInfo>& get_descriptor_set_allocate_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDescriptorPool>> mDescriptorPool { };
     Managed<VkDescriptorSetAllocateInfo> mDescriptorSetAllocateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedDescriptorSetLayout
-    : public detail::ManagedHandle<VkDescriptorSetLayout>
+class BasicManagedDescriptorSetLayout
+    : public detail::BasicManagedHandle<VkDescriptorSetLayout>
 {
 public:
-    ManagedDescriptorSetLayout() = default;
-    ManagedDescriptorSetLayout(const std::shared_ptr<Managed<VkDevice>>& device, const VkDescriptorSetLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedDescriptorSetLayout() override;
+    BasicManagedDescriptorSetLayout() = default;
+    BasicManagedDescriptorSetLayout(const std::shared_ptr<Managed<VkDevice>>& device, const VkDescriptorSetLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedDescriptorSetLayout() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkDescriptorSetLayoutCreateInfo>& get_descriptor_set_layout_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkDescriptorSetLayoutCreateInfo> mDescriptorSetLayoutCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedDescriptorUpdateTemplate
-    : public detail::ManagedHandle<VkDescriptorUpdateTemplate>
+class BasicManagedDescriptorUpdateTemplate
+    : public detail::BasicManagedHandle<VkDescriptorUpdateTemplate>
 {
 public:
-    ManagedDescriptorUpdateTemplate() = default;
-    ManagedDescriptorUpdateTemplate(const std::shared_ptr<Managed<VkDevice>>& device, const VkDescriptorUpdateTemplateCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedDescriptorUpdateTemplate() override;
+    BasicManagedDescriptorUpdateTemplate() = default;
+    BasicManagedDescriptorUpdateTemplate(const std::shared_ptr<Managed<VkDevice>>& device, const VkDescriptorUpdateTemplateCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedDescriptorUpdateTemplate() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkDescriptorUpdateTemplateCreateInfo>& get_descriptor_update_template_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkDescriptorUpdateTemplateCreateInfo> mDescriptorUpdateTemplateCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedDescriptorUpdateTemplateKHR
-    : public detail::ManagedHandle<VkDescriptorUpdateTemplateKHR>
+class BasicManagedDevice
+    : public detail::BasicManagedHandle<VkDevice>
 {
 public:
-    ManagedDescriptorUpdateTemplateKHR() = default;
-    virtual ~ManagedDescriptorUpdateTemplateKHR() override;
-    VkObjectType get_object_type() const override final;
-    void reset() override final;
-protected:
-    VkAllocationCallbacks mAllocationCallbacks { };
-};
-
-class ManagedDevice
-    : public detail::ManagedHandle<VkDevice>
-{
-public:
-    ManagedDevice() = default;
-    ManagedDevice(const std::shared_ptr<Managed<VkPhysicalDevice>>& physicalDevice, const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedDevice() override;
+    BasicManagedDevice() = default;
+    BasicManagedDevice(const std::shared_ptr<Managed<VkPhysicalDevice>>& physicalDevice, const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedDevice() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkPhysicalDevice>>& get_physical_device() const;
     const Managed<VkDeviceCreateInfo>& get_device_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkPhysicalDevice>> mPhysicalDevice { };
     Managed<VkDeviceCreateInfo> mDeviceCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedDeviceMemory
-    : public detail::ManagedHandle<VkDeviceMemory>
+class BasicManagedDeviceMemory
+    : public detail::BasicManagedHandle<VkDeviceMemory>
 {
 public:
-    ManagedDeviceMemory() = default;
-    ManagedDeviceMemory(const std::shared_ptr<Managed<VkDevice>>& device, const VkMemoryAllocateInfo* pAllocateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedDeviceMemory() override;
+    BasicManagedDeviceMemory() = default;
+    BasicManagedDeviceMemory(const std::shared_ptr<Managed<VkDevice>>& device, const VkMemoryAllocateInfo* pAllocateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedDeviceMemory() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkMemoryAllocateInfo>& get_memory_allocate_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkMemoryAllocateInfo> mMemoryAllocateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedDisplayKHR
-    : public detail::ManagedHandle<VkDisplayKHR>
+class BasicManagedDisplayKHR
+    : public detail::BasicManagedHandle<VkDisplayKHR>
 {
 public:
-    ManagedDisplayKHR() = default;
-    virtual ~ManagedDisplayKHR() override;
+    BasicManagedDisplayKHR() = default;
+    virtual ~BasicManagedDisplayKHR() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkPhysicalDevice>>& get_physical_device() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkPhysicalDevice>> mPhysicalDevice { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedDisplayModeKHR
-    : public detail::ManagedHandle<VkDisplayModeKHR>
+class BasicManagedDisplayModeKHR
+    : public detail::BasicManagedHandle<VkDisplayModeKHR>
 {
 public:
-    ManagedDisplayModeKHR() = default;
-    ManagedDisplayModeKHR(VkPhysicalDevice physicalDevice, const std::shared_ptr<Managed<VkDisplayKHR>>& display, const VkDisplayModeCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedDisplayModeKHR() override;
+    BasicManagedDisplayModeKHR() = default;
+    BasicManagedDisplayModeKHR(VkPhysicalDevice physicalDevice, const std::shared_ptr<Managed<VkDisplayKHR>>& display, const VkDisplayModeCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedDisplayModeKHR() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDisplayKHR>>& get_display_khr() const;
     const Managed<VkDisplayModeCreateInfoKHR>& get_display_mode_create_info_khr() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDisplayKHR>> mDisplayKHR { };
     Managed<VkDisplayModeCreateInfoKHR> mDisplayModeCreateInfoKHR { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedEvent
-    : public detail::ManagedHandle<VkEvent>
+class BasicManagedEvent
+    : public detail::BasicManagedHandle<VkEvent>
 {
 public:
-    ManagedEvent() = default;
-    ManagedEvent(const std::shared_ptr<Managed<VkDevice>>& device, const VkEventCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedEvent() override;
+    BasicManagedEvent() = default;
+    BasicManagedEvent(const std::shared_ptr<Managed<VkDevice>>& device, const VkEventCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedEvent() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkEventCreateInfo>& get_event_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkEventCreateInfo> mEventCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedFence
-    : public detail::ManagedHandle<VkFence>
+class BasicManagedFence
+    : public detail::BasicManagedHandle<VkFence>
 {
 public:
-    ManagedFence() = default;
-    ManagedFence(const std::shared_ptr<Managed<VkDevice>>& device, const VkFenceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedFence() override;
+    BasicManagedFence() = default;
+    BasicManagedFence(const std::shared_ptr<Managed<VkDevice>>& device, const VkFenceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedFence() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkFenceCreateInfo>& get_fence_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkFenceCreateInfo> mFenceCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedFramebuffer
-    : public detail::ManagedHandle<VkFramebuffer>
+class BasicManagedFramebuffer
+    : public detail::BasicManagedHandle<VkFramebuffer>
 {
 public:
-    ManagedFramebuffer() = default;
-    ManagedFramebuffer(const std::shared_ptr<Managed<VkDevice>>& device, const VkFramebufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedFramebuffer() override;
+    BasicManagedFramebuffer() = default;
+    BasicManagedFramebuffer(const std::shared_ptr<Managed<VkDevice>>& device, const VkFramebufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedFramebuffer() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkFramebufferCreateInfo>& get_framebuffer_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkFramebufferCreateInfo> mFramebufferCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedImage
-    : public detail::ManagedHandle<VkImage>
+class BasicManagedImage
+    : public detail::BasicManagedHandle<VkImage>
 {
 public:
-    ManagedImage() = default;
-    ManagedImage(const std::shared_ptr<Managed<VkDevice>>& device, const VkImageCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedImage() override;
+    BasicManagedImage() = default;
+    BasicManagedImage(const std::shared_ptr<Managed<VkDevice>>& device, const VkImageCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedImage() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkImageCreateInfo>& get_image_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkImageCreateInfo> mImageCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedImageView
-    : public detail::ManagedHandle<VkImageView>
+class BasicManagedImageView
+    : public detail::BasicManagedHandle<VkImageView>
 {
 public:
-    ManagedImageView() = default;
-    ManagedImageView(const std::shared_ptr<Managed<VkDevice>>& device, const VkImageViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedImageView() override;
+    BasicManagedImageView() = default;
+    BasicManagedImageView(const std::shared_ptr<Managed<VkDevice>>& device, const VkImageViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedImageView() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkImageViewCreateInfo>& get_image_view_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkImageViewCreateInfo> mImageViewCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedIndirectCommandsLayoutNV
-    : public detail::ManagedHandle<VkIndirectCommandsLayoutNV>
+class BasicManagedIndirectCommandsLayoutNV
+    : public detail::BasicManagedHandle<VkIndirectCommandsLayoutNV>
 {
 public:
-    ManagedIndirectCommandsLayoutNV() = default;
-    ManagedIndirectCommandsLayoutNV(const std::shared_ptr<Managed<VkDevice>>& device, const VkIndirectCommandsLayoutCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedIndirectCommandsLayoutNV() override;
+    BasicManagedIndirectCommandsLayoutNV() = default;
+    BasicManagedIndirectCommandsLayoutNV(const std::shared_ptr<Managed<VkDevice>>& device, const VkIndirectCommandsLayoutCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedIndirectCommandsLayoutNV() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkIndirectCommandsLayoutCreateInfoNV>& get_indirect_commands_layout_create_info_nv() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkIndirectCommandsLayoutCreateInfoNV> mIndirectCommandsLayoutCreateInfoNV { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedInstance
-    : public detail::ManagedHandle<VkInstance>
+class BasicManagedInstance
+    : public detail::BasicManagedHandle<VkInstance>
 {
 public:
-    ManagedInstance() = default;
-    ManagedInstance(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedInstance() override;
+    BasicManagedInstance() = default;
+    BasicManagedInstance(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedInstance() override;
     VkObjectType get_object_type() const override final;
     const Managed<VkInstanceCreateInfo>& get_instance_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     Managed<VkInstanceCreateInfo> mInstanceCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedPerformanceConfigurationINTEL
-    : public detail::ManagedHandle<VkPerformanceConfigurationINTEL>
+class BasicManagedPerformanceConfigurationINTEL
+    : public detail::BasicManagedHandle<VkPerformanceConfigurationINTEL>
 {
 public:
-    ManagedPerformanceConfigurationINTEL() = default;
-    virtual ~ManagedPerformanceConfigurationINTEL() override;
+    BasicManagedPerformanceConfigurationINTEL() = default;
+    virtual ~BasicManagedPerformanceConfigurationINTEL() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedPhysicalDevice
-    : public detail::ManagedHandle<VkPhysicalDevice>
+class BasicManagedPhysicalDevice
+    : public detail::BasicManagedHandle<VkPhysicalDevice>
 {
 public:
-    ManagedPhysicalDevice() = default;
-    virtual ~ManagedPhysicalDevice() override;
+    BasicManagedPhysicalDevice() = default;
+    virtual ~BasicManagedPhysicalDevice() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkInstance>>& get_instance() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkInstance>> mInstance { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedPipeline
-    : public detail::ManagedHandle<VkPipeline>
+class BasicManagedPipeline
+    : public detail::BasicManagedHandle<VkPipeline>
 {
 public:
-    ManagedPipeline() = default;
-    ManagedPipeline(const std::shared_ptr<Managed<VkDevice>>& device, VkPipelineCache pipelineCache, uint32_t createInfoCount, const VkComputePipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator);
-    ManagedPipeline(const std::shared_ptr<Managed<VkDevice>>& device, VkPipelineCache pipelineCache, uint32_t createInfoCount, const VkGraphicsPipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator);
+    BasicManagedPipeline() = default;
+    BasicManagedPipeline(const std::shared_ptr<Managed<VkDevice>>& device, VkPipelineCache pipelineCache, uint32_t createInfoCount, const VkComputePipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator = nullptr);
+    BasicManagedPipeline(const std::shared_ptr<Managed<VkDevice>>& device, VkPipelineCache pipelineCache, uint32_t createInfoCount, const VkGraphicsPipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator = nullptr);
     #ifdef VK_ENABLE_BETA_EXTENSIONS
-    ManagedPipeline(const std::shared_ptr<Managed<VkDevice>>& device, VkPipelineCache pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator);
+    BasicManagedPipeline(const std::shared_ptr<Managed<VkDevice>>& device, VkPipelineCache pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator = nullptr);
     #endif // VK_ENABLE_BETA_EXTENSIONS
-    ManagedPipeline(const std::shared_ptr<Managed<VkDevice>>& device, VkPipelineCache pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoNV* pCreateInfos, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedPipeline() override;
+    BasicManagedPipeline(const std::shared_ptr<Managed<VkDevice>>& device, VkPipelineCache pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoNV* pCreateInfos, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedPipeline() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkComputePipelineCreateInfo>& get_compute_pipeline_create_info() const;
@@ -492,7 +465,7 @@ public:
     const Managed<VkRayTracingPipelineCreateInfoKHR>& get_ray_tracing_pipeline_create_info_khr() const;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     const Managed<VkRayTracingPipelineCreateInfoNV>& get_ray_tracing_pipeline_create_info_nv() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkComputePipelineCreateInfo> mComputePipelineCreateInfo { };
@@ -501,215 +474,203 @@ protected:
     Managed<VkRayTracingPipelineCreateInfoKHR> mRayTracingPipelineCreateInfoKHR { };
     #endif // VK_ENABLE_BETA_EXTENSIONS
     Managed<VkRayTracingPipelineCreateInfoNV> mRayTracingPipelineCreateInfoNV { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedPipelineCache
-    : public detail::ManagedHandle<VkPipelineCache>
+class BasicManagedPipelineCache
+    : public detail::BasicManagedHandle<VkPipelineCache>
 {
 public:
-    ManagedPipelineCache() = default;
-    ManagedPipelineCache(const std::shared_ptr<Managed<VkDevice>>& device, const VkPipelineCacheCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedPipelineCache() override;
+    BasicManagedPipelineCache() = default;
+    BasicManagedPipelineCache(const std::shared_ptr<Managed<VkDevice>>& device, const VkPipelineCacheCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedPipelineCache() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkPipelineCacheCreateInfo>& get_pipeline_cache_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkPipelineCacheCreateInfo> mPipelineCacheCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedPipelineLayout
-    : public detail::ManagedHandle<VkPipelineLayout>
+class BasicManagedPipelineLayout
+    : public detail::BasicManagedHandle<VkPipelineLayout>
 {
 public:
-    ManagedPipelineLayout() = default;
-    ManagedPipelineLayout(const std::shared_ptr<Managed<VkDevice>>& device, const VkPipelineLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedPipelineLayout() override;
+    BasicManagedPipelineLayout() = default;
+    BasicManagedPipelineLayout(const std::shared_ptr<Managed<VkDevice>>& device, const VkPipelineLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedPipelineLayout() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkPipelineLayoutCreateInfo>& get_pipeline_layout_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkPipelineLayoutCreateInfo> mPipelineLayoutCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedQueryPool
-    : public detail::ManagedHandle<VkQueryPool>
+class BasicManagedQueryPool
+    : public detail::BasicManagedHandle<VkQueryPool>
 {
 public:
-    ManagedQueryPool() = default;
-    ManagedQueryPool(const std::shared_ptr<Managed<VkDevice>>& device, const VkQueryPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedQueryPool() override;
+    BasicManagedQueryPool() = default;
+    BasicManagedQueryPool(const std::shared_ptr<Managed<VkDevice>>& device, const VkQueryPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedQueryPool() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkQueryPoolCreateInfo>& get_query_pool_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkQueryPoolCreateInfo> mQueryPoolCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedQueue
-    : public detail::ManagedHandle<VkQueue>
+class BasicManagedQueue
+    : public detail::BasicManagedHandle<VkQueue>
 {
 public:
-    ManagedQueue() = default;
-    virtual ~ManagedQueue() override;
+    BasicManagedQueue() = default;
+    virtual ~BasicManagedQueue() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedRenderPass
-    : public detail::ManagedHandle<VkRenderPass>
+class BasicManagedRenderPass
+    : public detail::BasicManagedHandle<VkRenderPass>
 {
 public:
-    ManagedRenderPass() = default;
-    ManagedRenderPass(const std::shared_ptr<Managed<VkDevice>>& device, const VkRenderPassCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    ManagedRenderPass(const std::shared_ptr<Managed<VkDevice>>& device, const VkRenderPassCreateInfo2* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedRenderPass() override;
+    BasicManagedRenderPass() = default;
+    BasicManagedRenderPass(const std::shared_ptr<Managed<VkDevice>>& device, const VkRenderPassCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    BasicManagedRenderPass(const std::shared_ptr<Managed<VkDevice>>& device, const VkRenderPassCreateInfo2* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedRenderPass() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkRenderPassCreateInfo>& get_render_pass_create_info() const;
     const Managed<VkRenderPassCreateInfo2>& get_render_pass_create_info2() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkRenderPassCreateInfo> mRenderPassCreateInfo { };
     Managed<VkRenderPassCreateInfo2> mRenderPassCreateInfo2 { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedSampler
-    : public detail::ManagedHandle<VkSampler>
+class BasicManagedSampler
+    : public detail::BasicManagedHandle<VkSampler>
 {
 public:
-    ManagedSampler() = default;
-    ManagedSampler(const std::shared_ptr<Managed<VkDevice>>& device, const VkSamplerCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedSampler() override;
+    BasicManagedSampler() = default;
+    BasicManagedSampler(const std::shared_ptr<Managed<VkDevice>>& device, const VkSamplerCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedSampler() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkSamplerCreateInfo>& get_sampler_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkSamplerCreateInfo> mSamplerCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedSamplerYcbcrConversion
-    : public detail::ManagedHandle<VkSamplerYcbcrConversion>
+class BasicManagedSamplerYcbcrConversion
+    : public detail::BasicManagedHandle<VkSamplerYcbcrConversion>
 {
 public:
-    ManagedSamplerYcbcrConversion() = default;
-    ManagedSamplerYcbcrConversion(const std::shared_ptr<Managed<VkDevice>>& device, const VkSamplerYcbcrConversionCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedSamplerYcbcrConversion() override;
+    BasicManagedSamplerYcbcrConversion() = default;
+    BasicManagedSamplerYcbcrConversion(const std::shared_ptr<Managed<VkDevice>>& device, const VkSamplerYcbcrConversionCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedSamplerYcbcrConversion() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkSamplerYcbcrConversionCreateInfo>& get_sampler_ycbcr_conversion_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkSamplerYcbcrConversionCreateInfo> mSamplerYcbcrConversionCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedSamplerYcbcrConversionKHR
-    : public detail::ManagedHandle<VkSamplerYcbcrConversionKHR>
+class BasicManagedSemaphore
+    : public detail::BasicManagedHandle<VkSemaphore>
 {
 public:
-    ManagedSamplerYcbcrConversionKHR() = default;
-    virtual ~ManagedSamplerYcbcrConversionKHR() override;
-    VkObjectType get_object_type() const override final;
-    void reset() override final;
-protected:
-    VkAllocationCallbacks mAllocationCallbacks { };
-};
-
-class ManagedSemaphore
-    : public detail::ManagedHandle<VkSemaphore>
-{
-public:
-    ManagedSemaphore() = default;
-    ManagedSemaphore(const std::shared_ptr<Managed<VkDevice>>& device, const VkSemaphoreCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedSemaphore() override;
+    BasicManagedSemaphore() = default;
+    BasicManagedSemaphore(const std::shared_ptr<Managed<VkDevice>>& device, const VkSemaphoreCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedSemaphore() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkSemaphoreCreateInfo>& get_semaphore_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkSemaphoreCreateInfo> mSemaphoreCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedShaderModule
-    : public detail::ManagedHandle<VkShaderModule>
+class BasicManagedShaderModule
+    : public detail::BasicManagedHandle<VkShaderModule>
 {
 public:
-    ManagedShaderModule() = default;
-    ManagedShaderModule(const std::shared_ptr<Managed<VkDevice>>& device, const VkShaderModuleCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedShaderModule() override;
+    BasicManagedShaderModule() = default;
+    BasicManagedShaderModule(const std::shared_ptr<Managed<VkDevice>>& device, const VkShaderModuleCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedShaderModule() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkShaderModuleCreateInfo>& get_shader_module_create_info() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkShaderModuleCreateInfo> mShaderModuleCreateInfo { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedSurfaceKHR
-    : public detail::ManagedHandle<VkSurfaceKHR>
+class BasicManagedSurfaceKHR
+    : public detail::BasicManagedHandle<VkSurfaceKHR>
 {
 public:
-    ManagedSurfaceKHR() = default;
+    BasicManagedSurfaceKHR() = default;
     #ifdef VK_USE_PLATFORM_ANDROID_KHR
-    ManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkAndroidSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator);
+    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkAndroidSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
     #endif // VK_USE_PLATFORM_ANDROID_KHR
-    ManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkDisplaySurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    ManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkHeadlessSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator);
+    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkDisplaySurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkHeadlessSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
     #ifdef VK_USE_PLATFORM_IOS_MVK
-    ManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkIOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator);
+    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkIOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
     #endif // VK_USE_PLATFORM_IOS_MVK
     #ifdef VK_USE_PLATFORM_FUCHSIA
-    ManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkImagePipeSurfaceCreateInfoFUCHSIA* pCreateInfo, const VkAllocationCallbacks* pAllocator);
+    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkImagePipeSurfaceCreateInfoFUCHSIA* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
     #endif // VK_USE_PLATFORM_FUCHSIA
     #ifdef VK_USE_PLATFORM_MACOS_MVK
-    ManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkMacOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator);
+    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkMacOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
     #endif // VK_USE_PLATFORM_MACOS_MVK
     #ifdef VK_USE_PLATFORM_METAL_EXT
-    ManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkMetalSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator);
+    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkMetalSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
     #endif // VK_USE_PLATFORM_METAL_EXT
     #ifdef VK_USE_PLATFORM_GGP
-    ManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo, const VkAllocationCallbacks* pAllocator);
+    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
     #endif // VK_USE_PLATFORM_GGP
     #ifdef VK_USE_PLATFORM_VI_NN
-    ManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkViSurfaceCreateInfoNN* pCreateInfo, const VkAllocationCallbacks* pAllocator);
+    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkViSurfaceCreateInfoNN* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
     #endif // VK_USE_PLATFORM_VI_NN
     #ifdef VK_USE_PLATFORM_WAYLAND_KHR
-    ManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkWaylandSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator);
+    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkWaylandSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
     #endif // VK_USE_PLATFORM_WAYLAND_KHR
     #ifdef VK_USE_PLATFORM_WIN32_KHR
-    ManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkWin32SurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator);
+    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkWin32SurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
     #endif // VK_USE_PLATFORM_WIN32_KHR
     #ifdef VK_USE_PLATFORM_XCB_KHR
-    ManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkXcbSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator);
+    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkXcbSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
     #endif // VK_USE_PLATFORM_XCB_KHR
     #ifdef VK_USE_PLATFORM_XLIB_KHR
-    ManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkXlibSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator);
+    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkXlibSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
     #endif // VK_USE_PLATFORM_XLIB_KHR
-    virtual ~ManagedSurfaceKHR() override;
+    virtual ~BasicManagedSurfaceKHR() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkInstance>>& get_instance() const;
     #ifdef VK_USE_PLATFORM_ANDROID_KHR
@@ -747,7 +708,7 @@ public:
     #ifdef VK_USE_PLATFORM_XLIB_KHR
     const Managed<VkXlibSurfaceCreateInfoKHR>& get_xlib_surface_create_info_khr() const;
     #endif // VK_USE_PLATFORM_XLIB_KHR
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkInstance>> mInstance { };
     #ifdef VK_USE_PLATFORM_ANDROID_KHR
@@ -785,44 +746,44 @@ protected:
     #ifdef VK_USE_PLATFORM_XLIB_KHR
     Managed<VkXlibSurfaceCreateInfoKHR> mXlibSurfaceCreateInfoKHR { };
     #endif // VK_USE_PLATFORM_XLIB_KHR
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedSwapchainKHR
-    : public detail::ManagedHandle<VkSwapchainKHR>
+class BasicManagedSwapchainKHR
+    : public detail::BasicManagedHandle<VkSwapchainKHR>
 {
 public:
-    ManagedSwapchainKHR() = default;
-    ManagedSwapchainKHR(const std::shared_ptr<Managed<VkDevice>>& device, uint32_t swapchainCount, const VkSwapchainCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator);
-    ManagedSwapchainKHR(const std::shared_ptr<Managed<VkDevice>>& device, const VkSwapchainCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedSwapchainKHR() override;
+    BasicManagedSwapchainKHR() = default;
+    BasicManagedSwapchainKHR(const std::shared_ptr<Managed<VkDevice>>& device, uint32_t swapchainCount, const VkSwapchainCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator = nullptr);
+    BasicManagedSwapchainKHR(const std::shared_ptr<Managed<VkDevice>>& device, const VkSwapchainCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedSwapchainKHR() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const std::shared_ptr<Managed<VkSurfaceKHR>>& get_surface_khr() const;
     const Managed<VkSwapchainCreateInfoKHR>& get_swapchain_create_info_khr() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     std::shared_ptr<Managed<VkSurfaceKHR>> mSurfaceKHR { };
     Managed<VkSwapchainCreateInfoKHR> mSwapchainCreateInfoKHR { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
-class ManagedValidationCacheEXT
-    : public detail::ManagedHandle<VkValidationCacheEXT>
+class BasicManagedValidationCacheEXT
+    : public detail::BasicManagedHandle<VkValidationCacheEXT>
 {
 public:
-    ManagedValidationCacheEXT() = default;
-    ManagedValidationCacheEXT(const std::shared_ptr<Managed<VkDevice>>& device, const VkValidationCacheCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator);
-    virtual ~ManagedValidationCacheEXT() override;
+    BasicManagedValidationCacheEXT() = default;
+    BasicManagedValidationCacheEXT(const std::shared_ptr<Managed<VkDevice>>& device, const VkValidationCacheCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    virtual ~BasicManagedValidationCacheEXT() override;
     VkObjectType get_object_type() const override final;
     const std::shared_ptr<Managed<VkDevice>>& get_device() const;
     const Managed<VkValidationCacheCreateInfoEXT>& get_validation_cache_create_info_ext() const;
-    void reset() override final;
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override;
 protected:
     std::shared_ptr<Managed<VkDevice>> mDevice { };
     Managed<VkValidationCacheCreateInfoEXT> mValidationCacheCreateInfoEXT { };
-    VkAllocationCallbacks mAllocationCallbacks { };
+    VkAllocationCallbacks mAllocator { };
 };
 
 } // namespace detail

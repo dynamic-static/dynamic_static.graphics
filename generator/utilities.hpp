@@ -22,6 +22,20 @@ namespace cppgen {
 /**
 TODO : Documentation
 */
+inline bool vk_handle_requires_manual_implementation(const std::string& structureName)
+{
+    static const std::set<std::string> sHandlesRequiringManualImplementation {
+        "VkCommandBuffer",
+        "VkDeferredOperationKHR",
+        "VkDescriptorSet",
+        "VkInstance",
+    };
+    return sHandlesRequiringManualImplementation.count(structureName);
+}
+
+/**
+TODO : Documentation
+*/
 inline bool vk_structure_requires_manual_implementation(const std::string& structureName)
 {
     static const std::set<std::string> sStructuresRequiringManualImplementation {
@@ -57,7 +71,7 @@ TODO : Documentation
 */
 inline std::string vk_structure_manual_implemntation_compile_guard(const std::string& structureName)
 {
-    return vk_structure_requires_manual_implementation(structureName) ? "DYNAMIC_STATIC_VK_STRUCTURE_MANUAL_IMPLEMENTATION" : std::string();
+    return vk_structure_requires_manual_implementation(structureName) ? "DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION" : std::string();
 }
 
 /**
