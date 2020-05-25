@@ -57,14 +57,6 @@ const Managed<VkAccelerationStructureCreateInfoKHR>& BasicManagedAccelerationStr
 
 void BasicManagedAccelerationStructureKHR::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
@@ -104,14 +96,6 @@ const Managed<VkBufferCreateInfo>& BasicManagedBuffer::get_buffer_create_info() 
 
 void BasicManagedBuffer::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedBufferView::BasicManagedBufferView(const std::shared_ptr<Managed<VkDevice>>& device, const VkBufferViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -150,14 +134,6 @@ const Managed<VkBufferViewCreateInfo>& BasicManagedBufferView::get_buffer_view_c
 
 void BasicManagedBufferView::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 #ifdef DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION
@@ -197,14 +173,6 @@ const Managed<VkCommandBufferAllocateInfo>& BasicManagedCommandBuffer::get_comma
 
 void BasicManagedCommandBuffer::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 #endif // DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION
 
@@ -244,14 +212,6 @@ const Managed<VkCommandPoolCreateInfo>& BasicManagedCommandPool::get_command_poo
 
 void BasicManagedCommandPool::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedDebugReportCallbackEXT::BasicManagedDebugReportCallbackEXT(const std::shared_ptr<Managed<VkInstance>>& instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -290,14 +250,6 @@ const Managed<VkDebugReportCallbackCreateInfoEXT>& BasicManagedDebugReportCallba
 
 void BasicManagedDebugReportCallbackEXT::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedDebugUtilsMessengerEXT::BasicManagedDebugUtilsMessengerEXT(const std::shared_ptr<Managed<VkInstance>>& instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -336,14 +288,6 @@ const Managed<VkDebugUtilsMessengerCreateInfoEXT>& BasicManagedDebugUtilsMesseng
 
 void BasicManagedDebugUtilsMessengerEXT::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 #ifdef DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION
@@ -381,14 +325,6 @@ const std::shared_ptr<Managed<VkDevice>>& BasicManagedDeferredOperationKHR::get_
 
 void BasicManagedDeferredOperationKHR::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
 #endif // DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION
@@ -429,14 +365,6 @@ const Managed<VkDescriptorPoolCreateInfo>& BasicManagedDescriptorPool::get_descr
 
 void BasicManagedDescriptorPool::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 #ifdef DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION
@@ -476,14 +404,6 @@ const Managed<VkDescriptorSetAllocateInfo>& BasicManagedDescriptorSet::get_descr
 
 void BasicManagedDescriptorSet::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 #endif // DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION
 
@@ -523,14 +443,6 @@ const Managed<VkDescriptorSetLayoutCreateInfo>& BasicManagedDescriptorSetLayout:
 
 void BasicManagedDescriptorSetLayout::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedDescriptorUpdateTemplate::BasicManagedDescriptorUpdateTemplate(const std::shared_ptr<Managed<VkDevice>>& device, const VkDescriptorUpdateTemplateCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -569,14 +481,6 @@ const Managed<VkDescriptorUpdateTemplateCreateInfo>& BasicManagedDescriptorUpdat
 
 void BasicManagedDescriptorUpdateTemplate::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedDevice::BasicManagedDevice(const std::shared_ptr<Managed<VkPhysicalDevice>>& physicalDevice, const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -615,14 +519,6 @@ const Managed<VkDeviceCreateInfo>& BasicManagedDevice::get_device_create_info() 
 
 void BasicManagedDevice::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedDeviceMemory::BasicManagedDeviceMemory(const std::shared_ptr<Managed<VkDevice>>& device, const VkMemoryAllocateInfo* pAllocateInfo, const VkAllocationCallbacks* pAllocator)
@@ -661,14 +557,6 @@ const Managed<VkMemoryAllocateInfo>& BasicManagedDeviceMemory::get_memory_alloca
 
 void BasicManagedDeviceMemory::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedDisplayKHR::~BasicManagedDisplayKHR()
@@ -688,14 +576,6 @@ const std::shared_ptr<Managed<VkPhysicalDevice>>& BasicManagedDisplayKHR::get_ph
 
 void BasicManagedDisplayKHR::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedDisplayModeKHR::BasicManagedDisplayModeKHR(VkPhysicalDevice physicalDevice, const std::shared_ptr<Managed<VkDisplayKHR>>& display, const VkDisplayModeCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -734,14 +614,6 @@ const Managed<VkDisplayModeCreateInfoKHR>& BasicManagedDisplayModeKHR::get_displ
 
 void BasicManagedDisplayModeKHR::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedEvent::BasicManagedEvent(const std::shared_ptr<Managed<VkDevice>>& device, const VkEventCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -780,14 +652,6 @@ const Managed<VkEventCreateInfo>& BasicManagedEvent::get_event_create_info() con
 
 void BasicManagedEvent::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedFence::BasicManagedFence(const std::shared_ptr<Managed<VkDevice>>& device, const VkFenceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -826,14 +690,6 @@ const Managed<VkFenceCreateInfo>& BasicManagedFence::get_fence_create_info() con
 
 void BasicManagedFence::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedFramebuffer::BasicManagedFramebuffer(const std::shared_ptr<Managed<VkDevice>>& device, const VkFramebufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -872,14 +728,6 @@ const Managed<VkFramebufferCreateInfo>& BasicManagedFramebuffer::get_framebuffer
 
 void BasicManagedFramebuffer::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedImage::BasicManagedImage(const std::shared_ptr<Managed<VkDevice>>& device, const VkImageCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -918,14 +766,6 @@ const Managed<VkImageCreateInfo>& BasicManagedImage::get_image_create_info() con
 
 void BasicManagedImage::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedImageView::BasicManagedImageView(const std::shared_ptr<Managed<VkDevice>>& device, const VkImageViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -964,14 +804,6 @@ const Managed<VkImageViewCreateInfo>& BasicManagedImageView::get_image_view_crea
 
 void BasicManagedImageView::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedIndirectCommandsLayoutNV::BasicManagedIndirectCommandsLayoutNV(const std::shared_ptr<Managed<VkDevice>>& device, const VkIndirectCommandsLayoutCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -1010,14 +842,6 @@ const Managed<VkIndirectCommandsLayoutCreateInfoNV>& BasicManagedIndirectCommand
 
 void BasicManagedIndirectCommandsLayoutNV::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 #ifdef DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION
@@ -1052,14 +876,6 @@ const Managed<VkInstanceCreateInfo>& BasicManagedInstance::get_instance_create_i
 
 void BasicManagedInstance::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 #endif // DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION
 
@@ -1080,14 +896,6 @@ const std::shared_ptr<Managed<VkDevice>>& BasicManagedPerformanceConfigurationIN
 
 void BasicManagedPerformanceConfigurationINTEL::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedPhysicalDevice::~BasicManagedPhysicalDevice()
@@ -1107,14 +915,6 @@ const std::shared_ptr<Managed<VkInstance>>& BasicManagedPhysicalDevice::get_inst
 
 void BasicManagedPhysicalDevice::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedPipeline::BasicManagedPipeline(const std::shared_ptr<Managed<VkDevice>>& device, VkPipelineCache pipelineCache, uint32_t createInfoCount, const VkComputePipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator)
@@ -1214,14 +1014,6 @@ const Managed<VkRayTracingPipelineCreateInfoNV>& BasicManagedPipeline::get_ray_t
 
 void BasicManagedPipeline::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedPipelineCache::BasicManagedPipelineCache(const std::shared_ptr<Managed<VkDevice>>& device, const VkPipelineCacheCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -1260,14 +1052,6 @@ const Managed<VkPipelineCacheCreateInfo>& BasicManagedPipelineCache::get_pipelin
 
 void BasicManagedPipelineCache::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedPipelineLayout::BasicManagedPipelineLayout(const std::shared_ptr<Managed<VkDevice>>& device, const VkPipelineLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -1306,14 +1090,6 @@ const Managed<VkPipelineLayoutCreateInfo>& BasicManagedPipelineLayout::get_pipel
 
 void BasicManagedPipelineLayout::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedQueryPool::BasicManagedQueryPool(const std::shared_ptr<Managed<VkDevice>>& device, const VkQueryPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -1352,14 +1128,6 @@ const Managed<VkQueryPoolCreateInfo>& BasicManagedQueryPool::get_query_pool_crea
 
 void BasicManagedQueryPool::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedQueue::~BasicManagedQueue()
@@ -1379,14 +1147,6 @@ const std::shared_ptr<Managed<VkDevice>>& BasicManagedQueue::get_device() const
 
 void BasicManagedQueue::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedRenderPass::BasicManagedRenderPass(const std::shared_ptr<Managed<VkDevice>>& device, const VkRenderPassCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -1444,14 +1204,6 @@ const Managed<VkRenderPassCreateInfo2>& BasicManagedRenderPass::get_render_pass_
 
 void BasicManagedRenderPass::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedSampler::BasicManagedSampler(const std::shared_ptr<Managed<VkDevice>>& device, const VkSamplerCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -1490,14 +1242,6 @@ const Managed<VkSamplerCreateInfo>& BasicManagedSampler::get_sampler_create_info
 
 void BasicManagedSampler::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedSamplerYcbcrConversion::BasicManagedSamplerYcbcrConversion(const std::shared_ptr<Managed<VkDevice>>& device, const VkSamplerYcbcrConversionCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -1536,14 +1280,6 @@ const Managed<VkSamplerYcbcrConversionCreateInfo>& BasicManagedSamplerYcbcrConve
 
 void BasicManagedSamplerYcbcrConversion::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedSemaphore::BasicManagedSemaphore(const std::shared_ptr<Managed<VkDevice>>& device, const VkSemaphoreCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -1582,14 +1318,6 @@ const Managed<VkSemaphoreCreateInfo>& BasicManagedSemaphore::get_semaphore_creat
 
 void BasicManagedSemaphore::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedShaderModule::BasicManagedShaderModule(const std::shared_ptr<Managed<VkDevice>>& device, const VkShaderModuleCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -1628,14 +1356,6 @@ const Managed<VkShaderModuleCreateInfo>& BasicManagedShaderModule::get_shader_mo
 
 void BasicManagedShaderModule::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
@@ -1946,14 +1666,6 @@ const Managed<VkXlibSurfaceCreateInfoKHR>& BasicManagedSurfaceKHR::get_xlib_surf
 
 void BasicManagedSurfaceKHR::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedSwapchainKHR::BasicManagedSwapchainKHR(const std::shared_ptr<Managed<VkDevice>>& device, uint32_t swapchainCount, const VkSwapchainCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator)
@@ -2011,14 +1723,6 @@ const Managed<VkSwapchainCreateInfoKHR>& BasicManagedSwapchainKHR::get_swapchain
 
 void BasicManagedSwapchainKHR::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 BasicManagedValidationCacheEXT::BasicManagedValidationCacheEXT(const std::shared_ptr<Managed<VkDevice>>& device, const VkValidationCacheCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator)
@@ -2057,14 +1761,6 @@ const Managed<VkValidationCacheCreateInfoEXT>& BasicManagedValidationCacheEXT::g
 
 void BasicManagedValidationCacheEXT::reset(const VkAllocationCallbacks* pAllocator)
 {
-    if (mHandle) {
-        assert(${PARENT_HANDLE});
-        if (!pAllocator) {
-            static const VkAllocationCallbacks sEmptyAllocator { };
-            pAllocator = !memcmp(&mAllocator, &sEmptyAllocator, sizeof(VkAllocationCallbacks)) ? &mAllocator : nullptr;
-        }
-        ${VK_DESTROY_FUNCTION}(${PARENT_HANDLE}, mHandle, pAllocator);
-    }
 }
 
 } // namespace detail

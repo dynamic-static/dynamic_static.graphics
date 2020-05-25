@@ -14,6 +14,10 @@
 #include "dynamic_static/vk-xml-parser.hpp"
 #include "utilities.hpp"
 
+#include <cassert>
+
+#include <fstream>
+
 namespace dst {
 namespace vk {
 namespace cppgen {
@@ -217,6 +221,7 @@ inline dst::cppgen::CppFunction generate_reset_method(
     cppFunction.flags = CppFunction::Virtual | CppFunction::Override;
     cppFunction.name = "reset";
     cppFunction.cppParameters = {{ "const VkAllocationCallbacks*", "pAllocator", "nullptr" }};
+#if 0
     cppFunction.cppSourceBlock.add_snippet(R"(
         if (mHandle) {
             // TODO : assert(${PARENT_HANDLE});
@@ -242,6 +247,7 @@ inline dst::cppgen::CppFunction generate_reset_method(
             }
         },
     });
+#endif
     return cppFunction;
 }
 
@@ -291,8 +297,123 @@ inline void generate_managed_handles(const xml::Manifest& xmlManifest)
     }
     sourceFile << cppStructures.generate_definition();
     sourceFile << CppNamespace("dst::gfx::vk::detail").close();
+
+    class Widget final
+    {
+    public:
+        std::string name;
+        std::vector<std::string> compileGuards;
+    };
+
+    std::vector<Widget> widgets {
+        { "Foo", { "ENABLE_FOO" }},
+        { "Bar", { "ENABLE_BAR", "WINDOWS" }},
+        { "Baz", { }},
+    };
+
+    std::ofstream fileEx(std::string(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) + "/managed-handles-ex.hpp");
+    CppSnippetEx cppSnippetEx(R"(
+    /*
+    ==========================================
+      Copyright (c) 2020 Dynamic_Static
+        Patrick Purcell
+          Licensed under the MIT license
+        http://opensource.org/licenses/MIT
+    ==========================================
+    */
+
+    #pragma once
+
+    #include "vulkan/vulkan.h"
+
+    namespace dst {
+    namespace gfx {
+    namespace vk {
+
+    $<VK_HANDLE_TYPES>
+    $<CLASS_COMPILE_GUARDS>
+    // ${VK_HANDLE_TYPE} compile guards
+    #ifdef ${CLASS_COMPILE_GUARD}
+    $</CLASS_COMPILE_GUARDS>
+    template <>
+    class Handle<${VK_HANDLE_TYPE}> final
+    {
+    public:
+        Handle${VK_HANDLE_TYPE}() = default;
+    };
+    $<CLASS_COMPILE_GUARDS>
+    #endif // ${CLASS_COMPILE_GUARD}
+    $</CLASS_COMPILE_GUARDS>
+    $</VK_HANDLE_TYPES>
+    
+    } // namespace vk
+    } // namespace gfx
+    } // namespace dst
+    )", {
+        {
+            "$<VK_HANDLE_TYPES>",
+            widgets,
+            CppGenLogic([&](const Widget& widget, size_t))
+            {
+                return {
+                    { "${VK_HANDLE_TYPE}", widget.name },
+                    {
+                        "$<CLASS_COMPILE_GUARDS>",
+                        widget.compileGuards,
+                        CppGenLogic([&](const std::string& compileGuard, size_t))
+                        {
+                            return {{ "${CLASS_COMPILE_GUARD}", compileGuard }};
+                        },
+                        "$</CLASS_COMPILE_GUARDS>"
+                    },
+                };
+            },
+            "$</VK_HANDLE_TYPES>"
+        }
+    });
+    fileEx << (std::string)cppSnippetEx;
 }
 
 } // namespace cppgen
 } // namespace vk
 } // namespace dst
+
+#if 0
+namespace dst {
+namespace gfx {
+namespace vk {
+
+$<VK_HANDLE_TYPES>
+$<CLASS_COMPILE_GUARDS>
+// ${VK_HANDLE_TYPE} compile guards
+#ifdef ${CLASS_COMPILE_GUARD}
+$</CLASS_COMPILE_GUARDS>
+template <>
+class Handle<${VK_HANDLE_TYPE}> final
+{
+public:
+    Handle${VK_HANDLE_TYPE}() = default;
+    $<CONSTRUCTORS>
+    Handle${VK_HANDLE_TYPE}($<PARAMETERS>${COMMA}$</PARAMETERS>);
+    $</CONSTRUCTORS>
+    $<GET_PARENT_FUNCTIONS>
+    const std::shared_ptr<Handle<${PARENT_VK_HANDLE_TYPE}>& get_${PARENT_NAME}() const;
+    $</GET_PARENT_FUNCTIONS>
+    $<GET_CREATE_INFO_FUNCTIONS>
+    const ${VK_CREATE_INFO_TYPE}& get_${VK_CREATE_INFO_NAME}() const;
+    $</GET_CREATE_INFO_FUNCTIONS>
+    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override final;
+protected:
+    $<MEMBERS>
+    ${MEMBER_TYPE} ${MEMBER_NAME} = { };
+    $</MEMBERS>
+};
+$<CLASS_COMPILE_GUARDS>
+#endif // ${CLASS_COMPILE_GUARD}
+$</CLASS_COMPILE_GUARDS>
+$</VK_HANDLE_TYPES>
+    
+} // namespace vk
+} // namespace gfx
+} // namespace dst
+#endif
