@@ -332,7 +332,7 @@ inline void generate_managed_handles(const xml::Manifest& xmlManifest)
 
     $<VK_HANDLE_TYPES>
     $<CLASS_COMPILE_GUARDS>
-    #ifdef ${CLASS_COMPILE_GUARD} // ${VK_HANDLE_TYPE} compile guards
+    #ifdef ${CLASS_COMPILE_GUARD} // ${VK_HANDLE_TYPE} compile guard
     $</CLASS_COMPILE_GUARDS>
     template <>
     class Handle<${VK_HANDLE_TYPE}> final
@@ -340,10 +340,9 @@ inline void generate_managed_handles(const xml::Manifest& xmlManifest)
     public:
         Handle${VK_HANDLE_TYPE}() = default;
     };
-    $<CLASS_COMPILE_GUARDS>
-    #endif // ${CLASS_COMPILE_GUARD}
     $</CLASS_COMPILE_GUARDS>
-
+    #endif // ${CLASS_COMPILE_GUARD}
+    $<CLASS_COMPILE_GUARDS>
     $</VK_HANDLE_TYPES>
     
     } // namespace vk
@@ -357,7 +356,6 @@ inline void generate_managed_handles(const xml::Manifest& xmlManifest)
             {
                 return {
                     { "${VK_HANDLE_TYPE}", widget.name },
-#if 1
                     {
                         "$<CLASS_COMPILE_GUARDS>",
                         widget.compileGuards,
@@ -367,7 +365,6 @@ inline void generate_managed_handles(const xml::Manifest& xmlManifest)
                         },
                         "$</CLASS_COMPILE_GUARDS>"
                     },
-#endif
                 };
             },
             "$</VK_HANDLE_TYPES>"
