@@ -340,9 +340,9 @@ inline void generate_managed_handles(const xml::Manifest& xmlManifest)
     public:
         Handle${VK_HANDLE_TYPE}() = default;
     };
-    $</CLASS_COMPILE_GUARDS>
-    #endif // ${CLASS_COMPILE_GUARD}
     $<CLASS_COMPILE_GUARDS>
+    #endif // ${CLASS_COMPILE_GUARD}
+    $</CLASS_COMPILE_GUARDS>
     $</VK_HANDLE_TYPES>
     
     } // namespace vk
