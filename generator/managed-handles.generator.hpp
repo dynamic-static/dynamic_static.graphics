@@ -14,6 +14,8 @@
 #include "dynamic_static/vk-xml-parser.hpp"
 #include "utilities.hpp"
 
+#include "dynamic_static/core/time.hpp"
+
 #include <cassert>
 
 #include <fstream>
@@ -312,6 +314,7 @@ inline void generate_managed_handles(const xml::Manifest& xmlManifest)
     };
 
     std::ofstream fileEx(std::string(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) + "/managed-handles-ex.hpp");
+    dst::Timer timer;
     CppSnippetEx cppSnippetEx(R"(
     /*
     ==========================================
@@ -340,9 +343,9 @@ inline void generate_managed_handles(const xml::Manifest& xmlManifest)
     public:
         Handle${VK_HANDLE_TYPE}() = default;
     };
-    $<CLASS_COMPILE_GUARDS>
-    #endif // ${CLASS_COMPILE_GUARD}
     $</CLASS_COMPILE_GUARDS>
+    #endif // ${CLASS_COMPILE_GUARD}
+    $<CLASS_COMPILE_GUARDS>
     $</VK_HANDLE_TYPES>
     
     } // namespace vk
@@ -370,6 +373,7 @@ inline void generate_managed_handles(const xml::Manifest& xmlManifest)
             "$</VK_HANDLE_TYPES>"
         }
     });
+    std::cout << timer.total<Milliseconds<>>() << " ms" << std::endl;
     fileEx << (std::string)cppSnippetEx;
 }
 
