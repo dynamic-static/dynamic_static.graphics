@@ -8,7 +8,7 @@ class Handle<Foo> final
 {
 public:
     HandleFoo() = default;
-    HandleFoo(uint32_t widgetCount, cont Widget* pWidgets);
+    HandleFoo(uint32_t widgetCount, const Widget* pWidgets);
     $<GET_PARENT_FUNCTIONS>
     const std::shared_ptr<Handle<${PARENT_VK_HANDLE_TYPE}>& get_${PARENT_NAME}() const;
     $</GET_PARENT_FUNCTIONS>

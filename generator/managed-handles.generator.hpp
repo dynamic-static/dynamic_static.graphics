@@ -314,7 +314,7 @@ inline void generate_managed_handles(const xml::Manifest& xmlManifest)
             { "ENABLE_FOO" },
             {
                 { "uint32_t", "widgetCount" },
-                { "cont Widget*", "pWidgets" },
+                { "const Widget*", "pWidgets" },
             },
         },
         {
