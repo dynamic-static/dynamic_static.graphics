@@ -305,43 +305,56 @@ inline void generate_managed_handles(const xml::Manifest& xmlManifest)
     public:
         std::string name;
         std::vector<std::string> compileGuards;
+        std::vector<std::pair<std::string, std::string>> members;
     };
 
     std::vector<Widget> widgets {
-        { "Foo", { "ENABLE_FOO" }},
-        { "Bar", { "ENABLE_BAR", "WINDOWS" }},
+        {
+            "Foo",
+            { "ENABLE_FOO" },
+            {
+                { "uint32_t", "widgetCount" },
+                { "cont Widget*", "pWidgets" },
+            },
+        },
+        {
+            "Bar",
+            { "ENABLE_BAR", "WINDOWS" },
+            {
+                { "const char*", "pStr" },
+            },
+        },
         { "Baz", { }},
     };
 
     std::ofstream fileEx(std::string(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) + "/managed-handles-ex.hpp");
     dst::Timer timer;
     CppSnippetEx cppSnippetEx(R"(
-    /*
-    ==========================================
-      Copyright (c) 2020 Dynamic_Static
-        Patrick Purcell
-          Licensed under the MIT license
-        http://opensource.org/licenses/MIT
-    ==========================================
-    */
-
-    #pragma once
-
-    #include "vulkan/vulkan.h"
-
     namespace dst {
     namespace gfx {
     namespace vk {
 
     $<VK_HANDLE_TYPES>
     $<CLASS_COMPILE_GUARDS>
-    #ifdef ${CLASS_COMPILE_GUARD} // ${VK_HANDLE_TYPE} compile guard
+    #ifdef ${CLASS_COMPILE_GUARD}
     $</CLASS_COMPILE_GUARDS>
     template <>
     class Handle<${VK_HANDLE_TYPE}> final
     {
     public:
         Handle${VK_HANDLE_TYPE}() = default;
+        Handle${VK_HANDLE_TYPE}($<CONSTRUCTOR_PARAMETERS>${CONSTRUCTOR_PARAMETER}$</CONSTRUCTOR_PARAMETERS>);
+        $<GET_PARENT_FUNCTIONS>
+        const std::shared_ptr<Handle<${PARENT_VK_HANDLE_TYPE}>& get_${PARENT_NAME}() const;
+        $</GET_PARENT_FUNCTIONS>
+        $<GET_CREATE_INFO_FUNCTIONS>
+        const ${VK_CREATE_INFO_TYPE}& get_${VK_CREATE_INFO_NAME}() const;
+        $</GET_CREATE_INFO_FUNCTIONS>
+        virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override final;
+    protected:
+        $<MEMBERS>
+        ${MEMBER_TYPE} ${MEMBER_NAME} = { };
+        $</MEMBERS>
     };
     $</CLASS_COMPILE_GUARDS>
     #endif // ${CLASS_COMPILE_GUARD}
@@ -368,8 +381,19 @@ inline void generate_managed_handles(const xml::Manifest& xmlManifest)
                         },
                         "$</CLASS_COMPILE_GUARDS>"
                     },
+                    {
+                        "$<CONSTRUCTOR_PARAMETERS>",
+                        widget.members,
+                        CppGenLogic([&](const std::pair<std::string, std::string>& member, size_t))
+                        {
+                            return {{ "${CONSTRUCTOR_PARAMETER}", member.first + " " + member.second }};
+                        },
+                        ", ",
+                        "$</CONSTRUCTOR_PARAMETERS>"
+                    },
                 };
             },
+            '\n',
             "$</VK_HANDLE_TYPES>"
         }
     });
@@ -380,43 +404,3 @@ inline void generate_managed_handles(const xml::Manifest& xmlManifest)
 } // namespace cppgen
 } // namespace vk
 } // namespace dst
-
-#if 0
-namespace dst {
-namespace gfx {
-namespace vk {
-
-$<VK_HANDLE_TYPES>
-$<CLASS_COMPILE_GUARDS>
-// ${VK_HANDLE_TYPE} compile guards
-#ifdef ${CLASS_COMPILE_GUARD}
-$</CLASS_COMPILE_GUARDS>
-template <>
-class Handle<${VK_HANDLE_TYPE}> final
-{
-public:
-    Handle${VK_HANDLE_TYPE}() = default;
-    $<CONSTRUCTORS>
-    Handle${VK_HANDLE_TYPE}($<PARAMETERS>${COMMA}$</PARAMETERS>);
-    $</CONSTRUCTORS>
-    $<GET_PARENT_FUNCTIONS>
-    const std::shared_ptr<Handle<${PARENT_VK_HANDLE_TYPE}>& get_${PARENT_NAME}() const;
-    $</GET_PARENT_FUNCTIONS>
-    $<GET_CREATE_INFO_FUNCTIONS>
-    const ${VK_CREATE_INFO_TYPE}& get_${VK_CREATE_INFO_NAME}() const;
-    $</GET_CREATE_INFO_FUNCTIONS>
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) override final;
-protected:
-    $<MEMBERS>
-    ${MEMBER_TYPE} ${MEMBER_NAME} = { };
-    $</MEMBERS>
-};
-$<CLASS_COMPILE_GUARDS>
-#endif // ${CLASS_COMPILE_GUARD}
-$</CLASS_COMPILE_GUARDS>
-$</VK_HANDLE_TYPES>
-    
-} // namespace vk
-} // namespace gfx
-} // namespace dst
-#endif
