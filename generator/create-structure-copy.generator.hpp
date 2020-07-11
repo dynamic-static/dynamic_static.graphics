@@ -43,15 +43,31 @@ public:
                 CppFunction createStructureCopyFunction;
                 createStructureCopyFunction.cppCompileGuards = { structure.compileGuard };
                 createStructureCopyFunction.cppTemplate.cppSpecializations = { structure.name };
-                createStructureCopyFunction.cppReturn = structure.name;
-                createStructureCopyFunction.name = "create_structure_copy";
+                createStructureCopyFunction.cppReturnType = structure.name;
+                createStructureCopyFunction.cppName = "create_structure_copy";
+                createStructureCopyFunction.cppParameters = {
+                    { "const " + structure.name + "&", "obj" },
+                    { "const VkAllocationCallbacks*", "pAllocationCallbacks" },
+                };
+                #if 0
                 CppParameter objParameter;
-                objParameter.type = "const " + structure.name + "&";
-                objParameter.name = "obj";
+                objParameter.cppType = "const " + structure.name + "&";
+                objParameter.cppName = "obj";
                 CppParameter pAllocationCallbacksParameter;
-                pAllocationCallbacksParameter.type = "const VkAllocationCallbacks*";
-                pAllocationCallbacksParameter.name = "pAllocationCallbacks";
+                pAllocationCallbacksParameter.cppType = "const VkAllocationCallbacks*";
+                pAllocationCallbacksParameter.cppName = "pAllocationCallbacks";
                 createStructureCopyFunction.cppParameters = { objParameter, pAllocationCallbacksParameter };
+                #endif
+                createStructureCopyFunction.cppSourceBlock = { R"(
+                    ${VK_STRUCTURE_TYPE} result { };
+                    $<MEMBERS>
+                    ${MEMBER_COPY_SNIPPET}
+                    $</MEMBERS>
+                    return result;
+                )", {
+                    { "TODO", "TODO" },
+                }};
+                #if 0
                 createStructureCopyFunction.cppSourceBlock.replacements = {
                     { "${VK_STRUCTURE_TYPE}", structure.name },
                 };
@@ -71,6 +87,7 @@ public:
                 createStructureCopyFunction.cppSourceBlock.add_snippet(R"(
                     return result;
                 )");
+                #endif
                 cppFunctions.push_back(createStructureCopyFunction);
             }
         }
@@ -147,14 +164,14 @@ private:
     {
         using namespace dst::cppgen;
         CppFunction createPNextCopyFunction;
-        createPNextCopyFunction.cppReturn = "void*";
-        createPNextCopyFunction.name = "create_pnext_copy";
+        createPNextCopyFunction.cppReturnType = "void*";
+        createPNextCopyFunction.cppName = "create_pnext_copy";
         CppParameter pNextParameter;
-        pNextParameter.type = "const void*";
-        pNextParameter.name = "pNext";
+        pNextParameter.cppType = "const void*";
+        pNextParameter.cppName = "pNext";
         CppParameter pAllocationCallbacksParameter;
-        pAllocationCallbacksParameter.type = "const VkAllocationCallbacks*";
-        pAllocationCallbacksParameter.name = "pAllocationCallbacks";
+        pAllocationCallbacksParameter.cppType = "const VkAllocationCallbacks*";
+        pAllocationCallbacksParameter.cppName = "pAllocationCallbacks";
         createPNextCopyFunction.cppParameters = { pNextParameter, pAllocationCallbacksParameter };
         createPNextCopyFunction.cppSourceBlock.add_snippet(R"(
             if (pNext) {
