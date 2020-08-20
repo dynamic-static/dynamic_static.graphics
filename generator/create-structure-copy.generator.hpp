@@ -30,11 +30,11 @@ public:
     {
         using namespace dst::cppgen;
         CppFile headerFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) / "create-structure-copy.hpp");
-        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/structure-copy-utilities.hpp" };
-        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/defines.hpp" };
+        headerFile << R"(#include "dynamic_static/graphics/vulkan/detail/structure-copy-utilities.hpp")" << std::endl;
+        headerFile << R"(#include "dynamic_static/graphics/vulkan/defines.hpp")" << std::endl;
         headerFile << std::endl;
         CppFile sourceFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_SOURCE_PATH) / "create-structure-copy.cpp");
-        sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/generated/create-structure-copy.hpp" };
+        sourceFile << R"(#include "dynamic_static/graphics/vulkan/generated/create-structure-copy.hpp")" << std::endl;
         sourceFile << std::endl;
         CppFunction::Collection cppFunctions;
         for (const auto& structureitr : xmlManifest.structures) {
@@ -45,10 +45,7 @@ public:
                 createStructureCopyFunction.cppTemplate.cppSpecializations = { structure.name };
                 createStructureCopyFunction.cppReturnType = structure.name;
                 createStructureCopyFunction.cppName = "create_structure_copy";
-                createStructureCopyFunction.cppParameters = {
-                    { "const " + structure.name + "&", "obj" },
-                    { "const VkAllocationCallbacks*", "pAllocationCallbacks" },
-                };
+                createStructureCopyFunction.cppParameters = {{ "const " + structure.name + "&", "obj" }, { "const VkAllocationCallbacks*", "pAllocationCallbacks" }};
                 #if 0
                 CppParameter objParameter;
                 objParameter.cppType = "const " + structure.name + "&";
@@ -58,14 +55,32 @@ public:
                 pAllocationCallbacksParameter.cppName = "pAllocationCallbacks";
                 createStructureCopyFunction.cppParameters = { objParameter, pAllocationCallbacksParameter };
                 #endif
-                createStructureCopyFunction.cppSourceBlock = { R"(
+                createStructureCopyFunction.cppSourceBlock = {R"(
                     ${VK_STRUCTURE_TYPE} result { };
                     $<MEMBERS>
                     ${MEMBER_COPY_SNIPPET}
                     $</MEMBERS>
                     return result;
                 )", {
-                    { "TODO", "TODO" },
+                    { "${VK_STRUCTURE_TYPE}", structure.name },
+                    {
+                        "$<MEMBERS>",
+                        structure.members,
+                        dst_cppgen_logic([&](const vk::xml::Parameter& member, size_t))
+                        {
+                            return {{
+                                "${MEMBER_COPY_SNIPPET}",
+                                (std::string)CppSourceBlock(
+                                    generate_member_copy_snippet(xmlManifest, member), {
+                                        { "${MEMBER_NAME}", member.name },
+                                        { "${MEMBER_LENGTH}", member.length },
+                                        { "${MEMBER_TYPE}", member.type },
+                                    }
+                                )
+                            }};
+                        },
+                        "$</MEMBERS>"
+                    }
                 }};
                 #if 0
                 createStructureCopyFunction.cppSourceBlock.replacements = {
@@ -166,13 +181,30 @@ private:
         CppFunction createPNextCopyFunction;
         createPNextCopyFunction.cppReturnType = "void*";
         createPNextCopyFunction.cppName = "create_pnext_copy";
-        CppParameter pNextParameter;
-        pNextParameter.cppType = "const void*";
-        pNextParameter.cppName = "pNext";
-        CppParameter pAllocationCallbacksParameter;
-        pAllocationCallbacksParameter.cppType = "const VkAllocationCallbacks*";
-        pAllocationCallbacksParameter.cppName = "pAllocationCallbacks";
-        createPNextCopyFunction.cppParameters = { pNextParameter, pAllocationCallbacksParameter };
+        createPNextCopyFunction.cppParameters = {{ "const void*", "pNext" }, { "const VkAllocationCallbacks*", "pAllocationCallbacks" }};
+        createPNextCopyFunction.cppSourceBlock = {R"(
+            if (pNext) {
+                ${VK_STRUCTURE_TYPE_SWITCH}
+            }
+            return nullptr;
+        )", {
+            {
+                "${VK_STRUCTURE_TYPE_SWITCH}",
+                generate_vk_structure_type_switch(
+                    vkXmlManifest,
+                    "*(VkStructureType*)pNext",
+                    [](const vk::xml::Structure& vkXmlStructure, CppSwitch::CppCase& cppCase)
+                    {
+                        cppCase.cppSourceBlock = {R"(
+                            return create_dynamic_array_copy(1, (const ${VK_STRUCTURE_TYPE}*)pNext, pAllocationCallbacks);
+                        )", {
+                            { "${VK_STRUCTURE_TYPE}", vkXmlStructure.name }
+                        }};
+                    }
+                ).generate_inline_definition()
+            }
+        }};
+        #if 0
         createPNextCopyFunction.cppSourceBlock.add_snippet(R"(
             if (pNext) {
         )");
@@ -196,6 +228,7 @@ private:
             }
             return nullptr;
         )");
+        #endif
         return createPNextCopyFunction;
     }
 };

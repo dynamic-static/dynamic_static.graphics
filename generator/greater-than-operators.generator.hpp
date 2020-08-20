@@ -32,38 +32,40 @@ public:
     {
         using namespace dst::cppgen;
         CppFile headerFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) / "greater-than-operators.hpp");
-        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/defines.hpp" };
+        headerFile << R"(#include "dynamic_static/graphics/vulkan/defines.hpp")" << std::endl;
         headerFile << std::endl;
         CppFile sourceFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_SOURCE_PATH) / "greater-than-operators.cpp");
-        sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/generated/greater-than-operators.hpp" };
-        sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/generated/less-than-operators.hpp" };
+        sourceFile << R"(#include "dynamic_static/graphics/vulkan/generated/greater-than-operators.hpp")" << std::endl;
+        sourceFile << R"(#include "dynamic_static/graphics/vulkan/generated/less-than-operators.hpp")" << std::endl;
         sourceFile << std::endl;
         CppFunction::Collection greaterThanOperatorFunctions;
         for (const auto& structureitr : xmlManifest.structures) {
             const auto& structure = structureitr.second;
             if (structure.alias.empty()) {
-                CppParameter lhsParameter;
-                lhsParameter.type = "const " + structure.name + "&";
-                lhsParameter.name = "lhs";
-                CppParameter rhsParameter;
-                rhsParameter.type = "const " + structure.name + "&";
-                rhsParameter.name = "rhs";
                 CppFunction greaterThanOperatorFunction;
                 greaterThanOperatorFunction.cppCompileGuards = { structure.compileGuard };
-                greaterThanOperatorFunction.cppReturn = "bool";
-                greaterThanOperatorFunction.name = "operator>";
-                greaterThanOperatorFunction.cppParameters = { lhsParameter, rhsParameter };
+                greaterThanOperatorFunction.cppReturnType = "bool";
+                greaterThanOperatorFunction.cppName = "operator>";
+                greaterThanOperatorFunction.cppParameters = {{ "const " + structure.name + "&", "lhs" }, { "const " + structure.name + "&", "rhs" }};
+                greaterThanOperatorFunction.cppSourceBlock = {R"(
+                    return rhs < lhs;
+                )"};
+                #if 0
                 greaterThanOperatorFunction.cppSourceBlock.add_snippet(R"(
                     return rhs < lhs;
                 )");
-                CppFunction greaterThanOrEqualOperatorFunction;
+                #endif
+                CppFunction greaterThanOrEqualOperatorFunction = greaterThanOperatorFunction;
                 greaterThanOrEqualOperatorFunction.cppCompileGuards = { structure.compileGuard };
-                greaterThanOrEqualOperatorFunction.cppReturn = "bool";
-                greaterThanOrEqualOperatorFunction.name = "operator>=";
-                greaterThanOrEqualOperatorFunction.cppParameters = { lhsParameter, rhsParameter };
+                greaterThanOrEqualOperatorFunction.cppName = "operator>=";
+                greaterThanOrEqualOperatorFunction.cppSourceBlock = {R"(
+                    return !(lhs < rhs);
+                )"};
+                #if 0
                 greaterThanOrEqualOperatorFunction.cppSourceBlock.add_snippet(R"(
                     return !(lhs < rhs);
                 )");
+                #endif
                 greaterThanOperatorFunctions.push_back(greaterThanOperatorFunction);
                 greaterThanOperatorFunctions.push_back(greaterThanOrEqualOperatorFunction);
             }

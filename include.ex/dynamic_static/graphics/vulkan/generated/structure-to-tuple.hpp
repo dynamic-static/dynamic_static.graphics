@@ -14,6 +14,7 @@
 #include "dynamic_static/graphics/vulkan/detail/structure-to-tuple-utilities.hpp"
 #include "dynamic_static/graphics/vulkan/detail/tuple-element-wrappers.hpp"
 #include "dynamic_static/graphics/vulkan/defines.hpp"
+
 #include <string_view>
 #include <tuple>
 #include <utility>
@@ -29,33 +30,38 @@ namespace detail {
 template <>
 auto structure_to_tuple<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR& obj);
 #endif // VK_ENABLE_BETA_EXTENSIONS
-
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 auto structure_to_tuple<VkAccelerationStructureVersionKHR>(const VkAccelerationStructureVersionKHR& obj);
 #endif // VK_ENABLE_BETA_EXTENSIONS
-
+#ifdef
 template <>
 auto structure_to_tuple<VkClearColorValue>(const VkClearColorValue& obj);
-
+#endif //
+#ifdef
 template <>
 auto structure_to_tuple<VkClearValue>(const VkClearValue& obj);
-
+#endif //
+#ifdef
 template <>
 auto structure_to_tuple<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR& obj);
-
+#endif //
+#ifdef
 template <>
 auto structure_to_tuple<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj);
-
+#endif //
+#ifdef
 template <>
 auto structure_to_tuple<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR& obj);
-
+#endif //
+#ifdef
 template <>
 auto structure_to_tuple<VkPipelineMultisampleStateCreateInfo>(const VkPipelineMultisampleStateCreateInfo& obj);
-
+#endif //
+#ifdef
 template <>
 auto structure_to_tuple<VkShaderModuleCreateInfo>(const VkShaderModuleCreateInfo& obj);
-
+#endif //
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 auto structure_to_tuple<VkTransformMatrixKHR>(const VkTransformMatrixKHR& obj);
@@ -66,6714 +72,3781 @@ auto structure_to_tuple<VkTransformMatrixKHR>(const VkTransformMatrixKHR& obj);
 template <>
 inline auto structure_to_tuple<VkAabbPositionsKHR>(const VkAabbPositionsKHR& obj)
 {
-    return std::make_tuple(
-        obj.minX,
-        obj.minY,
-        obj.minZ,
-        obj.maxX,
-        obj.maxY,
-        obj.maxZ
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureBuildGeometryInfoKHR>(const VkAccelerationStructureBuildGeometryInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.type,
-        obj.flags,
-        obj.update,
-        obj.srcAccelerationStructure,
-        obj.dstAccelerationStructure,
-        obj.geometryArrayOfPointers,
-        obj.geometryCount,
-        Span(obj.ppGeometries, 1),
-        std::ref(obj.scratchData)
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureBuildOffsetInfoKHR>(const VkAccelerationStructureBuildOffsetInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.primitiveCount,
-        obj.primitiveOffset,
-        obj.firstVertex,
-        obj.transformOffset
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureCreateGeometryTypeInfoKHR>(const VkAccelerationStructureCreateGeometryTypeInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.geometryType,
-        obj.maxPrimitiveCount,
-        obj.indexType,
-        obj.maxVertexCount,
-        obj.vertexFormat,
-        obj.allowsTransforms
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureCreateInfoKHR>(const VkAccelerationStructureCreateInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.compactedSize,
-        obj.type,
-        obj.flags,
-        obj.maxGeometryCount,
-        Span(obj.pGeometryInfos, obj.maxGeometryCount),
-        obj.deviceAddress
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureCreateInfoNV>(const VkAccelerationStructureCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.compactedSize,
-        std::ref(obj.info)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureDeviceAddressInfoKHR>(const VkAccelerationStructureDeviceAddressInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.accelerationStructure
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureGeometryAabbsDataKHR>(const VkAccelerationStructureGeometryAabbsDataKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.data),
-        obj.stride
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureGeometryDataKHR>(const VkAccelerationStructureGeometryDataKHR& obj)
 {
-    return std::make_tuple(
-        std::ref(obj.triangles),
-        std::ref(obj.aabbs),
-        std::ref(obj.instances)
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureGeometryInstancesDataKHR>(const VkAccelerationStructureGeometryInstancesDataKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.arrayOfPointers,
-        std::ref(obj.data)
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureGeometryKHR>(const VkAccelerationStructureGeometryKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.geometryType,
-        std::ref(obj.geometry),
-        obj.flags
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureGeometryTrianglesDataKHR>(const VkAccelerationStructureGeometryTrianglesDataKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.vertexFormat,
-        std::ref(obj.vertexData),
-        obj.vertexStride,
-        obj.indexType,
-        std::ref(obj.indexData),
-        std::ref(obj.transformData)
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureInfoNV>(const VkAccelerationStructureInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.type,
-        obj.flags,
-        obj.instanceCount,
-        obj.geometryCount,
-        Span(obj.pGeometries, obj.geometryCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureMemoryRequirementsInfoKHR>(const VkAccelerationStructureMemoryRequirementsInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.type,
-        obj.buildType,
-        obj.accelerationStructure
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkAccelerationStructureMemoryRequirementsInfoNV>(const VkAccelerationStructureMemoryRequirementsInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.type,
-        obj.accelerationStructure
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkAcquireNextImageInfoKHR>(const VkAcquireNextImageInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.swapchain,
-        obj.timeout,
-        obj.semaphore,
-        obj.fence,
-        obj.deviceMask
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkAcquireProfilingLockInfoKHR>(const VkAcquireProfilingLockInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.timeout
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkAllocationCallbacks>(const VkAllocationCallbacks& obj)
 {
-    return std::make_tuple(
-        obj.pUserData,
-        obj.pfnAllocation,
-        obj.pfnReallocation,
-        obj.pfnFree,
-        obj.pfnInternalAllocation,
-        obj.pfnInternalFree
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 template <>
 inline auto structure_to_tuple<VkAndroidHardwareBufferFormatPropertiesANDROID>(const VkAndroidHardwareBufferFormatPropertiesANDROID& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.format,
-        obj.externalFormat,
-        obj.formatFeatures,
-        std::ref(obj.samplerYcbcrConversionComponents),
-        obj.suggestedYcbcrModel,
-        obj.suggestedYcbcrRange,
-        obj.suggestedXChromaOffset,
-        obj.suggestedYChromaOffset
-    );
 }
-#endif // VK_USE_PLATFORM_ANDROID_KHR
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 template <>
 inline auto structure_to_tuple<VkAndroidHardwareBufferPropertiesANDROID>(const VkAndroidHardwareBufferPropertiesANDROID& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.allocationSize,
-        obj.memoryTypeBits
-    );
 }
-#endif // VK_USE_PLATFORM_ANDROID_KHR
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 template <>
 inline auto structure_to_tuple<VkAndroidHardwareBufferUsageANDROID>(const VkAndroidHardwareBufferUsageANDROID& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.androidHardwareBufferUsage
-    );
 }
-#endif // VK_USE_PLATFORM_ANDROID_KHR
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 template <>
 inline auto structure_to_tuple<VkAndroidSurfaceCreateInfoKHR>(const VkAndroidSurfaceCreateInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.window
-    );
 }
-#endif // VK_USE_PLATFORM_ANDROID_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkApplicationInfo>(const VkApplicationInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.pApplicationName ? std::string_view(obj.pApplicationName) : std::string_view(),
-        obj.applicationVersion,
-        obj.pEngineName ? std::string_view(obj.pEngineName) : std::string_view(),
-        obj.engineVersion,
-        obj.apiVersion
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkAttachmentDescription>(const VkAttachmentDescription& obj)
 {
-    return std::make_tuple(
-        obj.flags,
-        obj.format,
-        obj.samples,
-        obj.loadOp,
-        obj.storeOp,
-        obj.stencilLoadOp,
-        obj.stencilStoreOp,
-        obj.initialLayout,
-        obj.finalLayout
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkAttachmentDescription2>(const VkAttachmentDescription2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.format,
-        obj.samples,
-        obj.loadOp,
-        obj.storeOp,
-        obj.stencilLoadOp,
-        obj.stencilStoreOp,
-        obj.initialLayout,
-        obj.finalLayout
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkAttachmentDescriptionStencilLayout>(const VkAttachmentDescriptionStencilLayout& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.stencilInitialLayout,
-        obj.stencilFinalLayout
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkAttachmentReference>(const VkAttachmentReference& obj)
 {
-    return std::make_tuple(
-        obj.attachment,
-        obj.layout
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkAttachmentReference2>(const VkAttachmentReference2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.attachment,
-        obj.layout,
-        obj.aspectMask
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkAttachmentReferenceStencilLayout>(const VkAttachmentReferenceStencilLayout& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.stencilLayout
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkAttachmentSampleLocationsEXT>(const VkAttachmentSampleLocationsEXT& obj)
 {
-    return std::make_tuple(
-        obj.attachmentIndex,
-        std::ref(obj.sampleLocationsInfo)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBaseInStructure>(const VkBaseInStructure& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext }
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBaseOutStructure>(const VkBaseOutStructure& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext }
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkBindAccelerationStructureMemoryInfoKHR>(const VkBindAccelerationStructureMemoryInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.accelerationStructure,
-        obj.memory,
-        obj.memoryOffset,
-        obj.deviceIndexCount,
-        Span(obj.pDeviceIndices, obj.deviceIndexCount)
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBindBufferMemoryDeviceGroupInfo>(const VkBindBufferMemoryDeviceGroupInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.deviceIndexCount,
-        Span(obj.pDeviceIndices, obj.deviceIndexCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBindBufferMemoryInfo>(const VkBindBufferMemoryInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.buffer,
-        obj.memory,
-        obj.memoryOffset
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBindImageMemoryDeviceGroupInfo>(const VkBindImageMemoryDeviceGroupInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.deviceIndexCount,
-        Span(obj.pDeviceIndices, obj.deviceIndexCount),
-        obj.splitInstanceBindRegionCount,
-        Span(obj.pSplitInstanceBindRegions, obj.splitInstanceBindRegionCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBindImageMemoryInfo>(const VkBindImageMemoryInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.image,
-        obj.memory,
-        obj.memoryOffset
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBindImageMemorySwapchainInfoKHR>(const VkBindImageMemorySwapchainInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.swapchain,
-        obj.imageIndex
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBindImagePlaneMemoryInfo>(const VkBindImagePlaneMemoryInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.planeAspect
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBindIndexBufferIndirectCommandNV>(const VkBindIndexBufferIndirectCommandNV& obj)
 {
-    return std::make_tuple(
-        obj.bufferAddress,
-        obj.size,
-        obj.indexType
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBindShaderGroupIndirectCommandNV>(const VkBindShaderGroupIndirectCommandNV& obj)
 {
-    return std::make_tuple(
-        obj.groupIndex
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBindSparseInfo>(const VkBindSparseInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.waitSemaphoreCount,
-        Span(obj.pWaitSemaphores, obj.waitSemaphoreCount),
-        obj.bufferBindCount,
-        Span(obj.pBufferBinds, obj.bufferBindCount),
-        obj.imageOpaqueBindCount,
-        Span(obj.pImageOpaqueBinds, obj.imageOpaqueBindCount),
-        obj.imageBindCount,
-        Span(obj.pImageBinds, obj.imageBindCount),
-        obj.signalSemaphoreCount,
-        Span(obj.pSignalSemaphores, obj.signalSemaphoreCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBindVertexBufferIndirectCommandNV>(const VkBindVertexBufferIndirectCommandNV& obj)
 {
-    return std::make_tuple(
-        obj.bufferAddress,
-        obj.size,
-        obj.stride
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBufferCopy>(const VkBufferCopy& obj)
 {
-    return std::make_tuple(
-        obj.srcOffset,
-        obj.dstOffset,
-        obj.size
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBufferCreateInfo>(const VkBufferCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.size,
-        obj.usage,
-        obj.sharingMode,
-        obj.queueFamilyIndexCount,
-        Span(obj.pQueueFamilyIndices, obj.queueFamilyIndexCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBufferDeviceAddressCreateInfoEXT>(const VkBufferDeviceAddressCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.deviceAddress
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBufferDeviceAddressInfo>(const VkBufferDeviceAddressInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.buffer
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBufferImageCopy>(const VkBufferImageCopy& obj)
 {
-    return std::make_tuple(
-        obj.bufferOffset,
-        obj.bufferRowLength,
-        obj.bufferImageHeight,
-        std::ref(obj.imageSubresource),
-        std::ref(obj.imageOffset),
-        std::ref(obj.imageExtent)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBufferMemoryBarrier>(const VkBufferMemoryBarrier& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.srcAccessMask,
-        obj.dstAccessMask,
-        obj.srcQueueFamilyIndex,
-        obj.dstQueueFamilyIndex,
-        obj.buffer,
-        obj.offset,
-        obj.size
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBufferMemoryRequirementsInfo2>(const VkBufferMemoryRequirementsInfo2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.buffer
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBufferOpaqueCaptureAddressCreateInfo>(const VkBufferOpaqueCaptureAddressCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.opaqueCaptureAddress
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkBufferViewCreateInfo>(const VkBufferViewCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.buffer,
-        obj.format,
-        obj.offset,
-        obj.range
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkCalibratedTimestampInfoEXT>(const VkCalibratedTimestampInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.timeDomain
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkCheckpointDataNV>(const VkCheckpointDataNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.stage,
-        obj.pCheckpointMarker
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkClearAttachment>(const VkClearAttachment& obj)
 {
-    return std::make_tuple(
-        obj.aspectMask,
-        obj.colorAttachment,
-        std::ref(obj.clearValue)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkClearDepthStencilValue>(const VkClearDepthStencilValue& obj)
 {
-    return std::make_tuple(
-        obj.depth,
-        obj.stencil
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkClearRect>(const VkClearRect& obj)
 {
-    return std::make_tuple(
-        std::ref(obj.rect),
-        obj.baseArrayLayer,
-        obj.layerCount
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkCoarseSampleLocationNV>(const VkCoarseSampleLocationNV& obj)
 {
-    return std::make_tuple(
-        obj.pixelX,
-        obj.pixelY,
-        obj.sample
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkCoarseSampleOrderCustomNV>(const VkCoarseSampleOrderCustomNV& obj)
 {
-    return std::make_tuple(
-        obj.shadingRate,
-        obj.sampleCount,
-        obj.sampleLocationCount,
-        Span(obj.pSampleLocations, obj.sampleLocationCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkCommandBufferAllocateInfo>(const VkCommandBufferAllocateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.commandPool,
-        obj.level,
-        obj.commandBufferCount
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkCommandBufferBeginInfo>(const VkCommandBufferBeginInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        Span(obj.pInheritanceInfo, 1)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkCommandBufferInheritanceConditionalRenderingInfoEXT>(const VkCommandBufferInheritanceConditionalRenderingInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.conditionalRenderingEnable
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkCommandBufferInheritanceInfo>(const VkCommandBufferInheritanceInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.renderPass,
-        obj.subpass,
-        obj.framebuffer,
-        obj.occlusionQueryEnable,
-        obj.queryFlags,
-        obj.pipelineStatistics
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkCommandBufferInheritanceRenderPassTransformInfoQCOM>(const VkCommandBufferInheritanceRenderPassTransformInfoQCOM& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.transform,
-        std::ref(obj.renderArea)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkCommandPoolCreateInfo>(const VkCommandPoolCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.queueFamilyIndex
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkComponentMapping>(const VkComponentMapping& obj)
 {
-    return std::make_tuple(
-        obj.r,
-        obj.g,
-        obj.b,
-        obj.a
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkComputePipelineCreateInfo>(const VkComputePipelineCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        std::ref(obj.stage),
-        obj.layout,
-        obj.basePipelineHandle,
-        obj.basePipelineIndex
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkConditionalRenderingBeginInfoEXT>(const VkConditionalRenderingBeginInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.buffer,
-        obj.offset,
-        obj.flags
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkConformanceVersion>(const VkConformanceVersion& obj)
 {
-    return std::make_tuple(
-        obj.major,
-        obj.minor,
-        obj.subminor,
-        obj.patch
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkCooperativeMatrixPropertiesNV>(const VkCooperativeMatrixPropertiesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.MSize,
-        obj.NSize,
-        obj.KSize,
-        obj.AType,
-        obj.BType,
-        obj.CType,
-        obj.DType,
-        obj.scope
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkCopyAccelerationStructureInfoKHR>(const VkCopyAccelerationStructureInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.src,
-        obj.dst,
-        obj.mode
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkCopyAccelerationStructureToMemoryInfoKHR>(const VkCopyAccelerationStructureToMemoryInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.src,
-        std::ref(obj.dst),
-        obj.mode
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkCopyDescriptorSet>(const VkCopyDescriptorSet& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.srcSet,
-        obj.srcBinding,
-        obj.srcArrayElement,
-        obj.dstSet,
-        obj.dstBinding,
-        obj.dstArrayElement,
-        obj.descriptorCount
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkCopyMemoryToAccelerationStructureInfoKHR>(const VkCopyMemoryToAccelerationStructureInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.src),
-        obj.dst,
-        obj.mode
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkD3D12FenceSubmitInfoKHR>(const VkD3D12FenceSubmitInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.waitSemaphoreValuesCount,
-        Span(obj.pWaitSemaphoreValues, obj.waitSemaphoreValuesCount),
-        obj.signalSemaphoreValuesCount,
-        Span(obj.pSignalSemaphoreValues, obj.signalSemaphoreValuesCount)
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDebugMarkerMarkerInfoEXT>(const VkDebugMarkerMarkerInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.pMarkerName ? std::string_view(obj.pMarkerName) : std::string_view(),
-        Span(obj.color, 4)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDebugMarkerObjectNameInfoEXT>(const VkDebugMarkerObjectNameInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.objectType,
-        obj.object,
-        obj.pObjectName ? std::string_view(obj.pObjectName) : std::string_view()
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDebugMarkerObjectTagInfoEXT>(const VkDebugMarkerObjectTagInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.objectType,
-        obj.object,
-        obj.tagName,
-        obj.tagSize,
-        Span((const uint8_t*)obj.pTag, obj.tagSize)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDebugReportCallbackCreateInfoEXT>(const VkDebugReportCallbackCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.pfnCallback,
-        obj.pUserData
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDebugUtilsLabelEXT>(const VkDebugUtilsLabelEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.pLabelName ? std::string_view(obj.pLabelName) : std::string_view(),
-        Span(obj.color, 4)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDebugUtilsMessengerCallbackDataEXT>(const VkDebugUtilsMessengerCallbackDataEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.pMessageIdName ? std::string_view(obj.pMessageIdName) : std::string_view(),
-        obj.messageIdNumber,
-        obj.pMessage ? std::string_view(obj.pMessage) : std::string_view(),
-        obj.queueLabelCount,
-        Span(obj.pQueueLabels, obj.queueLabelCount),
-        obj.cmdBufLabelCount,
-        Span(obj.pCmdBufLabels, obj.cmdBufLabelCount),
-        obj.objectCount,
-        Span(obj.pObjects, obj.objectCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDebugUtilsMessengerCreateInfoEXT>(const VkDebugUtilsMessengerCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.messageSeverity,
-        obj.messageType,
-        obj.pfnUserCallback,
-        obj.pUserData
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDebugUtilsObjectNameInfoEXT>(const VkDebugUtilsObjectNameInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.objectType,
-        obj.objectHandle,
-        obj.pObjectName ? std::string_view(obj.pObjectName) : std::string_view()
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDebugUtilsObjectTagInfoEXT>(const VkDebugUtilsObjectTagInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.objectType,
-        obj.objectHandle,
-        obj.tagName,
-        obj.tagSize,
-        Span((const uint8_t*)obj.pTag, obj.tagSize)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDedicatedAllocationBufferCreateInfoNV>(const VkDedicatedAllocationBufferCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.dedicatedAllocation
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDedicatedAllocationImageCreateInfoNV>(const VkDedicatedAllocationImageCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.dedicatedAllocation
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDedicatedAllocationMemoryAllocateInfoNV>(const VkDedicatedAllocationMemoryAllocateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.image,
-        obj.buffer
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkDeferredOperationInfoKHR>(const VkDeferredOperationInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.operationHandle
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDescriptorBufferInfo>(const VkDescriptorBufferInfo& obj)
 {
-    return std::make_tuple(
-        obj.buffer,
-        obj.offset,
-        obj.range
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDescriptorImageInfo>(const VkDescriptorImageInfo& obj)
 {
-    return std::make_tuple(
-        obj.sampler,
-        obj.imageView,
-        obj.imageLayout
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDescriptorPoolCreateInfo>(const VkDescriptorPoolCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.maxSets,
-        obj.poolSizeCount,
-        Span(obj.pPoolSizes, obj.poolSizeCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDescriptorPoolInlineUniformBlockCreateInfoEXT>(const VkDescriptorPoolInlineUniformBlockCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.maxInlineUniformBlockBindings
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDescriptorPoolSize>(const VkDescriptorPoolSize& obj)
 {
-    return std::make_tuple(
-        obj.type,
-        obj.descriptorCount
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDescriptorSetAllocateInfo>(const VkDescriptorSetAllocateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.descriptorPool,
-        obj.descriptorSetCount,
-        Span(obj.pSetLayouts, obj.descriptorSetCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDescriptorSetLayoutBinding>(const VkDescriptorSetLayoutBinding& obj)
 {
-    return std::make_tuple(
-        obj.binding,
-        obj.descriptorType,
-        obj.descriptorCount,
-        obj.stageFlags,
-        Span(obj.pImmutableSamplers, obj.descriptorCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDescriptorSetLayoutBindingFlagsCreateInfo>(const VkDescriptorSetLayoutBindingFlagsCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.bindingCount,
-        Span(obj.pBindingFlags, obj.bindingCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDescriptorSetLayoutCreateInfo>(const VkDescriptorSetLayoutCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.bindingCount,
-        Span(obj.pBindings, obj.bindingCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDescriptorSetLayoutSupport>(const VkDescriptorSetLayoutSupport& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.supported
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDescriptorSetVariableDescriptorCountAllocateInfo>(const VkDescriptorSetVariableDescriptorCountAllocateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.descriptorSetCount,
-        Span(obj.pDescriptorCounts, obj.descriptorSetCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDescriptorSetVariableDescriptorCountLayoutSupport>(const VkDescriptorSetVariableDescriptorCountLayoutSupport& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.maxVariableDescriptorCount
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDescriptorUpdateTemplateCreateInfo>(const VkDescriptorUpdateTemplateCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.descriptorUpdateEntryCount,
-        Span(obj.pDescriptorUpdateEntries, obj.descriptorUpdateEntryCount),
-        obj.templateType,
-        obj.descriptorSetLayout,
-        obj.pipelineBindPoint,
-        obj.pipelineLayout,
-        obj.set
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDescriptorUpdateTemplateEntry>(const VkDescriptorUpdateTemplateEntry& obj)
 {
-    return std::make_tuple(
-        obj.dstBinding,
-        obj.dstArrayElement,
-        obj.descriptorCount,
-        obj.descriptorType,
-        obj.offset,
-        obj.stride
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDeviceCreateInfo>(const VkDeviceCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.queueCreateInfoCount,
-        Span(obj.pQueueCreateInfos, obj.queueCreateInfoCount),
-        obj.enabledLayerCount,
-        DynamicStringArrayTupleElementWrapper { obj.enabledLayerCount, obj.ppEnabledLayerNames },
-        obj.enabledExtensionCount,
-        DynamicStringArrayTupleElementWrapper { obj.enabledExtensionCount, obj.ppEnabledExtensionNames },
-        Span(obj.pEnabledFeatures, 1)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDeviceDiagnosticsConfigCreateInfoNV>(const VkDeviceDiagnosticsConfigCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDeviceEventInfoEXT>(const VkDeviceEventInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.deviceEvent
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDeviceGroupBindSparseInfo>(const VkDeviceGroupBindSparseInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.resourceDeviceIndex,
-        obj.memoryDeviceIndex
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDeviceGroupCommandBufferBeginInfo>(const VkDeviceGroupCommandBufferBeginInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.deviceMask
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDeviceGroupDeviceCreateInfo>(const VkDeviceGroupDeviceCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.physicalDeviceCount,
-        Span(obj.pPhysicalDevices, obj.physicalDeviceCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDeviceGroupPresentCapabilitiesKHR>(const VkDeviceGroupPresentCapabilitiesKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        Span(obj.presentMask, VK_MAX_DEVICE_GROUP_SIZE),
-        obj.modes
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDeviceGroupPresentInfoKHR>(const VkDeviceGroupPresentInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.swapchainCount,
-        Span(obj.pDeviceMasks, obj.swapchainCount),
-        obj.mode
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDeviceGroupRenderPassBeginInfo>(const VkDeviceGroupRenderPassBeginInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.deviceMask,
-        obj.deviceRenderAreaCount,
-        Span(obj.pDeviceRenderAreas, obj.deviceRenderAreaCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDeviceGroupSubmitInfo>(const VkDeviceGroupSubmitInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.waitSemaphoreCount,
-        Span(obj.pWaitSemaphoreDeviceIndices, obj.waitSemaphoreCount),
-        obj.commandBufferCount,
-        Span(obj.pCommandBufferDeviceMasks, obj.commandBufferCount),
-        obj.signalSemaphoreCount,
-        Span(obj.pSignalSemaphoreDeviceIndices, obj.signalSemaphoreCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDeviceGroupSwapchainCreateInfoKHR>(const VkDeviceGroupSwapchainCreateInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.modes
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDeviceMemoryOpaqueCaptureAddressInfo>(const VkDeviceMemoryOpaqueCaptureAddressInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.memory
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDeviceMemoryOverallocationCreateInfoAMD>(const VkDeviceMemoryOverallocationCreateInfoAMD& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.overallocationBehavior
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkDeviceOrHostAddressConstKHR>(const VkDeviceOrHostAddressConstKHR& obj)
 {
-    return std::make_tuple(
-        obj.deviceAddress,
-        obj.hostAddress
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkDeviceOrHostAddressKHR>(const VkDeviceOrHostAddressKHR& obj)
 {
-    return std::make_tuple(
-        obj.deviceAddress,
-        obj.hostAddress
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
+template <>
+inline auto structure_to_tuple<VkDevicePrivateDataCreateInfoEXT>(const VkDevicePrivateDataCreateInfoEXT& obj)
+{
+}
+#endif // ${_COMPILE_GUARD}
+
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDeviceQueueCreateInfo>(const VkDeviceQueueCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.queueFamilyIndex,
-        obj.queueCount,
-        Span(obj.pQueuePriorities, obj.queueCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDeviceQueueGlobalPriorityCreateInfoEXT>(const VkDeviceQueueGlobalPriorityCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.globalPriority
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDeviceQueueInfo2>(const VkDeviceQueueInfo2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.queueFamilyIndex,
-        obj.queueIndex
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDispatchIndirectCommand>(const VkDispatchIndirectCommand& obj)
 {
-    return std::make_tuple(
-        obj.x,
-        obj.y,
-        obj.z
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDisplayEventInfoEXT>(const VkDisplayEventInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.displayEvent
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDisplayModeCreateInfoKHR>(const VkDisplayModeCreateInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        std::ref(obj.parameters)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDisplayModeParametersKHR>(const VkDisplayModeParametersKHR& obj)
 {
-    return std::make_tuple(
-        std::ref(obj.visibleRegion),
-        obj.refreshRate
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDisplayModeProperties2KHR>(const VkDisplayModeProperties2KHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.displayModeProperties)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDisplayModePropertiesKHR>(const VkDisplayModePropertiesKHR& obj)
 {
-    return std::make_tuple(
-        obj.displayMode,
-        std::ref(obj.parameters)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDisplayNativeHdrSurfaceCapabilitiesAMD>(const VkDisplayNativeHdrSurfaceCapabilitiesAMD& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.localDimmingSupport
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDisplayPlaneCapabilities2KHR>(const VkDisplayPlaneCapabilities2KHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.capabilities)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDisplayPlaneCapabilitiesKHR>(const VkDisplayPlaneCapabilitiesKHR& obj)
 {
-    return std::make_tuple(
-        obj.supportedAlpha,
-        std::ref(obj.minSrcPosition),
-        std::ref(obj.maxSrcPosition),
-        std::ref(obj.minSrcExtent),
-        std::ref(obj.maxSrcExtent),
-        std::ref(obj.minDstPosition),
-        std::ref(obj.maxDstPosition),
-        std::ref(obj.minDstExtent),
-        std::ref(obj.maxDstExtent)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDisplayPlaneInfo2KHR>(const VkDisplayPlaneInfo2KHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.mode,
-        obj.planeIndex
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDisplayPlaneProperties2KHR>(const VkDisplayPlaneProperties2KHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.displayPlaneProperties)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDisplayPlanePropertiesKHR>(const VkDisplayPlanePropertiesKHR& obj)
 {
-    return std::make_tuple(
-        obj.currentDisplay,
-        obj.currentStackIndex
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDisplayPowerInfoEXT>(const VkDisplayPowerInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.powerState
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDisplayPresentInfoKHR>(const VkDisplayPresentInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.srcRect),
-        std::ref(obj.dstRect),
-        obj.persistent
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDisplayProperties2KHR>(const VkDisplayProperties2KHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.displayProperties)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDisplayPropertiesKHR>(const VkDisplayPropertiesKHR& obj)
 {
-    return std::make_tuple(
-        obj.display,
-        obj.displayName ? std::string_view(obj.displayName) : std::string_view(),
-        std::ref(obj.physicalDimensions),
-        std::ref(obj.physicalResolution),
-        obj.supportedTransforms,
-        obj.planeReorderPossible,
-        obj.persistentContent
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDisplaySurfaceCreateInfoKHR>(const VkDisplaySurfaceCreateInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.displayMode,
-        obj.planeIndex,
-        obj.planeStackIndex,
-        obj.transform,
-        obj.globalAlpha,
-        obj.alphaMode,
-        std::ref(obj.imageExtent)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDrawIndexedIndirectCommand>(const VkDrawIndexedIndirectCommand& obj)
 {
-    return std::make_tuple(
-        obj.indexCount,
-        obj.instanceCount,
-        obj.firstIndex,
-        obj.vertexOffset,
-        obj.firstInstance
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDrawIndirectCommand>(const VkDrawIndirectCommand& obj)
 {
-    return std::make_tuple(
-        obj.vertexCount,
-        obj.instanceCount,
-        obj.firstVertex,
-        obj.firstInstance
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDrawMeshTasksIndirectCommandNV>(const VkDrawMeshTasksIndirectCommandNV& obj)
 {
-    return std::make_tuple(
-        obj.taskCount,
-        obj.firstTask
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDrmFormatModifierPropertiesEXT>(const VkDrmFormatModifierPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.drmFormatModifier,
-        obj.drmFormatModifierPlaneCount,
-        obj.drmFormatModifierTilingFeatures
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkDrmFormatModifierPropertiesListEXT>(const VkDrmFormatModifierPropertiesListEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.drmFormatModifierCount,
-        Span(obj.pDrmFormatModifierProperties, obj.drmFormatModifierCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkEventCreateInfo>(const VkEventCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkExportFenceCreateInfo>(const VkExportFenceCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.handleTypes
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkExportFenceWin32HandleInfoKHR>(const VkExportFenceWin32HandleInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.pAttributes,
-        obj.dwAccess,
-        obj.name
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkExportMemoryAllocateInfo>(const VkExportMemoryAllocateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.handleTypes
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkExportMemoryAllocateInfoNV>(const VkExportMemoryAllocateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.handleTypes
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkExportMemoryWin32HandleInfoKHR>(const VkExportMemoryWin32HandleInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.pAttributes,
-        obj.dwAccess,
-        obj.name
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkExportMemoryWin32HandleInfoNV>(const VkExportMemoryWin32HandleInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.pAttributes,
-        obj.dwAccess
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkExportSemaphoreCreateInfo>(const VkExportSemaphoreCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.handleTypes
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkExportSemaphoreWin32HandleInfoKHR>(const VkExportSemaphoreWin32HandleInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.pAttributes,
-        obj.dwAccess,
-        obj.name
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkExtensionProperties>(const VkExtensionProperties& obj)
 {
-    return std::make_tuple(
-        Span(obj.extensionName, VK_MAX_EXTENSION_NAME_SIZE),
-        obj.specVersion
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkExtent2D>(const VkExtent2D& obj)
 {
-    return std::make_tuple(
-        obj.width,
-        obj.height
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkExtent3D>(const VkExtent3D& obj)
 {
-    return std::make_tuple(
-        obj.width,
-        obj.height,
-        obj.depth
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkExternalBufferProperties>(const VkExternalBufferProperties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.externalMemoryProperties)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkExternalFenceProperties>(const VkExternalFenceProperties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.exportFromImportedHandleTypes,
-        obj.compatibleHandleTypes,
-        obj.externalFenceFeatures
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 template <>
 inline auto structure_to_tuple<VkExternalFormatANDROID>(const VkExternalFormatANDROID& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.externalFormat
-    );
 }
-#endif // VK_USE_PLATFORM_ANDROID_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkExternalImageFormatProperties>(const VkExternalImageFormatProperties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.externalMemoryProperties)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkExternalImageFormatPropertiesNV>(const VkExternalImageFormatPropertiesNV& obj)
 {
-    return std::make_tuple(
-        std::ref(obj.imageFormatProperties),
-        obj.externalMemoryFeatures,
-        obj.exportFromImportedHandleTypes,
-        obj.compatibleHandleTypes
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkExternalMemoryBufferCreateInfo>(const VkExternalMemoryBufferCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.handleTypes
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkExternalMemoryImageCreateInfo>(const VkExternalMemoryImageCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.handleTypes
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkExternalMemoryImageCreateInfoNV>(const VkExternalMemoryImageCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.handleTypes
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkExternalMemoryProperties>(const VkExternalMemoryProperties& obj)
 {
-    return std::make_tuple(
-        obj.externalMemoryFeatures,
-        obj.exportFromImportedHandleTypes,
-        obj.compatibleHandleTypes
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkExternalSemaphoreProperties>(const VkExternalSemaphoreProperties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.exportFromImportedHandleTypes,
-        obj.compatibleHandleTypes,
-        obj.externalSemaphoreFeatures
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkFenceCreateInfo>(const VkFenceCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkFenceGetFdInfoKHR>(const VkFenceGetFdInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.fence,
-        obj.handleType
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkFenceGetWin32HandleInfoKHR>(const VkFenceGetWin32HandleInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.fence,
-        obj.handleType
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkFilterCubicImageViewImageFormatPropertiesEXT>(const VkFilterCubicImageViewImageFormatPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.filterCubic,
-        obj.filterCubicMinmax
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkFormatProperties>(const VkFormatProperties& obj)
 {
-    return std::make_tuple(
-        obj.linearTilingFeatures,
-        obj.optimalTilingFeatures,
-        obj.bufferFeatures
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkFormatProperties2>(const VkFormatProperties2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.formatProperties)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkFramebufferAttachmentImageInfo>(const VkFramebufferAttachmentImageInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.usage,
-        obj.width,
-        obj.height,
-        obj.layerCount,
-        obj.viewFormatCount,
-        Span(obj.pViewFormats, obj.viewFormatCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkFramebufferAttachmentsCreateInfo>(const VkFramebufferAttachmentsCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.attachmentImageInfoCount,
-        Span(obj.pAttachmentImageInfos, obj.attachmentImageInfoCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkFramebufferCreateInfo>(const VkFramebufferCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.renderPass,
-        obj.attachmentCount,
-        Span(obj.pAttachments, obj.attachmentCount),
-        obj.width,
-        obj.height,
-        obj.layers
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkFramebufferMixedSamplesCombinationNV>(const VkFramebufferMixedSamplesCombinationNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.coverageReductionMode,
-        obj.rasterizationSamples,
-        obj.depthStencilSamples,
-        obj.colorSamples
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkGeneratedCommandsInfoNV>(const VkGeneratedCommandsInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.pipelineBindPoint,
-        obj.pipeline,
-        obj.indirectCommandsLayout,
-        obj.streamCount,
-        Span(obj.pStreams, obj.streamCount),
-        obj.sequencesCount,
-        obj.preprocessBuffer,
-        obj.preprocessOffset,
-        obj.preprocessSize,
-        obj.sequencesCountBuffer,
-        obj.sequencesCountOffset,
-        obj.sequencesIndexBuffer,
-        obj.sequencesIndexOffset
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkGeneratedCommandsMemoryRequirementsInfoNV>(const VkGeneratedCommandsMemoryRequirementsInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.pipelineBindPoint,
-        obj.pipeline,
-        obj.indirectCommandsLayout,
-        obj.maxSequencesCount
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkGeometryAABBNV>(const VkGeometryAABBNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.aabbData,
-        obj.numAABBs,
-        obj.stride,
-        obj.offset
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkGeometryDataNV>(const VkGeometryDataNV& obj)
 {
-    return std::make_tuple(
-        std::ref(obj.triangles),
-        std::ref(obj.aabbs)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkGeometryNV>(const VkGeometryNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.geometryType,
-        std::ref(obj.geometry),
-        obj.flags
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkGeometryTrianglesNV>(const VkGeometryTrianglesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.vertexData,
-        obj.vertexOffset,
-        obj.vertexCount,
-        obj.vertexStride,
-        obj.vertexFormat,
-        obj.indexData,
-        obj.indexOffset,
-        obj.indexCount,
-        obj.indexType,
-        obj.transformData,
-        obj.transformOffset
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkGraphicsPipelineCreateInfo>(const VkGraphicsPipelineCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.stageCount,
-        Span(obj.pStages, obj.stageCount),
-        Span(obj.pVertexInputState, 1),
-        Span(obj.pInputAssemblyState, 1),
-        Span(obj.pTessellationState, 1),
-        Span(obj.pViewportState, 1),
-        Span(obj.pRasterizationState, 1),
-        Span(obj.pMultisampleState, 1),
-        Span(obj.pDepthStencilState, 1),
-        Span(obj.pColorBlendState, 1),
-        Span(obj.pDynamicState, 1),
-        obj.layout,
-        obj.renderPass,
-        obj.subpass,
-        obj.basePipelineHandle,
-        obj.basePipelineIndex
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkGraphicsPipelineShaderGroupsCreateInfoNV>(const VkGraphicsPipelineShaderGroupsCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.groupCount,
-        Span(obj.pGroups, obj.groupCount),
-        obj.pipelineCount,
-        Span(obj.pPipelines, obj.pipelineCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkGraphicsShaderGroupCreateInfoNV>(const VkGraphicsShaderGroupCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.stageCount,
-        Span(obj.pStages, obj.stageCount),
-        Span(obj.pVertexInputState, 1),
-        Span(obj.pTessellationState, 1)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkHdrMetadataEXT>(const VkHdrMetadataEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.displayPrimaryRed),
-        std::ref(obj.displayPrimaryGreen),
-        std::ref(obj.displayPrimaryBlue),
-        std::ref(obj.whitePoint),
-        obj.maxLuminance,
-        obj.minLuminance,
-        obj.maxContentLightLevel,
-        obj.maxFrameAverageLightLevel
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkHeadlessSurfaceCreateInfoEXT>(const VkHeadlessSurfaceCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_IOS_MVK
 template <>
 inline auto structure_to_tuple<VkIOSSurfaceCreateInfoMVK>(const VkIOSSurfaceCreateInfoMVK& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.pView
-    );
 }
-#endif // VK_USE_PLATFORM_IOS_MVK
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageBlit>(const VkImageBlit& obj)
 {
-    return std::make_tuple(
-        std::ref(obj.srcSubresource),
-        Span(obj.srcOffsets, 2),
-        std::ref(obj.dstSubresource),
-        Span(obj.dstOffsets, 2)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageCopy>(const VkImageCopy& obj)
 {
-    return std::make_tuple(
-        std::ref(obj.srcSubresource),
-        std::ref(obj.srcOffset),
-        std::ref(obj.dstSubresource),
-        std::ref(obj.dstOffset),
-        std::ref(obj.extent)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageCreateInfo>(const VkImageCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.imageType,
-        obj.format,
-        std::ref(obj.extent),
-        obj.mipLevels,
-        obj.arrayLayers,
-        obj.samples,
-        obj.tiling,
-        obj.usage,
-        obj.sharingMode,
-        obj.queueFamilyIndexCount,
-        Span(obj.pQueueFamilyIndices, obj.queueFamilyIndexCount),
-        obj.initialLayout
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageDrmFormatModifierExplicitCreateInfoEXT>(const VkImageDrmFormatModifierExplicitCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.drmFormatModifier,
-        obj.drmFormatModifierPlaneCount,
-        Span(obj.pPlaneLayouts, obj.drmFormatModifierPlaneCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageDrmFormatModifierListCreateInfoEXT>(const VkImageDrmFormatModifierListCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.drmFormatModifierCount,
-        Span(obj.pDrmFormatModifiers, obj.drmFormatModifierCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageDrmFormatModifierPropertiesEXT>(const VkImageDrmFormatModifierPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.drmFormatModifier
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageFormatListCreateInfo>(const VkImageFormatListCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.viewFormatCount,
-        Span(obj.pViewFormats, obj.viewFormatCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageFormatProperties>(const VkImageFormatProperties& obj)
 {
-    return std::make_tuple(
-        std::ref(obj.maxExtent),
-        obj.maxMipLevels,
-        obj.maxArrayLayers,
-        obj.sampleCounts,
-        obj.maxResourceSize
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageFormatProperties2>(const VkImageFormatProperties2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.imageFormatProperties)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageMemoryBarrier>(const VkImageMemoryBarrier& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.srcAccessMask,
-        obj.dstAccessMask,
-        obj.oldLayout,
-        obj.newLayout,
-        obj.srcQueueFamilyIndex,
-        obj.dstQueueFamilyIndex,
-        obj.image,
-        std::ref(obj.subresourceRange)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageMemoryRequirementsInfo2>(const VkImageMemoryRequirementsInfo2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.image
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_FUCHSIA
 template <>
 inline auto structure_to_tuple<VkImagePipeSurfaceCreateInfoFUCHSIA>(const VkImagePipeSurfaceCreateInfoFUCHSIA& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.imagePipeHandle
-    );
 }
-#endif // VK_USE_PLATFORM_FUCHSIA
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImagePlaneMemoryRequirementsInfo>(const VkImagePlaneMemoryRequirementsInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.planeAspect
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageResolve>(const VkImageResolve& obj)
 {
-    return std::make_tuple(
-        std::ref(obj.srcSubresource),
-        std::ref(obj.srcOffset),
-        std::ref(obj.dstSubresource),
-        std::ref(obj.dstOffset),
-        std::ref(obj.extent)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageSparseMemoryRequirementsInfo2>(const VkImageSparseMemoryRequirementsInfo2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.image
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageStencilUsageCreateInfo>(const VkImageStencilUsageCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.stencilUsage
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageSubresource>(const VkImageSubresource& obj)
 {
-    return std::make_tuple(
-        obj.aspectMask,
-        obj.mipLevel,
-        obj.arrayLayer
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageSubresourceLayers>(const VkImageSubresourceLayers& obj)
 {
-    return std::make_tuple(
-        obj.aspectMask,
-        obj.mipLevel,
-        obj.baseArrayLayer,
-        obj.layerCount
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageSubresourceRange>(const VkImageSubresourceRange& obj)
 {
-    return std::make_tuple(
-        obj.aspectMask,
-        obj.baseMipLevel,
-        obj.levelCount,
-        obj.baseArrayLayer,
-        obj.layerCount
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageSwapchainCreateInfoKHR>(const VkImageSwapchainCreateInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.swapchain
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageViewASTCDecodeModeEXT>(const VkImageViewASTCDecodeModeEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.decodeMode
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
+template <>
+inline auto structure_to_tuple<VkImageViewAddressPropertiesNVX>(const VkImageViewAddressPropertiesNVX& obj)
+{
+}
+#endif // ${_COMPILE_GUARD}
+
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageViewCreateInfo>(const VkImageViewCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.image,
-        obj.viewType,
-        obj.format,
-        std::ref(obj.components),
-        std::ref(obj.subresourceRange)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageViewHandleInfoNVX>(const VkImageViewHandleInfoNVX& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.imageView,
-        obj.descriptorType,
-        obj.sampler
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImageViewUsageCreateInfo>(const VkImageViewUsageCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.usage
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 template <>
 inline auto structure_to_tuple<VkImportAndroidHardwareBufferInfoANDROID>(const VkImportAndroidHardwareBufferInfoANDROID& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.buffer
-    );
 }
-#endif // VK_USE_PLATFORM_ANDROID_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImportFenceFdInfoKHR>(const VkImportFenceFdInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.fence,
-        obj.flags,
-        obj.handleType,
-        obj.fd
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkImportFenceWin32HandleInfoKHR>(const VkImportFenceWin32HandleInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.fence,
-        obj.flags,
-        obj.handleType,
-        obj.handle,
-        obj.name
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImportMemoryFdInfoKHR>(const VkImportMemoryFdInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.handleType,
-        obj.fd
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImportMemoryHostPointerInfoEXT>(const VkImportMemoryHostPointerInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.handleType,
-        obj.pHostPointer
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkImportMemoryWin32HandleInfoKHR>(const VkImportMemoryWin32HandleInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.handleType,
-        obj.handle,
-        obj.name
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkImportMemoryWin32HandleInfoNV>(const VkImportMemoryWin32HandleInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.handleType,
-        obj.handle
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkImportSemaphoreFdInfoKHR>(const VkImportSemaphoreFdInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.semaphore,
-        obj.flags,
-        obj.handleType,
-        obj.fd
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkImportSemaphoreWin32HandleInfoKHR>(const VkImportSemaphoreWin32HandleInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.semaphore,
-        obj.flags,
-        obj.handleType,
-        obj.handle,
-        obj.name
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkIndirectCommandsLayoutCreateInfoNV>(const VkIndirectCommandsLayoutCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.pipelineBindPoint,
-        obj.tokenCount,
-        Span(obj.pTokens, obj.tokenCount),
-        obj.streamCount,
-        Span(obj.pStreamStrides, obj.streamCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkIndirectCommandsLayoutTokenNV>(const VkIndirectCommandsLayoutTokenNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.tokenType,
-        obj.stream,
-        obj.offset,
-        obj.vertexBindingUnit,
-        obj.vertexDynamicStride,
-        obj.pushconstantPipelineLayout,
-        obj.pushconstantShaderStageFlags,
-        obj.pushconstantOffset,
-        obj.pushconstantSize,
-        obj.indirectStateFlags,
-        obj.indexTypeCount,
-        Span(obj.pIndexTypes, obj.indexTypeCount),
-        Span(obj.pIndexTypeValues, obj.indexTypeCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkIndirectCommandsStreamNV>(const VkIndirectCommandsStreamNV& obj)
 {
-    return std::make_tuple(
-        obj.buffer,
-        obj.offset
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkInitializePerformanceApiInfoINTEL>(const VkInitializePerformanceApiInfoINTEL& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.pUserData
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkInputAttachmentAspectReference>(const VkInputAttachmentAspectReference& obj)
 {
-    return std::make_tuple(
-        obj.subpass,
-        obj.inputAttachmentIndex,
-        obj.aspectMask
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkInstanceCreateInfo>(const VkInstanceCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        Span(obj.pApplicationInfo, 1),
-        obj.enabledLayerCount,
-        DynamicStringArrayTupleElementWrapper { obj.enabledLayerCount, obj.ppEnabledLayerNames },
-        obj.enabledExtensionCount,
-        DynamicStringArrayTupleElementWrapper { obj.enabledExtensionCount, obj.ppEnabledExtensionNames }
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkLayerProperties>(const VkLayerProperties& obj)
 {
-    return std::make_tuple(
-        Span(obj.layerName, VK_MAX_EXTENSION_NAME_SIZE),
-        obj.specVersion,
-        obj.implementationVersion,
-        Span(obj.description, VK_MAX_DESCRIPTION_SIZE)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_MACOS_MVK
 template <>
 inline auto structure_to_tuple<VkMacOSSurfaceCreateInfoMVK>(const VkMacOSSurfaceCreateInfoMVK& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.pView
-    );
 }
-#endif // VK_USE_PLATFORM_MACOS_MVK
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkMappedMemoryRange>(const VkMappedMemoryRange& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.memory,
-        obj.offset,
-        obj.size
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkMemoryAllocateFlagsInfo>(const VkMemoryAllocateFlagsInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.deviceMask
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkMemoryAllocateInfo>(const VkMemoryAllocateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.allocationSize,
-        obj.memoryTypeIndex
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkMemoryBarrier>(const VkMemoryBarrier& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.srcAccessMask,
-        obj.dstAccessMask
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkMemoryDedicatedAllocateInfo>(const VkMemoryDedicatedAllocateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.image,
-        obj.buffer
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkMemoryDedicatedRequirements>(const VkMemoryDedicatedRequirements& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.prefersDedicatedAllocation,
-        obj.requiresDedicatedAllocation
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkMemoryFdPropertiesKHR>(const VkMemoryFdPropertiesKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.memoryTypeBits
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 template <>
 inline auto structure_to_tuple<VkMemoryGetAndroidHardwareBufferInfoANDROID>(const VkMemoryGetAndroidHardwareBufferInfoANDROID& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.memory
-    );
 }
-#endif // VK_USE_PLATFORM_ANDROID_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkMemoryGetFdInfoKHR>(const VkMemoryGetFdInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.memory,
-        obj.handleType
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkMemoryGetWin32HandleInfoKHR>(const VkMemoryGetWin32HandleInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.memory,
-        obj.handleType
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkMemoryHeap>(const VkMemoryHeap& obj)
 {
-    return std::make_tuple(
-        obj.size,
-        obj.flags
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkMemoryHostPointerPropertiesEXT>(const VkMemoryHostPointerPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.memoryTypeBits
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkMemoryOpaqueCaptureAddressAllocateInfo>(const VkMemoryOpaqueCaptureAddressAllocateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.opaqueCaptureAddress
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkMemoryPriorityAllocateInfoEXT>(const VkMemoryPriorityAllocateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.priority
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkMemoryRequirements>(const VkMemoryRequirements& obj)
 {
-    return std::make_tuple(
-        obj.size,
-        obj.alignment,
-        obj.memoryTypeBits
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkMemoryRequirements2>(const VkMemoryRequirements2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.memoryRequirements)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkMemoryType>(const VkMemoryType& obj)
 {
-    return std::make_tuple(
-        obj.propertyFlags,
-        obj.heapIndex
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkMemoryWin32HandlePropertiesKHR>(const VkMemoryWin32HandlePropertiesKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.memoryTypeBits
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_METAL_EXT
 template <>
 inline auto structure_to_tuple<VkMetalSurfaceCreateInfoEXT>(const VkMetalSurfaceCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.pLayer
-    );
 }
-#endif // VK_USE_PLATFORM_METAL_EXT
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkMultisamplePropertiesEXT>(const VkMultisamplePropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.maxSampleLocationGridSize)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 template <>
 inline auto structure_to_tuple<VkNativeBufferANDROID>(const VkNativeBufferANDROID& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.handle,
-        obj.stride,
-        obj.format,
-        obj.usage,
-        std::ref(obj.usage2)
-    );
 }
-#endif // VK_USE_PLATFORM_ANDROID_KHR
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 template <>
 inline auto structure_to_tuple<VkNativeBufferUsage2ANDROID>(const VkNativeBufferUsage2ANDROID& obj)
 {
-    return std::make_tuple(
-        obj.consumer,
-        obj.producer
-    );
 }
-#endif // VK_USE_PLATFORM_ANDROID_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkOffset2D>(const VkOffset2D& obj)
 {
-    return std::make_tuple(
-        obj.x,
-        obj.y
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkOffset3D>(const VkOffset3D& obj)
 {
-    return std::make_tuple(
-        obj.x,
-        obj.y,
-        obj.z
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPastPresentationTimingGOOGLE>(const VkPastPresentationTimingGOOGLE& obj)
 {
-    return std::make_tuple(
-        obj.presentID,
-        obj.desiredPresentTime,
-        obj.actualPresentTime,
-        obj.earliestPresentTime,
-        obj.presentMargin
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPerformanceConfigurationAcquireInfoINTEL>(const VkPerformanceConfigurationAcquireInfoINTEL& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.type
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPerformanceCounterDescriptionKHR>(const VkPerformanceCounterDescriptionKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        Span(obj.name, VK_MAX_DESCRIPTION_SIZE),
-        Span(obj.category, VK_MAX_DESCRIPTION_SIZE),
-        Span(obj.description, VK_MAX_DESCRIPTION_SIZE)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPerformanceCounterKHR>(const VkPerformanceCounterKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.unit,
-        obj.scope,
-        obj.storage,
-        Span(obj.uuid, VK_UUID_SIZE)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPerformanceMarkerInfoINTEL>(const VkPerformanceMarkerInfoINTEL& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.marker
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPerformanceOverrideInfoINTEL>(const VkPerformanceOverrideInfoINTEL& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.type,
-        obj.enable,
-        obj.parameter
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPerformanceQuerySubmitInfoKHR>(const VkPerformanceQuerySubmitInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.counterPassIndex
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPerformanceStreamMarkerInfoINTEL>(const VkPerformanceStreamMarkerInfoINTEL& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.marker
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPerformanceValueINTEL>(const VkPerformanceValueINTEL& obj)
 {
-    return std::make_tuple(
-        obj.type,
-        std::ref(obj.data)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDevice16BitStorageFeatures>(const VkPhysicalDevice16BitStorageFeatures& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.storageBuffer16BitAccess,
-        obj.uniformAndStorageBuffer16BitAccess,
-        obj.storagePushConstant16,
-        obj.storageInputOutput16
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDevice8BitStorageFeatures>(const VkPhysicalDevice8BitStorageFeatures& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.storageBuffer8BitAccess,
-        obj.uniformAndStorageBuffer8BitAccess,
-        obj.storagePushConstant8
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceASTCDecodeFeaturesEXT>(const VkPhysicalDeviceASTCDecodeFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.decodeModeSharedExponent
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT>(const VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.advancedBlendCoherentOperations
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT>(const VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.advancedBlendMaxColorAttachments,
-        obj.advancedBlendIndependentBlend,
-        obj.advancedBlendNonPremultipliedSrcColor,
-        obj.advancedBlendNonPremultipliedDstColor,
-        obj.advancedBlendCorrelatedOverlap,
-        obj.advancedBlendAllOperations
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceBufferDeviceAddressFeatures>(const VkPhysicalDeviceBufferDeviceAddressFeatures& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.bufferDeviceAddress,
-        obj.bufferDeviceAddressCaptureReplay,
-        obj.bufferDeviceAddressMultiDevice
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceBufferDeviceAddressFeaturesEXT>(const VkPhysicalDeviceBufferDeviceAddressFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.bufferDeviceAddress,
-        obj.bufferDeviceAddressCaptureReplay,
-        obj.bufferDeviceAddressMultiDevice
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceCoherentMemoryFeaturesAMD>(const VkPhysicalDeviceCoherentMemoryFeaturesAMD& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.deviceCoherentMemory
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceComputeShaderDerivativesFeaturesNV>(const VkPhysicalDeviceComputeShaderDerivativesFeaturesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.computeDerivativeGroupQuads,
-        obj.computeDerivativeGroupLinear
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceConditionalRenderingFeaturesEXT>(const VkPhysicalDeviceConditionalRenderingFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.conditionalRendering,
-        obj.inheritedConditionalRendering
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceConservativeRasterizationPropertiesEXT>(const VkPhysicalDeviceConservativeRasterizationPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.primitiveOverestimationSize,
-        obj.maxExtraPrimitiveOverestimationSize,
-        obj.extraPrimitiveOverestimationSizeGranularity,
-        obj.primitiveUnderestimation,
-        obj.conservativePointAndLineRasterization,
-        obj.degenerateTrianglesRasterized,
-        obj.degenerateLinesRasterized,
-        obj.fullyCoveredFragmentShaderInputVariable,
-        obj.conservativeRasterizationPostDepthCoverage
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceCooperativeMatrixFeaturesNV>(const VkPhysicalDeviceCooperativeMatrixFeaturesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.cooperativeMatrix,
-        obj.cooperativeMatrixRobustBufferAccess
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceCooperativeMatrixPropertiesNV>(const VkPhysicalDeviceCooperativeMatrixPropertiesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.cooperativeMatrixSupportedStages
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceCornerSampledImageFeaturesNV>(const VkPhysicalDeviceCornerSampledImageFeaturesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.cornerSampledImage
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceCoverageReductionModeFeaturesNV>(const VkPhysicalDeviceCoverageReductionModeFeaturesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.coverageReductionMode
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
+template <>
+inline auto structure_to_tuple<VkPhysicalDeviceCustomBorderColorFeaturesEXT>(const VkPhysicalDeviceCustomBorderColorFeaturesEXT& obj)
+{
+}
+#endif // ${_COMPILE_GUARD}
+
+#ifdef
+template <>
+inline auto structure_to_tuple<VkPhysicalDeviceCustomBorderColorPropertiesEXT>(const VkPhysicalDeviceCustomBorderColorPropertiesEXT& obj)
+{
+}
+#endif // ${_COMPILE_GUARD}
+
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV>(const VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.dedicatedAllocationImageAliasing
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDepthClipEnableFeaturesEXT>(const VkPhysicalDeviceDepthClipEnableFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.depthClipEnable
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDepthStencilResolveProperties>(const VkPhysicalDeviceDepthStencilResolveProperties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.supportedDepthResolveModes,
-        obj.supportedStencilResolveModes,
-        obj.independentResolveNone,
-        obj.independentResolve
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDescriptorIndexingFeatures>(const VkPhysicalDeviceDescriptorIndexingFeatures& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.shaderInputAttachmentArrayDynamicIndexing,
-        obj.shaderUniformTexelBufferArrayDynamicIndexing,
-        obj.shaderStorageTexelBufferArrayDynamicIndexing,
-        obj.shaderUniformBufferArrayNonUniformIndexing,
-        obj.shaderSampledImageArrayNonUniformIndexing,
-        obj.shaderStorageBufferArrayNonUniformIndexing,
-        obj.shaderStorageImageArrayNonUniformIndexing,
-        obj.shaderInputAttachmentArrayNonUniformIndexing,
-        obj.shaderUniformTexelBufferArrayNonUniformIndexing,
-        obj.shaderStorageTexelBufferArrayNonUniformIndexing,
-        obj.descriptorBindingUniformBufferUpdateAfterBind,
-        obj.descriptorBindingSampledImageUpdateAfterBind,
-        obj.descriptorBindingStorageImageUpdateAfterBind,
-        obj.descriptorBindingStorageBufferUpdateAfterBind,
-        obj.descriptorBindingUniformTexelBufferUpdateAfterBind,
-        obj.descriptorBindingStorageTexelBufferUpdateAfterBind,
-        obj.descriptorBindingUpdateUnusedWhilePending,
-        obj.descriptorBindingPartiallyBound,
-        obj.descriptorBindingVariableDescriptorCount,
-        obj.runtimeDescriptorArray
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDescriptorIndexingProperties>(const VkPhysicalDeviceDescriptorIndexingProperties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.maxUpdateAfterBindDescriptorsInAllPools,
-        obj.shaderUniformBufferArrayNonUniformIndexingNative,
-        obj.shaderSampledImageArrayNonUniformIndexingNative,
-        obj.shaderStorageBufferArrayNonUniformIndexingNative,
-        obj.shaderStorageImageArrayNonUniformIndexingNative,
-        obj.shaderInputAttachmentArrayNonUniformIndexingNative,
-        obj.robustBufferAccessUpdateAfterBind,
-        obj.quadDivergentImplicitLod,
-        obj.maxPerStageDescriptorUpdateAfterBindSamplers,
-        obj.maxPerStageDescriptorUpdateAfterBindUniformBuffers,
-        obj.maxPerStageDescriptorUpdateAfterBindStorageBuffers,
-        obj.maxPerStageDescriptorUpdateAfterBindSampledImages,
-        obj.maxPerStageDescriptorUpdateAfterBindStorageImages,
-        obj.maxPerStageDescriptorUpdateAfterBindInputAttachments,
-        obj.maxPerStageUpdateAfterBindResources,
-        obj.maxDescriptorSetUpdateAfterBindSamplers,
-        obj.maxDescriptorSetUpdateAfterBindUniformBuffers,
-        obj.maxDescriptorSetUpdateAfterBindUniformBuffersDynamic,
-        obj.maxDescriptorSetUpdateAfterBindStorageBuffers,
-        obj.maxDescriptorSetUpdateAfterBindStorageBuffersDynamic,
-        obj.maxDescriptorSetUpdateAfterBindSampledImages,
-        obj.maxDescriptorSetUpdateAfterBindStorageImages,
-        obj.maxDescriptorSetUpdateAfterBindInputAttachments
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV>(const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.deviceGeneratedCommands
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV>(const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.maxGraphicsShaderGroupCount,
-        obj.maxIndirectSequenceCount,
-        obj.maxIndirectCommandsTokenCount,
-        obj.maxIndirectCommandsStreamCount,
-        obj.maxIndirectCommandsTokenOffset,
-        obj.maxIndirectCommandsStreamStride,
-        obj.minSequencesCountBufferOffsetAlignment,
-        obj.minSequencesIndexBufferOffsetAlignment,
-        obj.minIndirectCommandsBufferOffsetAlignment
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDiagnosticsConfigFeaturesNV>(const VkPhysicalDeviceDiagnosticsConfigFeaturesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.diagnosticsConfig
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDiscardRectanglePropertiesEXT>(const VkPhysicalDeviceDiscardRectanglePropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.maxDiscardRectangles
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceDriverProperties>(const VkPhysicalDeviceDriverProperties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.driverID,
-        Span(obj.driverName, VK_MAX_DRIVER_NAME_SIZE),
-        Span(obj.driverInfo, VK_MAX_DRIVER_INFO_SIZE),
-        std::ref(obj.conformanceVersion)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceExclusiveScissorFeaturesNV>(const VkPhysicalDeviceExclusiveScissorFeaturesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.exclusiveScissor
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceExternalBufferInfo>(const VkPhysicalDeviceExternalBufferInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.usage,
-        obj.handleType
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceExternalFenceInfo>(const VkPhysicalDeviceExternalFenceInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.handleType
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceExternalImageFormatInfo>(const VkPhysicalDeviceExternalImageFormatInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.handleType
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceExternalMemoryHostPropertiesEXT>(const VkPhysicalDeviceExternalMemoryHostPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.minImportedHostPointerAlignment
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceExternalSemaphoreInfo>(const VkPhysicalDeviceExternalSemaphoreInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.handleType
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceFeatures>(const VkPhysicalDeviceFeatures& obj)
 {
-    return std::make_tuple(
-        obj.robustBufferAccess,
-        obj.fullDrawIndexUint32,
-        obj.imageCubeArray,
-        obj.independentBlend,
-        obj.geometryShader,
-        obj.tessellationShader,
-        obj.sampleRateShading,
-        obj.dualSrcBlend,
-        obj.logicOp,
-        obj.multiDrawIndirect,
-        obj.drawIndirectFirstInstance,
-        obj.depthClamp,
-        obj.depthBiasClamp,
-        obj.fillModeNonSolid,
-        obj.depthBounds,
-        obj.wideLines,
-        obj.largePoints,
-        obj.alphaToOne,
-        obj.multiViewport,
-        obj.samplerAnisotropy,
-        obj.textureCompressionETC2,
-        obj.textureCompressionASTC_LDR,
-        obj.textureCompressionBC,
-        obj.occlusionQueryPrecise,
-        obj.pipelineStatisticsQuery,
-        obj.vertexPipelineStoresAndAtomics,
-        obj.fragmentStoresAndAtomics,
-        obj.shaderTessellationAndGeometryPointSize,
-        obj.shaderImageGatherExtended,
-        obj.shaderStorageImageExtendedFormats,
-        obj.shaderStorageImageMultisample,
-        obj.shaderStorageImageReadWithoutFormat,
-        obj.shaderStorageImageWriteWithoutFormat,
-        obj.shaderUniformBufferArrayDynamicIndexing,
-        obj.shaderSampledImageArrayDynamicIndexing,
-        obj.shaderStorageBufferArrayDynamicIndexing,
-        obj.shaderStorageImageArrayDynamicIndexing,
-        obj.shaderClipDistance,
-        obj.shaderCullDistance,
-        obj.shaderFloat64,
-        obj.shaderInt64,
-        obj.shaderInt16,
-        obj.shaderResourceResidency,
-        obj.shaderResourceMinLod,
-        obj.sparseBinding,
-        obj.sparseResidencyBuffer,
-        obj.sparseResidencyImage2D,
-        obj.sparseResidencyImage3D,
-        obj.sparseResidency2Samples,
-        obj.sparseResidency4Samples,
-        obj.sparseResidency8Samples,
-        obj.sparseResidency16Samples,
-        obj.sparseResidencyAliased,
-        obj.variableMultisampleRate,
-        obj.inheritedQueries
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceFeatures2>(const VkPhysicalDeviceFeatures2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.features)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceFloatControlsProperties>(const VkPhysicalDeviceFloatControlsProperties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.denormBehaviorIndependence,
-        obj.roundingModeIndependence,
-        obj.shaderSignedZeroInfNanPreserveFloat16,
-        obj.shaderSignedZeroInfNanPreserveFloat32,
-        obj.shaderSignedZeroInfNanPreserveFloat64,
-        obj.shaderDenormPreserveFloat16,
-        obj.shaderDenormPreserveFloat32,
-        obj.shaderDenormPreserveFloat64,
-        obj.shaderDenormFlushToZeroFloat16,
-        obj.shaderDenormFlushToZeroFloat32,
-        obj.shaderDenormFlushToZeroFloat64,
-        obj.shaderRoundingModeRTEFloat16,
-        obj.shaderRoundingModeRTEFloat32,
-        obj.shaderRoundingModeRTEFloat64,
-        obj.shaderRoundingModeRTZFloat16,
-        obj.shaderRoundingModeRTZFloat32,
-        obj.shaderRoundingModeRTZFloat64
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceFragmentDensityMapFeaturesEXT>(const VkPhysicalDeviceFragmentDensityMapFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.fragmentDensityMap,
-        obj.fragmentDensityMapDynamic,
-        obj.fragmentDensityMapNonSubsampledImages
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceFragmentDensityMapPropertiesEXT>(const VkPhysicalDeviceFragmentDensityMapPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.minFragmentDensityTexelSize),
-        std::ref(obj.maxFragmentDensityTexelSize),
-        obj.fragmentDensityInvocations
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV>(const VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.fragmentShaderBarycentric
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT>(const VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.fragmentShaderSampleInterlock,
-        obj.fragmentShaderPixelInterlock,
-        obj.fragmentShaderShadingRateInterlock
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceGroupProperties>(const VkPhysicalDeviceGroupProperties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.physicalDeviceCount,
-        Span(obj.physicalDevices, VK_MAX_DEVICE_GROUP_SIZE),
-        obj.subsetAllocation
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceHostQueryResetFeatures>(const VkPhysicalDeviceHostQueryResetFeatures& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.hostQueryReset
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceIDProperties>(const VkPhysicalDeviceIDProperties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        Span(obj.deviceUUID, VK_UUID_SIZE),
-        Span(obj.driverUUID, VK_UUID_SIZE),
-        Span(obj.deviceLUID, VK_LUID_SIZE),
-        obj.deviceNodeMask,
-        obj.deviceLUIDValid
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceImageDrmFormatModifierInfoEXT>(const VkPhysicalDeviceImageDrmFormatModifierInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.drmFormatModifier,
-        obj.sharingMode,
-        obj.queueFamilyIndexCount,
-        Span(obj.pQueueFamilyIndices, obj.queueFamilyIndexCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceImageFormatInfo2>(const VkPhysicalDeviceImageFormatInfo2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.format,
-        obj.type,
-        obj.tiling,
-        obj.usage,
-        obj.flags
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceImageViewImageFormatInfoEXT>(const VkPhysicalDeviceImageViewImageFormatInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.imageViewType
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceImagelessFramebufferFeatures>(const VkPhysicalDeviceImagelessFramebufferFeatures& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.imagelessFramebuffer
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceIndexTypeUint8FeaturesEXT>(const VkPhysicalDeviceIndexTypeUint8FeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.indexTypeUint8
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceInlineUniformBlockFeaturesEXT>(const VkPhysicalDeviceInlineUniformBlockFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.inlineUniformBlock,
-        obj.descriptorBindingInlineUniformBlockUpdateAfterBind
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceInlineUniformBlockPropertiesEXT>(const VkPhysicalDeviceInlineUniformBlockPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.maxInlineUniformBlockSize,
-        obj.maxPerStageDescriptorInlineUniformBlocks,
-        obj.maxPerStageDescriptorUpdateAfterBindInlineUniformBlocks,
-        obj.maxDescriptorSetInlineUniformBlocks,
-        obj.maxDescriptorSetUpdateAfterBindInlineUniformBlocks
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceLimits>(const VkPhysicalDeviceLimits& obj)
 {
-    return std::make_tuple(
-        obj.maxImageDimension1D,
-        obj.maxImageDimension2D,
-        obj.maxImageDimension3D,
-        obj.maxImageDimensionCube,
-        obj.maxImageArrayLayers,
-        obj.maxTexelBufferElements,
-        obj.maxUniformBufferRange,
-        obj.maxStorageBufferRange,
-        obj.maxPushConstantsSize,
-        obj.maxMemoryAllocationCount,
-        obj.maxSamplerAllocationCount,
-        obj.bufferImageGranularity,
-        obj.sparseAddressSpaceSize,
-        obj.maxBoundDescriptorSets,
-        obj.maxPerStageDescriptorSamplers,
-        obj.maxPerStageDescriptorUniformBuffers,
-        obj.maxPerStageDescriptorStorageBuffers,
-        obj.maxPerStageDescriptorSampledImages,
-        obj.maxPerStageDescriptorStorageImages,
-        obj.maxPerStageDescriptorInputAttachments,
-        obj.maxPerStageResources,
-        obj.maxDescriptorSetSamplers,
-        obj.maxDescriptorSetUniformBuffers,
-        obj.maxDescriptorSetUniformBuffersDynamic,
-        obj.maxDescriptorSetStorageBuffers,
-        obj.maxDescriptorSetStorageBuffersDynamic,
-        obj.maxDescriptorSetSampledImages,
-        obj.maxDescriptorSetStorageImages,
-        obj.maxDescriptorSetInputAttachments,
-        obj.maxVertexInputAttributes,
-        obj.maxVertexInputBindings,
-        obj.maxVertexInputAttributeOffset,
-        obj.maxVertexInputBindingStride,
-        obj.maxVertexOutputComponents,
-        obj.maxTessellationGenerationLevel,
-        obj.maxTessellationPatchSize,
-        obj.maxTessellationControlPerVertexInputComponents,
-        obj.maxTessellationControlPerVertexOutputComponents,
-        obj.maxTessellationControlPerPatchOutputComponents,
-        obj.maxTessellationControlTotalOutputComponents,
-        obj.maxTessellationEvaluationInputComponents,
-        obj.maxTessellationEvaluationOutputComponents,
-        obj.maxGeometryShaderInvocations,
-        obj.maxGeometryInputComponents,
-        obj.maxGeometryOutputComponents,
-        obj.maxGeometryOutputVertices,
-        obj.maxGeometryTotalOutputComponents,
-        obj.maxFragmentInputComponents,
-        obj.maxFragmentOutputAttachments,
-        obj.maxFragmentDualSrcAttachments,
-        obj.maxFragmentCombinedOutputResources,
-        obj.maxComputeSharedMemorySize,
-        Span(obj.maxComputeWorkGroupCount, 3),
-        obj.maxComputeWorkGroupInvocations,
-        Span(obj.maxComputeWorkGroupSize, 3),
-        obj.subPixelPrecisionBits,
-        obj.subTexelPrecisionBits,
-        obj.mipmapPrecisionBits,
-        obj.maxDrawIndexedIndexValue,
-        obj.maxDrawIndirectCount,
-        obj.maxSamplerLodBias,
-        obj.maxSamplerAnisotropy,
-        obj.maxViewports,
-        Span(obj.maxViewportDimensions, 2),
-        Span(obj.viewportBoundsRange, 2),
-        obj.viewportSubPixelBits,
-        obj.minMemoryMapAlignment,
-        obj.minTexelBufferOffsetAlignment,
-        obj.minUniformBufferOffsetAlignment,
-        obj.minStorageBufferOffsetAlignment,
-        obj.minTexelOffset,
-        obj.maxTexelOffset,
-        obj.minTexelGatherOffset,
-        obj.maxTexelGatherOffset,
-        obj.minInterpolationOffset,
-        obj.maxInterpolationOffset,
-        obj.subPixelInterpolationOffsetBits,
-        obj.maxFramebufferWidth,
-        obj.maxFramebufferHeight,
-        obj.maxFramebufferLayers,
-        obj.framebufferColorSampleCounts,
-        obj.framebufferDepthSampleCounts,
-        obj.framebufferStencilSampleCounts,
-        obj.framebufferNoAttachmentsSampleCounts,
-        obj.maxColorAttachments,
-        obj.sampledImageColorSampleCounts,
-        obj.sampledImageIntegerSampleCounts,
-        obj.sampledImageDepthSampleCounts,
-        obj.sampledImageStencilSampleCounts,
-        obj.storageImageSampleCounts,
-        obj.maxSampleMaskWords,
-        obj.timestampComputeAndGraphics,
-        obj.timestampPeriod,
-        obj.maxClipDistances,
-        obj.maxCullDistances,
-        obj.maxCombinedClipAndCullDistances,
-        obj.discreteQueuePriorities,
-        Span(obj.pointSizeRange, 2),
-        Span(obj.lineWidthRange, 2),
-        obj.pointSizeGranularity,
-        obj.lineWidthGranularity,
-        obj.strictLines,
-        obj.standardSampleLocations,
-        obj.optimalBufferCopyOffsetAlignment,
-        obj.optimalBufferCopyRowPitchAlignment,
-        obj.nonCoherentAtomSize
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceLineRasterizationFeaturesEXT>(const VkPhysicalDeviceLineRasterizationFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.rectangularLines,
-        obj.bresenhamLines,
-        obj.smoothLines,
-        obj.stippledRectangularLines,
-        obj.stippledBresenhamLines,
-        obj.stippledSmoothLines
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceLineRasterizationPropertiesEXT>(const VkPhysicalDeviceLineRasterizationPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.lineSubPixelPrecisionBits
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMaintenance3Properties>(const VkPhysicalDeviceMaintenance3Properties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.maxPerSetDescriptors,
-        obj.maxMemoryAllocationSize
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMemoryBudgetPropertiesEXT>(const VkPhysicalDeviceMemoryBudgetPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        Span(obj.heapBudget, VK_MAX_MEMORY_HEAPS),
-        Span(obj.heapUsage, VK_MAX_MEMORY_HEAPS)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMemoryPriorityFeaturesEXT>(const VkPhysicalDeviceMemoryPriorityFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.memoryPriority
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMemoryProperties>(const VkPhysicalDeviceMemoryProperties& obj)
 {
-    return std::make_tuple(
-        obj.memoryTypeCount,
-        Span(obj.memoryTypes, VK_MAX_MEMORY_TYPES),
-        obj.memoryHeapCount,
-        Span(obj.memoryHeaps, VK_MAX_MEMORY_HEAPS)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMemoryProperties2>(const VkPhysicalDeviceMemoryProperties2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.memoryProperties)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMeshShaderFeaturesNV>(const VkPhysicalDeviceMeshShaderFeaturesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.taskShader,
-        obj.meshShader
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMeshShaderPropertiesNV>(const VkPhysicalDeviceMeshShaderPropertiesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.maxDrawMeshTasksCount,
-        obj.maxTaskWorkGroupInvocations,
-        Span(obj.maxTaskWorkGroupSize, 3),
-        obj.maxTaskTotalMemorySize,
-        obj.maxTaskOutputCount,
-        obj.maxMeshWorkGroupInvocations,
-        Span(obj.maxMeshWorkGroupSize, 3),
-        obj.maxMeshTotalMemorySize,
-        obj.maxMeshOutputVertices,
-        obj.maxMeshOutputPrimitives,
-        obj.maxMeshMultiviewViewCount,
-        obj.meshOutputPerVertexGranularity,
-        obj.meshOutputPerPrimitiveGranularity
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMultiviewFeatures>(const VkPhysicalDeviceMultiviewFeatures& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.multiview,
-        obj.multiviewGeometryShader,
-        obj.multiviewTessellationShader
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX>(const VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.perViewPositionAllComponents
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceMultiviewProperties>(const VkPhysicalDeviceMultiviewProperties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.maxMultiviewViewCount,
-        obj.maxMultiviewInstanceIndex
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDevicePCIBusInfoPropertiesEXT>(const VkPhysicalDevicePCIBusInfoPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.pciDomain,
-        obj.pciBus,
-        obj.pciDevice,
-        obj.pciFunction
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDevicePerformanceQueryFeaturesKHR>(const VkPhysicalDevicePerformanceQueryFeaturesKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.performanceCounterQueryPools,
-        obj.performanceCounterMultipleQueryPools
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDevicePerformanceQueryPropertiesKHR>(const VkPhysicalDevicePerformanceQueryPropertiesKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.allowCommandBufferQueryCopies
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT>(const VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.pipelineCreationCacheControl
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR>(const VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.pipelineExecutableInfo
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDevicePointClippingProperties>(const VkPhysicalDevicePointClippingProperties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.pointClippingBehavior
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 template <>
 inline auto structure_to_tuple<VkPhysicalDevicePresentationPropertiesANDROID>(const VkPhysicalDevicePresentationPropertiesANDROID& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.sharedImage
-    );
 }
-#endif // VK_USE_PLATFORM_ANDROID_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
+template <>
+inline auto structure_to_tuple<VkPhysicalDevicePrivateDataFeaturesEXT>(const VkPhysicalDevicePrivateDataFeaturesEXT& obj)
+{
+}
+#endif // ${_COMPILE_GUARD}
+
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceProperties>(const VkPhysicalDeviceProperties& obj)
 {
-    return std::make_tuple(
-        obj.apiVersion,
-        obj.driverVersion,
-        obj.vendorID,
-        obj.deviceID,
-        obj.deviceType,
-        Span(obj.deviceName, VK_MAX_PHYSICAL_DEVICE_NAME_SIZE),
-        Span(obj.pipelineCacheUUID, VK_UUID_SIZE),
-        std::ref(obj.limits),
-        std::ref(obj.sparseProperties)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceProperties2>(const VkPhysicalDeviceProperties2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.properties)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceProtectedMemoryFeatures>(const VkPhysicalDeviceProtectedMemoryFeatures& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.protectedMemory
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceProtectedMemoryProperties>(const VkPhysicalDeviceProtectedMemoryProperties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.protectedNoFault
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDevicePushDescriptorPropertiesKHR>(const VkPhysicalDevicePushDescriptorPropertiesKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.maxPushDescriptors
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceRayTracingFeaturesKHR>(const VkPhysicalDeviceRayTracingFeaturesKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.rayTracing,
-        obj.rayTracingShaderGroupHandleCaptureReplay,
-        obj.rayTracingShaderGroupHandleCaptureReplayMixed,
-        obj.rayTracingAccelerationStructureCaptureReplay,
-        obj.rayTracingIndirectTraceRays,
-        obj.rayTracingIndirectAccelerationStructureBuild,
-        obj.rayTracingHostAccelerationStructureCommands,
-        obj.rayQuery,
-        obj.rayTracingPrimitiveCulling
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceRayTracingPropertiesKHR>(const VkPhysicalDeviceRayTracingPropertiesKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.shaderGroupHandleSize,
-        obj.maxRecursionDepth,
-        obj.maxShaderGroupStride,
-        obj.shaderGroupBaseAlignment,
-        obj.maxGeometryCount,
-        obj.maxInstanceCount,
-        obj.maxPrimitiveCount,
-        obj.maxDescriptorSetAccelerationStructures,
-        obj.shaderGroupHandleCaptureReplaySize
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceRayTracingPropertiesNV>(const VkPhysicalDeviceRayTracingPropertiesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.shaderGroupHandleSize,
-        obj.maxRecursionDepth,
-        obj.maxShaderGroupStride,
-        obj.shaderGroupBaseAlignment,
-        obj.maxGeometryCount,
-        obj.maxInstanceCount,
-        obj.maxTriangleCount,
-        obj.maxDescriptorSetAccelerationStructures
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV>(const VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.representativeFragmentTest
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
+template <>
+inline auto structure_to_tuple<VkPhysicalDeviceRobustness2FeaturesEXT>(const VkPhysicalDeviceRobustness2FeaturesEXT& obj)
+{
+}
+#endif // ${_COMPILE_GUARD}
+
+#ifdef
+template <>
+inline auto structure_to_tuple<VkPhysicalDeviceRobustness2PropertiesEXT>(const VkPhysicalDeviceRobustness2PropertiesEXT& obj)
+{
+}
+#endif // ${_COMPILE_GUARD}
+
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSampleLocationsPropertiesEXT>(const VkPhysicalDeviceSampleLocationsPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.sampleLocationSampleCounts,
-        std::ref(obj.maxSampleLocationGridSize),
-        Span(obj.sampleLocationCoordinateRange, 2),
-        obj.sampleLocationSubPixelBits,
-        obj.variableSampleLocations
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSamplerFilterMinmaxProperties>(const VkPhysicalDeviceSamplerFilterMinmaxProperties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.filterMinmaxSingleComponentFormats,
-        obj.filterMinmaxImageComponentMapping
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSamplerYcbcrConversionFeatures>(const VkPhysicalDeviceSamplerYcbcrConversionFeatures& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.samplerYcbcrConversion
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceScalarBlockLayoutFeatures>(const VkPhysicalDeviceScalarBlockLayoutFeatures& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.scalarBlockLayout
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures>(const VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.separateDepthStencilLayouts
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderAtomicInt64Features>(const VkPhysicalDeviceShaderAtomicInt64Features& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.shaderBufferInt64Atomics,
-        obj.shaderSharedInt64Atomics
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderClockFeaturesKHR>(const VkPhysicalDeviceShaderClockFeaturesKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.shaderSubgroupClock,
-        obj.shaderDeviceClock
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderCoreProperties2AMD>(const VkPhysicalDeviceShaderCoreProperties2AMD& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.shaderCoreFeatures,
-        obj.activeComputeUnitCount
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderCorePropertiesAMD>(const VkPhysicalDeviceShaderCorePropertiesAMD& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.shaderEngineCount,
-        obj.shaderArraysPerEngineCount,
-        obj.computeUnitsPerShaderArray,
-        obj.simdPerComputeUnit,
-        obj.wavefrontsPerSimd,
-        obj.wavefrontSize,
-        obj.sgprsPerSimd,
-        obj.minSgprAllocation,
-        obj.maxSgprAllocation,
-        obj.sgprAllocationGranularity,
-        obj.vgprsPerSimd,
-        obj.minVgprAllocation,
-        obj.maxVgprAllocation,
-        obj.vgprAllocationGranularity
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT>(const VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.shaderDemoteToHelperInvocation
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderDrawParametersFeatures>(const VkPhysicalDeviceShaderDrawParametersFeatures& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.shaderDrawParameters
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderFloat16Int8Features>(const VkPhysicalDeviceShaderFloat16Int8Features& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.shaderFloat16,
-        obj.shaderInt8
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderImageFootprintFeaturesNV>(const VkPhysicalDeviceShaderImageFootprintFeaturesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.imageFootprint
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL>(const VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.shaderIntegerFunctions2
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderSMBuiltinsFeaturesNV>(const VkPhysicalDeviceShaderSMBuiltinsFeaturesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.shaderSMBuiltins
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderSMBuiltinsPropertiesNV>(const VkPhysicalDeviceShaderSMBuiltinsPropertiesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.shaderSMCount,
-        obj.shaderWarpsPerSM
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures>(const VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.shaderSubgroupExtendedTypes
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShadingRateImageFeaturesNV>(const VkPhysicalDeviceShadingRateImageFeaturesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.shadingRateImage,
-        obj.shadingRateCoarseSampleOrder
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceShadingRateImagePropertiesNV>(const VkPhysicalDeviceShadingRateImagePropertiesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.shadingRateTexelSize),
-        obj.shadingRatePaletteSize,
-        obj.shadingRateMaxCoarseSamples
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSparseImageFormatInfo2>(const VkPhysicalDeviceSparseImageFormatInfo2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.format,
-        obj.type,
-        obj.samples,
-        obj.usage,
-        obj.tiling
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSparseProperties>(const VkPhysicalDeviceSparseProperties& obj)
 {
-    return std::make_tuple(
-        obj.residencyStandard2DBlockShape,
-        obj.residencyStandard2DMultisampleBlockShape,
-        obj.residencyStandard3DBlockShape,
-        obj.residencyAlignedMipSize,
-        obj.residencyNonResidentStrict
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSubgroupProperties>(const VkPhysicalDeviceSubgroupProperties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.subgroupSize,
-        obj.supportedStages,
-        obj.supportedOperations,
-        obj.quadOperationsInAllStages
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSubgroupSizeControlFeaturesEXT>(const VkPhysicalDeviceSubgroupSizeControlFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.subgroupSizeControl,
-        obj.computeFullSubgroups
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSubgroupSizeControlPropertiesEXT>(const VkPhysicalDeviceSubgroupSizeControlPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.minSubgroupSize,
-        obj.maxSubgroupSize,
-        obj.maxComputeWorkgroupSubgroups,
-        obj.requiredSubgroupSizeStages
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceSurfaceInfo2KHR>(const VkPhysicalDeviceSurfaceInfo2KHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.surface
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT>(const VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.texelBufferAlignment
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT>(const VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.storageTexelBufferOffsetAlignmentBytes,
-        obj.storageTexelBufferOffsetSingleTexelAlignment,
-        obj.uniformTexelBufferOffsetAlignmentBytes,
-        obj.uniformTexelBufferOffsetSingleTexelAlignment
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT>(const VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.textureCompressionASTC_HDR
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceTimelineSemaphoreFeatures>(const VkPhysicalDeviceTimelineSemaphoreFeatures& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.timelineSemaphore
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceTimelineSemaphoreProperties>(const VkPhysicalDeviceTimelineSemaphoreProperties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.maxTimelineSemaphoreValueDifference
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceToolPropertiesEXT>(const VkPhysicalDeviceToolPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        Span(obj.name, VK_MAX_EXTENSION_NAME_SIZE),
-        Span(obj.version, VK_MAX_EXTENSION_NAME_SIZE),
-        obj.purposes,
-        Span(obj.description, VK_MAX_DESCRIPTION_SIZE),
-        Span(obj.layer, VK_MAX_EXTENSION_NAME_SIZE)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceTransformFeedbackFeaturesEXT>(const VkPhysicalDeviceTransformFeedbackFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.transformFeedback,
-        obj.geometryStreams
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceTransformFeedbackPropertiesEXT>(const VkPhysicalDeviceTransformFeedbackPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.maxTransformFeedbackStreams,
-        obj.maxTransformFeedbackBuffers,
-        obj.maxTransformFeedbackBufferSize,
-        obj.maxTransformFeedbackStreamDataSize,
-        obj.maxTransformFeedbackBufferDataSize,
-        obj.maxTransformFeedbackBufferDataStride,
-        obj.transformFeedbackQueries,
-        obj.transformFeedbackStreamsLinesTriangles,
-        obj.transformFeedbackRasterizationStreamSelect,
-        obj.transformFeedbackDraw
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceUniformBufferStandardLayoutFeatures>(const VkPhysicalDeviceUniformBufferStandardLayoutFeatures& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.uniformBufferStandardLayout
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceVariablePointersFeatures>(const VkPhysicalDeviceVariablePointersFeatures& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.variablePointersStorageBuffer,
-        obj.variablePointers
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT>(const VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.vertexAttributeInstanceRateDivisor,
-        obj.vertexAttributeInstanceRateZeroDivisor
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT>(const VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.maxVertexAttribDivisor
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceVulkan11Features>(const VkPhysicalDeviceVulkan11Features& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.storageBuffer16BitAccess,
-        obj.uniformAndStorageBuffer16BitAccess,
-        obj.storagePushConstant16,
-        obj.storageInputOutput16,
-        obj.multiview,
-        obj.multiviewGeometryShader,
-        obj.multiviewTessellationShader,
-        obj.variablePointersStorageBuffer,
-        obj.variablePointers,
-        obj.protectedMemory,
-        obj.samplerYcbcrConversion,
-        obj.shaderDrawParameters
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceVulkan11Properties>(const VkPhysicalDeviceVulkan11Properties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        Span(obj.deviceUUID, VK_UUID_SIZE),
-        Span(obj.driverUUID, VK_UUID_SIZE),
-        Span(obj.deviceLUID, VK_LUID_SIZE),
-        obj.deviceNodeMask,
-        obj.deviceLUIDValid,
-        obj.subgroupSize,
-        obj.subgroupSupportedStages,
-        obj.subgroupSupportedOperations,
-        obj.subgroupQuadOperationsInAllStages,
-        obj.pointClippingBehavior,
-        obj.maxMultiviewViewCount,
-        obj.maxMultiviewInstanceIndex,
-        obj.protectedNoFault,
-        obj.maxPerSetDescriptors,
-        obj.maxMemoryAllocationSize
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceVulkan12Features>(const VkPhysicalDeviceVulkan12Features& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.samplerMirrorClampToEdge,
-        obj.drawIndirectCount,
-        obj.storageBuffer8BitAccess,
-        obj.uniformAndStorageBuffer8BitAccess,
-        obj.storagePushConstant8,
-        obj.shaderBufferInt64Atomics,
-        obj.shaderSharedInt64Atomics,
-        obj.shaderFloat16,
-        obj.shaderInt8,
-        obj.descriptorIndexing,
-        obj.shaderInputAttachmentArrayDynamicIndexing,
-        obj.shaderUniformTexelBufferArrayDynamicIndexing,
-        obj.shaderStorageTexelBufferArrayDynamicIndexing,
-        obj.shaderUniformBufferArrayNonUniformIndexing,
-        obj.shaderSampledImageArrayNonUniformIndexing,
-        obj.shaderStorageBufferArrayNonUniformIndexing,
-        obj.shaderStorageImageArrayNonUniformIndexing,
-        obj.shaderInputAttachmentArrayNonUniformIndexing,
-        obj.shaderUniformTexelBufferArrayNonUniformIndexing,
-        obj.shaderStorageTexelBufferArrayNonUniformIndexing,
-        obj.descriptorBindingUniformBufferUpdateAfterBind,
-        obj.descriptorBindingSampledImageUpdateAfterBind,
-        obj.descriptorBindingStorageImageUpdateAfterBind,
-        obj.descriptorBindingStorageBufferUpdateAfterBind,
-        obj.descriptorBindingUniformTexelBufferUpdateAfterBind,
-        obj.descriptorBindingStorageTexelBufferUpdateAfterBind,
-        obj.descriptorBindingUpdateUnusedWhilePending,
-        obj.descriptorBindingPartiallyBound,
-        obj.descriptorBindingVariableDescriptorCount,
-        obj.runtimeDescriptorArray,
-        obj.samplerFilterMinmax,
-        obj.scalarBlockLayout,
-        obj.imagelessFramebuffer,
-        obj.uniformBufferStandardLayout,
-        obj.shaderSubgroupExtendedTypes,
-        obj.separateDepthStencilLayouts,
-        obj.hostQueryReset,
-        obj.timelineSemaphore,
-        obj.bufferDeviceAddress,
-        obj.bufferDeviceAddressCaptureReplay,
-        obj.bufferDeviceAddressMultiDevice,
-        obj.vulkanMemoryModel,
-        obj.vulkanMemoryModelDeviceScope,
-        obj.vulkanMemoryModelAvailabilityVisibilityChains,
-        obj.shaderOutputViewportIndex,
-        obj.shaderOutputLayer,
-        obj.subgroupBroadcastDynamicId
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceVulkan12Properties>(const VkPhysicalDeviceVulkan12Properties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.driverID,
-        Span(obj.driverName, VK_MAX_DRIVER_NAME_SIZE),
-        Span(obj.driverInfo, VK_MAX_DRIVER_INFO_SIZE),
-        std::ref(obj.conformanceVersion),
-        obj.denormBehaviorIndependence,
-        obj.roundingModeIndependence,
-        obj.shaderSignedZeroInfNanPreserveFloat16,
-        obj.shaderSignedZeroInfNanPreserveFloat32,
-        obj.shaderSignedZeroInfNanPreserveFloat64,
-        obj.shaderDenormPreserveFloat16,
-        obj.shaderDenormPreserveFloat32,
-        obj.shaderDenormPreserveFloat64,
-        obj.shaderDenormFlushToZeroFloat16,
-        obj.shaderDenormFlushToZeroFloat32,
-        obj.shaderDenormFlushToZeroFloat64,
-        obj.shaderRoundingModeRTEFloat16,
-        obj.shaderRoundingModeRTEFloat32,
-        obj.shaderRoundingModeRTEFloat64,
-        obj.shaderRoundingModeRTZFloat16,
-        obj.shaderRoundingModeRTZFloat32,
-        obj.shaderRoundingModeRTZFloat64,
-        obj.maxUpdateAfterBindDescriptorsInAllPools,
-        obj.shaderUniformBufferArrayNonUniformIndexingNative,
-        obj.shaderSampledImageArrayNonUniformIndexingNative,
-        obj.shaderStorageBufferArrayNonUniformIndexingNative,
-        obj.shaderStorageImageArrayNonUniformIndexingNative,
-        obj.shaderInputAttachmentArrayNonUniformIndexingNative,
-        obj.robustBufferAccessUpdateAfterBind,
-        obj.quadDivergentImplicitLod,
-        obj.maxPerStageDescriptorUpdateAfterBindSamplers,
-        obj.maxPerStageDescriptorUpdateAfterBindUniformBuffers,
-        obj.maxPerStageDescriptorUpdateAfterBindStorageBuffers,
-        obj.maxPerStageDescriptorUpdateAfterBindSampledImages,
-        obj.maxPerStageDescriptorUpdateAfterBindStorageImages,
-        obj.maxPerStageDescriptorUpdateAfterBindInputAttachments,
-        obj.maxPerStageUpdateAfterBindResources,
-        obj.maxDescriptorSetUpdateAfterBindSamplers,
-        obj.maxDescriptorSetUpdateAfterBindUniformBuffers,
-        obj.maxDescriptorSetUpdateAfterBindUniformBuffersDynamic,
-        obj.maxDescriptorSetUpdateAfterBindStorageBuffers,
-        obj.maxDescriptorSetUpdateAfterBindStorageBuffersDynamic,
-        obj.maxDescriptorSetUpdateAfterBindSampledImages,
-        obj.maxDescriptorSetUpdateAfterBindStorageImages,
-        obj.maxDescriptorSetUpdateAfterBindInputAttachments,
-        obj.supportedDepthResolveModes,
-        obj.supportedStencilResolveModes,
-        obj.independentResolveNone,
-        obj.independentResolve,
-        obj.filterMinmaxSingleComponentFormats,
-        obj.filterMinmaxImageComponentMapping,
-        obj.maxTimelineSemaphoreValueDifference,
-        obj.framebufferIntegerColorSampleCounts
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceVulkanMemoryModelFeatures>(const VkPhysicalDeviceVulkanMemoryModelFeatures& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.vulkanMemoryModel,
-        obj.vulkanMemoryModelDeviceScope,
-        obj.vulkanMemoryModelAvailabilityVisibilityChains
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPhysicalDeviceYcbcrImageArraysFeaturesEXT>(const VkPhysicalDeviceYcbcrImageArraysFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.ycbcrImageArrays
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineCacheCreateInfo>(const VkPipelineCacheCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.initialDataSize,
-        Span((const uint8_t*)obj.pInitialData, obj.initialDataSize)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineColorBlendAdvancedStateCreateInfoEXT>(const VkPipelineColorBlendAdvancedStateCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.srcPremultiplied,
-        obj.dstPremultiplied,
-        obj.blendOverlap
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineColorBlendAttachmentState>(const VkPipelineColorBlendAttachmentState& obj)
 {
-    return std::make_tuple(
-        obj.blendEnable,
-        obj.srcColorBlendFactor,
-        obj.dstColorBlendFactor,
-        obj.colorBlendOp,
-        obj.srcAlphaBlendFactor,
-        obj.dstAlphaBlendFactor,
-        obj.alphaBlendOp,
-        obj.colorWriteMask
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineColorBlendStateCreateInfo>(const VkPipelineColorBlendStateCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.logicOpEnable,
-        obj.logicOp,
-        obj.attachmentCount,
-        Span(obj.pAttachments, obj.attachmentCount),
-        Span(obj.blendConstants, 4)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineCompilerControlCreateInfoAMD>(const VkPipelineCompilerControlCreateInfoAMD& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.compilerControlFlags
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineCoverageModulationStateCreateInfoNV>(const VkPipelineCoverageModulationStateCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.coverageModulationMode,
-        obj.coverageModulationTableEnable,
-        obj.coverageModulationTableCount,
-        Span(obj.pCoverageModulationTable, obj.coverageModulationTableCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineCoverageReductionStateCreateInfoNV>(const VkPipelineCoverageReductionStateCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.coverageReductionMode
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineCoverageToColorStateCreateInfoNV>(const VkPipelineCoverageToColorStateCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.coverageToColorEnable,
-        obj.coverageToColorLocation
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineCreationFeedbackCreateInfoEXT>(const VkPipelineCreationFeedbackCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        Span(obj.pPipelineCreationFeedback, 1),
-        obj.pipelineStageCreationFeedbackCount,
-        Span(obj.pPipelineStageCreationFeedbacks, obj.pipelineStageCreationFeedbackCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineCreationFeedbackEXT>(const VkPipelineCreationFeedbackEXT& obj)
 {
-    return std::make_tuple(
-        obj.flags,
-        obj.duration
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineDepthStencilStateCreateInfo>(const VkPipelineDepthStencilStateCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.depthTestEnable,
-        obj.depthWriteEnable,
-        obj.depthCompareOp,
-        obj.depthBoundsTestEnable,
-        obj.stencilTestEnable,
-        std::ref(obj.front),
-        std::ref(obj.back),
-        obj.minDepthBounds,
-        obj.maxDepthBounds
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineDiscardRectangleStateCreateInfoEXT>(const VkPipelineDiscardRectangleStateCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.discardRectangleMode,
-        obj.discardRectangleCount,
-        Span(obj.pDiscardRectangles, obj.discardRectangleCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineDynamicStateCreateInfo>(const VkPipelineDynamicStateCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.dynamicStateCount,
-        Span(obj.pDynamicStates, obj.dynamicStateCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineExecutableInfoKHR>(const VkPipelineExecutableInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.pipeline,
-        obj.executableIndex
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineExecutableInternalRepresentationKHR>(const VkPipelineExecutableInternalRepresentationKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        Span(obj.name, VK_MAX_DESCRIPTION_SIZE),
-        Span(obj.description, VK_MAX_DESCRIPTION_SIZE),
-        obj.isText,
-        obj.dataSize,
-        Span((const uint8_t*)obj.pData, obj.dataSize)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineExecutablePropertiesKHR>(const VkPipelineExecutablePropertiesKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.stages,
-        Span(obj.name, VK_MAX_DESCRIPTION_SIZE),
-        Span(obj.description, VK_MAX_DESCRIPTION_SIZE),
-        obj.subgroupSize
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineExecutableStatisticKHR>(const VkPipelineExecutableStatisticKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        Span(obj.name, VK_MAX_DESCRIPTION_SIZE),
-        Span(obj.description, VK_MAX_DESCRIPTION_SIZE),
-        obj.format,
-        std::ref(obj.value)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineInfoKHR>(const VkPipelineInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.pipeline
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineInputAssemblyStateCreateInfo>(const VkPipelineInputAssemblyStateCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.topology,
-        obj.primitiveRestartEnable
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineLayoutCreateInfo>(const VkPipelineLayoutCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.setLayoutCount,
-        Span(obj.pSetLayouts, obj.setLayoutCount),
-        obj.pushConstantRangeCount,
-        Span(obj.pPushConstantRanges, obj.pushConstantRangeCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkPipelineLibraryCreateInfoKHR>(const VkPipelineLibraryCreateInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.libraryCount,
-        Span(obj.pLibraries, obj.libraryCount)
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineRasterizationConservativeStateCreateInfoEXT>(const VkPipelineRasterizationConservativeStateCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.conservativeRasterizationMode,
-        obj.extraPrimitiveOverestimationSize
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineRasterizationDepthClipStateCreateInfoEXT>(const VkPipelineRasterizationDepthClipStateCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.depthClipEnable
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineRasterizationLineStateCreateInfoEXT>(const VkPipelineRasterizationLineStateCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.lineRasterizationMode,
-        obj.stippledLineEnable,
-        obj.lineStippleFactor,
-        obj.lineStipplePattern
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineRasterizationStateCreateInfo>(const VkPipelineRasterizationStateCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.depthClampEnable,
-        obj.rasterizerDiscardEnable,
-        obj.polygonMode,
-        obj.cullMode,
-        obj.frontFace,
-        obj.depthBiasEnable,
-        obj.depthBiasConstantFactor,
-        obj.depthBiasClamp,
-        obj.depthBiasSlopeFactor,
-        obj.lineWidth
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineRasterizationStateRasterizationOrderAMD>(const VkPipelineRasterizationStateRasterizationOrderAMD& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.rasterizationOrder
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineRasterizationStateStreamCreateInfoEXT>(const VkPipelineRasterizationStateStreamCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.rasterizationStream
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineRepresentativeFragmentTestStateCreateInfoNV>(const VkPipelineRepresentativeFragmentTestStateCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.representativeFragmentTestEnable
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineSampleLocationsStateCreateInfoEXT>(const VkPipelineSampleLocationsStateCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.sampleLocationsEnable,
-        std::ref(obj.sampleLocationsInfo)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineShaderStageCreateInfo>(const VkPipelineShaderStageCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.stage,
-        obj.module,
-        obj.pName ? std::string_view(obj.pName) : std::string_view(),
-        Span(obj.pSpecializationInfo, 1)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT>(const VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.requiredSubgroupSize
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineTessellationDomainOriginStateCreateInfo>(const VkPipelineTessellationDomainOriginStateCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.domainOrigin
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineTessellationStateCreateInfo>(const VkPipelineTessellationStateCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.patchControlPoints
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineVertexInputDivisorStateCreateInfoEXT>(const VkPipelineVertexInputDivisorStateCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.vertexBindingDivisorCount,
-        Span(obj.pVertexBindingDivisors, obj.vertexBindingDivisorCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineVertexInputStateCreateInfo>(const VkPipelineVertexInputStateCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.vertexBindingDescriptionCount,
-        Span(obj.pVertexBindingDescriptions, obj.vertexBindingDescriptionCount),
-        obj.vertexAttributeDescriptionCount,
-        Span(obj.pVertexAttributeDescriptions, obj.vertexAttributeDescriptionCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineViewportCoarseSampleOrderStateCreateInfoNV>(const VkPipelineViewportCoarseSampleOrderStateCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.sampleOrderType,
-        obj.customSampleOrderCount,
-        Span(obj.pCustomSampleOrders, obj.customSampleOrderCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineViewportExclusiveScissorStateCreateInfoNV>(const VkPipelineViewportExclusiveScissorStateCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.exclusiveScissorCount,
-        Span(obj.pExclusiveScissors, obj.exclusiveScissorCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineViewportShadingRateImageStateCreateInfoNV>(const VkPipelineViewportShadingRateImageStateCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.shadingRateImageEnable,
-        obj.viewportCount,
-        Span(obj.pShadingRatePalettes, obj.viewportCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineViewportStateCreateInfo>(const VkPipelineViewportStateCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.viewportCount,
-        Span(obj.pViewports, obj.viewportCount),
-        obj.scissorCount,
-        Span(obj.pScissors, obj.scissorCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineViewportSwizzleStateCreateInfoNV>(const VkPipelineViewportSwizzleStateCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.viewportCount,
-        Span(obj.pViewportSwizzles, obj.viewportCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPipelineViewportWScalingStateCreateInfoNV>(const VkPipelineViewportWScalingStateCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.viewportWScalingEnable,
-        obj.viewportCount,
-        Span(obj.pViewportWScalings, obj.viewportCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_GGP
 template <>
 inline auto structure_to_tuple<VkPresentFrameTokenGGP>(const VkPresentFrameTokenGGP& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.frameToken
-    );
 }
-#endif // VK_USE_PLATFORM_GGP
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPresentInfoKHR>(const VkPresentInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.waitSemaphoreCount,
-        Span(obj.pWaitSemaphores, obj.waitSemaphoreCount),
-        obj.swapchainCount,
-        Span(obj.pSwapchains, obj.swapchainCount),
-        Span(obj.pImageIndices, obj.swapchainCount),
-        Span(obj.pResults, obj.swapchainCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPresentRegionKHR>(const VkPresentRegionKHR& obj)
 {
-    return std::make_tuple(
-        obj.rectangleCount,
-        Span(obj.pRectangles, obj.rectangleCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPresentRegionsKHR>(const VkPresentRegionsKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.swapchainCount,
-        Span(obj.pRegions, obj.swapchainCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPresentTimeGOOGLE>(const VkPresentTimeGOOGLE& obj)
 {
-    return std::make_tuple(
-        obj.presentID,
-        obj.desiredPresentTime
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPresentTimesInfoGOOGLE>(const VkPresentTimesInfoGOOGLE& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.swapchainCount,
-        Span(obj.pTimes, obj.swapchainCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
+template <>
+inline auto structure_to_tuple<VkPrivateDataSlotCreateInfoEXT>(const VkPrivateDataSlotCreateInfoEXT& obj)
+{
+}
+#endif // ${_COMPILE_GUARD}
+
+#ifdef
 template <>
 inline auto structure_to_tuple<VkProtectedSubmitInfo>(const VkProtectedSubmitInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.protectedSubmit
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkPushConstantRange>(const VkPushConstantRange& obj)
 {
-    return std::make_tuple(
-        obj.stageFlags,
-        obj.offset,
-        obj.size
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkQueryPoolCreateInfo>(const VkQueryPoolCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.queryType,
-        obj.queryCount,
-        obj.pipelineStatistics
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkQueryPoolPerformanceCreateInfoKHR>(const VkQueryPoolPerformanceCreateInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.queueFamilyIndex,
-        obj.counterIndexCount,
-        Span(obj.pCounterIndices, obj.counterIndexCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkQueryPoolPerformanceQueryCreateInfoINTEL>(const VkQueryPoolPerformanceQueryCreateInfoINTEL& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.performanceCountersSampling
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkQueueFamilyCheckpointPropertiesNV>(const VkQueueFamilyCheckpointPropertiesNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.checkpointExecutionStageMask
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkQueueFamilyProperties>(const VkQueueFamilyProperties& obj)
 {
-    return std::make_tuple(
-        obj.queueFlags,
-        obj.queueCount,
-        obj.timestampValidBits,
-        std::ref(obj.minImageTransferGranularity)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkQueueFamilyProperties2>(const VkQueueFamilyProperties2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.queueFamilyProperties)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkRayTracingPipelineCreateInfoKHR>(const VkRayTracingPipelineCreateInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.stageCount,
-        Span(obj.pStages, obj.stageCount),
-        obj.groupCount,
-        Span(obj.pGroups, obj.groupCount),
-        obj.maxRecursionDepth,
-        std::ref(obj.libraries),
-        Span(obj.pLibraryInterface, 1),
-        obj.layout,
-        obj.basePipelineHandle,
-        obj.basePipelineIndex
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkRayTracingPipelineCreateInfoNV>(const VkRayTracingPipelineCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.stageCount,
-        Span(obj.pStages, obj.stageCount),
-        obj.groupCount,
-        Span(obj.pGroups, obj.groupCount),
-        obj.maxRecursionDepth,
-        obj.layout,
-        obj.basePipelineHandle,
-        obj.basePipelineIndex
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkRayTracingPipelineInterfaceCreateInfoKHR>(const VkRayTracingPipelineInterfaceCreateInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.maxPayloadSize,
-        obj.maxAttributeSize,
-        obj.maxCallableSize
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkRayTracingShaderGroupCreateInfoKHR>(const VkRayTracingShaderGroupCreateInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.type,
-        obj.generalShader,
-        obj.closestHitShader,
-        obj.anyHitShader,
-        obj.intersectionShader,
-        obj.pShaderGroupCaptureReplayHandle
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkRayTracingShaderGroupCreateInfoNV>(const VkRayTracingShaderGroupCreateInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.type,
-        obj.generalShader,
-        obj.closestHitShader,
-        obj.anyHitShader,
-        obj.intersectionShader
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkRect2D>(const VkRect2D& obj)
 {
-    return std::make_tuple(
-        std::ref(obj.offset),
-        std::ref(obj.extent)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkRectLayerKHR>(const VkRectLayerKHR& obj)
 {
-    return std::make_tuple(
-        std::ref(obj.offset),
-        std::ref(obj.extent),
-        obj.layer
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkRefreshCycleDurationGOOGLE>(const VkRefreshCycleDurationGOOGLE& obj)
 {
-    return std::make_tuple(
-        obj.refreshDuration
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkRenderPassAttachmentBeginInfo>(const VkRenderPassAttachmentBeginInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.attachmentCount,
-        Span(obj.pAttachments, obj.attachmentCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkRenderPassBeginInfo>(const VkRenderPassBeginInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.renderPass,
-        obj.framebuffer,
-        std::ref(obj.renderArea),
-        obj.clearValueCount,
-        Span(obj.pClearValues, obj.clearValueCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkRenderPassCreateInfo>(const VkRenderPassCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.attachmentCount,
-        Span(obj.pAttachments, obj.attachmentCount),
-        obj.subpassCount,
-        Span(obj.pSubpasses, obj.subpassCount),
-        obj.dependencyCount,
-        Span(obj.pDependencies, obj.dependencyCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkRenderPassCreateInfo2>(const VkRenderPassCreateInfo2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.attachmentCount,
-        Span(obj.pAttachments, obj.attachmentCount),
-        obj.subpassCount,
-        Span(obj.pSubpasses, obj.subpassCount),
-        obj.dependencyCount,
-        Span(obj.pDependencies, obj.dependencyCount),
-        obj.correlatedViewMaskCount,
-        Span(obj.pCorrelatedViewMasks, obj.correlatedViewMaskCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkRenderPassFragmentDensityMapCreateInfoEXT>(const VkRenderPassFragmentDensityMapCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.fragmentDensityMapAttachment)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkRenderPassInputAttachmentAspectCreateInfo>(const VkRenderPassInputAttachmentAspectCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.aspectReferenceCount,
-        Span(obj.pAspectReferences, obj.aspectReferenceCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkRenderPassMultiviewCreateInfo>(const VkRenderPassMultiviewCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.subpassCount,
-        Span(obj.pViewMasks, obj.subpassCount),
-        obj.dependencyCount,
-        Span(obj.pViewOffsets, obj.dependencyCount),
-        obj.correlationMaskCount,
-        Span(obj.pCorrelationMasks, obj.correlationMaskCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkRenderPassSampleLocationsBeginInfoEXT>(const VkRenderPassSampleLocationsBeginInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.attachmentInitialSampleLocationsCount,
-        Span(obj.pAttachmentInitialSampleLocations, obj.attachmentInitialSampleLocationsCount),
-        obj.postSubpassSampleLocationsCount,
-        Span(obj.pPostSubpassSampleLocations, obj.postSubpassSampleLocationsCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkRenderPassTransformBeginInfoQCOM>(const VkRenderPassTransformBeginInfoQCOM& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.transform
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSampleLocationEXT>(const VkSampleLocationEXT& obj)
 {
-    return std::make_tuple(
-        obj.x,
-        obj.y
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSampleLocationsInfoEXT>(const VkSampleLocationsInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.sampleLocationsPerPixel,
-        std::ref(obj.sampleLocationGridSize),
-        obj.sampleLocationsCount,
-        Span(obj.pSampleLocations, obj.sampleLocationsCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSamplerCreateInfo>(const VkSamplerCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.magFilter,
-        obj.minFilter,
-        obj.mipmapMode,
-        obj.addressModeU,
-        obj.addressModeV,
-        obj.addressModeW,
-        obj.mipLodBias,
-        obj.anisotropyEnable,
-        obj.maxAnisotropy,
-        obj.compareEnable,
-        obj.compareOp,
-        obj.minLod,
-        obj.maxLod,
-        obj.borderColor,
-        obj.unnormalizedCoordinates
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
+template <>
+inline auto structure_to_tuple<VkSamplerCustomBorderColorCreateInfoEXT>(const VkSamplerCustomBorderColorCreateInfoEXT& obj)
+{
+}
+#endif // ${_COMPILE_GUARD}
+
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSamplerReductionModeCreateInfo>(const VkSamplerReductionModeCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.reductionMode
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSamplerYcbcrConversionCreateInfo>(const VkSamplerYcbcrConversionCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.format,
-        obj.ycbcrModel,
-        obj.ycbcrRange,
-        std::ref(obj.components),
-        obj.xChromaOffset,
-        obj.yChromaOffset,
-        obj.chromaFilter,
-        obj.forceExplicitReconstruction
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSamplerYcbcrConversionImageFormatProperties>(const VkSamplerYcbcrConversionImageFormatProperties& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.combinedImageSamplerDescriptorCount
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSamplerYcbcrConversionInfo>(const VkSamplerYcbcrConversionInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.conversion
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSemaphoreCreateInfo>(const VkSemaphoreCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSemaphoreGetFdInfoKHR>(const VkSemaphoreGetFdInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.semaphore,
-        obj.handleType
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkSemaphoreGetWin32HandleInfoKHR>(const VkSemaphoreGetWin32HandleInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.semaphore,
-        obj.handleType
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSemaphoreSignalInfo>(const VkSemaphoreSignalInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.semaphore,
-        obj.value
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSemaphoreTypeCreateInfo>(const VkSemaphoreTypeCreateInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.semaphoreType,
-        obj.initialValue
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSemaphoreWaitInfo>(const VkSemaphoreWaitInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.semaphoreCount,
-        Span(obj.pSemaphores, obj.semaphoreCount),
-        Span(obj.pValues, obj.semaphoreCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSetStateFlagsIndirectCommandNV>(const VkSetStateFlagsIndirectCommandNV& obj)
 {
-    return std::make_tuple(
-        obj.data
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkShaderModuleValidationCacheCreateInfoEXT>(const VkShaderModuleValidationCacheCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.validationCache
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkShaderResourceUsageAMD>(const VkShaderResourceUsageAMD& obj)
 {
-    return std::make_tuple(
-        obj.numUsedVgprs,
-        obj.numUsedSgprs,
-        obj.ldsSizePerLocalWorkGroup,
-        obj.ldsUsageSizeInBytes,
-        obj.scratchMemUsageInBytes
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkShaderStatisticsInfoAMD>(const VkShaderStatisticsInfoAMD& obj)
 {
-    return std::make_tuple(
-        obj.shaderStageMask,
-        std::ref(obj.resourceUsage),
-        obj.numPhysicalVgprs,
-        obj.numPhysicalSgprs,
-        obj.numAvailableVgprs,
-        obj.numAvailableSgprs,
-        Span(obj.computeWorkGroupSize, 3)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkShadingRatePaletteNV>(const VkShadingRatePaletteNV& obj)
 {
-    return std::make_tuple(
-        obj.shadingRatePaletteEntryCount,
-        Span(obj.pShadingRatePaletteEntries, obj.shadingRatePaletteEntryCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSharedPresentSurfaceCapabilitiesKHR>(const VkSharedPresentSurfaceCapabilitiesKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.sharedPresentSupportedUsageFlags
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSparseBufferMemoryBindInfo>(const VkSparseBufferMemoryBindInfo& obj)
 {
-    return std::make_tuple(
-        obj.buffer,
-        obj.bindCount,
-        Span(obj.pBinds, obj.bindCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSparseImageFormatProperties>(const VkSparseImageFormatProperties& obj)
 {
-    return std::make_tuple(
-        obj.aspectMask,
-        std::ref(obj.imageGranularity),
-        obj.flags
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSparseImageFormatProperties2>(const VkSparseImageFormatProperties2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.properties)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSparseImageMemoryBind>(const VkSparseImageMemoryBind& obj)
 {
-    return std::make_tuple(
-        std::ref(obj.subresource),
-        std::ref(obj.offset),
-        std::ref(obj.extent),
-        obj.memory,
-        obj.memoryOffset,
-        obj.flags
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSparseImageMemoryBindInfo>(const VkSparseImageMemoryBindInfo& obj)
 {
-    return std::make_tuple(
-        obj.image,
-        obj.bindCount,
-        Span(obj.pBinds, obj.bindCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSparseImageMemoryRequirements>(const VkSparseImageMemoryRequirements& obj)
 {
-    return std::make_tuple(
-        std::ref(obj.formatProperties),
-        obj.imageMipTailFirstLod,
-        obj.imageMipTailSize,
-        obj.imageMipTailOffset,
-        obj.imageMipTailStride
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSparseImageMemoryRequirements2>(const VkSparseImageMemoryRequirements2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.memoryRequirements)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSparseImageOpaqueMemoryBindInfo>(const VkSparseImageOpaqueMemoryBindInfo& obj)
 {
-    return std::make_tuple(
-        obj.image,
-        obj.bindCount,
-        Span(obj.pBinds, obj.bindCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSparseMemoryBind>(const VkSparseMemoryBind& obj)
 {
-    return std::make_tuple(
-        obj.resourceOffset,
-        obj.size,
-        obj.memory,
-        obj.memoryOffset,
-        obj.flags
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSpecializationInfo>(const VkSpecializationInfo& obj)
 {
-    return std::make_tuple(
-        obj.mapEntryCount,
-        Span(obj.pMapEntries, obj.mapEntryCount),
-        obj.dataSize,
-        Span((const uint8_t*)obj.pData, obj.dataSize)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSpecializationMapEntry>(const VkSpecializationMapEntry& obj)
 {
-    return std::make_tuple(
-        obj.constantID,
-        obj.offset,
-        obj.size
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkStencilOpState>(const VkStencilOpState& obj)
 {
-    return std::make_tuple(
-        obj.failOp,
-        obj.passOp,
-        obj.depthFailOp,
-        obj.compareOp,
-        obj.compareMask,
-        obj.writeMask,
-        obj.reference
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_GGP
 template <>
 inline auto structure_to_tuple<VkStreamDescriptorSurfaceCreateInfoGGP>(const VkStreamDescriptorSurfaceCreateInfoGGP& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.streamDescriptor
-    );
 }
-#endif // VK_USE_PLATFORM_GGP
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkStridedBufferRegionKHR>(const VkStridedBufferRegionKHR& obj)
 {
-    return std::make_tuple(
-        obj.buffer,
-        obj.offset,
-        obj.stride,
-        obj.size
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSubmitInfo>(const VkSubmitInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.waitSemaphoreCount,
-        Span(obj.pWaitSemaphores, obj.waitSemaphoreCount),
-        Span(obj.pWaitDstStageMask, obj.waitSemaphoreCount),
-        obj.commandBufferCount,
-        Span(obj.pCommandBuffers, obj.commandBufferCount),
-        obj.signalSemaphoreCount,
-        Span(obj.pSignalSemaphores, obj.signalSemaphoreCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSubpassBeginInfo>(const VkSubpassBeginInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.contents
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSubpassDependency>(const VkSubpassDependency& obj)
 {
-    return std::make_tuple(
-        obj.srcSubpass,
-        obj.dstSubpass,
-        obj.srcStageMask,
-        obj.dstStageMask,
-        obj.srcAccessMask,
-        obj.dstAccessMask,
-        obj.dependencyFlags
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSubpassDependency2>(const VkSubpassDependency2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.srcSubpass,
-        obj.dstSubpass,
-        obj.srcStageMask,
-        obj.dstStageMask,
-        obj.srcAccessMask,
-        obj.dstAccessMask,
-        obj.dependencyFlags,
-        obj.viewOffset
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSubpassDescription>(const VkSubpassDescription& obj)
 {
-    return std::make_tuple(
-        obj.flags,
-        obj.pipelineBindPoint,
-        obj.inputAttachmentCount,
-        Span(obj.pInputAttachments, obj.inputAttachmentCount),
-        obj.colorAttachmentCount,
-        Span(obj.pColorAttachments, obj.colorAttachmentCount),
-        Span(obj.pResolveAttachments, obj.colorAttachmentCount),
-        Span(obj.pDepthStencilAttachment, 1),
-        obj.preserveAttachmentCount,
-        Span(obj.pPreserveAttachments, obj.preserveAttachmentCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSubpassDescription2>(const VkSubpassDescription2& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.pipelineBindPoint,
-        obj.viewMask,
-        obj.inputAttachmentCount,
-        Span(obj.pInputAttachments, obj.inputAttachmentCount),
-        obj.colorAttachmentCount,
-        Span(obj.pColorAttachments, obj.colorAttachmentCount),
-        Span(obj.pResolveAttachments, obj.colorAttachmentCount),
-        Span(obj.pDepthStencilAttachment, 1),
-        obj.preserveAttachmentCount,
-        Span(obj.pPreserveAttachments, obj.preserveAttachmentCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSubpassDescriptionDepthStencilResolve>(const VkSubpassDescriptionDepthStencilResolve& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.depthResolveMode,
-        obj.stencilResolveMode,
-        Span(obj.pDepthStencilResolveAttachment, 1)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSubpassEndInfo>(const VkSubpassEndInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext }
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSubpassSampleLocationsEXT>(const VkSubpassSampleLocationsEXT& obj)
 {
-    return std::make_tuple(
-        obj.subpassIndex,
-        std::ref(obj.sampleLocationsInfo)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSubresourceLayout>(const VkSubresourceLayout& obj)
 {
-    return std::make_tuple(
-        obj.offset,
-        obj.size,
-        obj.rowPitch,
-        obj.arrayPitch,
-        obj.depthPitch
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSurfaceCapabilities2EXT>(const VkSurfaceCapabilities2EXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.minImageCount,
-        obj.maxImageCount,
-        std::ref(obj.currentExtent),
-        std::ref(obj.minImageExtent),
-        std::ref(obj.maxImageExtent),
-        obj.maxImageArrayLayers,
-        obj.supportedTransforms,
-        obj.currentTransform,
-        obj.supportedCompositeAlpha,
-        obj.supportedUsageFlags,
-        obj.supportedSurfaceCounters
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSurfaceCapabilities2KHR>(const VkSurfaceCapabilities2KHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.surfaceCapabilities)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkSurfaceCapabilitiesFullScreenExclusiveEXT>(const VkSurfaceCapabilitiesFullScreenExclusiveEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.fullScreenExclusiveSupported
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSurfaceCapabilitiesKHR>(const VkSurfaceCapabilitiesKHR& obj)
 {
-    return std::make_tuple(
-        obj.minImageCount,
-        obj.maxImageCount,
-        std::ref(obj.currentExtent),
-        std::ref(obj.minImageExtent),
-        std::ref(obj.maxImageExtent),
-        obj.maxImageArrayLayers,
-        obj.supportedTransforms,
-        obj.currentTransform,
-        obj.supportedCompositeAlpha,
-        obj.supportedUsageFlags
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSurfaceFormat2KHR>(const VkSurfaceFormat2KHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        std::ref(obj.surfaceFormat)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSurfaceFormatKHR>(const VkSurfaceFormatKHR& obj)
 {
-    return std::make_tuple(
-        obj.format,
-        obj.colorSpace
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkSurfaceFullScreenExclusiveInfoEXT>(const VkSurfaceFullScreenExclusiveInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.fullScreenExclusive
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkSurfaceFullScreenExclusiveWin32InfoEXT>(const VkSurfaceFullScreenExclusiveWin32InfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.hmonitor
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSurfaceProtectedCapabilitiesKHR>(const VkSurfaceProtectedCapabilitiesKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.supportsProtected
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSwapchainCounterCreateInfoEXT>(const VkSwapchainCounterCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.surfaceCounters
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSwapchainCreateInfoKHR>(const VkSwapchainCreateInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.surface,
-        obj.minImageCount,
-        obj.imageFormat,
-        obj.imageColorSpace,
-        std::ref(obj.imageExtent),
-        obj.imageArrayLayers,
-        obj.imageUsage,
-        obj.imageSharingMode,
-        obj.queueFamilyIndexCount,
-        Span(obj.pQueueFamilyIndices, obj.queueFamilyIndexCount),
-        obj.preTransform,
-        obj.compositeAlpha,
-        obj.presentMode,
-        obj.clipped,
-        obj.oldSwapchain
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkSwapchainDisplayNativeHdrCreateInfoAMD>(const VkSwapchainDisplayNativeHdrCreateInfoAMD& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.localDimmingEnable
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 template <>
 inline auto structure_to_tuple<VkSwapchainImageCreateInfoANDROID>(const VkSwapchainImageCreateInfoANDROID& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.usage
-    );
 }
-#endif // VK_USE_PLATFORM_ANDROID_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkTextureLODGatherFormatPropertiesAMD>(const VkTextureLODGatherFormatPropertiesAMD& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.supportsTextureGatherLODBiasAMD
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkTimelineSemaphoreSubmitInfo>(const VkTimelineSemaphoreSubmitInfo& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.waitSemaphoreValueCount,
-        Span(obj.pWaitSemaphoreValues, obj.waitSemaphoreValueCount),
-        obj.signalSemaphoreValueCount,
-        Span(obj.pSignalSemaphoreValues, obj.signalSemaphoreValueCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkTraceRaysIndirectCommandKHR>(const VkTraceRaysIndirectCommandKHR& obj)
 {
-    return std::make_tuple(
-        obj.width,
-        obj.height,
-        obj.depth
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkValidationCacheCreateInfoEXT>(const VkValidationCacheCreateInfoEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.initialDataSize,
-        Span((const uint8_t*)obj.pInitialData, obj.initialDataSize)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkValidationFeaturesEXT>(const VkValidationFeaturesEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.enabledValidationFeatureCount,
-        Span(obj.pEnabledValidationFeatures, obj.enabledValidationFeatureCount),
-        obj.disabledValidationFeatureCount,
-        Span(obj.pDisabledValidationFeatures, obj.disabledValidationFeatureCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkValidationFlagsEXT>(const VkValidationFlagsEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.disabledValidationCheckCount,
-        Span(obj.pDisabledValidationChecks, obj.disabledValidationCheckCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkVertexInputAttributeDescription>(const VkVertexInputAttributeDescription& obj)
 {
-    return std::make_tuple(
-        obj.location,
-        obj.binding,
-        obj.format,
-        obj.offset
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkVertexInputBindingDescription>(const VkVertexInputBindingDescription& obj)
 {
-    return std::make_tuple(
-        obj.binding,
-        obj.stride,
-        obj.inputRate
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkVertexInputBindingDivisorDescriptionEXT>(const VkVertexInputBindingDivisorDescriptionEXT& obj)
 {
-    return std::make_tuple(
-        obj.binding,
-        obj.divisor
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_VI_NN
 template <>
 inline auto structure_to_tuple<VkViSurfaceCreateInfoNN>(const VkViSurfaceCreateInfoNN& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.window
-    );
 }
-#endif // VK_USE_PLATFORM_VI_NN
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkViewport>(const VkViewport& obj)
 {
-    return std::make_tuple(
-        obj.x,
-        obj.y,
-        obj.width,
-        obj.height,
-        obj.minDepth,
-        obj.maxDepth
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkViewportSwizzleNV>(const VkViewportSwizzleNV& obj)
 {
-    return std::make_tuple(
-        obj.x,
-        obj.y,
-        obj.z,
-        obj.w
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkViewportWScalingNV>(const VkViewportWScalingNV& obj)
 {
-    return std::make_tuple(
-        obj.xcoeff,
-        obj.ycoeff
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WAYLAND_KHR
 template <>
 inline auto structure_to_tuple<VkWaylandSurfaceCreateInfoKHR>(const VkWaylandSurfaceCreateInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.display,
-        obj.surface
-    );
 }
-#endif // VK_USE_PLATFORM_WAYLAND_KHR
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkWin32KeyedMutexAcquireReleaseInfoKHR>(const VkWin32KeyedMutexAcquireReleaseInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.acquireCount,
-        Span(obj.pAcquireSyncs, obj.acquireCount),
-        Span(obj.pAcquireKeys, obj.acquireCount),
-        Span(obj.pAcquireTimeouts, obj.acquireCount),
-        obj.releaseCount,
-        Span(obj.pReleaseSyncs, obj.releaseCount),
-        Span(obj.pReleaseKeys, obj.releaseCount)
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkWin32KeyedMutexAcquireReleaseInfoNV>(const VkWin32KeyedMutexAcquireReleaseInfoNV& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.acquireCount,
-        Span(obj.pAcquireSyncs, obj.acquireCount),
-        Span(obj.pAcquireKeys, obj.acquireCount),
-        Span(obj.pAcquireTimeoutMilliseconds, obj.acquireCount),
-        obj.releaseCount,
-        Span(obj.pReleaseSyncs, obj.releaseCount),
-        Span(obj.pReleaseKeys, obj.releaseCount)
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 inline auto structure_to_tuple<VkWin32SurfaceCreateInfoKHR>(const VkWin32SurfaceCreateInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.hinstance,
-        obj.hwnd
-    );
 }
-#endif // VK_USE_PLATFORM_WIN32_KHR
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkWriteDescriptorSet>(const VkWriteDescriptorSet& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.dstSet,
-        obj.dstBinding,
-        obj.dstArrayElement,
-        obj.descriptorCount,
-        obj.descriptorType,
-        Span(obj.pImageInfo, obj.descriptorCount),
-        Span(obj.pBufferInfo, obj.descriptorCount),
-        Span(obj.pTexelBufferView, obj.descriptorCount)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto structure_to_tuple<VkWriteDescriptorSetAccelerationStructureKHR>(const VkWriteDescriptorSetAccelerationStructureKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.accelerationStructureCount,
-        Span(obj.pAccelerationStructures, obj.accelerationStructureCount)
-    );
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkWriteDescriptorSetInlineUniformBlockEXT>(const VkWriteDescriptorSetInlineUniformBlockEXT& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.dataSize,
-        Span((const uint8_t*)obj.pData, obj.dataSize)
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
+#ifdef
 template <>
 inline auto structure_to_tuple<VkXYColorEXT>(const VkXYColorEXT& obj)
 {
-    return std::make_tuple(
-        obj.x,
-        obj.y
-    );
 }
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_XCB_KHR
 template <>
 inline auto structure_to_tuple<VkXcbSurfaceCreateInfoKHR>(const VkXcbSurfaceCreateInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.connection,
-        obj.window
-    );
 }
-#endif // VK_USE_PLATFORM_XCB_KHR
+#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_USE_PLATFORM_XLIB_KHR
 template <>
 inline auto structure_to_tuple<VkXlibSurfaceCreateInfoKHR>(const VkXlibSurfaceCreateInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        obj.flags,
-        obj.dpy,
-        obj.window
-    );
 }
-#endif // VK_USE_PLATFORM_XLIB_KHR
+#endif // ${_COMPILE_GUARD}
 
 } // namespace detail
 } // namespace vk

@@ -24,17 +24,17 @@ inline void generate_managed_structures(const xml::Manifest& vkXmlManifest)
 {
     using namespace dst::cppgen;
     CppFile headerFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) / "managed-structures.hpp");
-    headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/managed.hpp" };
-    headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/managed-structure.hpp" };
-    headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/defines.hpp" };
+    headerFile << R"(#include "dynamic_static/graphics/vulkan/detail/managed.hpp")" << std::endl;
+    headerFile << R"(#include "dynamic_static/graphics/vulkan/detail/managed-structure.hpp")" << std::endl;
+    headerFile << R"(#include "dynamic_static/graphics/vulkan/defines.hpp")" << std::endl;
     headerFile << std::endl;
     CppStructure::Collection cppStructures;
     for (const auto& vkStructureItr : vkXmlManifest.structures) {
         const auto& vkStructure = vkStructureItr.second;
         CppStructure cppStructure;
-        cppStructure.flags = CppStructure::Class;
+        cppStructure.cppType = CppStructure::Type::Class;
         cppStructure.cppCompileGuards = { vkStructure.compileGuard };
-        cppStructure.name = "Managed";
+        cppStructure.cppName = "Managed";
         cppStructure.cppTemplate.cppSpecializations = { vkStructure.name };
         auto cppBaseType = "detail::ManagedStructure<" + vkStructure.name + ">";
         cppStructure.cppBaseTypes = {{ CppAccessModifier::Public, cppBaseType }};

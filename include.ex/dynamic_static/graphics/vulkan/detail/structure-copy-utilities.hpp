@@ -12,6 +12,8 @@
 
 #include "dynamic_static/graphics/vulkan/defines.hpp"
 
+#include <cstdlib>
+
 namespace dst {
 namespace gfx {
 namespace vk {

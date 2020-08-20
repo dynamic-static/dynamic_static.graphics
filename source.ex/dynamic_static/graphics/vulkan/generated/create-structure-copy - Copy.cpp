@@ -1507,16 +1507,6 @@ VkDeviceOrHostAddressKHR create_structure_copy<VkDeviceOrHostAddressKHR>(const V
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
 template <>
-VkDevicePrivateDataCreateInfoEXT create_structure_copy<VkDevicePrivateDataCreateInfoEXT>(const VkDevicePrivateDataCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkDevicePrivateDataCreateInfoEXT result { };
-    result.sType = create_structure_copy(obj.sType, pAllocationCallbacks);
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.privateDataSlotRequestCount = create_structure_copy(obj.privateDataSlotRequestCount, pAllocationCallbacks);
-    return result;
-}
-
-template <>
 VkDeviceQueueCreateInfo create_structure_copy<VkDeviceQueueCreateInfo>(const VkDeviceQueueCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceQueueCreateInfo result { };
@@ -2581,17 +2571,6 @@ VkImageViewASTCDecodeModeEXT create_structure_copy<VkImageViewASTCDecodeModeEXT>
 }
 
 template <>
-VkImageViewAddressPropertiesNVX create_structure_copy<VkImageViewAddressPropertiesNVX>(const VkImageViewAddressPropertiesNVX& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkImageViewAddressPropertiesNVX result { };
-    result.sType = create_structure_copy(obj.sType, pAllocationCallbacks);
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.deviceAddress = create_structure_copy(obj.deviceAddress, pAllocationCallbacks);
-    result.size = create_structure_copy(obj.size, pAllocationCallbacks);
-    return result;
-}
-
-template <>
 VkImageViewCreateInfo create_structure_copy<VkImageViewCreateInfo>(const VkImageViewCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageViewCreateInfo result { };
@@ -3228,7 +3207,7 @@ VkPerformanceValueDataINTEL create_structure_copy<VkPerformanceValueDataINTEL>(c
     result.value64 = create_structure_copy(obj.value64, pAllocationCallbacks);
     result.valueFloat = create_structure_copy(obj.valueFloat, pAllocationCallbacks);
     result.valueBool = create_structure_copy(obj.valueBool, pAllocationCallbacks);
-    result.valueString = create_dynamic_string_copy(obj.valueString, pAllocationCallbacks);
+    result.valueString = obj.valueString;
     return result;
 }
 #endif // DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION
@@ -3418,27 +3397,6 @@ VkPhysicalDeviceCoverageReductionModeFeaturesNV create_structure_copy<VkPhysical
 }
 
 template <>
-VkPhysicalDeviceCustomBorderColorFeaturesEXT create_structure_copy<VkPhysicalDeviceCustomBorderColorFeaturesEXT>(const VkPhysicalDeviceCustomBorderColorFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkPhysicalDeviceCustomBorderColorFeaturesEXT result { };
-    result.sType = create_structure_copy(obj.sType, pAllocationCallbacks);
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.customBorderColors = create_structure_copy(obj.customBorderColors, pAllocationCallbacks);
-    result.customBorderColorWithoutFormat = create_structure_copy(obj.customBorderColorWithoutFormat, pAllocationCallbacks);
-    return result;
-}
-
-template <>
-VkPhysicalDeviceCustomBorderColorPropertiesEXT create_structure_copy<VkPhysicalDeviceCustomBorderColorPropertiesEXT>(const VkPhysicalDeviceCustomBorderColorPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkPhysicalDeviceCustomBorderColorPropertiesEXT result { };
-    result.sType = create_structure_copy(obj.sType, pAllocationCallbacks);
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.maxCustomBorderColorSamplers = create_structure_copy(obj.maxCustomBorderColorSamplers, pAllocationCallbacks);
-    return result;
-}
-
-template <>
 VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV create_structure_copy<VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV>(const VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV result { };
@@ -3547,7 +3505,7 @@ VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV create_structure_copy<VkPhys
 {
     VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV result { };
     result.sType = create_structure_copy(obj.sType, pAllocationCallbacks);
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
     result.maxGraphicsShaderGroupCount = create_structure_copy(obj.maxGraphicsShaderGroupCount, pAllocationCallbacks);
     result.maxIndirectSequenceCount = create_structure_copy(obj.maxIndirectSequenceCount, pAllocationCallbacks);
     result.maxIndirectCommandsTokenCount = create_structure_copy(obj.maxIndirectCommandsTokenCount, pAllocationCallbacks);
@@ -4251,16 +4209,6 @@ VkPhysicalDevicePresentationPropertiesANDROID create_structure_copy<VkPhysicalDe
 #endif // VK_USE_PLATFORM_ANDROID_KHR
 
 template <>
-VkPhysicalDevicePrivateDataFeaturesEXT create_structure_copy<VkPhysicalDevicePrivateDataFeaturesEXT>(const VkPhysicalDevicePrivateDataFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkPhysicalDevicePrivateDataFeaturesEXT result { };
-    result.sType = create_structure_copy(obj.sType, pAllocationCallbacks);
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.privateData = create_structure_copy(obj.privateData, pAllocationCallbacks);
-    return result;
-}
-
-template <>
 VkPhysicalDeviceProperties create_structure_copy<VkPhysicalDeviceProperties>(const VkPhysicalDeviceProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceProperties result { };
@@ -4380,29 +4328,6 @@ VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV create_structure_copy<VkPhy
     result.sType = create_structure_copy(obj.sType, pAllocationCallbacks);
     result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
     result.representativeFragmentTest = create_structure_copy(obj.representativeFragmentTest, pAllocationCallbacks);
-    return result;
-}
-
-template <>
-VkPhysicalDeviceRobustness2FeaturesEXT create_structure_copy<VkPhysicalDeviceRobustness2FeaturesEXT>(const VkPhysicalDeviceRobustness2FeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkPhysicalDeviceRobustness2FeaturesEXT result { };
-    result.sType = create_structure_copy(obj.sType, pAllocationCallbacks);
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.robustBufferAccess2 = create_structure_copy(obj.robustBufferAccess2, pAllocationCallbacks);
-    result.robustImageAccess2 = create_structure_copy(obj.robustImageAccess2, pAllocationCallbacks);
-    result.nullDescriptor = create_structure_copy(obj.nullDescriptor, pAllocationCallbacks);
-    return result;
-}
-
-template <>
-VkPhysicalDeviceRobustness2PropertiesEXT create_structure_copy<VkPhysicalDeviceRobustness2PropertiesEXT>(const VkPhysicalDeviceRobustness2PropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkPhysicalDeviceRobustness2PropertiesEXT result { };
-    result.sType = create_structure_copy(obj.sType, pAllocationCallbacks);
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.robustStorageBufferAccessSizeAlignment = create_structure_copy(obj.robustStorageBufferAccessSizeAlignment, pAllocationCallbacks);
-    result.robustUniformBufferAccessSizeAlignment = create_structure_copy(obj.robustUniformBufferAccessSizeAlignment, pAllocationCallbacks);
     return result;
 }
 
@@ -5624,16 +5549,6 @@ VkPresentTimesInfoGOOGLE create_structure_copy<VkPresentTimesInfoGOOGLE>(const V
 }
 
 template <>
-VkPrivateDataSlotCreateInfoEXT create_structure_copy<VkPrivateDataSlotCreateInfoEXT>(const VkPrivateDataSlotCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkPrivateDataSlotCreateInfoEXT result { };
-    result.sType = create_structure_copy(obj.sType, pAllocationCallbacks);
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.flags = create_structure_copy(obj.flags, pAllocationCallbacks);
-    return result;
-}
-
-template <>
 VkProtectedSubmitInfo create_structure_copy<VkProtectedSubmitInfo>(const VkProtectedSubmitInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkProtectedSubmitInfo result { };
@@ -5993,17 +5908,6 @@ VkSamplerCreateInfo create_structure_copy<VkSamplerCreateInfo>(const VkSamplerCr
     result.maxLod = create_structure_copy(obj.maxLod, pAllocationCallbacks);
     result.borderColor = create_structure_copy(obj.borderColor, pAllocationCallbacks);
     result.unnormalizedCoordinates = create_structure_copy(obj.unnormalizedCoordinates, pAllocationCallbacks);
-    return result;
-}
-
-template <>
-VkSamplerCustomBorderColorCreateInfoEXT create_structure_copy<VkSamplerCustomBorderColorCreateInfoEXT>(const VkSamplerCustomBorderColorCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkSamplerCustomBorderColorCreateInfoEXT result { };
-    result.sType = create_structure_copy(obj.sType, pAllocationCallbacks);
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.customBorderColor = create_structure_copy(obj.customBorderColor, pAllocationCallbacks);
-    result.format = create_structure_copy(obj.format, pAllocationCallbacks);
     return result;
 }
 
@@ -7139,9 +7043,6 @@ void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocat
         case VK_STRUCTURE_TYPE_DEVICE_MEMORY_OVERALLOCATION_CREATE_INFO_AMD: {
             return create_dynamic_array_copy(1, (const VkDeviceMemoryOverallocationCreateInfoAMD*)pNext, pAllocationCallbacks);
         } break;
-        case VK_STRUCTURE_TYPE_DEVICE_PRIVATE_DATA_CREATE_INFO_EXT: {
-            return create_dynamic_array_copy(1, (const VkDevicePrivateDataCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
         case VK_STRUCTURE_TYPE_DEVICE_QUEUE_GLOBAL_PRIORITY_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (const VkDeviceQueueGlobalPriorityCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
@@ -7264,9 +7165,6 @@ void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocat
         } break;
         case VK_STRUCTURE_TYPE_IMAGE_SWAPCHAIN_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (const VkImageSwapchainCreateInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_IMAGE_VIEW_ADDRESS_PROPERTIES_NVX: {
-            return create_dynamic_array_copy(1, (const VkImageViewAddressPropertiesNVX*)pNext, pAllocationCallbacks);
         } break;
         case VK_STRUCTURE_TYPE_IMAGE_VIEW_HANDLE_INFO_NVX: {
             return create_dynamic_array_copy(1, (const VkImageViewHandleInfoNVX*)pNext, pAllocationCallbacks);
@@ -7401,12 +7299,6 @@ void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocat
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COVERAGE_REDUCTION_MODE_FEATURES_NV: {
             return create_dynamic_array_copy(1, (const VkPhysicalDeviceCoverageReductionModeFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_FEATURES_EXT: {
-            return create_dynamic_array_copy(1, (const VkPhysicalDeviceCustomBorderColorFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_PROPERTIES_EXT: {
-            return create_dynamic_array_copy(1, (const VkPhysicalDeviceCustomBorderColorPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEDICATED_ALLOCATION_IMAGE_ALIASING_FEATURES_NV: {
             return create_dynamic_array_copy(1, (const VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
@@ -7496,9 +7388,6 @@ void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocat
             return create_dynamic_array_copy(1, (const VkPhysicalDevicePresentationPropertiesANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIVATE_DATA_FEATURES_EXT: {
-            return create_dynamic_array_copy(1, (const VkPhysicalDevicePrivateDataFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES_KHR: {
             return create_dynamic_array_copy(1, (const VkPhysicalDevicePushDescriptorPropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
@@ -7517,12 +7406,6 @@ void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocat
         } break;
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_REPRESENTATIVE_FRAGMENT_TEST_FEATURES_NV: {
             return create_dynamic_array_copy(1, (const VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_EXT: {
-            return create_dynamic_array_copy(1, (const VkPhysicalDeviceRobustness2FeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_PROPERTIES_EXT: {
-            return create_dynamic_array_copy(1, (const VkPhysicalDeviceRobustness2PropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLE_LOCATIONS_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (const VkPhysicalDeviceSampleLocationsPropertiesEXT*)pNext, pAllocationCallbacks);
@@ -7681,14 +7564,11 @@ void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocat
         case VK_STRUCTURE_TYPE_PRESENT_TIMES_INFO_GOOGLE: {
             return create_dynamic_array_copy(1, (const VkPresentTimesInfoGOOGLE*)pNext, pAllocationCallbacks);
         } break;
-        case VK_STRUCTURE_TYPE_PRIVATE_DATA_SLOT_CREATE_INFO_EXT: {
-            return create_dynamic_array_copy(1, (const VkPrivateDataSlotCreateInfoEXT*)pNext, pAllocationCallbacks);
+        case VK_STRUCTURE_TYPE_QUERY_POOL_CREATE_INFO_INTEL: {
+            return create_dynamic_array_copy(1, (const VkQueryPoolCreateInfoINTEL*)pNext, pAllocationCallbacks);
         } break;
         case VK_STRUCTURE_TYPE_QUERY_POOL_PERFORMANCE_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (const VkQueryPoolPerformanceCreateInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_QUERY_POOL_PERFORMANCE_QUERY_CREATE_INFO_INTEL: {
-            return create_dynamic_array_copy(1, (const VkQueryPoolPerformanceQueryCreateInfoINTEL*)pNext, pAllocationCallbacks);
         } break;
         case VK_STRUCTURE_TYPE_QUEUE_FAMILY_CHECKPOINT_PROPERTIES_NV: {
             return create_dynamic_array_copy(1, (const VkQueueFamilyCheckpointPropertiesNV*)pNext, pAllocationCallbacks);
@@ -7722,9 +7602,6 @@ void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocat
         } break;
         case VK_STRUCTURE_TYPE_RENDER_PASS_TRANSFORM_BEGIN_INFO_QCOM: {
             return create_dynamic_array_copy(1, (const VkRenderPassTransformBeginInfoQCOM*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_SAMPLER_CUSTOM_BORDER_COLOR_CREATE_INFO_EXT: {
-            return create_dynamic_array_copy(1, (const VkSamplerCustomBorderColorCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
         case VK_STRUCTURE_TYPE_SAMPLE_LOCATIONS_INFO_EXT: {
             return create_dynamic_array_copy(1, (const VkSampleLocationsInfoEXT*)pNext, pAllocationCallbacks);
@@ -7981,6 +7858,8 @@ void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocat
         } break;
         case VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (const VkSemaphoreCreateInfo*)pNext, pAllocationCallbacks);
+        } break;
+        default: {
         } break;
         }
     }

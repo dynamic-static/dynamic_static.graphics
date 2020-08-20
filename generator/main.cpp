@@ -20,6 +20,8 @@
 
 #include "tinyxml2.h"
 
+#include <iostream>
+
 int main(int argc, char* argv[])
 {
     tinyxml2::XMLDocument vkXml;
@@ -27,15 +29,16 @@ int main(int argc, char* argv[])
     if (result == tinyxml2::XML_SUCCESS) {
         using namespace dst::vk::cppgen;
         dst::vk::xml::Manifest vkXmlManifest(vkXml);
-        CreateStructureCopyGenerator createStructureCopyGenerator(vkXmlManifest);
-        DestroyStructureCopyGenerator destroyStructureCopyGenerator(vkXmlManifest);
+        dst::Timer timer;
+        // CreateStructureCopyGenerator createStructureCopyGenerator(vkXmlManifest);
+        // DestroyStructureCopyGenerator destroyStructureCopyGenerator(vkXmlManifest);
         EquailtyOperatorsGenerator equalityOperatorsGenerator(vkXmlManifest);
-        GreaterThanOperatorsGenerator greaterThanOperatorsGenerator(vkXmlManifest);
-        LessThanOperatorsGenerator lessThanOperatorsGenerator(vkXmlManifest);
-        StructureToTupleGenerator structureToTupleGenerator(vkXmlManifest);
-
-        generate_managed_handles(vkXmlManifest);
-        generate_managed_structures(vkXmlManifest);
+        // GreaterThanOperatorsGenerator greaterThanOperatorsGenerator(vkXmlManifest);
+        // LessThanOperatorsGenerator lessThanOperatorsGenerator(vkXmlManifest);
+        // StructureToTupleGenerator structureToTupleGenerator(vkXmlManifest);
+        // generate_managed_handles(vkXmlManifest);
+        // generate_managed_structures(vkXmlManifest);
+        std::cout << timer.total<dst::Milliseconds<>>() << " ms" << std::endl;
     }
     return 0;
 }

@@ -106,7 +106,7 @@ inline dst::cppgen::CppSwitch generate_vk_structure_type_switch(
                     if (vkStructureItr != vkXmlManifest.structures.end()) {
                         CppSwitch::CppCase cppCase;
                         cppCase.cppCompileGuards = { vkStructureTypeEnumerator.compileGuard };
-                        cppCase.name = vkStructureTypeEnumerator.name;
+                        cppCase.cppName = vkStructureTypeEnumerator.name;
                         generateCase(vkStructureItr->second, cppCase);
                         cppSwitch.cppCases.push_back(cppCase);
                     }

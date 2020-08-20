@@ -43,8 +43,8 @@ inline dst::cppgen::CppFunction::Collection generate_managed_handle_constructors
     using namespace dst::cppgen;
     CppFunction::Collection cppConstructors;
     CppFunction cppDefaultConstructor;
-    cppDefaultConstructor.cppReturn = std::string();
-    cppDefaultConstructor.name = "BasicManaged" + strip_vk(handle.name);
+    cppDefaultConstructor.cppReturnType = std::string();
+    cppDefaultConstructor.cppName = "BasicManaged" + strip_vk(handle.name);
     cppDefaultConstructor.flags = CppFunction::Default;
     cppConstructors.push_back(cppDefaultConstructor);
     for (const auto& vkCreateFunctionName : handle.createFunctions) {
@@ -53,8 +53,8 @@ inline dst::cppgen::CppFunction::Collection generate_managed_handle_constructors
         const auto& vkCreateFunction = vkCreateFunctionItr->second;
         CppFunction cppConstructor;
         cppConstructor.cppCompileGuards = { vkCreateFunction.compileGuard };
-        cppConstructor.cppReturn = std::string();
-        cppConstructor.name = "BasicManaged" + strip_vk(handle.name);
+        cppConstructor.cppReturnType = std::string();
+        cppConstructor.cppName = "BasicManaged" + strip_vk(handle.name);
         std::string parentHandleMember;
         std::string parentHandleArgument;
         std::string createInfoArgument;
@@ -65,12 +65,12 @@ inline dst::cppgen::CppFunction::Collection generate_managed_handle_constructors
                 CppParameter cppConstructorParameter;
                 if (handle.parents.count(vkCreateFunctionParameter.type)) {
                     auto managedHandleSharedPtrDeclaration = get_managed_handle_shared_ptr_declaration(vkCreateFunctionParameter.type);
-                    cppConstructorParameter.type = "const " + managedHandleSharedPtrDeclaration + "&";
+                    cppConstructorParameter.cppType = "const " + managedHandleSharedPtrDeclaration + "&";
                     parentHandleMember = "m" + strip_vk(vkCreateFunctionParameter.type);
                     parentHandleArgument = vkCreateFunctionParameter.name;
                     createFunctionParameters += "*" + vkCreateFunctionParameter.name + ", ";
                 } else {
-                    cppConstructorParameter.type = vkCreateFunctionParameter.type;
+                    cppConstructorParameter.cppType = vkCreateFunctionParameter.type;
                     createFunctionParameters += vkCreateFunctionParameter.name + ", ";
                 }
                 if (handle.createInfos.count(vkCreateFunctionParameter.unqualifiedType)) {
@@ -78,12 +78,13 @@ inline dst::cppgen::CppFunction::Collection generate_managed_handle_constructors
                     createInfoMember = "m" + strip_vk(vkCreateFunctionParameter.unqualifiedType);
                 }
                 if (vkCreateFunctionParameter.unqualifiedType == "VkAllocationCallbacks") {
-                    cppConstructorParameter.value = "nullptr";
+                    cppConstructorParameter.cppValue = "nullptr";
                 }
-                cppConstructorParameter.name = vkCreateFunctionParameter.name;
+                cppConstructorParameter.cppName = vkCreateFunctionParameter.name;
                 cppConstructor.cppParameters.push_back(cppConstructorParameter);
             }
         }
+        #if 0
         cppConstructor.cppSourceBlock.add_snippet(R"(
             if (${PARENT_HANDLE_ARGUMENT} && ${VK_CREATE_INFO_ARGUMENT}) {
                 mResult = dst_vk(${VK_CREATE_FUNCTION}(${VK_CREATE_FUNCTION_PARAMETERS}&mHandle));
@@ -103,6 +104,7 @@ inline dst::cppgen::CppFunction::Collection generate_managed_handle_constructors
             { "${PARENT_HANDLE_ARGUMENT}", parentHandleArgument },
             { "${VK_CREATE_INFO_MEMBER}", createInfoMember },
         });
+        #endif
         cppConstructors.push_back(cppConstructor);
     }
     return cppConstructors;
@@ -115,12 +117,12 @@ inline dst::cppgen::CppFunction generate_destructor(
 {
     using namespace dst::cppgen;
     CppFunction cppFunction;
-    cppFunction.cppReturn = std::string();
+    cppFunction.cppReturnType = std::string();
     cppFunction.flags = CppFunction::Virtual | CppFunction::Override;
-    cppFunction.name = "~BasicManaged" + strip_vk(handle.name);
-    cppFunction.cppSourceBlock.add_snippet(R"(
+    cppFunction.cppName = "~BasicManaged" + strip_vk(handle.name);
+    cppFunction.cppSourceBlock = {R"(
         reset();
-    )");
+    )"};
     return cppFunction;
 }
 
@@ -133,28 +135,28 @@ inline dst::cppgen::CppFunction::Collection generate_managed_handle_getters(
     CppFunction::Collection cppGetters;
     CppFunction cppObjectTypeGetter;
     cppObjectTypeGetter.flags = CppFunction::Const | CppFunction::Override | CppFunction::Final;
-    cppObjectTypeGetter.cppReturn = "VkObjectType";
-    cppObjectTypeGetter.name = "get_object_type";
-    cppObjectTypeGetter.cppSourceBlock.add_snippet(R"(
+    cppObjectTypeGetter.cppReturnType = "VkObjectType";
+    cppObjectTypeGetter.cppName = "get_object_type";
+    cppObjectTypeGetter.cppSourceBlock = {R"(
         return ${VK_OBJECT_TYPE}; // TODO : Parse VkObjectType from xml..
     )", {
         { "${VK_OBJECT_TYPE}", "VK_OBJECT_TYPE_UNKNOWN" },
-    });
+    }};
     cppGetters.push_back(cppObjectTypeGetter);
     for (const auto& parentName : handle.parents) {
         CppFunction cppGetter;
         auto managedHandleSharedPtrDeclaration = get_managed_handle_shared_ptr_declaration(parentName);
         cppGetter.flags = CppFunction::Const;
-        cppGetter.cppReturn = "const " + managedHandleSharedPtrDeclaration + "&";
-        cppGetter.name = "get";
+        cppGetter.cppReturnType = "const " + managedHandleSharedPtrDeclaration + "&";
+        cppGetter.cppName = "get";
         for (const auto& token : string::split_camel_case(strip_vk(parentName))) {
-            cppGetter.name += "_" + string::to_lower(token);
+            cppGetter.cppName += "_" + string::to_lower(token);
         }
-        cppGetter.cppSourceBlock.add_snippet(R"(
+        cppGetter.cppSourceBlock = {R"(
             return ${PARENT_MEMBER_NAME};
         )", {
             { "${PARENT_MEMBER_NAME}", "m" + strip_vk(parentName) },
-        });
+        }};
         cppGetters.push_back(cppGetter);
     }
     for (const auto& createInfoName : handle.createInfos) {
@@ -164,16 +166,16 @@ inline dst::cppgen::CppFunction::Collection generate_managed_handle_getters(
         CppFunction cppGetter;
         cppGetter.cppCompileGuards = { createInfo.compileGuard };
         cppGetter.flags = CppFunction::Const;
-        cppGetter.cppReturn = "const Managed<" + createInfoName + ">&";
-        cppGetter.name = "get";
+        cppGetter.cppReturnType = "const Managed<" + createInfoName + ">&";
+        cppGetter.cppName = "get";
         for (const auto& token : string::split_camel_case(strip_vk(createInfoName))) {
-            cppGetter.name += "_" + string::to_lower(token);
+            cppGetter.cppName += "_" + string::to_lower(token);
         }
-        cppGetter.cppSourceBlock.add_snippet(R"(
+        cppGetter.cppSourceBlock = {R"(
             return ${CREATE_INFO_MEMBER_NAME};
         )", {
             { "${CREATE_INFO_MEMBER_NAME}", "m" + strip_vk(createInfoName) },
-        });
+        }};
         cppGetters.push_back(cppGetter);
     }
     return cppGetters;
@@ -189,8 +191,8 @@ inline dst::cppgen::CppVariable::Collection generate_managed_handle_member_varia
     for (const auto& parent : handle.parents) {
         CppVariable cppVariable;
         cppVariable.cppAccessModifier = CppAccessModifier::Protected;
-        cppVariable.type = get_managed_handle_shared_ptr_declaration(parent);
-        cppVariable.name = "m" + strip_vk(parent);
+        cppVariable.cppType = get_managed_handle_shared_ptr_declaration(parent);
+        cppVariable.cppName = "m" + strip_vk(parent);
         cppVariables.push_back(cppVariable);
     }
     for (const auto& createInfoName : handle.createInfos) {
@@ -200,14 +202,14 @@ inline dst::cppgen::CppVariable::Collection generate_managed_handle_member_varia
         CppVariable cppVariable;
         cppVariable.cppCompileGuards = { createInfo.compileGuard };
         cppVariable.cppAccessModifier = CppAccessModifier::Protected;
-        cppVariable.type = "Managed<" + createInfoName + ">";
-        cppVariable.name = "m" + strip_vk(createInfoName);
+        cppVariable.cppType = "Managed<" + createInfoName + ">";
+        cppVariable.cppName = "m" + strip_vk(createInfoName);
         cppVariables.push_back(cppVariable);
     }
     CppVariable cppAllocationCallbacksMember;
     cppAllocationCallbacksMember.cppAccessModifier = CppAccessModifier::Protected;
-    cppAllocationCallbacksMember.type = "VkAllocationCallbacks";
-    cppAllocationCallbacksMember.name = "mAllocator";
+    cppAllocationCallbacksMember.cppType = "VkAllocationCallbacks";
+    cppAllocationCallbacksMember.cppName = "mAllocator";
     cppVariables.push_back(cppAllocationCallbacksMember);
     return cppVariables;
 }
@@ -221,7 +223,7 @@ inline dst::cppgen::CppFunction generate_reset_method(
     using namespace dst::cppgen;
     CppFunction cppFunction;
     cppFunction.flags = CppFunction::Virtual | CppFunction::Override;
-    cppFunction.name = "reset";
+    cppFunction.cppName = "reset";
     cppFunction.cppParameters = {{ "const VkAllocationCallbacks*", "pAllocator", "nullptr" }};
 #if 0
     cppFunction.cppSourceBlock.add_snippet(R"(
@@ -260,31 +262,32 @@ inline void generate_managed_handles(const xml::Manifest& xmlManifest)
 {
     using namespace dst::cppgen;
     CppFile headerFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) / "managed-handles.hpp");
-    headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/managed.hpp" };
-    headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/managed-handle.hpp" };
-    headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/generated/managed-structures.hpp" };
-    headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/defines.hpp" };
-    headerFile << CppInclude { CppInclude::Type::System, "memory" };
+    headerFile << R"(#include "dynamic_static/graphics/vulkan/detail/managed.hpp")" << std::endl;
+    headerFile << R"(#include "dynamic_static/graphics/vulkan/detail/managed-handle.hpp")" << std::endl;
+    headerFile << R"(#include "dynamic_static/graphics/vulkan/generated/managed-structures.hpp")" << std::endl;
+    headerFile << R"(#include "dynamic_static/graphics/vulkan/defines.hpp")" << std::endl;
+    headerFile << std::endl;
+    headerFile << R"(#include <memory>")" << std::endl;
     headerFile << std::endl;
     CppFile sourceFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_SOURCE_PATH) / "managed-handles.cpp");
-    sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/generated/managed-handles.hpp" };
-    sourceFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/managed.hpp" };
+    sourceFile << R"(#include "dynamic_static/graphics/vulkan/generated/managed-handles.hpp")" << std::endl;
+    sourceFile << R"(#include "dynamic_static/graphics/vulkan/managed.hpp")" << std::endl;
     sourceFile << std::endl;
     CppStructure::Collection cppStructures;
     for (const auto& handleItr : xmlManifest.handles) {
         const auto& handle = handleItr.second;
         if (handle.alias.empty()) {
             CppStructure cppStructure;
-            cppStructure.flags = CppStructure::Class;
+            cppStructure.cppType = CppStructure::Type::Class;
             cppStructure.cppCompileGuards = { handle.compileGuard };
-            cppStructure.name = "BasicManaged" + strip_vk(handle.name);
+            cppStructure.cppName = "BasicManaged" + strip_vk(handle.name);
             auto cppBaseType = "detail::BasicManagedHandle<" + handle.name + ">";
             cppStructure.cppBaseTypes = {{ CppAccessModifier::Public, cppBaseType }};
             cppStructure.cppVariables = generate_managed_handle_member_variables(xmlManifest, handle);
-            vector::append(cppStructure.cppFunctions, generate_managed_handle_constructors(xmlManifest, handle));
-            cppStructure.cppFunctions.push_back(generate_destructor(xmlManifest, handle));
-            vector::append(cppStructure.cppFunctions, generate_managed_handle_getters(xmlManifest, handle));
-            cppStructure.cppFunctions.push_back(generate_reset_method(xmlManifest, handle, cppStructure));
+            vector::append(cppStructure.cppMethods, generate_managed_handle_constructors(xmlManifest, handle));
+            cppStructure.cppMethods.push_back(generate_destructor(xmlManifest, handle));
+            vector::append(cppStructure.cppMethods, generate_managed_handle_getters(xmlManifest, handle));
+            cppStructure.cppMethods.push_back(generate_reset_method(xmlManifest, handle, cppStructure));
             cppStructures.push_back(cppStructure);
         }
     }
@@ -293,13 +296,14 @@ inline void generate_managed_handles(const xml::Manifest& xmlManifest)
     headerFile << CppNamespace("dst::gfx::vk::detail").close();
     sourceFile << CppNamespace("dst::gfx::vk::detail").open();
     for (auto& cppStructure : cppStructures) {
-        if (vk_handle_requires_manual_implementation("Vk" + string::remove(cppStructure.name, "BasicManaged"))) {
+        if (vk_handle_requires_manual_implementation("Vk" + string::remove(cppStructure.cppName, "BasicManaged"))) {
             cppStructure.cppCompileGuards.insert("DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION");
         }
     }
     sourceFile << cppStructures.generate_definition();
     sourceFile << CppNamespace("dst::gfx::vk::detail").close();
 
+    #if 0
     class Widget final
     {
     public:
@@ -399,6 +403,7 @@ inline void generate_managed_handles(const xml::Manifest& xmlManifest)
     });
     std::cout << timer.total<Milliseconds<>>() << " ms" << std::endl;
     fileEx << (std::string)cppSnippetEx;
+    #endif
 }
 
 } // namespace cppgen

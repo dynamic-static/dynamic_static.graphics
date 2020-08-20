@@ -32,13 +32,14 @@ public:
     {
         using namespace dst::cppgen;
         CppFile headerFile(std::filesystem::path(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH) / "structure-to-tuple.hpp");
-        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/core/span.hpp" };
-        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/structure-to-tuple-utilities.hpp" };
-        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/detail/tuple-element-wrappers.hpp" };
-        headerFile << CppInclude { CppInclude::Type::Internal, "dynamic_static/graphics/vulkan/defines.hpp" };
-        headerFile << CppInclude { CppInclude::Type::System, "string_view" };
-        headerFile << CppInclude { CppInclude::Type::System, "tuple" };
-        headerFile << CppInclude { CppInclude::Type::System, "utility" };
+        headerFile << R"(#include "dynamic_static/core/span.hpp")" << std::endl;
+        headerFile << R"(#include "dynamic_static/graphics/vulkan/detail/structure-to-tuple-utilities.hpp")" << std::endl;
+        headerFile << R"(#include "dynamic_static/graphics/vulkan/detail/tuple-element-wrappers.hpp")" << std::endl;
+        headerFile << R"(#include "dynamic_static/graphics/vulkan/defines.hpp")" << std::endl;
+        headerFile << std::endl;
+        headerFile << R"(#include <string_view>)" << std::endl;
+        headerFile << R"(#include <tuple>)" << std::endl;
+        headerFile << R"(#include <utility>)" << std::endl;
         headerFile << std::endl;
         CppFunction::Collection structureToTupleFunctions;
         for (const auto& structureitr : xmlManifest.structures) {
@@ -47,16 +48,17 @@ public:
                 CppFunction structureToTupleFunction;
                 structureToTupleFunction.cppCompileGuards = { structure.compileGuard };
                 structureToTupleFunction.cppTemplate.cppSpecializations = { structure.name };
-                structureToTupleFunction.cppReturn = "auto";
-                structureToTupleFunction.name = "structure_to_tuple";
+                structureToTupleFunction.cppReturnType = "auto";
+                structureToTupleFunction.cppName = "structure_to_tuple";
                 CppParameter vkStructureParameter;
-                vkStructureParameter.type = "const " + structure.name + "&";
-                vkStructureParameter.name = "obj";
+                vkStructureParameter.cppType = "const " + structure.name + "&";
+                vkStructureParameter.cppName = "obj";
                 structureToTupleFunction.cppParameters = { vkStructureParameter };
                 CppParameter pAllocationCallbacksCppParameter;
-                pAllocationCallbacksCppParameter.type = "const VkAllocationCallbacks*";
-                pAllocationCallbacksCppParameter.name = "pAllocationCallbacks";
-                pAllocationCallbacksCppParameter.value = "nullptr";
+                pAllocationCallbacksCppParameter.cppType = "const VkAllocationCallbacks*";
+                pAllocationCallbacksCppParameter.cppName = "pAllocationCallbacks";
+                pAllocationCallbacksCppParameter.cppValue = "nullptr";
+                #if 0
                 structureToTupleFunction.cppSourceBlock.replacements = {
                     { "${VK_STRUCTURE_TYPE}", structure.name },
                 };
@@ -79,6 +81,7 @@ public:
                 structureToTupleFunction.cppSourceBlock.add_snippet(R"(
                     );
                 )");
+                #endif
                 structureToTupleFunctions.push_back(structureToTupleFunction);
             }
         }
