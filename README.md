@@ -1,5 +1,5 @@
 
-# Dynamic_Static.Graphics
+# dynamic_static.graphics
 
 Provides graphics support.
 
