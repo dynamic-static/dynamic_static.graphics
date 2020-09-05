@@ -1,22 +1,34 @@
 
 # ==========================================
-#   Copyright (c) 2017-2020 Dynamic_Static
+#   Copyright (c) 2017-2020 dynamic_static
 #     Patrick Purcell
 #       Licensed under the MIT license
 #     http://opensource.org/licenses/MIT
 # ==========================================
 
-# Dynamic_Static.Graphics CMake configuration
+# dynamic_static.Graphics CMake configuration
 cmake_minimum_required(VERSION 3.3 FATAL_ERROR)
-project(Dynamic_Static.Graphics VERSION 2.0.0)
+project(dynamic_static.graphics VERSION 2.0.0)
 set(CMAKE_CXX_STANDARD 17)
 set(dynamic_static "${CMAKE_CURRENT_LIST_DIR}/../")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/")
-include("${dynamic_static}/Dynamic_Static.CMake/Dynamic_Static.ex.cmake")
-DstAddSubdirectory("Dynamic_Static.Core")
-DstAddSubdirectory("Dynamic_Static.CppGenerator")
-DstAddSubdirectory("Dynamic_Static.System")
-DstAddSubdirectory("Dynamic_Static.VkXmlParser")
+
+################################################################################
+#### include("${dynamic_static}/dynamic_static.CMake/dynamic_static.ex.cmake")
+#### DstAddSubdirectory("dynamic_static.Core")
+#### DstAddSubdirectory("dynamic_static.CppGenerator")
+#### DstAddSubdirectory("dynamic_static.System")
+#### DstAddSubdirectory("dynamic_static.VkXmlParser")
+include("${CMAKE_CURRENT_LIST_DIR}/../cmake/dynamic_static.cmake")
+dst_add_subdirectory(core)
+dst_add_subdirectory(cpp-generator)
+dst_add_subdirectory(system)
+dst_add_subdirectory(vk-xml-parser)
+# add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/../core/" "${CMAKE_CURRENT_BINARY_DIR}/dynamic_static/core/")
+# add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/../cpp-generator/" "${CMAKE_CURRENT_BINARY_DIR}/dynamic_static/cpp-generator/")
+# add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/../system/" "${CMAKE_CURRENT_BINARY_DIR}/dynamic_static/system/")
+# add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/../vk-xml-parser/" "${CMAKE_CURRENT_BINARY_DIR}/dynamic_static/vk-xml-parser/")
+################################################################################
 
 # Options
 option(DST_GFX_BUILD_EXAMPLES "TODO : Documentation" OFF)
@@ -33,7 +45,7 @@ set(includeDirectory "${CMAKE_CURRENT_LIST_DIR}/include.ex/")
 set(includePath "${includeDirectory}/dynamic_static/graphics/")
 set(sourcePath "${CMAKE_CURRENT_LIST_DIR}/source.ex/dynamic_static/graphics/")
 set(generatedIncludePath "${includePath}/vulkan/generated/")
-set(generatedSourcePath "${sourcePath}//vulkan/generated/")
+set(generatedSourcePath "${sourcePath}/vulkan/generated/")
 set(generatedIncludeFiles
     "${generatedIncludePath}/create-structure-copy.hpp"
     "${generatedIncludePath}/destroy-structure-copy.hpp"
@@ -55,7 +67,7 @@ set(generatedSourceFiles
 
 # dynamic_static.graphics.vulkan.generator
 set(generatorSourcePath "${CMAKE_CURRENT_LIST_DIR}/generator/")
-DstAddGenerator(
+dst_add_cpp_generator(
     target dynamic_static.graphics.vulkan.generator
     folder dynamic_static.graphics
     linkLibraries dynamic_static.vk-xml-parser
@@ -63,23 +75,21 @@ DstAddGenerator(
         "${generatorSourcePath}/create-structure-copy.generator.hpp"
         "${generatorSourcePath}/destroy-structure-copy.generator.hpp"
         "${generatorSourcePath}/equality-operators.generator.hpp"
-        "${generatorSourcePath}/greater-than-operators.generator.hpp"
-        "${generatorSourcePath}/less-than-operators.generator.hpp"
         "${generatorSourcePath}/main.cpp"
-        "${generatorSourcePath}/managed-handles.generator.hpp"
+        # "${generatorSourcePath}/managed-handles.generator.hpp"
         "${generatorSourcePath}/managed-structures.generator.hpp"
         "${generatorSourcePath}/structure-to-tuple.generator.hpp"
         "${generatorSourcePath}/utilities.hpp"
     compileDefinitions
         DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH="${generatedIncludePath}/"
         DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_SOURCE_PATH="${generatedSourcePath}/"
-    generatedFiles
-        "${generatedIncludeFiles}"
-        "${generatedSourceFiles}"
 )
+#### generatedFiles
+####     "${generatedIncludeFiles}"
+####     "${generatedSourceFiles}"
 
 # dynamic_static.graphics
-DstAddStaticLibrary(
+dst_add_static_library(
     target
         dynamic_static.graphics
     linkLibraries
@@ -231,17 +241,17 @@ DstAddStaticLibrary(
         ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/TinyGLTFInclude.cpp
 )
 
-# dynamic_static.graphics.tests
-if(DST_CORE_BUILD_TESTS)
-    set(testsPath "${Dynamic_Static.Graphics_SOURCE_DIR}/tests/")
-    DstAddTests(
-        target dynamic_static.graphics
-        sourceFiles
-            "${testsPath}/comparison-operators.tests.cpp"
-            "${testsPath}/randomize-structure.hpp"
-            "${testsPath}/structure-copy.tests.cpp"
-    )
-endif()
+# # dynamic_static.graphics.tests
+# if(DST_CORE_BUILD_TESTS)
+#     set(testsPath "${Dynamic_Static.Graphics_SOURCE_DIR}/tests/")
+#     dst_add_test_suite(
+#         target dynamic_static.graphics
+#         sourceFiles
+#             "${testsPath}/comparison-operators.tests.cpp"
+#             "${testsPath}/randomize-structure.hpp"
+#             "${testsPath}/structure-copy.tests.cpp"
+#     )
+# endif()
 
 # Examples
 if(DST_GFX_BUILD_EXAMPLES)

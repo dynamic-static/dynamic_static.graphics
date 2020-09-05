@@ -82,7 +82,6 @@ inline std::string strip_vk(const std::string& str)
     return string::remove(string::remove(string::remove(str, "VK_"), "Vk"), "vk");
 }
 
-#if 0
 /**
 TODO : Documentation
 */
@@ -116,50 +115,6 @@ inline dst::cppgen::CppSwitch generate_vk_structure_type_switch(
         }
     }
     return cppSwitch;
-}
-#endif
-
-/**
-TODO : Documentation
-*/
-template <typename GenerateCaseFunctionType>
-inline std::string generate_vk_structure_type_switch(
-    const vk::xml::Manifest& vkXmlManifest,
-    const std::string& condition,
-    GenerateCaseFunctionType generateCase
-)
-{
-    using namespace dst::cppgen;
-    CppSwitch cppSwitch;
-    cppSwitch.cppCondition = condition;
-    auto structureTypeEnumerationItr = vkXmlManifest.enumerations.find("VkStructureType");
-    if (structureTypeEnumerationItr != vkXmlManifest.enumerations.end()) {
-        const auto& vkStructureTypeEnumeration = structureTypeEnumerationItr->second;
-        for (const auto& structureTypeEnumerator : vkStructureTypeEnumeration.enumerators) {
-            if (structureTypeEnumerator.alias.empty()) {
-                auto structureTypeItr = vkXmlManifest.structureTypes.find(structureTypeEnumerator.name);
-                if (structureTypeItr != vkXmlManifest.structureTypes.end()) {
-                    auto structureItr = vkXmlManifest.structures.find(structureTypeItr->second);
-                    if (structureItr != vkXmlManifest.structures.end()) {
-                        cppSwitch.cppCases.emplace_back(
-                            CppCompileGuard { structureTypeEnumerator.compileGuard },
-                            structureTypeEnumerator.name,
-                            generateCase(structureItr->second),
-                            Break
-                        );
-                        #if 0
-                        CppCase cppCase;
-                        cppCase.cppCompileGuards = { vkStructureTypeEnumerator.compileGuard };
-                        cppCase.cppLabel = vkStructureTypeEnumerator.name;
-                        cppCase.cppSourceBlock = generateCase(vkStructureItr->second);
-                        cppSwitch.cppCases.push_back(cppCase);
-                        #endif
-                    }
-                }
-            }
-        }
-    }
-    return to_string(cppSwitch, 0);
 }
 
 } // namespace cppgen

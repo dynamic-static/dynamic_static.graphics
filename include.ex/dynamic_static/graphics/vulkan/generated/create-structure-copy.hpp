@@ -14,11 +14,7 @@
 #include "dynamic_static/graphics/vulkan/defines.hpp"
 
 namespace dst {
-namespace gfx {
 namespace vk {
-namespace detail {
-
-void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocationCallbacks);
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
@@ -1263,7 +1259,5 @@ template <>
 VkXlibSurfaceCreateInfoKHR create_structure_copy<VkXlibSurfaceCreateInfoKHR>(const VkXlibSurfaceCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
 #endif // VK_USE_PLATFORM_XLIB_KHR
 
-} // namespace detail
 } // namespace vk
-} // namespace gfx
 } // namespace dst

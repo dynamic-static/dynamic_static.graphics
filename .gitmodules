@@ -1,1 +1,4 @@
 
+[submodule "external/cmake"]
+	path = external/cmake
+	url = https://github.com/dynamic-static/cmake.git
