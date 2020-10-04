@@ -8,7 +8,7 @@
 ==========================================
 */
 
-#include "dynamic_static/graphics/vulkan/generated/create-structure-copy.hpp"
+#include "dynamic_static/graphics/vulkan/generated/create-structure-copy.hpp
 
 namespace dst {
 namespace vk {
@@ -60,10 +60,15 @@ VkAabbPositionsKHR create_structure_copy<VkAabbPositionsKHR>(const VkAabbPositio
 {
     VkAabbPositionsKHR result { };
     result.minX = obj.minX;
+    ,
     result.minY = obj.minY;
+    ,
     result.minZ = obj.minZ;
+    ,
     result.maxX = obj.maxX;
+    ,
     result.maxY = obj.maxY;
+    ,
     result.maxZ = obj.maxZ;
     return result;
 }
@@ -76,15 +81,25 @@ VkAccelerationStructureBuildGeometryInfoKHR create_structure_copy<VkAcceleration
 {
     VkAccelerationStructureBuildGeometryInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.type = obj.type;
+    ,
     result.flags = obj.flags;
+    ,
     result.update = obj.update;
+    ,
     result.srcAccelerationStructure = obj.srcAccelerationStructure;
+    ,
     result.dstAccelerationStructure = obj.dstAccelerationStructure;
+    ,
     result.geometryArrayOfPointers = obj.geometryArrayOfPointers;
+    ,
     result.geometryCount = obj.geometryCount;
+    ,
     result.ppGeometries = create_dynamic_array_copy(1, obj.ppGeometries, pAllocationCallbacks);
+    ,
     result.scratchData = create_structure_copy(obj.scratchData, pAllocationCallbacks);
     return result;
 }
@@ -96,8 +111,11 @@ VkAccelerationStructureBuildOffsetInfoKHR create_structure_copy<VkAccelerationSt
 {
     VkAccelerationStructureBuildOffsetInfoKHR result { };
     result.primitiveCount = obj.primitiveCount;
+    ,
     result.primitiveOffset = obj.primitiveOffset;
+    ,
     result.firstVertex = obj.firstVertex;
+    ,
     result.transformOffset = obj.transformOffset;
     return result;
 }
@@ -109,12 +127,19 @@ VkAccelerationStructureCreateGeometryTypeInfoKHR create_structure_copy<VkAcceler
 {
     VkAccelerationStructureCreateGeometryTypeInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.geometryType = obj.geometryType;
+    ,
     result.maxPrimitiveCount = obj.maxPrimitiveCount;
+    ,
     result.indexType = obj.indexType;
+    ,
     result.maxVertexCount = obj.maxVertexCount;
+    ,
     result.vertexFormat = obj.vertexFormat;
+    ,
     result.allowsTransforms = obj.allowsTransforms;
     return result;
 }
@@ -126,12 +151,19 @@ VkAccelerationStructureCreateInfoKHR create_structure_copy<VkAccelerationStructu
 {
     VkAccelerationStructureCreateInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.compactedSize = obj.compactedSize;
+    ,
     result.type = obj.type;
+    ,
     result.flags = obj.flags;
+    ,
     result.maxGeometryCount = obj.maxGeometryCount;
+    ,
     result.pGeometryInfos = create_dynamic_array_copy(obj.maxGeometryCount, obj.pGeometryInfos, pAllocationCallbacks);
+    ,
     result.deviceAddress = obj.deviceAddress;
     return result;
 }
@@ -142,8 +174,11 @@ VkAccelerationStructureCreateInfoNV create_structure_copy<VkAccelerationStructur
 {
     VkAccelerationStructureCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.compactedSize = obj.compactedSize;
+    ,
     result.info = create_structure_copy(obj.info, pAllocationCallbacks);
     return result;
 }
@@ -154,7 +189,9 @@ VkAccelerationStructureDeviceAddressInfoKHR create_structure_copy<VkAcceleration
 {
     VkAccelerationStructureDeviceAddressInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.accelerationStructure = obj.accelerationStructure;
     return result;
 }
@@ -166,8 +203,11 @@ VkAccelerationStructureGeometryAabbsDataKHR create_structure_copy<VkAcceleration
 {
     VkAccelerationStructureGeometryAabbsDataKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.data = create_structure_copy(obj.data, pAllocationCallbacks);
+    ,
     result.stride = obj.stride;
     return result;
 }
@@ -179,7 +219,9 @@ VkAccelerationStructureGeometryDataKHR create_structure_copy<VkAccelerationStruc
 {
     VkAccelerationStructureGeometryDataKHR result { };
     result.triangles = create_structure_copy(obj.triangles, pAllocationCallbacks);
+    ,
     result.aabbs = create_structure_copy(obj.aabbs, pAllocationCallbacks);
+    ,
     result.instances = create_structure_copy(obj.instances, pAllocationCallbacks);
     return result;
 }
@@ -191,8 +233,11 @@ VkAccelerationStructureGeometryInstancesDataKHR create_structure_copy<VkAccelera
 {
     VkAccelerationStructureGeometryInstancesDataKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.arrayOfPointers = obj.arrayOfPointers;
+    ,
     result.data = create_structure_copy(obj.data, pAllocationCallbacks);
     return result;
 }
@@ -204,9 +249,13 @@ VkAccelerationStructureGeometryKHR create_structure_copy<VkAccelerationStructure
 {
     VkAccelerationStructureGeometryKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.geometryType = obj.geometryType;
+    ,
     result.geometry = create_structure_copy(obj.geometry, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
     return result;
 }
@@ -218,12 +267,19 @@ VkAccelerationStructureGeometryTrianglesDataKHR create_structure_copy<VkAccelera
 {
     VkAccelerationStructureGeometryTrianglesDataKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.vertexFormat = obj.vertexFormat;
+    ,
     result.vertexData = create_structure_copy(obj.vertexData, pAllocationCallbacks);
+    ,
     result.vertexStride = obj.vertexStride;
+    ,
     result.indexType = obj.indexType;
+    ,
     result.indexData = create_structure_copy(obj.indexData, pAllocationCallbacks);
+    ,
     result.transformData = create_structure_copy(obj.transformData, pAllocationCallbacks);
     return result;
 }
@@ -234,11 +290,17 @@ VkAccelerationStructureInfoNV create_structure_copy<VkAccelerationStructureInfoN
 {
     VkAccelerationStructureInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.type = obj.type;
+    ,
     result.flags = obj.flags;
+    ,
     result.instanceCount = obj.instanceCount;
+    ,
     result.geometryCount = obj.geometryCount;
+    ,
     result.pGeometries = create_dynamic_array_copy(obj.geometryCount, obj.pGeometries, pAllocationCallbacks);
     return result;
 }
@@ -251,9 +313,13 @@ VkAccelerationStructureMemoryRequirementsInfoKHR create_structure_copy<VkAcceler
 {
     VkAccelerationStructureMemoryRequirementsInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.type = obj.type;
+    ,
     result.buildType = obj.buildType;
+    ,
     result.accelerationStructure = obj.accelerationStructure;
     return result;
 }
@@ -264,8 +330,11 @@ VkAccelerationStructureMemoryRequirementsInfoNV create_structure_copy<VkAccelera
 {
     VkAccelerationStructureMemoryRequirementsInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.type = obj.type;
+    ,
     result.accelerationStructure = obj.accelerationStructure;
     return result;
 }
@@ -276,11 +345,17 @@ VkAcquireNextImageInfoKHR create_structure_copy<VkAcquireNextImageInfoKHR>(const
 {
     VkAcquireNextImageInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.swapchain = obj.swapchain;
+    ,
     result.timeout = obj.timeout;
+    ,
     result.semaphore = obj.semaphore;
+    ,
     result.fence = obj.fence;
+    ,
     result.deviceMask = obj.deviceMask;
     return result;
 }
@@ -290,8 +365,11 @@ VkAcquireProfilingLockInfoKHR create_structure_copy<VkAcquireProfilingLockInfoKH
 {
     VkAcquireProfilingLockInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.timeout = obj.timeout;
     return result;
 }
@@ -301,10 +379,15 @@ VkAllocationCallbacks create_structure_copy<VkAllocationCallbacks>(const VkAlloc
 {
     VkAllocationCallbacks result { };
     result.pUserData = obj.pUserData;
+    ,
     result.pfnAllocation = obj.pfnAllocation;
+    ,
     result.pfnReallocation = obj.pfnReallocation;
+    ,
     result.pfnFree = obj.pfnFree;
+    ,
     result.pfnInternalAllocation = obj.pfnInternalAllocation;
+    ,
     result.pfnInternalFree = obj.pfnInternalFree;
     return result;
 }
@@ -315,14 +398,23 @@ VkAndroidHardwareBufferFormatPropertiesANDROID create_structure_copy<VkAndroidHa
 {
     VkAndroidHardwareBufferFormatPropertiesANDROID result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.format = obj.format;
+    ,
     result.externalFormat = obj.externalFormat;
+    ,
     result.formatFeatures = obj.formatFeatures;
+    ,
     result.samplerYcbcrConversionComponents = create_structure_copy(obj.samplerYcbcrConversionComponents, pAllocationCallbacks);
+    ,
     result.suggestedYcbcrModel = obj.suggestedYcbcrModel;
+    ,
     result.suggestedYcbcrRange = obj.suggestedYcbcrRange;
+    ,
     result.suggestedXChromaOffset = obj.suggestedXChromaOffset;
+    ,
     result.suggestedYChromaOffset = obj.suggestedYChromaOffset;
     return result;
 }
@@ -334,8 +426,11 @@ VkAndroidHardwareBufferPropertiesANDROID create_structure_copy<VkAndroidHardware
 {
     VkAndroidHardwareBufferPropertiesANDROID result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.allocationSize = obj.allocationSize;
+    ,
     result.memoryTypeBits = obj.memoryTypeBits;
     return result;
 }
@@ -347,7 +442,9 @@ VkAndroidHardwareBufferUsageANDROID create_structure_copy<VkAndroidHardwareBuffe
 {
     VkAndroidHardwareBufferUsageANDROID result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.androidHardwareBufferUsage = obj.androidHardwareBufferUsage;
     return result;
 }
@@ -359,8 +456,11 @@ VkAndroidSurfaceCreateInfoKHR create_structure_copy<VkAndroidSurfaceCreateInfoKH
 {
     VkAndroidSurfaceCreateInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.window = obj.window;
     return result;
 }
@@ -371,11 +471,17 @@ VkApplicationInfo create_structure_copy<VkApplicationInfo>(const VkApplicationIn
 {
     VkApplicationInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.pApplicationName = create_dynamic_string_copy(obj.pApplicationName, pAllocationCallbacks);
+    ,
     result.applicationVersion = obj.applicationVersion;
+    ,
     result.pEngineName = create_dynamic_string_copy(obj.pEngineName, pAllocationCallbacks);
+    ,
     result.engineVersion = obj.engineVersion;
+    ,
     result.apiVersion = obj.apiVersion;
     return result;
 }
@@ -385,13 +491,21 @@ VkAttachmentDescription create_structure_copy<VkAttachmentDescription>(const VkA
 {
     VkAttachmentDescription result { };
     result.flags = obj.flags;
+    ,
     result.format = obj.format;
+    ,
     result.samples = obj.samples;
+    ,
     result.loadOp = obj.loadOp;
+    ,
     result.storeOp = obj.storeOp;
+    ,
     result.stencilLoadOp = obj.stencilLoadOp;
+    ,
     result.stencilStoreOp = obj.stencilStoreOp;
+    ,
     result.initialLayout = obj.initialLayout;
+    ,
     result.finalLayout = obj.finalLayout;
     return result;
 }
@@ -401,15 +515,25 @@ VkAttachmentDescription2 create_structure_copy<VkAttachmentDescription2>(const V
 {
     VkAttachmentDescription2 result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.format = obj.format;
+    ,
     result.samples = obj.samples;
+    ,
     result.loadOp = obj.loadOp;
+    ,
     result.storeOp = obj.storeOp;
+    ,
     result.stencilLoadOp = obj.stencilLoadOp;
+    ,
     result.stencilStoreOp = obj.stencilStoreOp;
+    ,
     result.initialLayout = obj.initialLayout;
+    ,
     result.finalLayout = obj.finalLayout;
     return result;
 }
@@ -420,8 +544,11 @@ VkAttachmentDescriptionStencilLayout create_structure_copy<VkAttachmentDescripti
 {
     VkAttachmentDescriptionStencilLayout result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.stencilInitialLayout = obj.stencilInitialLayout;
+    ,
     result.stencilFinalLayout = obj.stencilFinalLayout;
     return result;
 }
@@ -432,6 +559,7 @@ VkAttachmentReference create_structure_copy<VkAttachmentReference>(const VkAttac
 {
     VkAttachmentReference result { };
     result.attachment = obj.attachment;
+    ,
     result.layout = obj.layout;
     return result;
 }
@@ -441,9 +569,13 @@ VkAttachmentReference2 create_structure_copy<VkAttachmentReference2>(const VkAtt
 {
     VkAttachmentReference2 result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.attachment = obj.attachment;
+    ,
     result.layout = obj.layout;
+    ,
     result.aspectMask = obj.aspectMask;
     return result;
 }
@@ -454,7 +586,9 @@ VkAttachmentReferenceStencilLayout create_structure_copy<VkAttachmentReferenceSt
 {
     VkAttachmentReferenceStencilLayout result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.stencilLayout = obj.stencilLayout;
     return result;
 }
@@ -465,6 +599,7 @@ VkAttachmentSampleLocationsEXT create_structure_copy<VkAttachmentSampleLocations
 {
     VkAttachmentSampleLocationsEXT result { };
     result.attachmentIndex = obj.attachmentIndex;
+    ,
     result.sampleLocationsInfo = create_structure_copy(obj.sampleLocationsInfo, pAllocationCallbacks);
     return result;
 }
@@ -474,7 +609,8 @@ VkBaseInStructure create_structure_copy<VkBaseInStructure>(const VkBaseInStructu
 {
     VkBaseInStructure result { };
     result.sType = obj.sType;
-    result.pNext = (const VkBaseInStructure*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
     return result;
 }
 
@@ -483,7 +619,8 @@ VkBaseOutStructure create_structure_copy<VkBaseOutStructure>(const VkBaseOutStru
 {
     VkBaseOutStructure result { };
     result.sType = obj.sType;
-    result.pNext = (VkBaseOutStructure*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
     return result;
 }
 
@@ -493,11 +630,17 @@ VkBindAccelerationStructureMemoryInfoKHR create_structure_copy<VkBindAcceleratio
 {
     VkBindAccelerationStructureMemoryInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.accelerationStructure = obj.accelerationStructure;
+    ,
     result.memory = obj.memory;
+    ,
     result.memoryOffset = obj.memoryOffset;
+    ,
     result.deviceIndexCount = obj.deviceIndexCount;
+    ,
     result.pDeviceIndices = create_dynamic_array_copy(obj.deviceIndexCount, obj.pDeviceIndices, pAllocationCallbacks);
     return result;
 }
@@ -509,8 +652,11 @@ VkBindBufferMemoryDeviceGroupInfo create_structure_copy<VkBindBufferMemoryDevice
 {
     VkBindBufferMemoryDeviceGroupInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.deviceIndexCount = obj.deviceIndexCount;
+    ,
     result.pDeviceIndices = create_dynamic_array_copy(obj.deviceIndexCount, obj.pDeviceIndices, pAllocationCallbacks);
     return result;
 }
@@ -521,9 +667,13 @@ VkBindBufferMemoryInfo create_structure_copy<VkBindBufferMemoryInfo>(const VkBin
 {
     VkBindBufferMemoryInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.buffer = obj.buffer;
+    ,
     result.memory = obj.memory;
+    ,
     result.memoryOffset = obj.memoryOffset;
     return result;
 }
@@ -534,10 +684,15 @@ VkBindImageMemoryDeviceGroupInfo create_structure_copy<VkBindImageMemoryDeviceGr
 {
     VkBindImageMemoryDeviceGroupInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.deviceIndexCount = obj.deviceIndexCount;
+    ,
     result.pDeviceIndices = create_dynamic_array_copy(obj.deviceIndexCount, obj.pDeviceIndices, pAllocationCallbacks);
+    ,
     result.splitInstanceBindRegionCount = obj.splitInstanceBindRegionCount;
+    ,
     result.pSplitInstanceBindRegions = create_dynamic_array_copy(obj.splitInstanceBindRegionCount, obj.pSplitInstanceBindRegions, pAllocationCallbacks);
     return result;
 }
@@ -548,9 +703,13 @@ VkBindImageMemoryInfo create_structure_copy<VkBindImageMemoryInfo>(const VkBindI
 {
     VkBindImageMemoryInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.image = obj.image;
+    ,
     result.memory = obj.memory;
+    ,
     result.memoryOffset = obj.memoryOffset;
     return result;
 }
@@ -561,8 +720,11 @@ VkBindImageMemorySwapchainInfoKHR create_structure_copy<VkBindImageMemorySwapcha
 {
     VkBindImageMemorySwapchainInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.swapchain = obj.swapchain;
+    ,
     result.imageIndex = obj.imageIndex;
     return result;
 }
@@ -572,7 +734,9 @@ VkBindImagePlaneMemoryInfo create_structure_copy<VkBindImagePlaneMemoryInfo>(con
 {
     VkBindImagePlaneMemoryInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.planeAspect = obj.planeAspect;
     return result;
 }
@@ -583,7 +747,9 @@ VkBindIndexBufferIndirectCommandNV create_structure_copy<VkBindIndexBufferIndire
 {
     VkBindIndexBufferIndirectCommandNV result { };
     result.bufferAddress = obj.bufferAddress;
+    ,
     result.size = obj.size;
+    ,
     result.indexType = obj.indexType;
     return result;
 }
@@ -601,16 +767,27 @@ VkBindSparseInfo create_structure_copy<VkBindSparseInfo>(const VkBindSparseInfo&
 {
     VkBindSparseInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.waitSemaphoreCount = obj.waitSemaphoreCount;
+    ,
     result.pWaitSemaphores = create_dynamic_array_copy(obj.waitSemaphoreCount, obj.pWaitSemaphores, pAllocationCallbacks);
+    ,
     result.bufferBindCount = obj.bufferBindCount;
+    ,
     result.pBufferBinds = create_dynamic_array_copy(obj.bufferBindCount, obj.pBufferBinds, pAllocationCallbacks);
+    ,
     result.imageOpaqueBindCount = obj.imageOpaqueBindCount;
+    ,
     result.pImageOpaqueBinds = create_dynamic_array_copy(obj.imageOpaqueBindCount, obj.pImageOpaqueBinds, pAllocationCallbacks);
+    ,
     result.imageBindCount = obj.imageBindCount;
+    ,
     result.pImageBinds = create_dynamic_array_copy(obj.imageBindCount, obj.pImageBinds, pAllocationCallbacks);
+    ,
     result.signalSemaphoreCount = obj.signalSemaphoreCount;
+    ,
     result.pSignalSemaphores = create_dynamic_array_copy(obj.signalSemaphoreCount, obj.pSignalSemaphores, pAllocationCallbacks);
     return result;
 }
@@ -620,7 +797,9 @@ VkBindVertexBufferIndirectCommandNV create_structure_copy<VkBindVertexBufferIndi
 {
     VkBindVertexBufferIndirectCommandNV result { };
     result.bufferAddress = obj.bufferAddress;
+    ,
     result.size = obj.size;
+    ,
     result.stride = obj.stride;
     return result;
 }
@@ -630,7 +809,9 @@ VkBufferCopy create_structure_copy<VkBufferCopy>(const VkBufferCopy& obj, const 
 {
     VkBufferCopy result { };
     result.srcOffset = obj.srcOffset;
+    ,
     result.dstOffset = obj.dstOffset;
+    ,
     result.size = obj.size;
     return result;
 }
@@ -640,12 +821,19 @@ VkBufferCreateInfo create_structure_copy<VkBufferCreateInfo>(const VkBufferCreat
 {
     VkBufferCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.size = obj.size;
+    ,
     result.usage = obj.usage;
+    ,
     result.sharingMode = obj.sharingMode;
+    ,
     result.queueFamilyIndexCount = obj.queueFamilyIndexCount;
+    ,
     result.pQueueFamilyIndices = create_dynamic_array_copy(obj.queueFamilyIndexCount, obj.pQueueFamilyIndices, pAllocationCallbacks);
     return result;
 }
@@ -655,7 +843,9 @@ VkBufferDeviceAddressCreateInfoEXT create_structure_copy<VkBufferDeviceAddressCr
 {
     VkBufferDeviceAddressCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.deviceAddress = obj.deviceAddress;
     return result;
 }
@@ -665,7 +855,9 @@ VkBufferDeviceAddressInfo create_structure_copy<VkBufferDeviceAddressInfo>(const
 {
     VkBufferDeviceAddressInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.buffer = obj.buffer;
     return result;
 }
@@ -677,10 +869,15 @@ VkBufferImageCopy create_structure_copy<VkBufferImageCopy>(const VkBufferImageCo
 {
     VkBufferImageCopy result { };
     result.bufferOffset = obj.bufferOffset;
+    ,
     result.bufferRowLength = obj.bufferRowLength;
+    ,
     result.bufferImageHeight = obj.bufferImageHeight;
+    ,
     result.imageSubresource = create_structure_copy(obj.imageSubresource, pAllocationCallbacks);
+    ,
     result.imageOffset = create_structure_copy(obj.imageOffset, pAllocationCallbacks);
+    ,
     result.imageExtent = create_structure_copy(obj.imageExtent, pAllocationCallbacks);
     return result;
 }
@@ -690,13 +887,21 @@ VkBufferMemoryBarrier create_structure_copy<VkBufferMemoryBarrier>(const VkBuffe
 {
     VkBufferMemoryBarrier result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.srcAccessMask = obj.srcAccessMask;
+    ,
     result.dstAccessMask = obj.dstAccessMask;
+    ,
     result.srcQueueFamilyIndex = obj.srcQueueFamilyIndex;
+    ,
     result.dstQueueFamilyIndex = obj.dstQueueFamilyIndex;
+    ,
     result.buffer = obj.buffer;
+    ,
     result.offset = obj.offset;
+    ,
     result.size = obj.size;
     return result;
 }
@@ -706,7 +911,9 @@ VkBufferMemoryRequirementsInfo2 create_structure_copy<VkBufferMemoryRequirements
 {
     VkBufferMemoryRequirementsInfo2 result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.buffer = obj.buffer;
     return result;
 }
@@ -717,7 +924,9 @@ VkBufferOpaqueCaptureAddressCreateInfo create_structure_copy<VkBufferOpaqueCaptu
 {
     VkBufferOpaqueCaptureAddressCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.opaqueCaptureAddress = obj.opaqueCaptureAddress;
     return result;
 }
@@ -728,11 +937,17 @@ VkBufferViewCreateInfo create_structure_copy<VkBufferViewCreateInfo>(const VkBuf
 {
     VkBufferViewCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.buffer = obj.buffer;
+    ,
     result.format = obj.format;
+    ,
     result.offset = obj.offset;
+    ,
     result.range = obj.range;
     return result;
 }
@@ -742,7 +957,9 @@ VkCalibratedTimestampInfoEXT create_structure_copy<VkCalibratedTimestampInfoEXT>
 {
     VkCalibratedTimestampInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.timeDomain = obj.timeDomain;
     return result;
 }
@@ -752,8 +969,11 @@ VkCheckpointDataNV create_structure_copy<VkCheckpointDataNV>(const VkCheckpointD
 {
     VkCheckpointDataNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.stage = obj.stage;
+    ,
     result.pCheckpointMarker = obj.pCheckpointMarker;
     return result;
 }
@@ -763,7 +983,9 @@ VkClearAttachment create_structure_copy<VkClearAttachment>(const VkClearAttachme
 {
     VkClearAttachment result { };
     result.aspectMask = obj.aspectMask;
+    ,
     result.colorAttachment = obj.colorAttachment;
+    ,
     result.clearValue = create_structure_copy(obj.clearValue, pAllocationCallbacks);
     return result;
 }
@@ -774,6 +996,7 @@ VkClearDepthStencilValue create_structure_copy<VkClearDepthStencilValue>(const V
 {
     VkClearDepthStencilValue result { };
     result.depth = obj.depth;
+    ,
     result.stencil = obj.stencil;
     return result;
 }
@@ -783,7 +1006,9 @@ VkClearRect create_structure_copy<VkClearRect>(const VkClearRect& obj, const VkA
 {
     VkClearRect result { };
     result.rect = create_structure_copy(obj.rect, pAllocationCallbacks);
+    ,
     result.baseArrayLayer = obj.baseArrayLayer;
+    ,
     result.layerCount = obj.layerCount;
     return result;
 }
@@ -794,7 +1019,9 @@ VkCoarseSampleLocationNV create_structure_copy<VkCoarseSampleLocationNV>(const V
 {
     VkCoarseSampleLocationNV result { };
     result.pixelX = obj.pixelX;
+    ,
     result.pixelY = obj.pixelY;
+    ,
     result.sample = obj.sample;
     return result;
 }
@@ -804,8 +1031,11 @@ VkCoarseSampleOrderCustomNV create_structure_copy<VkCoarseSampleOrderCustomNV>(c
 {
     VkCoarseSampleOrderCustomNV result { };
     result.shadingRate = obj.shadingRate;
+    ,
     result.sampleCount = obj.sampleCount;
+    ,
     result.sampleLocationCount = obj.sampleLocationCount;
+    ,
     result.pSampleLocations = create_dynamic_array_copy(obj.sampleLocationCount, obj.pSampleLocations, pAllocationCallbacks);
     return result;
 }
@@ -815,9 +1045,13 @@ VkCommandBufferAllocateInfo create_structure_copy<VkCommandBufferAllocateInfo>(c
 {
     VkCommandBufferAllocateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.commandPool = obj.commandPool;
+    ,
     result.level = obj.level;
+    ,
     result.commandBufferCount = obj.commandBufferCount;
     return result;
 }
@@ -827,8 +1061,11 @@ VkCommandBufferBeginInfo create_structure_copy<VkCommandBufferBeginInfo>(const V
 {
     VkCommandBufferBeginInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.pInheritanceInfo = create_dynamic_array_copy(1, obj.pInheritanceInfo, pAllocationCallbacks);
     return result;
 }
@@ -838,7 +1075,9 @@ VkCommandBufferInheritanceConditionalRenderingInfoEXT create_structure_copy<VkCo
 {
     VkCommandBufferInheritanceConditionalRenderingInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.conditionalRenderingEnable = obj.conditionalRenderingEnable;
     return result;
 }
@@ -848,12 +1087,19 @@ VkCommandBufferInheritanceInfo create_structure_copy<VkCommandBufferInheritanceI
 {
     VkCommandBufferInheritanceInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.renderPass = obj.renderPass;
+    ,
     result.subpass = obj.subpass;
+    ,
     result.framebuffer = obj.framebuffer;
+    ,
     result.occlusionQueryEnable = obj.occlusionQueryEnable;
+    ,
     result.queryFlags = obj.queryFlags;
+    ,
     result.pipelineStatistics = obj.pipelineStatistics;
     return result;
 }
@@ -863,8 +1109,11 @@ VkCommandBufferInheritanceRenderPassTransformInfoQCOM create_structure_copy<VkCo
 {
     VkCommandBufferInheritanceRenderPassTransformInfoQCOM result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.transform = obj.transform;
+    ,
     result.renderArea = create_structure_copy(obj.renderArea, pAllocationCallbacks);
     return result;
 }
@@ -874,8 +1123,11 @@ VkCommandPoolCreateInfo create_structure_copy<VkCommandPoolCreateInfo>(const VkC
 {
     VkCommandPoolCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.queueFamilyIndex = obj.queueFamilyIndex;
     return result;
 }
@@ -885,8 +1137,11 @@ VkComponentMapping create_structure_copy<VkComponentMapping>(const VkComponentMa
 {
     VkComponentMapping result { };
     result.r = obj.r;
+    ,
     result.g = obj.g;
+    ,
     result.b = obj.b;
+    ,
     result.a = obj.a;
     return result;
 }
@@ -896,11 +1151,17 @@ VkComputePipelineCreateInfo create_structure_copy<VkComputePipelineCreateInfo>(c
 {
     VkComputePipelineCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.stage = create_structure_copy(obj.stage, pAllocationCallbacks);
+    ,
     result.layout = obj.layout;
+    ,
     result.basePipelineHandle = obj.basePipelineHandle;
+    ,
     result.basePipelineIndex = obj.basePipelineIndex;
     return result;
 }
@@ -910,9 +1171,13 @@ VkConditionalRenderingBeginInfoEXT create_structure_copy<VkConditionalRenderingB
 {
     VkConditionalRenderingBeginInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.buffer = obj.buffer;
+    ,
     result.offset = obj.offset;
+    ,
     result.flags = obj.flags;
     return result;
 }
@@ -922,8 +1187,11 @@ VkConformanceVersion create_structure_copy<VkConformanceVersion>(const VkConform
 {
     VkConformanceVersion result { };
     result.major = obj.major;
+    ,
     result.minor = obj.minor;
+    ,
     result.subminor = obj.subminor;
+    ,
     result.patch = obj.patch;
     return result;
 }
@@ -934,14 +1202,23 @@ VkCooperativeMatrixPropertiesNV create_structure_copy<VkCooperativeMatrixPropert
 {
     VkCooperativeMatrixPropertiesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.MSize = obj.MSize;
+    ,
     result.NSize = obj.NSize;
+    ,
     result.KSize = obj.KSize;
+    ,
     result.AType = obj.AType;
+    ,
     result.BType = obj.BType;
+    ,
     result.CType = obj.CType;
+    ,
     result.DType = obj.DType;
+    ,
     result.scope = obj.scope;
     return result;
 }
@@ -952,9 +1229,13 @@ VkCopyAccelerationStructureInfoKHR create_structure_copy<VkCopyAccelerationStruc
 {
     VkCopyAccelerationStructureInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.src = obj.src;
+    ,
     result.dst = obj.dst;
+    ,
     result.mode = obj.mode;
     return result;
 }
@@ -966,9 +1247,13 @@ VkCopyAccelerationStructureToMemoryInfoKHR create_structure_copy<VkCopyAccelerat
 {
     VkCopyAccelerationStructureToMemoryInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.src = obj.src;
+    ,
     result.dst = create_structure_copy(obj.dst, pAllocationCallbacks);
+    ,
     result.mode = obj.mode;
     return result;
 }
@@ -979,13 +1264,21 @@ VkCopyDescriptorSet create_structure_copy<VkCopyDescriptorSet>(const VkCopyDescr
 {
     VkCopyDescriptorSet result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.srcSet = obj.srcSet;
+    ,
     result.srcBinding = obj.srcBinding;
+    ,
     result.srcArrayElement = obj.srcArrayElement;
+    ,
     result.dstSet = obj.dstSet;
+    ,
     result.dstBinding = obj.dstBinding;
+    ,
     result.dstArrayElement = obj.dstArrayElement;
+    ,
     result.descriptorCount = obj.descriptorCount;
     return result;
 }
@@ -996,9 +1289,13 @@ VkCopyMemoryToAccelerationStructureInfoKHR create_structure_copy<VkCopyMemoryToA
 {
     VkCopyMemoryToAccelerationStructureInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.src = create_structure_copy(obj.src, pAllocationCallbacks);
+    ,
     result.dst = obj.dst;
+    ,
     result.mode = obj.mode;
     return result;
 }
@@ -1010,10 +1307,15 @@ VkD3D12FenceSubmitInfoKHR create_structure_copy<VkD3D12FenceSubmitInfoKHR>(const
 {
     VkD3D12FenceSubmitInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.waitSemaphoreValuesCount = obj.waitSemaphoreValuesCount;
+    ,
     result.pWaitSemaphoreValues = create_dynamic_array_copy(obj.waitSemaphoreValuesCount, obj.pWaitSemaphoreValues, pAllocationCallbacks);
+    ,
     result.signalSemaphoreValuesCount = obj.signalSemaphoreValuesCount;
+    ,
     result.pSignalSemaphoreValues = create_dynamic_array_copy(obj.signalSemaphoreValuesCount, obj.pSignalSemaphoreValues, pAllocationCallbacks);
     return result;
 }
@@ -1024,8 +1326,11 @@ VkDebugMarkerMarkerInfoEXT create_structure_copy<VkDebugMarkerMarkerInfoEXT>(con
 {
     VkDebugMarkerMarkerInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.pMarkerName = create_dynamic_string_copy(obj.pMarkerName, pAllocationCallbacks);
+    ,
     create_static_array_copy<4>(result.color, obj.color, pAllocationCallbacks);
     return result;
 }
@@ -1035,9 +1340,13 @@ VkDebugMarkerObjectNameInfoEXT create_structure_copy<VkDebugMarkerObjectNameInfo
 {
     VkDebugMarkerObjectNameInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.objectType = obj.objectType;
+    ,
     result.object = obj.object;
+    ,
     result.pObjectName = create_dynamic_string_copy(obj.pObjectName, pAllocationCallbacks);
     return result;
 }
@@ -1047,11 +1356,17 @@ VkDebugMarkerObjectTagInfoEXT create_structure_copy<VkDebugMarkerObjectTagInfoEX
 {
     VkDebugMarkerObjectTagInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.objectType = obj.objectType;
+    ,
     result.object = obj.object;
+    ,
     result.tagName = obj.tagName;
+    ,
     result.tagSize = obj.tagSize;
+    ,
     result.pTag = create_dynamic_array_copy(obj.tagSize, obj.pTag, pAllocationCallbacks);
     return result;
 }
@@ -1061,9 +1376,13 @@ VkDebugReportCallbackCreateInfoEXT create_structure_copy<VkDebugReportCallbackCr
 {
     VkDebugReportCallbackCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.pfnCallback = obj.pfnCallback;
+    ,
     result.pUserData = obj.pUserData;
     return result;
 }
@@ -1073,8 +1392,11 @@ VkDebugUtilsLabelEXT create_structure_copy<VkDebugUtilsLabelEXT>(const VkDebugUt
 {
     VkDebugUtilsLabelEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.pLabelName = create_dynamic_string_copy(obj.pLabelName, pAllocationCallbacks);
+    ,
     create_static_array_copy<4>(result.color, obj.color, pAllocationCallbacks);
     return result;
 }
@@ -1084,16 +1406,27 @@ VkDebugUtilsMessengerCallbackDataEXT create_structure_copy<VkDebugUtilsMessenger
 {
     VkDebugUtilsMessengerCallbackDataEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.pMessageIdName = create_dynamic_string_copy(obj.pMessageIdName, pAllocationCallbacks);
+    ,
     result.messageIdNumber = obj.messageIdNumber;
+    ,
     result.pMessage = create_dynamic_string_copy(obj.pMessage, pAllocationCallbacks);
+    ,
     result.queueLabelCount = obj.queueLabelCount;
+    ,
     result.pQueueLabels = create_dynamic_array_copy(obj.queueLabelCount, obj.pQueueLabels, pAllocationCallbacks);
+    ,
     result.cmdBufLabelCount = obj.cmdBufLabelCount;
+    ,
     result.pCmdBufLabels = create_dynamic_array_copy(obj.cmdBufLabelCount, obj.pCmdBufLabels, pAllocationCallbacks);
+    ,
     result.objectCount = obj.objectCount;
+    ,
     result.pObjects = create_dynamic_array_copy(obj.objectCount, obj.pObjects, pAllocationCallbacks);
     return result;
 }
@@ -1103,11 +1436,17 @@ VkDebugUtilsMessengerCreateInfoEXT create_structure_copy<VkDebugUtilsMessengerCr
 {
     VkDebugUtilsMessengerCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.messageSeverity = obj.messageSeverity;
+    ,
     result.messageType = obj.messageType;
+    ,
     result.pfnUserCallback = obj.pfnUserCallback;
+    ,
     result.pUserData = obj.pUserData;
     return result;
 }
@@ -1117,9 +1456,13 @@ VkDebugUtilsObjectNameInfoEXT create_structure_copy<VkDebugUtilsObjectNameInfoEX
 {
     VkDebugUtilsObjectNameInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.objectType = obj.objectType;
+    ,
     result.objectHandle = obj.objectHandle;
+    ,
     result.pObjectName = create_dynamic_string_copy(obj.pObjectName, pAllocationCallbacks);
     return result;
 }
@@ -1129,11 +1472,17 @@ VkDebugUtilsObjectTagInfoEXT create_structure_copy<VkDebugUtilsObjectTagInfoEXT>
 {
     VkDebugUtilsObjectTagInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.objectType = obj.objectType;
+    ,
     result.objectHandle = obj.objectHandle;
+    ,
     result.tagName = obj.tagName;
+    ,
     result.tagSize = obj.tagSize;
+    ,
     result.pTag = create_dynamic_array_copy(obj.tagSize, obj.pTag, pAllocationCallbacks);
     return result;
 }
@@ -1143,7 +1492,9 @@ VkDedicatedAllocationBufferCreateInfoNV create_structure_copy<VkDedicatedAllocat
 {
     VkDedicatedAllocationBufferCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.dedicatedAllocation = obj.dedicatedAllocation;
     return result;
 }
@@ -1153,7 +1504,9 @@ VkDedicatedAllocationImageCreateInfoNV create_structure_copy<VkDedicatedAllocati
 {
     VkDedicatedAllocationImageCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.dedicatedAllocation = obj.dedicatedAllocation;
     return result;
 }
@@ -1163,8 +1516,11 @@ VkDedicatedAllocationMemoryAllocateInfoNV create_structure_copy<VkDedicatedAlloc
 {
     VkDedicatedAllocationMemoryAllocateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.image = obj.image;
+    ,
     result.buffer = obj.buffer;
     return result;
 }
@@ -1175,7 +1531,9 @@ VkDeferredOperationInfoKHR create_structure_copy<VkDeferredOperationInfoKHR>(con
 {
     VkDeferredOperationInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.operationHandle = obj.operationHandle;
     return result;
 }
@@ -1186,7 +1544,9 @@ VkDescriptorBufferInfo create_structure_copy<VkDescriptorBufferInfo>(const VkDes
 {
     VkDescriptorBufferInfo result { };
     result.buffer = obj.buffer;
+    ,
     result.offset = obj.offset;
+    ,
     result.range = obj.range;
     return result;
 }
@@ -1196,7 +1556,9 @@ VkDescriptorImageInfo create_structure_copy<VkDescriptorImageInfo>(const VkDescr
 {
     VkDescriptorImageInfo result { };
     result.sampler = obj.sampler;
+    ,
     result.imageView = obj.imageView;
+    ,
     result.imageLayout = obj.imageLayout;
     return result;
 }
@@ -1206,10 +1568,15 @@ VkDescriptorPoolCreateInfo create_structure_copy<VkDescriptorPoolCreateInfo>(con
 {
     VkDescriptorPoolCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.maxSets = obj.maxSets;
+    ,
     result.poolSizeCount = obj.poolSizeCount;
+    ,
     result.pPoolSizes = create_dynamic_array_copy(obj.poolSizeCount, obj.pPoolSizes, pAllocationCallbacks);
     return result;
 }
@@ -1219,7 +1586,9 @@ VkDescriptorPoolInlineUniformBlockCreateInfoEXT create_structure_copy<VkDescript
 {
     VkDescriptorPoolInlineUniformBlockCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.maxInlineUniformBlockBindings = obj.maxInlineUniformBlockBindings;
     return result;
 }
@@ -1229,6 +1598,7 @@ VkDescriptorPoolSize create_structure_copy<VkDescriptorPoolSize>(const VkDescrip
 {
     VkDescriptorPoolSize result { };
     result.type = obj.type;
+    ,
     result.descriptorCount = obj.descriptorCount;
     return result;
 }
@@ -1238,9 +1608,13 @@ VkDescriptorSetAllocateInfo create_structure_copy<VkDescriptorSetAllocateInfo>(c
 {
     VkDescriptorSetAllocateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.descriptorPool = obj.descriptorPool;
+    ,
     result.descriptorSetCount = obj.descriptorSetCount;
+    ,
     result.pSetLayouts = create_dynamic_array_copy(obj.descriptorSetCount, obj.pSetLayouts, pAllocationCallbacks);
     return result;
 }
@@ -1250,9 +1624,13 @@ VkDescriptorSetLayoutBinding create_structure_copy<VkDescriptorSetLayoutBinding>
 {
     VkDescriptorSetLayoutBinding result { };
     result.binding = obj.binding;
+    ,
     result.descriptorType = obj.descriptorType;
+    ,
     result.descriptorCount = obj.descriptorCount;
+    ,
     result.stageFlags = obj.stageFlags;
+    ,
     result.pImmutableSamplers = create_dynamic_array_copy(obj.descriptorCount, obj.pImmutableSamplers, pAllocationCallbacks);
     return result;
 }
@@ -1262,8 +1640,11 @@ VkDescriptorSetLayoutBindingFlagsCreateInfo create_structure_copy<VkDescriptorSe
 {
     VkDescriptorSetLayoutBindingFlagsCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.bindingCount = obj.bindingCount;
+    ,
     result.pBindingFlags = create_dynamic_array_copy(obj.bindingCount, obj.pBindingFlags, pAllocationCallbacks);
     return result;
 }
@@ -1274,9 +1655,13 @@ VkDescriptorSetLayoutCreateInfo create_structure_copy<VkDescriptorSetLayoutCreat
 {
     VkDescriptorSetLayoutCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.bindingCount = obj.bindingCount;
+    ,
     result.pBindings = create_dynamic_array_copy(obj.bindingCount, obj.pBindings, pAllocationCallbacks);
     return result;
 }
@@ -1286,7 +1671,9 @@ VkDescriptorSetLayoutSupport create_structure_copy<VkDescriptorSetLayoutSupport>
 {
     VkDescriptorSetLayoutSupport result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.supported = obj.supported;
     return result;
 }
@@ -1297,8 +1684,11 @@ VkDescriptorSetVariableDescriptorCountAllocateInfo create_structure_copy<VkDescr
 {
     VkDescriptorSetVariableDescriptorCountAllocateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.descriptorSetCount = obj.descriptorSetCount;
+    ,
     result.pDescriptorCounts = create_dynamic_array_copy(obj.descriptorSetCount, obj.pDescriptorCounts, pAllocationCallbacks);
     return result;
 }
@@ -1309,7 +1699,9 @@ VkDescriptorSetVariableDescriptorCountLayoutSupport create_structure_copy<VkDesc
 {
     VkDescriptorSetVariableDescriptorCountLayoutSupport result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.maxVariableDescriptorCount = obj.maxVariableDescriptorCount;
     return result;
 }
@@ -1320,14 +1712,23 @@ VkDescriptorUpdateTemplateCreateInfo create_structure_copy<VkDescriptorUpdateTem
 {
     VkDescriptorUpdateTemplateCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.descriptorUpdateEntryCount = obj.descriptorUpdateEntryCount;
+    ,
     result.pDescriptorUpdateEntries = create_dynamic_array_copy(obj.descriptorUpdateEntryCount, obj.pDescriptorUpdateEntries, pAllocationCallbacks);
+    ,
     result.templateType = obj.templateType;
+    ,
     result.descriptorSetLayout = obj.descriptorSetLayout;
+    ,
     result.pipelineBindPoint = obj.pipelineBindPoint;
+    ,
     result.pipelineLayout = obj.pipelineLayout;
+    ,
     result.set = obj.set;
     return result;
 }
@@ -1338,10 +1739,15 @@ VkDescriptorUpdateTemplateEntry create_structure_copy<VkDescriptorUpdateTemplate
 {
     VkDescriptorUpdateTemplateEntry result { };
     result.dstBinding = obj.dstBinding;
+    ,
     result.dstArrayElement = obj.dstArrayElement;
+    ,
     result.descriptorCount = obj.descriptorCount;
+    ,
     result.descriptorType = obj.descriptorType;
+    ,
     result.offset = obj.offset;
+    ,
     result.stride = obj.stride;
     return result;
 }
@@ -1352,14 +1758,23 @@ VkDeviceCreateInfo create_structure_copy<VkDeviceCreateInfo>(const VkDeviceCreat
 {
     VkDeviceCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.queueCreateInfoCount = obj.queueCreateInfoCount;
+    ,
     result.pQueueCreateInfos = create_dynamic_array_copy(obj.queueCreateInfoCount, obj.pQueueCreateInfos, pAllocationCallbacks);
+    ,
     result.enabledLayerCount = obj.enabledLayerCount;
+    ,
     result.ppEnabledLayerNames = create_dynamic_string_array_copy(obj.enabledLayerCount, obj.ppEnabledLayerNames, pAllocationCallbacks);
+    ,
     result.enabledExtensionCount = obj.enabledExtensionCount;
+    ,
     result.ppEnabledExtensionNames = create_dynamic_string_array_copy(obj.enabledExtensionCount, obj.ppEnabledExtensionNames, pAllocationCallbacks);
+    ,
     result.pEnabledFeatures = create_dynamic_array_copy(1, obj.pEnabledFeatures, pAllocationCallbacks);
     return result;
 }
@@ -1369,7 +1784,9 @@ VkDeviceDiagnosticsConfigCreateInfoNV create_structure_copy<VkDeviceDiagnosticsC
 {
     VkDeviceDiagnosticsConfigCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
     return result;
 }
@@ -1379,7 +1796,9 @@ VkDeviceEventInfoEXT create_structure_copy<VkDeviceEventInfoEXT>(const VkDeviceE
 {
     VkDeviceEventInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.deviceEvent = obj.deviceEvent;
     return result;
 }
@@ -1389,8 +1808,11 @@ VkDeviceGroupBindSparseInfo create_structure_copy<VkDeviceGroupBindSparseInfo>(c
 {
     VkDeviceGroupBindSparseInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.resourceDeviceIndex = obj.resourceDeviceIndex;
+    ,
     result.memoryDeviceIndex = obj.memoryDeviceIndex;
     return result;
 }
@@ -1401,7 +1823,9 @@ VkDeviceGroupCommandBufferBeginInfo create_structure_copy<VkDeviceGroupCommandBu
 {
     VkDeviceGroupCommandBufferBeginInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.deviceMask = obj.deviceMask;
     return result;
 }
@@ -1412,8 +1836,11 @@ VkDeviceGroupDeviceCreateInfo create_structure_copy<VkDeviceGroupDeviceCreateInf
 {
     VkDeviceGroupDeviceCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.physicalDeviceCount = obj.physicalDeviceCount;
+    ,
     result.pPhysicalDevices = create_dynamic_array_copy(obj.physicalDeviceCount, obj.pPhysicalDevices, pAllocationCallbacks);
     return result;
 }
@@ -1424,8 +1851,11 @@ VkDeviceGroupPresentCapabilitiesKHR create_structure_copy<VkDeviceGroupPresentCa
 {
     VkDeviceGroupPresentCapabilitiesKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     create_static_array_copy<VK_MAX_DEVICE_GROUP_SIZE>(result.presentMask, obj.presentMask, pAllocationCallbacks);
+    ,
     result.modes = obj.modes;
     return result;
 }
@@ -1435,9 +1865,13 @@ VkDeviceGroupPresentInfoKHR create_structure_copy<VkDeviceGroupPresentInfoKHR>(c
 {
     VkDeviceGroupPresentInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.swapchainCount = obj.swapchainCount;
+    ,
     result.pDeviceMasks = create_dynamic_array_copy(obj.swapchainCount, obj.pDeviceMasks, pAllocationCallbacks);
+    ,
     result.mode = obj.mode;
     return result;
 }
@@ -1447,9 +1881,13 @@ VkDeviceGroupRenderPassBeginInfo create_structure_copy<VkDeviceGroupRenderPassBe
 {
     VkDeviceGroupRenderPassBeginInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.deviceMask = obj.deviceMask;
+    ,
     result.deviceRenderAreaCount = obj.deviceRenderAreaCount;
+    ,
     result.pDeviceRenderAreas = create_dynamic_array_copy(obj.deviceRenderAreaCount, obj.pDeviceRenderAreas, pAllocationCallbacks);
     return result;
 }
@@ -1460,12 +1898,19 @@ VkDeviceGroupSubmitInfo create_structure_copy<VkDeviceGroupSubmitInfo>(const VkD
 {
     VkDeviceGroupSubmitInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.waitSemaphoreCount = obj.waitSemaphoreCount;
+    ,
     result.pWaitSemaphoreDeviceIndices = create_dynamic_array_copy(obj.waitSemaphoreCount, obj.pWaitSemaphoreDeviceIndices, pAllocationCallbacks);
+    ,
     result.commandBufferCount = obj.commandBufferCount;
+    ,
     result.pCommandBufferDeviceMasks = create_dynamic_array_copy(obj.commandBufferCount, obj.pCommandBufferDeviceMasks, pAllocationCallbacks);
+    ,
     result.signalSemaphoreCount = obj.signalSemaphoreCount;
+    ,
     result.pSignalSemaphoreDeviceIndices = create_dynamic_array_copy(obj.signalSemaphoreCount, obj.pSignalSemaphoreDeviceIndices, pAllocationCallbacks);
     return result;
 }
@@ -1476,7 +1921,9 @@ VkDeviceGroupSwapchainCreateInfoKHR create_structure_copy<VkDeviceGroupSwapchain
 {
     VkDeviceGroupSwapchainCreateInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.modes = obj.modes;
     return result;
 }
@@ -1486,7 +1933,9 @@ VkDeviceMemoryOpaqueCaptureAddressInfo create_structure_copy<VkDeviceMemoryOpaqu
 {
     VkDeviceMemoryOpaqueCaptureAddressInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.memory = obj.memory;
     return result;
 }
@@ -1497,7 +1946,9 @@ VkDeviceMemoryOverallocationCreateInfoAMD create_structure_copy<VkDeviceMemoryOv
 {
     VkDeviceMemoryOverallocationCreateInfoAMD result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.overallocationBehavior = obj.overallocationBehavior;
     return result;
 }
@@ -1508,6 +1959,7 @@ VkDeviceOrHostAddressConstKHR create_structure_copy<VkDeviceOrHostAddressConstKH
 {
     VkDeviceOrHostAddressConstKHR result { };
     result.deviceAddress = obj.deviceAddress;
+    ,
     result.hostAddress = obj.hostAddress;
     return result;
 }
@@ -1519,6 +1971,7 @@ VkDeviceOrHostAddressKHR create_structure_copy<VkDeviceOrHostAddressKHR>(const V
 {
     VkDeviceOrHostAddressKHR result { };
     result.deviceAddress = obj.deviceAddress;
+    ,
     result.hostAddress = obj.hostAddress;
     return result;
 }
@@ -1529,7 +1982,9 @@ VkDevicePrivateDataCreateInfoEXT create_structure_copy<VkDevicePrivateDataCreate
 {
     VkDevicePrivateDataCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.privateDataSlotRequestCount = obj.privateDataSlotRequestCount;
     return result;
 }
@@ -1539,10 +1994,15 @@ VkDeviceQueueCreateInfo create_structure_copy<VkDeviceQueueCreateInfo>(const VkD
 {
     VkDeviceQueueCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.queueFamilyIndex = obj.queueFamilyIndex;
+    ,
     result.queueCount = obj.queueCount;
+    ,
     result.pQueuePriorities = create_dynamic_array_copy(obj.queueCount, obj.pQueuePriorities, pAllocationCallbacks);
     return result;
 }
@@ -1552,7 +2012,9 @@ VkDeviceQueueGlobalPriorityCreateInfoEXT create_structure_copy<VkDeviceQueueGlob
 {
     VkDeviceQueueGlobalPriorityCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.globalPriority = obj.globalPriority;
     return result;
 }
@@ -1562,9 +2024,13 @@ VkDeviceQueueInfo2 create_structure_copy<VkDeviceQueueInfo2>(const VkDeviceQueue
 {
     VkDeviceQueueInfo2 result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.queueFamilyIndex = obj.queueFamilyIndex;
+    ,
     result.queueIndex = obj.queueIndex;
     return result;
 }
@@ -1575,9 +2041,13 @@ VkDirectFBSurfaceCreateInfoEXT create_structure_copy<VkDirectFBSurfaceCreateInfo
 {
     VkDirectFBSurfaceCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.dfb = obj.dfb;
+    ,
     result.surface = obj.surface;
     return result;
 }
@@ -1588,7 +2058,9 @@ VkDispatchIndirectCommand create_structure_copy<VkDispatchIndirectCommand>(const
 {
     VkDispatchIndirectCommand result { };
     result.x = obj.x;
+    ,
     result.y = obj.y;
+    ,
     result.z = obj.z;
     return result;
 }
@@ -1598,7 +2070,9 @@ VkDisplayEventInfoEXT create_structure_copy<VkDisplayEventInfoEXT>(const VkDispl
 {
     VkDisplayEventInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.displayEvent = obj.displayEvent;
     return result;
 }
@@ -1608,8 +2082,11 @@ VkDisplayModeCreateInfoKHR create_structure_copy<VkDisplayModeCreateInfoKHR>(con
 {
     VkDisplayModeCreateInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.parameters = create_structure_copy(obj.parameters, pAllocationCallbacks);
     return result;
 }
@@ -1619,6 +2096,7 @@ VkDisplayModeParametersKHR create_structure_copy<VkDisplayModeParametersKHR>(con
 {
     VkDisplayModeParametersKHR result { };
     result.visibleRegion = create_structure_copy(obj.visibleRegion, pAllocationCallbacks);
+    ,
     result.refreshRate = obj.refreshRate;
     return result;
 }
@@ -1628,7 +2106,9 @@ VkDisplayModeProperties2KHR create_structure_copy<VkDisplayModeProperties2KHR>(c
 {
     VkDisplayModeProperties2KHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.displayModeProperties = create_structure_copy(obj.displayModeProperties, pAllocationCallbacks);
     return result;
 }
@@ -1638,6 +2118,7 @@ VkDisplayModePropertiesKHR create_structure_copy<VkDisplayModePropertiesKHR>(con
 {
     VkDisplayModePropertiesKHR result { };
     result.displayMode = obj.displayMode;
+    ,
     result.parameters = create_structure_copy(obj.parameters, pAllocationCallbacks);
     return result;
 }
@@ -1647,7 +2128,9 @@ VkDisplayNativeHdrSurfaceCapabilitiesAMD create_structure_copy<VkDisplayNativeHd
 {
     VkDisplayNativeHdrSurfaceCapabilitiesAMD result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.localDimmingSupport = obj.localDimmingSupport;
     return result;
 }
@@ -1657,7 +2140,9 @@ VkDisplayPlaneCapabilities2KHR create_structure_copy<VkDisplayPlaneCapabilities2
 {
     VkDisplayPlaneCapabilities2KHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.capabilities = create_structure_copy(obj.capabilities, pAllocationCallbacks);
     return result;
 }
@@ -1667,13 +2152,21 @@ VkDisplayPlaneCapabilitiesKHR create_structure_copy<VkDisplayPlaneCapabilitiesKH
 {
     VkDisplayPlaneCapabilitiesKHR result { };
     result.supportedAlpha = obj.supportedAlpha;
+    ,
     result.minSrcPosition = create_structure_copy(obj.minSrcPosition, pAllocationCallbacks);
+    ,
     result.maxSrcPosition = create_structure_copy(obj.maxSrcPosition, pAllocationCallbacks);
+    ,
     result.minSrcExtent = create_structure_copy(obj.minSrcExtent, pAllocationCallbacks);
+    ,
     result.maxSrcExtent = create_structure_copy(obj.maxSrcExtent, pAllocationCallbacks);
+    ,
     result.minDstPosition = create_structure_copy(obj.minDstPosition, pAllocationCallbacks);
+    ,
     result.maxDstPosition = create_structure_copy(obj.maxDstPosition, pAllocationCallbacks);
+    ,
     result.minDstExtent = create_structure_copy(obj.minDstExtent, pAllocationCallbacks);
+    ,
     result.maxDstExtent = create_structure_copy(obj.maxDstExtent, pAllocationCallbacks);
     return result;
 }
@@ -1683,8 +2176,11 @@ VkDisplayPlaneInfo2KHR create_structure_copy<VkDisplayPlaneInfo2KHR>(const VkDis
 {
     VkDisplayPlaneInfo2KHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.mode = obj.mode;
+    ,
     result.planeIndex = obj.planeIndex;
     return result;
 }
@@ -1694,7 +2190,9 @@ VkDisplayPlaneProperties2KHR create_structure_copy<VkDisplayPlaneProperties2KHR>
 {
     VkDisplayPlaneProperties2KHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.displayPlaneProperties = create_structure_copy(obj.displayPlaneProperties, pAllocationCallbacks);
     return result;
 }
@@ -1704,6 +2202,7 @@ VkDisplayPlanePropertiesKHR create_structure_copy<VkDisplayPlanePropertiesKHR>(c
 {
     VkDisplayPlanePropertiesKHR result { };
     result.currentDisplay = obj.currentDisplay;
+    ,
     result.currentStackIndex = obj.currentStackIndex;
     return result;
 }
@@ -1713,7 +2212,9 @@ VkDisplayPowerInfoEXT create_structure_copy<VkDisplayPowerInfoEXT>(const VkDispl
 {
     VkDisplayPowerInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.powerState = obj.powerState;
     return result;
 }
@@ -1723,9 +2224,13 @@ VkDisplayPresentInfoKHR create_structure_copy<VkDisplayPresentInfoKHR>(const VkD
 {
     VkDisplayPresentInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.srcRect = create_structure_copy(obj.srcRect, pAllocationCallbacks);
+    ,
     result.dstRect = create_structure_copy(obj.dstRect, pAllocationCallbacks);
+    ,
     result.persistent = obj.persistent;
     return result;
 }
@@ -1735,7 +2240,9 @@ VkDisplayProperties2KHR create_structure_copy<VkDisplayProperties2KHR>(const VkD
 {
     VkDisplayProperties2KHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.displayProperties = create_structure_copy(obj.displayProperties, pAllocationCallbacks);
     return result;
 }
@@ -1745,11 +2252,17 @@ VkDisplayPropertiesKHR create_structure_copy<VkDisplayPropertiesKHR>(const VkDis
 {
     VkDisplayPropertiesKHR result { };
     result.display = obj.display;
+    ,
     result.displayName = create_dynamic_string_copy(obj.displayName, pAllocationCallbacks);
+    ,
     result.physicalDimensions = create_structure_copy(obj.physicalDimensions, pAllocationCallbacks);
+    ,
     result.physicalResolution = create_structure_copy(obj.physicalResolution, pAllocationCallbacks);
+    ,
     result.supportedTransforms = obj.supportedTransforms;
+    ,
     result.planeReorderPossible = obj.planeReorderPossible;
+    ,
     result.persistentContent = obj.persistentContent;
     return result;
 }
@@ -1759,14 +2272,23 @@ VkDisplaySurfaceCreateInfoKHR create_structure_copy<VkDisplaySurfaceCreateInfoKH
 {
     VkDisplaySurfaceCreateInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.displayMode = obj.displayMode;
+    ,
     result.planeIndex = obj.planeIndex;
+    ,
     result.planeStackIndex = obj.planeStackIndex;
+    ,
     result.transform = obj.transform;
+    ,
     result.globalAlpha = obj.globalAlpha;
+    ,
     result.alphaMode = obj.alphaMode;
+    ,
     result.imageExtent = create_structure_copy(obj.imageExtent, pAllocationCallbacks);
     return result;
 }
@@ -1776,9 +2298,13 @@ VkDrawIndexedIndirectCommand create_structure_copy<VkDrawIndexedIndirectCommand>
 {
     VkDrawIndexedIndirectCommand result { };
     result.indexCount = obj.indexCount;
+    ,
     result.instanceCount = obj.instanceCount;
+    ,
     result.firstIndex = obj.firstIndex;
+    ,
     result.vertexOffset = obj.vertexOffset;
+    ,
     result.firstInstance = obj.firstInstance;
     return result;
 }
@@ -1788,8 +2314,11 @@ VkDrawIndirectCommand create_structure_copy<VkDrawIndirectCommand>(const VkDrawI
 {
     VkDrawIndirectCommand result { };
     result.vertexCount = obj.vertexCount;
+    ,
     result.instanceCount = obj.instanceCount;
+    ,
     result.firstVertex = obj.firstVertex;
+    ,
     result.firstInstance = obj.firstInstance;
     return result;
 }
@@ -1799,6 +2328,7 @@ VkDrawMeshTasksIndirectCommandNV create_structure_copy<VkDrawMeshTasksIndirectCo
 {
     VkDrawMeshTasksIndirectCommandNV result { };
     result.taskCount = obj.taskCount;
+    ,
     result.firstTask = obj.firstTask;
     return result;
 }
@@ -1808,7 +2338,9 @@ VkDrmFormatModifierPropertiesEXT create_structure_copy<VkDrmFormatModifierProper
 {
     VkDrmFormatModifierPropertiesEXT result { };
     result.drmFormatModifier = obj.drmFormatModifier;
+    ,
     result.drmFormatModifierPlaneCount = obj.drmFormatModifierPlaneCount;
+    ,
     result.drmFormatModifierTilingFeatures = obj.drmFormatModifierTilingFeatures;
     return result;
 }
@@ -1818,8 +2350,11 @@ VkDrmFormatModifierPropertiesListEXT create_structure_copy<VkDrmFormatModifierPr
 {
     VkDrmFormatModifierPropertiesListEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.drmFormatModifierCount = obj.drmFormatModifierCount;
+    ,
     result.pDrmFormatModifierProperties = create_dynamic_array_copy(obj.drmFormatModifierCount, obj.pDrmFormatModifierProperties, pAllocationCallbacks);
     return result;
 }
@@ -1829,7 +2364,9 @@ VkEventCreateInfo create_structure_copy<VkEventCreateInfo>(const VkEventCreateIn
 {
     VkEventCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
     return result;
 }
@@ -1839,7 +2376,9 @@ VkExportFenceCreateInfo create_structure_copy<VkExportFenceCreateInfo>(const VkE
 {
     VkExportFenceCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.handleTypes = obj.handleTypes;
     return result;
 }
@@ -1851,9 +2390,13 @@ VkExportFenceWin32HandleInfoKHR create_structure_copy<VkExportFenceWin32HandleIn
 {
     VkExportFenceWin32HandleInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.pAttributes = obj.pAttributes;
+    ,
     result.dwAccess = obj.dwAccess;
+    ,
     result.name = obj.name;
     return result;
 }
@@ -1864,7 +2407,9 @@ VkExportMemoryAllocateInfo create_structure_copy<VkExportMemoryAllocateInfo>(con
 {
     VkExportMemoryAllocateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.handleTypes = obj.handleTypes;
     return result;
 }
@@ -1875,7 +2420,9 @@ VkExportMemoryAllocateInfoNV create_structure_copy<VkExportMemoryAllocateInfoNV>
 {
     VkExportMemoryAllocateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.handleTypes = obj.handleTypes;
     return result;
 }
@@ -1886,9 +2433,13 @@ VkExportMemoryWin32HandleInfoKHR create_structure_copy<VkExportMemoryWin32Handle
 {
     VkExportMemoryWin32HandleInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.pAttributes = obj.pAttributes;
+    ,
     result.dwAccess = obj.dwAccess;
+    ,
     result.name = obj.name;
     return result;
 }
@@ -1900,8 +2451,11 @@ VkExportMemoryWin32HandleInfoNV create_structure_copy<VkExportMemoryWin32HandleI
 {
     VkExportMemoryWin32HandleInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.pAttributes = obj.pAttributes;
+    ,
     result.dwAccess = obj.dwAccess;
     return result;
 }
@@ -1912,7 +2466,9 @@ VkExportSemaphoreCreateInfo create_structure_copy<VkExportSemaphoreCreateInfo>(c
 {
     VkExportSemaphoreCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.handleTypes = obj.handleTypes;
     return result;
 }
@@ -1924,9 +2480,13 @@ VkExportSemaphoreWin32HandleInfoKHR create_structure_copy<VkExportSemaphoreWin32
 {
     VkExportSemaphoreWin32HandleInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.pAttributes = obj.pAttributes;
+    ,
     result.dwAccess = obj.dwAccess;
+    ,
     result.name = obj.name;
     return result;
 }
@@ -1937,6 +2497,7 @@ VkExtensionProperties create_structure_copy<VkExtensionProperties>(const VkExten
 {
     VkExtensionProperties result { };
     create_static_string_copy<VK_MAX_EXTENSION_NAME_SIZE>(result.extensionName, obj.extensionName, pAllocationCallbacks);
+    ,
     result.specVersion = obj.specVersion;
     return result;
 }
@@ -1946,6 +2507,7 @@ VkExtent2D create_structure_copy<VkExtent2D>(const VkExtent2D& obj, const VkAllo
 {
     VkExtent2D result { };
     result.width = obj.width;
+    ,
     result.height = obj.height;
     return result;
 }
@@ -1955,7 +2517,9 @@ VkExtent3D create_structure_copy<VkExtent3D>(const VkExtent3D& obj, const VkAllo
 {
     VkExtent3D result { };
     result.width = obj.width;
+    ,
     result.height = obj.height;
+    ,
     result.depth = obj.depth;
     return result;
 }
@@ -1965,7 +2529,9 @@ VkExternalBufferProperties create_structure_copy<VkExternalBufferProperties>(con
 {
     VkExternalBufferProperties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.externalMemoryProperties = create_structure_copy(obj.externalMemoryProperties, pAllocationCallbacks);
     return result;
 }
@@ -1976,9 +2542,13 @@ VkExternalFenceProperties create_structure_copy<VkExternalFenceProperties>(const
 {
     VkExternalFenceProperties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.exportFromImportedHandleTypes = obj.exportFromImportedHandleTypes;
+    ,
     result.compatibleHandleTypes = obj.compatibleHandleTypes;
+    ,
     result.externalFenceFeatures = obj.externalFenceFeatures;
     return result;
 }
@@ -1990,7 +2560,9 @@ VkExternalFormatANDROID create_structure_copy<VkExternalFormatANDROID>(const VkE
 {
     VkExternalFormatANDROID result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.externalFormat = obj.externalFormat;
     return result;
 }
@@ -2001,7 +2573,9 @@ VkExternalImageFormatProperties create_structure_copy<VkExternalImageFormatPrope
 {
     VkExternalImageFormatProperties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.externalMemoryProperties = create_structure_copy(obj.externalMemoryProperties, pAllocationCallbacks);
     return result;
 }
@@ -2012,8 +2586,11 @@ VkExternalImageFormatPropertiesNV create_structure_copy<VkExternalImageFormatPro
 {
     VkExternalImageFormatPropertiesNV result { };
     result.imageFormatProperties = create_structure_copy(obj.imageFormatProperties, pAllocationCallbacks);
+    ,
     result.externalMemoryFeatures = obj.externalMemoryFeatures;
+    ,
     result.exportFromImportedHandleTypes = obj.exportFromImportedHandleTypes;
+    ,
     result.compatibleHandleTypes = obj.compatibleHandleTypes;
     return result;
 }
@@ -2023,7 +2600,9 @@ VkExternalMemoryBufferCreateInfo create_structure_copy<VkExternalMemoryBufferCre
 {
     VkExternalMemoryBufferCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.handleTypes = obj.handleTypes;
     return result;
 }
@@ -2034,7 +2613,9 @@ VkExternalMemoryImageCreateInfo create_structure_copy<VkExternalMemoryImageCreat
 {
     VkExternalMemoryImageCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.handleTypes = obj.handleTypes;
     return result;
 }
@@ -2045,7 +2626,9 @@ VkExternalMemoryImageCreateInfoNV create_structure_copy<VkExternalMemoryImageCre
 {
     VkExternalMemoryImageCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.handleTypes = obj.handleTypes;
     return result;
 }
@@ -2055,7 +2638,9 @@ VkExternalMemoryProperties create_structure_copy<VkExternalMemoryProperties>(con
 {
     VkExternalMemoryProperties result { };
     result.externalMemoryFeatures = obj.externalMemoryFeatures;
+    ,
     result.exportFromImportedHandleTypes = obj.exportFromImportedHandleTypes;
+    ,
     result.compatibleHandleTypes = obj.compatibleHandleTypes;
     return result;
 }
@@ -2066,9 +2651,13 @@ VkExternalSemaphoreProperties create_structure_copy<VkExternalSemaphorePropertie
 {
     VkExternalSemaphoreProperties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.exportFromImportedHandleTypes = obj.exportFromImportedHandleTypes;
+    ,
     result.compatibleHandleTypes = obj.compatibleHandleTypes;
+    ,
     result.externalSemaphoreFeatures = obj.externalSemaphoreFeatures;
     return result;
 }
@@ -2079,7 +2668,9 @@ VkFenceCreateInfo create_structure_copy<VkFenceCreateInfo>(const VkFenceCreateIn
 {
     VkFenceCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
     return result;
 }
@@ -2089,8 +2680,11 @@ VkFenceGetFdInfoKHR create_structure_copy<VkFenceGetFdInfoKHR>(const VkFenceGetF
 {
     VkFenceGetFdInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.fence = obj.fence;
+    ,
     result.handleType = obj.handleType;
     return result;
 }
@@ -2101,8 +2695,11 @@ VkFenceGetWin32HandleInfoKHR create_structure_copy<VkFenceGetWin32HandleInfoKHR>
 {
     VkFenceGetWin32HandleInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.fence = obj.fence;
+    ,
     result.handleType = obj.handleType;
     return result;
 }
@@ -2113,8 +2710,11 @@ VkFilterCubicImageViewImageFormatPropertiesEXT create_structure_copy<VkFilterCub
 {
     VkFilterCubicImageViewImageFormatPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.filterCubic = obj.filterCubic;
+    ,
     result.filterCubicMinmax = obj.filterCubicMinmax;
     return result;
 }
@@ -2124,7 +2724,9 @@ VkFormatProperties create_structure_copy<VkFormatProperties>(const VkFormatPrope
 {
     VkFormatProperties result { };
     result.linearTilingFeatures = obj.linearTilingFeatures;
+    ,
     result.optimalTilingFeatures = obj.optimalTilingFeatures;
+    ,
     result.bufferFeatures = obj.bufferFeatures;
     return result;
 }
@@ -2134,7 +2736,9 @@ VkFormatProperties2 create_structure_copy<VkFormatProperties2>(const VkFormatPro
 {
     VkFormatProperties2 result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.formatProperties = create_structure_copy(obj.formatProperties, pAllocationCallbacks);
     return result;
 }
@@ -2145,13 +2749,21 @@ VkFramebufferAttachmentImageInfo create_structure_copy<VkFramebufferAttachmentIm
 {
     VkFramebufferAttachmentImageInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.usage = obj.usage;
+    ,
     result.width = obj.width;
+    ,
     result.height = obj.height;
+    ,
     result.layerCount = obj.layerCount;
+    ,
     result.viewFormatCount = obj.viewFormatCount;
+    ,
     result.pViewFormats = create_dynamic_array_copy(obj.viewFormatCount, obj.pViewFormats, pAllocationCallbacks);
     return result;
 }
@@ -2162,8 +2774,11 @@ VkFramebufferAttachmentsCreateInfo create_structure_copy<VkFramebufferAttachment
 {
     VkFramebufferAttachmentsCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.attachmentImageInfoCount = obj.attachmentImageInfoCount;
+    ,
     result.pAttachmentImageInfos = create_dynamic_array_copy(obj.attachmentImageInfoCount, obj.pAttachmentImageInfos, pAllocationCallbacks);
     return result;
 }
@@ -2174,13 +2789,21 @@ VkFramebufferCreateInfo create_structure_copy<VkFramebufferCreateInfo>(const VkF
 {
     VkFramebufferCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.renderPass = obj.renderPass;
+    ,
     result.attachmentCount = obj.attachmentCount;
+    ,
     result.pAttachments = create_dynamic_array_copy(obj.attachmentCount, obj.pAttachments, pAllocationCallbacks);
+    ,
     result.width = obj.width;
+    ,
     result.height = obj.height;
+    ,
     result.layers = obj.layers;
     return result;
 }
@@ -2190,10 +2813,15 @@ VkFramebufferMixedSamplesCombinationNV create_structure_copy<VkFramebufferMixedS
 {
     VkFramebufferMixedSamplesCombinationNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.coverageReductionMode = obj.coverageReductionMode;
+    ,
     result.rasterizationSamples = obj.rasterizationSamples;
+    ,
     result.depthStencilSamples = obj.depthStencilSamples;
+    ,
     result.colorSamples = obj.colorSamples;
     return result;
 }
@@ -2203,19 +2831,33 @@ VkGeneratedCommandsInfoNV create_structure_copy<VkGeneratedCommandsInfoNV>(const
 {
     VkGeneratedCommandsInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.pipelineBindPoint = obj.pipelineBindPoint;
+    ,
     result.pipeline = obj.pipeline;
+    ,
     result.indirectCommandsLayout = obj.indirectCommandsLayout;
+    ,
     result.streamCount = obj.streamCount;
+    ,
     result.pStreams = create_dynamic_array_copy(obj.streamCount, obj.pStreams, pAllocationCallbacks);
+    ,
     result.sequencesCount = obj.sequencesCount;
+    ,
     result.preprocessBuffer = obj.preprocessBuffer;
+    ,
     result.preprocessOffset = obj.preprocessOffset;
+    ,
     result.preprocessSize = obj.preprocessSize;
+    ,
     result.sequencesCountBuffer = obj.sequencesCountBuffer;
+    ,
     result.sequencesCountOffset = obj.sequencesCountOffset;
+    ,
     result.sequencesIndexBuffer = obj.sequencesIndexBuffer;
+    ,
     result.sequencesIndexOffset = obj.sequencesIndexOffset;
     return result;
 }
@@ -2225,10 +2867,15 @@ VkGeneratedCommandsMemoryRequirementsInfoNV create_structure_copy<VkGeneratedCom
 {
     VkGeneratedCommandsMemoryRequirementsInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.pipelineBindPoint = obj.pipelineBindPoint;
+    ,
     result.pipeline = obj.pipeline;
+    ,
     result.indirectCommandsLayout = obj.indirectCommandsLayout;
+    ,
     result.maxSequencesCount = obj.maxSequencesCount;
     return result;
 }
@@ -2238,10 +2885,15 @@ VkGeometryAABBNV create_structure_copy<VkGeometryAABBNV>(const VkGeometryAABBNV&
 {
     VkGeometryAABBNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.aabbData = obj.aabbData;
+    ,
     result.numAABBs = obj.numAABBs;
+    ,
     result.stride = obj.stride;
+    ,
     result.offset = obj.offset;
     return result;
 }
@@ -2251,6 +2903,7 @@ VkGeometryDataNV create_structure_copy<VkGeometryDataNV>(const VkGeometryDataNV&
 {
     VkGeometryDataNV result { };
     result.triangles = create_structure_copy(obj.triangles, pAllocationCallbacks);
+    ,
     result.aabbs = create_structure_copy(obj.aabbs, pAllocationCallbacks);
     return result;
 }
@@ -2260,9 +2913,13 @@ VkGeometryNV create_structure_copy<VkGeometryNV>(const VkGeometryNV& obj, const 
 {
     VkGeometryNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.geometryType = obj.geometryType;
+    ,
     result.geometry = create_structure_copy(obj.geometry, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
     return result;
 }
@@ -2272,17 +2929,29 @@ VkGeometryTrianglesNV create_structure_copy<VkGeometryTrianglesNV>(const VkGeome
 {
     VkGeometryTrianglesNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.vertexData = obj.vertexData;
+    ,
     result.vertexOffset = obj.vertexOffset;
+    ,
     result.vertexCount = obj.vertexCount;
+    ,
     result.vertexStride = obj.vertexStride;
+    ,
     result.vertexFormat = obj.vertexFormat;
+    ,
     result.indexData = obj.indexData;
+    ,
     result.indexOffset = obj.indexOffset;
+    ,
     result.indexCount = obj.indexCount;
+    ,
     result.indexType = obj.indexType;
+    ,
     result.transformData = obj.transformData;
+    ,
     result.transformOffset = obj.transformOffset;
     return result;
 }
@@ -2292,23 +2961,41 @@ VkGraphicsPipelineCreateInfo create_structure_copy<VkGraphicsPipelineCreateInfo>
 {
     VkGraphicsPipelineCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.stageCount = obj.stageCount;
+    ,
     result.pStages = create_dynamic_array_copy(obj.stageCount, obj.pStages, pAllocationCallbacks);
+    ,
     result.pVertexInputState = create_dynamic_array_copy(1, obj.pVertexInputState, pAllocationCallbacks);
+    ,
     result.pInputAssemblyState = create_dynamic_array_copy(1, obj.pInputAssemblyState, pAllocationCallbacks);
+    ,
     result.pTessellationState = create_dynamic_array_copy(1, obj.pTessellationState, pAllocationCallbacks);
+    ,
     result.pViewportState = create_dynamic_array_copy(1, obj.pViewportState, pAllocationCallbacks);
+    ,
     result.pRasterizationState = create_dynamic_array_copy(1, obj.pRasterizationState, pAllocationCallbacks);
+    ,
     result.pMultisampleState = create_dynamic_array_copy(1, obj.pMultisampleState, pAllocationCallbacks);
+    ,
     result.pDepthStencilState = create_dynamic_array_copy(1, obj.pDepthStencilState, pAllocationCallbacks);
+    ,
     result.pColorBlendState = create_dynamic_array_copy(1, obj.pColorBlendState, pAllocationCallbacks);
+    ,
     result.pDynamicState = create_dynamic_array_copy(1, obj.pDynamicState, pAllocationCallbacks);
+    ,
     result.layout = obj.layout;
+    ,
     result.renderPass = obj.renderPass;
+    ,
     result.subpass = obj.subpass;
+    ,
     result.basePipelineHandle = obj.basePipelineHandle;
+    ,
     result.basePipelineIndex = obj.basePipelineIndex;
     return result;
 }
@@ -2318,10 +3005,15 @@ VkGraphicsPipelineShaderGroupsCreateInfoNV create_structure_copy<VkGraphicsPipel
 {
     VkGraphicsPipelineShaderGroupsCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.groupCount = obj.groupCount;
+    ,
     result.pGroups = create_dynamic_array_copy(obj.groupCount, obj.pGroups, pAllocationCallbacks);
+    ,
     result.pipelineCount = obj.pipelineCount;
+    ,
     result.pPipelines = create_dynamic_array_copy(obj.pipelineCount, obj.pPipelines, pAllocationCallbacks);
     return result;
 }
@@ -2331,10 +3023,15 @@ VkGraphicsShaderGroupCreateInfoNV create_structure_copy<VkGraphicsShaderGroupCre
 {
     VkGraphicsShaderGroupCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.stageCount = obj.stageCount;
+    ,
     result.pStages = create_dynamic_array_copy(obj.stageCount, obj.pStages, pAllocationCallbacks);
+    ,
     result.pVertexInputState = create_dynamic_array_copy(1, obj.pVertexInputState, pAllocationCallbacks);
+    ,
     result.pTessellationState = create_dynamic_array_copy(1, obj.pTessellationState, pAllocationCallbacks);
     return result;
 }
@@ -2344,14 +3041,23 @@ VkHdrMetadataEXT create_structure_copy<VkHdrMetadataEXT>(const VkHdrMetadataEXT&
 {
     VkHdrMetadataEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.displayPrimaryRed = create_structure_copy(obj.displayPrimaryRed, pAllocationCallbacks);
+    ,
     result.displayPrimaryGreen = create_structure_copy(obj.displayPrimaryGreen, pAllocationCallbacks);
+    ,
     result.displayPrimaryBlue = create_structure_copy(obj.displayPrimaryBlue, pAllocationCallbacks);
+    ,
     result.whitePoint = create_structure_copy(obj.whitePoint, pAllocationCallbacks);
+    ,
     result.maxLuminance = obj.maxLuminance;
+    ,
     result.minLuminance = obj.minLuminance;
+    ,
     result.maxContentLightLevel = obj.maxContentLightLevel;
+    ,
     result.maxFrameAverageLightLevel = obj.maxFrameAverageLightLevel;
     return result;
 }
@@ -2361,7 +3067,9 @@ VkHeadlessSurfaceCreateInfoEXT create_structure_copy<VkHeadlessSurfaceCreateInfo
 {
     VkHeadlessSurfaceCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
     return result;
 }
@@ -2372,8 +3080,11 @@ VkIOSSurfaceCreateInfoMVK create_structure_copy<VkIOSSurfaceCreateInfoMVK>(const
 {
     VkIOSSurfaceCreateInfoMVK result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.pView = obj.pView;
     return result;
 }
@@ -2384,8 +3095,11 @@ VkImageBlit create_structure_copy<VkImageBlit>(const VkImageBlit& obj, const VkA
 {
     VkImageBlit result { };
     result.srcSubresource = create_structure_copy(obj.srcSubresource, pAllocationCallbacks);
+    ,
     create_static_array_copy<2>(result.srcOffsets, obj.srcOffsets, pAllocationCallbacks);
+    ,
     result.dstSubresource = create_structure_copy(obj.dstSubresource, pAllocationCallbacks);
+    ,
     create_static_array_copy<2>(result.dstOffsets, obj.dstOffsets, pAllocationCallbacks);
     return result;
 }
@@ -2395,9 +3109,13 @@ VkImageCopy create_structure_copy<VkImageCopy>(const VkImageCopy& obj, const VkA
 {
     VkImageCopy result { };
     result.srcSubresource = create_structure_copy(obj.srcSubresource, pAllocationCallbacks);
+    ,
     result.srcOffset = create_structure_copy(obj.srcOffset, pAllocationCallbacks);
+    ,
     result.dstSubresource = create_structure_copy(obj.dstSubresource, pAllocationCallbacks);
+    ,
     result.dstOffset = create_structure_copy(obj.dstOffset, pAllocationCallbacks);
+    ,
     result.extent = create_structure_copy(obj.extent, pAllocationCallbacks);
     return result;
 }
@@ -2407,19 +3125,33 @@ VkImageCreateInfo create_structure_copy<VkImageCreateInfo>(const VkImageCreateIn
 {
     VkImageCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.imageType = obj.imageType;
+    ,
     result.format = obj.format;
+    ,
     result.extent = create_structure_copy(obj.extent, pAllocationCallbacks);
+    ,
     result.mipLevels = obj.mipLevels;
+    ,
     result.arrayLayers = obj.arrayLayers;
+    ,
     result.samples = obj.samples;
+    ,
     result.tiling = obj.tiling;
+    ,
     result.usage = obj.usage;
+    ,
     result.sharingMode = obj.sharingMode;
+    ,
     result.queueFamilyIndexCount = obj.queueFamilyIndexCount;
+    ,
     result.pQueueFamilyIndices = create_dynamic_array_copy(obj.queueFamilyIndexCount, obj.pQueueFamilyIndices, pAllocationCallbacks);
+    ,
     result.initialLayout = obj.initialLayout;
     return result;
 }
@@ -2429,9 +3161,13 @@ VkImageDrmFormatModifierExplicitCreateInfoEXT create_structure_copy<VkImageDrmFo
 {
     VkImageDrmFormatModifierExplicitCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.drmFormatModifier = obj.drmFormatModifier;
+    ,
     result.drmFormatModifierPlaneCount = obj.drmFormatModifierPlaneCount;
+    ,
     result.pPlaneLayouts = create_dynamic_array_copy(obj.drmFormatModifierPlaneCount, obj.pPlaneLayouts, pAllocationCallbacks);
     return result;
 }
@@ -2441,8 +3177,11 @@ VkImageDrmFormatModifierListCreateInfoEXT create_structure_copy<VkImageDrmFormat
 {
     VkImageDrmFormatModifierListCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.drmFormatModifierCount = obj.drmFormatModifierCount;
+    ,
     result.pDrmFormatModifiers = create_dynamic_array_copy(obj.drmFormatModifierCount, obj.pDrmFormatModifiers, pAllocationCallbacks);
     return result;
 }
@@ -2452,7 +3191,9 @@ VkImageDrmFormatModifierPropertiesEXT create_structure_copy<VkImageDrmFormatModi
 {
     VkImageDrmFormatModifierPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.drmFormatModifier = obj.drmFormatModifier;
     return result;
 }
@@ -2462,8 +3203,11 @@ VkImageFormatListCreateInfo create_structure_copy<VkImageFormatListCreateInfo>(c
 {
     VkImageFormatListCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.viewFormatCount = obj.viewFormatCount;
+    ,
     result.pViewFormats = create_dynamic_array_copy(obj.viewFormatCount, obj.pViewFormats, pAllocationCallbacks);
     return result;
 }
@@ -2474,9 +3218,13 @@ VkImageFormatProperties create_structure_copy<VkImageFormatProperties>(const VkI
 {
     VkImageFormatProperties result { };
     result.maxExtent = create_structure_copy(obj.maxExtent, pAllocationCallbacks);
+    ,
     result.maxMipLevels = obj.maxMipLevels;
+    ,
     result.maxArrayLayers = obj.maxArrayLayers;
+    ,
     result.sampleCounts = obj.sampleCounts;
+    ,
     result.maxResourceSize = obj.maxResourceSize;
     return result;
 }
@@ -2486,7 +3234,9 @@ VkImageFormatProperties2 create_structure_copy<VkImageFormatProperties2>(const V
 {
     VkImageFormatProperties2 result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.imageFormatProperties = create_structure_copy(obj.imageFormatProperties, pAllocationCallbacks);
     return result;
 }
@@ -2497,14 +3247,23 @@ VkImageMemoryBarrier create_structure_copy<VkImageMemoryBarrier>(const VkImageMe
 {
     VkImageMemoryBarrier result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.srcAccessMask = obj.srcAccessMask;
+    ,
     result.dstAccessMask = obj.dstAccessMask;
+    ,
     result.oldLayout = obj.oldLayout;
+    ,
     result.newLayout = obj.newLayout;
+    ,
     result.srcQueueFamilyIndex = obj.srcQueueFamilyIndex;
+    ,
     result.dstQueueFamilyIndex = obj.dstQueueFamilyIndex;
+    ,
     result.image = obj.image;
+    ,
     result.subresourceRange = create_structure_copy(obj.subresourceRange, pAllocationCallbacks);
     return result;
 }
@@ -2514,7 +3273,9 @@ VkImageMemoryRequirementsInfo2 create_structure_copy<VkImageMemoryRequirementsIn
 {
     VkImageMemoryRequirementsInfo2 result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.image = obj.image;
     return result;
 }
@@ -2526,8 +3287,11 @@ VkImagePipeSurfaceCreateInfoFUCHSIA create_structure_copy<VkImagePipeSurfaceCrea
 {
     VkImagePipeSurfaceCreateInfoFUCHSIA result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.imagePipeHandle = obj.imagePipeHandle;
     return result;
 }
@@ -2538,7 +3302,9 @@ VkImagePlaneMemoryRequirementsInfo create_structure_copy<VkImagePlaneMemoryRequi
 {
     VkImagePlaneMemoryRequirementsInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.planeAspect = obj.planeAspect;
     return result;
 }
@@ -2549,9 +3315,13 @@ VkImageResolve create_structure_copy<VkImageResolve>(const VkImageResolve& obj, 
 {
     VkImageResolve result { };
     result.srcSubresource = create_structure_copy(obj.srcSubresource, pAllocationCallbacks);
+    ,
     result.srcOffset = create_structure_copy(obj.srcOffset, pAllocationCallbacks);
+    ,
     result.dstSubresource = create_structure_copy(obj.dstSubresource, pAllocationCallbacks);
+    ,
     result.dstOffset = create_structure_copy(obj.dstOffset, pAllocationCallbacks);
+    ,
     result.extent = create_structure_copy(obj.extent, pAllocationCallbacks);
     return result;
 }
@@ -2561,7 +3331,9 @@ VkImageSparseMemoryRequirementsInfo2 create_structure_copy<VkImageSparseMemoryRe
 {
     VkImageSparseMemoryRequirementsInfo2 result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.image = obj.image;
     return result;
 }
@@ -2572,7 +3344,9 @@ VkImageStencilUsageCreateInfo create_structure_copy<VkImageStencilUsageCreateInf
 {
     VkImageStencilUsageCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.stencilUsage = obj.stencilUsage;
     return result;
 }
@@ -2583,7 +3357,9 @@ VkImageSubresource create_structure_copy<VkImageSubresource>(const VkImageSubres
 {
     VkImageSubresource result { };
     result.aspectMask = obj.aspectMask;
+    ,
     result.mipLevel = obj.mipLevel;
+    ,
     result.arrayLayer = obj.arrayLayer;
     return result;
 }
@@ -2593,8 +3369,11 @@ VkImageSubresourceLayers create_structure_copy<VkImageSubresourceLayers>(const V
 {
     VkImageSubresourceLayers result { };
     result.aspectMask = obj.aspectMask;
+    ,
     result.mipLevel = obj.mipLevel;
+    ,
     result.baseArrayLayer = obj.baseArrayLayer;
+    ,
     result.layerCount = obj.layerCount;
     return result;
 }
@@ -2604,9 +3383,13 @@ VkImageSubresourceRange create_structure_copy<VkImageSubresourceRange>(const VkI
 {
     VkImageSubresourceRange result { };
     result.aspectMask = obj.aspectMask;
+    ,
     result.baseMipLevel = obj.baseMipLevel;
+    ,
     result.levelCount = obj.levelCount;
+    ,
     result.baseArrayLayer = obj.baseArrayLayer;
+    ,
     result.layerCount = obj.layerCount;
     return result;
 }
@@ -2616,7 +3399,9 @@ VkImageSwapchainCreateInfoKHR create_structure_copy<VkImageSwapchainCreateInfoKH
 {
     VkImageSwapchainCreateInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.swapchain = obj.swapchain;
     return result;
 }
@@ -2626,7 +3411,9 @@ VkImageViewASTCDecodeModeEXT create_structure_copy<VkImageViewASTCDecodeModeEXT>
 {
     VkImageViewASTCDecodeModeEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.decodeMode = obj.decodeMode;
     return result;
 }
@@ -2636,8 +3423,11 @@ VkImageViewAddressPropertiesNVX create_structure_copy<VkImageViewAddressProperti
 {
     VkImageViewAddressPropertiesNVX result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.deviceAddress = obj.deviceAddress;
+    ,
     result.size = obj.size;
     return result;
 }
@@ -2647,12 +3437,19 @@ VkImageViewCreateInfo create_structure_copy<VkImageViewCreateInfo>(const VkImage
 {
     VkImageViewCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.image = obj.image;
+    ,
     result.viewType = obj.viewType;
+    ,
     result.format = obj.format;
+    ,
     result.components = create_structure_copy(obj.components, pAllocationCallbacks);
+    ,
     result.subresourceRange = create_structure_copy(obj.subresourceRange, pAllocationCallbacks);
     return result;
 }
@@ -2662,9 +3459,13 @@ VkImageViewHandleInfoNVX create_structure_copy<VkImageViewHandleInfoNVX>(const V
 {
     VkImageViewHandleInfoNVX result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.imageView = obj.imageView;
+    ,
     result.descriptorType = obj.descriptorType;
+    ,
     result.sampler = obj.sampler;
     return result;
 }
@@ -2674,7 +3475,9 @@ VkImageViewUsageCreateInfo create_structure_copy<VkImageViewUsageCreateInfo>(con
 {
     VkImageViewUsageCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.usage = obj.usage;
     return result;
 }
@@ -2686,7 +3489,9 @@ VkImportAndroidHardwareBufferInfoANDROID create_structure_copy<VkImportAndroidHa
 {
     VkImportAndroidHardwareBufferInfoANDROID result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.buffer = obj.buffer;
     return result;
 }
@@ -2697,10 +3502,15 @@ VkImportFenceFdInfoKHR create_structure_copy<VkImportFenceFdInfoKHR>(const VkImp
 {
     VkImportFenceFdInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.fence = obj.fence;
+    ,
     result.flags = obj.flags;
+    ,
     result.handleType = obj.handleType;
+    ,
     result.fd = obj.fd;
     return result;
 }
@@ -2711,11 +3521,17 @@ VkImportFenceWin32HandleInfoKHR create_structure_copy<VkImportFenceWin32HandleIn
 {
     VkImportFenceWin32HandleInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.fence = obj.fence;
+    ,
     result.flags = obj.flags;
+    ,
     result.handleType = obj.handleType;
+    ,
     result.handle = obj.handle;
+    ,
     result.name = obj.name;
     return result;
 }
@@ -2726,8 +3542,11 @@ VkImportMemoryFdInfoKHR create_structure_copy<VkImportMemoryFdInfoKHR>(const VkI
 {
     VkImportMemoryFdInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.handleType = obj.handleType;
+    ,
     result.fd = obj.fd;
     return result;
 }
@@ -2737,8 +3556,11 @@ VkImportMemoryHostPointerInfoEXT create_structure_copy<VkImportMemoryHostPointer
 {
     VkImportMemoryHostPointerInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.handleType = obj.handleType;
+    ,
     result.pHostPointer = obj.pHostPointer;
     return result;
 }
@@ -2749,9 +3571,13 @@ VkImportMemoryWin32HandleInfoKHR create_structure_copy<VkImportMemoryWin32Handle
 {
     VkImportMemoryWin32HandleInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.handleType = obj.handleType;
+    ,
     result.handle = obj.handle;
+    ,
     result.name = obj.name;
     return result;
 }
@@ -2763,8 +3589,11 @@ VkImportMemoryWin32HandleInfoNV create_structure_copy<VkImportMemoryWin32HandleI
 {
     VkImportMemoryWin32HandleInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.handleType = obj.handleType;
+    ,
     result.handle = obj.handle;
     return result;
 }
@@ -2775,10 +3604,15 @@ VkImportSemaphoreFdInfoKHR create_structure_copy<VkImportSemaphoreFdInfoKHR>(con
 {
     VkImportSemaphoreFdInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.semaphore = obj.semaphore;
+    ,
     result.flags = obj.flags;
+    ,
     result.handleType = obj.handleType;
+    ,
     result.fd = obj.fd;
     return result;
 }
@@ -2789,11 +3623,17 @@ VkImportSemaphoreWin32HandleInfoKHR create_structure_copy<VkImportSemaphoreWin32
 {
     VkImportSemaphoreWin32HandleInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.semaphore = obj.semaphore;
+    ,
     result.flags = obj.flags;
+    ,
     result.handleType = obj.handleType;
+    ,
     result.handle = obj.handle;
+    ,
     result.name = obj.name;
     return result;
 }
@@ -2804,12 +3644,19 @@ VkIndirectCommandsLayoutCreateInfoNV create_structure_copy<VkIndirectCommandsLay
 {
     VkIndirectCommandsLayoutCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.pipelineBindPoint = obj.pipelineBindPoint;
+    ,
     result.tokenCount = obj.tokenCount;
+    ,
     result.pTokens = create_dynamic_array_copy(obj.tokenCount, obj.pTokens, pAllocationCallbacks);
+    ,
     result.streamCount = obj.streamCount;
+    ,
     result.pStreamStrides = create_dynamic_array_copy(obj.streamCount, obj.pStreamStrides, pAllocationCallbacks);
     return result;
 }
@@ -2819,19 +3666,33 @@ VkIndirectCommandsLayoutTokenNV create_structure_copy<VkIndirectCommandsLayoutTo
 {
     VkIndirectCommandsLayoutTokenNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.tokenType = obj.tokenType;
+    ,
     result.stream = obj.stream;
+    ,
     result.offset = obj.offset;
+    ,
     result.vertexBindingUnit = obj.vertexBindingUnit;
+    ,
     result.vertexDynamicStride = obj.vertexDynamicStride;
+    ,
     result.pushconstantPipelineLayout = obj.pushconstantPipelineLayout;
+    ,
     result.pushconstantShaderStageFlags = obj.pushconstantShaderStageFlags;
+    ,
     result.pushconstantOffset = obj.pushconstantOffset;
+    ,
     result.pushconstantSize = obj.pushconstantSize;
+    ,
     result.indirectStateFlags = obj.indirectStateFlags;
+    ,
     result.indexTypeCount = obj.indexTypeCount;
+    ,
     result.pIndexTypes = create_dynamic_array_copy(obj.indexTypeCount, obj.pIndexTypes, pAllocationCallbacks);
+    ,
     result.pIndexTypeValues = create_dynamic_array_copy(obj.indexTypeCount, obj.pIndexTypeValues, pAllocationCallbacks);
     return result;
 }
@@ -2841,6 +3702,7 @@ VkIndirectCommandsStreamNV create_structure_copy<VkIndirectCommandsStreamNV>(con
 {
     VkIndirectCommandsStreamNV result { };
     result.buffer = obj.buffer;
+    ,
     result.offset = obj.offset;
     return result;
 }
@@ -2850,7 +3712,9 @@ VkInitializePerformanceApiInfoINTEL create_structure_copy<VkInitializePerformanc
 {
     VkInitializePerformanceApiInfoINTEL result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.pUserData = obj.pUserData;
     return result;
 }
@@ -2860,7 +3724,9 @@ VkInputAttachmentAspectReference create_structure_copy<VkInputAttachmentAspectRe
 {
     VkInputAttachmentAspectReference result { };
     result.subpass = obj.subpass;
+    ,
     result.inputAttachmentIndex = obj.inputAttachmentIndex;
+    ,
     result.aspectMask = obj.aspectMask;
     return result;
 }
@@ -2871,12 +3737,19 @@ VkInstanceCreateInfo create_structure_copy<VkInstanceCreateInfo>(const VkInstanc
 {
     VkInstanceCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.pApplicationInfo = create_dynamic_array_copy(1, obj.pApplicationInfo, pAllocationCallbacks);
+    ,
     result.enabledLayerCount = obj.enabledLayerCount;
+    ,
     result.ppEnabledLayerNames = create_dynamic_string_array_copy(obj.enabledLayerCount, obj.ppEnabledLayerNames, pAllocationCallbacks);
+    ,
     result.enabledExtensionCount = obj.enabledExtensionCount;
+    ,
     result.ppEnabledExtensionNames = create_dynamic_string_array_copy(obj.enabledExtensionCount, obj.ppEnabledExtensionNames, pAllocationCallbacks);
     return result;
 }
@@ -2886,8 +3759,11 @@ VkLayerProperties create_structure_copy<VkLayerProperties>(const VkLayerProperti
 {
     VkLayerProperties result { };
     create_static_string_copy<VK_MAX_EXTENSION_NAME_SIZE>(result.layerName, obj.layerName, pAllocationCallbacks);
+    ,
     result.specVersion = obj.specVersion;
+    ,
     result.implementationVersion = obj.implementationVersion;
+    ,
     create_static_string_copy<VK_MAX_DESCRIPTION_SIZE>(result.description, obj.description, pAllocationCallbacks);
     return result;
 }
@@ -2898,8 +3774,11 @@ VkMacOSSurfaceCreateInfoMVK create_structure_copy<VkMacOSSurfaceCreateInfoMVK>(c
 {
     VkMacOSSurfaceCreateInfoMVK result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.pView = obj.pView;
     return result;
 }
@@ -2910,9 +3789,13 @@ VkMappedMemoryRange create_structure_copy<VkMappedMemoryRange>(const VkMappedMem
 {
     VkMappedMemoryRange result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.memory = obj.memory;
+    ,
     result.offset = obj.offset;
+    ,
     result.size = obj.size;
     return result;
 }
@@ -2922,8 +3805,11 @@ VkMemoryAllocateFlagsInfo create_structure_copy<VkMemoryAllocateFlagsInfo>(const
 {
     VkMemoryAllocateFlagsInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.deviceMask = obj.deviceMask;
     return result;
 }
@@ -2934,8 +3820,11 @@ VkMemoryAllocateInfo create_structure_copy<VkMemoryAllocateInfo>(const VkMemoryA
 {
     VkMemoryAllocateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.allocationSize = obj.allocationSize;
+    ,
     result.memoryTypeIndex = obj.memoryTypeIndex;
     return result;
 }
@@ -2945,8 +3834,11 @@ VkMemoryBarrier create_structure_copy<VkMemoryBarrier>(const VkMemoryBarrier& ob
 {
     VkMemoryBarrier result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.srcAccessMask = obj.srcAccessMask;
+    ,
     result.dstAccessMask = obj.dstAccessMask;
     return result;
 }
@@ -2956,8 +3848,11 @@ VkMemoryDedicatedAllocateInfo create_structure_copy<VkMemoryDedicatedAllocateInf
 {
     VkMemoryDedicatedAllocateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.image = obj.image;
+    ,
     result.buffer = obj.buffer;
     return result;
 }
@@ -2968,8 +3863,11 @@ VkMemoryDedicatedRequirements create_structure_copy<VkMemoryDedicatedRequirement
 {
     VkMemoryDedicatedRequirements result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.prefersDedicatedAllocation = obj.prefersDedicatedAllocation;
+    ,
     result.requiresDedicatedAllocation = obj.requiresDedicatedAllocation;
     return result;
 }
@@ -2980,7 +3878,9 @@ VkMemoryFdPropertiesKHR create_structure_copy<VkMemoryFdPropertiesKHR>(const VkM
 {
     VkMemoryFdPropertiesKHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.memoryTypeBits = obj.memoryTypeBits;
     return result;
 }
@@ -2991,7 +3891,9 @@ VkMemoryGetAndroidHardwareBufferInfoANDROID create_structure_copy<VkMemoryGetAnd
 {
     VkMemoryGetAndroidHardwareBufferInfoANDROID result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.memory = obj.memory;
     return result;
 }
@@ -3002,8 +3904,11 @@ VkMemoryGetFdInfoKHR create_structure_copy<VkMemoryGetFdInfoKHR>(const VkMemoryG
 {
     VkMemoryGetFdInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.memory = obj.memory;
+    ,
     result.handleType = obj.handleType;
     return result;
 }
@@ -3014,8 +3919,11 @@ VkMemoryGetWin32HandleInfoKHR create_structure_copy<VkMemoryGetWin32HandleInfoKH
 {
     VkMemoryGetWin32HandleInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.memory = obj.memory;
+    ,
     result.handleType = obj.handleType;
     return result;
 }
@@ -3026,6 +3934,7 @@ VkMemoryHeap create_structure_copy<VkMemoryHeap>(const VkMemoryHeap& obj, const 
 {
     VkMemoryHeap result { };
     result.size = obj.size;
+    ,
     result.flags = obj.flags;
     return result;
 }
@@ -3035,7 +3944,9 @@ VkMemoryHostPointerPropertiesEXT create_structure_copy<VkMemoryHostPointerProper
 {
     VkMemoryHostPointerPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.memoryTypeBits = obj.memoryTypeBits;
     return result;
 }
@@ -3045,7 +3956,9 @@ VkMemoryOpaqueCaptureAddressAllocateInfo create_structure_copy<VkMemoryOpaqueCap
 {
     VkMemoryOpaqueCaptureAddressAllocateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.opaqueCaptureAddress = obj.opaqueCaptureAddress;
     return result;
 }
@@ -3056,7 +3969,9 @@ VkMemoryPriorityAllocateInfoEXT create_structure_copy<VkMemoryPriorityAllocateIn
 {
     VkMemoryPriorityAllocateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.priority = obj.priority;
     return result;
 }
@@ -3066,7 +3981,9 @@ VkMemoryRequirements create_structure_copy<VkMemoryRequirements>(const VkMemoryR
 {
     VkMemoryRequirements result { };
     result.size = obj.size;
+    ,
     result.alignment = obj.alignment;
+    ,
     result.memoryTypeBits = obj.memoryTypeBits;
     return result;
 }
@@ -3076,7 +3993,9 @@ VkMemoryRequirements2 create_structure_copy<VkMemoryRequirements2>(const VkMemor
 {
     VkMemoryRequirements2 result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.memoryRequirements = create_structure_copy(obj.memoryRequirements, pAllocationCallbacks);
     return result;
 }
@@ -3087,6 +4006,7 @@ VkMemoryType create_structure_copy<VkMemoryType>(const VkMemoryType& obj, const 
 {
     VkMemoryType result { };
     result.propertyFlags = obj.propertyFlags;
+    ,
     result.heapIndex = obj.heapIndex;
     return result;
 }
@@ -3097,7 +4017,9 @@ VkMemoryWin32HandlePropertiesKHR create_structure_copy<VkMemoryWin32HandleProper
 {
     VkMemoryWin32HandlePropertiesKHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.memoryTypeBits = obj.memoryTypeBits;
     return result;
 }
@@ -3109,8 +4031,11 @@ VkMetalSurfaceCreateInfoEXT create_structure_copy<VkMetalSurfaceCreateInfoEXT>(c
 {
     VkMetalSurfaceCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.pLayer = obj.pLayer;
     return result;
 }
@@ -3121,7 +4046,9 @@ VkMultisamplePropertiesEXT create_structure_copy<VkMultisamplePropertiesEXT>(con
 {
     VkMultisamplePropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.maxSampleLocationGridSize = create_structure_copy(obj.maxSampleLocationGridSize, pAllocationCallbacks);
     return result;
 }
@@ -3132,11 +4059,17 @@ VkNativeBufferANDROID create_structure_copy<VkNativeBufferANDROID>(const VkNativ
 {
     VkNativeBufferANDROID result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.handle = obj.handle;
+    ,
     result.stride = obj.stride;
+    ,
     result.format = obj.format;
+    ,
     result.usage = obj.usage;
+    ,
     result.usage2 = create_structure_copy(obj.usage2, pAllocationCallbacks);
     return result;
 }
@@ -3148,6 +4081,7 @@ VkNativeBufferUsage2ANDROID create_structure_copy<VkNativeBufferUsage2ANDROID>(c
 {
     VkNativeBufferUsage2ANDROID result { };
     result.consumer = obj.consumer;
+    ,
     result.producer = obj.producer;
     return result;
 }
@@ -3158,6 +4092,7 @@ VkOffset2D create_structure_copy<VkOffset2D>(const VkOffset2D& obj, const VkAllo
 {
     VkOffset2D result { };
     result.x = obj.x;
+    ,
     result.y = obj.y;
     return result;
 }
@@ -3167,7 +4102,9 @@ VkOffset3D create_structure_copy<VkOffset3D>(const VkOffset3D& obj, const VkAllo
 {
     VkOffset3D result { };
     result.x = obj.x;
+    ,
     result.y = obj.y;
+    ,
     result.z = obj.z;
     return result;
 }
@@ -3177,9 +4114,13 @@ VkPastPresentationTimingGOOGLE create_structure_copy<VkPastPresentationTimingGOO
 {
     VkPastPresentationTimingGOOGLE result { };
     result.presentID = obj.presentID;
+    ,
     result.desiredPresentTime = obj.desiredPresentTime;
+    ,
     result.actualPresentTime = obj.actualPresentTime;
+    ,
     result.earliestPresentTime = obj.earliestPresentTime;
+    ,
     result.presentMargin = obj.presentMargin;
     return result;
 }
@@ -3189,7 +4130,9 @@ VkPerformanceConfigurationAcquireInfoINTEL create_structure_copy<VkPerformanceCo
 {
     VkPerformanceConfigurationAcquireInfoINTEL result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.type = obj.type;
     return result;
 }
@@ -3199,10 +4142,15 @@ VkPerformanceCounterDescriptionKHR create_structure_copy<VkPerformanceCounterDes
 {
     VkPerformanceCounterDescriptionKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     create_static_string_copy<VK_MAX_DESCRIPTION_SIZE>(result.name, obj.name, pAllocationCallbacks);
+    ,
     create_static_string_copy<VK_MAX_DESCRIPTION_SIZE>(result.category, obj.category, pAllocationCallbacks);
+    ,
     create_static_string_copy<VK_MAX_DESCRIPTION_SIZE>(result.description, obj.description, pAllocationCallbacks);
     return result;
 }
@@ -3212,10 +4160,15 @@ VkPerformanceCounterKHR create_structure_copy<VkPerformanceCounterKHR>(const VkP
 {
     VkPerformanceCounterKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.unit = obj.unit;
+    ,
     result.scope = obj.scope;
+    ,
     result.storage = obj.storage;
+    ,
     create_static_array_copy<VK_UUID_SIZE>(result.uuid, obj.uuid, pAllocationCallbacks);
     return result;
 }
@@ -3226,7 +4179,9 @@ VkPerformanceMarkerInfoINTEL create_structure_copy<VkPerformanceMarkerInfoINTEL>
 {
     VkPerformanceMarkerInfoINTEL result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.marker = obj.marker;
     return result;
 }
@@ -3236,9 +4191,13 @@ VkPerformanceOverrideInfoINTEL create_structure_copy<VkPerformanceOverrideInfoIN
 {
     VkPerformanceOverrideInfoINTEL result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.type = obj.type;
+    ,
     result.enable = obj.enable;
+    ,
     result.parameter = obj.parameter;
     return result;
 }
@@ -3248,7 +4207,9 @@ VkPerformanceQuerySubmitInfoKHR create_structure_copy<VkPerformanceQuerySubmitIn
 {
     VkPerformanceQuerySubmitInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.counterPassIndex = obj.counterPassIndex;
     return result;
 }
@@ -3258,7 +4219,9 @@ VkPerformanceStreamMarkerInfoINTEL create_structure_copy<VkPerformanceStreamMark
 {
     VkPerformanceStreamMarkerInfoINTEL result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.marker = obj.marker;
     return result;
 }
@@ -3269,6 +4232,7 @@ VkPerformanceValueINTEL create_structure_copy<VkPerformanceValueINTEL>(const VkP
 {
     VkPerformanceValueINTEL result { };
     result.type = obj.type;
+    ,
     result.data = create_structure_copy(obj.data, pAllocationCallbacks);
     return result;
 }
@@ -3278,10 +4242,15 @@ VkPhysicalDevice16BitStorageFeatures create_structure_copy<VkPhysicalDevice16Bit
 {
     VkPhysicalDevice16BitStorageFeatures result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.storageBuffer16BitAccess = obj.storageBuffer16BitAccess;
+    ,
     result.uniformAndStorageBuffer16BitAccess = obj.uniformAndStorageBuffer16BitAccess;
+    ,
     result.storagePushConstant16 = obj.storagePushConstant16;
+    ,
     result.storageInputOutput16 = obj.storageInputOutput16;
     return result;
 }
@@ -3292,9 +4261,13 @@ VkPhysicalDevice8BitStorageFeatures create_structure_copy<VkPhysicalDevice8BitSt
 {
     VkPhysicalDevice8BitStorageFeatures result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.storageBuffer8BitAccess = obj.storageBuffer8BitAccess;
+    ,
     result.uniformAndStorageBuffer8BitAccess = obj.uniformAndStorageBuffer8BitAccess;
+    ,
     result.storagePushConstant8 = obj.storagePushConstant8;
     return result;
 }
@@ -3305,7 +4278,9 @@ VkPhysicalDeviceASTCDecodeFeaturesEXT create_structure_copy<VkPhysicalDeviceASTC
 {
     VkPhysicalDeviceASTCDecodeFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.decodeModeSharedExponent = obj.decodeModeSharedExponent;
     return result;
 }
@@ -3315,7 +4290,9 @@ VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT create_structure_copy<VkPhysic
 {
     VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.advancedBlendCoherentOperations = obj.advancedBlendCoherentOperations;
     return result;
 }
@@ -3325,12 +4302,19 @@ VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT create_structure_copy<VkPhys
 {
     VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.advancedBlendMaxColorAttachments = obj.advancedBlendMaxColorAttachments;
+    ,
     result.advancedBlendIndependentBlend = obj.advancedBlendIndependentBlend;
+    ,
     result.advancedBlendNonPremultipliedSrcColor = obj.advancedBlendNonPremultipliedSrcColor;
+    ,
     result.advancedBlendNonPremultipliedDstColor = obj.advancedBlendNonPremultipliedDstColor;
+    ,
     result.advancedBlendCorrelatedOverlap = obj.advancedBlendCorrelatedOverlap;
+    ,
     result.advancedBlendAllOperations = obj.advancedBlendAllOperations;
     return result;
 }
@@ -3341,9 +4325,13 @@ VkPhysicalDeviceBufferDeviceAddressFeatures create_structure_copy<VkPhysicalDevi
 {
     VkPhysicalDeviceBufferDeviceAddressFeatures result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.bufferDeviceAddress = obj.bufferDeviceAddress;
+    ,
     result.bufferDeviceAddressCaptureReplay = obj.bufferDeviceAddressCaptureReplay;
+    ,
     result.bufferDeviceAddressMultiDevice = obj.bufferDeviceAddressMultiDevice;
     return result;
 }
@@ -3353,9 +4341,13 @@ VkPhysicalDeviceBufferDeviceAddressFeaturesEXT create_structure_copy<VkPhysicalD
 {
     VkPhysicalDeviceBufferDeviceAddressFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.bufferDeviceAddress = obj.bufferDeviceAddress;
+    ,
     result.bufferDeviceAddressCaptureReplay = obj.bufferDeviceAddressCaptureReplay;
+    ,
     result.bufferDeviceAddressMultiDevice = obj.bufferDeviceAddressMultiDevice;
     return result;
 }
@@ -3366,7 +4358,9 @@ VkPhysicalDeviceCoherentMemoryFeaturesAMD create_structure_copy<VkPhysicalDevice
 {
     VkPhysicalDeviceCoherentMemoryFeaturesAMD result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.deviceCoherentMemory = obj.deviceCoherentMemory;
     return result;
 }
@@ -3376,8 +4370,11 @@ VkPhysicalDeviceComputeShaderDerivativesFeaturesNV create_structure_copy<VkPhysi
 {
     VkPhysicalDeviceComputeShaderDerivativesFeaturesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.computeDerivativeGroupQuads = obj.computeDerivativeGroupQuads;
+    ,
     result.computeDerivativeGroupLinear = obj.computeDerivativeGroupLinear;
     return result;
 }
@@ -3387,8 +4384,11 @@ VkPhysicalDeviceConditionalRenderingFeaturesEXT create_structure_copy<VkPhysical
 {
     VkPhysicalDeviceConditionalRenderingFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.conditionalRendering = obj.conditionalRendering;
+    ,
     result.inheritedConditionalRendering = obj.inheritedConditionalRendering;
     return result;
 }
@@ -3398,15 +4398,25 @@ VkPhysicalDeviceConservativeRasterizationPropertiesEXT create_structure_copy<VkP
 {
     VkPhysicalDeviceConservativeRasterizationPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.primitiveOverestimationSize = obj.primitiveOverestimationSize;
+    ,
     result.maxExtraPrimitiveOverestimationSize = obj.maxExtraPrimitiveOverestimationSize;
+    ,
     result.extraPrimitiveOverestimationSizeGranularity = obj.extraPrimitiveOverestimationSizeGranularity;
+    ,
     result.primitiveUnderestimation = obj.primitiveUnderestimation;
+    ,
     result.conservativePointAndLineRasterization = obj.conservativePointAndLineRasterization;
+    ,
     result.degenerateTrianglesRasterized = obj.degenerateTrianglesRasterized;
+    ,
     result.degenerateLinesRasterized = obj.degenerateLinesRasterized;
+    ,
     result.fullyCoveredFragmentShaderInputVariable = obj.fullyCoveredFragmentShaderInputVariable;
+    ,
     result.conservativeRasterizationPostDepthCoverage = obj.conservativeRasterizationPostDepthCoverage;
     return result;
 }
@@ -3416,8 +4426,11 @@ VkPhysicalDeviceCooperativeMatrixFeaturesNV create_structure_copy<VkPhysicalDevi
 {
     VkPhysicalDeviceCooperativeMatrixFeaturesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.cooperativeMatrix = obj.cooperativeMatrix;
+    ,
     result.cooperativeMatrixRobustBufferAccess = obj.cooperativeMatrixRobustBufferAccess;
     return result;
 }
@@ -3427,7 +4440,9 @@ VkPhysicalDeviceCooperativeMatrixPropertiesNV create_structure_copy<VkPhysicalDe
 {
     VkPhysicalDeviceCooperativeMatrixPropertiesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.cooperativeMatrixSupportedStages = obj.cooperativeMatrixSupportedStages;
     return result;
 }
@@ -3437,7 +4452,9 @@ VkPhysicalDeviceCornerSampledImageFeaturesNV create_structure_copy<VkPhysicalDev
 {
     VkPhysicalDeviceCornerSampledImageFeaturesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.cornerSampledImage = obj.cornerSampledImage;
     return result;
 }
@@ -3447,7 +4464,9 @@ VkPhysicalDeviceCoverageReductionModeFeaturesNV create_structure_copy<VkPhysical
 {
     VkPhysicalDeviceCoverageReductionModeFeaturesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.coverageReductionMode = obj.coverageReductionMode;
     return result;
 }
@@ -3457,8 +4476,11 @@ VkPhysicalDeviceCustomBorderColorFeaturesEXT create_structure_copy<VkPhysicalDev
 {
     VkPhysicalDeviceCustomBorderColorFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.customBorderColors = obj.customBorderColors;
+    ,
     result.customBorderColorWithoutFormat = obj.customBorderColorWithoutFormat;
     return result;
 }
@@ -3468,7 +4490,9 @@ VkPhysicalDeviceCustomBorderColorPropertiesEXT create_structure_copy<VkPhysicalD
 {
     VkPhysicalDeviceCustomBorderColorPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.maxCustomBorderColorSamplers = obj.maxCustomBorderColorSamplers;
     return result;
 }
@@ -3478,7 +4502,9 @@ VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV create_structure_copy
 {
     VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.dedicatedAllocationImageAliasing = obj.dedicatedAllocationImageAliasing;
     return result;
 }
@@ -3488,7 +4514,9 @@ VkPhysicalDeviceDepthClipEnableFeaturesEXT create_structure_copy<VkPhysicalDevic
 {
     VkPhysicalDeviceDepthClipEnableFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.depthClipEnable = obj.depthClipEnable;
     return result;
 }
@@ -3498,10 +4526,15 @@ VkPhysicalDeviceDepthStencilResolveProperties create_structure_copy<VkPhysicalDe
 {
     VkPhysicalDeviceDepthStencilResolveProperties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.supportedDepthResolveModes = obj.supportedDepthResolveModes;
+    ,
     result.supportedStencilResolveModes = obj.supportedStencilResolveModes;
+    ,
     result.independentResolveNone = obj.independentResolveNone;
+    ,
     result.independentResolve = obj.independentResolve;
     return result;
 }
@@ -3512,26 +4545,47 @@ VkPhysicalDeviceDescriptorIndexingFeatures create_structure_copy<VkPhysicalDevic
 {
     VkPhysicalDeviceDescriptorIndexingFeatures result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shaderInputAttachmentArrayDynamicIndexing = obj.shaderInputAttachmentArrayDynamicIndexing;
+    ,
     result.shaderUniformTexelBufferArrayDynamicIndexing = obj.shaderUniformTexelBufferArrayDynamicIndexing;
+    ,
     result.shaderStorageTexelBufferArrayDynamicIndexing = obj.shaderStorageTexelBufferArrayDynamicIndexing;
+    ,
     result.shaderUniformBufferArrayNonUniformIndexing = obj.shaderUniformBufferArrayNonUniformIndexing;
+    ,
     result.shaderSampledImageArrayNonUniformIndexing = obj.shaderSampledImageArrayNonUniformIndexing;
+    ,
     result.shaderStorageBufferArrayNonUniformIndexing = obj.shaderStorageBufferArrayNonUniformIndexing;
+    ,
     result.shaderStorageImageArrayNonUniformIndexing = obj.shaderStorageImageArrayNonUniformIndexing;
+    ,
     result.shaderInputAttachmentArrayNonUniformIndexing = obj.shaderInputAttachmentArrayNonUniformIndexing;
+    ,
     result.shaderUniformTexelBufferArrayNonUniformIndexing = obj.shaderUniformTexelBufferArrayNonUniformIndexing;
+    ,
     result.shaderStorageTexelBufferArrayNonUniformIndexing = obj.shaderStorageTexelBufferArrayNonUniformIndexing;
+    ,
     result.descriptorBindingUniformBufferUpdateAfterBind = obj.descriptorBindingUniformBufferUpdateAfterBind;
+    ,
     result.descriptorBindingSampledImageUpdateAfterBind = obj.descriptorBindingSampledImageUpdateAfterBind;
+    ,
     result.descriptorBindingStorageImageUpdateAfterBind = obj.descriptorBindingStorageImageUpdateAfterBind;
+    ,
     result.descriptorBindingStorageBufferUpdateAfterBind = obj.descriptorBindingStorageBufferUpdateAfterBind;
+    ,
     result.descriptorBindingUniformTexelBufferUpdateAfterBind = obj.descriptorBindingUniformTexelBufferUpdateAfterBind;
+    ,
     result.descriptorBindingStorageTexelBufferUpdateAfterBind = obj.descriptorBindingStorageTexelBufferUpdateAfterBind;
+    ,
     result.descriptorBindingUpdateUnusedWhilePending = obj.descriptorBindingUpdateUnusedWhilePending;
+    ,
     result.descriptorBindingPartiallyBound = obj.descriptorBindingPartiallyBound;
+    ,
     result.descriptorBindingVariableDescriptorCount = obj.descriptorBindingVariableDescriptorCount;
+    ,
     result.runtimeDescriptorArray = obj.runtimeDescriptorArray;
     return result;
 }
@@ -3542,29 +4596,53 @@ VkPhysicalDeviceDescriptorIndexingProperties create_structure_copy<VkPhysicalDev
 {
     VkPhysicalDeviceDescriptorIndexingProperties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.maxUpdateAfterBindDescriptorsInAllPools = obj.maxUpdateAfterBindDescriptorsInAllPools;
+    ,
     result.shaderUniformBufferArrayNonUniformIndexingNative = obj.shaderUniformBufferArrayNonUniformIndexingNative;
+    ,
     result.shaderSampledImageArrayNonUniformIndexingNative = obj.shaderSampledImageArrayNonUniformIndexingNative;
+    ,
     result.shaderStorageBufferArrayNonUniformIndexingNative = obj.shaderStorageBufferArrayNonUniformIndexingNative;
+    ,
     result.shaderStorageImageArrayNonUniformIndexingNative = obj.shaderStorageImageArrayNonUniformIndexingNative;
+    ,
     result.shaderInputAttachmentArrayNonUniformIndexingNative = obj.shaderInputAttachmentArrayNonUniformIndexingNative;
+    ,
     result.robustBufferAccessUpdateAfterBind = obj.robustBufferAccessUpdateAfterBind;
+    ,
     result.quadDivergentImplicitLod = obj.quadDivergentImplicitLod;
+    ,
     result.maxPerStageDescriptorUpdateAfterBindSamplers = obj.maxPerStageDescriptorUpdateAfterBindSamplers;
+    ,
     result.maxPerStageDescriptorUpdateAfterBindUniformBuffers = obj.maxPerStageDescriptorUpdateAfterBindUniformBuffers;
+    ,
     result.maxPerStageDescriptorUpdateAfterBindStorageBuffers = obj.maxPerStageDescriptorUpdateAfterBindStorageBuffers;
+    ,
     result.maxPerStageDescriptorUpdateAfterBindSampledImages = obj.maxPerStageDescriptorUpdateAfterBindSampledImages;
+    ,
     result.maxPerStageDescriptorUpdateAfterBindStorageImages = obj.maxPerStageDescriptorUpdateAfterBindStorageImages;
+    ,
     result.maxPerStageDescriptorUpdateAfterBindInputAttachments = obj.maxPerStageDescriptorUpdateAfterBindInputAttachments;
+    ,
     result.maxPerStageUpdateAfterBindResources = obj.maxPerStageUpdateAfterBindResources;
+    ,
     result.maxDescriptorSetUpdateAfterBindSamplers = obj.maxDescriptorSetUpdateAfterBindSamplers;
+    ,
     result.maxDescriptorSetUpdateAfterBindUniformBuffers = obj.maxDescriptorSetUpdateAfterBindUniformBuffers;
+    ,
     result.maxDescriptorSetUpdateAfterBindUniformBuffersDynamic = obj.maxDescriptorSetUpdateAfterBindUniformBuffersDynamic;
+    ,
     result.maxDescriptorSetUpdateAfterBindStorageBuffers = obj.maxDescriptorSetUpdateAfterBindStorageBuffers;
+    ,
     result.maxDescriptorSetUpdateAfterBindStorageBuffersDynamic = obj.maxDescriptorSetUpdateAfterBindStorageBuffersDynamic;
+    ,
     result.maxDescriptorSetUpdateAfterBindSampledImages = obj.maxDescriptorSetUpdateAfterBindSampledImages;
+    ,
     result.maxDescriptorSetUpdateAfterBindStorageImages = obj.maxDescriptorSetUpdateAfterBindStorageImages;
+    ,
     result.maxDescriptorSetUpdateAfterBindInputAttachments = obj.maxDescriptorSetUpdateAfterBindInputAttachments;
     return result;
 }
@@ -3575,7 +4653,9 @@ VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV create_structure_copy<VkPhysic
 {
     VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.deviceGeneratedCommands = obj.deviceGeneratedCommands;
     return result;
 }
@@ -3585,15 +4665,25 @@ VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV create_structure_copy<VkPhys
 {
     VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.maxGraphicsShaderGroupCount = obj.maxGraphicsShaderGroupCount;
+    ,
     result.maxIndirectSequenceCount = obj.maxIndirectSequenceCount;
+    ,
     result.maxIndirectCommandsTokenCount = obj.maxIndirectCommandsTokenCount;
+    ,
     result.maxIndirectCommandsStreamCount = obj.maxIndirectCommandsStreamCount;
+    ,
     result.maxIndirectCommandsTokenOffset = obj.maxIndirectCommandsTokenOffset;
+    ,
     result.maxIndirectCommandsStreamStride = obj.maxIndirectCommandsStreamStride;
+    ,
     result.minSequencesCountBufferOffsetAlignment = obj.minSequencesCountBufferOffsetAlignment;
+    ,
     result.minSequencesIndexBufferOffsetAlignment = obj.minSequencesIndexBufferOffsetAlignment;
+    ,
     result.minIndirectCommandsBufferOffsetAlignment = obj.minIndirectCommandsBufferOffsetAlignment;
     return result;
 }
@@ -3603,7 +4693,9 @@ VkPhysicalDeviceDiagnosticsConfigFeaturesNV create_structure_copy<VkPhysicalDevi
 {
     VkPhysicalDeviceDiagnosticsConfigFeaturesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.diagnosticsConfig = obj.diagnosticsConfig;
     return result;
 }
@@ -3613,7 +4705,9 @@ VkPhysicalDeviceDiscardRectanglePropertiesEXT create_structure_copy<VkPhysicalDe
 {
     VkPhysicalDeviceDiscardRectanglePropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.maxDiscardRectangles = obj.maxDiscardRectangles;
     return result;
 }
@@ -3623,10 +4717,15 @@ VkPhysicalDeviceDriverProperties create_structure_copy<VkPhysicalDeviceDriverPro
 {
     VkPhysicalDeviceDriverProperties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.driverID = obj.driverID;
+    ,
     create_static_string_copy<VK_MAX_DRIVER_NAME_SIZE>(result.driverName, obj.driverName, pAllocationCallbacks);
+    ,
     create_static_string_copy<VK_MAX_DRIVER_INFO_SIZE>(result.driverInfo, obj.driverInfo, pAllocationCallbacks);
+    ,
     result.conformanceVersion = create_structure_copy(obj.conformanceVersion, pAllocationCallbacks);
     return result;
 }
@@ -3637,7 +4736,9 @@ VkPhysicalDeviceExclusiveScissorFeaturesNV create_structure_copy<VkPhysicalDevic
 {
     VkPhysicalDeviceExclusiveScissorFeaturesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.exclusiveScissor = obj.exclusiveScissor;
     return result;
 }
@@ -3647,7 +4748,9 @@ VkPhysicalDeviceExtendedDynamicStateFeaturesEXT create_structure_copy<VkPhysical
 {
     VkPhysicalDeviceExtendedDynamicStateFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.extendedDynamicState = obj.extendedDynamicState;
     return result;
 }
@@ -3657,9 +4760,13 @@ VkPhysicalDeviceExternalBufferInfo create_structure_copy<VkPhysicalDeviceExterna
 {
     VkPhysicalDeviceExternalBufferInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.usage = obj.usage;
+    ,
     result.handleType = obj.handleType;
     return result;
 }
@@ -3670,7 +4777,9 @@ VkPhysicalDeviceExternalFenceInfo create_structure_copy<VkPhysicalDeviceExternal
 {
     VkPhysicalDeviceExternalFenceInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.handleType = obj.handleType;
     return result;
 }
@@ -3681,7 +4790,9 @@ VkPhysicalDeviceExternalImageFormatInfo create_structure_copy<VkPhysicalDeviceEx
 {
     VkPhysicalDeviceExternalImageFormatInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.handleType = obj.handleType;
     return result;
 }
@@ -3692,7 +4803,9 @@ VkPhysicalDeviceExternalMemoryHostPropertiesEXT create_structure_copy<VkPhysical
 {
     VkPhysicalDeviceExternalMemoryHostPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.minImportedHostPointerAlignment = obj.minImportedHostPointerAlignment;
     return result;
 }
@@ -3702,7 +4815,9 @@ VkPhysicalDeviceExternalSemaphoreInfo create_structure_copy<VkPhysicalDeviceExte
 {
     VkPhysicalDeviceExternalSemaphoreInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.handleType = obj.handleType;
     return result;
 }
@@ -3713,59 +4828,113 @@ VkPhysicalDeviceFeatures create_structure_copy<VkPhysicalDeviceFeatures>(const V
 {
     VkPhysicalDeviceFeatures result { };
     result.robustBufferAccess = obj.robustBufferAccess;
+    ,
     result.fullDrawIndexUint32 = obj.fullDrawIndexUint32;
+    ,
     result.imageCubeArray = obj.imageCubeArray;
+    ,
     result.independentBlend = obj.independentBlend;
+    ,
     result.geometryShader = obj.geometryShader;
+    ,
     result.tessellationShader = obj.tessellationShader;
+    ,
     result.sampleRateShading = obj.sampleRateShading;
+    ,
     result.dualSrcBlend = obj.dualSrcBlend;
+    ,
     result.logicOp = obj.logicOp;
+    ,
     result.multiDrawIndirect = obj.multiDrawIndirect;
+    ,
     result.drawIndirectFirstInstance = obj.drawIndirectFirstInstance;
+    ,
     result.depthClamp = obj.depthClamp;
+    ,
     result.depthBiasClamp = obj.depthBiasClamp;
+    ,
     result.fillModeNonSolid = obj.fillModeNonSolid;
+    ,
     result.depthBounds = obj.depthBounds;
+    ,
     result.wideLines = obj.wideLines;
+    ,
     result.largePoints = obj.largePoints;
+    ,
     result.alphaToOne = obj.alphaToOne;
+    ,
     result.multiViewport = obj.multiViewport;
+    ,
     result.samplerAnisotropy = obj.samplerAnisotropy;
+    ,
     result.textureCompressionETC2 = obj.textureCompressionETC2;
+    ,
     result.textureCompressionASTC_LDR = obj.textureCompressionASTC_LDR;
+    ,
     result.textureCompressionBC = obj.textureCompressionBC;
+    ,
     result.occlusionQueryPrecise = obj.occlusionQueryPrecise;
+    ,
     result.pipelineStatisticsQuery = obj.pipelineStatisticsQuery;
+    ,
     result.vertexPipelineStoresAndAtomics = obj.vertexPipelineStoresAndAtomics;
+    ,
     result.fragmentStoresAndAtomics = obj.fragmentStoresAndAtomics;
+    ,
     result.shaderTessellationAndGeometryPointSize = obj.shaderTessellationAndGeometryPointSize;
+    ,
     result.shaderImageGatherExtended = obj.shaderImageGatherExtended;
+    ,
     result.shaderStorageImageExtendedFormats = obj.shaderStorageImageExtendedFormats;
+    ,
     result.shaderStorageImageMultisample = obj.shaderStorageImageMultisample;
+    ,
     result.shaderStorageImageReadWithoutFormat = obj.shaderStorageImageReadWithoutFormat;
+    ,
     result.shaderStorageImageWriteWithoutFormat = obj.shaderStorageImageWriteWithoutFormat;
+    ,
     result.shaderUniformBufferArrayDynamicIndexing = obj.shaderUniformBufferArrayDynamicIndexing;
+    ,
     result.shaderSampledImageArrayDynamicIndexing = obj.shaderSampledImageArrayDynamicIndexing;
+    ,
     result.shaderStorageBufferArrayDynamicIndexing = obj.shaderStorageBufferArrayDynamicIndexing;
+    ,
     result.shaderStorageImageArrayDynamicIndexing = obj.shaderStorageImageArrayDynamicIndexing;
+    ,
     result.shaderClipDistance = obj.shaderClipDistance;
+    ,
     result.shaderCullDistance = obj.shaderCullDistance;
+    ,
     result.shaderFloat64 = obj.shaderFloat64;
+    ,
     result.shaderInt64 = obj.shaderInt64;
+    ,
     result.shaderInt16 = obj.shaderInt16;
+    ,
     result.shaderResourceResidency = obj.shaderResourceResidency;
+    ,
     result.shaderResourceMinLod = obj.shaderResourceMinLod;
+    ,
     result.sparseBinding = obj.sparseBinding;
+    ,
     result.sparseResidencyBuffer = obj.sparseResidencyBuffer;
+    ,
     result.sparseResidencyImage2D = obj.sparseResidencyImage2D;
+    ,
     result.sparseResidencyImage3D = obj.sparseResidencyImage3D;
+    ,
     result.sparseResidency2Samples = obj.sparseResidency2Samples;
+    ,
     result.sparseResidency4Samples = obj.sparseResidency4Samples;
+    ,
     result.sparseResidency8Samples = obj.sparseResidency8Samples;
+    ,
     result.sparseResidency16Samples = obj.sparseResidency16Samples;
+    ,
     result.sparseResidencyAliased = obj.sparseResidencyAliased;
+    ,
     result.variableMultisampleRate = obj.variableMultisampleRate;
+    ,
     result.inheritedQueries = obj.inheritedQueries;
     return result;
 }
@@ -3775,7 +4944,9 @@ VkPhysicalDeviceFeatures2 create_structure_copy<VkPhysicalDeviceFeatures2>(const
 {
     VkPhysicalDeviceFeatures2 result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.features = create_structure_copy(obj.features, pAllocationCallbacks);
     return result;
 }
@@ -3787,23 +4958,41 @@ VkPhysicalDeviceFloatControlsProperties create_structure_copy<VkPhysicalDeviceFl
 {
     VkPhysicalDeviceFloatControlsProperties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.denormBehaviorIndependence = obj.denormBehaviorIndependence;
+    ,
     result.roundingModeIndependence = obj.roundingModeIndependence;
+    ,
     result.shaderSignedZeroInfNanPreserveFloat16 = obj.shaderSignedZeroInfNanPreserveFloat16;
+    ,
     result.shaderSignedZeroInfNanPreserveFloat32 = obj.shaderSignedZeroInfNanPreserveFloat32;
+    ,
     result.shaderSignedZeroInfNanPreserveFloat64 = obj.shaderSignedZeroInfNanPreserveFloat64;
+    ,
     result.shaderDenormPreserveFloat16 = obj.shaderDenormPreserveFloat16;
+    ,
     result.shaderDenormPreserveFloat32 = obj.shaderDenormPreserveFloat32;
+    ,
     result.shaderDenormPreserveFloat64 = obj.shaderDenormPreserveFloat64;
+    ,
     result.shaderDenormFlushToZeroFloat16 = obj.shaderDenormFlushToZeroFloat16;
+    ,
     result.shaderDenormFlushToZeroFloat32 = obj.shaderDenormFlushToZeroFloat32;
+    ,
     result.shaderDenormFlushToZeroFloat64 = obj.shaderDenormFlushToZeroFloat64;
+    ,
     result.shaderRoundingModeRTEFloat16 = obj.shaderRoundingModeRTEFloat16;
+    ,
     result.shaderRoundingModeRTEFloat32 = obj.shaderRoundingModeRTEFloat32;
+    ,
     result.shaderRoundingModeRTEFloat64 = obj.shaderRoundingModeRTEFloat64;
+    ,
     result.shaderRoundingModeRTZFloat16 = obj.shaderRoundingModeRTZFloat16;
+    ,
     result.shaderRoundingModeRTZFloat32 = obj.shaderRoundingModeRTZFloat32;
+    ,
     result.shaderRoundingModeRTZFloat64 = obj.shaderRoundingModeRTZFloat64;
     return result;
 }
@@ -3814,7 +5003,9 @@ VkPhysicalDeviceFragmentDensityMap2FeaturesEXT create_structure_copy<VkPhysicalD
 {
     VkPhysicalDeviceFragmentDensityMap2FeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.fragmentDensityMapDeferred = obj.fragmentDensityMapDeferred;
     return result;
 }
@@ -3824,10 +5015,15 @@ VkPhysicalDeviceFragmentDensityMap2PropertiesEXT create_structure_copy<VkPhysica
 {
     VkPhysicalDeviceFragmentDensityMap2PropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.subsampledLoads = obj.subsampledLoads;
+    ,
     result.subsampledCoarseReconstructionEarlyAccess = obj.subsampledCoarseReconstructionEarlyAccess;
+    ,
     result.maxSubsampledArrayLayers = obj.maxSubsampledArrayLayers;
+    ,
     result.maxDescriptorSetSubsampledSamplers = obj.maxDescriptorSetSubsampledSamplers;
     return result;
 }
@@ -3837,9 +5033,13 @@ VkPhysicalDeviceFragmentDensityMapFeaturesEXT create_structure_copy<VkPhysicalDe
 {
     VkPhysicalDeviceFragmentDensityMapFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.fragmentDensityMap = obj.fragmentDensityMap;
+    ,
     result.fragmentDensityMapDynamic = obj.fragmentDensityMapDynamic;
+    ,
     result.fragmentDensityMapNonSubsampledImages = obj.fragmentDensityMapNonSubsampledImages;
     return result;
 }
@@ -3849,9 +5049,13 @@ VkPhysicalDeviceFragmentDensityMapPropertiesEXT create_structure_copy<VkPhysical
 {
     VkPhysicalDeviceFragmentDensityMapPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.minFragmentDensityTexelSize = create_structure_copy(obj.minFragmentDensityTexelSize, pAllocationCallbacks);
+    ,
     result.maxFragmentDensityTexelSize = create_structure_copy(obj.maxFragmentDensityTexelSize, pAllocationCallbacks);
+    ,
     result.fragmentDensityInvocations = obj.fragmentDensityInvocations;
     return result;
 }
@@ -3861,7 +5065,9 @@ VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV create_structure_copy<VkPhys
 {
     VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.fragmentShaderBarycentric = obj.fragmentShaderBarycentric;
     return result;
 }
@@ -3871,9 +5077,13 @@ VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT create_structure_copy<VkPhysi
 {
     VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.fragmentShaderSampleInterlock = obj.fragmentShaderSampleInterlock;
+    ,
     result.fragmentShaderPixelInterlock = obj.fragmentShaderPixelInterlock;
+    ,
     result.fragmentShaderShadingRateInterlock = obj.fragmentShaderShadingRateInterlock;
     return result;
 }
@@ -3883,9 +5093,13 @@ VkPhysicalDeviceGroupProperties create_structure_copy<VkPhysicalDeviceGroupPrope
 {
     VkPhysicalDeviceGroupProperties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.physicalDeviceCount = obj.physicalDeviceCount;
+    ,
     create_static_array_copy<VK_MAX_DEVICE_GROUP_SIZE>(result.physicalDevices, obj.physicalDevices, pAllocationCallbacks);
+    ,
     result.subsetAllocation = obj.subsetAllocation;
     return result;
 }
@@ -3896,7 +5110,9 @@ VkPhysicalDeviceHostQueryResetFeatures create_structure_copy<VkPhysicalDeviceHos
 {
     VkPhysicalDeviceHostQueryResetFeatures result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.hostQueryReset = obj.hostQueryReset;
     return result;
 }
@@ -3907,11 +5123,17 @@ VkPhysicalDeviceIDProperties create_structure_copy<VkPhysicalDeviceIDProperties>
 {
     VkPhysicalDeviceIDProperties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     create_static_array_copy<VK_UUID_SIZE>(result.deviceUUID, obj.deviceUUID, pAllocationCallbacks);
+    ,
     create_static_array_copy<VK_UUID_SIZE>(result.driverUUID, obj.driverUUID, pAllocationCallbacks);
+    ,
     create_static_array_copy<VK_LUID_SIZE>(result.deviceLUID, obj.deviceLUID, pAllocationCallbacks);
+    ,
     result.deviceNodeMask = obj.deviceNodeMask;
+    ,
     result.deviceLUIDValid = obj.deviceLUIDValid;
     return result;
 }
@@ -3922,10 +5144,15 @@ VkPhysicalDeviceImageDrmFormatModifierInfoEXT create_structure_copy<VkPhysicalDe
 {
     VkPhysicalDeviceImageDrmFormatModifierInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.drmFormatModifier = obj.drmFormatModifier;
+    ,
     result.sharingMode = obj.sharingMode;
+    ,
     result.queueFamilyIndexCount = obj.queueFamilyIndexCount;
+    ,
     result.pQueueFamilyIndices = create_dynamic_array_copy(obj.queueFamilyIndexCount, obj.pQueueFamilyIndices, pAllocationCallbacks);
     return result;
 }
@@ -3935,11 +5162,17 @@ VkPhysicalDeviceImageFormatInfo2 create_structure_copy<VkPhysicalDeviceImageForm
 {
     VkPhysicalDeviceImageFormatInfo2 result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.format = obj.format;
+    ,
     result.type = obj.type;
+    ,
     result.tiling = obj.tiling;
+    ,
     result.usage = obj.usage;
+    ,
     result.flags = obj.flags;
     return result;
 }
@@ -3950,7 +5183,9 @@ VkPhysicalDeviceImageRobustnessFeaturesEXT create_structure_copy<VkPhysicalDevic
 {
     VkPhysicalDeviceImageRobustnessFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.robustImageAccess = obj.robustImageAccess;
     return result;
 }
@@ -3960,7 +5195,9 @@ VkPhysicalDeviceImageViewImageFormatInfoEXT create_structure_copy<VkPhysicalDevi
 {
     VkPhysicalDeviceImageViewImageFormatInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.imageViewType = obj.imageViewType;
     return result;
 }
@@ -3970,7 +5207,9 @@ VkPhysicalDeviceImagelessFramebufferFeatures create_structure_copy<VkPhysicalDev
 {
     VkPhysicalDeviceImagelessFramebufferFeatures result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.imagelessFramebuffer = obj.imagelessFramebuffer;
     return result;
 }
@@ -3981,7 +5220,9 @@ VkPhysicalDeviceIndexTypeUint8FeaturesEXT create_structure_copy<VkPhysicalDevice
 {
     VkPhysicalDeviceIndexTypeUint8FeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.indexTypeUint8 = obj.indexTypeUint8;
     return result;
 }
@@ -3991,8 +5232,11 @@ VkPhysicalDeviceInlineUniformBlockFeaturesEXT create_structure_copy<VkPhysicalDe
 {
     VkPhysicalDeviceInlineUniformBlockFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.inlineUniformBlock = obj.inlineUniformBlock;
+    ,
     result.descriptorBindingInlineUniformBlockUpdateAfterBind = obj.descriptorBindingInlineUniformBlockUpdateAfterBind;
     return result;
 }
@@ -4002,11 +5246,17 @@ VkPhysicalDeviceInlineUniformBlockPropertiesEXT create_structure_copy<VkPhysical
 {
     VkPhysicalDeviceInlineUniformBlockPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.maxInlineUniformBlockSize = obj.maxInlineUniformBlockSize;
+    ,
     result.maxPerStageDescriptorInlineUniformBlocks = obj.maxPerStageDescriptorInlineUniformBlocks;
+    ,
     result.maxPerStageDescriptorUpdateAfterBindInlineUniformBlocks = obj.maxPerStageDescriptorUpdateAfterBindInlineUniformBlocks;
+    ,
     result.maxDescriptorSetInlineUniformBlocks = obj.maxDescriptorSetInlineUniformBlocks;
+    ,
     result.maxDescriptorSetUpdateAfterBindInlineUniformBlocks = obj.maxDescriptorSetUpdateAfterBindInlineUniformBlocks;
     return result;
 }
@@ -4016,110 +5266,215 @@ VkPhysicalDeviceLimits create_structure_copy<VkPhysicalDeviceLimits>(const VkPhy
 {
     VkPhysicalDeviceLimits result { };
     result.maxImageDimension1D = obj.maxImageDimension1D;
+    ,
     result.maxImageDimension2D = obj.maxImageDimension2D;
+    ,
     result.maxImageDimension3D = obj.maxImageDimension3D;
+    ,
     result.maxImageDimensionCube = obj.maxImageDimensionCube;
+    ,
     result.maxImageArrayLayers = obj.maxImageArrayLayers;
+    ,
     result.maxTexelBufferElements = obj.maxTexelBufferElements;
+    ,
     result.maxUniformBufferRange = obj.maxUniformBufferRange;
+    ,
     result.maxStorageBufferRange = obj.maxStorageBufferRange;
+    ,
     result.maxPushConstantsSize = obj.maxPushConstantsSize;
+    ,
     result.maxMemoryAllocationCount = obj.maxMemoryAllocationCount;
+    ,
     result.maxSamplerAllocationCount = obj.maxSamplerAllocationCount;
+    ,
     result.bufferImageGranularity = obj.bufferImageGranularity;
+    ,
     result.sparseAddressSpaceSize = obj.sparseAddressSpaceSize;
+    ,
     result.maxBoundDescriptorSets = obj.maxBoundDescriptorSets;
+    ,
     result.maxPerStageDescriptorSamplers = obj.maxPerStageDescriptorSamplers;
+    ,
     result.maxPerStageDescriptorUniformBuffers = obj.maxPerStageDescriptorUniformBuffers;
+    ,
     result.maxPerStageDescriptorStorageBuffers = obj.maxPerStageDescriptorStorageBuffers;
+    ,
     result.maxPerStageDescriptorSampledImages = obj.maxPerStageDescriptorSampledImages;
+    ,
     result.maxPerStageDescriptorStorageImages = obj.maxPerStageDescriptorStorageImages;
+    ,
     result.maxPerStageDescriptorInputAttachments = obj.maxPerStageDescriptorInputAttachments;
+    ,
     result.maxPerStageResources = obj.maxPerStageResources;
+    ,
     result.maxDescriptorSetSamplers = obj.maxDescriptorSetSamplers;
+    ,
     result.maxDescriptorSetUniformBuffers = obj.maxDescriptorSetUniformBuffers;
+    ,
     result.maxDescriptorSetUniformBuffersDynamic = obj.maxDescriptorSetUniformBuffersDynamic;
+    ,
     result.maxDescriptorSetStorageBuffers = obj.maxDescriptorSetStorageBuffers;
+    ,
     result.maxDescriptorSetStorageBuffersDynamic = obj.maxDescriptorSetStorageBuffersDynamic;
+    ,
     result.maxDescriptorSetSampledImages = obj.maxDescriptorSetSampledImages;
+    ,
     result.maxDescriptorSetStorageImages = obj.maxDescriptorSetStorageImages;
+    ,
     result.maxDescriptorSetInputAttachments = obj.maxDescriptorSetInputAttachments;
+    ,
     result.maxVertexInputAttributes = obj.maxVertexInputAttributes;
+    ,
     result.maxVertexInputBindings = obj.maxVertexInputBindings;
+    ,
     result.maxVertexInputAttributeOffset = obj.maxVertexInputAttributeOffset;
+    ,
     result.maxVertexInputBindingStride = obj.maxVertexInputBindingStride;
+    ,
     result.maxVertexOutputComponents = obj.maxVertexOutputComponents;
+    ,
     result.maxTessellationGenerationLevel = obj.maxTessellationGenerationLevel;
+    ,
     result.maxTessellationPatchSize = obj.maxTessellationPatchSize;
+    ,
     result.maxTessellationControlPerVertexInputComponents = obj.maxTessellationControlPerVertexInputComponents;
+    ,
     result.maxTessellationControlPerVertexOutputComponents = obj.maxTessellationControlPerVertexOutputComponents;
+    ,
     result.maxTessellationControlPerPatchOutputComponents = obj.maxTessellationControlPerPatchOutputComponents;
+    ,
     result.maxTessellationControlTotalOutputComponents = obj.maxTessellationControlTotalOutputComponents;
+    ,
     result.maxTessellationEvaluationInputComponents = obj.maxTessellationEvaluationInputComponents;
+    ,
     result.maxTessellationEvaluationOutputComponents = obj.maxTessellationEvaluationOutputComponents;
+    ,
     result.maxGeometryShaderInvocations = obj.maxGeometryShaderInvocations;
+    ,
     result.maxGeometryInputComponents = obj.maxGeometryInputComponents;
+    ,
     result.maxGeometryOutputComponents = obj.maxGeometryOutputComponents;
+    ,
     result.maxGeometryOutputVertices = obj.maxGeometryOutputVertices;
+    ,
     result.maxGeometryTotalOutputComponents = obj.maxGeometryTotalOutputComponents;
+    ,
     result.maxFragmentInputComponents = obj.maxFragmentInputComponents;
+    ,
     result.maxFragmentOutputAttachments = obj.maxFragmentOutputAttachments;
+    ,
     result.maxFragmentDualSrcAttachments = obj.maxFragmentDualSrcAttachments;
+    ,
     result.maxFragmentCombinedOutputResources = obj.maxFragmentCombinedOutputResources;
+    ,
     result.maxComputeSharedMemorySize = obj.maxComputeSharedMemorySize;
+    ,
     create_static_array_copy<3>(result.maxComputeWorkGroupCount, obj.maxComputeWorkGroupCount, pAllocationCallbacks);
+    ,
     result.maxComputeWorkGroupInvocations = obj.maxComputeWorkGroupInvocations;
+    ,
     create_static_array_copy<3>(result.maxComputeWorkGroupSize, obj.maxComputeWorkGroupSize, pAllocationCallbacks);
+    ,
     result.subPixelPrecisionBits = obj.subPixelPrecisionBits;
+    ,
     result.subTexelPrecisionBits = obj.subTexelPrecisionBits;
+    ,
     result.mipmapPrecisionBits = obj.mipmapPrecisionBits;
+    ,
     result.maxDrawIndexedIndexValue = obj.maxDrawIndexedIndexValue;
+    ,
     result.maxDrawIndirectCount = obj.maxDrawIndirectCount;
+    ,
     result.maxSamplerLodBias = obj.maxSamplerLodBias;
+    ,
     result.maxSamplerAnisotropy = obj.maxSamplerAnisotropy;
+    ,
     result.maxViewports = obj.maxViewports;
+    ,
     create_static_array_copy<2>(result.maxViewportDimensions, obj.maxViewportDimensions, pAllocationCallbacks);
+    ,
     create_static_array_copy<2>(result.viewportBoundsRange, obj.viewportBoundsRange, pAllocationCallbacks);
+    ,
     result.viewportSubPixelBits = obj.viewportSubPixelBits;
+    ,
     result.minMemoryMapAlignment = obj.minMemoryMapAlignment;
+    ,
     result.minTexelBufferOffsetAlignment = obj.minTexelBufferOffsetAlignment;
+    ,
     result.minUniformBufferOffsetAlignment = obj.minUniformBufferOffsetAlignment;
+    ,
     result.minStorageBufferOffsetAlignment = obj.minStorageBufferOffsetAlignment;
+    ,
     result.minTexelOffset = obj.minTexelOffset;
+    ,
     result.maxTexelOffset = obj.maxTexelOffset;
+    ,
     result.minTexelGatherOffset = obj.minTexelGatherOffset;
+    ,
     result.maxTexelGatherOffset = obj.maxTexelGatherOffset;
+    ,
     result.minInterpolationOffset = obj.minInterpolationOffset;
+    ,
     result.maxInterpolationOffset = obj.maxInterpolationOffset;
+    ,
     result.subPixelInterpolationOffsetBits = obj.subPixelInterpolationOffsetBits;
+    ,
     result.maxFramebufferWidth = obj.maxFramebufferWidth;
+    ,
     result.maxFramebufferHeight = obj.maxFramebufferHeight;
+    ,
     result.maxFramebufferLayers = obj.maxFramebufferLayers;
+    ,
     result.framebufferColorSampleCounts = obj.framebufferColorSampleCounts;
+    ,
     result.framebufferDepthSampleCounts = obj.framebufferDepthSampleCounts;
+    ,
     result.framebufferStencilSampleCounts = obj.framebufferStencilSampleCounts;
+    ,
     result.framebufferNoAttachmentsSampleCounts = obj.framebufferNoAttachmentsSampleCounts;
+    ,
     result.maxColorAttachments = obj.maxColorAttachments;
+    ,
     result.sampledImageColorSampleCounts = obj.sampledImageColorSampleCounts;
+    ,
     result.sampledImageIntegerSampleCounts = obj.sampledImageIntegerSampleCounts;
+    ,
     result.sampledImageDepthSampleCounts = obj.sampledImageDepthSampleCounts;
+    ,
     result.sampledImageStencilSampleCounts = obj.sampledImageStencilSampleCounts;
+    ,
     result.storageImageSampleCounts = obj.storageImageSampleCounts;
+    ,
     result.maxSampleMaskWords = obj.maxSampleMaskWords;
+    ,
     result.timestampComputeAndGraphics = obj.timestampComputeAndGraphics;
+    ,
     result.timestampPeriod = obj.timestampPeriod;
+    ,
     result.maxClipDistances = obj.maxClipDistances;
+    ,
     result.maxCullDistances = obj.maxCullDistances;
+    ,
     result.maxCombinedClipAndCullDistances = obj.maxCombinedClipAndCullDistances;
+    ,
     result.discreteQueuePriorities = obj.discreteQueuePriorities;
+    ,
     create_static_array_copy<2>(result.pointSizeRange, obj.pointSizeRange, pAllocationCallbacks);
+    ,
     create_static_array_copy<2>(result.lineWidthRange, obj.lineWidthRange, pAllocationCallbacks);
+    ,
     result.pointSizeGranularity = obj.pointSizeGranularity;
+    ,
     result.lineWidthGranularity = obj.lineWidthGranularity;
+    ,
     result.strictLines = obj.strictLines;
+    ,
     result.standardSampleLocations = obj.standardSampleLocations;
+    ,
     result.optimalBufferCopyOffsetAlignment = obj.optimalBufferCopyOffsetAlignment;
+    ,
     result.optimalBufferCopyRowPitchAlignment = obj.optimalBufferCopyRowPitchAlignment;
+    ,
     result.nonCoherentAtomSize = obj.nonCoherentAtomSize;
     return result;
 }
@@ -4129,12 +5484,19 @@ VkPhysicalDeviceLineRasterizationFeaturesEXT create_structure_copy<VkPhysicalDev
 {
     VkPhysicalDeviceLineRasterizationFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.rectangularLines = obj.rectangularLines;
+    ,
     result.bresenhamLines = obj.bresenhamLines;
+    ,
     result.smoothLines = obj.smoothLines;
+    ,
     result.stippledRectangularLines = obj.stippledRectangularLines;
+    ,
     result.stippledBresenhamLines = obj.stippledBresenhamLines;
+    ,
     result.stippledSmoothLines = obj.stippledSmoothLines;
     return result;
 }
@@ -4144,7 +5506,9 @@ VkPhysicalDeviceLineRasterizationPropertiesEXT create_structure_copy<VkPhysicalD
 {
     VkPhysicalDeviceLineRasterizationPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.lineSubPixelPrecisionBits = obj.lineSubPixelPrecisionBits;
     return result;
 }
@@ -4154,8 +5518,11 @@ VkPhysicalDeviceMaintenance3Properties create_structure_copy<VkPhysicalDeviceMai
 {
     VkPhysicalDeviceMaintenance3Properties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.maxPerSetDescriptors = obj.maxPerSetDescriptors;
+    ,
     result.maxMemoryAllocationSize = obj.maxMemoryAllocationSize;
     return result;
 }
@@ -4166,8 +5533,11 @@ VkPhysicalDeviceMemoryBudgetPropertiesEXT create_structure_copy<VkPhysicalDevice
 {
     VkPhysicalDeviceMemoryBudgetPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     create_static_array_copy<VK_MAX_MEMORY_HEAPS>(result.heapBudget, obj.heapBudget, pAllocationCallbacks);
+    ,
     create_static_array_copy<VK_MAX_MEMORY_HEAPS>(result.heapUsage, obj.heapUsage, pAllocationCallbacks);
     return result;
 }
@@ -4177,7 +5547,9 @@ VkPhysicalDeviceMemoryPriorityFeaturesEXT create_structure_copy<VkPhysicalDevice
 {
     VkPhysicalDeviceMemoryPriorityFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.memoryPriority = obj.memoryPriority;
     return result;
 }
@@ -4187,8 +5559,11 @@ VkPhysicalDeviceMemoryProperties create_structure_copy<VkPhysicalDeviceMemoryPro
 {
     VkPhysicalDeviceMemoryProperties result { };
     result.memoryTypeCount = obj.memoryTypeCount;
+    ,
     create_static_array_copy<VK_MAX_MEMORY_TYPES>(result.memoryTypes, obj.memoryTypes, pAllocationCallbacks);
+    ,
     result.memoryHeapCount = obj.memoryHeapCount;
+    ,
     create_static_array_copy<VK_MAX_MEMORY_HEAPS>(result.memoryHeaps, obj.memoryHeaps, pAllocationCallbacks);
     return result;
 }
@@ -4198,7 +5573,9 @@ VkPhysicalDeviceMemoryProperties2 create_structure_copy<VkPhysicalDeviceMemoryPr
 {
     VkPhysicalDeviceMemoryProperties2 result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.memoryProperties = create_structure_copy(obj.memoryProperties, pAllocationCallbacks);
     return result;
 }
@@ -4209,8 +5586,11 @@ VkPhysicalDeviceMeshShaderFeaturesNV create_structure_copy<VkPhysicalDeviceMeshS
 {
     VkPhysicalDeviceMeshShaderFeaturesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.taskShader = obj.taskShader;
+    ,
     result.meshShader = obj.meshShader;
     return result;
 }
@@ -4220,19 +5600,33 @@ VkPhysicalDeviceMeshShaderPropertiesNV create_structure_copy<VkPhysicalDeviceMes
 {
     VkPhysicalDeviceMeshShaderPropertiesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.maxDrawMeshTasksCount = obj.maxDrawMeshTasksCount;
+    ,
     result.maxTaskWorkGroupInvocations = obj.maxTaskWorkGroupInvocations;
+    ,
     create_static_array_copy<3>(result.maxTaskWorkGroupSize, obj.maxTaskWorkGroupSize, pAllocationCallbacks);
+    ,
     result.maxTaskTotalMemorySize = obj.maxTaskTotalMemorySize;
+    ,
     result.maxTaskOutputCount = obj.maxTaskOutputCount;
+    ,
     result.maxMeshWorkGroupInvocations = obj.maxMeshWorkGroupInvocations;
+    ,
     create_static_array_copy<3>(result.maxMeshWorkGroupSize, obj.maxMeshWorkGroupSize, pAllocationCallbacks);
+    ,
     result.maxMeshTotalMemorySize = obj.maxMeshTotalMemorySize;
+    ,
     result.maxMeshOutputVertices = obj.maxMeshOutputVertices;
+    ,
     result.maxMeshOutputPrimitives = obj.maxMeshOutputPrimitives;
+    ,
     result.maxMeshMultiviewViewCount = obj.maxMeshMultiviewViewCount;
+    ,
     result.meshOutputPerVertexGranularity = obj.meshOutputPerVertexGranularity;
+    ,
     result.meshOutputPerPrimitiveGranularity = obj.meshOutputPerPrimitiveGranularity;
     return result;
 }
@@ -4242,9 +5636,13 @@ VkPhysicalDeviceMultiviewFeatures create_structure_copy<VkPhysicalDeviceMultivie
 {
     VkPhysicalDeviceMultiviewFeatures result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.multiview = obj.multiview;
+    ,
     result.multiviewGeometryShader = obj.multiviewGeometryShader;
+    ,
     result.multiviewTessellationShader = obj.multiviewTessellationShader;
     return result;
 }
@@ -4255,7 +5653,9 @@ VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX create_structure_copy<Vk
 {
     VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.perViewPositionAllComponents = obj.perViewPositionAllComponents;
     return result;
 }
@@ -4265,8 +5665,11 @@ VkPhysicalDeviceMultiviewProperties create_structure_copy<VkPhysicalDeviceMultiv
 {
     VkPhysicalDeviceMultiviewProperties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.maxMultiviewViewCount = obj.maxMultiviewViewCount;
+    ,
     result.maxMultiviewInstanceIndex = obj.maxMultiviewInstanceIndex;
     return result;
 }
@@ -4277,10 +5680,15 @@ VkPhysicalDevicePCIBusInfoPropertiesEXT create_structure_copy<VkPhysicalDevicePC
 {
     VkPhysicalDevicePCIBusInfoPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.pciDomain = obj.pciDomain;
+    ,
     result.pciBus = obj.pciBus;
+    ,
     result.pciDevice = obj.pciDevice;
+    ,
     result.pciFunction = obj.pciFunction;
     return result;
 }
@@ -4290,8 +5698,11 @@ VkPhysicalDevicePerformanceQueryFeaturesKHR create_structure_copy<VkPhysicalDevi
 {
     VkPhysicalDevicePerformanceQueryFeaturesKHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.performanceCounterQueryPools = obj.performanceCounterQueryPools;
+    ,
     result.performanceCounterMultipleQueryPools = obj.performanceCounterMultipleQueryPools;
     return result;
 }
@@ -4301,7 +5712,9 @@ VkPhysicalDevicePerformanceQueryPropertiesKHR create_structure_copy<VkPhysicalDe
 {
     VkPhysicalDevicePerformanceQueryPropertiesKHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.allowCommandBufferQueryCopies = obj.allowCommandBufferQueryCopies;
     return result;
 }
@@ -4311,7 +5724,9 @@ VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT create_structure_copy<Vk
 {
     VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.pipelineCreationCacheControl = obj.pipelineCreationCacheControl;
     return result;
 }
@@ -4321,7 +5736,9 @@ VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR create_structure_copy<Vk
 {
     VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.pipelineExecutableInfo = obj.pipelineExecutableInfo;
     return result;
 }
@@ -4331,7 +5748,9 @@ VkPhysicalDevicePointClippingProperties create_structure_copy<VkPhysicalDevicePo
 {
     VkPhysicalDevicePointClippingProperties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.pointClippingBehavior = obj.pointClippingBehavior;
     return result;
 }
@@ -4343,7 +5762,9 @@ VkPhysicalDevicePresentationPropertiesANDROID create_structure_copy<VkPhysicalDe
 {
     VkPhysicalDevicePresentationPropertiesANDROID result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.sharedImage = obj.sharedImage;
     return result;
 }
@@ -4354,7 +5775,9 @@ VkPhysicalDevicePrivateDataFeaturesEXT create_structure_copy<VkPhysicalDevicePri
 {
     VkPhysicalDevicePrivateDataFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.privateData = obj.privateData;
     return result;
 }
@@ -4364,13 +5787,21 @@ VkPhysicalDeviceProperties create_structure_copy<VkPhysicalDeviceProperties>(con
 {
     VkPhysicalDeviceProperties result { };
     result.apiVersion = obj.apiVersion;
+    ,
     result.driverVersion = obj.driverVersion;
+    ,
     result.vendorID = obj.vendorID;
+    ,
     result.deviceID = obj.deviceID;
+    ,
     result.deviceType = obj.deviceType;
+    ,
     create_static_string_copy<VK_MAX_PHYSICAL_DEVICE_NAME_SIZE>(result.deviceName, obj.deviceName, pAllocationCallbacks);
+    ,
     create_static_array_copy<VK_UUID_SIZE>(result.pipelineCacheUUID, obj.pipelineCacheUUID, pAllocationCallbacks);
+    ,
     result.limits = create_structure_copy(obj.limits, pAllocationCallbacks);
+    ,
     result.sparseProperties = create_structure_copy(obj.sparseProperties, pAllocationCallbacks);
     return result;
 }
@@ -4380,7 +5811,9 @@ VkPhysicalDeviceProperties2 create_structure_copy<VkPhysicalDeviceProperties2>(c
 {
     VkPhysicalDeviceProperties2 result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.properties = create_structure_copy(obj.properties, pAllocationCallbacks);
     return result;
 }
@@ -4391,7 +5824,9 @@ VkPhysicalDeviceProtectedMemoryFeatures create_structure_copy<VkPhysicalDevicePr
 {
     VkPhysicalDeviceProtectedMemoryFeatures result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.protectedMemory = obj.protectedMemory;
     return result;
 }
@@ -4401,7 +5836,9 @@ VkPhysicalDeviceProtectedMemoryProperties create_structure_copy<VkPhysicalDevice
 {
     VkPhysicalDeviceProtectedMemoryProperties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.protectedNoFault = obj.protectedNoFault;
     return result;
 }
@@ -4411,7 +5848,9 @@ VkPhysicalDevicePushDescriptorPropertiesKHR create_structure_copy<VkPhysicalDevi
 {
     VkPhysicalDevicePushDescriptorPropertiesKHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.maxPushDescriptors = obj.maxPushDescriptors;
     return result;
 }
@@ -4422,15 +5861,25 @@ VkPhysicalDeviceRayTracingFeaturesKHR create_structure_copy<VkPhysicalDeviceRayT
 {
     VkPhysicalDeviceRayTracingFeaturesKHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.rayTracing = obj.rayTracing;
+    ,
     result.rayTracingShaderGroupHandleCaptureReplay = obj.rayTracingShaderGroupHandleCaptureReplay;
+    ,
     result.rayTracingShaderGroupHandleCaptureReplayMixed = obj.rayTracingShaderGroupHandleCaptureReplayMixed;
+    ,
     result.rayTracingAccelerationStructureCaptureReplay = obj.rayTracingAccelerationStructureCaptureReplay;
+    ,
     result.rayTracingIndirectTraceRays = obj.rayTracingIndirectTraceRays;
+    ,
     result.rayTracingIndirectAccelerationStructureBuild = obj.rayTracingIndirectAccelerationStructureBuild;
+    ,
     result.rayTracingHostAccelerationStructureCommands = obj.rayTracingHostAccelerationStructureCommands;
+    ,
     result.rayQuery = obj.rayQuery;
+    ,
     result.rayTracingPrimitiveCulling = obj.rayTracingPrimitiveCulling;
     return result;
 }
@@ -4442,15 +5891,25 @@ VkPhysicalDeviceRayTracingPropertiesKHR create_structure_copy<VkPhysicalDeviceRa
 {
     VkPhysicalDeviceRayTracingPropertiesKHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shaderGroupHandleSize = obj.shaderGroupHandleSize;
+    ,
     result.maxRecursionDepth = obj.maxRecursionDepth;
+    ,
     result.maxShaderGroupStride = obj.maxShaderGroupStride;
+    ,
     result.shaderGroupBaseAlignment = obj.shaderGroupBaseAlignment;
+    ,
     result.maxGeometryCount = obj.maxGeometryCount;
+    ,
     result.maxInstanceCount = obj.maxInstanceCount;
+    ,
     result.maxPrimitiveCount = obj.maxPrimitiveCount;
+    ,
     result.maxDescriptorSetAccelerationStructures = obj.maxDescriptorSetAccelerationStructures;
+    ,
     result.shaderGroupHandleCaptureReplaySize = obj.shaderGroupHandleCaptureReplaySize;
     return result;
 }
@@ -4461,14 +5920,23 @@ VkPhysicalDeviceRayTracingPropertiesNV create_structure_copy<VkPhysicalDeviceRay
 {
     VkPhysicalDeviceRayTracingPropertiesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shaderGroupHandleSize = obj.shaderGroupHandleSize;
+    ,
     result.maxRecursionDepth = obj.maxRecursionDepth;
+    ,
     result.maxShaderGroupStride = obj.maxShaderGroupStride;
+    ,
     result.shaderGroupBaseAlignment = obj.shaderGroupBaseAlignment;
+    ,
     result.maxGeometryCount = obj.maxGeometryCount;
+    ,
     result.maxInstanceCount = obj.maxInstanceCount;
+    ,
     result.maxTriangleCount = obj.maxTriangleCount;
+    ,
     result.maxDescriptorSetAccelerationStructures = obj.maxDescriptorSetAccelerationStructures;
     return result;
 }
@@ -4478,7 +5946,9 @@ VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV create_structure_copy<VkPhy
 {
     VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.representativeFragmentTest = obj.representativeFragmentTest;
     return result;
 }
@@ -4488,9 +5958,13 @@ VkPhysicalDeviceRobustness2FeaturesEXT create_structure_copy<VkPhysicalDeviceRob
 {
     VkPhysicalDeviceRobustness2FeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.robustBufferAccess2 = obj.robustBufferAccess2;
+    ,
     result.robustImageAccess2 = obj.robustImageAccess2;
+    ,
     result.nullDescriptor = obj.nullDescriptor;
     return result;
 }
@@ -4500,8 +5974,11 @@ VkPhysicalDeviceRobustness2PropertiesEXT create_structure_copy<VkPhysicalDeviceR
 {
     VkPhysicalDeviceRobustness2PropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.robustStorageBufferAccessSizeAlignment = obj.robustStorageBufferAccessSizeAlignment;
+    ,
     result.robustUniformBufferAccessSizeAlignment = obj.robustUniformBufferAccessSizeAlignment;
     return result;
 }
@@ -4511,11 +5988,17 @@ VkPhysicalDeviceSampleLocationsPropertiesEXT create_structure_copy<VkPhysicalDev
 {
     VkPhysicalDeviceSampleLocationsPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.sampleLocationSampleCounts = obj.sampleLocationSampleCounts;
+    ,
     result.maxSampleLocationGridSize = create_structure_copy(obj.maxSampleLocationGridSize, pAllocationCallbacks);
+    ,
     create_static_array_copy<2>(result.sampleLocationCoordinateRange, obj.sampleLocationCoordinateRange, pAllocationCallbacks);
+    ,
     result.sampleLocationSubPixelBits = obj.sampleLocationSubPixelBits;
+    ,
     result.variableSampleLocations = obj.variableSampleLocations;
     return result;
 }
@@ -4525,8 +6008,11 @@ VkPhysicalDeviceSamplerFilterMinmaxProperties create_structure_copy<VkPhysicalDe
 {
     VkPhysicalDeviceSamplerFilterMinmaxProperties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.filterMinmaxSingleComponentFormats = obj.filterMinmaxSingleComponentFormats;
+    ,
     result.filterMinmaxImageComponentMapping = obj.filterMinmaxImageComponentMapping;
     return result;
 }
@@ -4537,7 +6023,9 @@ VkPhysicalDeviceSamplerYcbcrConversionFeatures create_structure_copy<VkPhysicalD
 {
     VkPhysicalDeviceSamplerYcbcrConversionFeatures result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.samplerYcbcrConversion = obj.samplerYcbcrConversion;
     return result;
 }
@@ -4548,7 +6036,9 @@ VkPhysicalDeviceScalarBlockLayoutFeatures create_structure_copy<VkPhysicalDevice
 {
     VkPhysicalDeviceScalarBlockLayoutFeatures result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.scalarBlockLayout = obj.scalarBlockLayout;
     return result;
 }
@@ -4559,7 +6049,9 @@ VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures create_structure_copy<VkPhys
 {
     VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.separateDepthStencilLayouts = obj.separateDepthStencilLayouts;
     return result;
 }
@@ -4570,18 +6062,31 @@ VkPhysicalDeviceShaderAtomicFloatFeaturesEXT create_structure_copy<VkPhysicalDev
 {
     VkPhysicalDeviceShaderAtomicFloatFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shaderBufferFloat32Atomics = obj.shaderBufferFloat32Atomics;
+    ,
     result.shaderBufferFloat32AtomicAdd = obj.shaderBufferFloat32AtomicAdd;
+    ,
     result.shaderBufferFloat64Atomics = obj.shaderBufferFloat64Atomics;
+    ,
     result.shaderBufferFloat64AtomicAdd = obj.shaderBufferFloat64AtomicAdd;
+    ,
     result.shaderSharedFloat32Atomics = obj.shaderSharedFloat32Atomics;
+    ,
     result.shaderSharedFloat32AtomicAdd = obj.shaderSharedFloat32AtomicAdd;
+    ,
     result.shaderSharedFloat64Atomics = obj.shaderSharedFloat64Atomics;
+    ,
     result.shaderSharedFloat64AtomicAdd = obj.shaderSharedFloat64AtomicAdd;
+    ,
     result.shaderImageFloat32Atomics = obj.shaderImageFloat32Atomics;
+    ,
     result.shaderImageFloat32AtomicAdd = obj.shaderImageFloat32AtomicAdd;
+    ,
     result.sparseImageFloat32Atomics = obj.sparseImageFloat32Atomics;
+    ,
     result.sparseImageFloat32AtomicAdd = obj.sparseImageFloat32AtomicAdd;
     return result;
 }
@@ -4591,8 +6096,11 @@ VkPhysicalDeviceShaderAtomicInt64Features create_structure_copy<VkPhysicalDevice
 {
     VkPhysicalDeviceShaderAtomicInt64Features result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shaderBufferInt64Atomics = obj.shaderBufferInt64Atomics;
+    ,
     result.shaderSharedInt64Atomics = obj.shaderSharedInt64Atomics;
     return result;
 }
@@ -4603,8 +6111,11 @@ VkPhysicalDeviceShaderClockFeaturesKHR create_structure_copy<VkPhysicalDeviceSha
 {
     VkPhysicalDeviceShaderClockFeaturesKHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shaderSubgroupClock = obj.shaderSubgroupClock;
+    ,
     result.shaderDeviceClock = obj.shaderDeviceClock;
     return result;
 }
@@ -4614,8 +6125,11 @@ VkPhysicalDeviceShaderCoreProperties2AMD create_structure_copy<VkPhysicalDeviceS
 {
     VkPhysicalDeviceShaderCoreProperties2AMD result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shaderCoreFeatures = obj.shaderCoreFeatures;
+    ,
     result.activeComputeUnitCount = obj.activeComputeUnitCount;
     return result;
 }
@@ -4625,20 +6139,35 @@ VkPhysicalDeviceShaderCorePropertiesAMD create_structure_copy<VkPhysicalDeviceSh
 {
     VkPhysicalDeviceShaderCorePropertiesAMD result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shaderEngineCount = obj.shaderEngineCount;
+    ,
     result.shaderArraysPerEngineCount = obj.shaderArraysPerEngineCount;
+    ,
     result.computeUnitsPerShaderArray = obj.computeUnitsPerShaderArray;
+    ,
     result.simdPerComputeUnit = obj.simdPerComputeUnit;
+    ,
     result.wavefrontsPerSimd = obj.wavefrontsPerSimd;
+    ,
     result.wavefrontSize = obj.wavefrontSize;
+    ,
     result.sgprsPerSimd = obj.sgprsPerSimd;
+    ,
     result.minSgprAllocation = obj.minSgprAllocation;
+    ,
     result.maxSgprAllocation = obj.maxSgprAllocation;
+    ,
     result.sgprAllocationGranularity = obj.sgprAllocationGranularity;
+    ,
     result.vgprsPerSimd = obj.vgprsPerSimd;
+    ,
     result.minVgprAllocation = obj.minVgprAllocation;
+    ,
     result.maxVgprAllocation = obj.maxVgprAllocation;
+    ,
     result.vgprAllocationGranularity = obj.vgprAllocationGranularity;
     return result;
 }
@@ -4648,7 +6177,9 @@ VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT create_structure_copy<
 {
     VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shaderDemoteToHelperInvocation = obj.shaderDemoteToHelperInvocation;
     return result;
 }
@@ -4659,7 +6190,9 @@ VkPhysicalDeviceShaderDrawParametersFeatures create_structure_copy<VkPhysicalDev
 {
     VkPhysicalDeviceShaderDrawParametersFeatures result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shaderDrawParameters = obj.shaderDrawParameters;
     return result;
 }
@@ -4669,8 +6202,11 @@ VkPhysicalDeviceShaderFloat16Int8Features create_structure_copy<VkPhysicalDevice
 {
     VkPhysicalDeviceShaderFloat16Int8Features result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shaderFloat16 = obj.shaderFloat16;
+    ,
     result.shaderInt8 = obj.shaderInt8;
     return result;
 }
@@ -4681,7 +6217,9 @@ VkPhysicalDeviceShaderImageFootprintFeaturesNV create_structure_copy<VkPhysicalD
 {
     VkPhysicalDeviceShaderImageFootprintFeaturesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.imageFootprint = obj.imageFootprint;
     return result;
 }
@@ -4691,7 +6229,9 @@ VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL create_structure_copy<VkPhy
 {
     VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shaderIntegerFunctions2 = obj.shaderIntegerFunctions2;
     return result;
 }
@@ -4701,7 +6241,9 @@ VkPhysicalDeviceShaderSMBuiltinsFeaturesNV create_structure_copy<VkPhysicalDevic
 {
     VkPhysicalDeviceShaderSMBuiltinsFeaturesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shaderSMBuiltins = obj.shaderSMBuiltins;
     return result;
 }
@@ -4711,8 +6253,11 @@ VkPhysicalDeviceShaderSMBuiltinsPropertiesNV create_structure_copy<VkPhysicalDev
 {
     VkPhysicalDeviceShaderSMBuiltinsPropertiesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shaderSMCount = obj.shaderSMCount;
+    ,
     result.shaderWarpsPerSM = obj.shaderWarpsPerSM;
     return result;
 }
@@ -4722,7 +6267,9 @@ VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures create_structure_copy<VkPhys
 {
     VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shaderSubgroupExtendedTypes = obj.shaderSubgroupExtendedTypes;
     return result;
 }
@@ -4733,8 +6280,11 @@ VkPhysicalDeviceShadingRateImageFeaturesNV create_structure_copy<VkPhysicalDevic
 {
     VkPhysicalDeviceShadingRateImageFeaturesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shadingRateImage = obj.shadingRateImage;
+    ,
     result.shadingRateCoarseSampleOrder = obj.shadingRateCoarseSampleOrder;
     return result;
 }
@@ -4744,9 +6294,13 @@ VkPhysicalDeviceShadingRateImagePropertiesNV create_structure_copy<VkPhysicalDev
 {
     VkPhysicalDeviceShadingRateImagePropertiesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shadingRateTexelSize = create_structure_copy(obj.shadingRateTexelSize, pAllocationCallbacks);
+    ,
     result.shadingRatePaletteSize = obj.shadingRatePaletteSize;
+    ,
     result.shadingRateMaxCoarseSamples = obj.shadingRateMaxCoarseSamples;
     return result;
 }
@@ -4756,11 +6310,17 @@ VkPhysicalDeviceSparseImageFormatInfo2 create_structure_copy<VkPhysicalDeviceSpa
 {
     VkPhysicalDeviceSparseImageFormatInfo2 result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.format = obj.format;
+    ,
     result.type = obj.type;
+    ,
     result.samples = obj.samples;
+    ,
     result.usage = obj.usage;
+    ,
     result.tiling = obj.tiling;
     return result;
 }
@@ -4771,9 +6331,13 @@ VkPhysicalDeviceSparseProperties create_structure_copy<VkPhysicalDeviceSparsePro
 {
     VkPhysicalDeviceSparseProperties result { };
     result.residencyStandard2DBlockShape = obj.residencyStandard2DBlockShape;
+    ,
     result.residencyStandard2DMultisampleBlockShape = obj.residencyStandard2DMultisampleBlockShape;
+    ,
     result.residencyStandard3DBlockShape = obj.residencyStandard3DBlockShape;
+    ,
     result.residencyAlignedMipSize = obj.residencyAlignedMipSize;
+    ,
     result.residencyNonResidentStrict = obj.residencyNonResidentStrict;
     return result;
 }
@@ -4783,10 +6347,15 @@ VkPhysicalDeviceSubgroupProperties create_structure_copy<VkPhysicalDeviceSubgrou
 {
     VkPhysicalDeviceSubgroupProperties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.subgroupSize = obj.subgroupSize;
+    ,
     result.supportedStages = obj.supportedStages;
+    ,
     result.supportedOperations = obj.supportedOperations;
+    ,
     result.quadOperationsInAllStages = obj.quadOperationsInAllStages;
     return result;
 }
@@ -4796,8 +6365,11 @@ VkPhysicalDeviceSubgroupSizeControlFeaturesEXT create_structure_copy<VkPhysicalD
 {
     VkPhysicalDeviceSubgroupSizeControlFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.subgroupSizeControl = obj.subgroupSizeControl;
+    ,
     result.computeFullSubgroups = obj.computeFullSubgroups;
     return result;
 }
@@ -4807,10 +6379,15 @@ VkPhysicalDeviceSubgroupSizeControlPropertiesEXT create_structure_copy<VkPhysica
 {
     VkPhysicalDeviceSubgroupSizeControlPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.minSubgroupSize = obj.minSubgroupSize;
+    ,
     result.maxSubgroupSize = obj.maxSubgroupSize;
+    ,
     result.maxComputeWorkgroupSubgroups = obj.maxComputeWorkgroupSubgroups;
+    ,
     result.requiredSubgroupSizeStages = obj.requiredSubgroupSizeStages;
     return result;
 }
@@ -4820,7 +6397,9 @@ VkPhysicalDeviceSurfaceInfo2KHR create_structure_copy<VkPhysicalDeviceSurfaceInf
 {
     VkPhysicalDeviceSurfaceInfo2KHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.surface = obj.surface;
     return result;
 }
@@ -4830,7 +6409,9 @@ VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT create_structure_copy<VkPhysical
 {
     VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.texelBufferAlignment = obj.texelBufferAlignment;
     return result;
 }
@@ -4840,10 +6421,15 @@ VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT create_structure_copy<VkPhysic
 {
     VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.storageTexelBufferOffsetAlignmentBytes = obj.storageTexelBufferOffsetAlignmentBytes;
+    ,
     result.storageTexelBufferOffsetSingleTexelAlignment = obj.storageTexelBufferOffsetSingleTexelAlignment;
+    ,
     result.uniformTexelBufferOffsetAlignmentBytes = obj.uniformTexelBufferOffsetAlignmentBytes;
+    ,
     result.uniformTexelBufferOffsetSingleTexelAlignment = obj.uniformTexelBufferOffsetSingleTexelAlignment;
     return result;
 }
@@ -4853,7 +6439,9 @@ VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT create_structure_copy<VkPhy
 {
     VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.textureCompressionASTC_HDR = obj.textureCompressionASTC_HDR;
     return result;
 }
@@ -4863,7 +6451,9 @@ VkPhysicalDeviceTimelineSemaphoreFeatures create_structure_copy<VkPhysicalDevice
 {
     VkPhysicalDeviceTimelineSemaphoreFeatures result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.timelineSemaphore = obj.timelineSemaphore;
     return result;
 }
@@ -4874,7 +6464,9 @@ VkPhysicalDeviceTimelineSemaphoreProperties create_structure_copy<VkPhysicalDevi
 {
     VkPhysicalDeviceTimelineSemaphoreProperties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.maxTimelineSemaphoreValueDifference = obj.maxTimelineSemaphoreValueDifference;
     return result;
 }
@@ -4885,11 +6477,17 @@ VkPhysicalDeviceToolPropertiesEXT create_structure_copy<VkPhysicalDeviceToolProp
 {
     VkPhysicalDeviceToolPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     create_static_string_copy<VK_MAX_EXTENSION_NAME_SIZE>(result.name, obj.name, pAllocationCallbacks);
+    ,
     create_static_string_copy<VK_MAX_EXTENSION_NAME_SIZE>(result.version, obj.version, pAllocationCallbacks);
+    ,
     result.purposes = obj.purposes;
+    ,
     create_static_string_copy<VK_MAX_DESCRIPTION_SIZE>(result.description, obj.description, pAllocationCallbacks);
+    ,
     create_static_string_copy<VK_MAX_EXTENSION_NAME_SIZE>(result.layer, obj.layer, pAllocationCallbacks);
     return result;
 }
@@ -4899,8 +6497,11 @@ VkPhysicalDeviceTransformFeedbackFeaturesEXT create_structure_copy<VkPhysicalDev
 {
     VkPhysicalDeviceTransformFeedbackFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.transformFeedback = obj.transformFeedback;
+    ,
     result.geometryStreams = obj.geometryStreams;
     return result;
 }
@@ -4910,16 +6511,27 @@ VkPhysicalDeviceTransformFeedbackPropertiesEXT create_structure_copy<VkPhysicalD
 {
     VkPhysicalDeviceTransformFeedbackPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.maxTransformFeedbackStreams = obj.maxTransformFeedbackStreams;
+    ,
     result.maxTransformFeedbackBuffers = obj.maxTransformFeedbackBuffers;
+    ,
     result.maxTransformFeedbackBufferSize = obj.maxTransformFeedbackBufferSize;
+    ,
     result.maxTransformFeedbackStreamDataSize = obj.maxTransformFeedbackStreamDataSize;
+    ,
     result.maxTransformFeedbackBufferDataSize = obj.maxTransformFeedbackBufferDataSize;
+    ,
     result.maxTransformFeedbackBufferDataStride = obj.maxTransformFeedbackBufferDataStride;
+    ,
     result.transformFeedbackQueries = obj.transformFeedbackQueries;
+    ,
     result.transformFeedbackStreamsLinesTriangles = obj.transformFeedbackStreamsLinesTriangles;
+    ,
     result.transformFeedbackRasterizationStreamSelect = obj.transformFeedbackRasterizationStreamSelect;
+    ,
     result.transformFeedbackDraw = obj.transformFeedbackDraw;
     return result;
 }
@@ -4929,7 +6541,9 @@ VkPhysicalDeviceUniformBufferStandardLayoutFeatures create_structure_copy<VkPhys
 {
     VkPhysicalDeviceUniformBufferStandardLayoutFeatures result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.uniformBufferStandardLayout = obj.uniformBufferStandardLayout;
     return result;
 }
@@ -4942,8 +6556,11 @@ VkPhysicalDeviceVariablePointersFeatures create_structure_copy<VkPhysicalDeviceV
 {
     VkPhysicalDeviceVariablePointersFeatures result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.variablePointersStorageBuffer = obj.variablePointersStorageBuffer;
+    ,
     result.variablePointers = obj.variablePointers;
     return result;
 }
@@ -4954,8 +6571,11 @@ VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT create_structure_copy<VkPhysic
 {
     VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.vertexAttributeInstanceRateDivisor = obj.vertexAttributeInstanceRateDivisor;
+    ,
     result.vertexAttributeInstanceRateZeroDivisor = obj.vertexAttributeInstanceRateZeroDivisor;
     return result;
 }
@@ -4965,7 +6585,9 @@ VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT create_structure_copy<VkPhys
 {
     VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.maxVertexAttribDivisor = obj.maxVertexAttribDivisor;
     return result;
 }
@@ -4975,18 +6597,31 @@ VkPhysicalDeviceVulkan11Features create_structure_copy<VkPhysicalDeviceVulkan11F
 {
     VkPhysicalDeviceVulkan11Features result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.storageBuffer16BitAccess = obj.storageBuffer16BitAccess;
+    ,
     result.uniformAndStorageBuffer16BitAccess = obj.uniformAndStorageBuffer16BitAccess;
+    ,
     result.storagePushConstant16 = obj.storagePushConstant16;
+    ,
     result.storageInputOutput16 = obj.storageInputOutput16;
+    ,
     result.multiview = obj.multiview;
+    ,
     result.multiviewGeometryShader = obj.multiviewGeometryShader;
+    ,
     result.multiviewTessellationShader = obj.multiviewTessellationShader;
+    ,
     result.variablePointersStorageBuffer = obj.variablePointersStorageBuffer;
+    ,
     result.variablePointers = obj.variablePointers;
+    ,
     result.protectedMemory = obj.protectedMemory;
+    ,
     result.samplerYcbcrConversion = obj.samplerYcbcrConversion;
+    ,
     result.shaderDrawParameters = obj.shaderDrawParameters;
     return result;
 }
@@ -4996,21 +6631,37 @@ VkPhysicalDeviceVulkan11Properties create_structure_copy<VkPhysicalDeviceVulkan1
 {
     VkPhysicalDeviceVulkan11Properties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     create_static_array_copy<VK_UUID_SIZE>(result.deviceUUID, obj.deviceUUID, pAllocationCallbacks);
+    ,
     create_static_array_copy<VK_UUID_SIZE>(result.driverUUID, obj.driverUUID, pAllocationCallbacks);
+    ,
     create_static_array_copy<VK_LUID_SIZE>(result.deviceLUID, obj.deviceLUID, pAllocationCallbacks);
+    ,
     result.deviceNodeMask = obj.deviceNodeMask;
+    ,
     result.deviceLUIDValid = obj.deviceLUIDValid;
+    ,
     result.subgroupSize = obj.subgroupSize;
+    ,
     result.subgroupSupportedStages = obj.subgroupSupportedStages;
+    ,
     result.subgroupSupportedOperations = obj.subgroupSupportedOperations;
+    ,
     result.subgroupQuadOperationsInAllStages = obj.subgroupQuadOperationsInAllStages;
+    ,
     result.pointClippingBehavior = obj.pointClippingBehavior;
+    ,
     result.maxMultiviewViewCount = obj.maxMultiviewViewCount;
+    ,
     result.maxMultiviewInstanceIndex = obj.maxMultiviewInstanceIndex;
+    ,
     result.protectedNoFault = obj.protectedNoFault;
+    ,
     result.maxPerSetDescriptors = obj.maxPerSetDescriptors;
+    ,
     result.maxMemoryAllocationSize = obj.maxMemoryAllocationSize;
     return result;
 }
@@ -5020,53 +6671,101 @@ VkPhysicalDeviceVulkan12Features create_structure_copy<VkPhysicalDeviceVulkan12F
 {
     VkPhysicalDeviceVulkan12Features result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.samplerMirrorClampToEdge = obj.samplerMirrorClampToEdge;
+    ,
     result.drawIndirectCount = obj.drawIndirectCount;
+    ,
     result.storageBuffer8BitAccess = obj.storageBuffer8BitAccess;
+    ,
     result.uniformAndStorageBuffer8BitAccess = obj.uniformAndStorageBuffer8BitAccess;
+    ,
     result.storagePushConstant8 = obj.storagePushConstant8;
+    ,
     result.shaderBufferInt64Atomics = obj.shaderBufferInt64Atomics;
+    ,
     result.shaderSharedInt64Atomics = obj.shaderSharedInt64Atomics;
+    ,
     result.shaderFloat16 = obj.shaderFloat16;
+    ,
     result.shaderInt8 = obj.shaderInt8;
+    ,
     result.descriptorIndexing = obj.descriptorIndexing;
+    ,
     result.shaderInputAttachmentArrayDynamicIndexing = obj.shaderInputAttachmentArrayDynamicIndexing;
+    ,
     result.shaderUniformTexelBufferArrayDynamicIndexing = obj.shaderUniformTexelBufferArrayDynamicIndexing;
+    ,
     result.shaderStorageTexelBufferArrayDynamicIndexing = obj.shaderStorageTexelBufferArrayDynamicIndexing;
+    ,
     result.shaderUniformBufferArrayNonUniformIndexing = obj.shaderUniformBufferArrayNonUniformIndexing;
+    ,
     result.shaderSampledImageArrayNonUniformIndexing = obj.shaderSampledImageArrayNonUniformIndexing;
+    ,
     result.shaderStorageBufferArrayNonUniformIndexing = obj.shaderStorageBufferArrayNonUniformIndexing;
+    ,
     result.shaderStorageImageArrayNonUniformIndexing = obj.shaderStorageImageArrayNonUniformIndexing;
+    ,
     result.shaderInputAttachmentArrayNonUniformIndexing = obj.shaderInputAttachmentArrayNonUniformIndexing;
+    ,
     result.shaderUniformTexelBufferArrayNonUniformIndexing = obj.shaderUniformTexelBufferArrayNonUniformIndexing;
+    ,
     result.shaderStorageTexelBufferArrayNonUniformIndexing = obj.shaderStorageTexelBufferArrayNonUniformIndexing;
+    ,
     result.descriptorBindingUniformBufferUpdateAfterBind = obj.descriptorBindingUniformBufferUpdateAfterBind;
+    ,
     result.descriptorBindingSampledImageUpdateAfterBind = obj.descriptorBindingSampledImageUpdateAfterBind;
+    ,
     result.descriptorBindingStorageImageUpdateAfterBind = obj.descriptorBindingStorageImageUpdateAfterBind;
+    ,
     result.descriptorBindingStorageBufferUpdateAfterBind = obj.descriptorBindingStorageBufferUpdateAfterBind;
+    ,
     result.descriptorBindingUniformTexelBufferUpdateAfterBind = obj.descriptorBindingUniformTexelBufferUpdateAfterBind;
+    ,
     result.descriptorBindingStorageTexelBufferUpdateAfterBind = obj.descriptorBindingStorageTexelBufferUpdateAfterBind;
+    ,
     result.descriptorBindingUpdateUnusedWhilePending = obj.descriptorBindingUpdateUnusedWhilePending;
+    ,
     result.descriptorBindingPartiallyBound = obj.descriptorBindingPartiallyBound;
+    ,
     result.descriptorBindingVariableDescriptorCount = obj.descriptorBindingVariableDescriptorCount;
+    ,
     result.runtimeDescriptorArray = obj.runtimeDescriptorArray;
+    ,
     result.samplerFilterMinmax = obj.samplerFilterMinmax;
+    ,
     result.scalarBlockLayout = obj.scalarBlockLayout;
+    ,
     result.imagelessFramebuffer = obj.imagelessFramebuffer;
+    ,
     result.uniformBufferStandardLayout = obj.uniformBufferStandardLayout;
+    ,
     result.shaderSubgroupExtendedTypes = obj.shaderSubgroupExtendedTypes;
+    ,
     result.separateDepthStencilLayouts = obj.separateDepthStencilLayouts;
+    ,
     result.hostQueryReset = obj.hostQueryReset;
+    ,
     result.timelineSemaphore = obj.timelineSemaphore;
+    ,
     result.bufferDeviceAddress = obj.bufferDeviceAddress;
+    ,
     result.bufferDeviceAddressCaptureReplay = obj.bufferDeviceAddressCaptureReplay;
+    ,
     result.bufferDeviceAddressMultiDevice = obj.bufferDeviceAddressMultiDevice;
+    ,
     result.vulkanMemoryModel = obj.vulkanMemoryModel;
+    ,
     result.vulkanMemoryModelDeviceScope = obj.vulkanMemoryModelDeviceScope;
+    ,
     result.vulkanMemoryModelAvailabilityVisibilityChains = obj.vulkanMemoryModelAvailabilityVisibilityChains;
+    ,
     result.shaderOutputViewportIndex = obj.shaderOutputViewportIndex;
+    ,
     result.shaderOutputLayer = obj.shaderOutputLayer;
+    ,
     result.subgroupBroadcastDynamicId = obj.subgroupBroadcastDynamicId;
     return result;
 }
@@ -5076,58 +6775,111 @@ VkPhysicalDeviceVulkan12Properties create_structure_copy<VkPhysicalDeviceVulkan1
 {
     VkPhysicalDeviceVulkan12Properties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.driverID = obj.driverID;
+    ,
     create_static_string_copy<VK_MAX_DRIVER_NAME_SIZE>(result.driverName, obj.driverName, pAllocationCallbacks);
+    ,
     create_static_string_copy<VK_MAX_DRIVER_INFO_SIZE>(result.driverInfo, obj.driverInfo, pAllocationCallbacks);
+    ,
     result.conformanceVersion = create_structure_copy(obj.conformanceVersion, pAllocationCallbacks);
+    ,
     result.denormBehaviorIndependence = obj.denormBehaviorIndependence;
+    ,
     result.roundingModeIndependence = obj.roundingModeIndependence;
+    ,
     result.shaderSignedZeroInfNanPreserveFloat16 = obj.shaderSignedZeroInfNanPreserveFloat16;
+    ,
     result.shaderSignedZeroInfNanPreserveFloat32 = obj.shaderSignedZeroInfNanPreserveFloat32;
+    ,
     result.shaderSignedZeroInfNanPreserveFloat64 = obj.shaderSignedZeroInfNanPreserveFloat64;
+    ,
     result.shaderDenormPreserveFloat16 = obj.shaderDenormPreserveFloat16;
+    ,
     result.shaderDenormPreserveFloat32 = obj.shaderDenormPreserveFloat32;
+    ,
     result.shaderDenormPreserveFloat64 = obj.shaderDenormPreserveFloat64;
+    ,
     result.shaderDenormFlushToZeroFloat16 = obj.shaderDenormFlushToZeroFloat16;
+    ,
     result.shaderDenormFlushToZeroFloat32 = obj.shaderDenormFlushToZeroFloat32;
+    ,
     result.shaderDenormFlushToZeroFloat64 = obj.shaderDenormFlushToZeroFloat64;
+    ,
     result.shaderRoundingModeRTEFloat16 = obj.shaderRoundingModeRTEFloat16;
+    ,
     result.shaderRoundingModeRTEFloat32 = obj.shaderRoundingModeRTEFloat32;
+    ,
     result.shaderRoundingModeRTEFloat64 = obj.shaderRoundingModeRTEFloat64;
+    ,
     result.shaderRoundingModeRTZFloat16 = obj.shaderRoundingModeRTZFloat16;
+    ,
     result.shaderRoundingModeRTZFloat32 = obj.shaderRoundingModeRTZFloat32;
+    ,
     result.shaderRoundingModeRTZFloat64 = obj.shaderRoundingModeRTZFloat64;
+    ,
     result.maxUpdateAfterBindDescriptorsInAllPools = obj.maxUpdateAfterBindDescriptorsInAllPools;
+    ,
     result.shaderUniformBufferArrayNonUniformIndexingNative = obj.shaderUniformBufferArrayNonUniformIndexingNative;
+    ,
     result.shaderSampledImageArrayNonUniformIndexingNative = obj.shaderSampledImageArrayNonUniformIndexingNative;
+    ,
     result.shaderStorageBufferArrayNonUniformIndexingNative = obj.shaderStorageBufferArrayNonUniformIndexingNative;
+    ,
     result.shaderStorageImageArrayNonUniformIndexingNative = obj.shaderStorageImageArrayNonUniformIndexingNative;
+    ,
     result.shaderInputAttachmentArrayNonUniformIndexingNative = obj.shaderInputAttachmentArrayNonUniformIndexingNative;
+    ,
     result.robustBufferAccessUpdateAfterBind = obj.robustBufferAccessUpdateAfterBind;
+    ,
     result.quadDivergentImplicitLod = obj.quadDivergentImplicitLod;
+    ,
     result.maxPerStageDescriptorUpdateAfterBindSamplers = obj.maxPerStageDescriptorUpdateAfterBindSamplers;
+    ,
     result.maxPerStageDescriptorUpdateAfterBindUniformBuffers = obj.maxPerStageDescriptorUpdateAfterBindUniformBuffers;
+    ,
     result.maxPerStageDescriptorUpdateAfterBindStorageBuffers = obj.maxPerStageDescriptorUpdateAfterBindStorageBuffers;
+    ,
     result.maxPerStageDescriptorUpdateAfterBindSampledImages = obj.maxPerStageDescriptorUpdateAfterBindSampledImages;
+    ,
     result.maxPerStageDescriptorUpdateAfterBindStorageImages = obj.maxPerStageDescriptorUpdateAfterBindStorageImages;
+    ,
     result.maxPerStageDescriptorUpdateAfterBindInputAttachments = obj.maxPerStageDescriptorUpdateAfterBindInputAttachments;
+    ,
     result.maxPerStageUpdateAfterBindResources = obj.maxPerStageUpdateAfterBindResources;
+    ,
     result.maxDescriptorSetUpdateAfterBindSamplers = obj.maxDescriptorSetUpdateAfterBindSamplers;
+    ,
     result.maxDescriptorSetUpdateAfterBindUniformBuffers = obj.maxDescriptorSetUpdateAfterBindUniformBuffers;
+    ,
     result.maxDescriptorSetUpdateAfterBindUniformBuffersDynamic = obj.maxDescriptorSetUpdateAfterBindUniformBuffersDynamic;
+    ,
     result.maxDescriptorSetUpdateAfterBindStorageBuffers = obj.maxDescriptorSetUpdateAfterBindStorageBuffers;
+    ,
     result.maxDescriptorSetUpdateAfterBindStorageBuffersDynamic = obj.maxDescriptorSetUpdateAfterBindStorageBuffersDynamic;
+    ,
     result.maxDescriptorSetUpdateAfterBindSampledImages = obj.maxDescriptorSetUpdateAfterBindSampledImages;
+    ,
     result.maxDescriptorSetUpdateAfterBindStorageImages = obj.maxDescriptorSetUpdateAfterBindStorageImages;
+    ,
     result.maxDescriptorSetUpdateAfterBindInputAttachments = obj.maxDescriptorSetUpdateAfterBindInputAttachments;
+    ,
     result.supportedDepthResolveModes = obj.supportedDepthResolveModes;
+    ,
     result.supportedStencilResolveModes = obj.supportedStencilResolveModes;
+    ,
     result.independentResolveNone = obj.independentResolveNone;
+    ,
     result.independentResolve = obj.independentResolve;
+    ,
     result.filterMinmaxSingleComponentFormats = obj.filterMinmaxSingleComponentFormats;
+    ,
     result.filterMinmaxImageComponentMapping = obj.filterMinmaxImageComponentMapping;
+    ,
     result.maxTimelineSemaphoreValueDifference = obj.maxTimelineSemaphoreValueDifference;
+    ,
     result.framebufferIntegerColorSampleCounts = obj.framebufferIntegerColorSampleCounts;
     return result;
 }
@@ -5137,9 +6889,13 @@ VkPhysicalDeviceVulkanMemoryModelFeatures create_structure_copy<VkPhysicalDevice
 {
     VkPhysicalDeviceVulkanMemoryModelFeatures result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.vulkanMemoryModel = obj.vulkanMemoryModel;
+    ,
     result.vulkanMemoryModelDeviceScope = obj.vulkanMemoryModelDeviceScope;
+    ,
     result.vulkanMemoryModelAvailabilityVisibilityChains = obj.vulkanMemoryModelAvailabilityVisibilityChains;
     return result;
 }
@@ -5150,7 +6906,9 @@ VkPhysicalDeviceYcbcrImageArraysFeaturesEXT create_structure_copy<VkPhysicalDevi
 {
     VkPhysicalDeviceYcbcrImageArraysFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.ycbcrImageArrays = obj.ycbcrImageArrays;
     return result;
 }
@@ -5160,9 +6918,13 @@ VkPipelineCacheCreateInfo create_structure_copy<VkPipelineCacheCreateInfo>(const
 {
     VkPipelineCacheCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.initialDataSize = obj.initialDataSize;
+    ,
     result.pInitialData = create_dynamic_array_copy(obj.initialDataSize, obj.pInitialData, pAllocationCallbacks);
     return result;
 }
@@ -5172,9 +6934,13 @@ VkPipelineColorBlendAdvancedStateCreateInfoEXT create_structure_copy<VkPipelineC
 {
     VkPipelineColorBlendAdvancedStateCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.srcPremultiplied = obj.srcPremultiplied;
+    ,
     result.dstPremultiplied = obj.dstPremultiplied;
+    ,
     result.blendOverlap = obj.blendOverlap;
     return result;
 }
@@ -5184,12 +6950,19 @@ VkPipelineColorBlendAttachmentState create_structure_copy<VkPipelineColorBlendAt
 {
     VkPipelineColorBlendAttachmentState result { };
     result.blendEnable = obj.blendEnable;
+    ,
     result.srcColorBlendFactor = obj.srcColorBlendFactor;
+    ,
     result.dstColorBlendFactor = obj.dstColorBlendFactor;
+    ,
     result.colorBlendOp = obj.colorBlendOp;
+    ,
     result.srcAlphaBlendFactor = obj.srcAlphaBlendFactor;
+    ,
     result.dstAlphaBlendFactor = obj.dstAlphaBlendFactor;
+    ,
     result.alphaBlendOp = obj.alphaBlendOp;
+    ,
     result.colorWriteMask = obj.colorWriteMask;
     return result;
 }
@@ -5199,12 +6972,19 @@ VkPipelineColorBlendStateCreateInfo create_structure_copy<VkPipelineColorBlendSt
 {
     VkPipelineColorBlendStateCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.logicOpEnable = obj.logicOpEnable;
+    ,
     result.logicOp = obj.logicOp;
+    ,
     result.attachmentCount = obj.attachmentCount;
+    ,
     result.pAttachments = create_dynamic_array_copy(obj.attachmentCount, obj.pAttachments, pAllocationCallbacks);
+    ,
     create_static_array_copy<4>(result.blendConstants, obj.blendConstants, pAllocationCallbacks);
     return result;
 }
@@ -5214,7 +6994,9 @@ VkPipelineCompilerControlCreateInfoAMD create_structure_copy<VkPipelineCompilerC
 {
     VkPipelineCompilerControlCreateInfoAMD result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.compilerControlFlags = obj.compilerControlFlags;
     return result;
 }
@@ -5224,11 +7006,17 @@ VkPipelineCoverageModulationStateCreateInfoNV create_structure_copy<VkPipelineCo
 {
     VkPipelineCoverageModulationStateCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.coverageModulationMode = obj.coverageModulationMode;
+    ,
     result.coverageModulationTableEnable = obj.coverageModulationTableEnable;
+    ,
     result.coverageModulationTableCount = obj.coverageModulationTableCount;
+    ,
     result.pCoverageModulationTable = create_dynamic_array_copy(obj.coverageModulationTableCount, obj.pCoverageModulationTable, pAllocationCallbacks);
     return result;
 }
@@ -5238,8 +7026,11 @@ VkPipelineCoverageReductionStateCreateInfoNV create_structure_copy<VkPipelineCov
 {
     VkPipelineCoverageReductionStateCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.coverageReductionMode = obj.coverageReductionMode;
     return result;
 }
@@ -5249,9 +7040,13 @@ VkPipelineCoverageToColorStateCreateInfoNV create_structure_copy<VkPipelineCover
 {
     VkPipelineCoverageToColorStateCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.coverageToColorEnable = obj.coverageToColorEnable;
+    ,
     result.coverageToColorLocation = obj.coverageToColorLocation;
     return result;
 }
@@ -5261,9 +7056,13 @@ VkPipelineCreationFeedbackCreateInfoEXT create_structure_copy<VkPipelineCreation
 {
     VkPipelineCreationFeedbackCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.pPipelineCreationFeedback = create_dynamic_array_copy(1, obj.pPipelineCreationFeedback, pAllocationCallbacks);
+    ,
     result.pipelineStageCreationFeedbackCount = obj.pipelineStageCreationFeedbackCount;
+    ,
     result.pPipelineStageCreationFeedbacks = create_dynamic_array_copy(obj.pipelineStageCreationFeedbackCount, obj.pPipelineStageCreationFeedbacks, pAllocationCallbacks);
     return result;
 }
@@ -5273,6 +7072,7 @@ VkPipelineCreationFeedbackEXT create_structure_copy<VkPipelineCreationFeedbackEX
 {
     VkPipelineCreationFeedbackEXT result { };
     result.flags = obj.flags;
+    ,
     result.duration = obj.duration;
     return result;
 }
@@ -5282,16 +7082,27 @@ VkPipelineDepthStencilStateCreateInfo create_structure_copy<VkPipelineDepthStenc
 {
     VkPipelineDepthStencilStateCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.depthTestEnable = obj.depthTestEnable;
+    ,
     result.depthWriteEnable = obj.depthWriteEnable;
+    ,
     result.depthCompareOp = obj.depthCompareOp;
+    ,
     result.depthBoundsTestEnable = obj.depthBoundsTestEnable;
+    ,
     result.stencilTestEnable = obj.stencilTestEnable;
+    ,
     result.front = create_structure_copy(obj.front, pAllocationCallbacks);
+    ,
     result.back = create_structure_copy(obj.back, pAllocationCallbacks);
+    ,
     result.minDepthBounds = obj.minDepthBounds;
+    ,
     result.maxDepthBounds = obj.maxDepthBounds;
     return result;
 }
@@ -5301,10 +7112,15 @@ VkPipelineDiscardRectangleStateCreateInfoEXT create_structure_copy<VkPipelineDis
 {
     VkPipelineDiscardRectangleStateCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.discardRectangleMode = obj.discardRectangleMode;
+    ,
     result.discardRectangleCount = obj.discardRectangleCount;
+    ,
     result.pDiscardRectangles = create_dynamic_array_copy(obj.discardRectangleCount, obj.pDiscardRectangles, pAllocationCallbacks);
     return result;
 }
@@ -5314,9 +7130,13 @@ VkPipelineDynamicStateCreateInfo create_structure_copy<VkPipelineDynamicStateCre
 {
     VkPipelineDynamicStateCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.dynamicStateCount = obj.dynamicStateCount;
+    ,
     result.pDynamicStates = create_dynamic_array_copy(obj.dynamicStateCount, obj.pDynamicStates, pAllocationCallbacks);
     return result;
 }
@@ -5326,8 +7146,11 @@ VkPipelineExecutableInfoKHR create_structure_copy<VkPipelineExecutableInfoKHR>(c
 {
     VkPipelineExecutableInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.pipeline = obj.pipeline;
+    ,
     result.executableIndex = obj.executableIndex;
     return result;
 }
@@ -5337,11 +7160,17 @@ VkPipelineExecutableInternalRepresentationKHR create_structure_copy<VkPipelineEx
 {
     VkPipelineExecutableInternalRepresentationKHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     create_static_string_copy<VK_MAX_DESCRIPTION_SIZE>(result.name, obj.name, pAllocationCallbacks);
+    ,
     create_static_string_copy<VK_MAX_DESCRIPTION_SIZE>(result.description, obj.description, pAllocationCallbacks);
+    ,
     result.isText = obj.isText;
+    ,
     result.dataSize = obj.dataSize;
+    ,
     result.pData = create_dynamic_array_copy(obj.dataSize, obj.pData, pAllocationCallbacks);
     return result;
 }
@@ -5351,10 +7180,15 @@ VkPipelineExecutablePropertiesKHR create_structure_copy<VkPipelineExecutableProp
 {
     VkPipelineExecutablePropertiesKHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.stages = obj.stages;
+    ,
     create_static_string_copy<VK_MAX_DESCRIPTION_SIZE>(result.name, obj.name, pAllocationCallbacks);
+    ,
     create_static_string_copy<VK_MAX_DESCRIPTION_SIZE>(result.description, obj.description, pAllocationCallbacks);
+    ,
     result.subgroupSize = obj.subgroupSize;
     return result;
 }
@@ -5364,10 +7198,15 @@ VkPipelineExecutableStatisticKHR create_structure_copy<VkPipelineExecutableStati
 {
     VkPipelineExecutableStatisticKHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     create_static_string_copy<VK_MAX_DESCRIPTION_SIZE>(result.name, obj.name, pAllocationCallbacks);
+    ,
     create_static_string_copy<VK_MAX_DESCRIPTION_SIZE>(result.description, obj.description, pAllocationCallbacks);
+    ,
     result.format = obj.format;
+    ,
     result.value = create_structure_copy(obj.value, pAllocationCallbacks);
     return result;
 }
@@ -5378,7 +7217,9 @@ VkPipelineInfoKHR create_structure_copy<VkPipelineInfoKHR>(const VkPipelineInfoK
 {
     VkPipelineInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.pipeline = obj.pipeline;
     return result;
 }
@@ -5388,9 +7229,13 @@ VkPipelineInputAssemblyStateCreateInfo create_structure_copy<VkPipelineInputAsse
 {
     VkPipelineInputAssemblyStateCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.topology = obj.topology;
+    ,
     result.primitiveRestartEnable = obj.primitiveRestartEnable;
     return result;
 }
@@ -5400,11 +7245,17 @@ VkPipelineLayoutCreateInfo create_structure_copy<VkPipelineLayoutCreateInfo>(con
 {
     VkPipelineLayoutCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.setLayoutCount = obj.setLayoutCount;
+    ,
     result.pSetLayouts = create_dynamic_array_copy(obj.setLayoutCount, obj.pSetLayouts, pAllocationCallbacks);
+    ,
     result.pushConstantRangeCount = obj.pushConstantRangeCount;
+    ,
     result.pPushConstantRanges = create_dynamic_array_copy(obj.pushConstantRangeCount, obj.pPushConstantRanges, pAllocationCallbacks);
     return result;
 }
@@ -5415,8 +7266,11 @@ VkPipelineLibraryCreateInfoKHR create_structure_copy<VkPipelineLibraryCreateInfo
 {
     VkPipelineLibraryCreateInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.libraryCount = obj.libraryCount;
+    ,
     result.pLibraries = create_dynamic_array_copy(obj.libraryCount, obj.pLibraries, pAllocationCallbacks);
     return result;
 }
@@ -5428,9 +7282,13 @@ VkPipelineRasterizationConservativeStateCreateInfoEXT create_structure_copy<VkPi
 {
     VkPipelineRasterizationConservativeStateCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.conservativeRasterizationMode = obj.conservativeRasterizationMode;
+    ,
     result.extraPrimitiveOverestimationSize = obj.extraPrimitiveOverestimationSize;
     return result;
 }
@@ -5440,8 +7298,11 @@ VkPipelineRasterizationDepthClipStateCreateInfoEXT create_structure_copy<VkPipel
 {
     VkPipelineRasterizationDepthClipStateCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.depthClipEnable = obj.depthClipEnable;
     return result;
 }
@@ -5451,10 +7312,15 @@ VkPipelineRasterizationLineStateCreateInfoEXT create_structure_copy<VkPipelineRa
 {
     VkPipelineRasterizationLineStateCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.lineRasterizationMode = obj.lineRasterizationMode;
+    ,
     result.stippledLineEnable = obj.stippledLineEnable;
+    ,
     result.lineStippleFactor = obj.lineStippleFactor;
+    ,
     result.lineStipplePattern = obj.lineStipplePattern;
     return result;
 }
@@ -5464,17 +7330,29 @@ VkPipelineRasterizationStateCreateInfo create_structure_copy<VkPipelineRasteriza
 {
     VkPipelineRasterizationStateCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.depthClampEnable = obj.depthClampEnable;
+    ,
     result.rasterizerDiscardEnable = obj.rasterizerDiscardEnable;
+    ,
     result.polygonMode = obj.polygonMode;
+    ,
     result.cullMode = obj.cullMode;
+    ,
     result.frontFace = obj.frontFace;
+    ,
     result.depthBiasEnable = obj.depthBiasEnable;
+    ,
     result.depthBiasConstantFactor = obj.depthBiasConstantFactor;
+    ,
     result.depthBiasClamp = obj.depthBiasClamp;
+    ,
     result.depthBiasSlopeFactor = obj.depthBiasSlopeFactor;
+    ,
     result.lineWidth = obj.lineWidth;
     return result;
 }
@@ -5484,7 +7362,9 @@ VkPipelineRasterizationStateRasterizationOrderAMD create_structure_copy<VkPipeli
 {
     VkPipelineRasterizationStateRasterizationOrderAMD result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.rasterizationOrder = obj.rasterizationOrder;
     return result;
 }
@@ -5494,8 +7374,11 @@ VkPipelineRasterizationStateStreamCreateInfoEXT create_structure_copy<VkPipeline
 {
     VkPipelineRasterizationStateStreamCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.rasterizationStream = obj.rasterizationStream;
     return result;
 }
@@ -5505,7 +7388,9 @@ VkPipelineRepresentativeFragmentTestStateCreateInfoNV create_structure_copy<VkPi
 {
     VkPipelineRepresentativeFragmentTestStateCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.representativeFragmentTestEnable = obj.representativeFragmentTestEnable;
     return result;
 }
@@ -5515,8 +7400,11 @@ VkPipelineSampleLocationsStateCreateInfoEXT create_structure_copy<VkPipelineSamp
 {
     VkPipelineSampleLocationsStateCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.sampleLocationsEnable = obj.sampleLocationsEnable;
+    ,
     result.sampleLocationsInfo = create_structure_copy(obj.sampleLocationsInfo, pAllocationCallbacks);
     return result;
 }
@@ -5526,11 +7414,17 @@ VkPipelineShaderStageCreateInfo create_structure_copy<VkPipelineShaderStageCreat
 {
     VkPipelineShaderStageCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.stage = obj.stage;
+    ,
     result.module = obj.module;
+    ,
     result.pName = create_dynamic_string_copy(obj.pName, pAllocationCallbacks);
+    ,
     result.pSpecializationInfo = create_dynamic_array_copy(1, obj.pSpecializationInfo, pAllocationCallbacks);
     return result;
 }
@@ -5540,7 +7434,9 @@ VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT create_structure_copy<VkP
 {
     VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.requiredSubgroupSize = obj.requiredSubgroupSize;
     return result;
 }
@@ -5550,7 +7446,9 @@ VkPipelineTessellationDomainOriginStateCreateInfo create_structure_copy<VkPipeli
 {
     VkPipelineTessellationDomainOriginStateCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.domainOrigin = obj.domainOrigin;
     return result;
 }
@@ -5561,8 +7459,11 @@ VkPipelineTessellationStateCreateInfo create_structure_copy<VkPipelineTessellati
 {
     VkPipelineTessellationStateCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.patchControlPoints = obj.patchControlPoints;
     return result;
 }
@@ -5572,8 +7473,11 @@ VkPipelineVertexInputDivisorStateCreateInfoEXT create_structure_copy<VkPipelineV
 {
     VkPipelineVertexInputDivisorStateCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.vertexBindingDivisorCount = obj.vertexBindingDivisorCount;
+    ,
     result.pVertexBindingDivisors = create_dynamic_array_copy(obj.vertexBindingDivisorCount, obj.pVertexBindingDivisors, pAllocationCallbacks);
     return result;
 }
@@ -5583,11 +7487,17 @@ VkPipelineVertexInputStateCreateInfo create_structure_copy<VkPipelineVertexInput
 {
     VkPipelineVertexInputStateCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.vertexBindingDescriptionCount = obj.vertexBindingDescriptionCount;
+    ,
     result.pVertexBindingDescriptions = create_dynamic_array_copy(obj.vertexBindingDescriptionCount, obj.pVertexBindingDescriptions, pAllocationCallbacks);
+    ,
     result.vertexAttributeDescriptionCount = obj.vertexAttributeDescriptionCount;
+    ,
     result.pVertexAttributeDescriptions = create_dynamic_array_copy(obj.vertexAttributeDescriptionCount, obj.pVertexAttributeDescriptions, pAllocationCallbacks);
     return result;
 }
@@ -5597,9 +7507,13 @@ VkPipelineViewportCoarseSampleOrderStateCreateInfoNV create_structure_copy<VkPip
 {
     VkPipelineViewportCoarseSampleOrderStateCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.sampleOrderType = obj.sampleOrderType;
+    ,
     result.customSampleOrderCount = obj.customSampleOrderCount;
+    ,
     result.pCustomSampleOrders = create_dynamic_array_copy(obj.customSampleOrderCount, obj.pCustomSampleOrders, pAllocationCallbacks);
     return result;
 }
@@ -5609,8 +7523,11 @@ VkPipelineViewportExclusiveScissorStateCreateInfoNV create_structure_copy<VkPipe
 {
     VkPipelineViewportExclusiveScissorStateCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.exclusiveScissorCount = obj.exclusiveScissorCount;
+    ,
     result.pExclusiveScissors = create_dynamic_array_copy(obj.exclusiveScissorCount, obj.pExclusiveScissors, pAllocationCallbacks);
     return result;
 }
@@ -5620,9 +7537,13 @@ VkPipelineViewportShadingRateImageStateCreateInfoNV create_structure_copy<VkPipe
 {
     VkPipelineViewportShadingRateImageStateCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.shadingRateImageEnable = obj.shadingRateImageEnable;
+    ,
     result.viewportCount = obj.viewportCount;
+    ,
     result.pShadingRatePalettes = create_dynamic_array_copy(obj.viewportCount, obj.pShadingRatePalettes, pAllocationCallbacks);
     return result;
 }
@@ -5632,11 +7553,17 @@ VkPipelineViewportStateCreateInfo create_structure_copy<VkPipelineViewportStateC
 {
     VkPipelineViewportStateCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.viewportCount = obj.viewportCount;
+    ,
     result.pViewports = create_dynamic_array_copy(obj.viewportCount, obj.pViewports, pAllocationCallbacks);
+    ,
     result.scissorCount = obj.scissorCount;
+    ,
     result.pScissors = create_dynamic_array_copy(obj.scissorCount, obj.pScissors, pAllocationCallbacks);
     return result;
 }
@@ -5646,9 +7573,13 @@ VkPipelineViewportSwizzleStateCreateInfoNV create_structure_copy<VkPipelineViewp
 {
     VkPipelineViewportSwizzleStateCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.viewportCount = obj.viewportCount;
+    ,
     result.pViewportSwizzles = create_dynamic_array_copy(obj.viewportCount, obj.pViewportSwizzles, pAllocationCallbacks);
     return result;
 }
@@ -5658,9 +7589,13 @@ VkPipelineViewportWScalingStateCreateInfoNV create_structure_copy<VkPipelineView
 {
     VkPipelineViewportWScalingStateCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.viewportWScalingEnable = obj.viewportWScalingEnable;
+    ,
     result.viewportCount = obj.viewportCount;
+    ,
     result.pViewportWScalings = create_dynamic_array_copy(obj.viewportCount, obj.pViewportWScalings, pAllocationCallbacks);
     return result;
 }
@@ -5671,7 +7606,9 @@ VkPresentFrameTokenGGP create_structure_copy<VkPresentFrameTokenGGP>(const VkPre
 {
     VkPresentFrameTokenGGP result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.frameToken = obj.frameToken;
     return result;
 }
@@ -5682,12 +7619,19 @@ VkPresentInfoKHR create_structure_copy<VkPresentInfoKHR>(const VkPresentInfoKHR&
 {
     VkPresentInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.waitSemaphoreCount = obj.waitSemaphoreCount;
+    ,
     result.pWaitSemaphores = create_dynamic_array_copy(obj.waitSemaphoreCount, obj.pWaitSemaphores, pAllocationCallbacks);
+    ,
     result.swapchainCount = obj.swapchainCount;
+    ,
     result.pSwapchains = create_dynamic_array_copy(obj.swapchainCount, obj.pSwapchains, pAllocationCallbacks);
+    ,
     result.pImageIndices = create_dynamic_array_copy(obj.swapchainCount, obj.pImageIndices, pAllocationCallbacks);
+    ,
     result.pResults = create_dynamic_array_copy(obj.swapchainCount, obj.pResults, pAllocationCallbacks);
     return result;
 }
@@ -5697,6 +7641,7 @@ VkPresentRegionKHR create_structure_copy<VkPresentRegionKHR>(const VkPresentRegi
 {
     VkPresentRegionKHR result { };
     result.rectangleCount = obj.rectangleCount;
+    ,
     result.pRectangles = create_dynamic_array_copy(obj.rectangleCount, obj.pRectangles, pAllocationCallbacks);
     return result;
 }
@@ -5706,8 +7651,11 @@ VkPresentRegionsKHR create_structure_copy<VkPresentRegionsKHR>(const VkPresentRe
 {
     VkPresentRegionsKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.swapchainCount = obj.swapchainCount;
+    ,
     result.pRegions = create_dynamic_array_copy(obj.swapchainCount, obj.pRegions, pAllocationCallbacks);
     return result;
 }
@@ -5717,6 +7665,7 @@ VkPresentTimeGOOGLE create_structure_copy<VkPresentTimeGOOGLE>(const VkPresentTi
 {
     VkPresentTimeGOOGLE result { };
     result.presentID = obj.presentID;
+    ,
     result.desiredPresentTime = obj.desiredPresentTime;
     return result;
 }
@@ -5726,8 +7675,11 @@ VkPresentTimesInfoGOOGLE create_structure_copy<VkPresentTimesInfoGOOGLE>(const V
 {
     VkPresentTimesInfoGOOGLE result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.swapchainCount = obj.swapchainCount;
+    ,
     result.pTimes = create_dynamic_array_copy(obj.swapchainCount, obj.pTimes, pAllocationCallbacks);
     return result;
 }
@@ -5737,7 +7689,9 @@ VkPrivateDataSlotCreateInfoEXT create_structure_copy<VkPrivateDataSlotCreateInfo
 {
     VkPrivateDataSlotCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
     return result;
 }
@@ -5747,7 +7701,9 @@ VkProtectedSubmitInfo create_structure_copy<VkProtectedSubmitInfo>(const VkProte
 {
     VkProtectedSubmitInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.protectedSubmit = obj.protectedSubmit;
     return result;
 }
@@ -5757,7 +7713,9 @@ VkPushConstantRange create_structure_copy<VkPushConstantRange>(const VkPushConst
 {
     VkPushConstantRange result { };
     result.stageFlags = obj.stageFlags;
+    ,
     result.offset = obj.offset;
+    ,
     result.size = obj.size;
     return result;
 }
@@ -5767,10 +7725,15 @@ VkQueryPoolCreateInfo create_structure_copy<VkQueryPoolCreateInfo>(const VkQuery
 {
     VkQueryPoolCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.queryType = obj.queryType;
+    ,
     result.queryCount = obj.queryCount;
+    ,
     result.pipelineStatistics = obj.pipelineStatistics;
     return result;
 }
@@ -5781,9 +7744,13 @@ VkQueryPoolPerformanceCreateInfoKHR create_structure_copy<VkQueryPoolPerformance
 {
     VkQueryPoolPerformanceCreateInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.queueFamilyIndex = obj.queueFamilyIndex;
+    ,
     result.counterIndexCount = obj.counterIndexCount;
+    ,
     result.pCounterIndices = create_dynamic_array_copy(obj.counterIndexCount, obj.pCounterIndices, pAllocationCallbacks);
     return result;
 }
@@ -5793,7 +7760,9 @@ VkQueryPoolPerformanceQueryCreateInfoINTEL create_structure_copy<VkQueryPoolPerf
 {
     VkQueryPoolPerformanceQueryCreateInfoINTEL result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.performanceCountersSampling = obj.performanceCountersSampling;
     return result;
 }
@@ -5803,7 +7772,9 @@ VkQueueFamilyCheckpointPropertiesNV create_structure_copy<VkQueueFamilyCheckpoin
 {
     VkQueueFamilyCheckpointPropertiesNV result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.checkpointExecutionStageMask = obj.checkpointExecutionStageMask;
     return result;
 }
@@ -5813,8 +7784,11 @@ VkQueueFamilyProperties create_structure_copy<VkQueueFamilyProperties>(const VkQ
 {
     VkQueueFamilyProperties result { };
     result.queueFlags = obj.queueFlags;
+    ,
     result.queueCount = obj.queueCount;
+    ,
     result.timestampValidBits = obj.timestampValidBits;
+    ,
     result.minImageTransferGranularity = create_structure_copy(obj.minImageTransferGranularity, pAllocationCallbacks);
     return result;
 }
@@ -5824,7 +7798,9 @@ VkQueueFamilyProperties2 create_structure_copy<VkQueueFamilyProperties2>(const V
 {
     VkQueueFamilyProperties2 result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.queueFamilyProperties = create_structure_copy(obj.queueFamilyProperties, pAllocationCallbacks);
     return result;
 }
@@ -5836,17 +7812,29 @@ VkRayTracingPipelineCreateInfoKHR create_structure_copy<VkRayTracingPipelineCrea
 {
     VkRayTracingPipelineCreateInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.stageCount = obj.stageCount;
+    ,
     result.pStages = create_dynamic_array_copy(obj.stageCount, obj.pStages, pAllocationCallbacks);
+    ,
     result.groupCount = obj.groupCount;
+    ,
     result.pGroups = create_dynamic_array_copy(obj.groupCount, obj.pGroups, pAllocationCallbacks);
+    ,
     result.maxRecursionDepth = obj.maxRecursionDepth;
+    ,
     result.libraries = create_structure_copy(obj.libraries, pAllocationCallbacks);
+    ,
     result.pLibraryInterface = create_dynamic_array_copy(1, obj.pLibraryInterface, pAllocationCallbacks);
+    ,
     result.layout = obj.layout;
+    ,
     result.basePipelineHandle = obj.basePipelineHandle;
+    ,
     result.basePipelineIndex = obj.basePipelineIndex;
     return result;
 }
@@ -5857,15 +7845,25 @@ VkRayTracingPipelineCreateInfoNV create_structure_copy<VkRayTracingPipelineCreat
 {
     VkRayTracingPipelineCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.stageCount = obj.stageCount;
+    ,
     result.pStages = create_dynamic_array_copy(obj.stageCount, obj.pStages, pAllocationCallbacks);
+    ,
     result.groupCount = obj.groupCount;
+    ,
     result.pGroups = create_dynamic_array_copy(obj.groupCount, obj.pGroups, pAllocationCallbacks);
+    ,
     result.maxRecursionDepth = obj.maxRecursionDepth;
+    ,
     result.layout = obj.layout;
+    ,
     result.basePipelineHandle = obj.basePipelineHandle;
+    ,
     result.basePipelineIndex = obj.basePipelineIndex;
     return result;
 }
@@ -5876,9 +7874,13 @@ VkRayTracingPipelineInterfaceCreateInfoKHR create_structure_copy<VkRayTracingPip
 {
     VkRayTracingPipelineInterfaceCreateInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.maxPayloadSize = obj.maxPayloadSize;
+    ,
     result.maxAttributeSize = obj.maxAttributeSize;
+    ,
     result.maxCallableSize = obj.maxCallableSize;
     return result;
 }
@@ -5890,12 +7892,19 @@ VkRayTracingShaderGroupCreateInfoKHR create_structure_copy<VkRayTracingShaderGro
 {
     VkRayTracingShaderGroupCreateInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.type = obj.type;
+    ,
     result.generalShader = obj.generalShader;
+    ,
     result.closestHitShader = obj.closestHitShader;
+    ,
     result.anyHitShader = obj.anyHitShader;
+    ,
     result.intersectionShader = obj.intersectionShader;
+    ,
     result.pShaderGroupCaptureReplayHandle = obj.pShaderGroupCaptureReplayHandle;
     return result;
 }
@@ -5906,11 +7915,17 @@ VkRayTracingShaderGroupCreateInfoNV create_structure_copy<VkRayTracingShaderGrou
 {
     VkRayTracingShaderGroupCreateInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.type = obj.type;
+    ,
     result.generalShader = obj.generalShader;
+    ,
     result.closestHitShader = obj.closestHitShader;
+    ,
     result.anyHitShader = obj.anyHitShader;
+    ,
     result.intersectionShader = obj.intersectionShader;
     return result;
 }
@@ -5920,6 +7935,7 @@ VkRect2D create_structure_copy<VkRect2D>(const VkRect2D& obj, const VkAllocation
 {
     VkRect2D result { };
     result.offset = create_structure_copy(obj.offset, pAllocationCallbacks);
+    ,
     result.extent = create_structure_copy(obj.extent, pAllocationCallbacks);
     return result;
 }
@@ -5929,7 +7945,9 @@ VkRectLayerKHR create_structure_copy<VkRectLayerKHR>(const VkRectLayerKHR& obj, 
 {
     VkRectLayerKHR result { };
     result.offset = create_structure_copy(obj.offset, pAllocationCallbacks);
+    ,
     result.extent = create_structure_copy(obj.extent, pAllocationCallbacks);
+    ,
     result.layer = obj.layer;
     return result;
 }
@@ -5947,8 +7965,11 @@ VkRenderPassAttachmentBeginInfo create_structure_copy<VkRenderPassAttachmentBegi
 {
     VkRenderPassAttachmentBeginInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.attachmentCount = obj.attachmentCount;
+    ,
     result.pAttachments = create_dynamic_array_copy(obj.attachmentCount, obj.pAttachments, pAllocationCallbacks);
     return result;
 }
@@ -5959,11 +7980,17 @@ VkRenderPassBeginInfo create_structure_copy<VkRenderPassBeginInfo>(const VkRende
 {
     VkRenderPassBeginInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.renderPass = obj.renderPass;
+    ,
     result.framebuffer = obj.framebuffer;
+    ,
     result.renderArea = create_structure_copy(obj.renderArea, pAllocationCallbacks);
+    ,
     result.clearValueCount = obj.clearValueCount;
+    ,
     result.pClearValues = create_dynamic_array_copy(obj.clearValueCount, obj.pClearValues, pAllocationCallbacks);
     return result;
 }
@@ -5973,13 +8000,21 @@ VkRenderPassCreateInfo create_structure_copy<VkRenderPassCreateInfo>(const VkRen
 {
     VkRenderPassCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.attachmentCount = obj.attachmentCount;
+    ,
     result.pAttachments = create_dynamic_array_copy(obj.attachmentCount, obj.pAttachments, pAllocationCallbacks);
+    ,
     result.subpassCount = obj.subpassCount;
+    ,
     result.pSubpasses = create_dynamic_array_copy(obj.subpassCount, obj.pSubpasses, pAllocationCallbacks);
+    ,
     result.dependencyCount = obj.dependencyCount;
+    ,
     result.pDependencies = create_dynamic_array_copy(obj.dependencyCount, obj.pDependencies, pAllocationCallbacks);
     return result;
 }
@@ -5989,15 +8024,25 @@ VkRenderPassCreateInfo2 create_structure_copy<VkRenderPassCreateInfo2>(const VkR
 {
     VkRenderPassCreateInfo2 result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.attachmentCount = obj.attachmentCount;
+    ,
     result.pAttachments = create_dynamic_array_copy(obj.attachmentCount, obj.pAttachments, pAllocationCallbacks);
+    ,
     result.subpassCount = obj.subpassCount;
+    ,
     result.pSubpasses = create_dynamic_array_copy(obj.subpassCount, obj.pSubpasses, pAllocationCallbacks);
+    ,
     result.dependencyCount = obj.dependencyCount;
+    ,
     result.pDependencies = create_dynamic_array_copy(obj.dependencyCount, obj.pDependencies, pAllocationCallbacks);
+    ,
     result.correlatedViewMaskCount = obj.correlatedViewMaskCount;
+    ,
     result.pCorrelatedViewMasks = create_dynamic_array_copy(obj.correlatedViewMaskCount, obj.pCorrelatedViewMasks, pAllocationCallbacks);
     return result;
 }
@@ -6008,7 +8053,9 @@ VkRenderPassFragmentDensityMapCreateInfoEXT create_structure_copy<VkRenderPassFr
 {
     VkRenderPassFragmentDensityMapCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.fragmentDensityMapAttachment = create_structure_copy(obj.fragmentDensityMapAttachment, pAllocationCallbacks);
     return result;
 }
@@ -6018,8 +8065,11 @@ VkRenderPassInputAttachmentAspectCreateInfo create_structure_copy<VkRenderPassIn
 {
     VkRenderPassInputAttachmentAspectCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.aspectReferenceCount = obj.aspectReferenceCount;
+    ,
     result.pAspectReferences = create_dynamic_array_copy(obj.aspectReferenceCount, obj.pAspectReferences, pAllocationCallbacks);
     return result;
 }
@@ -6030,12 +8080,19 @@ VkRenderPassMultiviewCreateInfo create_structure_copy<VkRenderPassMultiviewCreat
 {
     VkRenderPassMultiviewCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.subpassCount = obj.subpassCount;
+    ,
     result.pViewMasks = create_dynamic_array_copy(obj.subpassCount, obj.pViewMasks, pAllocationCallbacks);
+    ,
     result.dependencyCount = obj.dependencyCount;
+    ,
     result.pViewOffsets = create_dynamic_array_copy(obj.dependencyCount, obj.pViewOffsets, pAllocationCallbacks);
+    ,
     result.correlationMaskCount = obj.correlationMaskCount;
+    ,
     result.pCorrelationMasks = create_dynamic_array_copy(obj.correlationMaskCount, obj.pCorrelationMasks, pAllocationCallbacks);
     return result;
 }
@@ -6046,10 +8103,15 @@ VkRenderPassSampleLocationsBeginInfoEXT create_structure_copy<VkRenderPassSample
 {
     VkRenderPassSampleLocationsBeginInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.attachmentInitialSampleLocationsCount = obj.attachmentInitialSampleLocationsCount;
+    ,
     result.pAttachmentInitialSampleLocations = create_dynamic_array_copy(obj.attachmentInitialSampleLocationsCount, obj.pAttachmentInitialSampleLocations, pAllocationCallbacks);
+    ,
     result.postSubpassSampleLocationsCount = obj.postSubpassSampleLocationsCount;
+    ,
     result.pPostSubpassSampleLocations = create_dynamic_array_copy(obj.postSubpassSampleLocationsCount, obj.pPostSubpassSampleLocations, pAllocationCallbacks);
     return result;
 }
@@ -6059,7 +8121,9 @@ VkRenderPassTransformBeginInfoQCOM create_structure_copy<VkRenderPassTransformBe
 {
     VkRenderPassTransformBeginInfoQCOM result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.transform = obj.transform;
     return result;
 }
@@ -6069,6 +8133,7 @@ VkSampleLocationEXT create_structure_copy<VkSampleLocationEXT>(const VkSampleLoc
 {
     VkSampleLocationEXT result { };
     result.x = obj.x;
+    ,
     result.y = obj.y;
     return result;
 }
@@ -6078,10 +8143,15 @@ VkSampleLocationsInfoEXT create_structure_copy<VkSampleLocationsInfoEXT>(const V
 {
     VkSampleLocationsInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.sampleLocationsPerPixel = obj.sampleLocationsPerPixel;
+    ,
     result.sampleLocationGridSize = create_structure_copy(obj.sampleLocationGridSize, pAllocationCallbacks);
+    ,
     result.sampleLocationsCount = obj.sampleLocationsCount;
+    ,
     result.pSampleLocations = create_dynamic_array_copy(obj.sampleLocationsCount, obj.pSampleLocations, pAllocationCallbacks);
     return result;
 }
@@ -6091,22 +8161,39 @@ VkSamplerCreateInfo create_structure_copy<VkSamplerCreateInfo>(const VkSamplerCr
 {
     VkSamplerCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.magFilter = obj.magFilter;
+    ,
     result.minFilter = obj.minFilter;
+    ,
     result.mipmapMode = obj.mipmapMode;
+    ,
     result.addressModeU = obj.addressModeU;
+    ,
     result.addressModeV = obj.addressModeV;
+    ,
     result.addressModeW = obj.addressModeW;
+    ,
     result.mipLodBias = obj.mipLodBias;
+    ,
     result.anisotropyEnable = obj.anisotropyEnable;
+    ,
     result.maxAnisotropy = obj.maxAnisotropy;
+    ,
     result.compareEnable = obj.compareEnable;
+    ,
     result.compareOp = obj.compareOp;
+    ,
     result.minLod = obj.minLod;
+    ,
     result.maxLod = obj.maxLod;
+    ,
     result.borderColor = obj.borderColor;
+    ,
     result.unnormalizedCoordinates = obj.unnormalizedCoordinates;
     return result;
 }
@@ -6116,8 +8203,11 @@ VkSamplerCustomBorderColorCreateInfoEXT create_structure_copy<VkSamplerCustomBor
 {
     VkSamplerCustomBorderColorCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.customBorderColor = create_structure_copy(obj.customBorderColor, pAllocationCallbacks);
+    ,
     result.format = obj.format;
     return result;
 }
@@ -6127,7 +8217,9 @@ VkSamplerReductionModeCreateInfo create_structure_copy<VkSamplerReductionModeCre
 {
     VkSamplerReductionModeCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.reductionMode = obj.reductionMode;
     return result;
 }
@@ -6138,14 +8230,23 @@ VkSamplerYcbcrConversionCreateInfo create_structure_copy<VkSamplerYcbcrConversio
 {
     VkSamplerYcbcrConversionCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.format = obj.format;
+    ,
     result.ycbcrModel = obj.ycbcrModel;
+    ,
     result.ycbcrRange = obj.ycbcrRange;
+    ,
     result.components = create_structure_copy(obj.components, pAllocationCallbacks);
+    ,
     result.xChromaOffset = obj.xChromaOffset;
+    ,
     result.yChromaOffset = obj.yChromaOffset;
+    ,
     result.chromaFilter = obj.chromaFilter;
+    ,
     result.forceExplicitReconstruction = obj.forceExplicitReconstruction;
     return result;
 }
@@ -6156,7 +8257,9 @@ VkSamplerYcbcrConversionImageFormatProperties create_structure_copy<VkSamplerYcb
 {
     VkSamplerYcbcrConversionImageFormatProperties result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.combinedImageSamplerDescriptorCount = obj.combinedImageSamplerDescriptorCount;
     return result;
 }
@@ -6167,7 +8270,9 @@ VkSamplerYcbcrConversionInfo create_structure_copy<VkSamplerYcbcrConversionInfo>
 {
     VkSamplerYcbcrConversionInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.conversion = obj.conversion;
     return result;
 }
@@ -6178,7 +8283,9 @@ VkSemaphoreCreateInfo create_structure_copy<VkSemaphoreCreateInfo>(const VkSemap
 {
     VkSemaphoreCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
     return result;
 }
@@ -6188,8 +8295,11 @@ VkSemaphoreGetFdInfoKHR create_structure_copy<VkSemaphoreGetFdInfoKHR>(const VkS
 {
     VkSemaphoreGetFdInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.semaphore = obj.semaphore;
+    ,
     result.handleType = obj.handleType;
     return result;
 }
@@ -6200,8 +8310,11 @@ VkSemaphoreGetWin32HandleInfoKHR create_structure_copy<VkSemaphoreGetWin32Handle
 {
     VkSemaphoreGetWin32HandleInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.semaphore = obj.semaphore;
+    ,
     result.handleType = obj.handleType;
     return result;
 }
@@ -6212,8 +8325,11 @@ VkSemaphoreSignalInfo create_structure_copy<VkSemaphoreSignalInfo>(const VkSemap
 {
     VkSemaphoreSignalInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.semaphore = obj.semaphore;
+    ,
     result.value = obj.value;
     return result;
 }
@@ -6224,8 +8340,11 @@ VkSemaphoreTypeCreateInfo create_structure_copy<VkSemaphoreTypeCreateInfo>(const
 {
     VkSemaphoreTypeCreateInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.semaphoreType = obj.semaphoreType;
+    ,
     result.initialValue = obj.initialValue;
     return result;
 }
@@ -6236,10 +8355,15 @@ VkSemaphoreWaitInfo create_structure_copy<VkSemaphoreWaitInfo>(const VkSemaphore
 {
     VkSemaphoreWaitInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.semaphoreCount = obj.semaphoreCount;
+    ,
     result.pSemaphores = create_dynamic_array_copy(obj.semaphoreCount, obj.pSemaphores, pAllocationCallbacks);
+    ,
     result.pValues = create_dynamic_array_copy(obj.semaphoreCount, obj.pValues, pAllocationCallbacks);
     return result;
 }
@@ -6259,7 +8383,9 @@ VkShaderModuleValidationCacheCreateInfoEXT create_structure_copy<VkShaderModuleV
 {
     VkShaderModuleValidationCacheCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.validationCache = obj.validationCache;
     return result;
 }
@@ -6269,9 +8395,13 @@ VkShaderResourceUsageAMD create_structure_copy<VkShaderResourceUsageAMD>(const V
 {
     VkShaderResourceUsageAMD result { };
     result.numUsedVgprs = obj.numUsedVgprs;
+    ,
     result.numUsedSgprs = obj.numUsedSgprs;
+    ,
     result.ldsSizePerLocalWorkGroup = obj.ldsSizePerLocalWorkGroup;
+    ,
     result.ldsUsageSizeInBytes = obj.ldsUsageSizeInBytes;
+    ,
     result.scratchMemUsageInBytes = obj.scratchMemUsageInBytes;
     return result;
 }
@@ -6281,11 +8411,17 @@ VkShaderStatisticsInfoAMD create_structure_copy<VkShaderStatisticsInfoAMD>(const
 {
     VkShaderStatisticsInfoAMD result { };
     result.shaderStageMask = obj.shaderStageMask;
+    ,
     result.resourceUsage = create_structure_copy(obj.resourceUsage, pAllocationCallbacks);
+    ,
     result.numPhysicalVgprs = obj.numPhysicalVgprs;
+    ,
     result.numPhysicalSgprs = obj.numPhysicalSgprs;
+    ,
     result.numAvailableVgprs = obj.numAvailableVgprs;
+    ,
     result.numAvailableSgprs = obj.numAvailableSgprs;
+    ,
     create_static_array_copy<3>(result.computeWorkGroupSize, obj.computeWorkGroupSize, pAllocationCallbacks);
     return result;
 }
@@ -6295,6 +8431,7 @@ VkShadingRatePaletteNV create_structure_copy<VkShadingRatePaletteNV>(const VkSha
 {
     VkShadingRatePaletteNV result { };
     result.shadingRatePaletteEntryCount = obj.shadingRatePaletteEntryCount;
+    ,
     result.pShadingRatePaletteEntries = create_dynamic_array_copy(obj.shadingRatePaletteEntryCount, obj.pShadingRatePaletteEntries, pAllocationCallbacks);
     return result;
 }
@@ -6304,7 +8441,9 @@ VkSharedPresentSurfaceCapabilitiesKHR create_structure_copy<VkSharedPresentSurfa
 {
     VkSharedPresentSurfaceCapabilitiesKHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.sharedPresentSupportedUsageFlags = obj.sharedPresentSupportedUsageFlags;
     return result;
 }
@@ -6314,7 +8453,9 @@ VkSparseBufferMemoryBindInfo create_structure_copy<VkSparseBufferMemoryBindInfo>
 {
     VkSparseBufferMemoryBindInfo result { };
     result.buffer = obj.buffer;
+    ,
     result.bindCount = obj.bindCount;
+    ,
     result.pBinds = create_dynamic_array_copy(obj.bindCount, obj.pBinds, pAllocationCallbacks);
     return result;
 }
@@ -6324,7 +8465,9 @@ VkSparseImageFormatProperties create_structure_copy<VkSparseImageFormatPropertie
 {
     VkSparseImageFormatProperties result { };
     result.aspectMask = obj.aspectMask;
+    ,
     result.imageGranularity = create_structure_copy(obj.imageGranularity, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
     return result;
 }
@@ -6334,7 +8477,9 @@ VkSparseImageFormatProperties2 create_structure_copy<VkSparseImageFormatProperti
 {
     VkSparseImageFormatProperties2 result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.properties = create_structure_copy(obj.properties, pAllocationCallbacks);
     return result;
 }
@@ -6345,10 +8490,15 @@ VkSparseImageMemoryBind create_structure_copy<VkSparseImageMemoryBind>(const VkS
 {
     VkSparseImageMemoryBind result { };
     result.subresource = create_structure_copy(obj.subresource, pAllocationCallbacks);
+    ,
     result.offset = create_structure_copy(obj.offset, pAllocationCallbacks);
+    ,
     result.extent = create_structure_copy(obj.extent, pAllocationCallbacks);
+    ,
     result.memory = obj.memory;
+    ,
     result.memoryOffset = obj.memoryOffset;
+    ,
     result.flags = obj.flags;
     return result;
 }
@@ -6358,7 +8508,9 @@ VkSparseImageMemoryBindInfo create_structure_copy<VkSparseImageMemoryBindInfo>(c
 {
     VkSparseImageMemoryBindInfo result { };
     result.image = obj.image;
+    ,
     result.bindCount = obj.bindCount;
+    ,
     result.pBinds = create_dynamic_array_copy(obj.bindCount, obj.pBinds, pAllocationCallbacks);
     return result;
 }
@@ -6368,9 +8520,13 @@ VkSparseImageMemoryRequirements create_structure_copy<VkSparseImageMemoryRequire
 {
     VkSparseImageMemoryRequirements result { };
     result.formatProperties = create_structure_copy(obj.formatProperties, pAllocationCallbacks);
+    ,
     result.imageMipTailFirstLod = obj.imageMipTailFirstLod;
+    ,
     result.imageMipTailSize = obj.imageMipTailSize;
+    ,
     result.imageMipTailOffset = obj.imageMipTailOffset;
+    ,
     result.imageMipTailStride = obj.imageMipTailStride;
     return result;
 }
@@ -6380,7 +8536,9 @@ VkSparseImageMemoryRequirements2 create_structure_copy<VkSparseImageMemoryRequir
 {
     VkSparseImageMemoryRequirements2 result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.memoryRequirements = create_structure_copy(obj.memoryRequirements, pAllocationCallbacks);
     return result;
 }
@@ -6391,7 +8549,9 @@ VkSparseImageOpaqueMemoryBindInfo create_structure_copy<VkSparseImageOpaqueMemor
 {
     VkSparseImageOpaqueMemoryBindInfo result { };
     result.image = obj.image;
+    ,
     result.bindCount = obj.bindCount;
+    ,
     result.pBinds = create_dynamic_array_copy(obj.bindCount, obj.pBinds, pAllocationCallbacks);
     return result;
 }
@@ -6401,9 +8561,13 @@ VkSparseMemoryBind create_structure_copy<VkSparseMemoryBind>(const VkSparseMemor
 {
     VkSparseMemoryBind result { };
     result.resourceOffset = obj.resourceOffset;
+    ,
     result.size = obj.size;
+    ,
     result.memory = obj.memory;
+    ,
     result.memoryOffset = obj.memoryOffset;
+    ,
     result.flags = obj.flags;
     return result;
 }
@@ -6413,8 +8577,11 @@ VkSpecializationInfo create_structure_copy<VkSpecializationInfo>(const VkSpecial
 {
     VkSpecializationInfo result { };
     result.mapEntryCount = obj.mapEntryCount;
+    ,
     result.pMapEntries = create_dynamic_array_copy(obj.mapEntryCount, obj.pMapEntries, pAllocationCallbacks);
+    ,
     result.dataSize = obj.dataSize;
+    ,
     result.pData = create_dynamic_array_copy(obj.dataSize, obj.pData, pAllocationCallbacks);
     return result;
 }
@@ -6424,7 +8591,9 @@ VkSpecializationMapEntry create_structure_copy<VkSpecializationMapEntry>(const V
 {
     VkSpecializationMapEntry result { };
     result.constantID = obj.constantID;
+    ,
     result.offset = obj.offset;
+    ,
     result.size = obj.size;
     return result;
 }
@@ -6434,11 +8603,17 @@ VkStencilOpState create_structure_copy<VkStencilOpState>(const VkStencilOpState&
 {
     VkStencilOpState result { };
     result.failOp = obj.failOp;
+    ,
     result.passOp = obj.passOp;
+    ,
     result.depthFailOp = obj.depthFailOp;
+    ,
     result.compareOp = obj.compareOp;
+    ,
     result.compareMask = obj.compareMask;
+    ,
     result.writeMask = obj.writeMask;
+    ,
     result.reference = obj.reference;
     return result;
 }
@@ -6449,8 +8624,11 @@ VkStreamDescriptorSurfaceCreateInfoGGP create_structure_copy<VkStreamDescriptorS
 {
     VkStreamDescriptorSurfaceCreateInfoGGP result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.streamDescriptor = obj.streamDescriptor;
     return result;
 }
@@ -6462,8 +8640,11 @@ VkStridedBufferRegionKHR create_structure_copy<VkStridedBufferRegionKHR>(const V
 {
     VkStridedBufferRegionKHR result { };
     result.buffer = obj.buffer;
+    ,
     result.offset = obj.offset;
+    ,
     result.stride = obj.stride;
+    ,
     result.size = obj.size;
     return result;
 }
@@ -6474,13 +8655,21 @@ VkSubmitInfo create_structure_copy<VkSubmitInfo>(const VkSubmitInfo& obj, const 
 {
     VkSubmitInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.waitSemaphoreCount = obj.waitSemaphoreCount;
+    ,
     result.pWaitSemaphores = create_dynamic_array_copy(obj.waitSemaphoreCount, obj.pWaitSemaphores, pAllocationCallbacks);
+    ,
     result.pWaitDstStageMask = create_dynamic_array_copy(obj.waitSemaphoreCount, obj.pWaitDstStageMask, pAllocationCallbacks);
+    ,
     result.commandBufferCount = obj.commandBufferCount;
+    ,
     result.pCommandBuffers = create_dynamic_array_copy(obj.commandBufferCount, obj.pCommandBuffers, pAllocationCallbacks);
+    ,
     result.signalSemaphoreCount = obj.signalSemaphoreCount;
+    ,
     result.pSignalSemaphores = create_dynamic_array_copy(obj.signalSemaphoreCount, obj.pSignalSemaphores, pAllocationCallbacks);
     return result;
 }
@@ -6490,7 +8679,9 @@ VkSubpassBeginInfo create_structure_copy<VkSubpassBeginInfo>(const VkSubpassBegi
 {
     VkSubpassBeginInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.contents = obj.contents;
     return result;
 }
@@ -6501,11 +8692,17 @@ VkSubpassDependency create_structure_copy<VkSubpassDependency>(const VkSubpassDe
 {
     VkSubpassDependency result { };
     result.srcSubpass = obj.srcSubpass;
+    ,
     result.dstSubpass = obj.dstSubpass;
+    ,
     result.srcStageMask = obj.srcStageMask;
+    ,
     result.dstStageMask = obj.dstStageMask;
+    ,
     result.srcAccessMask = obj.srcAccessMask;
+    ,
     result.dstAccessMask = obj.dstAccessMask;
+    ,
     result.dependencyFlags = obj.dependencyFlags;
     return result;
 }
@@ -6515,14 +8712,23 @@ VkSubpassDependency2 create_structure_copy<VkSubpassDependency2>(const VkSubpass
 {
     VkSubpassDependency2 result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.srcSubpass = obj.srcSubpass;
+    ,
     result.dstSubpass = obj.dstSubpass;
+    ,
     result.srcStageMask = obj.srcStageMask;
+    ,
     result.dstStageMask = obj.dstStageMask;
+    ,
     result.srcAccessMask = obj.srcAccessMask;
+    ,
     result.dstAccessMask = obj.dstAccessMask;
+    ,
     result.dependencyFlags = obj.dependencyFlags;
+    ,
     result.viewOffset = obj.viewOffset;
     return result;
 }
@@ -6533,14 +8739,23 @@ VkSubpassDescription create_structure_copy<VkSubpassDescription>(const VkSubpass
 {
     VkSubpassDescription result { };
     result.flags = obj.flags;
+    ,
     result.pipelineBindPoint = obj.pipelineBindPoint;
+    ,
     result.inputAttachmentCount = obj.inputAttachmentCount;
+    ,
     result.pInputAttachments = create_dynamic_array_copy(obj.inputAttachmentCount, obj.pInputAttachments, pAllocationCallbacks);
+    ,
     result.colorAttachmentCount = obj.colorAttachmentCount;
+    ,
     result.pColorAttachments = create_dynamic_array_copy(obj.colorAttachmentCount, obj.pColorAttachments, pAllocationCallbacks);
+    ,
     result.pResolveAttachments = create_dynamic_array_copy(obj.colorAttachmentCount, obj.pResolveAttachments, pAllocationCallbacks);
+    ,
     result.pDepthStencilAttachment = create_dynamic_array_copy(1, obj.pDepthStencilAttachment, pAllocationCallbacks);
+    ,
     result.preserveAttachmentCount = obj.preserveAttachmentCount;
+    ,
     result.pPreserveAttachments = create_dynamic_array_copy(obj.preserveAttachmentCount, obj.pPreserveAttachments, pAllocationCallbacks);
     return result;
 }
@@ -6550,17 +8765,29 @@ VkSubpassDescription2 create_structure_copy<VkSubpassDescription2>(const VkSubpa
 {
     VkSubpassDescription2 result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.pipelineBindPoint = obj.pipelineBindPoint;
+    ,
     result.viewMask = obj.viewMask;
+    ,
     result.inputAttachmentCount = obj.inputAttachmentCount;
+    ,
     result.pInputAttachments = create_dynamic_array_copy(obj.inputAttachmentCount, obj.pInputAttachments, pAllocationCallbacks);
+    ,
     result.colorAttachmentCount = obj.colorAttachmentCount;
+    ,
     result.pColorAttachments = create_dynamic_array_copy(obj.colorAttachmentCount, obj.pColorAttachments, pAllocationCallbacks);
+    ,
     result.pResolveAttachments = create_dynamic_array_copy(obj.colorAttachmentCount, obj.pResolveAttachments, pAllocationCallbacks);
+    ,
     result.pDepthStencilAttachment = create_dynamic_array_copy(1, obj.pDepthStencilAttachment, pAllocationCallbacks);
+    ,
     result.preserveAttachmentCount = obj.preserveAttachmentCount;
+    ,
     result.pPreserveAttachments = create_dynamic_array_copy(obj.preserveAttachmentCount, obj.pPreserveAttachments, pAllocationCallbacks);
     return result;
 }
@@ -6571,9 +8798,13 @@ VkSubpassDescriptionDepthStencilResolve create_structure_copy<VkSubpassDescripti
 {
     VkSubpassDescriptionDepthStencilResolve result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.depthResolveMode = obj.depthResolveMode;
+    ,
     result.stencilResolveMode = obj.stencilResolveMode;
+    ,
     result.pDepthStencilResolveAttachment = create_dynamic_array_copy(1, obj.pDepthStencilResolveAttachment, pAllocationCallbacks);
     return result;
 }
@@ -6584,7 +8815,8 @@ VkSubpassEndInfo create_structure_copy<VkSubpassEndInfo>(const VkSubpassEndInfo&
 {
     VkSubpassEndInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
     return result;
 }
 
@@ -6594,6 +8826,7 @@ VkSubpassSampleLocationsEXT create_structure_copy<VkSubpassSampleLocationsEXT>(c
 {
     VkSubpassSampleLocationsEXT result { };
     result.subpassIndex = obj.subpassIndex;
+    ,
     result.sampleLocationsInfo = create_structure_copy(obj.sampleLocationsInfo, pAllocationCallbacks);
     return result;
 }
@@ -6603,9 +8836,13 @@ VkSubresourceLayout create_structure_copy<VkSubresourceLayout>(const VkSubresour
 {
     VkSubresourceLayout result { };
     result.offset = obj.offset;
+    ,
     result.size = obj.size;
+    ,
     result.rowPitch = obj.rowPitch;
+    ,
     result.arrayPitch = obj.arrayPitch;
+    ,
     result.depthPitch = obj.depthPitch;
     return result;
 }
@@ -6615,17 +8852,29 @@ VkSurfaceCapabilities2EXT create_structure_copy<VkSurfaceCapabilities2EXT>(const
 {
     VkSurfaceCapabilities2EXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.minImageCount = obj.minImageCount;
+    ,
     result.maxImageCount = obj.maxImageCount;
+    ,
     result.currentExtent = create_structure_copy(obj.currentExtent, pAllocationCallbacks);
+    ,
     result.minImageExtent = create_structure_copy(obj.minImageExtent, pAllocationCallbacks);
+    ,
     result.maxImageExtent = create_structure_copy(obj.maxImageExtent, pAllocationCallbacks);
+    ,
     result.maxImageArrayLayers = obj.maxImageArrayLayers;
+    ,
     result.supportedTransforms = obj.supportedTransforms;
+    ,
     result.currentTransform = obj.currentTransform;
+    ,
     result.supportedCompositeAlpha = obj.supportedCompositeAlpha;
+    ,
     result.supportedUsageFlags = obj.supportedUsageFlags;
+    ,
     result.supportedSurfaceCounters = obj.supportedSurfaceCounters;
     return result;
 }
@@ -6635,7 +8884,9 @@ VkSurfaceCapabilities2KHR create_structure_copy<VkSurfaceCapabilities2KHR>(const
 {
     VkSurfaceCapabilities2KHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.surfaceCapabilities = create_structure_copy(obj.surfaceCapabilities, pAllocationCallbacks);
     return result;
 }
@@ -6646,7 +8897,9 @@ VkSurfaceCapabilitiesFullScreenExclusiveEXT create_structure_copy<VkSurfaceCapab
 {
     VkSurfaceCapabilitiesFullScreenExclusiveEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.fullScreenExclusiveSupported = obj.fullScreenExclusiveSupported;
     return result;
 }
@@ -6657,14 +8910,23 @@ VkSurfaceCapabilitiesKHR create_structure_copy<VkSurfaceCapabilitiesKHR>(const V
 {
     VkSurfaceCapabilitiesKHR result { };
     result.minImageCount = obj.minImageCount;
+    ,
     result.maxImageCount = obj.maxImageCount;
+    ,
     result.currentExtent = create_structure_copy(obj.currentExtent, pAllocationCallbacks);
+    ,
     result.minImageExtent = create_structure_copy(obj.minImageExtent, pAllocationCallbacks);
+    ,
     result.maxImageExtent = create_structure_copy(obj.maxImageExtent, pAllocationCallbacks);
+    ,
     result.maxImageArrayLayers = obj.maxImageArrayLayers;
+    ,
     result.supportedTransforms = obj.supportedTransforms;
+    ,
     result.currentTransform = obj.currentTransform;
+    ,
     result.supportedCompositeAlpha = obj.supportedCompositeAlpha;
+    ,
     result.supportedUsageFlags = obj.supportedUsageFlags;
     return result;
 }
@@ -6674,7 +8936,9 @@ VkSurfaceFormat2KHR create_structure_copy<VkSurfaceFormat2KHR>(const VkSurfaceFo
 {
     VkSurfaceFormat2KHR result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.surfaceFormat = create_structure_copy(obj.surfaceFormat, pAllocationCallbacks);
     return result;
 }
@@ -6684,6 +8948,7 @@ VkSurfaceFormatKHR create_structure_copy<VkSurfaceFormatKHR>(const VkSurfaceForm
 {
     VkSurfaceFormatKHR result { };
     result.format = obj.format;
+    ,
     result.colorSpace = obj.colorSpace;
     return result;
 }
@@ -6694,7 +8959,9 @@ VkSurfaceFullScreenExclusiveInfoEXT create_structure_copy<VkSurfaceFullScreenExc
 {
     VkSurfaceFullScreenExclusiveInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.fullScreenExclusive = obj.fullScreenExclusive;
     return result;
 }
@@ -6706,7 +8973,9 @@ VkSurfaceFullScreenExclusiveWin32InfoEXT create_structure_copy<VkSurfaceFullScre
 {
     VkSurfaceFullScreenExclusiveWin32InfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.hmonitor = obj.hmonitor;
     return result;
 }
@@ -6717,7 +8986,9 @@ VkSurfaceProtectedCapabilitiesKHR create_structure_copy<VkSurfaceProtectedCapabi
 {
     VkSurfaceProtectedCapabilitiesKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.supportsProtected = obj.supportsProtected;
     return result;
 }
@@ -6727,7 +8998,9 @@ VkSwapchainCounterCreateInfoEXT create_structure_copy<VkSwapchainCounterCreateIn
 {
     VkSwapchainCounterCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.surfaceCounters = obj.surfaceCounters;
     return result;
 }
@@ -6737,22 +9010,39 @@ VkSwapchainCreateInfoKHR create_structure_copy<VkSwapchainCreateInfoKHR>(const V
 {
     VkSwapchainCreateInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.surface = obj.surface;
+    ,
     result.minImageCount = obj.minImageCount;
+    ,
     result.imageFormat = obj.imageFormat;
+    ,
     result.imageColorSpace = obj.imageColorSpace;
+    ,
     result.imageExtent = create_structure_copy(obj.imageExtent, pAllocationCallbacks);
+    ,
     result.imageArrayLayers = obj.imageArrayLayers;
+    ,
     result.imageUsage = obj.imageUsage;
+    ,
     result.imageSharingMode = obj.imageSharingMode;
+    ,
     result.queueFamilyIndexCount = obj.queueFamilyIndexCount;
+    ,
     result.pQueueFamilyIndices = create_dynamic_array_copy(obj.queueFamilyIndexCount, obj.pQueueFamilyIndices, pAllocationCallbacks);
+    ,
     result.preTransform = obj.preTransform;
+    ,
     result.compositeAlpha = obj.compositeAlpha;
+    ,
     result.presentMode = obj.presentMode;
+    ,
     result.clipped = obj.clipped;
+    ,
     result.oldSwapchain = obj.oldSwapchain;
     return result;
 }
@@ -6762,7 +9052,9 @@ VkSwapchainDisplayNativeHdrCreateInfoAMD create_structure_copy<VkSwapchainDispla
 {
     VkSwapchainDisplayNativeHdrCreateInfoAMD result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.localDimmingEnable = obj.localDimmingEnable;
     return result;
 }
@@ -6773,7 +9065,9 @@ VkSwapchainImageCreateInfoANDROID create_structure_copy<VkSwapchainImageCreateIn
 {
     VkSwapchainImageCreateInfoANDROID result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.usage = obj.usage;
     return result;
 }
@@ -6784,7 +9078,9 @@ VkTextureLODGatherFormatPropertiesAMD create_structure_copy<VkTextureLODGatherFo
 {
     VkTextureLODGatherFormatPropertiesAMD result { };
     result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.supportsTextureGatherLODBiasAMD = obj.supportsTextureGatherLODBiasAMD;
     return result;
 }
@@ -6794,10 +9090,15 @@ VkTimelineSemaphoreSubmitInfo create_structure_copy<VkTimelineSemaphoreSubmitInf
 {
     VkTimelineSemaphoreSubmitInfo result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.waitSemaphoreValueCount = obj.waitSemaphoreValueCount;
+    ,
     result.pWaitSemaphoreValues = create_dynamic_array_copy(obj.waitSemaphoreValueCount, obj.pWaitSemaphoreValues, pAllocationCallbacks);
+    ,
     result.signalSemaphoreValueCount = obj.signalSemaphoreValueCount;
+    ,
     result.pSignalSemaphoreValues = create_dynamic_array_copy(obj.signalSemaphoreValueCount, obj.pSignalSemaphoreValues, pAllocationCallbacks);
     return result;
 }
@@ -6809,7 +9110,9 @@ VkTraceRaysIndirectCommandKHR create_structure_copy<VkTraceRaysIndirectCommandKH
 {
     VkTraceRaysIndirectCommandKHR result { };
     result.width = obj.width;
+    ,
     result.height = obj.height;
+    ,
     result.depth = obj.depth;
     return result;
 }
@@ -6822,9 +9125,13 @@ VkValidationCacheCreateInfoEXT create_structure_copy<VkValidationCacheCreateInfo
 {
     VkValidationCacheCreateInfoEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.initialDataSize = obj.initialDataSize;
+    ,
     result.pInitialData = create_dynamic_array_copy(obj.initialDataSize, obj.pInitialData, pAllocationCallbacks);
     return result;
 }
@@ -6834,10 +9141,15 @@ VkValidationFeaturesEXT create_structure_copy<VkValidationFeaturesEXT>(const VkV
 {
     VkValidationFeaturesEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.enabledValidationFeatureCount = obj.enabledValidationFeatureCount;
+    ,
     result.pEnabledValidationFeatures = create_dynamic_array_copy(obj.enabledValidationFeatureCount, obj.pEnabledValidationFeatures, pAllocationCallbacks);
+    ,
     result.disabledValidationFeatureCount = obj.disabledValidationFeatureCount;
+    ,
     result.pDisabledValidationFeatures = create_dynamic_array_copy(obj.disabledValidationFeatureCount, obj.pDisabledValidationFeatures, pAllocationCallbacks);
     return result;
 }
@@ -6847,8 +9159,11 @@ VkValidationFlagsEXT create_structure_copy<VkValidationFlagsEXT>(const VkValidat
 {
     VkValidationFlagsEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.disabledValidationCheckCount = obj.disabledValidationCheckCount;
+    ,
     result.pDisabledValidationChecks = create_dynamic_array_copy(obj.disabledValidationCheckCount, obj.pDisabledValidationChecks, pAllocationCallbacks);
     return result;
 }
@@ -6858,8 +9173,11 @@ VkVertexInputAttributeDescription create_structure_copy<VkVertexInputAttributeDe
 {
     VkVertexInputAttributeDescription result { };
     result.location = obj.location;
+    ,
     result.binding = obj.binding;
+    ,
     result.format = obj.format;
+    ,
     result.offset = obj.offset;
     return result;
 }
@@ -6869,7 +9187,9 @@ VkVertexInputBindingDescription create_structure_copy<VkVertexInputBindingDescri
 {
     VkVertexInputBindingDescription result { };
     result.binding = obj.binding;
+    ,
     result.stride = obj.stride;
+    ,
     result.inputRate = obj.inputRate;
     return result;
 }
@@ -6879,6 +9199,7 @@ VkVertexInputBindingDivisorDescriptionEXT create_structure_copy<VkVertexInputBin
 {
     VkVertexInputBindingDivisorDescriptionEXT result { };
     result.binding = obj.binding;
+    ,
     result.divisor = obj.divisor;
     return result;
 }
@@ -6889,8 +9210,11 @@ VkViSurfaceCreateInfoNN create_structure_copy<VkViSurfaceCreateInfoNN>(const VkV
 {
     VkViSurfaceCreateInfoNN result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.window = obj.window;
     return result;
 }
@@ -6901,10 +9225,15 @@ VkViewport create_structure_copy<VkViewport>(const VkViewport& obj, const VkAllo
 {
     VkViewport result { };
     result.x = obj.x;
+    ,
     result.y = obj.y;
+    ,
     result.width = obj.width;
+    ,
     result.height = obj.height;
+    ,
     result.minDepth = obj.minDepth;
+    ,
     result.maxDepth = obj.maxDepth;
     return result;
 }
@@ -6914,8 +9243,11 @@ VkViewportSwizzleNV create_structure_copy<VkViewportSwizzleNV>(const VkViewportS
 {
     VkViewportSwizzleNV result { };
     result.x = obj.x;
+    ,
     result.y = obj.y;
+    ,
     result.z = obj.z;
+    ,
     result.w = obj.w;
     return result;
 }
@@ -6925,6 +9257,7 @@ VkViewportWScalingNV create_structure_copy<VkViewportWScalingNV>(const VkViewpor
 {
     VkViewportWScalingNV result { };
     result.xcoeff = obj.xcoeff;
+    ,
     result.ycoeff = obj.ycoeff;
     return result;
 }
@@ -6935,9 +9268,13 @@ VkWaylandSurfaceCreateInfoKHR create_structure_copy<VkWaylandSurfaceCreateInfoKH
 {
     VkWaylandSurfaceCreateInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.display = obj.display;
+    ,
     result.surface = obj.surface;
     return result;
 }
@@ -6949,13 +9286,21 @@ VkWin32KeyedMutexAcquireReleaseInfoKHR create_structure_copy<VkWin32KeyedMutexAc
 {
     VkWin32KeyedMutexAcquireReleaseInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.acquireCount = obj.acquireCount;
+    ,
     result.pAcquireSyncs = create_dynamic_array_copy(obj.acquireCount, obj.pAcquireSyncs, pAllocationCallbacks);
+    ,
     result.pAcquireKeys = create_dynamic_array_copy(obj.acquireCount, obj.pAcquireKeys, pAllocationCallbacks);
+    ,
     result.pAcquireTimeouts = create_dynamic_array_copy(obj.acquireCount, obj.pAcquireTimeouts, pAllocationCallbacks);
+    ,
     result.releaseCount = obj.releaseCount;
+    ,
     result.pReleaseSyncs = create_dynamic_array_copy(obj.releaseCount, obj.pReleaseSyncs, pAllocationCallbacks);
+    ,
     result.pReleaseKeys = create_dynamic_array_copy(obj.releaseCount, obj.pReleaseKeys, pAllocationCallbacks);
     return result;
 }
@@ -6967,13 +9312,21 @@ VkWin32KeyedMutexAcquireReleaseInfoNV create_structure_copy<VkWin32KeyedMutexAcq
 {
     VkWin32KeyedMutexAcquireReleaseInfoNV result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.acquireCount = obj.acquireCount;
+    ,
     result.pAcquireSyncs = create_dynamic_array_copy(obj.acquireCount, obj.pAcquireSyncs, pAllocationCallbacks);
+    ,
     result.pAcquireKeys = create_dynamic_array_copy(obj.acquireCount, obj.pAcquireKeys, pAllocationCallbacks);
+    ,
     result.pAcquireTimeoutMilliseconds = create_dynamic_array_copy(obj.acquireCount, obj.pAcquireTimeoutMilliseconds, pAllocationCallbacks);
+    ,
     result.releaseCount = obj.releaseCount;
+    ,
     result.pReleaseSyncs = create_dynamic_array_copy(obj.releaseCount, obj.pReleaseSyncs, pAllocationCallbacks);
+    ,
     result.pReleaseKeys = create_dynamic_array_copy(obj.releaseCount, obj.pReleaseKeys, pAllocationCallbacks);
     return result;
 }
@@ -6985,9 +9338,13 @@ VkWin32SurfaceCreateInfoKHR create_structure_copy<VkWin32SurfaceCreateInfoKHR>(c
 {
     VkWin32SurfaceCreateInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.hinstance = obj.hinstance;
+    ,
     result.hwnd = obj.hwnd;
     return result;
 }
@@ -6998,14 +9355,23 @@ VkWriteDescriptorSet create_structure_copy<VkWriteDescriptorSet>(const VkWriteDe
 {
     VkWriteDescriptorSet result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.dstSet = obj.dstSet;
+    ,
     result.dstBinding = obj.dstBinding;
+    ,
     result.dstArrayElement = obj.dstArrayElement;
+    ,
     result.descriptorCount = obj.descriptorCount;
+    ,
     result.descriptorType = obj.descriptorType;
+    ,
     result.pImageInfo = create_dynamic_array_copy(obj.descriptorCount, obj.pImageInfo, pAllocationCallbacks);
+    ,
     result.pBufferInfo = create_dynamic_array_copy(obj.descriptorCount, obj.pBufferInfo, pAllocationCallbacks);
+    ,
     result.pTexelBufferView = create_dynamic_array_copy(obj.descriptorCount, obj.pTexelBufferView, pAllocationCallbacks);
     return result;
 }
@@ -7016,8 +9382,11 @@ VkWriteDescriptorSetAccelerationStructureKHR create_structure_copy<VkWriteDescri
 {
     VkWriteDescriptorSetAccelerationStructureKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.accelerationStructureCount = obj.accelerationStructureCount;
+    ,
     result.pAccelerationStructures = create_dynamic_array_copy(obj.accelerationStructureCount, obj.pAccelerationStructures, pAllocationCallbacks);
     return result;
 }
@@ -7029,8 +9398,11 @@ VkWriteDescriptorSetInlineUniformBlockEXT create_structure_copy<VkWriteDescripto
 {
     VkWriteDescriptorSetInlineUniformBlockEXT result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.dataSize = obj.dataSize;
+    ,
     result.pData = create_dynamic_array_copy(obj.dataSize, obj.pData, pAllocationCallbacks);
     return result;
 }
@@ -7040,6 +9412,7 @@ VkXYColorEXT create_structure_copy<VkXYColorEXT>(const VkXYColorEXT& obj, const 
 {
     VkXYColorEXT result { };
     result.x = obj.x;
+    ,
     result.y = obj.y;
     return result;
 }
@@ -7050,9 +9423,13 @@ VkXcbSurfaceCreateInfoKHR create_structure_copy<VkXcbSurfaceCreateInfoKHR>(const
 {
     VkXcbSurfaceCreateInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.connection = obj.connection;
+    ,
     result.window = obj.window;
     return result;
 }
@@ -7064,9 +9441,13 @@ VkXlibSurfaceCreateInfoKHR create_structure_copy<VkXlibSurfaceCreateInfoKHR>(con
 {
     VkXlibSurfaceCreateInfoKHR result { };
     result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
+    result.pNext = ()create_pnext_copy(obj.pNext, pAllocationCallbacks);
+    ,
     result.flags = obj.flags;
+    ,
     result.dpy = obj.dpy;
+    ,
     result.window = obj.window;
     return result;
 }
@@ -7081,1808 +9462,2448 @@ void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocat
             return create_dynamic_array_copy(1, (VkAabbPositionsKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkAccelerationStructureBuildGeometryInfoKHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureBuildGeometryInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkAccelerationStructureBuildOffsetInfoKHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureBuildOffsetInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkAccelerationStructureCreateGeometryTypeInfoKHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureCreateGeometryTypeInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkAccelerationStructureCreateInfoKHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         case VkAccelerationStructureCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkAccelerationStructureDeviceAddressInfoKHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureDeviceAddressInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkAccelerationStructureGeometryAabbsDataKHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureGeometryAabbsDataKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkAccelerationStructureGeometryDataKHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureGeometryDataKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkAccelerationStructureGeometryInstancesDataKHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureGeometryInstancesDataKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkAccelerationStructureGeometryKHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureGeometryKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkAccelerationStructureGeometryTrianglesDataKHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureGeometryTrianglesDataKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         case VkAccelerationStructureInfoNV: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureInstanceKHR: {
-            return create_dynamic_array_copy(1, (VkAccelerationStructureInstanceKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
+
+
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkAccelerationStructureMemoryRequirementsInfoKHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureMemoryRequirementsInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         case VkAccelerationStructureMemoryRequirementsInfoNV: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureMemoryRequirementsInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureVersionKHR: {
-            return create_dynamic_array_copy(1, (VkAccelerationStructureVersionKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
+
+
         case VkAcquireNextImageInfoKHR: {
             return create_dynamic_array_copy(1, (VkAcquireNextImageInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkAcquireProfilingLockInfoKHR: {
             return create_dynamic_array_copy(1, (VkAcquireProfilingLockInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkAllocationCallbacks: {
             return create_dynamic_array_copy(1, (VkAllocationCallbacks*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
         case VkAndroidHardwareBufferFormatPropertiesANDROID: {
             return create_dynamic_array_copy(1, (VkAndroidHardwareBufferFormatPropertiesANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
+
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
         case VkAndroidHardwareBufferPropertiesANDROID: {
             return create_dynamic_array_copy(1, (VkAndroidHardwareBufferPropertiesANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
+
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
         case VkAndroidHardwareBufferUsageANDROID: {
             return create_dynamic_array_copy(1, (VkAndroidHardwareBufferUsageANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
+
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
         case VkAndroidSurfaceCreateInfoKHR: {
             return create_dynamic_array_copy(1, (VkAndroidSurfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
+
         case VkApplicationInfo: {
             return create_dynamic_array_copy(1, (VkApplicationInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkAttachmentDescription: {
             return create_dynamic_array_copy(1, (VkAttachmentDescription*)pNext, pAllocationCallbacks);
         } break;
+
         case VkAttachmentDescription2: {
             return create_dynamic_array_copy(1, (VkAttachmentDescription2*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkAttachmentDescriptionStencilLayout: {
             return create_dynamic_array_copy(1, (VkAttachmentDescriptionStencilLayout*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkAttachmentReference: {
             return create_dynamic_array_copy(1, (VkAttachmentReference*)pNext, pAllocationCallbacks);
         } break;
+
         case VkAttachmentReference2: {
             return create_dynamic_array_copy(1, (VkAttachmentReference2*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkAttachmentReferenceStencilLayout: {
             return create_dynamic_array_copy(1, (VkAttachmentReferenceStencilLayout*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkAttachmentSampleLocationsEXT: {
             return create_dynamic_array_copy(1, (VkAttachmentSampleLocationsEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkBaseInStructure: {
             return create_dynamic_array_copy(1, (VkBaseInStructure*)pNext, pAllocationCallbacks);
         } break;
+
         case VkBaseOutStructure: {
             return create_dynamic_array_copy(1, (VkBaseOutStructure*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkBindAccelerationStructureMemoryInfoKHR: {
             return create_dynamic_array_copy(1, (VkBindAccelerationStructureMemoryInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
+
         case VkBindBufferMemoryDeviceGroupInfo: {
             return create_dynamic_array_copy(1, (VkBindBufferMemoryDeviceGroupInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkBindBufferMemoryInfo: {
             return create_dynamic_array_copy(1, (VkBindBufferMemoryInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkBindImageMemoryDeviceGroupInfo: {
             return create_dynamic_array_copy(1, (VkBindImageMemoryDeviceGroupInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkBindImageMemoryInfo: {
             return create_dynamic_array_copy(1, (VkBindImageMemoryInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkBindImageMemorySwapchainInfoKHR: {
             return create_dynamic_array_copy(1, (VkBindImageMemorySwapchainInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkBindImagePlaneMemoryInfo: {
             return create_dynamic_array_copy(1, (VkBindImagePlaneMemoryInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkBindIndexBufferIndirectCommandNV: {
             return create_dynamic_array_copy(1, (VkBindIndexBufferIndirectCommandNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkBindShaderGroupIndirectCommandNV: {
             return create_dynamic_array_copy(1, (VkBindShaderGroupIndirectCommandNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkBindSparseInfo: {
             return create_dynamic_array_copy(1, (VkBindSparseInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkBindVertexBufferIndirectCommandNV: {
             return create_dynamic_array_copy(1, (VkBindVertexBufferIndirectCommandNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkBufferCopy: {
             return create_dynamic_array_copy(1, (VkBufferCopy*)pNext, pAllocationCallbacks);
         } break;
+
         case VkBufferCreateInfo: {
             return create_dynamic_array_copy(1, (VkBufferCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkBufferDeviceAddressCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkBufferDeviceAddressCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkBufferDeviceAddressInfo: {
             return create_dynamic_array_copy(1, (VkBufferDeviceAddressInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
+
         case VkBufferImageCopy: {
             return create_dynamic_array_copy(1, (VkBufferImageCopy*)pNext, pAllocationCallbacks);
         } break;
+
         case VkBufferMemoryBarrier: {
             return create_dynamic_array_copy(1, (VkBufferMemoryBarrier*)pNext, pAllocationCallbacks);
         } break;
+
         case VkBufferMemoryRequirementsInfo2: {
             return create_dynamic_array_copy(1, (VkBufferMemoryRequirementsInfo2*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkBufferOpaqueCaptureAddressCreateInfo: {
             return create_dynamic_array_copy(1, (VkBufferOpaqueCaptureAddressCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkBufferViewCreateInfo: {
             return create_dynamic_array_copy(1, (VkBufferViewCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkCalibratedTimestampInfoEXT: {
             return create_dynamic_array_copy(1, (VkCalibratedTimestampInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkCheckpointDataNV: {
             return create_dynamic_array_copy(1, (VkCheckpointDataNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkClearAttachment: {
             return create_dynamic_array_copy(1, (VkClearAttachment*)pNext, pAllocationCallbacks);
         } break;
-        case VkClearColorValue: {
-            return create_dynamic_array_copy(1, (VkClearColorValue*)pNext, pAllocationCallbacks);
-        } break;
+
+
         case VkClearDepthStencilValue: {
             return create_dynamic_array_copy(1, (VkClearDepthStencilValue*)pNext, pAllocationCallbacks);
         } break;
+
         case VkClearRect: {
             return create_dynamic_array_copy(1, (VkClearRect*)pNext, pAllocationCallbacks);
         } break;
-        case VkClearValue: {
-            return create_dynamic_array_copy(1, (VkClearValue*)pNext, pAllocationCallbacks);
-        } break;
+
+
         case VkCoarseSampleLocationNV: {
             return create_dynamic_array_copy(1, (VkCoarseSampleLocationNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkCoarseSampleOrderCustomNV: {
             return create_dynamic_array_copy(1, (VkCoarseSampleOrderCustomNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkCommandBufferAllocateInfo: {
             return create_dynamic_array_copy(1, (VkCommandBufferAllocateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkCommandBufferBeginInfo: {
             return create_dynamic_array_copy(1, (VkCommandBufferBeginInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkCommandBufferInheritanceConditionalRenderingInfoEXT: {
             return create_dynamic_array_copy(1, (VkCommandBufferInheritanceConditionalRenderingInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkCommandBufferInheritanceInfo: {
             return create_dynamic_array_copy(1, (VkCommandBufferInheritanceInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkCommandBufferInheritanceRenderPassTransformInfoQCOM: {
             return create_dynamic_array_copy(1, (VkCommandBufferInheritanceRenderPassTransformInfoQCOM*)pNext, pAllocationCallbacks);
         } break;
+
         case VkCommandPoolCreateInfo: {
             return create_dynamic_array_copy(1, (VkCommandPoolCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkComponentMapping: {
             return create_dynamic_array_copy(1, (VkComponentMapping*)pNext, pAllocationCallbacks);
         } break;
+
         case VkComputePipelineCreateInfo: {
             return create_dynamic_array_copy(1, (VkComputePipelineCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkConditionalRenderingBeginInfoEXT: {
             return create_dynamic_array_copy(1, (VkConditionalRenderingBeginInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkConformanceVersion: {
             return create_dynamic_array_copy(1, (VkConformanceVersion*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkCooperativeMatrixPropertiesNV: {
             return create_dynamic_array_copy(1, (VkCooperativeMatrixPropertiesNV*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkCopyAccelerationStructureInfoKHR: {
             return create_dynamic_array_copy(1, (VkCopyAccelerationStructureInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkCopyAccelerationStructureToMemoryInfoKHR: {
             return create_dynamic_array_copy(1, (VkCopyAccelerationStructureToMemoryInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         case VkCopyDescriptorSet: {
             return create_dynamic_array_copy(1, (VkCopyDescriptorSet*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkCopyMemoryToAccelerationStructureInfoKHR: {
             return create_dynamic_array_copy(1, (VkCopyMemoryToAccelerationStructureInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkD3D12FenceSubmitInfoKHR: {
             return create_dynamic_array_copy(1, (VkD3D12FenceSubmitInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         case VkDebugMarkerMarkerInfoEXT: {
             return create_dynamic_array_copy(1, (VkDebugMarkerMarkerInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDebugMarkerObjectNameInfoEXT: {
             return create_dynamic_array_copy(1, (VkDebugMarkerObjectNameInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDebugMarkerObjectTagInfoEXT: {
             return create_dynamic_array_copy(1, (VkDebugMarkerObjectTagInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDebugReportCallbackCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkDebugReportCallbackCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDebugUtilsLabelEXT: {
             return create_dynamic_array_copy(1, (VkDebugUtilsLabelEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDebugUtilsMessengerCallbackDataEXT: {
             return create_dynamic_array_copy(1, (VkDebugUtilsMessengerCallbackDataEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDebugUtilsMessengerCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkDebugUtilsMessengerCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDebugUtilsObjectNameInfoEXT: {
             return create_dynamic_array_copy(1, (VkDebugUtilsObjectNameInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDebugUtilsObjectTagInfoEXT: {
             return create_dynamic_array_copy(1, (VkDebugUtilsObjectTagInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDedicatedAllocationBufferCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkDedicatedAllocationBufferCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDedicatedAllocationImageCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkDedicatedAllocationImageCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDedicatedAllocationMemoryAllocateInfoNV: {
             return create_dynamic_array_copy(1, (VkDedicatedAllocationMemoryAllocateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkDeferredOperationInfoKHR: {
             return create_dynamic_array_copy(1, (VkDeferredOperationInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         case VkDescriptorBufferInfo: {
             return create_dynamic_array_copy(1, (VkDescriptorBufferInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDescriptorImageInfo: {
             return create_dynamic_array_copy(1, (VkDescriptorImageInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDescriptorPoolCreateInfo: {
             return create_dynamic_array_copy(1, (VkDescriptorPoolCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDescriptorPoolInlineUniformBlockCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkDescriptorPoolInlineUniformBlockCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDescriptorPoolSize: {
             return create_dynamic_array_copy(1, (VkDescriptorPoolSize*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDescriptorSetAllocateInfo: {
             return create_dynamic_array_copy(1, (VkDescriptorSetAllocateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDescriptorSetLayoutBinding: {
             return create_dynamic_array_copy(1, (VkDescriptorSetLayoutBinding*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDescriptorSetLayoutBindingFlagsCreateInfo: {
             return create_dynamic_array_copy(1, (VkDescriptorSetLayoutBindingFlagsCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkDescriptorSetLayoutCreateInfo: {
             return create_dynamic_array_copy(1, (VkDescriptorSetLayoutCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDescriptorSetLayoutSupport: {
             return create_dynamic_array_copy(1, (VkDescriptorSetLayoutSupport*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkDescriptorSetVariableDescriptorCountAllocateInfo: {
             return create_dynamic_array_copy(1, (VkDescriptorSetVariableDescriptorCountAllocateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkDescriptorSetVariableDescriptorCountLayoutSupport: {
             return create_dynamic_array_copy(1, (VkDescriptorSetVariableDescriptorCountLayoutSupport*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkDescriptorUpdateTemplateCreateInfo: {
             return create_dynamic_array_copy(1, (VkDescriptorUpdateTemplateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkDescriptorUpdateTemplateEntry: {
             return create_dynamic_array_copy(1, (VkDescriptorUpdateTemplateEntry*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkDeviceCreateInfo: {
             return create_dynamic_array_copy(1, (VkDeviceCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDeviceDiagnosticsConfigCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkDeviceDiagnosticsConfigCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDeviceEventInfoEXT: {
             return create_dynamic_array_copy(1, (VkDeviceEventInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDeviceGroupBindSparseInfo: {
             return create_dynamic_array_copy(1, (VkDeviceGroupBindSparseInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkDeviceGroupCommandBufferBeginInfo: {
             return create_dynamic_array_copy(1, (VkDeviceGroupCommandBufferBeginInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkDeviceGroupDeviceCreateInfo: {
             return create_dynamic_array_copy(1, (VkDeviceGroupDeviceCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkDeviceGroupPresentCapabilitiesKHR: {
             return create_dynamic_array_copy(1, (VkDeviceGroupPresentCapabilitiesKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDeviceGroupPresentInfoKHR: {
             return create_dynamic_array_copy(1, (VkDeviceGroupPresentInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDeviceGroupRenderPassBeginInfo: {
             return create_dynamic_array_copy(1, (VkDeviceGroupRenderPassBeginInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkDeviceGroupSubmitInfo: {
             return create_dynamic_array_copy(1, (VkDeviceGroupSubmitInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkDeviceGroupSwapchainCreateInfoKHR: {
             return create_dynamic_array_copy(1, (VkDeviceGroupSwapchainCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDeviceMemoryOpaqueCaptureAddressInfo: {
             return create_dynamic_array_copy(1, (VkDeviceMemoryOpaqueCaptureAddressInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkDeviceMemoryOverallocationCreateInfoAMD: {
             return create_dynamic_array_copy(1, (VkDeviceMemoryOverallocationCreateInfoAMD*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkDeviceOrHostAddressConstKHR: {
             return create_dynamic_array_copy(1, (VkDeviceOrHostAddressConstKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkDeviceOrHostAddressKHR: {
             return create_dynamic_array_copy(1, (VkDeviceOrHostAddressKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         case VkDevicePrivateDataCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkDevicePrivateDataCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDeviceQueueCreateInfo: {
             return create_dynamic_array_copy(1, (VkDeviceQueueCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDeviceQueueGlobalPriorityCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkDeviceQueueGlobalPriorityCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDeviceQueueInfo2: {
             return create_dynamic_array_copy(1, (VkDeviceQueueInfo2*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_DIRECTFB_EXT
         case VkDirectFBSurfaceCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkDirectFBSurfaceCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_DIRECTFB_EXT
+
         case VkDispatchIndirectCommand: {
             return create_dynamic_array_copy(1, (VkDispatchIndirectCommand*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDisplayEventInfoEXT: {
             return create_dynamic_array_copy(1, (VkDisplayEventInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDisplayModeCreateInfoKHR: {
             return create_dynamic_array_copy(1, (VkDisplayModeCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDisplayModeParametersKHR: {
             return create_dynamic_array_copy(1, (VkDisplayModeParametersKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDisplayModeProperties2KHR: {
             return create_dynamic_array_copy(1, (VkDisplayModeProperties2KHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDisplayModePropertiesKHR: {
             return create_dynamic_array_copy(1, (VkDisplayModePropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDisplayNativeHdrSurfaceCapabilitiesAMD: {
             return create_dynamic_array_copy(1, (VkDisplayNativeHdrSurfaceCapabilitiesAMD*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDisplayPlaneCapabilities2KHR: {
             return create_dynamic_array_copy(1, (VkDisplayPlaneCapabilities2KHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDisplayPlaneCapabilitiesKHR: {
             return create_dynamic_array_copy(1, (VkDisplayPlaneCapabilitiesKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDisplayPlaneInfo2KHR: {
             return create_dynamic_array_copy(1, (VkDisplayPlaneInfo2KHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDisplayPlaneProperties2KHR: {
             return create_dynamic_array_copy(1, (VkDisplayPlaneProperties2KHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDisplayPlanePropertiesKHR: {
             return create_dynamic_array_copy(1, (VkDisplayPlanePropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDisplayPowerInfoEXT: {
             return create_dynamic_array_copy(1, (VkDisplayPowerInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDisplayPresentInfoKHR: {
             return create_dynamic_array_copy(1, (VkDisplayPresentInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDisplayProperties2KHR: {
             return create_dynamic_array_copy(1, (VkDisplayProperties2KHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDisplayPropertiesKHR: {
             return create_dynamic_array_copy(1, (VkDisplayPropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDisplaySurfaceCreateInfoKHR: {
             return create_dynamic_array_copy(1, (VkDisplaySurfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDrawIndexedIndirectCommand: {
             return create_dynamic_array_copy(1, (VkDrawIndexedIndirectCommand*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDrawIndirectCommand: {
             return create_dynamic_array_copy(1, (VkDrawIndirectCommand*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDrawMeshTasksIndirectCommandNV: {
             return create_dynamic_array_copy(1, (VkDrawMeshTasksIndirectCommandNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDrmFormatModifierPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkDrmFormatModifierPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkDrmFormatModifierPropertiesListEXT: {
             return create_dynamic_array_copy(1, (VkDrmFormatModifierPropertiesListEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkEventCreateInfo: {
             return create_dynamic_array_copy(1, (VkEventCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkExportFenceCreateInfo: {
             return create_dynamic_array_copy(1, (VkExportFenceCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkExportFenceWin32HandleInfoKHR: {
             return create_dynamic_array_copy(1, (VkExportFenceWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         case VkExportMemoryAllocateInfo: {
             return create_dynamic_array_copy(1, (VkExportMemoryAllocateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkExportMemoryAllocateInfoNV: {
             return create_dynamic_array_copy(1, (VkExportMemoryAllocateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkExportMemoryWin32HandleInfoKHR: {
             return create_dynamic_array_copy(1, (VkExportMemoryWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkExportMemoryWin32HandleInfoNV: {
             return create_dynamic_array_copy(1, (VkExportMemoryWin32HandleInfoNV*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         case VkExportSemaphoreCreateInfo: {
             return create_dynamic_array_copy(1, (VkExportSemaphoreCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkExportSemaphoreWin32HandleInfoKHR: {
             return create_dynamic_array_copy(1, (VkExportSemaphoreWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         case VkExtensionProperties: {
             return create_dynamic_array_copy(1, (VkExtensionProperties*)pNext, pAllocationCallbacks);
         } break;
+
         case VkExtent2D: {
             return create_dynamic_array_copy(1, (VkExtent2D*)pNext, pAllocationCallbacks);
         } break;
+
         case VkExtent3D: {
             return create_dynamic_array_copy(1, (VkExtent3D*)pNext, pAllocationCallbacks);
         } break;
+
         case VkExternalBufferProperties: {
             return create_dynamic_array_copy(1, (VkExternalBufferProperties*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkExternalFenceProperties: {
             return create_dynamic_array_copy(1, (VkExternalFenceProperties*)pNext, pAllocationCallbacks);
         } break;
+
+
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
         case VkExternalFormatANDROID: {
             return create_dynamic_array_copy(1, (VkExternalFormatANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
+
         case VkExternalImageFormatProperties: {
             return create_dynamic_array_copy(1, (VkExternalImageFormatProperties*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkExternalImageFormatPropertiesNV: {
             return create_dynamic_array_copy(1, (VkExternalImageFormatPropertiesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkExternalMemoryBufferCreateInfo: {
             return create_dynamic_array_copy(1, (VkExternalMemoryBufferCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkExternalMemoryImageCreateInfo: {
             return create_dynamic_array_copy(1, (VkExternalMemoryImageCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkExternalMemoryImageCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkExternalMemoryImageCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkExternalMemoryProperties: {
             return create_dynamic_array_copy(1, (VkExternalMemoryProperties*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkExternalSemaphoreProperties: {
             return create_dynamic_array_copy(1, (VkExternalSemaphoreProperties*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkFenceCreateInfo: {
             return create_dynamic_array_copy(1, (VkFenceCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkFenceGetFdInfoKHR: {
             return create_dynamic_array_copy(1, (VkFenceGetFdInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkFenceGetWin32HandleInfoKHR: {
             return create_dynamic_array_copy(1, (VkFenceGetWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         case VkFilterCubicImageViewImageFormatPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkFilterCubicImageViewImageFormatPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkFormatProperties: {
             return create_dynamic_array_copy(1, (VkFormatProperties*)pNext, pAllocationCallbacks);
         } break;
+
         case VkFormatProperties2: {
             return create_dynamic_array_copy(1, (VkFormatProperties2*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkFramebufferAttachmentImageInfo: {
             return create_dynamic_array_copy(1, (VkFramebufferAttachmentImageInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkFramebufferAttachmentsCreateInfo: {
             return create_dynamic_array_copy(1, (VkFramebufferAttachmentsCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkFramebufferCreateInfo: {
             return create_dynamic_array_copy(1, (VkFramebufferCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkFramebufferMixedSamplesCombinationNV: {
             return create_dynamic_array_copy(1, (VkFramebufferMixedSamplesCombinationNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkGeneratedCommandsInfoNV: {
             return create_dynamic_array_copy(1, (VkGeneratedCommandsInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkGeneratedCommandsMemoryRequirementsInfoNV: {
             return create_dynamic_array_copy(1, (VkGeneratedCommandsMemoryRequirementsInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkGeometryAABBNV: {
             return create_dynamic_array_copy(1, (VkGeometryAABBNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkGeometryDataNV: {
             return create_dynamic_array_copy(1, (VkGeometryDataNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkGeometryNV: {
             return create_dynamic_array_copy(1, (VkGeometryNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkGeometryTrianglesNV: {
             return create_dynamic_array_copy(1, (VkGeometryTrianglesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkGraphicsPipelineCreateInfo: {
             return create_dynamic_array_copy(1, (VkGraphicsPipelineCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkGraphicsPipelineShaderGroupsCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkGraphicsPipelineShaderGroupsCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkGraphicsShaderGroupCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkGraphicsShaderGroupCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkHdrMetadataEXT: {
             return create_dynamic_array_copy(1, (VkHdrMetadataEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkHeadlessSurfaceCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkHeadlessSurfaceCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_IOS_MVK
         case VkIOSSurfaceCreateInfoMVK: {
             return create_dynamic_array_copy(1, (VkIOSSurfaceCreateInfoMVK*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_IOS_MVK
+
         case VkImageBlit: {
             return create_dynamic_array_copy(1, (VkImageBlit*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImageCopy: {
             return create_dynamic_array_copy(1, (VkImageCopy*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImageCreateInfo: {
             return create_dynamic_array_copy(1, (VkImageCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImageDrmFormatModifierExplicitCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkImageDrmFormatModifierExplicitCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImageDrmFormatModifierListCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkImageDrmFormatModifierListCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImageDrmFormatModifierPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkImageDrmFormatModifierPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImageFormatListCreateInfo: {
             return create_dynamic_array_copy(1, (VkImageFormatListCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkImageFormatProperties: {
             return create_dynamic_array_copy(1, (VkImageFormatProperties*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImageFormatProperties2: {
             return create_dynamic_array_copy(1, (VkImageFormatProperties2*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkImageMemoryBarrier: {
             return create_dynamic_array_copy(1, (VkImageMemoryBarrier*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImageMemoryRequirementsInfo2: {
             return create_dynamic_array_copy(1, (VkImageMemoryRequirementsInfo2*)pNext, pAllocationCallbacks);
         } break;
+
+
         #ifdef VK_USE_PLATFORM_FUCHSIA
         case VkImagePipeSurfaceCreateInfoFUCHSIA: {
             return create_dynamic_array_copy(1, (VkImagePipeSurfaceCreateInfoFUCHSIA*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_FUCHSIA
+
         case VkImagePlaneMemoryRequirementsInfo: {
             return create_dynamic_array_copy(1, (VkImagePlaneMemoryRequirementsInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkImageResolve: {
             return create_dynamic_array_copy(1, (VkImageResolve*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImageSparseMemoryRequirementsInfo2: {
             return create_dynamic_array_copy(1, (VkImageSparseMemoryRequirementsInfo2*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkImageStencilUsageCreateInfo: {
             return create_dynamic_array_copy(1, (VkImageStencilUsageCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkImageSubresource: {
             return create_dynamic_array_copy(1, (VkImageSubresource*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImageSubresourceLayers: {
             return create_dynamic_array_copy(1, (VkImageSubresourceLayers*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImageSubresourceRange: {
             return create_dynamic_array_copy(1, (VkImageSubresourceRange*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImageSwapchainCreateInfoKHR: {
             return create_dynamic_array_copy(1, (VkImageSwapchainCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImageViewASTCDecodeModeEXT: {
             return create_dynamic_array_copy(1, (VkImageViewASTCDecodeModeEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImageViewAddressPropertiesNVX: {
             return create_dynamic_array_copy(1, (VkImageViewAddressPropertiesNVX*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImageViewCreateInfo: {
             return create_dynamic_array_copy(1, (VkImageViewCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImageViewHandleInfoNVX: {
             return create_dynamic_array_copy(1, (VkImageViewHandleInfoNVX*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImageViewUsageCreateInfo: {
             return create_dynamic_array_copy(1, (VkImageViewUsageCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
         case VkImportAndroidHardwareBufferInfoANDROID: {
             return create_dynamic_array_copy(1, (VkImportAndroidHardwareBufferInfoANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
+
         case VkImportFenceFdInfoKHR: {
             return create_dynamic_array_copy(1, (VkImportFenceFdInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkImportFenceWin32HandleInfoKHR: {
             return create_dynamic_array_copy(1, (VkImportFenceWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         case VkImportMemoryFdInfoKHR: {
             return create_dynamic_array_copy(1, (VkImportMemoryFdInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkImportMemoryHostPointerInfoEXT: {
             return create_dynamic_array_copy(1, (VkImportMemoryHostPointerInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkImportMemoryWin32HandleInfoKHR: {
             return create_dynamic_array_copy(1, (VkImportMemoryWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkImportMemoryWin32HandleInfoNV: {
             return create_dynamic_array_copy(1, (VkImportMemoryWin32HandleInfoNV*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         case VkImportSemaphoreFdInfoKHR: {
             return create_dynamic_array_copy(1, (VkImportSemaphoreFdInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkImportSemaphoreWin32HandleInfoKHR: {
             return create_dynamic_array_copy(1, (VkImportSemaphoreWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         case VkIndirectCommandsLayoutCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkIndirectCommandsLayoutCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkIndirectCommandsLayoutTokenNV: {
             return create_dynamic_array_copy(1, (VkIndirectCommandsLayoutTokenNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkIndirectCommandsStreamNV: {
             return create_dynamic_array_copy(1, (VkIndirectCommandsStreamNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkInitializePerformanceApiInfoINTEL: {
             return create_dynamic_array_copy(1, (VkInitializePerformanceApiInfoINTEL*)pNext, pAllocationCallbacks);
         } break;
+
         case VkInputAttachmentAspectReference: {
             return create_dynamic_array_copy(1, (VkInputAttachmentAspectReference*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkInstanceCreateInfo: {
             return create_dynamic_array_copy(1, (VkInstanceCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkLayerProperties: {
             return create_dynamic_array_copy(1, (VkLayerProperties*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_MACOS_MVK
         case VkMacOSSurfaceCreateInfoMVK: {
             return create_dynamic_array_copy(1, (VkMacOSSurfaceCreateInfoMVK*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_MACOS_MVK
+
         case VkMappedMemoryRange: {
             return create_dynamic_array_copy(1, (VkMappedMemoryRange*)pNext, pAllocationCallbacks);
         } break;
+
         case VkMemoryAllocateFlagsInfo: {
             return create_dynamic_array_copy(1, (VkMemoryAllocateFlagsInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkMemoryAllocateInfo: {
             return create_dynamic_array_copy(1, (VkMemoryAllocateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkMemoryBarrier: {
             return create_dynamic_array_copy(1, (VkMemoryBarrier*)pNext, pAllocationCallbacks);
         } break;
+
         case VkMemoryDedicatedAllocateInfo: {
             return create_dynamic_array_copy(1, (VkMemoryDedicatedAllocateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkMemoryDedicatedRequirements: {
             return create_dynamic_array_copy(1, (VkMemoryDedicatedRequirements*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkMemoryFdPropertiesKHR: {
             return create_dynamic_array_copy(1, (VkMemoryFdPropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
         case VkMemoryGetAndroidHardwareBufferInfoANDROID: {
             return create_dynamic_array_copy(1, (VkMemoryGetAndroidHardwareBufferInfoANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
+
         case VkMemoryGetFdInfoKHR: {
             return create_dynamic_array_copy(1, (VkMemoryGetFdInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkMemoryGetWin32HandleInfoKHR: {
             return create_dynamic_array_copy(1, (VkMemoryGetWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         case VkMemoryHeap: {
             return create_dynamic_array_copy(1, (VkMemoryHeap*)pNext, pAllocationCallbacks);
         } break;
+
         case VkMemoryHostPointerPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkMemoryHostPointerPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkMemoryOpaqueCaptureAddressAllocateInfo: {
             return create_dynamic_array_copy(1, (VkMemoryOpaqueCaptureAddressAllocateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkMemoryPriorityAllocateInfoEXT: {
             return create_dynamic_array_copy(1, (VkMemoryPriorityAllocateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkMemoryRequirements: {
             return create_dynamic_array_copy(1, (VkMemoryRequirements*)pNext, pAllocationCallbacks);
         } break;
+
         case VkMemoryRequirements2: {
             return create_dynamic_array_copy(1, (VkMemoryRequirements2*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkMemoryType: {
             return create_dynamic_array_copy(1, (VkMemoryType*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkMemoryWin32HandlePropertiesKHR: {
             return create_dynamic_array_copy(1, (VkMemoryWin32HandlePropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         #ifdef VK_USE_PLATFORM_METAL_EXT
         case VkMetalSurfaceCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkMetalSurfaceCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_METAL_EXT
+
         case VkMultisamplePropertiesEXT: {
             return create_dynamic_array_copy(1, (VkMultisamplePropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
         case VkNativeBufferANDROID: {
             return create_dynamic_array_copy(1, (VkNativeBufferANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
+
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
         case VkNativeBufferUsage2ANDROID: {
             return create_dynamic_array_copy(1, (VkNativeBufferUsage2ANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
+
         case VkOffset2D: {
             return create_dynamic_array_copy(1, (VkOffset2D*)pNext, pAllocationCallbacks);
         } break;
+
         case VkOffset3D: {
             return create_dynamic_array_copy(1, (VkOffset3D*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPastPresentationTimingGOOGLE: {
             return create_dynamic_array_copy(1, (VkPastPresentationTimingGOOGLE*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPerformanceConfigurationAcquireInfoINTEL: {
             return create_dynamic_array_copy(1, (VkPerformanceConfigurationAcquireInfoINTEL*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPerformanceCounterDescriptionKHR: {
             return create_dynamic_array_copy(1, (VkPerformanceCounterDescriptionKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPerformanceCounterKHR: {
             return create_dynamic_array_copy(1, (VkPerformanceCounterKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceCounterResultKHR: {
-            return create_dynamic_array_copy(1, (VkPerformanceCounterResultKHR*)pNext, pAllocationCallbacks);
-        } break;
+
+
         case VkPerformanceMarkerInfoINTEL: {
             return create_dynamic_array_copy(1, (VkPerformanceMarkerInfoINTEL*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPerformanceOverrideInfoINTEL: {
             return create_dynamic_array_copy(1, (VkPerformanceOverrideInfoINTEL*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPerformanceQuerySubmitInfoKHR: {
             return create_dynamic_array_copy(1, (VkPerformanceQuerySubmitInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPerformanceStreamMarkerInfoINTEL: {
             return create_dynamic_array_copy(1, (VkPerformanceStreamMarkerInfoINTEL*)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceValueDataINTEL: {
-            return create_dynamic_array_copy(1, (VkPerformanceValueDataINTEL*)pNext, pAllocationCallbacks);
-        } break;
+
+
         case VkPerformanceValueINTEL: {
             return create_dynamic_array_copy(1, (VkPerformanceValueINTEL*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDevice16BitStorageFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDevice16BitStorageFeatures*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDevice8BitStorageFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDevice8BitStorageFeatures*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceASTCDecodeFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceASTCDecodeFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceBufferDeviceAddressFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceBufferDeviceAddressFeatures*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceBufferDeviceAddressFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceBufferDeviceAddressFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceCoherentMemoryFeaturesAMD: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceCoherentMemoryFeaturesAMD*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceComputeShaderDerivativesFeaturesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceComputeShaderDerivativesFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceConditionalRenderingFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceConditionalRenderingFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceConservativeRasterizationPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceConservativeRasterizationPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceCooperativeMatrixFeaturesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceCooperativeMatrixFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceCooperativeMatrixPropertiesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceCooperativeMatrixPropertiesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceCornerSampledImageFeaturesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceCornerSampledImageFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceCoverageReductionModeFeaturesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceCoverageReductionModeFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceCustomBorderColorFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceCustomBorderColorFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceCustomBorderColorPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceCustomBorderColorPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceDepthClipEnableFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDepthClipEnableFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceDepthStencilResolveProperties: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDepthStencilResolveProperties*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceDescriptorIndexingFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDescriptorIndexingFeatures*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceDescriptorIndexingProperties: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDescriptorIndexingProperties*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceDiagnosticsConfigFeaturesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDiagnosticsConfigFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceDiscardRectanglePropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDiscardRectanglePropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceDriverProperties: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDriverProperties*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceExclusiveScissorFeaturesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceExclusiveScissorFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceExtendedDynamicStateFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceExtendedDynamicStateFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceExternalBufferInfo: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceExternalBufferInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceExternalFenceInfo: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceExternalFenceInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceExternalImageFormatInfo: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceExternalImageFormatInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceExternalMemoryHostPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceExternalMemoryHostPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceExternalSemaphoreInfo: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceExternalSemaphoreInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFeatures*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceFeatures2: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFeatures2*)pNext, pAllocationCallbacks);
         } break;
+
+
+
         case VkPhysicalDeviceFloatControlsProperties: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFloatControlsProperties*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceFragmentDensityMap2FeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFragmentDensityMap2FeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceFragmentDensityMap2PropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFragmentDensityMap2PropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceFragmentDensityMapFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFragmentDensityMapFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceFragmentDensityMapPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFragmentDensityMapPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceGroupProperties: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceGroupProperties*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceHostQueryResetFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceHostQueryResetFeatures*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceIDProperties: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceIDProperties*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceImageDrmFormatModifierInfoEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceImageDrmFormatModifierInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceImageFormatInfo2: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceImageFormatInfo2*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceImageRobustnessFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceImageRobustnessFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceImageViewImageFormatInfoEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceImageViewImageFormatInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceImagelessFramebufferFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceImagelessFramebufferFeatures*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceIndexTypeUint8FeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceIndexTypeUint8FeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceInlineUniformBlockFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceInlineUniformBlockFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceInlineUniformBlockPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceInlineUniformBlockPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceLimits: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceLimits*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceLineRasterizationFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceLineRasterizationFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceLineRasterizationPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceLineRasterizationPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceMaintenance3Properties: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMaintenance3Properties*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceMemoryBudgetPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMemoryBudgetPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceMemoryPriorityFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMemoryPriorityFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceMemoryProperties: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMemoryProperties*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceMemoryProperties2: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMemoryProperties2*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceMeshShaderFeaturesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMeshShaderFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceMeshShaderPropertiesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMeshShaderPropertiesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceMultiviewFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMultiviewFeatures*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceMultiviewProperties: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMultiviewProperties*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDevicePCIBusInfoPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePCIBusInfoPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDevicePerformanceQueryFeaturesKHR: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePerformanceQueryFeaturesKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDevicePerformanceQueryPropertiesKHR: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePerformanceQueryPropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDevicePointClippingProperties: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePointClippingProperties*)pNext, pAllocationCallbacks);
         } break;
+
+
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
         case VkPhysicalDevicePresentationPropertiesANDROID: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePresentationPropertiesANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
+
         case VkPhysicalDevicePrivateDataFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePrivateDataFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceProperties: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceProperties*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceProperties2: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceProperties2*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceProtectedMemoryFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceProtectedMemoryFeatures*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceProtectedMemoryProperties: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceProtectedMemoryProperties*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDevicePushDescriptorPropertiesKHR: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePushDescriptorPropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkPhysicalDeviceRayTracingFeaturesKHR: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceRayTracingFeaturesKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkPhysicalDeviceRayTracingPropertiesKHR: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceRayTracingPropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         case VkPhysicalDeviceRayTracingPropertiesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceRayTracingPropertiesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceRobustness2FeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceRobustness2FeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceRobustness2PropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceRobustness2PropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceSampleLocationsPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSampleLocationsPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceSamplerFilterMinmaxProperties: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSamplerFilterMinmaxProperties*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceSamplerYcbcrConversionFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSamplerYcbcrConversionFeatures*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceScalarBlockLayoutFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceScalarBlockLayoutFeatures*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceShaderAtomicFloatFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderAtomicFloatFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceShaderAtomicInt64Features: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderAtomicInt64Features*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceShaderClockFeaturesKHR: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderClockFeaturesKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceShaderCoreProperties2AMD: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderCoreProperties2AMD*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceShaderCorePropertiesAMD: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderCorePropertiesAMD*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceShaderDrawParametersFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderDrawParametersFeatures*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceShaderFloat16Int8Features: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderFloat16Int8Features*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceShaderImageFootprintFeaturesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderImageFootprintFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceShaderSMBuiltinsFeaturesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderSMBuiltinsFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceShaderSMBuiltinsPropertiesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderSMBuiltinsPropertiesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceShadingRateImageFeaturesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShadingRateImageFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceShadingRateImagePropertiesNV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShadingRateImagePropertiesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceSparseImageFormatInfo2: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSparseImageFormatInfo2*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceSparseProperties: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSparseProperties*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceSubgroupProperties: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSubgroupProperties*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceSubgroupSizeControlFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSubgroupSizeControlFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceSubgroupSizeControlPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSubgroupSizeControlPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceSurfaceInfo2KHR: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSurfaceInfo2KHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceTimelineSemaphoreFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceTimelineSemaphoreFeatures*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceTimelineSemaphoreProperties: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceTimelineSemaphoreProperties*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceToolPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceToolPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceTransformFeedbackFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceTransformFeedbackFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceTransformFeedbackPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceTransformFeedbackPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceUniformBufferStandardLayoutFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceUniformBufferStandardLayoutFeatures*)pNext, pAllocationCallbacks);
         } break;
+
+
+
+
         case VkPhysicalDeviceVariablePointersFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceVariablePointersFeatures*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceVulkan11Features: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceVulkan11Features*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceVulkan11Properties: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceVulkan11Properties*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceVulkan12Features: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceVulkan12Features*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceVulkan12Properties: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceVulkan12Properties*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPhysicalDeviceVulkanMemoryModelFeatures: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceVulkanMemoryModelFeatures*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPhysicalDeviceYcbcrImageArraysFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceYcbcrImageArraysFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineCacheCreateInfo: {
             return create_dynamic_array_copy(1, (VkPipelineCacheCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineColorBlendAdvancedStateCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkPipelineColorBlendAdvancedStateCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineColorBlendAttachmentState: {
             return create_dynamic_array_copy(1, (VkPipelineColorBlendAttachmentState*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineColorBlendStateCreateInfo: {
             return create_dynamic_array_copy(1, (VkPipelineColorBlendStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineCompilerControlCreateInfoAMD: {
             return create_dynamic_array_copy(1, (VkPipelineCompilerControlCreateInfoAMD*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineCoverageModulationStateCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkPipelineCoverageModulationStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineCoverageReductionStateCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkPipelineCoverageReductionStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineCoverageToColorStateCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkPipelineCoverageToColorStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineCreationFeedbackCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkPipelineCreationFeedbackCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineCreationFeedbackEXT: {
             return create_dynamic_array_copy(1, (VkPipelineCreationFeedbackEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineDepthStencilStateCreateInfo: {
             return create_dynamic_array_copy(1, (VkPipelineDepthStencilStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineDiscardRectangleStateCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkPipelineDiscardRectangleStateCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineDynamicStateCreateInfo: {
             return create_dynamic_array_copy(1, (VkPipelineDynamicStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineExecutableInfoKHR: {
             return create_dynamic_array_copy(1, (VkPipelineExecutableInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineExecutableInternalRepresentationKHR: {
             return create_dynamic_array_copy(1, (VkPipelineExecutableInternalRepresentationKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineExecutablePropertiesKHR: {
             return create_dynamic_array_copy(1, (VkPipelineExecutablePropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineExecutableStatisticKHR: {
             return create_dynamic_array_copy(1, (VkPipelineExecutableStatisticKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineExecutableStatisticValueKHR: {
-            return create_dynamic_array_copy(1, (VkPipelineExecutableStatisticValueKHR*)pNext, pAllocationCallbacks);
-        } break;
+
+
         case VkPipelineInfoKHR: {
             return create_dynamic_array_copy(1, (VkPipelineInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineInputAssemblyStateCreateInfo: {
             return create_dynamic_array_copy(1, (VkPipelineInputAssemblyStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineLayoutCreateInfo: {
             return create_dynamic_array_copy(1, (VkPipelineLayoutCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkPipelineLibraryCreateInfoKHR: {
             return create_dynamic_array_copy(1, (VkPipelineLibraryCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkPipelineMultisampleStateCreateInfo: {
-            return create_dynamic_array_copy(1, (VkPipelineMultisampleStateCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
+
+
         case VkPipelineRasterizationConservativeStateCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkPipelineRasterizationConservativeStateCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineRasterizationDepthClipStateCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkPipelineRasterizationDepthClipStateCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineRasterizationLineStateCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkPipelineRasterizationLineStateCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineRasterizationStateCreateInfo: {
             return create_dynamic_array_copy(1, (VkPipelineRasterizationStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineRasterizationStateRasterizationOrderAMD: {
             return create_dynamic_array_copy(1, (VkPipelineRasterizationStateRasterizationOrderAMD*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineRasterizationStateStreamCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkPipelineRasterizationStateStreamCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineRepresentativeFragmentTestStateCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkPipelineRepresentativeFragmentTestStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineSampleLocationsStateCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkPipelineSampleLocationsStateCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineShaderStageCreateInfo: {
             return create_dynamic_array_copy(1, (VkPipelineShaderStageCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineTessellationDomainOriginStateCreateInfo: {
             return create_dynamic_array_copy(1, (VkPipelineTessellationDomainOriginStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkPipelineTessellationStateCreateInfo: {
             return create_dynamic_array_copy(1, (VkPipelineTessellationStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineVertexInputDivisorStateCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkPipelineVertexInputDivisorStateCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineVertexInputStateCreateInfo: {
             return create_dynamic_array_copy(1, (VkPipelineVertexInputStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineViewportCoarseSampleOrderStateCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkPipelineViewportCoarseSampleOrderStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineViewportExclusiveScissorStateCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkPipelineViewportExclusiveScissorStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineViewportShadingRateImageStateCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkPipelineViewportShadingRateImageStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineViewportStateCreateInfo: {
             return create_dynamic_array_copy(1, (VkPipelineViewportStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineViewportSwizzleStateCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkPipelineViewportSwizzleStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPipelineViewportWScalingStateCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkPipelineViewportWScalingStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_GGP
         case VkPresentFrameTokenGGP: {
             return create_dynamic_array_copy(1, (VkPresentFrameTokenGGP*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_GGP
+
         case VkPresentInfoKHR: {
             return create_dynamic_array_copy(1, (VkPresentInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPresentRegionKHR: {
             return create_dynamic_array_copy(1, (VkPresentRegionKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPresentRegionsKHR: {
             return create_dynamic_array_copy(1, (VkPresentRegionsKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPresentTimeGOOGLE: {
             return create_dynamic_array_copy(1, (VkPresentTimeGOOGLE*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPresentTimesInfoGOOGLE: {
             return create_dynamic_array_copy(1, (VkPresentTimesInfoGOOGLE*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPrivateDataSlotCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkPrivateDataSlotCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkProtectedSubmitInfo: {
             return create_dynamic_array_copy(1, (VkProtectedSubmitInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkPushConstantRange: {
             return create_dynamic_array_copy(1, (VkPushConstantRange*)pNext, pAllocationCallbacks);
         } break;
+
         case VkQueryPoolCreateInfo: {
             return create_dynamic_array_copy(1, (VkQueryPoolCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkQueryPoolPerformanceCreateInfoKHR: {
             return create_dynamic_array_copy(1, (VkQueryPoolPerformanceCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkQueryPoolPerformanceQueryCreateInfoINTEL: {
             return create_dynamic_array_copy(1, (VkQueryPoolPerformanceQueryCreateInfoINTEL*)pNext, pAllocationCallbacks);
         } break;
+
         case VkQueueFamilyCheckpointPropertiesNV: {
             return create_dynamic_array_copy(1, (VkQueueFamilyCheckpointPropertiesNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkQueueFamilyProperties: {
             return create_dynamic_array_copy(1, (VkQueueFamilyProperties*)pNext, pAllocationCallbacks);
         } break;
+
         case VkQueueFamilyProperties2: {
             return create_dynamic_array_copy(1, (VkQueueFamilyProperties2*)pNext, pAllocationCallbacks);
         } break;
+
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkRayTracingPipelineCreateInfoKHR: {
             return create_dynamic_array_copy(1, (VkRayTracingPipelineCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         case VkRayTracingPipelineCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkRayTracingPipelineCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkRayTracingPipelineInterfaceCreateInfoKHR: {
             return create_dynamic_array_copy(1, (VkRayTracingPipelineInterfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkRayTracingShaderGroupCreateInfoKHR: {
             return create_dynamic_array_copy(1, (VkRayTracingShaderGroupCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         case VkRayTracingShaderGroupCreateInfoNV: {
             return create_dynamic_array_copy(1, (VkRayTracingShaderGroupCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkRect2D: {
             return create_dynamic_array_copy(1, (VkRect2D*)pNext, pAllocationCallbacks);
         } break;
+
         case VkRectLayerKHR: {
             return create_dynamic_array_copy(1, (VkRectLayerKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkRefreshCycleDurationGOOGLE: {
             return create_dynamic_array_copy(1, (VkRefreshCycleDurationGOOGLE*)pNext, pAllocationCallbacks);
         } break;
+
         case VkRenderPassAttachmentBeginInfo: {
             return create_dynamic_array_copy(1, (VkRenderPassAttachmentBeginInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkRenderPassBeginInfo: {
             return create_dynamic_array_copy(1, (VkRenderPassBeginInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkRenderPassCreateInfo: {
             return create_dynamic_array_copy(1, (VkRenderPassCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkRenderPassCreateInfo2: {
             return create_dynamic_array_copy(1, (VkRenderPassCreateInfo2*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkRenderPassFragmentDensityMapCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkRenderPassFragmentDensityMapCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkRenderPassInputAttachmentAspectCreateInfo: {
             return create_dynamic_array_copy(1, (VkRenderPassInputAttachmentAspectCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkRenderPassMultiviewCreateInfo: {
             return create_dynamic_array_copy(1, (VkRenderPassMultiviewCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkRenderPassSampleLocationsBeginInfoEXT: {
             return create_dynamic_array_copy(1, (VkRenderPassSampleLocationsBeginInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkRenderPassTransformBeginInfoQCOM: {
             return create_dynamic_array_copy(1, (VkRenderPassTransformBeginInfoQCOM*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSampleLocationEXT: {
             return create_dynamic_array_copy(1, (VkSampleLocationEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSampleLocationsInfoEXT: {
             return create_dynamic_array_copy(1, (VkSampleLocationsInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSamplerCreateInfo: {
             return create_dynamic_array_copy(1, (VkSamplerCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSamplerCustomBorderColorCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkSamplerCustomBorderColorCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSamplerReductionModeCreateInfo: {
             return create_dynamic_array_copy(1, (VkSamplerReductionModeCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkSamplerYcbcrConversionCreateInfo: {
             return create_dynamic_array_copy(1, (VkSamplerYcbcrConversionCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkSamplerYcbcrConversionImageFormatProperties: {
             return create_dynamic_array_copy(1, (VkSamplerYcbcrConversionImageFormatProperties*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkSamplerYcbcrConversionInfo: {
             return create_dynamic_array_copy(1, (VkSamplerYcbcrConversionInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkSemaphoreCreateInfo: {
             return create_dynamic_array_copy(1, (VkSemaphoreCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSemaphoreGetFdInfoKHR: {
             return create_dynamic_array_copy(1, (VkSemaphoreGetFdInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkSemaphoreGetWin32HandleInfoKHR: {
             return create_dynamic_array_copy(1, (VkSemaphoreGetWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         case VkSemaphoreSignalInfo: {
             return create_dynamic_array_copy(1, (VkSemaphoreSignalInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkSemaphoreTypeCreateInfo: {
             return create_dynamic_array_copy(1, (VkSemaphoreTypeCreateInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkSemaphoreWaitInfo: {
             return create_dynamic_array_copy(1, (VkSemaphoreWaitInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkSetStateFlagsIndirectCommandNV: {
             return create_dynamic_array_copy(1, (VkSetStateFlagsIndirectCommandNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkShaderModuleCreateInfo: {
-            return create_dynamic_array_copy(1, (VkShaderModuleCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
+
+
         case VkShaderModuleValidationCacheCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkShaderModuleValidationCacheCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkShaderResourceUsageAMD: {
             return create_dynamic_array_copy(1, (VkShaderResourceUsageAMD*)pNext, pAllocationCallbacks);
         } break;
+
         case VkShaderStatisticsInfoAMD: {
             return create_dynamic_array_copy(1, (VkShaderStatisticsInfoAMD*)pNext, pAllocationCallbacks);
         } break;
+
         case VkShadingRatePaletteNV: {
             return create_dynamic_array_copy(1, (VkShadingRatePaletteNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSharedPresentSurfaceCapabilitiesKHR: {
             return create_dynamic_array_copy(1, (VkSharedPresentSurfaceCapabilitiesKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSparseBufferMemoryBindInfo: {
             return create_dynamic_array_copy(1, (VkSparseBufferMemoryBindInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSparseImageFormatProperties: {
             return create_dynamic_array_copy(1, (VkSparseImageFormatProperties*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSparseImageFormatProperties2: {
             return create_dynamic_array_copy(1, (VkSparseImageFormatProperties2*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkSparseImageMemoryBind: {
             return create_dynamic_array_copy(1, (VkSparseImageMemoryBind*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSparseImageMemoryBindInfo: {
             return create_dynamic_array_copy(1, (VkSparseImageMemoryBindInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSparseImageMemoryRequirements: {
             return create_dynamic_array_copy(1, (VkSparseImageMemoryRequirements*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSparseImageMemoryRequirements2: {
             return create_dynamic_array_copy(1, (VkSparseImageMemoryRequirements2*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkSparseImageOpaqueMemoryBindInfo: {
             return create_dynamic_array_copy(1, (VkSparseImageOpaqueMemoryBindInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSparseMemoryBind: {
             return create_dynamic_array_copy(1, (VkSparseMemoryBind*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSpecializationInfo: {
             return create_dynamic_array_copy(1, (VkSpecializationInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSpecializationMapEntry: {
             return create_dynamic_array_copy(1, (VkSpecializationMapEntry*)pNext, pAllocationCallbacks);
         } break;
+
         case VkStencilOpState: {
             return create_dynamic_array_copy(1, (VkStencilOpState*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_GGP
         case VkStreamDescriptorSurfaceCreateInfoGGP: {
             return create_dynamic_array_copy(1, (VkStreamDescriptorSurfaceCreateInfoGGP*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_GGP
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkStridedBufferRegionKHR: {
             return create_dynamic_array_copy(1, (VkStridedBufferRegionKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
         case VkSubmitInfo: {
             return create_dynamic_array_copy(1, (VkSubmitInfo*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSubpassBeginInfo: {
             return create_dynamic_array_copy(1, (VkSubpassBeginInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkSubpassDependency: {
             return create_dynamic_array_copy(1, (VkSubpassDependency*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSubpassDependency2: {
             return create_dynamic_array_copy(1, (VkSubpassDependency2*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkSubpassDescription: {
             return create_dynamic_array_copy(1, (VkSubpassDescription*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSubpassDescription2: {
             return create_dynamic_array_copy(1, (VkSubpassDescription2*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkSubpassDescriptionDepthStencilResolve: {
             return create_dynamic_array_copy(1, (VkSubpassDescriptionDepthStencilResolve*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkSubpassEndInfo: {
             return create_dynamic_array_copy(1, (VkSubpassEndInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         case VkSubpassSampleLocationsEXT: {
             return create_dynamic_array_copy(1, (VkSubpassSampleLocationsEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSubresourceLayout: {
             return create_dynamic_array_copy(1, (VkSubresourceLayout*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSurfaceCapabilities2EXT: {
             return create_dynamic_array_copy(1, (VkSurfaceCapabilities2EXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSurfaceCapabilities2KHR: {
             return create_dynamic_array_copy(1, (VkSurfaceCapabilities2KHR*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkSurfaceCapabilitiesFullScreenExclusiveEXT: {
             return create_dynamic_array_copy(1, (VkSurfaceCapabilitiesFullScreenExclusiveEXT*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         case VkSurfaceCapabilitiesKHR: {
             return create_dynamic_array_copy(1, (VkSurfaceCapabilitiesKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSurfaceFormat2KHR: {
             return create_dynamic_array_copy(1, (VkSurfaceFormat2KHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSurfaceFormatKHR: {
             return create_dynamic_array_copy(1, (VkSurfaceFormatKHR*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkSurfaceFullScreenExclusiveInfoEXT: {
             return create_dynamic_array_copy(1, (VkSurfaceFullScreenExclusiveInfoEXT*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkSurfaceFullScreenExclusiveWin32InfoEXT: {
             return create_dynamic_array_copy(1, (VkSurfaceFullScreenExclusiveWin32InfoEXT*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         case VkSurfaceProtectedCapabilitiesKHR: {
             return create_dynamic_array_copy(1, (VkSurfaceProtectedCapabilitiesKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSwapchainCounterCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkSwapchainCounterCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSwapchainCreateInfoKHR: {
             return create_dynamic_array_copy(1, (VkSwapchainCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
+
         case VkSwapchainDisplayNativeHdrCreateInfoAMD: {
             return create_dynamic_array_copy(1, (VkSwapchainDisplayNativeHdrCreateInfoAMD*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
         case VkSwapchainImageCreateInfoANDROID: {
             return create_dynamic_array_copy(1, (VkSwapchainImageCreateInfoANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
+
         case VkTextureLODGatherFormatPropertiesAMD: {
             return create_dynamic_array_copy(1, (VkTextureLODGatherFormatPropertiesAMD*)pNext, pAllocationCallbacks);
         } break;
+
         case VkTimelineSemaphoreSubmitInfo: {
             return create_dynamic_array_copy(1, (VkTimelineSemaphoreSubmitInfo*)pNext, pAllocationCallbacks);
         } break;
+
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkTraceRaysIndirectCommandKHR: {
             return create_dynamic_array_copy(1, (VkTraceRaysIndirectCommandKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkTransformMatrixKHR: {
-            return create_dynamic_array_copy(1, (VkTransformMatrixKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
+
+
+
         case VkValidationCacheCreateInfoEXT: {
             return create_dynamic_array_copy(1, (VkValidationCacheCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkValidationFeaturesEXT: {
             return create_dynamic_array_copy(1, (VkValidationFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkValidationFlagsEXT: {
             return create_dynamic_array_copy(1, (VkValidationFlagsEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkVertexInputAttributeDescription: {
             return create_dynamic_array_copy(1, (VkVertexInputAttributeDescription*)pNext, pAllocationCallbacks);
         } break;
+
         case VkVertexInputBindingDescription: {
             return create_dynamic_array_copy(1, (VkVertexInputBindingDescription*)pNext, pAllocationCallbacks);
         } break;
+
         case VkVertexInputBindingDivisorDescriptionEXT: {
             return create_dynamic_array_copy(1, (VkVertexInputBindingDivisorDescriptionEXT*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_VI_NN
         case VkViSurfaceCreateInfoNN: {
             return create_dynamic_array_copy(1, (VkViSurfaceCreateInfoNN*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_VI_NN
+
         case VkViewport: {
             return create_dynamic_array_copy(1, (VkViewport*)pNext, pAllocationCallbacks);
         } break;
+
         case VkViewportSwizzleNV: {
             return create_dynamic_array_copy(1, (VkViewportSwizzleNV*)pNext, pAllocationCallbacks);
         } break;
+
         case VkViewportWScalingNV: {
             return create_dynamic_array_copy(1, (VkViewportWScalingNV*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_WAYLAND_KHR
         case VkWaylandSurfaceCreateInfoKHR: {
             return create_dynamic_array_copy(1, (VkWaylandSurfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WAYLAND_KHR
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkWin32KeyedMutexAcquireReleaseInfoKHR: {
             return create_dynamic_array_copy(1, (VkWin32KeyedMutexAcquireReleaseInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkWin32KeyedMutexAcquireReleaseInfoNV: {
             return create_dynamic_array_copy(1, (VkWin32KeyedMutexAcquireReleaseInfoNV*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         #ifdef VK_USE_PLATFORM_WIN32_KHR
         case VkWin32SurfaceCreateInfoKHR: {
             return create_dynamic_array_copy(1, (VkWin32SurfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
+
         case VkWriteDescriptorSet: {
             return create_dynamic_array_copy(1, (VkWriteDescriptorSet*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VkWriteDescriptorSetAccelerationStructureKHR: {
             return create_dynamic_array_copy(1, (VkWriteDescriptorSetAccelerationStructureKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
+
+
         case VkWriteDescriptorSetInlineUniformBlockEXT: {
             return create_dynamic_array_copy(1, (VkWriteDescriptorSetInlineUniformBlockEXT*)pNext, pAllocationCallbacks);
         } break;
+
         case VkXYColorEXT: {
             return create_dynamic_array_copy(1, (VkXYColorEXT*)pNext, pAllocationCallbacks);
         } break;
+
         #ifdef VK_USE_PLATFORM_XCB_KHR
         case VkXcbSurfaceCreateInfoKHR: {
             return create_dynamic_array_copy(1, (VkXcbSurfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_XCB_KHR
+
         #ifdef VK_USE_PLATFORM_XLIB_KHR
         case VkXlibSurfaceCreateInfoKHR: {
             return create_dynamic_array_copy(1, (VkXlibSurfaceCreateInfoKHR*)pNext, pAllocationCallbacks);

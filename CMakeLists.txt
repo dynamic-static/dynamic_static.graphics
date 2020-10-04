@@ -37,8 +37,8 @@ set(sourcePath "${CMAKE_CURRENT_LIST_DIR}/source.ex/dynamic_static/graphics/")
 set(generatedIncludePath "${includePath}/vulkan/generated/")
 set(generatedSourcePath "${sourcePath}/vulkan/generated/")
 set(generatedIncludeFiles
-    # "${generatedIncludePath}/create-structure-copy.hpp"
-    # "${generatedIncludePath}/destroy-structure-copy.hpp"
+    "${generatedIncludePath}/create-structure-copy.hpp"
+    "${generatedIncludePath}/destroy-structure-copy.hpp"
     "${generatedIncludePath}/equality-operators.hpp"
     "${generatedIncludePath}/greater-than-operators.hpp"
     "${generatedIncludePath}/less-than-operators.hpp"
@@ -47,7 +47,7 @@ set(generatedIncludeFiles
     # "${generatedIncludePath}/managed-structures.hpp"
 )
 set(generatedSourceFiles
-    # "${generatedSourcePath}/create-structure-copy.cpp"
+    "${generatedSourcePath}/create-structure-copy.cpp"
     # "${generatedSourcePath}/destroy-structure-copy.cpp"
     "${generatedSourcePath}/equality-operators.cpp"
     "${generatedSourcePath}/greater-than-operators.cpp"
@@ -62,8 +62,8 @@ dst_add_cpp_generator(
     folder dynamic_static.graphics
     linkLibraries dynamic_static.vk-xml-parser
     sourceFiles
-        # "${generatorSourcePath}/create-structure-copy.generator.hpp"
-        # "${generatorSourcePath}/destroy-structure-copy.generator.hpp"
+        "${generatorSourcePath}/create-structure-copy.generator.hpp"
+        "${generatorSourcePath}/destroy-structure-copy.generator.hpp"
         "${generatorSourcePath}/main.cpp"
         # "${generatorSourcePath}/managed-handles.generator.hpp"
         # "${generatorSourcePath}/managed-structures.generator.hpp"

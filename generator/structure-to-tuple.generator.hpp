@@ -16,12 +16,12 @@ namespace dst {
 namespace vk {
 namespace cppgen {
 
-inline void generate_structure_to_tuple(const xml::Manifest& xmlManifest)
+inline void generate_to_tuple(const xml::Manifest& xmlManifest)
 {
     using namespace dst::cppgen;
     using namespace dst::vk::xml;
     std::filesystem::path includePath(DYNAMIC_STATIC_GRAPHICS_VULKAN_GENERATED_INCLUDE_PATH);
-    File(includePath / "structure-to-tuple.hpp") << SourceBlock(R"(
+    File(includePath / "to-tuple.hpp") << SourceBlock(R"(
     /*
     ==========================================
         Copyright (c) 2020 Dynamic_Static
@@ -46,7 +46,7 @@ inline void generate_structure_to_tuple(const xml::Manifest& xmlManifest)
     namespace vk {
 
     ////////////////////////////////////////////////////////////////////////////////
-    // NOTE : The following to_tuple<>() functions are manually implemented
+    // NOTE : The following functions are manually implemented
     $<MANUALLY_IMPLEMENTED_STRUCTURES:"\n">
     $<COMPILE_GUARDS>
     #ifdef ${COMPILE_GUARD}

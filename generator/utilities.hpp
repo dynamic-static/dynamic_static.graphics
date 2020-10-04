@@ -147,6 +147,7 @@ inline dst::cppgen::SourceBlock get_automatically_implemented_structure_source_b
                         {
                             return {
                                 get_variable_type_condition(xmlManifest, member),
+                                SourceBlock("MEMBER_TYPE", member.type),
                                 SourceBlock("MEMBER_NAME", member.name),
                                 SourceBlock("MEMBER_LENGTH", member.length)
                             };
@@ -164,7 +165,7 @@ inline dst::cppgen::SourceBlock get_unfiltered_structure_source_blocks(const xml
     // TODO : DRY
     using namespace dst::cppgen;
     using namespace dst::vk::xml;
-    return SourceBlock("STRUCTURES", xmlManifest.structures,
+    return SourceBlock("UNFILTERED_STRUCTURES", xmlManifest.structures,
         [&](const std::pair<std::string, Structure>& structureItr) -> std::vector<SourceBlock>
         {
             const auto& structure = structureItr.second;

@@ -16,7 +16,7 @@ namespace dst {
 namespace vk {
 namespace cppgen {
 
-inline void generate_structure_comparison_operator_declarations(const xml::Manifest& xmlManifest)
+inline void generate_comparison_operator_declarations(const xml::Manifest& xmlManifest)
 {
     using namespace dst::cppgen;
     using namespace dst::vk::xml;
@@ -38,7 +38,7 @@ inline void generate_structure_comparison_operator_declarations(const xml::Manif
     namespace dst {
     namespace vk {
 
-    $<STRUCTURES>
+    $<UNFILTERED_STRUCTURES>
     $<COMPILE_GUARDS>
     #ifdef ${COMPILE_GUARD}
     $</>
@@ -60,7 +60,7 @@ inline void generate_structure_comparison_operator_declarations(const xml::Manif
     });
 }
 
-inline void generate_structure_comparison_operator_implementations(const xml::Manifest& xmlManifest, const std::string& fileName, const std::string& operator0, const std::string& operator1)
+inline void generate_comparison_operator_definitions(const xml::Manifest& xmlManifest, const std::string& fileName, const std::string& operator0, const std::string& operator1)
 {
     using namespace dst::cppgen;
     using namespace dst::vk::xml;
@@ -81,7 +81,7 @@ inline void generate_structure_comparison_operator_implementations(const xml::Ma
     namespace dst {
     namespace vk {
 
-    $<STRUCTURES:"\n">
+    $<UNFILTERED_STRUCTURES:"\n">
     $<COMPILE_GUARDS>
     #ifdef ${COMPILE_GUARD}
     $</>
@@ -108,12 +108,12 @@ inline void generate_structure_comparison_operator_implementations(const xml::Ma
     });
 }
 
-inline void generate_structure_comparison_operators(const xml::Manifest& xmlManifest)
+inline void generate_comparison_operators(const xml::Manifest& xmlManifest)
 {
-    generate_structure_comparison_operator_declarations(xmlManifest);
-    generate_structure_comparison_operator_implementations(xmlManifest, "equality-operators.cpp", "==", "!=");
-    generate_structure_comparison_operator_implementations(xmlManifest, "less-than-operators.cpp", "<", "<=");
-    generate_structure_comparison_operator_implementations(xmlManifest, "greater-than-operators.cpp", ">", ">=");
+    generate_comparison_operator_declarations(xmlManifest);
+    generate_comparison_operator_definitions(xmlManifest, "equality-operators.cpp", "==", "!=");
+    generate_comparison_operator_definitions(xmlManifest, "less-than-operators.cpp", "<", "<=");
+    generate_comparison_operator_definitions(xmlManifest, "greater-than-operators.cpp", ">", ">=");
 }
 
 } // namespace cppgen

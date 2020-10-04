@@ -1,1071 +1,76 @@
 
 /*
 ==========================================
-  Copyright (c) 2020 Dynamic_Static
+    Copyright (c) 2020 Dynamic_Static
     Patrick Purcell
-      Licensed under the MIT license
+        Licensed under the MIT license
     http://opensource.org/licenses/MIT
 ==========================================
 */
 
-#include "dynamic_static/graphics/vulkan/generated/destroy-structure-copy.hpp"
+#include "dynamic_static/graphics/vulkan/generated/create-structure-copy.hpp"
 
 namespace dst {
 namespace vk {
 
-static void destroy_pnext_copy(const coid* pNext, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    if (pNext) {
-        switch (*(VkStructuretype*)pNext) {
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_BUILD_GEOMETRY_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkAccelerationStructureBuildGeometryInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_CREATE_GEOMETRY_TYPE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkAccelerationStructureCreateGeometryTypeInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_CREATE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkAccelerationStructureCreateInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkAccelerationStructureCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_DEVICE_ADDRESS_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkAccelerationStructureDeviceAddressInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_AABBS_DATA_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkAccelerationStructureGeometryAabbsDataKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_INSTANCES_DATA_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkAccelerationStructureGeometryInstancesDataKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkAccelerationStructureGeometryKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_TRIANGLES_DATA_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkAccelerationStructureGeometryTrianglesDataKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkAccelerationStructureInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_MEMORY_REQUIREMENTS_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkAccelerationStructureMemoryRequirementsInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_MEMORY_REQUIREMENTS_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkAccelerationStructureMemoryRequirementsInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_VERSION_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkAccelerationStructureVersionKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_ACQUIRE_NEXT_IMAGE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkAcquireNextImageInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_ACQUIRE_PROFILING_LOCK_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkAcquireProfilingLockInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_BIND_ACCELERATION_STRUCTURE_MEMORY_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkBindAccelerationStructureMemoryInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_BIND_IMAGE_MEMORY_SWAPCHAIN_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkBindImageMemorySwapchainInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkBufferDeviceAddressCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_CALIBRATED_TIMESTAMP_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkCalibratedTimestampInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_CHECKPOINT_DATA_NV: {
-            return destroy_dynamic_array_copy(1, (const VkCheckpointDataNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_CONDITIONAL_RENDERING_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkCommandBufferInheritanceConditionalRenderingInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDER_PASS_TRANSFORM_INFO_QCOM: {
-            return destroy_dynamic_array_copy(1, (const VkCommandBufferInheritanceRenderPassTransformInfoQCOM*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_CONDITIONAL_RENDERING_BEGIN_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkConditionalRenderingBeginInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_COOPERATIVE_MATRIX_PROPERTIES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkCooperativeMatrixPropertiesNV*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_COPY_ACCELERATION_STRUCTURE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkCopyAccelerationStructureInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_COPY_ACCELERATION_STRUCTURE_TO_MEMORY_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkCopyAccelerationStructureToMemoryInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_COPY_MEMORY_TO_ACCELERATION_STRUCTURE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkCopyMemoryToAccelerationStructureInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_DEBUG_MARKER_MARKER_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkDebugMarkerMarkerInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEBUG_MARKER_OBJECT_NAME_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkDebugMarkerObjectNameInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEBUG_MARKER_OBJECT_TAG_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkDebugMarkerObjectTagInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkDebugReportCallbackCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEBUG_UTILS_LABEL_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkDebugUtilsLabelEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CALLBACK_DATA_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkDebugUtilsMessengerCallbackDataEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkDebugUtilsMessengerCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEBUG_UTILS_OBJECT_NAME_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkDebugUtilsObjectNameInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEBUG_UTILS_OBJECT_TAG_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkDebugUtilsObjectTagInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_BUFFER_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkDedicatedAllocationBufferCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_IMAGE_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkDedicatedAllocationImageCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_MEMORY_ALLOCATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkDedicatedAllocationMemoryAllocateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_DEFERRED_OPERATION_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkDeferredOperationInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_INLINE_UNIFORM_BLOCK_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkDescriptorPoolInlineUniformBlockCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEVICE_DIAGNOSTICS_CONFIG_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkDeviceDiagnosticsConfigCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEVICE_EVENT_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkDeviceEventInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEVICE_GROUP_PRESENT_CAPABILITIES_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkDeviceGroupPresentCapabilitiesKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEVICE_GROUP_PRESENT_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkDeviceGroupPresentInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEVICE_GROUP_SWAPCHAIN_CREATE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkDeviceGroupSwapchainCreateInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEVICE_MEMORY_OVERALLOCATION_CREATE_INFO_AMD: {
-            return destroy_dynamic_array_copy(1, (const VkDeviceMemoryOverallocationCreateInfoAMD*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEVICE_PRIVATE_DATA_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkDevicePrivateDataCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEVICE_QUEUE_GLOBAL_PRIORITY_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkDeviceQueueGlobalPriorityCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DISPLAY_EVENT_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkDisplayEventInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DISPLAY_MODE_CREATE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkDisplayModeCreateInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DISPLAY_MODE_PROPERTIES_2_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkDisplayModeProperties2KHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DISPLAY_NATIVE_HDR_SURFACE_CAPABILITIES_AMD: {
-            return destroy_dynamic_array_copy(1, (const VkDisplayNativeHdrSurfaceCapabilitiesAMD*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DISPLAY_PLANE_CAPABILITIES_2_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkDisplayPlaneCapabilities2KHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DISPLAY_PLANE_INFO_2_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkDisplayPlaneInfo2KHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DISPLAY_PLANE_PROPERTIES_2_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkDisplayPlaneProperties2KHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DISPLAY_POWER_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkDisplayPowerInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DISPLAY_PRESENT_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkDisplayPresentInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DISPLAY_PROPERTIES_2_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkDisplayProperties2KHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DISPLAY_SURFACE_CREATE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkDisplaySurfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DRM_FORMAT_MODIFIER_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkDrmFormatModifierPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DRM_FORMAT_MODIFIER_PROPERTIES_LIST_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkDrmFormatModifierPropertiesListEXT*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_EXPORT_FENCE_WIN32_HANDLE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkExportFenceWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_EXPORT_MEMORY_ALLOCATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkExportMemoryAllocateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_EXPORT_MEMORY_WIN32_HANDLE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkExportMemoryWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_EXPORT_MEMORY_WIN32_HANDLE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkExportMemoryWin32HandleInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_EXPORT_SEMAPHORE_WIN32_HANDLE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkExportSemaphoreWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VK_STRUCTURE_TYPE_EXTERNAL_FORMAT_ANDROID: {
-            return destroy_dynamic_array_copy(1, (const VkExternalFormatANDROID*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VK_STRUCTURE_TYPE_EXTERNAL_MEMORY_IMAGE_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkExternalMemoryImageCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_FENCE_GET_FD_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkFenceGetFdInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_FENCE_GET_WIN32_HANDLE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkFenceGetWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_FILTER_CUBIC_IMAGE_VIEW_IMAGE_FORMAT_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkFilterCubicImageViewImageFormatPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_FRAMEBUFFER_MIXED_SAMPLES_COMBINATION_NV: {
-            return destroy_dynamic_array_copy(1, (const VkFramebufferMixedSamplesCombinationNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_GENERATED_COMMANDS_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkGeneratedCommandsInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_GENERATED_COMMANDS_MEMORY_REQUIREMENTS_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkGeneratedCommandsMemoryRequirementsInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_GEOMETRY_NV: {
-            return destroy_dynamic_array_copy(1, (const VkGeometryNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_GEOMETRY_TRIANGLES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkGeometryTrianglesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_SHADER_GROUPS_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkGraphicsPipelineShaderGroupsCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_GRAPHICS_SHADER_GROUP_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkGraphicsShaderGroupCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_HDR_METADATA_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkHdrMetadataEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_HEADLESS_SURFACE_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkHeadlessSurfaceCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_IMAGE_DRM_FORMAT_MODIFIER_EXPLICIT_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkImageDrmFormatModifierExplicitCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_IMAGE_DRM_FORMAT_MODIFIER_LIST_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkImageDrmFormatModifierListCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_IMAGE_DRM_FORMAT_MODIFIER_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkImageDrmFormatModifierPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_IMAGE_SWAPCHAIN_CREATE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkImageSwapchainCreateInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_IMAGE_VIEW_ADDRESS_PROPERTIES_NVX: {
-            return destroy_dynamic_array_copy(1, (const VkImageViewAddressPropertiesNVX*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_IMAGE_VIEW_HANDLE_INFO_NVX: {
-            return destroy_dynamic_array_copy(1, (const VkImageViewHandleInfoNVX*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_IMPORT_FENCE_FD_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkImportFenceFdInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_IMPORT_FENCE_WIN32_HANDLE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkImportFenceWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_IMPORT_MEMORY_FD_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkImportMemoryFdInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_IMPORT_MEMORY_HOST_POINTER_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkImportMemoryHostPointerInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_IMPORT_MEMORY_WIN32_HANDLE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkImportMemoryWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_IMPORT_MEMORY_WIN32_HANDLE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkImportMemoryWin32HandleInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_IMPORT_SEMAPHORE_FD_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkImportSemaphoreFdInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_IMPORT_SEMAPHORE_WIN32_HANDLE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkImportSemaphoreWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_INDIRECT_COMMANDS_LAYOUT_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkIndirectCommandsLayoutCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_INDIRECT_COMMANDS_LAYOUT_TOKEN_NV: {
-            return destroy_dynamic_array_copy(1, (const VkIndirectCommandsLayoutTokenNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_INITIALIZE_PERFORMANCE_API_INFO_INTEL: {
-            return destroy_dynamic_array_copy(1, (const VkInitializePerformanceApiInfoINTEL*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_MEMORY_FD_PROPERTIES_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkMemoryFdPropertiesKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_MEMORY_GET_FD_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkMemoryGetFdInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_MEMORY_GET_WIN32_HANDLE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkMemoryGetWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_MEMORY_HOST_POINTER_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkMemoryHostPointerPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_MEMORY_PRIORITY_ALLOCATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkMemoryPriorityAllocateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_MEMORY_WIN32_HANDLE_PROPERTIES_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkMemoryWin32HandlePropertiesKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        #ifdef VK_USE_PLATFORM_METAL_EXT
-        case VK_STRUCTURE_TYPE_METAL_SURFACE_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkMetalSurfaceCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_METAL_EXT
-        case VK_STRUCTURE_TYPE_MULTISAMPLE_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkMultisamplePropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VK_STRUCTURE_TYPE_NATIVE_BUFFER_ANDROID: {
-            return destroy_dynamic_array_copy(1, (const VkNativeBufferANDROID*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VK_STRUCTURE_TYPE_PERFORMANCE_CONFIGURATION_ACQUIRE_INFO_INTEL: {
-            return destroy_dynamic_array_copy(1, (const VkPerformanceConfigurationAcquireInfoINTEL*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PERFORMANCE_COUNTER_DESCRIPTION_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPerformanceCounterDescriptionKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PERFORMANCE_COUNTER_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPerformanceCounterKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PERFORMANCE_MARKER_INFO_INTEL: {
-            return destroy_dynamic_array_copy(1, (const VkPerformanceMarkerInfoINTEL*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PERFORMANCE_OVERRIDE_INFO_INTEL: {
-            return destroy_dynamic_array_copy(1, (const VkPerformanceOverrideInfoINTEL*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PERFORMANCE_QUERY_SUBMIT_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPerformanceQuerySubmitInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PERFORMANCE_STREAM_MARKER_INFO_INTEL: {
-            return destroy_dynamic_array_copy(1, (const VkPerformanceStreamMarkerInfoINTEL*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BLEND_OPERATION_ADVANCED_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BLEND_OPERATION_ADVANCED_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceBufferDeviceAddressFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COHERENT_MEMORY_FEATURES_AMD: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceCoherentMemoryFeaturesAMD*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceComputeShaderDerivativesFeaturesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONDITIONAL_RENDERING_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceConditionalRenderingFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONSERVATIVE_RASTERIZATION_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceConservativeRasterizationPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceCooperativeMatrixFeaturesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_PROPERTIES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceCooperativeMatrixPropertiesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CORNER_SAMPLED_IMAGE_FEATURES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceCornerSampledImageFeaturesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COVERAGE_REDUCTION_MODE_FEATURES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceCoverageReductionModeFeaturesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceCustomBorderColorFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceCustomBorderColorPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEDICATED_ALLOCATION_IMAGE_ALIASING_FEATURES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLIP_ENABLE_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceDepthClipEnableFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_PROPERTIES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DIAGNOSTICS_CONFIG_FEATURES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceDiagnosticsConfigFeaturesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DISCARD_RECTANGLE_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceDiscardRectanglePropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXCLUSIVE_SCISSOR_FEATURES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceExclusiveScissorFeaturesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_MEMORY_HOST_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceExternalMemoryHostPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceFragmentDensityMapFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceFragmentDensityMapPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_BARYCENTRIC_FEATURES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_INTERLOCK_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_DRM_FORMAT_MODIFIER_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceImageDrmFormatModifierInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_IMAGE_FORMAT_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceImageViewImageFormatInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceIndexTypeUint8FeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceInlineUniformBlockFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceInlineUniformBlockPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceLineRasterizationFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceLineRasterizationPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_BUDGET_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceMemoryBudgetPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_PRIORITY_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceMemoryPriorityFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceMeshShaderFeaturesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_PROPERTIES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceMeshShaderPropertiesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_PER_VIEW_ATTRIBUTES_PROPERTIES_NVX: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PERFORMANCE_QUERY_FEATURES_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDevicePerformanceQueryFeaturesKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PERFORMANCE_QUERY_PROPERTIES_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDevicePerformanceQueryPropertiesKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_CREATION_CACHE_CONTROL_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_EXECUTABLE_PROPERTIES_FEATURES_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENTATION_PROPERTIES_ANDROID: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDevicePresentationPropertiesANDROID*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIVATE_DATA_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDevicePrivateDataFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDevicePushDescriptorPropertiesKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_FEATURES_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceRayTracingFeaturesKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PROPERTIES_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceRayTracingPropertiesKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PROPERTIES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceRayTracingPropertiesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_REPRESENTATIVE_FRAGMENT_TEST_FEATURES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceRobustness2FeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceRobustness2PropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLE_LOCATIONS_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceSampleLocationsPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CLOCK_FEATURES_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceShaderClockFeaturesKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CORE_PROPERTIES_2_AMD: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceShaderCoreProperties2AMD*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CORE_PROPERTIES_AMD: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceShaderCorePropertiesAMD*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DEMOTE_TO_HELPER_INVOCATION_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_IMAGE_FOOTPRINT_FEATURES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceShaderImageFootprintFeaturesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_INTEGER_FUNCTIONS_2_FEATURES_INTEL: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_FEATURES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceShadingRateImageFeaturesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_PROPERTIES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceShadingRateImagePropertiesNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceSubgroupSizeControlFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceSubgroupSizeControlPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SURFACE_INFO_2_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceSurfaceInfo2KHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXEL_BUFFER_ALIGNMENT_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXEL_BUFFER_ALIGNMENT_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TOOL_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceToolPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceTransformFeedbackFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceTransformFeedbackPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_YCBCR_IMAGE_ARRAYS_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPhysicalDeviceYcbcrImageArraysFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_ADVANCED_STATE_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineColorBlendAdvancedStateCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_COMPILER_CONTROL_CREATE_INFO_AMD: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineCompilerControlCreateInfoAMD*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_COVERAGE_MODULATION_STATE_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineCoverageModulationStateCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_COVERAGE_REDUCTION_STATE_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineCoverageReductionStateCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_COVERAGE_TO_COLOR_STATE_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineCoverageToColorStateCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_CREATION_FEEDBACK_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineCreationFeedbackCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_DISCARD_RECTANGLE_STATE_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineDiscardRectangleStateCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineExecutableInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_INTERNAL_REPRESENTATION_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineExecutableInternalRepresentationKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_PROPERTIES_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineExecutablePropertiesKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_STATISTIC_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineExecutableStatisticKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_PIPELINE_LIBRARY_CREATE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineLibraryCreateInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_CONSERVATIVE_STATE_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineRasterizationConservativeStateCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_DEPTH_CLIP_STATE_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineRasterizationDepthClipStateCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_LINE_STATE_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineRasterizationLineStateCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_RASTERIZATION_ORDER_AMD: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineRasterizationStateRasterizationOrderAMD*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_STREAM_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineRasterizationStateStreamCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_REPRESENTATIVE_FRAGMENT_TEST_STATE_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineRepresentativeFragmentTestStateCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_SAMPLE_LOCATIONS_STATE_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineSampleLocationsStateCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_REQUIRED_SUBGROUP_SIZE_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_DIVISOR_STATE_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineVertexInputDivisorStateCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_COARSE_SAMPLE_ORDER_STATE_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineViewportCoarseSampleOrderStateCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_EXCLUSIVE_SCISSOR_STATE_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineViewportExclusiveScissorStateCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_SHADING_RATE_IMAGE_STATE_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineViewportShadingRateImageStateCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_SWIZZLE_STATE_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineViewportSwizzleStateCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_W_SCALING_STATE_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineViewportWScalingStateCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_GGP
-        case VK_STRUCTURE_TYPE_PRESENT_FRAME_TOKEN_GGP: {
-            return destroy_dynamic_array_copy(1, (const VkPresentFrameTokenGGP*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_GGP
-        case VK_STRUCTURE_TYPE_PRESENT_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPresentInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PRESENT_REGIONS_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkPresentRegionsKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PRESENT_TIMES_INFO_GOOGLE: {
-            return destroy_dynamic_array_copy(1, (const VkPresentTimesInfoGOOGLE*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PRIVATE_DATA_SLOT_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkPrivateDataSlotCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_QUERY_POOL_PERFORMANCE_CREATE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkQueryPoolPerformanceCreateInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_QUERY_POOL_PERFORMANCE_QUERY_CREATE_INFO_INTEL: {
-            return destroy_dynamic_array_copy(1, (const VkQueryPoolPerformanceQueryCreateInfoINTEL*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_QUEUE_FAMILY_CHECKPOINT_PROPERTIES_NV: {
-            return destroy_dynamic_array_copy(1, (const VkQueueFamilyCheckpointPropertiesNV*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_RAY_TRACING_PIPELINE_CREATE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkRayTracingPipelineCreateInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_RAY_TRACING_PIPELINE_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkRayTracingPipelineCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_RAY_TRACING_PIPELINE_INTERFACE_CREATE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkRayTracingPipelineInterfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_RAY_TRACING_SHADER_GROUP_CREATE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkRayTracingShaderGroupCreateInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_RAY_TRACING_SHADER_GROUP_CREATE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkRayTracingShaderGroupCreateInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_RENDER_PASS_FRAGMENT_DENSITY_MAP_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkRenderPassFragmentDensityMapCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_RENDER_PASS_SAMPLE_LOCATIONS_BEGIN_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkRenderPassSampleLocationsBeginInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_RENDER_PASS_TRANSFORM_BEGIN_INFO_QCOM: {
-            return destroy_dynamic_array_copy(1, (const VkRenderPassTransformBeginInfoQCOM*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_SAMPLER_CUSTOM_BORDER_COLOR_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkSamplerCustomBorderColorCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_SAMPLE_LOCATIONS_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkSampleLocationsInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_SEMAPHORE_GET_FD_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkSemaphoreGetFdInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_SEMAPHORE_GET_WIN32_HANDLE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkSemaphoreGetWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_SHADER_MODULE_VALIDATION_CACHE_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkShaderModuleValidationCacheCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_SHARED_PRESENT_SURFACE_CAPABILITIES_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkSharedPresentSurfaceCapabilitiesKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_GGP
-        case VK_STRUCTURE_TYPE_STREAM_DESCRIPTOR_SURFACE_CREATE_INFO_GGP: {
-            return destroy_dynamic_array_copy(1, (const VkStreamDescriptorSurfaceCreateInfoGGP*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_GGP
-        case VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_2_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkSurfaceCapabilities2EXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_2_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkSurfaceCapabilities2KHR*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_FULL_SCREEN_EXCLUSIVE_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkSurfaceCapabilitiesFullScreenExclusiveEXT*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_SURFACE_FORMAT_2_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkSurfaceFormat2KHR*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_SURFACE_FULL_SCREEN_EXCLUSIVE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkSurfaceFullScreenExclusiveInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_SURFACE_FULL_SCREEN_EXCLUSIVE_WIN32_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkSurfaceFullScreenExclusiveWin32InfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_SURFACE_PROTECTED_CAPABILITIES_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkSurfaceProtectedCapabilitiesKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_SWAPCHAIN_COUNTER_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkSwapchainCounterCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkSwapchainCreateInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_SWAPCHAIN_DISPLAY_NATIVE_HDR_CREATE_INFO_AMD: {
-            return destroy_dynamic_array_copy(1, (const VkSwapchainDisplayNativeHdrCreateInfoAMD*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VK_STRUCTURE_TYPE_SWAPCHAIN_IMAGE_CREATE_INFO_ANDROID: {
-            return destroy_dynamic_array_copy(1, (const VkSwapchainImageCreateInfoANDROID*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VK_STRUCTURE_TYPE_VALIDATION_CACHE_CREATE_INFO_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkValidationCacheCreateInfoEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkValidationFeaturesEXT*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_VALIDATION_FLAGS_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkValidationFlagsEXT*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_VI_NN
-        case VK_STRUCTURE_TYPE_VI_SURFACE_CREATE_INFO_NN: {
-            return destroy_dynamic_array_copy(1, (const VkViSurfaceCreateInfoNN*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_VI_NN
-        #ifdef VK_USE_PLATFORM_WAYLAND_KHR
-        case VK_STRUCTURE_TYPE_WAYLAND_SURFACE_CREATE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkWaylandSurfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WAYLAND_KHR
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_WIN32_KEYED_MUTEX_ACQUIRE_RELEASE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkWin32KeyedMutexAcquireReleaseInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_WIN32_KEYED_MUTEX_ACQUIRE_RELEASE_INFO_NV: {
-            return destroy_dynamic_array_copy(1, (const VkWin32KeyedMutexAcquireReleaseInfoNV*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkWin32SurfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_ACCELERATION_STRUCTURE_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkWriteDescriptorSetAccelerationStructureKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_INLINE_UNIFORM_BLOCK_EXT: {
-            return destroy_dynamic_array_copy(1, (const VkWriteDescriptorSetInlineUniformBlockEXT*)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_XCB_KHR
-        case VK_STRUCTURE_TYPE_XCB_SURFACE_CREATE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkXcbSurfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_XCB_KHR
-        #ifdef VK_USE_PLATFORM_XLIB_KHR
-        case VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR: {
-            return destroy_dynamic_array_copy(1, (const VkXlibSurfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_XLIB_KHR
-        case VK_STRUCTURE_TYPE_APPLICATION_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkApplicationInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkInstanceCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_EVENT_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkEventCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_QUERY_POOL_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkQueryPoolCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkBufferCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_BUFFER_VIEW_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkBufferViewCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkImageCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkImageViewCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkShaderModuleCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineCacheCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineShaderStageCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineVertexInputStateCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkDeviceQueueCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineInputAssemblyStateCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineTessellationStateCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineViewportStateCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineRasterizationStateCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineMultisampleStateCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineDepthStencilStateCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineColorBlendStateCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineDynamicStateCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkGraphicsPipelineCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkComputePipelineCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkDeviceCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkPipelineLayoutCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkSamplerCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkDescriptorSetLayoutCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkDescriptorPoolCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkDescriptorSetAllocateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET: {
-            return destroy_dynamic_array_copy(1, (const VkWriteDescriptorSet*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_COPY_DESCRIPTOR_SET: {
-            return destroy_dynamic_array_copy(1, (const VkCopyDescriptorSet*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkFramebufferCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkRenderPassCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkCommandPoolCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_SUBMIT_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkSubmitInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkCommandBufferAllocateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkCommandBufferInheritanceInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkCommandBufferBeginInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkRenderPassBeginInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER: {
-            return destroy_dynamic_array_copy(1, (const VkBufferMemoryBarrier*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER: {
-            return destroy_dynamic_array_copy(1, (const VkImageMemoryBarrier*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_MEMORY_BARRIER: {
-            return destroy_dynamic_array_copy(1, (const VkMemoryBarrier*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkMemoryAllocateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE: {
-            return destroy_dynamic_array_copy(1, (const VkMappedMemoryRange*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_BIND_SPARSE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkBindSparseInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_FENCE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkFenceCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        case VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO: {
-            return destroy_dynamic_array_copy(1, (const VkSemaphoreCreateInfo*)pNext, pAllocationCallbacks);
-        } break;
-        }
-    }
-    return nullptr;
-}
+////////////////////////////////////////////////////////////////////////////////
+// NOTE : The following functions are manually implemented
+#if 0
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+VkAccelerationStructureInstanceKHR destroy_structure_copy<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+VkAccelerationStructureVersionKHR destroy_structure_copy<VkAccelerationStructureVersionKHR>(const VkAccelerationStructureVersionKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+VkClearColorValue destroy_structure_copy<VkClearColorValue>(const VkClearColorValue& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+
+template <>
+VkClearValue destroy_structure_copy<VkClearValue>(const VkClearValue& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+
+template <>
+VkPerformanceCounterResultKHR destroy_structure_copy<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+
+template <>
+VkPerformanceValueDataINTEL destroy_structure_copy<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+
+template <>
+VkPipelineExecutableStatisticValueKHR destroy_structure_copy<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+
+template <>
+VkPipelineMultisampleStateCreateInfo destroy_structure_copy<VkPipelineMultisampleStateCreateInfo>(const VkPipelineMultisampleStateCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+
+template <>
+VkShaderModuleCreateInfo destroy_structure_copy<VkShaderModuleCreateInfo>(const VkShaderModuleCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+VkTransformMatrixKHR destroy_structure_copy<VkTransformMatrixKHR>(const VkTransformMatrixKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif
+////////////////////////////////////////////////////////////////////////////////
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 VkAabbPositionsKHR destroy_structure_copy<VkAabbPositionsKHR>(const VkAabbPositionsKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAabbPositionsKHR result { };
-    destroy_structure_copy(obj.minX, pAllocationCallbacks);
-    destroy_structure_copy(obj.minY, pAllocationCallbacks);
-    destroy_structure_copy(obj.minZ, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxX, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxY, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxZ, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
+
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 VkAccelerationStructureBuildGeometryInfoKHR destroy_structure_copy<VkAccelerationStructureBuildGeometryInfoKHR>(const VkAccelerationStructureBuildGeometryInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAccelerationStructureBuildGeometryInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.type, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.update, pAllocationCallbacks);
-    destroy_structure_copy(obj.srcAccelerationStructure, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstAccelerationStructure, pAllocationCallbacks);
-    destroy_structure_copy(obj.geometryArrayOfPointers, pAllocationCallbacks);
-    destroy_structure_copy(obj.geometryCount, pAllocationCallbacks);
-
+    destroy_dynamic_array_copy(1, obj.ppGeometries, pAllocationCallbacks);
     destroy_structure_copy(obj.scratchData, pAllocationCallbacks);
     return result;
 }
@@ -1076,10 +81,6 @@ template <>
 VkAccelerationStructureBuildOffsetInfoKHR destroy_structure_copy<VkAccelerationStructureBuildOffsetInfoKHR>(const VkAccelerationStructureBuildOffsetInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAccelerationStructureBuildOffsetInfoKHR result { };
-    destroy_structure_copy(obj.primitiveCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.primitiveOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.firstVertex, pAllocationCallbacks);
-    destroy_structure_copy(obj.transformOffset, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -1089,14 +90,7 @@ template <>
 VkAccelerationStructureCreateGeometryTypeInfoKHR destroy_structure_copy<VkAccelerationStructureCreateGeometryTypeInfoKHR>(const VkAccelerationStructureCreateGeometryTypeInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAccelerationStructureCreateGeometryTypeInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.geometryType, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPrimitiveCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.indexType, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxVertexCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexFormat, pAllocationCallbacks);
-    destroy_structure_copy(obj.allowsTransforms, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -1106,14 +100,8 @@ template <>
 VkAccelerationStructureCreateInfoKHR destroy_structure_copy<VkAccelerationStructureCreateInfoKHR>(const VkAccelerationStructureCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAccelerationStructureCreateInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.compactedSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.type, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxGeometryCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.maxGeometryCount, obj.pGeometryInfos, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceAddress, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -1122,9 +110,7 @@ template <>
 VkAccelerationStructureCreateInfoNV destroy_structure_copy<VkAccelerationStructureCreateInfoNV>(const VkAccelerationStructureCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAccelerationStructureCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.compactedSize, pAllocationCallbacks);
     destroy_structure_copy(obj.info, pAllocationCallbacks);
     return result;
 }
@@ -1134,9 +120,7 @@ template <>
 VkAccelerationStructureDeviceAddressInfoKHR destroy_structure_copy<VkAccelerationStructureDeviceAddressInfoKHR>(const VkAccelerationStructureDeviceAddressInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAccelerationStructureDeviceAddressInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.accelerationStructure, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -1146,10 +130,8 @@ template <>
 VkAccelerationStructureGeometryAabbsDataKHR destroy_structure_copy<VkAccelerationStructureGeometryAabbsDataKHR>(const VkAccelerationStructureGeometryAabbsDataKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAccelerationStructureGeometryAabbsDataKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.data, pAllocationCallbacks);
-    destroy_structure_copy(obj.stride, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -1171,9 +153,7 @@ template <>
 VkAccelerationStructureGeometryInstancesDataKHR destroy_structure_copy<VkAccelerationStructureGeometryInstancesDataKHR>(const VkAccelerationStructureGeometryInstancesDataKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAccelerationStructureGeometryInstancesDataKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.arrayOfPointers, pAllocationCallbacks);
     destroy_structure_copy(obj.data, pAllocationCallbacks);
     return result;
 }
@@ -1184,11 +164,8 @@ template <>
 VkAccelerationStructureGeometryKHR destroy_structure_copy<VkAccelerationStructureGeometryKHR>(const VkAccelerationStructureGeometryKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAccelerationStructureGeometryKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.geometryType, pAllocationCallbacks);
     destroy_structure_copy(obj.geometry, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -1198,12 +175,8 @@ template <>
 VkAccelerationStructureGeometryTrianglesDataKHR destroy_structure_copy<VkAccelerationStructureGeometryTrianglesDataKHR>(const VkAccelerationStructureGeometryTrianglesDataKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAccelerationStructureGeometryTrianglesDataKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexFormat, pAllocationCallbacks);
     destroy_structure_copy(obj.vertexData, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexStride, pAllocationCallbacks);
-    destroy_structure_copy(obj.indexType, pAllocationCallbacks);
     destroy_structure_copy(obj.indexData, pAllocationCallbacks);
     destroy_structure_copy(obj.transformData, pAllocationCallbacks);
     return result;
@@ -1214,41 +187,19 @@ template <>
 VkAccelerationStructureInfoNV destroy_structure_copy<VkAccelerationStructureInfoNV>(const VkAccelerationStructureInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAccelerationStructureInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.type, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.instanceCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.geometryCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.geometryCount, obj.pGeometries, pAllocationCallbacks);
     return result;
 }
 
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-VkAccelerationStructureInstanceKHR destroy_structure_copy<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkAccelerationStructureInstanceKHR result { };
-    destroy_structure_copy(obj.transform, pAllocationCallbacks);
-    destroy_structure_copy(obj.instanceCustomIndex, pAllocationCallbacks);
-    destroy_structure_copy(obj.mask, pAllocationCallbacks);
-    destroy_structure_copy(obj.instanceShaderBindingTableRecordOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.accelerationStructureReference, pAllocationCallbacks);
-    return result;
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
+
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 VkAccelerationStructureMemoryRequirementsInfoKHR destroy_structure_copy<VkAccelerationStructureMemoryRequirementsInfoKHR>(const VkAccelerationStructureMemoryRequirementsInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAccelerationStructureMemoryRequirementsInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.type, pAllocationCallbacks);
-    destroy_structure_copy(obj.buildType, pAllocationCallbacks);
-    destroy_structure_copy(obj.accelerationStructure, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -1257,36 +208,16 @@ template <>
 VkAccelerationStructureMemoryRequirementsInfoNV destroy_structure_copy<VkAccelerationStructureMemoryRequirementsInfoNV>(const VkAccelerationStructureMemoryRequirementsInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAccelerationStructureMemoryRequirementsInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.type, pAllocationCallbacks);
-    destroy_structure_copy(obj.accelerationStructure, pAllocationCallbacks);
     return result;
 }
 
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-VkAccelerationStructureVersionKHR destroy_structure_copy<VkAccelerationStructureVersionKHR>(const VkAccelerationStructureVersionKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkAccelerationStructureVersionKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_dynamic_array_copy(obj.2*VK_UUID_SIZE, obj.versionData, pAllocationCallbacks);
-    return result;
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
 
 template <>
 VkAcquireNextImageInfoKHR destroy_structure_copy<VkAcquireNextImageInfoKHR>(const VkAcquireNextImageInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAcquireNextImageInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.swapchain, pAllocationCallbacks);
-    destroy_structure_copy(obj.timeout, pAllocationCallbacks);
-    destroy_structure_copy(obj.semaphore, pAllocationCallbacks);
-    destroy_structure_copy(obj.fence, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceMask, pAllocationCallbacks);
     return result;
 }
 
@@ -1294,10 +225,7 @@ template <>
 VkAcquireProfilingLockInfoKHR destroy_structure_copy<VkAcquireProfilingLockInfoKHR>(const VkAcquireProfilingLockInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAcquireProfilingLockInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.timeout, pAllocationCallbacks);
     return result;
 }
 
@@ -1305,12 +233,6 @@ template <>
 VkAllocationCallbacks destroy_structure_copy<VkAllocationCallbacks>(const VkAllocationCallbacks& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAllocationCallbacks result { };
-
-
-
-
-
-
     return result;
 }
 
@@ -1319,16 +241,8 @@ template <>
 VkAndroidHardwareBufferFormatPropertiesANDROID destroy_structure_copy<VkAndroidHardwareBufferFormatPropertiesANDROID>(const VkAndroidHardwareBufferFormatPropertiesANDROID& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAndroidHardwareBufferFormatPropertiesANDROID result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.format, pAllocationCallbacks);
-    destroy_structure_copy(obj.externalFormat, pAllocationCallbacks);
-    destroy_structure_copy(obj.formatFeatures, pAllocationCallbacks);
     destroy_structure_copy(obj.samplerYcbcrConversionComponents, pAllocationCallbacks);
-    destroy_structure_copy(obj.suggestedYcbcrModel, pAllocationCallbacks);
-    destroy_structure_copy(obj.suggestedYcbcrRange, pAllocationCallbacks);
-    destroy_structure_copy(obj.suggestedXChromaOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.suggestedYChromaOffset, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -1338,10 +252,7 @@ template <>
 VkAndroidHardwareBufferPropertiesANDROID destroy_structure_copy<VkAndroidHardwareBufferPropertiesANDROID>(const VkAndroidHardwareBufferPropertiesANDROID& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAndroidHardwareBufferPropertiesANDROID result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.allocationSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.memoryTypeBits, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -1351,9 +262,7 @@ template <>
 VkAndroidHardwareBufferUsageANDROID destroy_structure_copy<VkAndroidHardwareBufferUsageANDROID>(const VkAndroidHardwareBufferUsageANDROID& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAndroidHardwareBufferUsageANDROID result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.androidHardwareBufferUsage, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -1363,10 +272,7 @@ template <>
 VkAndroidSurfaceCreateInfoKHR destroy_structure_copy<VkAndroidSurfaceCreateInfoKHR>(const VkAndroidSurfaceCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAndroidSurfaceCreateInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-
     return result;
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -1375,13 +281,9 @@ template <>
 VkApplicationInfo destroy_structure_copy<VkApplicationInfo>(const VkApplicationInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkApplicationInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_dynamic_string_copy(obj.pApplicationName, pAllocationCallbacks);
-    destroy_structure_copy(obj.applicationVersion, pAllocationCallbacks);
     destroy_dynamic_string_copy(obj.pEngineName, pAllocationCallbacks);
-    destroy_structure_copy(obj.engineVersion, pAllocationCallbacks);
-    destroy_structure_copy(obj.apiVersion, pAllocationCallbacks);
     return result;
 }
 
@@ -1389,15 +291,6 @@ template <>
 VkAttachmentDescription destroy_structure_copy<VkAttachmentDescription>(const VkAttachmentDescription& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAttachmentDescription result { };
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.format, pAllocationCallbacks);
-    destroy_structure_copy(obj.samples, pAllocationCallbacks);
-    destroy_structure_copy(obj.loadOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.storeOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.stencilLoadOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.stencilStoreOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.initialLayout, pAllocationCallbacks);
-    destroy_structure_copy(obj.finalLayout, pAllocationCallbacks);
     return result;
 }
 
@@ -1405,37 +298,24 @@ template <>
 VkAttachmentDescription2 destroy_structure_copy<VkAttachmentDescription2>(const VkAttachmentDescription2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAttachmentDescription2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.format, pAllocationCallbacks);
-    destroy_structure_copy(obj.samples, pAllocationCallbacks);
-    destroy_structure_copy(obj.loadOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.storeOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.stencilLoadOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.stencilStoreOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.initialLayout, pAllocationCallbacks);
-    destroy_structure_copy(obj.finalLayout, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkAttachmentDescriptionStencilLayout destroy_structure_copy<VkAttachmentDescriptionStencilLayout>(const VkAttachmentDescriptionStencilLayout& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAttachmentDescriptionStencilLayout result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.stencilInitialLayout, pAllocationCallbacks);
-    destroy_structure_copy(obj.stencilFinalLayout, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkAttachmentReference destroy_structure_copy<VkAttachmentReference>(const VkAttachmentReference& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAttachmentReference result { };
-    destroy_structure_copy(obj.attachment, pAllocationCallbacks);
-    destroy_structure_copy(obj.layout, pAllocationCallbacks);
     return result;
 }
 
@@ -1443,29 +323,24 @@ template <>
 VkAttachmentReference2 destroy_structure_copy<VkAttachmentReference2>(const VkAttachmentReference2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAttachmentReference2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.attachment, pAllocationCallbacks);
-    destroy_structure_copy(obj.layout, pAllocationCallbacks);
-    destroy_structure_copy(obj.aspectMask, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkAttachmentReferenceStencilLayout destroy_structure_copy<VkAttachmentReferenceStencilLayout>(const VkAttachmentReferenceStencilLayout& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAttachmentReferenceStencilLayout result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.stencilLayout, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkAttachmentSampleLocationsEXT destroy_structure_copy<VkAttachmentSampleLocationsEXT>(const VkAttachmentSampleLocationsEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkAttachmentSampleLocationsEXT result { };
-    destroy_structure_copy(obj.attachmentIndex, pAllocationCallbacks);
     destroy_structure_copy(obj.sampleLocationsInfo, pAllocationCallbacks);
     return result;
 }
@@ -1474,7 +349,6 @@ template <>
 VkBaseInStructure destroy_structure_copy<VkBaseInStructure>(const VkBaseInStructure& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBaseInStructure result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     return result;
 }
@@ -1483,7 +357,6 @@ template <>
 VkBaseOutStructure destroy_structure_copy<VkBaseOutStructure>(const VkBaseOutStructure& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBaseOutStructure result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     return result;
 }
@@ -1493,73 +366,57 @@ template <>
 VkBindAccelerationStructureMemoryInfoKHR destroy_structure_copy<VkBindAccelerationStructureMemoryInfoKHR>(const VkBindAccelerationStructureMemoryInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBindAccelerationStructureMemoryInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.accelerationStructure, pAllocationCallbacks);
-    destroy_structure_copy(obj.memory, pAllocationCallbacks);
-    destroy_structure_copy(obj.memoryOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceIndexCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.deviceIndexCount, obj.pDeviceIndices, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
+
 template <>
 VkBindBufferMemoryDeviceGroupInfo destroy_structure_copy<VkBindBufferMemoryDeviceGroupInfo>(const VkBindBufferMemoryDeviceGroupInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBindBufferMemoryDeviceGroupInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceIndexCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.deviceIndexCount, obj.pDeviceIndices, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkBindBufferMemoryInfo destroy_structure_copy<VkBindBufferMemoryInfo>(const VkBindBufferMemoryInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBindBufferMemoryInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.buffer, pAllocationCallbacks);
-    destroy_structure_copy(obj.memory, pAllocationCallbacks);
-    destroy_structure_copy(obj.memoryOffset, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkBindImageMemoryDeviceGroupInfo destroy_structure_copy<VkBindImageMemoryDeviceGroupInfo>(const VkBindImageMemoryDeviceGroupInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBindImageMemoryDeviceGroupInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceIndexCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.deviceIndexCount, obj.pDeviceIndices, pAllocationCallbacks);
-    destroy_structure_copy(obj.splitInstanceBindRegionCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.splitInstanceBindRegionCount, obj.pSplitInstanceBindRegions, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkBindImageMemoryInfo destroy_structure_copy<VkBindImageMemoryInfo>(const VkBindImageMemoryInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBindImageMemoryInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.image, pAllocationCallbacks);
-    destroy_structure_copy(obj.memory, pAllocationCallbacks);
-    destroy_structure_copy(obj.memoryOffset, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkBindImageMemorySwapchainInfoKHR destroy_structure_copy<VkBindImageMemorySwapchainInfoKHR>(const VkBindImageMemorySwapchainInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBindImageMemorySwapchainInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.swapchain, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageIndex, pAllocationCallbacks);
     return result;
 }
 
@@ -1567,19 +424,15 @@ template <>
 VkBindImagePlaneMemoryInfo destroy_structure_copy<VkBindImagePlaneMemoryInfo>(const VkBindImagePlaneMemoryInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBindImagePlaneMemoryInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.planeAspect, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkBindIndexBufferIndirectCommandNV destroy_structure_copy<VkBindIndexBufferIndirectCommandNV>(const VkBindIndexBufferIndirectCommandNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBindIndexBufferIndirectCommandNV result { };
-    destroy_structure_copy(obj.bufferAddress, pAllocationCallbacks);
-    destroy_structure_copy(obj.size, pAllocationCallbacks);
-    destroy_structure_copy(obj.indexType, pAllocationCallbacks);
     return result;
 }
 
@@ -1587,7 +440,6 @@ template <>
 VkBindShaderGroupIndirectCommandNV destroy_structure_copy<VkBindShaderGroupIndirectCommandNV>(const VkBindShaderGroupIndirectCommandNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBindShaderGroupIndirectCommandNV result { };
-    destroy_structure_copy(obj.groupIndex, pAllocationCallbacks);
     return result;
 }
 
@@ -1595,17 +447,11 @@ template <>
 VkBindSparseInfo destroy_structure_copy<VkBindSparseInfo>(const VkBindSparseInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBindSparseInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.waitSemaphoreCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.waitSemaphoreCount, obj.pWaitSemaphores, pAllocationCallbacks);
-    destroy_structure_copy(obj.bufferBindCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.bufferBindCount, obj.pBufferBinds, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageOpaqueBindCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.imageOpaqueBindCount, obj.pImageOpaqueBinds, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageBindCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.imageBindCount, obj.pImageBinds, pAllocationCallbacks);
-    destroy_structure_copy(obj.signalSemaphoreCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.signalSemaphoreCount, obj.pSignalSemaphores, pAllocationCallbacks);
     return result;
 }
@@ -1614,9 +460,6 @@ template <>
 VkBindVertexBufferIndirectCommandNV destroy_structure_copy<VkBindVertexBufferIndirectCommandNV>(const VkBindVertexBufferIndirectCommandNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBindVertexBufferIndirectCommandNV result { };
-    destroy_structure_copy(obj.bufferAddress, pAllocationCallbacks);
-    destroy_structure_copy(obj.size, pAllocationCallbacks);
-    destroy_structure_copy(obj.stride, pAllocationCallbacks);
     return result;
 }
 
@@ -1624,9 +467,6 @@ template <>
 VkBufferCopy destroy_structure_copy<VkBufferCopy>(const VkBufferCopy& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBufferCopy result { };
-    destroy_structure_copy(obj.srcOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.size, pAllocationCallbacks);
     return result;
 }
 
@@ -1634,13 +474,7 @@ template <>
 VkBufferCreateInfo destroy_structure_copy<VkBufferCreateInfo>(const VkBufferCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBufferCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.size, pAllocationCallbacks);
-    destroy_structure_copy(obj.usage, pAllocationCallbacks);
-    destroy_structure_copy(obj.sharingMode, pAllocationCallbacks);
-    destroy_structure_copy(obj.queueFamilyIndexCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.queueFamilyIndexCount, obj.pQueueFamilyIndices, pAllocationCallbacks);
     return result;
 }
@@ -1649,9 +483,7 @@ template <>
 VkBufferDeviceAddressCreateInfoEXT destroy_structure_copy<VkBufferDeviceAddressCreateInfoEXT>(const VkBufferDeviceAddressCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBufferDeviceAddressCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceAddress, pAllocationCallbacks);
     return result;
 }
 
@@ -1659,19 +491,16 @@ template <>
 VkBufferDeviceAddressInfo destroy_structure_copy<VkBufferDeviceAddressInfo>(const VkBufferDeviceAddressInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBufferDeviceAddressInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.buffer, pAllocationCallbacks);
     return result;
 }
+
+
 
 template <>
 VkBufferImageCopy destroy_structure_copy<VkBufferImageCopy>(const VkBufferImageCopy& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBufferImageCopy result { };
-    destroy_structure_copy(obj.bufferOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.bufferRowLength, pAllocationCallbacks);
-    destroy_structure_copy(obj.bufferImageHeight, pAllocationCallbacks);
     destroy_structure_copy(obj.imageSubresource, pAllocationCallbacks);
     destroy_structure_copy(obj.imageOffset, pAllocationCallbacks);
     destroy_structure_copy(obj.imageExtent, pAllocationCallbacks);
@@ -1682,15 +511,7 @@ template <>
 VkBufferMemoryBarrier destroy_structure_copy<VkBufferMemoryBarrier>(const VkBufferMemoryBarrier& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBufferMemoryBarrier result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.srcAccessMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstAccessMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.srcQueueFamilyIndex, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstQueueFamilyIndex, pAllocationCallbacks);
-    destroy_structure_copy(obj.buffer, pAllocationCallbacks);
-    destroy_structure_copy(obj.offset, pAllocationCallbacks);
-    destroy_structure_copy(obj.size, pAllocationCallbacks);
     return result;
 }
 
@@ -1698,33 +519,25 @@ template <>
 VkBufferMemoryRequirementsInfo2 destroy_structure_copy<VkBufferMemoryRequirementsInfo2>(const VkBufferMemoryRequirementsInfo2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBufferMemoryRequirementsInfo2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.buffer, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkBufferOpaqueCaptureAddressCreateInfo destroy_structure_copy<VkBufferOpaqueCaptureAddressCreateInfo>(const VkBufferOpaqueCaptureAddressCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBufferOpaqueCaptureAddressCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.opaqueCaptureAddress, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkBufferViewCreateInfo destroy_structure_copy<VkBufferViewCreateInfo>(const VkBufferViewCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkBufferViewCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.buffer, pAllocationCallbacks);
-    destroy_structure_copy(obj.format, pAllocationCallbacks);
-    destroy_structure_copy(obj.offset, pAllocationCallbacks);
-    destroy_structure_copy(obj.range, pAllocationCallbacks);
     return result;
 }
 
@@ -1732,9 +545,7 @@ template <>
 VkCalibratedTimestampInfoEXT destroy_structure_copy<VkCalibratedTimestampInfoEXT>(const VkCalibratedTimestampInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkCalibratedTimestampInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.timeDomain, pAllocationCallbacks);
     return result;
 }
 
@@ -1742,10 +553,7 @@ template <>
 VkCheckpointDataNV destroy_structure_copy<VkCheckpointDataNV>(const VkCheckpointDataNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkCheckpointDataNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.stage, pAllocationCallbacks);
-
     return result;
 }
 
@@ -1753,28 +561,15 @@ template <>
 VkClearAttachment destroy_structure_copy<VkClearAttachment>(const VkClearAttachment& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkClearAttachment result { };
-    destroy_structure_copy(obj.aspectMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.colorAttachment, pAllocationCallbacks);
     destroy_structure_copy(obj.clearValue, pAllocationCallbacks);
     return result;
 }
 
-template <>
-VkClearColorValue destroy_structure_copy<VkClearColorValue>(const VkClearColorValue& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkClearColorValue result { };
-    destroy_static_array_copy<4>(obj.float32, pAllocationCallbacks);
-    destroy_static_array_copy<4>(obj.int32, pAllocationCallbacks);
-    destroy_static_array_copy<4>(obj.uint32, pAllocationCallbacks);
-    return result;
-}
 
 template <>
 VkClearDepthStencilValue destroy_structure_copy<VkClearDepthStencilValue>(const VkClearDepthStencilValue& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkClearDepthStencilValue result { };
-    destroy_structure_copy(obj.depth, pAllocationCallbacks);
-    destroy_structure_copy(obj.stencil, pAllocationCallbacks);
     return result;
 }
 
@@ -1783,27 +578,14 @@ VkClearRect destroy_structure_copy<VkClearRect>(const VkClearRect& obj, const Vk
 {
     VkClearRect result { };
     destroy_structure_copy(obj.rect, pAllocationCallbacks);
-    destroy_structure_copy(obj.baseArrayLayer, pAllocationCallbacks);
-    destroy_structure_copy(obj.layerCount, pAllocationCallbacks);
     return result;
 }
 
-template <>
-VkClearValue destroy_structure_copy<VkClearValue>(const VkClearValue& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkClearValue result { };
-    destroy_structure_copy(obj.color, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthStencil, pAllocationCallbacks);
-    return result;
-}
 
 template <>
 VkCoarseSampleLocationNV destroy_structure_copy<VkCoarseSampleLocationNV>(const VkCoarseSampleLocationNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkCoarseSampleLocationNV result { };
-    destroy_structure_copy(obj.pixelX, pAllocationCallbacks);
-    destroy_structure_copy(obj.pixelY, pAllocationCallbacks);
-    destroy_structure_copy(obj.sample, pAllocationCallbacks);
     return result;
 }
 
@@ -1811,9 +593,6 @@ template <>
 VkCoarseSampleOrderCustomNV destroy_structure_copy<VkCoarseSampleOrderCustomNV>(const VkCoarseSampleOrderCustomNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkCoarseSampleOrderCustomNV result { };
-    destroy_structure_copy(obj.shadingRate, pAllocationCallbacks);
-    destroy_structure_copy(obj.sampleCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.sampleLocationCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.sampleLocationCount, obj.pSampleLocations, pAllocationCallbacks);
     return result;
 }
@@ -1822,11 +601,7 @@ template <>
 VkCommandBufferAllocateInfo destroy_structure_copy<VkCommandBufferAllocateInfo>(const VkCommandBufferAllocateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkCommandBufferAllocateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.commandPool, pAllocationCallbacks);
-    destroy_structure_copy(obj.level, pAllocationCallbacks);
-    destroy_structure_copy(obj.commandBufferCount, pAllocationCallbacks);
     return result;
 }
 
@@ -1834,10 +609,8 @@ template <>
 VkCommandBufferBeginInfo destroy_structure_copy<VkCommandBufferBeginInfo>(const VkCommandBufferBeginInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkCommandBufferBeginInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-
+    destroy_dynamic_array_copy(1, obj.pInheritanceInfo, pAllocationCallbacks);
     return result;
 }
 
@@ -1845,9 +618,7 @@ template <>
 VkCommandBufferInheritanceConditionalRenderingInfoEXT destroy_structure_copy<VkCommandBufferInheritanceConditionalRenderingInfoEXT>(const VkCommandBufferInheritanceConditionalRenderingInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkCommandBufferInheritanceConditionalRenderingInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.conditionalRenderingEnable, pAllocationCallbacks);
     return result;
 }
 
@@ -1855,14 +626,7 @@ template <>
 VkCommandBufferInheritanceInfo destroy_structure_copy<VkCommandBufferInheritanceInfo>(const VkCommandBufferInheritanceInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkCommandBufferInheritanceInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.renderPass, pAllocationCallbacks);
-    destroy_structure_copy(obj.subpass, pAllocationCallbacks);
-    destroy_structure_copy(obj.framebuffer, pAllocationCallbacks);
-    destroy_structure_copy(obj.occlusionQueryEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.queryFlags, pAllocationCallbacks);
-    destroy_structure_copy(obj.pipelineStatistics, pAllocationCallbacks);
     return result;
 }
 
@@ -1870,9 +634,7 @@ template <>
 VkCommandBufferInheritanceRenderPassTransformInfoQCOM destroy_structure_copy<VkCommandBufferInheritanceRenderPassTransformInfoQCOM>(const VkCommandBufferInheritanceRenderPassTransformInfoQCOM& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkCommandBufferInheritanceRenderPassTransformInfoQCOM result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.transform, pAllocationCallbacks);
     destroy_structure_copy(obj.renderArea, pAllocationCallbacks);
     return result;
 }
@@ -1881,10 +643,7 @@ template <>
 VkCommandPoolCreateInfo destroy_structure_copy<VkCommandPoolCreateInfo>(const VkCommandPoolCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkCommandPoolCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.queueFamilyIndex, pAllocationCallbacks);
     return result;
 }
 
@@ -1892,10 +651,6 @@ template <>
 VkComponentMapping destroy_structure_copy<VkComponentMapping>(const VkComponentMapping& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkComponentMapping result { };
-    destroy_structure_copy(obj.r, pAllocationCallbacks);
-    destroy_structure_copy(obj.g, pAllocationCallbacks);
-    destroy_structure_copy(obj.b, pAllocationCallbacks);
-    destroy_structure_copy(obj.a, pAllocationCallbacks);
     return result;
 }
 
@@ -1903,13 +658,8 @@ template <>
 VkComputePipelineCreateInfo destroy_structure_copy<VkComputePipelineCreateInfo>(const VkComputePipelineCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkComputePipelineCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
     destroy_structure_copy(obj.stage, pAllocationCallbacks);
-    destroy_structure_copy(obj.layout, pAllocationCallbacks);
-    destroy_structure_copy(obj.basePipelineHandle, pAllocationCallbacks);
-    destroy_structure_copy(obj.basePipelineIndex, pAllocationCallbacks);
     return result;
 }
 
@@ -1917,11 +667,7 @@ template <>
 VkConditionalRenderingBeginInfoEXT destroy_structure_copy<VkConditionalRenderingBeginInfoEXT>(const VkConditionalRenderingBeginInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkConditionalRenderingBeginInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.buffer, pAllocationCallbacks);
-    destroy_structure_copy(obj.offset, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
     return result;
 }
 
@@ -1929,27 +675,15 @@ template <>
 VkConformanceVersion destroy_structure_copy<VkConformanceVersion>(const VkConformanceVersion& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkConformanceVersion result { };
-    destroy_structure_copy(obj.major, pAllocationCallbacks);
-    destroy_structure_copy(obj.minor, pAllocationCallbacks);
-    destroy_structure_copy(obj.subminor, pAllocationCallbacks);
-    destroy_structure_copy(obj.patch, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkCooperativeMatrixPropertiesNV destroy_structure_copy<VkCooperativeMatrixPropertiesNV>(const VkCooperativeMatrixPropertiesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkCooperativeMatrixPropertiesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.MSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.NSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.KSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.AType, pAllocationCallbacks);
-    destroy_structure_copy(obj.BType, pAllocationCallbacks);
-    destroy_structure_copy(obj.CType, pAllocationCallbacks);
-    destroy_structure_copy(obj.DType, pAllocationCallbacks);
-    destroy_structure_copy(obj.scope, pAllocationCallbacks);
     return result;
 }
 
@@ -1958,11 +692,7 @@ template <>
 VkCopyAccelerationStructureInfoKHR destroy_structure_copy<VkCopyAccelerationStructureInfoKHR>(const VkCopyAccelerationStructureInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkCopyAccelerationStructureInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.src, pAllocationCallbacks);
-    destroy_structure_copy(obj.dst, pAllocationCallbacks);
-    destroy_structure_copy(obj.mode, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -1972,11 +702,8 @@ template <>
 VkCopyAccelerationStructureToMemoryInfoKHR destroy_structure_copy<VkCopyAccelerationStructureToMemoryInfoKHR>(const VkCopyAccelerationStructureToMemoryInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkCopyAccelerationStructureToMemoryInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.src, pAllocationCallbacks);
     destroy_structure_copy(obj.dst, pAllocationCallbacks);
-    destroy_structure_copy(obj.mode, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -1985,15 +712,7 @@ template <>
 VkCopyDescriptorSet destroy_structure_copy<VkCopyDescriptorSet>(const VkCopyDescriptorSet& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkCopyDescriptorSet result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.srcSet, pAllocationCallbacks);
-    destroy_structure_copy(obj.srcBinding, pAllocationCallbacks);
-    destroy_structure_copy(obj.srcArrayElement, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstSet, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstBinding, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstArrayElement, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorCount, pAllocationCallbacks);
     return result;
 }
 
@@ -2002,11 +721,8 @@ template <>
 VkCopyMemoryToAccelerationStructureInfoKHR destroy_structure_copy<VkCopyMemoryToAccelerationStructureInfoKHR>(const VkCopyMemoryToAccelerationStructureInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkCopyMemoryToAccelerationStructureInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.src, pAllocationCallbacks);
-    destroy_structure_copy(obj.dst, pAllocationCallbacks);
-    destroy_structure_copy(obj.mode, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -2016,11 +732,8 @@ template <>
 VkD3D12FenceSubmitInfoKHR destroy_structure_copy<VkD3D12FenceSubmitInfoKHR>(const VkD3D12FenceSubmitInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkD3D12FenceSubmitInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.waitSemaphoreValuesCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.waitSemaphoreValuesCount, obj.pWaitSemaphoreValues, pAllocationCallbacks);
-    destroy_structure_copy(obj.signalSemaphoreValuesCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.signalSemaphoreValuesCount, obj.pSignalSemaphoreValues, pAllocationCallbacks);
     return result;
 }
@@ -2030,7 +743,6 @@ template <>
 VkDebugMarkerMarkerInfoEXT destroy_structure_copy<VkDebugMarkerMarkerInfoEXT>(const VkDebugMarkerMarkerInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDebugMarkerMarkerInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_dynamic_string_copy(obj.pMarkerName, pAllocationCallbacks);
     destroy_static_array_copy<4>(obj.color, pAllocationCallbacks);
@@ -2041,10 +753,7 @@ template <>
 VkDebugMarkerObjectNameInfoEXT destroy_structure_copy<VkDebugMarkerObjectNameInfoEXT>(const VkDebugMarkerObjectNameInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDebugMarkerObjectNameInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.objectType, pAllocationCallbacks);
-    destroy_structure_copy(obj.object, pAllocationCallbacks);
     destroy_dynamic_string_copy(obj.pObjectName, pAllocationCallbacks);
     return result;
 }
@@ -2053,12 +762,7 @@ template <>
 VkDebugMarkerObjectTagInfoEXT destroy_structure_copy<VkDebugMarkerObjectTagInfoEXT>(const VkDebugMarkerObjectTagInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDebugMarkerObjectTagInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.objectType, pAllocationCallbacks);
-    destroy_structure_copy(obj.object, pAllocationCallbacks);
-    destroy_structure_copy(obj.tagName, pAllocationCallbacks);
-    destroy_structure_copy(obj.tagSize, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.tagSize, obj.pTag, pAllocationCallbacks);
     return result;
 }
@@ -2067,11 +771,7 @@ template <>
 VkDebugReportCallbackCreateInfoEXT destroy_structure_copy<VkDebugReportCallbackCreateInfoEXT>(const VkDebugReportCallbackCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDebugReportCallbackCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-
-
     return result;
 }
 
@@ -2079,7 +779,6 @@ template <>
 VkDebugUtilsLabelEXT destroy_structure_copy<VkDebugUtilsLabelEXT>(const VkDebugUtilsLabelEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDebugUtilsLabelEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_dynamic_string_copy(obj.pLabelName, pAllocationCallbacks);
     destroy_static_array_copy<4>(obj.color, pAllocationCallbacks);
@@ -2090,17 +789,11 @@ template <>
 VkDebugUtilsMessengerCallbackDataEXT destroy_structure_copy<VkDebugUtilsMessengerCallbackDataEXT>(const VkDebugUtilsMessengerCallbackDataEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDebugUtilsMessengerCallbackDataEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
     destroy_dynamic_string_copy(obj.pMessageIdName, pAllocationCallbacks);
-    destroy_structure_copy(obj.messageIdNumber, pAllocationCallbacks);
     destroy_dynamic_string_copy(obj.pMessage, pAllocationCallbacks);
-    destroy_structure_copy(obj.queueLabelCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.queueLabelCount, obj.pQueueLabels, pAllocationCallbacks);
-    destroy_structure_copy(obj.cmdBufLabelCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.cmdBufLabelCount, obj.pCmdBufLabels, pAllocationCallbacks);
-    destroy_structure_copy(obj.objectCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.objectCount, obj.pObjects, pAllocationCallbacks);
     return result;
 }
@@ -2109,13 +802,7 @@ template <>
 VkDebugUtilsMessengerCreateInfoEXT destroy_structure_copy<VkDebugUtilsMessengerCreateInfoEXT>(const VkDebugUtilsMessengerCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDebugUtilsMessengerCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.messageSeverity, pAllocationCallbacks);
-    destroy_structure_copy(obj.messageType, pAllocationCallbacks);
-
-
     return result;
 }
 
@@ -2123,10 +810,7 @@ template <>
 VkDebugUtilsObjectNameInfoEXT destroy_structure_copy<VkDebugUtilsObjectNameInfoEXT>(const VkDebugUtilsObjectNameInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDebugUtilsObjectNameInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.objectType, pAllocationCallbacks);
-    destroy_structure_copy(obj.objectHandle, pAllocationCallbacks);
     destroy_dynamic_string_copy(obj.pObjectName, pAllocationCallbacks);
     return result;
 }
@@ -2135,12 +819,7 @@ template <>
 VkDebugUtilsObjectTagInfoEXT destroy_structure_copy<VkDebugUtilsObjectTagInfoEXT>(const VkDebugUtilsObjectTagInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDebugUtilsObjectTagInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.objectType, pAllocationCallbacks);
-    destroy_structure_copy(obj.objectHandle, pAllocationCallbacks);
-    destroy_structure_copy(obj.tagName, pAllocationCallbacks);
-    destroy_structure_copy(obj.tagSize, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.tagSize, obj.pTag, pAllocationCallbacks);
     return result;
 }
@@ -2149,9 +828,7 @@ template <>
 VkDedicatedAllocationBufferCreateInfoNV destroy_structure_copy<VkDedicatedAllocationBufferCreateInfoNV>(const VkDedicatedAllocationBufferCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDedicatedAllocationBufferCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.dedicatedAllocation, pAllocationCallbacks);
     return result;
 }
 
@@ -2159,9 +836,7 @@ template <>
 VkDedicatedAllocationImageCreateInfoNV destroy_structure_copy<VkDedicatedAllocationImageCreateInfoNV>(const VkDedicatedAllocationImageCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDedicatedAllocationImageCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.dedicatedAllocation, pAllocationCallbacks);
     return result;
 }
 
@@ -2169,10 +844,7 @@ template <>
 VkDedicatedAllocationMemoryAllocateInfoNV destroy_structure_copy<VkDedicatedAllocationMemoryAllocateInfoNV>(const VkDedicatedAllocationMemoryAllocateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDedicatedAllocationMemoryAllocateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.image, pAllocationCallbacks);
-    destroy_structure_copy(obj.buffer, pAllocationCallbacks);
     return result;
 }
 
@@ -2181,9 +853,7 @@ template <>
 VkDeferredOperationInfoKHR destroy_structure_copy<VkDeferredOperationInfoKHR>(const VkDeferredOperationInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeferredOperationInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.operationHandle, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -2192,9 +862,6 @@ template <>
 VkDescriptorBufferInfo destroy_structure_copy<VkDescriptorBufferInfo>(const VkDescriptorBufferInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDescriptorBufferInfo result { };
-    destroy_structure_copy(obj.buffer, pAllocationCallbacks);
-    destroy_structure_copy(obj.offset, pAllocationCallbacks);
-    destroy_structure_copy(obj.range, pAllocationCallbacks);
     return result;
 }
 
@@ -2202,9 +869,6 @@ template <>
 VkDescriptorImageInfo destroy_structure_copy<VkDescriptorImageInfo>(const VkDescriptorImageInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDescriptorImageInfo result { };
-    destroy_structure_copy(obj.sampler, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageView, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageLayout, pAllocationCallbacks);
     return result;
 }
 
@@ -2212,11 +876,7 @@ template <>
 VkDescriptorPoolCreateInfo destroy_structure_copy<VkDescriptorPoolCreateInfo>(const VkDescriptorPoolCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDescriptorPoolCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxSets, pAllocationCallbacks);
-    destroy_structure_copy(obj.poolSizeCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.poolSizeCount, obj.pPoolSizes, pAllocationCallbacks);
     return result;
 }
@@ -2225,9 +885,7 @@ template <>
 VkDescriptorPoolInlineUniformBlockCreateInfoEXT destroy_structure_copy<VkDescriptorPoolInlineUniformBlockCreateInfoEXT>(const VkDescriptorPoolInlineUniformBlockCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDescriptorPoolInlineUniformBlockCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxInlineUniformBlockBindings, pAllocationCallbacks);
     return result;
 }
 
@@ -2235,8 +893,6 @@ template <>
 VkDescriptorPoolSize destroy_structure_copy<VkDescriptorPoolSize>(const VkDescriptorPoolSize& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDescriptorPoolSize result { };
-    destroy_structure_copy(obj.type, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorCount, pAllocationCallbacks);
     return result;
 }
 
@@ -2244,10 +900,7 @@ template <>
 VkDescriptorSetAllocateInfo destroy_structure_copy<VkDescriptorSetAllocateInfo>(const VkDescriptorSetAllocateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDescriptorSetAllocateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorPool, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorSetCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.descriptorSetCount, obj.pSetLayouts, pAllocationCallbacks);
     return result;
 }
@@ -2256,10 +909,6 @@ template <>
 VkDescriptorSetLayoutBinding destroy_structure_copy<VkDescriptorSetLayoutBinding>(const VkDescriptorSetLayoutBinding& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDescriptorSetLayoutBinding result { };
-    destroy_structure_copy(obj.binding, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorType, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.stageFlags, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.descriptorCount, obj.pImmutableSamplers, pAllocationCallbacks);
     return result;
 }
@@ -2268,21 +917,17 @@ template <>
 VkDescriptorSetLayoutBindingFlagsCreateInfo destroy_structure_copy<VkDescriptorSetLayoutBindingFlagsCreateInfo>(const VkDescriptorSetLayoutBindingFlagsCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDescriptorSetLayoutBindingFlagsCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.bindingCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.bindingCount, obj.pBindingFlags, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkDescriptorSetLayoutCreateInfo destroy_structure_copy<VkDescriptorSetLayoutCreateInfo>(const VkDescriptorSetLayoutCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDescriptorSetLayoutCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.bindingCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.bindingCount, obj.pBindings, pAllocationCallbacks);
     return result;
 }
@@ -2291,77 +936,57 @@ template <>
 VkDescriptorSetLayoutSupport destroy_structure_copy<VkDescriptorSetLayoutSupport>(const VkDescriptorSetLayoutSupport& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDescriptorSetLayoutSupport result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.supported, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkDescriptorSetVariableDescriptorCountAllocateInfo destroy_structure_copy<VkDescriptorSetVariableDescriptorCountAllocateInfo>(const VkDescriptorSetVariableDescriptorCountAllocateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDescriptorSetVariableDescriptorCountAllocateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorSetCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.descriptorSetCount, obj.pDescriptorCounts, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkDescriptorSetVariableDescriptorCountLayoutSupport destroy_structure_copy<VkDescriptorSetVariableDescriptorCountLayoutSupport>(const VkDescriptorSetVariableDescriptorCountLayoutSupport& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDescriptorSetVariableDescriptorCountLayoutSupport result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxVariableDescriptorCount, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkDescriptorUpdateTemplateCreateInfo destroy_structure_copy<VkDescriptorUpdateTemplateCreateInfo>(const VkDescriptorUpdateTemplateCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDescriptorUpdateTemplateCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorUpdateEntryCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.descriptorUpdateEntryCount, obj.pDescriptorUpdateEntries, pAllocationCallbacks);
-    destroy_structure_copy(obj.templateType, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorSetLayout, pAllocationCallbacks);
-    destroy_structure_copy(obj.pipelineBindPoint, pAllocationCallbacks);
-    destroy_structure_copy(obj.pipelineLayout, pAllocationCallbacks);
-    destroy_structure_copy(obj.set, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkDescriptorUpdateTemplateEntry destroy_structure_copy<VkDescriptorUpdateTemplateEntry>(const VkDescriptorUpdateTemplateEntry& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDescriptorUpdateTemplateEntry result { };
-    destroy_structure_copy(obj.dstBinding, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstArrayElement, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorType, pAllocationCallbacks);
-    destroy_structure_copy(obj.offset, pAllocationCallbacks);
-    destroy_structure_copy(obj.stride, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkDeviceCreateInfo destroy_structure_copy<VkDeviceCreateInfo>(const VkDeviceCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.queueCreateInfoCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.queueCreateInfoCount, obj.pQueueCreateInfos, pAllocationCallbacks);
-    destroy_structure_copy(obj.enabledLayerCount, pAllocationCallbacks);
     destroy_dynamic_string_array_copy(obj.enabledLayerCount, obj.ppEnabledLayerNames, pAllocationCallbacks);
-    destroy_structure_copy(obj.enabledExtensionCount, pAllocationCallbacks);
     destroy_dynamic_string_array_copy(obj.enabledExtensionCount, obj.ppEnabledExtensionNames, pAllocationCallbacks);
-
+    destroy_dynamic_array_copy(1, obj.pEnabledFeatures, pAllocationCallbacks);
     return result;
 }
 
@@ -2369,9 +994,7 @@ template <>
 VkDeviceDiagnosticsConfigCreateInfoNV destroy_structure_copy<VkDeviceDiagnosticsConfigCreateInfoNV>(const VkDeviceDiagnosticsConfigCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceDiagnosticsConfigCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
     return result;
 }
 
@@ -2379,9 +1002,7 @@ template <>
 VkDeviceEventInfoEXT destroy_structure_copy<VkDeviceEventInfoEXT>(const VkDeviceEventInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceEventInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceEvent, pAllocationCallbacks);
     return result;
 }
 
@@ -2389,42 +1010,36 @@ template <>
 VkDeviceGroupBindSparseInfo destroy_structure_copy<VkDeviceGroupBindSparseInfo>(const VkDeviceGroupBindSparseInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceGroupBindSparseInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.resourceDeviceIndex, pAllocationCallbacks);
-    destroy_structure_copy(obj.memoryDeviceIndex, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkDeviceGroupCommandBufferBeginInfo destroy_structure_copy<VkDeviceGroupCommandBufferBeginInfo>(const VkDeviceGroupCommandBufferBeginInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceGroupCommandBufferBeginInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceMask, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkDeviceGroupDeviceCreateInfo destroy_structure_copy<VkDeviceGroupDeviceCreateInfo>(const VkDeviceGroupDeviceCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceGroupDeviceCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.physicalDeviceCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.physicalDeviceCount, obj.pPhysicalDevices, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkDeviceGroupPresentCapabilitiesKHR destroy_structure_copy<VkDeviceGroupPresentCapabilitiesKHR>(const VkDeviceGroupPresentCapabilitiesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceGroupPresentCapabilitiesKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_static_array_copy<VK_MAX_DEVICE_GROUP_SIZE>(obj.presentMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.modes, pAllocationCallbacks);
     return result;
 }
 
@@ -2432,11 +1047,8 @@ template <>
 VkDeviceGroupPresentInfoKHR destroy_structure_copy<VkDeviceGroupPresentInfoKHR>(const VkDeviceGroupPresentInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceGroupPresentInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.swapchainCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.swapchainCount, obj.pDeviceMasks, pAllocationCallbacks);
-    destroy_structure_copy(obj.mode, pAllocationCallbacks);
     return result;
 }
 
@@ -2444,36 +1056,29 @@ template <>
 VkDeviceGroupRenderPassBeginInfo destroy_structure_copy<VkDeviceGroupRenderPassBeginInfo>(const VkDeviceGroupRenderPassBeginInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceGroupRenderPassBeginInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceRenderAreaCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.deviceRenderAreaCount, obj.pDeviceRenderAreas, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkDeviceGroupSubmitInfo destroy_structure_copy<VkDeviceGroupSubmitInfo>(const VkDeviceGroupSubmitInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceGroupSubmitInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.waitSemaphoreCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.waitSemaphoreCount, obj.pWaitSemaphoreDeviceIndices, pAllocationCallbacks);
-    destroy_structure_copy(obj.commandBufferCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.commandBufferCount, obj.pCommandBufferDeviceMasks, pAllocationCallbacks);
-    destroy_structure_copy(obj.signalSemaphoreCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.signalSemaphoreCount, obj.pSignalSemaphoreDeviceIndices, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkDeviceGroupSwapchainCreateInfoKHR destroy_structure_copy<VkDeviceGroupSwapchainCreateInfoKHR>(const VkDeviceGroupSwapchainCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceGroupSwapchainCreateInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.modes, pAllocationCallbacks);
     return result;
 }
 
@@ -2481,19 +1086,16 @@ template <>
 VkDeviceMemoryOpaqueCaptureAddressInfo destroy_structure_copy<VkDeviceMemoryOpaqueCaptureAddressInfo>(const VkDeviceMemoryOpaqueCaptureAddressInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceMemoryOpaqueCaptureAddressInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.memory, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkDeviceMemoryOverallocationCreateInfoAMD destroy_structure_copy<VkDeviceMemoryOverallocationCreateInfoAMD>(const VkDeviceMemoryOverallocationCreateInfoAMD& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceMemoryOverallocationCreateInfoAMD result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.overallocationBehavior, pAllocationCallbacks);
     return result;
 }
 
@@ -2502,8 +1104,6 @@ template <>
 VkDeviceOrHostAddressConstKHR destroy_structure_copy<VkDeviceOrHostAddressConstKHR>(const VkDeviceOrHostAddressConstKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceOrHostAddressConstKHR result { };
-    destroy_structure_copy(obj.deviceAddress, pAllocationCallbacks);
-
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -2513,8 +1113,6 @@ template <>
 VkDeviceOrHostAddressKHR destroy_structure_copy<VkDeviceOrHostAddressKHR>(const VkDeviceOrHostAddressKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceOrHostAddressKHR result { };
-    destroy_structure_copy(obj.deviceAddress, pAllocationCallbacks);
-
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -2523,9 +1121,7 @@ template <>
 VkDevicePrivateDataCreateInfoEXT destroy_structure_copy<VkDevicePrivateDataCreateInfoEXT>(const VkDevicePrivateDataCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDevicePrivateDataCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.privateDataSlotRequestCount, pAllocationCallbacks);
     return result;
 }
 
@@ -2533,11 +1129,7 @@ template <>
 VkDeviceQueueCreateInfo destroy_structure_copy<VkDeviceQueueCreateInfo>(const VkDeviceQueueCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceQueueCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.queueFamilyIndex, pAllocationCallbacks);
-    destroy_structure_copy(obj.queueCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.queueCount, obj.pQueuePriorities, pAllocationCallbacks);
     return result;
 }
@@ -2546,9 +1138,7 @@ template <>
 VkDeviceQueueGlobalPriorityCreateInfoEXT destroy_structure_copy<VkDeviceQueueGlobalPriorityCreateInfoEXT>(const VkDeviceQueueGlobalPriorityCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceQueueGlobalPriorityCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.globalPriority, pAllocationCallbacks);
     return result;
 }
 
@@ -2556,21 +1146,24 @@ template <>
 VkDeviceQueueInfo2 destroy_structure_copy<VkDeviceQueueInfo2>(const VkDeviceQueueInfo2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDeviceQueueInfo2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.queueFamilyIndex, pAllocationCallbacks);
-    destroy_structure_copy(obj.queueIndex, pAllocationCallbacks);
     return result;
 }
+
+#ifdef VK_USE_PLATFORM_DIRECTFB_EXT
+template <>
+VkDirectFBSurfaceCreateInfoEXT destroy_structure_copy<VkDirectFBSurfaceCreateInfoEXT>(const VkDirectFBSurfaceCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
+{
+    VkDirectFBSurfaceCreateInfoEXT result { };
+    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
+    return result;
+}
+#endif // VK_USE_PLATFORM_DIRECTFB_EXT
 
 template <>
 VkDispatchIndirectCommand destroy_structure_copy<VkDispatchIndirectCommand>(const VkDispatchIndirectCommand& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDispatchIndirectCommand result { };
-    destroy_structure_copy(obj.x, pAllocationCallbacks);
-    destroy_structure_copy(obj.y, pAllocationCallbacks);
-    destroy_structure_copy(obj.z, pAllocationCallbacks);
     return result;
 }
 
@@ -2578,9 +1171,7 @@ template <>
 VkDisplayEventInfoEXT destroy_structure_copy<VkDisplayEventInfoEXT>(const VkDisplayEventInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDisplayEventInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.displayEvent, pAllocationCallbacks);
     return result;
 }
 
@@ -2588,9 +1179,7 @@ template <>
 VkDisplayModeCreateInfoKHR destroy_structure_copy<VkDisplayModeCreateInfoKHR>(const VkDisplayModeCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDisplayModeCreateInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
     destroy_structure_copy(obj.parameters, pAllocationCallbacks);
     return result;
 }
@@ -2600,7 +1189,6 @@ VkDisplayModeParametersKHR destroy_structure_copy<VkDisplayModeParametersKHR>(co
 {
     VkDisplayModeParametersKHR result { };
     destroy_structure_copy(obj.visibleRegion, pAllocationCallbacks);
-    destroy_structure_copy(obj.refreshRate, pAllocationCallbacks);
     return result;
 }
 
@@ -2608,7 +1196,6 @@ template <>
 VkDisplayModeProperties2KHR destroy_structure_copy<VkDisplayModeProperties2KHR>(const VkDisplayModeProperties2KHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDisplayModeProperties2KHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.displayModeProperties, pAllocationCallbacks);
     return result;
@@ -2618,7 +1205,6 @@ template <>
 VkDisplayModePropertiesKHR destroy_structure_copy<VkDisplayModePropertiesKHR>(const VkDisplayModePropertiesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDisplayModePropertiesKHR result { };
-    destroy_structure_copy(obj.displayMode, pAllocationCallbacks);
     destroy_structure_copy(obj.parameters, pAllocationCallbacks);
     return result;
 }
@@ -2627,9 +1213,7 @@ template <>
 VkDisplayNativeHdrSurfaceCapabilitiesAMD destroy_structure_copy<VkDisplayNativeHdrSurfaceCapabilitiesAMD>(const VkDisplayNativeHdrSurfaceCapabilitiesAMD& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDisplayNativeHdrSurfaceCapabilitiesAMD result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.localDimmingSupport, pAllocationCallbacks);
     return result;
 }
 
@@ -2637,7 +1221,6 @@ template <>
 VkDisplayPlaneCapabilities2KHR destroy_structure_copy<VkDisplayPlaneCapabilities2KHR>(const VkDisplayPlaneCapabilities2KHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDisplayPlaneCapabilities2KHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.capabilities, pAllocationCallbacks);
     return result;
@@ -2647,7 +1230,6 @@ template <>
 VkDisplayPlaneCapabilitiesKHR destroy_structure_copy<VkDisplayPlaneCapabilitiesKHR>(const VkDisplayPlaneCapabilitiesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDisplayPlaneCapabilitiesKHR result { };
-    destroy_structure_copy(obj.supportedAlpha, pAllocationCallbacks);
     destroy_structure_copy(obj.minSrcPosition, pAllocationCallbacks);
     destroy_structure_copy(obj.maxSrcPosition, pAllocationCallbacks);
     destroy_structure_copy(obj.minSrcExtent, pAllocationCallbacks);
@@ -2663,10 +1245,7 @@ template <>
 VkDisplayPlaneInfo2KHR destroy_structure_copy<VkDisplayPlaneInfo2KHR>(const VkDisplayPlaneInfo2KHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDisplayPlaneInfo2KHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.mode, pAllocationCallbacks);
-    destroy_structure_copy(obj.planeIndex, pAllocationCallbacks);
     return result;
 }
 
@@ -2674,7 +1253,6 @@ template <>
 VkDisplayPlaneProperties2KHR destroy_structure_copy<VkDisplayPlaneProperties2KHR>(const VkDisplayPlaneProperties2KHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDisplayPlaneProperties2KHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.displayPlaneProperties, pAllocationCallbacks);
     return result;
@@ -2684,8 +1262,6 @@ template <>
 VkDisplayPlanePropertiesKHR destroy_structure_copy<VkDisplayPlanePropertiesKHR>(const VkDisplayPlanePropertiesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDisplayPlanePropertiesKHR result { };
-    destroy_structure_copy(obj.currentDisplay, pAllocationCallbacks);
-    destroy_structure_copy(obj.currentStackIndex, pAllocationCallbacks);
     return result;
 }
 
@@ -2693,9 +1269,7 @@ template <>
 VkDisplayPowerInfoEXT destroy_structure_copy<VkDisplayPowerInfoEXT>(const VkDisplayPowerInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDisplayPowerInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.powerState, pAllocationCallbacks);
     return result;
 }
 
@@ -2703,11 +1277,9 @@ template <>
 VkDisplayPresentInfoKHR destroy_structure_copy<VkDisplayPresentInfoKHR>(const VkDisplayPresentInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDisplayPresentInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.srcRect, pAllocationCallbacks);
     destroy_structure_copy(obj.dstRect, pAllocationCallbacks);
-    destroy_structure_copy(obj.persistent, pAllocationCallbacks);
     return result;
 }
 
@@ -2715,7 +1287,6 @@ template <>
 VkDisplayProperties2KHR destroy_structure_copy<VkDisplayProperties2KHR>(const VkDisplayProperties2KHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDisplayProperties2KHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.displayProperties, pAllocationCallbacks);
     return result;
@@ -2725,13 +1296,9 @@ template <>
 VkDisplayPropertiesKHR destroy_structure_copy<VkDisplayPropertiesKHR>(const VkDisplayPropertiesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDisplayPropertiesKHR result { };
-    destroy_structure_copy(obj.display, pAllocationCallbacks);
     destroy_dynamic_string_copy(obj.displayName, pAllocationCallbacks);
     destroy_structure_copy(obj.physicalDimensions, pAllocationCallbacks);
     destroy_structure_copy(obj.physicalResolution, pAllocationCallbacks);
-    destroy_structure_copy(obj.supportedTransforms, pAllocationCallbacks);
-    destroy_structure_copy(obj.planeReorderPossible, pAllocationCallbacks);
-    destroy_structure_copy(obj.persistentContent, pAllocationCallbacks);
     return result;
 }
 
@@ -2739,15 +1306,7 @@ template <>
 VkDisplaySurfaceCreateInfoKHR destroy_structure_copy<VkDisplaySurfaceCreateInfoKHR>(const VkDisplaySurfaceCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDisplaySurfaceCreateInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.displayMode, pAllocationCallbacks);
-    destroy_structure_copy(obj.planeIndex, pAllocationCallbacks);
-    destroy_structure_copy(obj.planeStackIndex, pAllocationCallbacks);
-    destroy_structure_copy(obj.transform, pAllocationCallbacks);
-    destroy_structure_copy(obj.globalAlpha, pAllocationCallbacks);
-    destroy_structure_copy(obj.alphaMode, pAllocationCallbacks);
     destroy_structure_copy(obj.imageExtent, pAllocationCallbacks);
     return result;
 }
@@ -2756,11 +1315,6 @@ template <>
 VkDrawIndexedIndirectCommand destroy_structure_copy<VkDrawIndexedIndirectCommand>(const VkDrawIndexedIndirectCommand& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDrawIndexedIndirectCommand result { };
-    destroy_structure_copy(obj.indexCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.instanceCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.firstIndex, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.firstInstance, pAllocationCallbacks);
     return result;
 }
 
@@ -2768,10 +1322,6 @@ template <>
 VkDrawIndirectCommand destroy_structure_copy<VkDrawIndirectCommand>(const VkDrawIndirectCommand& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDrawIndirectCommand result { };
-    destroy_structure_copy(obj.vertexCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.instanceCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.firstVertex, pAllocationCallbacks);
-    destroy_structure_copy(obj.firstInstance, pAllocationCallbacks);
     return result;
 }
 
@@ -2779,8 +1329,6 @@ template <>
 VkDrawMeshTasksIndirectCommandNV destroy_structure_copy<VkDrawMeshTasksIndirectCommandNV>(const VkDrawMeshTasksIndirectCommandNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDrawMeshTasksIndirectCommandNV result { };
-    destroy_structure_copy(obj.taskCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.firstTask, pAllocationCallbacks);
     return result;
 }
 
@@ -2788,9 +1336,6 @@ template <>
 VkDrmFormatModifierPropertiesEXT destroy_structure_copy<VkDrmFormatModifierPropertiesEXT>(const VkDrmFormatModifierPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDrmFormatModifierPropertiesEXT result { };
-    destroy_structure_copy(obj.drmFormatModifier, pAllocationCallbacks);
-    destroy_structure_copy(obj.drmFormatModifierPlaneCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.drmFormatModifierTilingFeatures, pAllocationCallbacks);
     return result;
 }
 
@@ -2798,9 +1343,7 @@ template <>
 VkDrmFormatModifierPropertiesListEXT destroy_structure_copy<VkDrmFormatModifierPropertiesListEXT>(const VkDrmFormatModifierPropertiesListEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkDrmFormatModifierPropertiesListEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.drmFormatModifierCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.drmFormatModifierCount, obj.pDrmFormatModifierProperties, pAllocationCallbacks);
     return result;
 }
@@ -2809,9 +1352,7 @@ template <>
 VkEventCreateInfo destroy_structure_copy<VkEventCreateInfo>(const VkEventCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkEventCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
     return result;
 }
 
@@ -2819,22 +1360,17 @@ template <>
 VkExportFenceCreateInfo destroy_structure_copy<VkExportFenceCreateInfo>(const VkExportFenceCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExportFenceCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleTypes, pAllocationCallbacks);
     return result;
 }
+
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 VkExportFenceWin32HandleInfoKHR destroy_structure_copy<VkExportFenceWin32HandleInfoKHR>(const VkExportFenceWin32HandleInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExportFenceWin32HandleInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-
-    destroy_structure_copy(obj.dwAccess, pAllocationCallbacks);
-    destroy_structure_copy(obj.name, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -2843,19 +1379,16 @@ template <>
 VkExportMemoryAllocateInfo destroy_structure_copy<VkExportMemoryAllocateInfo>(const VkExportMemoryAllocateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExportMemoryAllocateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleTypes, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkExportMemoryAllocateInfoNV destroy_structure_copy<VkExportMemoryAllocateInfoNV>(const VkExportMemoryAllocateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExportMemoryAllocateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleTypes, pAllocationCallbacks);
     return result;
 }
 
@@ -2864,11 +1397,7 @@ template <>
 VkExportMemoryWin32HandleInfoKHR destroy_structure_copy<VkExportMemoryWin32HandleInfoKHR>(const VkExportMemoryWin32HandleInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExportMemoryWin32HandleInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-
-    destroy_structure_copy(obj.dwAccess, pAllocationCallbacks);
-    destroy_structure_copy(obj.name, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -2878,10 +1407,7 @@ template <>
 VkExportMemoryWin32HandleInfoNV destroy_structure_copy<VkExportMemoryWin32HandleInfoNV>(const VkExportMemoryWin32HandleInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExportMemoryWin32HandleInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-
-    destroy_structure_copy(obj.dwAccess, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -2890,22 +1416,17 @@ template <>
 VkExportSemaphoreCreateInfo destroy_structure_copy<VkExportSemaphoreCreateInfo>(const VkExportSemaphoreCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExportSemaphoreCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleTypes, pAllocationCallbacks);
     return result;
 }
+
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 template <>
 VkExportSemaphoreWin32HandleInfoKHR destroy_structure_copy<VkExportSemaphoreWin32HandleInfoKHR>(const VkExportSemaphoreWin32HandleInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExportSemaphoreWin32HandleInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-
-    destroy_structure_copy(obj.dwAccess, pAllocationCallbacks);
-    destroy_structure_copy(obj.name, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -2914,8 +1435,6 @@ template <>
 VkExtensionProperties destroy_structure_copy<VkExtensionProperties>(const VkExtensionProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExtensionProperties result { };
-
-    destroy_structure_copy(obj.specVersion, pAllocationCallbacks);
     return result;
 }
 
@@ -2923,8 +1442,6 @@ template <>
 VkExtent2D destroy_structure_copy<VkExtent2D>(const VkExtent2D& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExtent2D result { };
-    destroy_structure_copy(obj.width, pAllocationCallbacks);
-    destroy_structure_copy(obj.height, pAllocationCallbacks);
     return result;
 }
 
@@ -2932,9 +1449,6 @@ template <>
 VkExtent3D destroy_structure_copy<VkExtent3D>(const VkExtent3D& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExtent3D result { };
-    destroy_structure_copy(obj.width, pAllocationCallbacks);
-    destroy_structure_copy(obj.height, pAllocationCallbacks);
-    destroy_structure_copy(obj.depth, pAllocationCallbacks);
     return result;
 }
 
@@ -2942,32 +1456,27 @@ template <>
 VkExternalBufferProperties destroy_structure_copy<VkExternalBufferProperties>(const VkExternalBufferProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExternalBufferProperties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.externalMemoryProperties, pAllocationCallbacks);
     return result;
 }
 
+
 template <>
 VkExternalFenceProperties destroy_structure_copy<VkExternalFenceProperties>(const VkExternalFenceProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExternalFenceProperties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.exportFromImportedHandleTypes, pAllocationCallbacks);
-    destroy_structure_copy(obj.compatibleHandleTypes, pAllocationCallbacks);
-    destroy_structure_copy(obj.externalFenceFeatures, pAllocationCallbacks);
     return result;
 }
+
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 template <>
 VkExternalFormatANDROID destroy_structure_copy<VkExternalFormatANDROID>(const VkExternalFormatANDROID& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExternalFormatANDROID result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.externalFormat, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -2976,20 +1485,17 @@ template <>
 VkExternalImageFormatProperties destroy_structure_copy<VkExternalImageFormatProperties>(const VkExternalImageFormatProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExternalImageFormatProperties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.externalMemoryProperties, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkExternalImageFormatPropertiesNV destroy_structure_copy<VkExternalImageFormatPropertiesNV>(const VkExternalImageFormatPropertiesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExternalImageFormatPropertiesNV result { };
     destroy_structure_copy(obj.imageFormatProperties, pAllocationCallbacks);
-    destroy_structure_copy(obj.externalMemoryFeatures, pAllocationCallbacks);
-    destroy_structure_copy(obj.exportFromImportedHandleTypes, pAllocationCallbacks);
-    destroy_structure_copy(obj.compatibleHandleTypes, pAllocationCallbacks);
     return result;
 }
 
@@ -2997,29 +1503,25 @@ template <>
 VkExternalMemoryBufferCreateInfo destroy_structure_copy<VkExternalMemoryBufferCreateInfo>(const VkExternalMemoryBufferCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExternalMemoryBufferCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleTypes, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkExternalMemoryImageCreateInfo destroy_structure_copy<VkExternalMemoryImageCreateInfo>(const VkExternalMemoryImageCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExternalMemoryImageCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleTypes, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkExternalMemoryImageCreateInfoNV destroy_structure_copy<VkExternalMemoryImageCreateInfoNV>(const VkExternalMemoryImageCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExternalMemoryImageCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleTypes, pAllocationCallbacks);
     return result;
 }
 
@@ -3027,31 +1529,24 @@ template <>
 VkExternalMemoryProperties destroy_structure_copy<VkExternalMemoryProperties>(const VkExternalMemoryProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExternalMemoryProperties result { };
-    destroy_structure_copy(obj.externalMemoryFeatures, pAllocationCallbacks);
-    destroy_structure_copy(obj.exportFromImportedHandleTypes, pAllocationCallbacks);
-    destroy_structure_copy(obj.compatibleHandleTypes, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkExternalSemaphoreProperties destroy_structure_copy<VkExternalSemaphoreProperties>(const VkExternalSemaphoreProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkExternalSemaphoreProperties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.exportFromImportedHandleTypes, pAllocationCallbacks);
-    destroy_structure_copy(obj.compatibleHandleTypes, pAllocationCallbacks);
-    destroy_structure_copy(obj.externalSemaphoreFeatures, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkFenceCreateInfo destroy_structure_copy<VkFenceCreateInfo>(const VkFenceCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkFenceCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
     return result;
 }
 
@@ -3059,10 +1554,7 @@ template <>
 VkFenceGetFdInfoKHR destroy_structure_copy<VkFenceGetFdInfoKHR>(const VkFenceGetFdInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkFenceGetFdInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.fence, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
     return result;
 }
 
@@ -3071,10 +1563,7 @@ template <>
 VkFenceGetWin32HandleInfoKHR destroy_structure_copy<VkFenceGetWin32HandleInfoKHR>(const VkFenceGetWin32HandleInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkFenceGetWin32HandleInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.fence, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -3083,10 +1572,7 @@ template <>
 VkFilterCubicImageViewImageFormatPropertiesEXT destroy_structure_copy<VkFilterCubicImageViewImageFormatPropertiesEXT>(const VkFilterCubicImageViewImageFormatPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkFilterCubicImageViewImageFormatPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.filterCubic, pAllocationCallbacks);
-    destroy_structure_copy(obj.filterCubicMinmax, pAllocationCallbacks);
     return result;
 }
 
@@ -3094,9 +1580,6 @@ template <>
 VkFormatProperties destroy_structure_copy<VkFormatProperties>(const VkFormatProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkFormatProperties result { };
-    destroy_structure_copy(obj.linearTilingFeatures, pAllocationCallbacks);
-    destroy_structure_copy(obj.optimalTilingFeatures, pAllocationCallbacks);
-    destroy_structure_copy(obj.bufferFeatures, pAllocationCallbacks);
     return result;
 }
 
@@ -3104,52 +1587,38 @@ template <>
 VkFormatProperties2 destroy_structure_copy<VkFormatProperties2>(const VkFormatProperties2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkFormatProperties2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.formatProperties, pAllocationCallbacks);
     return result;
 }
 
+
 template <>
 VkFramebufferAttachmentImageInfo destroy_structure_copy<VkFramebufferAttachmentImageInfo>(const VkFramebufferAttachmentImageInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkFramebufferAttachmentImageInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.usage, pAllocationCallbacks);
-    destroy_structure_copy(obj.width, pAllocationCallbacks);
-    destroy_structure_copy(obj.height, pAllocationCallbacks);
-    destroy_structure_copy(obj.layerCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.viewFormatCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.viewFormatCount, obj.pViewFormats, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkFramebufferAttachmentsCreateInfo destroy_structure_copy<VkFramebufferAttachmentsCreateInfo>(const VkFramebufferAttachmentsCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkFramebufferAttachmentsCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.attachmentImageInfoCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.attachmentImageInfoCount, obj.pAttachmentImageInfos, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkFramebufferCreateInfo destroy_structure_copy<VkFramebufferCreateInfo>(const VkFramebufferCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkFramebufferCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.renderPass, pAllocationCallbacks);
-    destroy_structure_copy(obj.attachmentCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.attachmentCount, obj.pAttachments, pAllocationCallbacks);
-    destroy_structure_copy(obj.width, pAllocationCallbacks);
-    destroy_structure_copy(obj.height, pAllocationCallbacks);
-    destroy_structure_copy(obj.layers, pAllocationCallbacks);
     return result;
 }
 
@@ -3157,12 +1626,7 @@ template <>
 VkFramebufferMixedSamplesCombinationNV destroy_structure_copy<VkFramebufferMixedSamplesCombinationNV>(const VkFramebufferMixedSamplesCombinationNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkFramebufferMixedSamplesCombinationNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.coverageReductionMode, pAllocationCallbacks);
-    destroy_structure_copy(obj.rasterizationSamples, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthStencilSamples, pAllocationCallbacks);
-    destroy_structure_copy(obj.colorSamples, pAllocationCallbacks);
     return result;
 }
 
@@ -3170,21 +1634,8 @@ template <>
 VkGeneratedCommandsInfoNV destroy_structure_copy<VkGeneratedCommandsInfoNV>(const VkGeneratedCommandsInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkGeneratedCommandsInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.pipelineBindPoint, pAllocationCallbacks);
-    destroy_structure_copy(obj.pipeline, pAllocationCallbacks);
-    destroy_structure_copy(obj.indirectCommandsLayout, pAllocationCallbacks);
-    destroy_structure_copy(obj.streamCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.streamCount, obj.pStreams, pAllocationCallbacks);
-    destroy_structure_copy(obj.sequencesCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.preprocessBuffer, pAllocationCallbacks);
-    destroy_structure_copy(obj.preprocessOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.preprocessSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.sequencesCountBuffer, pAllocationCallbacks);
-    destroy_structure_copy(obj.sequencesCountOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.sequencesIndexBuffer, pAllocationCallbacks);
-    destroy_structure_copy(obj.sequencesIndexOffset, pAllocationCallbacks);
     return result;
 }
 
@@ -3192,12 +1643,7 @@ template <>
 VkGeneratedCommandsMemoryRequirementsInfoNV destroy_structure_copy<VkGeneratedCommandsMemoryRequirementsInfoNV>(const VkGeneratedCommandsMemoryRequirementsInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkGeneratedCommandsMemoryRequirementsInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.pipelineBindPoint, pAllocationCallbacks);
-    destroy_structure_copy(obj.pipeline, pAllocationCallbacks);
-    destroy_structure_copy(obj.indirectCommandsLayout, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxSequencesCount, pAllocationCallbacks);
     return result;
 }
 
@@ -3205,12 +1651,7 @@ template <>
 VkGeometryAABBNV destroy_structure_copy<VkGeometryAABBNV>(const VkGeometryAABBNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkGeometryAABBNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.aabbData, pAllocationCallbacks);
-    destroy_structure_copy(obj.numAABBs, pAllocationCallbacks);
-    destroy_structure_copy(obj.stride, pAllocationCallbacks);
-    destroy_structure_copy(obj.offset, pAllocationCallbacks);
     return result;
 }
 
@@ -3227,11 +1668,8 @@ template <>
 VkGeometryNV destroy_structure_copy<VkGeometryNV>(const VkGeometryNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkGeometryNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.geometryType, pAllocationCallbacks);
     destroy_structure_copy(obj.geometry, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
     return result;
 }
 
@@ -3239,19 +1677,7 @@ template <>
 VkGeometryTrianglesNV destroy_structure_copy<VkGeometryTrianglesNV>(const VkGeometryTrianglesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkGeometryTrianglesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexData, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexStride, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexFormat, pAllocationCallbacks);
-    destroy_structure_copy(obj.indexData, pAllocationCallbacks);
-    destroy_structure_copy(obj.indexOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.indexCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.indexType, pAllocationCallbacks);
-    destroy_structure_copy(obj.transformData, pAllocationCallbacks);
-    destroy_structure_copy(obj.transformOffset, pAllocationCallbacks);
     return result;
 }
 
@@ -3259,25 +1685,17 @@ template <>
 VkGraphicsPipelineCreateInfo destroy_structure_copy<VkGraphicsPipelineCreateInfo>(const VkGraphicsPipelineCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkGraphicsPipelineCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.stageCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.stageCount, obj.pStages, pAllocationCallbacks);
-
-
-
-
-
-
-
-
-
-    destroy_structure_copy(obj.layout, pAllocationCallbacks);
-    destroy_structure_copy(obj.renderPass, pAllocationCallbacks);
-    destroy_structure_copy(obj.subpass, pAllocationCallbacks);
-    destroy_structure_copy(obj.basePipelineHandle, pAllocationCallbacks);
-    destroy_structure_copy(obj.basePipelineIndex, pAllocationCallbacks);
+    destroy_dynamic_array_copy(1, obj.pVertexInputState, pAllocationCallbacks);
+    destroy_dynamic_array_copy(1, obj.pInputAssemblyState, pAllocationCallbacks);
+    destroy_dynamic_array_copy(1, obj.pTessellationState, pAllocationCallbacks);
+    destroy_dynamic_array_copy(1, obj.pViewportState, pAllocationCallbacks);
+    destroy_dynamic_array_copy(1, obj.pRasterizationState, pAllocationCallbacks);
+    destroy_dynamic_array_copy(1, obj.pMultisampleState, pAllocationCallbacks);
+    destroy_dynamic_array_copy(1, obj.pDepthStencilState, pAllocationCallbacks);
+    destroy_dynamic_array_copy(1, obj.pColorBlendState, pAllocationCallbacks);
+    destroy_dynamic_array_copy(1, obj.pDynamicState, pAllocationCallbacks);
     return result;
 }
 
@@ -3285,11 +1703,8 @@ template <>
 VkGraphicsPipelineShaderGroupsCreateInfoNV destroy_structure_copy<VkGraphicsPipelineShaderGroupsCreateInfoNV>(const VkGraphicsPipelineShaderGroupsCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkGraphicsPipelineShaderGroupsCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.groupCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.groupCount, obj.pGroups, pAllocationCallbacks);
-    destroy_structure_copy(obj.pipelineCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.pipelineCount, obj.pPipelines, pAllocationCallbacks);
     return result;
 }
@@ -3298,12 +1713,10 @@ template <>
 VkGraphicsShaderGroupCreateInfoNV destroy_structure_copy<VkGraphicsShaderGroupCreateInfoNV>(const VkGraphicsShaderGroupCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkGraphicsShaderGroupCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.stageCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.stageCount, obj.pStages, pAllocationCallbacks);
-
-
+    destroy_dynamic_array_copy(1, obj.pVertexInputState, pAllocationCallbacks);
+    destroy_dynamic_array_copy(1, obj.pTessellationState, pAllocationCallbacks);
     return result;
 }
 
@@ -3311,16 +1724,11 @@ template <>
 VkHdrMetadataEXT destroy_structure_copy<VkHdrMetadataEXT>(const VkHdrMetadataEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkHdrMetadataEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.displayPrimaryRed, pAllocationCallbacks);
     destroy_structure_copy(obj.displayPrimaryGreen, pAllocationCallbacks);
     destroy_structure_copy(obj.displayPrimaryBlue, pAllocationCallbacks);
     destroy_structure_copy(obj.whitePoint, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxLuminance, pAllocationCallbacks);
-    destroy_structure_copy(obj.minLuminance, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxContentLightLevel, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxFrameAverageLightLevel, pAllocationCallbacks);
     return result;
 }
 
@@ -3328,9 +1736,7 @@ template <>
 VkHeadlessSurfaceCreateInfoEXT destroy_structure_copy<VkHeadlessSurfaceCreateInfoEXT>(const VkHeadlessSurfaceCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkHeadlessSurfaceCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
     return result;
 }
 
@@ -3339,10 +1745,7 @@ template <>
 VkIOSSurfaceCreateInfoMVK destroy_structure_copy<VkIOSSurfaceCreateInfoMVK>(const VkIOSSurfaceCreateInfoMVK& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkIOSSurfaceCreateInfoMVK result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-
     return result;
 }
 #endif // VK_USE_PLATFORM_IOS_MVK
@@ -3374,21 +1777,9 @@ template <>
 VkImageCreateInfo destroy_structure_copy<VkImageCreateInfo>(const VkImageCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageType, pAllocationCallbacks);
-    destroy_structure_copy(obj.format, pAllocationCallbacks);
     destroy_structure_copy(obj.extent, pAllocationCallbacks);
-    destroy_structure_copy(obj.mipLevels, pAllocationCallbacks);
-    destroy_structure_copy(obj.arrayLayers, pAllocationCallbacks);
-    destroy_structure_copy(obj.samples, pAllocationCallbacks);
-    destroy_structure_copy(obj.tiling, pAllocationCallbacks);
-    destroy_structure_copy(obj.usage, pAllocationCallbacks);
-    destroy_structure_copy(obj.sharingMode, pAllocationCallbacks);
-    destroy_structure_copy(obj.queueFamilyIndexCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.queueFamilyIndexCount, obj.pQueueFamilyIndices, pAllocationCallbacks);
-    destroy_structure_copy(obj.initialLayout, pAllocationCallbacks);
     return result;
 }
 
@@ -3396,10 +1787,7 @@ template <>
 VkImageDrmFormatModifierExplicitCreateInfoEXT destroy_structure_copy<VkImageDrmFormatModifierExplicitCreateInfoEXT>(const VkImageDrmFormatModifierExplicitCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageDrmFormatModifierExplicitCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.drmFormatModifier, pAllocationCallbacks);
-    destroy_structure_copy(obj.drmFormatModifierPlaneCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.drmFormatModifierPlaneCount, obj.pPlaneLayouts, pAllocationCallbacks);
     return result;
 }
@@ -3408,9 +1796,7 @@ template <>
 VkImageDrmFormatModifierListCreateInfoEXT destroy_structure_copy<VkImageDrmFormatModifierListCreateInfoEXT>(const VkImageDrmFormatModifierListCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageDrmFormatModifierListCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.drmFormatModifierCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.drmFormatModifierCount, obj.pDrmFormatModifiers, pAllocationCallbacks);
     return result;
 }
@@ -3419,9 +1805,7 @@ template <>
 VkImageDrmFormatModifierPropertiesEXT destroy_structure_copy<VkImageDrmFormatModifierPropertiesEXT>(const VkImageDrmFormatModifierPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageDrmFormatModifierPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.drmFormatModifier, pAllocationCallbacks);
     return result;
 }
 
@@ -3429,22 +1813,17 @@ template <>
 VkImageFormatListCreateInfo destroy_structure_copy<VkImageFormatListCreateInfo>(const VkImageFormatListCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageFormatListCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.viewFormatCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.viewFormatCount, obj.pViewFormats, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkImageFormatProperties destroy_structure_copy<VkImageFormatProperties>(const VkImageFormatProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageFormatProperties result { };
     destroy_structure_copy(obj.maxExtent, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxMipLevels, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxArrayLayers, pAllocationCallbacks);
-    destroy_structure_copy(obj.sampleCounts, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxResourceSize, pAllocationCallbacks);
     return result;
 }
 
@@ -3452,25 +1831,17 @@ template <>
 VkImageFormatProperties2 destroy_structure_copy<VkImageFormatProperties2>(const VkImageFormatProperties2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageFormatProperties2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.imageFormatProperties, pAllocationCallbacks);
     return result;
 }
 
+
 template <>
 VkImageMemoryBarrier destroy_structure_copy<VkImageMemoryBarrier>(const VkImageMemoryBarrier& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageMemoryBarrier result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.srcAccessMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstAccessMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.oldLayout, pAllocationCallbacks);
-    destroy_structure_copy(obj.newLayout, pAllocationCallbacks);
-    destroy_structure_copy(obj.srcQueueFamilyIndex, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstQueueFamilyIndex, pAllocationCallbacks);
-    destroy_structure_copy(obj.image, pAllocationCallbacks);
     destroy_structure_copy(obj.subresourceRange, pAllocationCallbacks);
     return result;
 }
@@ -3479,21 +1850,17 @@ template <>
 VkImageMemoryRequirementsInfo2 destroy_structure_copy<VkImageMemoryRequirementsInfo2>(const VkImageMemoryRequirementsInfo2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageMemoryRequirementsInfo2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.image, pAllocationCallbacks);
     return result;
 }
+
 
 #ifdef VK_USE_PLATFORM_FUCHSIA
 template <>
 VkImagePipeSurfaceCreateInfoFUCHSIA destroy_structure_copy<VkImagePipeSurfaceCreateInfoFUCHSIA>(const VkImagePipeSurfaceCreateInfoFUCHSIA& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImagePipeSurfaceCreateInfoFUCHSIA result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.imagePipeHandle, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_FUCHSIA
@@ -3502,11 +1869,10 @@ template <>
 VkImagePlaneMemoryRequirementsInfo destroy_structure_copy<VkImagePlaneMemoryRequirementsInfo>(const VkImagePlaneMemoryRequirementsInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImagePlaneMemoryRequirementsInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.planeAspect, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkImageResolve destroy_structure_copy<VkImageResolve>(const VkImageResolve& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -3524,29 +1890,24 @@ template <>
 VkImageSparseMemoryRequirementsInfo2 destroy_structure_copy<VkImageSparseMemoryRequirementsInfo2>(const VkImageSparseMemoryRequirementsInfo2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageSparseMemoryRequirementsInfo2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.image, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkImageStencilUsageCreateInfo destroy_structure_copy<VkImageStencilUsageCreateInfo>(const VkImageStencilUsageCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageStencilUsageCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.stencilUsage, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkImageSubresource destroy_structure_copy<VkImageSubresource>(const VkImageSubresource& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageSubresource result { };
-    destroy_structure_copy(obj.aspectMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.mipLevel, pAllocationCallbacks);
-    destroy_structure_copy(obj.arrayLayer, pAllocationCallbacks);
     return result;
 }
 
@@ -3554,10 +1915,6 @@ template <>
 VkImageSubresourceLayers destroy_structure_copy<VkImageSubresourceLayers>(const VkImageSubresourceLayers& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageSubresourceLayers result { };
-    destroy_structure_copy(obj.aspectMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.mipLevel, pAllocationCallbacks);
-    destroy_structure_copy(obj.baseArrayLayer, pAllocationCallbacks);
-    destroy_structure_copy(obj.layerCount, pAllocationCallbacks);
     return result;
 }
 
@@ -3565,11 +1922,6 @@ template <>
 VkImageSubresourceRange destroy_structure_copy<VkImageSubresourceRange>(const VkImageSubresourceRange& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageSubresourceRange result { };
-    destroy_structure_copy(obj.aspectMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.baseMipLevel, pAllocationCallbacks);
-    destroy_structure_copy(obj.levelCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.baseArrayLayer, pAllocationCallbacks);
-    destroy_structure_copy(obj.layerCount, pAllocationCallbacks);
     return result;
 }
 
@@ -3577,9 +1929,7 @@ template <>
 VkImageSwapchainCreateInfoKHR destroy_structure_copy<VkImageSwapchainCreateInfoKHR>(const VkImageSwapchainCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageSwapchainCreateInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.swapchain, pAllocationCallbacks);
     return result;
 }
 
@@ -3587,9 +1937,7 @@ template <>
 VkImageViewASTCDecodeModeEXT destroy_structure_copy<VkImageViewASTCDecodeModeEXT>(const VkImageViewASTCDecodeModeEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageViewASTCDecodeModeEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.decodeMode, pAllocationCallbacks);
     return result;
 }
 
@@ -3597,10 +1945,7 @@ template <>
 VkImageViewAddressPropertiesNVX destroy_structure_copy<VkImageViewAddressPropertiesNVX>(const VkImageViewAddressPropertiesNVX& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageViewAddressPropertiesNVX result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceAddress, pAllocationCallbacks);
-    destroy_structure_copy(obj.size, pAllocationCallbacks);
     return result;
 }
 
@@ -3608,12 +1953,7 @@ template <>
 VkImageViewCreateInfo destroy_structure_copy<VkImageViewCreateInfo>(const VkImageViewCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageViewCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.image, pAllocationCallbacks);
-    destroy_structure_copy(obj.viewType, pAllocationCallbacks);
-    destroy_structure_copy(obj.format, pAllocationCallbacks);
     destroy_structure_copy(obj.components, pAllocationCallbacks);
     destroy_structure_copy(obj.subresourceRange, pAllocationCallbacks);
     return result;
@@ -3623,11 +1963,7 @@ template <>
 VkImageViewHandleInfoNVX destroy_structure_copy<VkImageViewHandleInfoNVX>(const VkImageViewHandleInfoNVX& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageViewHandleInfoNVX result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageView, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorType, pAllocationCallbacks);
-    destroy_structure_copy(obj.sampler, pAllocationCallbacks);
     return result;
 }
 
@@ -3635,20 +1971,17 @@ template <>
 VkImageViewUsageCreateInfo destroy_structure_copy<VkImageViewUsageCreateInfo>(const VkImageViewUsageCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImageViewUsageCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.usage, pAllocationCallbacks);
     return result;
 }
+
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 template <>
 VkImportAndroidHardwareBufferInfoANDROID destroy_structure_copy<VkImportAndroidHardwareBufferInfoANDROID>(const VkImportAndroidHardwareBufferInfoANDROID& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImportAndroidHardwareBufferInfoANDROID result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-
     return result;
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -3657,12 +1990,7 @@ template <>
 VkImportFenceFdInfoKHR destroy_structure_copy<VkImportFenceFdInfoKHR>(const VkImportFenceFdInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImportFenceFdInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.fence, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
-    destroy_structure_copy(obj.fd, pAllocationCallbacks);
     return result;
 }
 
@@ -3671,13 +1999,7 @@ template <>
 VkImportFenceWin32HandleInfoKHR destroy_structure_copy<VkImportFenceWin32HandleInfoKHR>(const VkImportFenceWin32HandleInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImportFenceWin32HandleInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.fence, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
-    destroy_structure_copy(obj.handle, pAllocationCallbacks);
-    destroy_structure_copy(obj.name, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -3686,10 +2008,7 @@ template <>
 VkImportMemoryFdInfoKHR destroy_structure_copy<VkImportMemoryFdInfoKHR>(const VkImportMemoryFdInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImportMemoryFdInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
-    destroy_structure_copy(obj.fd, pAllocationCallbacks);
     return result;
 }
 
@@ -3697,10 +2016,7 @@ template <>
 VkImportMemoryHostPointerInfoEXT destroy_structure_copy<VkImportMemoryHostPointerInfoEXT>(const VkImportMemoryHostPointerInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImportMemoryHostPointerInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
-
     return result;
 }
 
@@ -3709,11 +2025,7 @@ template <>
 VkImportMemoryWin32HandleInfoKHR destroy_structure_copy<VkImportMemoryWin32HandleInfoKHR>(const VkImportMemoryWin32HandleInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImportMemoryWin32HandleInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
-    destroy_structure_copy(obj.handle, pAllocationCallbacks);
-    destroy_structure_copy(obj.name, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -3723,10 +2035,7 @@ template <>
 VkImportMemoryWin32HandleInfoNV destroy_structure_copy<VkImportMemoryWin32HandleInfoNV>(const VkImportMemoryWin32HandleInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImportMemoryWin32HandleInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
-    destroy_structure_copy(obj.handle, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -3735,12 +2044,7 @@ template <>
 VkImportSemaphoreFdInfoKHR destroy_structure_copy<VkImportSemaphoreFdInfoKHR>(const VkImportSemaphoreFdInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImportSemaphoreFdInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.semaphore, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
-    destroy_structure_copy(obj.fd, pAllocationCallbacks);
     return result;
 }
 
@@ -3749,13 +2053,7 @@ template <>
 VkImportSemaphoreWin32HandleInfoKHR destroy_structure_copy<VkImportSemaphoreWin32HandleInfoKHR>(const VkImportSemaphoreWin32HandleInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkImportSemaphoreWin32HandleInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.semaphore, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
-    destroy_structure_copy(obj.handle, pAllocationCallbacks);
-    destroy_structure_copy(obj.name, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -3764,13 +2062,8 @@ template <>
 VkIndirectCommandsLayoutCreateInfoNV destroy_structure_copy<VkIndirectCommandsLayoutCreateInfoNV>(const VkIndirectCommandsLayoutCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkIndirectCommandsLayoutCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.pipelineBindPoint, pAllocationCallbacks);
-    destroy_structure_copy(obj.tokenCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.tokenCount, obj.pTokens, pAllocationCallbacks);
-    destroy_structure_copy(obj.streamCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.streamCount, obj.pStreamStrides, pAllocationCallbacks);
     return result;
 }
@@ -3779,19 +2072,7 @@ template <>
 VkIndirectCommandsLayoutTokenNV destroy_structure_copy<VkIndirectCommandsLayoutTokenNV>(const VkIndirectCommandsLayoutTokenNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkIndirectCommandsLayoutTokenNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.tokenType, pAllocationCallbacks);
-    destroy_structure_copy(obj.stream, pAllocationCallbacks);
-    destroy_structure_copy(obj.offset, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexBindingUnit, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexDynamicStride, pAllocationCallbacks);
-    destroy_structure_copy(obj.pushconstantPipelineLayout, pAllocationCallbacks);
-    destroy_structure_copy(obj.pushconstantShaderStageFlags, pAllocationCallbacks);
-    destroy_structure_copy(obj.pushconstantOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.pushconstantSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.indirectStateFlags, pAllocationCallbacks);
-    destroy_structure_copy(obj.indexTypeCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.indexTypeCount, obj.pIndexTypes, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.indexTypeCount, obj.pIndexTypeValues, pAllocationCallbacks);
     return result;
@@ -3801,8 +2082,6 @@ template <>
 VkIndirectCommandsStreamNV destroy_structure_copy<VkIndirectCommandsStreamNV>(const VkIndirectCommandsStreamNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkIndirectCommandsStreamNV result { };
-    destroy_structure_copy(obj.buffer, pAllocationCallbacks);
-    destroy_structure_copy(obj.offset, pAllocationCallbacks);
     return result;
 }
 
@@ -3810,9 +2089,7 @@ template <>
 VkInitializePerformanceApiInfoINTEL destroy_structure_copy<VkInitializePerformanceApiInfoINTEL>(const VkInitializePerformanceApiInfoINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkInitializePerformanceApiInfoINTEL result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-
     return result;
 }
 
@@ -3820,23 +2097,17 @@ template <>
 VkInputAttachmentAspectReference destroy_structure_copy<VkInputAttachmentAspectReference>(const VkInputAttachmentAspectReference& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkInputAttachmentAspectReference result { };
-    destroy_structure_copy(obj.subpass, pAllocationCallbacks);
-    destroy_structure_copy(obj.inputAttachmentIndex, pAllocationCallbacks);
-    destroy_structure_copy(obj.aspectMask, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkInstanceCreateInfo destroy_structure_copy<VkInstanceCreateInfo>(const VkInstanceCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkInstanceCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-
-    destroy_structure_copy(obj.enabledLayerCount, pAllocationCallbacks);
+    destroy_dynamic_array_copy(1, obj.pApplicationInfo, pAllocationCallbacks);
     destroy_dynamic_string_array_copy(obj.enabledLayerCount, obj.ppEnabledLayerNames, pAllocationCallbacks);
-    destroy_structure_copy(obj.enabledExtensionCount, pAllocationCallbacks);
     destroy_dynamic_string_array_copy(obj.enabledExtensionCount, obj.ppEnabledExtensionNames, pAllocationCallbacks);
     return result;
 }
@@ -3845,10 +2116,6 @@ template <>
 VkLayerProperties destroy_structure_copy<VkLayerProperties>(const VkLayerProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkLayerProperties result { };
-
-    destroy_structure_copy(obj.specVersion, pAllocationCallbacks);
-    destroy_structure_copy(obj.implementationVersion, pAllocationCallbacks);
-
     return result;
 }
 
@@ -3857,10 +2124,7 @@ template <>
 VkMacOSSurfaceCreateInfoMVK destroy_structure_copy<VkMacOSSurfaceCreateInfoMVK>(const VkMacOSSurfaceCreateInfoMVK& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMacOSSurfaceCreateInfoMVK result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-
     return result;
 }
 #endif // VK_USE_PLATFORM_MACOS_MVK
@@ -3869,11 +2133,7 @@ template <>
 VkMappedMemoryRange destroy_structure_copy<VkMappedMemoryRange>(const VkMappedMemoryRange& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMappedMemoryRange result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.memory, pAllocationCallbacks);
-    destroy_structure_copy(obj.offset, pAllocationCallbacks);
-    destroy_structure_copy(obj.size, pAllocationCallbacks);
     return result;
 }
 
@@ -3881,21 +2141,16 @@ template <>
 VkMemoryAllocateFlagsInfo destroy_structure_copy<VkMemoryAllocateFlagsInfo>(const VkMemoryAllocateFlagsInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMemoryAllocateFlagsInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceMask, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkMemoryAllocateInfo destroy_structure_copy<VkMemoryAllocateInfo>(const VkMemoryAllocateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMemoryAllocateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.allocationSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.memoryTypeIndex, pAllocationCallbacks);
     return result;
 }
 
@@ -3903,10 +2158,7 @@ template <>
 VkMemoryBarrier destroy_structure_copy<VkMemoryBarrier>(const VkMemoryBarrier& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMemoryBarrier result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.srcAccessMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstAccessMask, pAllocationCallbacks);
     return result;
 }
 
@@ -3914,31 +2166,25 @@ template <>
 VkMemoryDedicatedAllocateInfo destroy_structure_copy<VkMemoryDedicatedAllocateInfo>(const VkMemoryDedicatedAllocateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMemoryDedicatedAllocateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.image, pAllocationCallbacks);
-    destroy_structure_copy(obj.buffer, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkMemoryDedicatedRequirements destroy_structure_copy<VkMemoryDedicatedRequirements>(const VkMemoryDedicatedRequirements& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMemoryDedicatedRequirements result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.prefersDedicatedAllocation, pAllocationCallbacks);
-    destroy_structure_copy(obj.requiresDedicatedAllocation, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkMemoryFdPropertiesKHR destroy_structure_copy<VkMemoryFdPropertiesKHR>(const VkMemoryFdPropertiesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMemoryFdPropertiesKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.memoryTypeBits, pAllocationCallbacks);
     return result;
 }
 
@@ -3947,9 +2193,7 @@ template <>
 VkMemoryGetAndroidHardwareBufferInfoANDROID destroy_structure_copy<VkMemoryGetAndroidHardwareBufferInfoANDROID>(const VkMemoryGetAndroidHardwareBufferInfoANDROID& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMemoryGetAndroidHardwareBufferInfoANDROID result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.memory, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -3958,10 +2202,7 @@ template <>
 VkMemoryGetFdInfoKHR destroy_structure_copy<VkMemoryGetFdInfoKHR>(const VkMemoryGetFdInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMemoryGetFdInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.memory, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
     return result;
 }
 
@@ -3970,10 +2211,7 @@ template <>
 VkMemoryGetWin32HandleInfoKHR destroy_structure_copy<VkMemoryGetWin32HandleInfoKHR>(const VkMemoryGetWin32HandleInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMemoryGetWin32HandleInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.memory, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -3982,8 +2220,6 @@ template <>
 VkMemoryHeap destroy_structure_copy<VkMemoryHeap>(const VkMemoryHeap& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMemoryHeap result { };
-    destroy_structure_copy(obj.size, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
     return result;
 }
 
@@ -3991,9 +2227,7 @@ template <>
 VkMemoryHostPointerPropertiesEXT destroy_structure_copy<VkMemoryHostPointerPropertiesEXT>(const VkMemoryHostPointerPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMemoryHostPointerPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.memoryTypeBits, pAllocationCallbacks);
     return result;
 }
 
@@ -4001,19 +2235,16 @@ template <>
 VkMemoryOpaqueCaptureAddressAllocateInfo destroy_structure_copy<VkMemoryOpaqueCaptureAddressAllocateInfo>(const VkMemoryOpaqueCaptureAddressAllocateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMemoryOpaqueCaptureAddressAllocateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.opaqueCaptureAddress, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkMemoryPriorityAllocateInfoEXT destroy_structure_copy<VkMemoryPriorityAllocateInfoEXT>(const VkMemoryPriorityAllocateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMemoryPriorityAllocateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.priority, pAllocationCallbacks);
     return result;
 }
 
@@ -4021,9 +2252,6 @@ template <>
 VkMemoryRequirements destroy_structure_copy<VkMemoryRequirements>(const VkMemoryRequirements& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMemoryRequirements result { };
-    destroy_structure_copy(obj.size, pAllocationCallbacks);
-    destroy_structure_copy(obj.alignment, pAllocationCallbacks);
-    destroy_structure_copy(obj.memoryTypeBits, pAllocationCallbacks);
     return result;
 }
 
@@ -4031,18 +2259,16 @@ template <>
 VkMemoryRequirements2 destroy_structure_copy<VkMemoryRequirements2>(const VkMemoryRequirements2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMemoryRequirements2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.memoryRequirements, pAllocationCallbacks);
     return result;
 }
 
+
 template <>
 VkMemoryType destroy_structure_copy<VkMemoryType>(const VkMemoryType& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMemoryType result { };
-    destroy_structure_copy(obj.propertyFlags, pAllocationCallbacks);
-    destroy_structure_copy(obj.heapIndex, pAllocationCallbacks);
     return result;
 }
 
@@ -4051,9 +2277,7 @@ template <>
 VkMemoryWin32HandlePropertiesKHR destroy_structure_copy<VkMemoryWin32HandlePropertiesKHR>(const VkMemoryWin32HandlePropertiesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMemoryWin32HandlePropertiesKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.memoryTypeBits, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -4063,10 +2287,7 @@ template <>
 VkMetalSurfaceCreateInfoEXT destroy_structure_copy<VkMetalSurfaceCreateInfoEXT>(const VkMetalSurfaceCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMetalSurfaceCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-
     return result;
 }
 #endif // VK_USE_PLATFORM_METAL_EXT
@@ -4075,7 +2296,6 @@ template <>
 VkMultisamplePropertiesEXT destroy_structure_copy<VkMultisamplePropertiesEXT>(const VkMultisamplePropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkMultisamplePropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.maxSampleLocationGridSize, pAllocationCallbacks);
     return result;
@@ -4086,12 +2306,7 @@ template <>
 VkNativeBufferANDROID destroy_structure_copy<VkNativeBufferANDROID>(const VkNativeBufferANDROID& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkNativeBufferANDROID result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-
-    destroy_structure_copy(obj.stride, pAllocationCallbacks);
-    destroy_structure_copy(obj.format, pAllocationCallbacks);
-    destroy_structure_copy(obj.usage, pAllocationCallbacks);
     destroy_structure_copy(obj.usage2, pAllocationCallbacks);
     return result;
 }
@@ -4102,8 +2317,6 @@ template <>
 VkNativeBufferUsage2ANDROID destroy_structure_copy<VkNativeBufferUsage2ANDROID>(const VkNativeBufferUsage2ANDROID& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkNativeBufferUsage2ANDROID result { };
-    destroy_structure_copy(obj.consumer, pAllocationCallbacks);
-    destroy_structure_copy(obj.producer, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -4112,8 +2325,6 @@ template <>
 VkOffset2D destroy_structure_copy<VkOffset2D>(const VkOffset2D& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkOffset2D result { };
-    destroy_structure_copy(obj.x, pAllocationCallbacks);
-    destroy_structure_copy(obj.y, pAllocationCallbacks);
     return result;
 }
 
@@ -4121,9 +2332,6 @@ template <>
 VkOffset3D destroy_structure_copy<VkOffset3D>(const VkOffset3D& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkOffset3D result { };
-    destroy_structure_copy(obj.x, pAllocationCallbacks);
-    destroy_structure_copy(obj.y, pAllocationCallbacks);
-    destroy_structure_copy(obj.z, pAllocationCallbacks);
     return result;
 }
 
@@ -4131,11 +2339,6 @@ template <>
 VkPastPresentationTimingGOOGLE destroy_structure_copy<VkPastPresentationTimingGOOGLE>(const VkPastPresentationTimingGOOGLE& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPastPresentationTimingGOOGLE result { };
-    destroy_structure_copy(obj.presentID, pAllocationCallbacks);
-    destroy_structure_copy(obj.desiredPresentTime, pAllocationCallbacks);
-    destroy_structure_copy(obj.actualPresentTime, pAllocationCallbacks);
-    destroy_structure_copy(obj.earliestPresentTime, pAllocationCallbacks);
-    destroy_structure_copy(obj.presentMargin, pAllocationCallbacks);
     return result;
 }
 
@@ -4143,9 +2346,7 @@ template <>
 VkPerformanceConfigurationAcquireInfoINTEL destroy_structure_copy<VkPerformanceConfigurationAcquireInfoINTEL>(const VkPerformanceConfigurationAcquireInfoINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPerformanceConfigurationAcquireInfoINTEL result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.type, pAllocationCallbacks);
     return result;
 }
 
@@ -4153,12 +2354,7 @@ template <>
 VkPerformanceCounterDescriptionKHR destroy_structure_copy<VkPerformanceCounterDescriptionKHR>(const VkPerformanceCounterDescriptionKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPerformanceCounterDescriptionKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-
-
-
     return result;
 }
 
@@ -4166,35 +2362,17 @@ template <>
 VkPerformanceCounterKHR destroy_structure_copy<VkPerformanceCounterKHR>(const VkPerformanceCounterKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPerformanceCounterKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.unit, pAllocationCallbacks);
-    destroy_structure_copy(obj.scope, pAllocationCallbacks);
-    destroy_structure_copy(obj.storage, pAllocationCallbacks);
     destroy_static_array_copy<VK_UUID_SIZE>(obj.uuid, pAllocationCallbacks);
     return result;
 }
 
-template <>
-VkPerformanceCounterResultKHR destroy_structure_copy<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkPerformanceCounterResultKHR result { };
-    destroy_structure_copy(obj.int32, pAllocationCallbacks);
-    destroy_structure_copy(obj.int64, pAllocationCallbacks);
-    destroy_structure_copy(obj.uint32, pAllocationCallbacks);
-    destroy_structure_copy(obj.uint64, pAllocationCallbacks);
-    destroy_structure_copy(obj.float32, pAllocationCallbacks);
-    destroy_structure_copy(obj.float64, pAllocationCallbacks);
-    return result;
-}
 
 template <>
 VkPerformanceMarkerInfoINTEL destroy_structure_copy<VkPerformanceMarkerInfoINTEL>(const VkPerformanceMarkerInfoINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPerformanceMarkerInfoINTEL result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.marker, pAllocationCallbacks);
     return result;
 }
 
@@ -4202,11 +2380,7 @@ template <>
 VkPerformanceOverrideInfoINTEL destroy_structure_copy<VkPerformanceOverrideInfoINTEL>(const VkPerformanceOverrideInfoINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPerformanceOverrideInfoINTEL result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.type, pAllocationCallbacks);
-    destroy_structure_copy(obj.enable, pAllocationCallbacks);
-    destroy_structure_copy(obj.parameter, pAllocationCallbacks);
     return result;
 }
 
@@ -4214,9 +2388,7 @@ template <>
 VkPerformanceQuerySubmitInfoKHR destroy_structure_copy<VkPerformanceQuerySubmitInfoKHR>(const VkPerformanceQuerySubmitInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPerformanceQuerySubmitInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.counterPassIndex, pAllocationCallbacks);
     return result;
 }
 
@@ -4224,29 +2396,15 @@ template <>
 VkPerformanceStreamMarkerInfoINTEL destroy_structure_copy<VkPerformanceStreamMarkerInfoINTEL>(const VkPerformanceStreamMarkerInfoINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPerformanceStreamMarkerInfoINTEL result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.marker, pAllocationCallbacks);
     return result;
 }
 
-template <>
-VkPerformanceValueDataINTEL destroy_structure_copy<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkPerformanceValueDataINTEL result { };
-    destroy_structure_copy(obj.value32, pAllocationCallbacks);
-    destroy_structure_copy(obj.value64, pAllocationCallbacks);
-    destroy_structure_copy(obj.valueFloat, pAllocationCallbacks);
-    destroy_structure_copy(obj.valueBool, pAllocationCallbacks);
-    destroy_dynamic_string_copy(obj.valueString, pAllocationCallbacks);
-    return result;
-}
 
 template <>
 VkPerformanceValueINTEL destroy_structure_copy<VkPerformanceValueINTEL>(const VkPerformanceValueINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPerformanceValueINTEL result { };
-    destroy_structure_copy(obj.type, pAllocationCallbacks);
     destroy_structure_copy(obj.data, pAllocationCallbacks);
     return result;
 }
@@ -4255,34 +2413,25 @@ template <>
 VkPhysicalDevice16BitStorageFeatures destroy_structure_copy<VkPhysicalDevice16BitStorageFeatures>(const VkPhysicalDevice16BitStorageFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDevice16BitStorageFeatures result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.storageBuffer16BitAccess, pAllocationCallbacks);
-    destroy_structure_copy(obj.uniformAndStorageBuffer16BitAccess, pAllocationCallbacks);
-    destroy_structure_copy(obj.storagePushConstant16, pAllocationCallbacks);
-    destroy_structure_copy(obj.storageInputOutput16, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDevice8BitStorageFeatures destroy_structure_copy<VkPhysicalDevice8BitStorageFeatures>(const VkPhysicalDevice8BitStorageFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDevice8BitStorageFeatures result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.storageBuffer8BitAccess, pAllocationCallbacks);
-    destroy_structure_copy(obj.uniformAndStorageBuffer8BitAccess, pAllocationCallbacks);
-    destroy_structure_copy(obj.storagePushConstant8, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceASTCDecodeFeaturesEXT destroy_structure_copy<VkPhysicalDeviceASTCDecodeFeaturesEXT>(const VkPhysicalDeviceASTCDecodeFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceASTCDecodeFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.decodeModeSharedExponent, pAllocationCallbacks);
     return result;
 }
 
@@ -4290,9 +2439,7 @@ template <>
 VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT destroy_structure_copy<VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT>(const VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.advancedBlendCoherentOperations, pAllocationCallbacks);
     return result;
 }
 
@@ -4300,26 +2447,16 @@ template <>
 VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT destroy_structure_copy<VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT>(const VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.advancedBlendMaxColorAttachments, pAllocationCallbacks);
-    destroy_structure_copy(obj.advancedBlendIndependentBlend, pAllocationCallbacks);
-    destroy_structure_copy(obj.advancedBlendNonPremultipliedSrcColor, pAllocationCallbacks);
-    destroy_structure_copy(obj.advancedBlendNonPremultipliedDstColor, pAllocationCallbacks);
-    destroy_structure_copy(obj.advancedBlendCorrelatedOverlap, pAllocationCallbacks);
-    destroy_structure_copy(obj.advancedBlendAllOperations, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceBufferDeviceAddressFeatures destroy_structure_copy<VkPhysicalDeviceBufferDeviceAddressFeatures>(const VkPhysicalDeviceBufferDeviceAddressFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceBufferDeviceAddressFeatures result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.bufferDeviceAddress, pAllocationCallbacks);
-    destroy_structure_copy(obj.bufferDeviceAddressCaptureReplay, pAllocationCallbacks);
-    destroy_structure_copy(obj.bufferDeviceAddressMultiDevice, pAllocationCallbacks);
     return result;
 }
 
@@ -4327,21 +2464,16 @@ template <>
 VkPhysicalDeviceBufferDeviceAddressFeaturesEXT destroy_structure_copy<VkPhysicalDeviceBufferDeviceAddressFeaturesEXT>(const VkPhysicalDeviceBufferDeviceAddressFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceBufferDeviceAddressFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.bufferDeviceAddress, pAllocationCallbacks);
-    destroy_structure_copy(obj.bufferDeviceAddressCaptureReplay, pAllocationCallbacks);
-    destroy_structure_copy(obj.bufferDeviceAddressMultiDevice, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceCoherentMemoryFeaturesAMD destroy_structure_copy<VkPhysicalDeviceCoherentMemoryFeaturesAMD>(const VkPhysicalDeviceCoherentMemoryFeaturesAMD& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceCoherentMemoryFeaturesAMD result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceCoherentMemory, pAllocationCallbacks);
     return result;
 }
 
@@ -4349,10 +2481,7 @@ template <>
 VkPhysicalDeviceComputeShaderDerivativesFeaturesNV destroy_structure_copy<VkPhysicalDeviceComputeShaderDerivativesFeaturesNV>(const VkPhysicalDeviceComputeShaderDerivativesFeaturesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceComputeShaderDerivativesFeaturesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.computeDerivativeGroupQuads, pAllocationCallbacks);
-    destroy_structure_copy(obj.computeDerivativeGroupLinear, pAllocationCallbacks);
     return result;
 }
 
@@ -4360,10 +2489,7 @@ template <>
 VkPhysicalDeviceConditionalRenderingFeaturesEXT destroy_structure_copy<VkPhysicalDeviceConditionalRenderingFeaturesEXT>(const VkPhysicalDeviceConditionalRenderingFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceConditionalRenderingFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.conditionalRendering, pAllocationCallbacks);
-    destroy_structure_copy(obj.inheritedConditionalRendering, pAllocationCallbacks);
     return result;
 }
 
@@ -4371,17 +2497,7 @@ template <>
 VkPhysicalDeviceConservativeRasterizationPropertiesEXT destroy_structure_copy<VkPhysicalDeviceConservativeRasterizationPropertiesEXT>(const VkPhysicalDeviceConservativeRasterizationPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceConservativeRasterizationPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.primitiveOverestimationSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxExtraPrimitiveOverestimationSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.extraPrimitiveOverestimationSizeGranularity, pAllocationCallbacks);
-    destroy_structure_copy(obj.primitiveUnderestimation, pAllocationCallbacks);
-    destroy_structure_copy(obj.conservativePointAndLineRasterization, pAllocationCallbacks);
-    destroy_structure_copy(obj.degenerateTrianglesRasterized, pAllocationCallbacks);
-    destroy_structure_copy(obj.degenerateLinesRasterized, pAllocationCallbacks);
-    destroy_structure_copy(obj.fullyCoveredFragmentShaderInputVariable, pAllocationCallbacks);
-    destroy_structure_copy(obj.conservativeRasterizationPostDepthCoverage, pAllocationCallbacks);
     return result;
 }
 
@@ -4389,10 +2505,7 @@ template <>
 VkPhysicalDeviceCooperativeMatrixFeaturesNV destroy_structure_copy<VkPhysicalDeviceCooperativeMatrixFeaturesNV>(const VkPhysicalDeviceCooperativeMatrixFeaturesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceCooperativeMatrixFeaturesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.cooperativeMatrix, pAllocationCallbacks);
-    destroy_structure_copy(obj.cooperativeMatrixRobustBufferAccess, pAllocationCallbacks);
     return result;
 }
 
@@ -4400,9 +2513,7 @@ template <>
 VkPhysicalDeviceCooperativeMatrixPropertiesNV destroy_structure_copy<VkPhysicalDeviceCooperativeMatrixPropertiesNV>(const VkPhysicalDeviceCooperativeMatrixPropertiesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceCooperativeMatrixPropertiesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.cooperativeMatrixSupportedStages, pAllocationCallbacks);
     return result;
 }
 
@@ -4410,9 +2521,7 @@ template <>
 VkPhysicalDeviceCornerSampledImageFeaturesNV destroy_structure_copy<VkPhysicalDeviceCornerSampledImageFeaturesNV>(const VkPhysicalDeviceCornerSampledImageFeaturesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceCornerSampledImageFeaturesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.cornerSampledImage, pAllocationCallbacks);
     return result;
 }
 
@@ -4420,9 +2529,7 @@ template <>
 VkPhysicalDeviceCoverageReductionModeFeaturesNV destroy_structure_copy<VkPhysicalDeviceCoverageReductionModeFeaturesNV>(const VkPhysicalDeviceCoverageReductionModeFeaturesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceCoverageReductionModeFeaturesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.coverageReductionMode, pAllocationCallbacks);
     return result;
 }
 
@@ -4430,10 +2537,7 @@ template <>
 VkPhysicalDeviceCustomBorderColorFeaturesEXT destroy_structure_copy<VkPhysicalDeviceCustomBorderColorFeaturesEXT>(const VkPhysicalDeviceCustomBorderColorFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceCustomBorderColorFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.customBorderColors, pAllocationCallbacks);
-    destroy_structure_copy(obj.customBorderColorWithoutFormat, pAllocationCallbacks);
     return result;
 }
 
@@ -4441,9 +2545,7 @@ template <>
 VkPhysicalDeviceCustomBorderColorPropertiesEXT destroy_structure_copy<VkPhysicalDeviceCustomBorderColorPropertiesEXT>(const VkPhysicalDeviceCustomBorderColorPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceCustomBorderColorPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxCustomBorderColorSamplers, pAllocationCallbacks);
     return result;
 }
 
@@ -4451,9 +2553,7 @@ template <>
 VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV destroy_structure_copy<VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV>(const VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.dedicatedAllocationImageAliasing, pAllocationCallbacks);
     return result;
 }
 
@@ -4461,9 +2561,7 @@ template <>
 VkPhysicalDeviceDepthClipEnableFeaturesEXT destroy_structure_copy<VkPhysicalDeviceDepthClipEnableFeaturesEXT>(const VkPhysicalDeviceDepthClipEnableFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceDepthClipEnableFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthClipEnable, pAllocationCallbacks);
     return result;
 }
 
@@ -4471,83 +2569,34 @@ template <>
 VkPhysicalDeviceDepthStencilResolveProperties destroy_structure_copy<VkPhysicalDeviceDepthStencilResolveProperties>(const VkPhysicalDeviceDepthStencilResolveProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceDepthStencilResolveProperties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.supportedDepthResolveModes, pAllocationCallbacks);
-    destroy_structure_copy(obj.supportedStencilResolveModes, pAllocationCallbacks);
-    destroy_structure_copy(obj.independentResolveNone, pAllocationCallbacks);
-    destroy_structure_copy(obj.independentResolve, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceDescriptorIndexingFeatures destroy_structure_copy<VkPhysicalDeviceDescriptorIndexingFeatures>(const VkPhysicalDeviceDescriptorIndexingFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceDescriptorIndexingFeatures result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderInputAttachmentArrayDynamicIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderUniformTexelBufferArrayDynamicIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageTexelBufferArrayDynamicIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderUniformBufferArrayNonUniformIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSampledImageArrayNonUniformIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageBufferArrayNonUniformIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageImageArrayNonUniformIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderInputAttachmentArrayNonUniformIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderUniformTexelBufferArrayNonUniformIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageTexelBufferArrayNonUniformIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingUniformBufferUpdateAfterBind, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingSampledImageUpdateAfterBind, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingStorageImageUpdateAfterBind, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingStorageBufferUpdateAfterBind, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingUniformTexelBufferUpdateAfterBind, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingStorageTexelBufferUpdateAfterBind, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingUpdateUnusedWhilePending, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingPartiallyBound, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingVariableDescriptorCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.runtimeDescriptorArray, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceDescriptorIndexingProperties destroy_structure_copy<VkPhysicalDeviceDescriptorIndexingProperties>(const VkPhysicalDeviceDescriptorIndexingProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceDescriptorIndexingProperties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxUpdateAfterBindDescriptorsInAllPools, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderUniformBufferArrayNonUniformIndexingNative, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSampledImageArrayNonUniformIndexingNative, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageBufferArrayNonUniformIndexingNative, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageImageArrayNonUniformIndexingNative, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderInputAttachmentArrayNonUniformIndexingNative, pAllocationCallbacks);
-    destroy_structure_copy(obj.robustBufferAccessUpdateAfterBind, pAllocationCallbacks);
-    destroy_structure_copy(obj.quadDivergentImplicitLod, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorUpdateAfterBindSamplers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorUpdateAfterBindUniformBuffers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorUpdateAfterBindStorageBuffers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorUpdateAfterBindSampledImages, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorUpdateAfterBindStorageImages, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorUpdateAfterBindInputAttachments, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageUpdateAfterBindResources, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUpdateAfterBindSamplers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUpdateAfterBindUniformBuffers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUpdateAfterBindUniformBuffersDynamic, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUpdateAfterBindStorageBuffers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUpdateAfterBindStorageBuffersDynamic, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUpdateAfterBindSampledImages, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUpdateAfterBindStorageImages, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUpdateAfterBindInputAttachments, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV destroy_structure_copy<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV>(const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceGeneratedCommands, pAllocationCallbacks);
     return result;
 }
 
@@ -4555,17 +2604,7 @@ template <>
 VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV destroy_structure_copy<VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV>(const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxGraphicsShaderGroupCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxIndirectSequenceCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxIndirectCommandsTokenCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxIndirectCommandsStreamCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxIndirectCommandsTokenOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxIndirectCommandsStreamStride, pAllocationCallbacks);
-    destroy_structure_copy(obj.minSequencesCountBufferOffsetAlignment, pAllocationCallbacks);
-    destroy_structure_copy(obj.minSequencesIndexBufferOffsetAlignment, pAllocationCallbacks);
-    destroy_structure_copy(obj.minIndirectCommandsBufferOffsetAlignment, pAllocationCallbacks);
     return result;
 }
 
@@ -4573,9 +2612,7 @@ template <>
 VkPhysicalDeviceDiagnosticsConfigFeaturesNV destroy_structure_copy<VkPhysicalDeviceDiagnosticsConfigFeaturesNV>(const VkPhysicalDeviceDiagnosticsConfigFeaturesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceDiagnosticsConfigFeaturesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.diagnosticsConfig, pAllocationCallbacks);
     return result;
 }
 
@@ -4583,9 +2620,7 @@ template <>
 VkPhysicalDeviceDiscardRectanglePropertiesEXT destroy_structure_copy<VkPhysicalDeviceDiscardRectanglePropertiesEXT>(const VkPhysicalDeviceDiscardRectanglePropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceDiscardRectanglePropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDiscardRectangles, pAllocationCallbacks);
     return result;
 }
 
@@ -4593,22 +2628,25 @@ template <>
 VkPhysicalDeviceDriverProperties destroy_structure_copy<VkPhysicalDeviceDriverProperties>(const VkPhysicalDeviceDriverProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceDriverProperties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.driverID, pAllocationCallbacks);
-
-
     destroy_structure_copy(obj.conformanceVersion, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceExclusiveScissorFeaturesNV destroy_structure_copy<VkPhysicalDeviceExclusiveScissorFeaturesNV>(const VkPhysicalDeviceExclusiveScissorFeaturesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceExclusiveScissorFeaturesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.exclusiveScissor, pAllocationCallbacks);
+    return result;
+}
+
+template <>
+VkPhysicalDeviceExtendedDynamicStateFeaturesEXT destroy_structure_copy<VkPhysicalDeviceExtendedDynamicStateFeaturesEXT>(const VkPhysicalDeviceExtendedDynamicStateFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
+{
+    VkPhysicalDeviceExtendedDynamicStateFeaturesEXT result { };
+    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     return result;
 }
 
@@ -4616,41 +2654,34 @@ template <>
 VkPhysicalDeviceExternalBufferInfo destroy_structure_copy<VkPhysicalDeviceExternalBufferInfo>(const VkPhysicalDeviceExternalBufferInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceExternalBufferInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.usage, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceExternalFenceInfo destroy_structure_copy<VkPhysicalDeviceExternalFenceInfo>(const VkPhysicalDeviceExternalFenceInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceExternalFenceInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceExternalImageFormatInfo destroy_structure_copy<VkPhysicalDeviceExternalImageFormatInfo>(const VkPhysicalDeviceExternalImageFormatInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceExternalImageFormatInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceExternalMemoryHostPropertiesEXT destroy_structure_copy<VkPhysicalDeviceExternalMemoryHostPropertiesEXT>(const VkPhysicalDeviceExternalMemoryHostPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceExternalMemoryHostPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.minImportedHostPointerAlignment, pAllocationCallbacks);
     return result;
 }
 
@@ -4658,71 +2689,15 @@ template <>
 VkPhysicalDeviceExternalSemaphoreInfo destroy_structure_copy<VkPhysicalDeviceExternalSemaphoreInfo>(const VkPhysicalDeviceExternalSemaphoreInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceExternalSemaphoreInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceFeatures destroy_structure_copy<VkPhysicalDeviceFeatures>(const VkPhysicalDeviceFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceFeatures result { };
-    destroy_structure_copy(obj.robustBufferAccess, pAllocationCallbacks);
-    destroy_structure_copy(obj.fullDrawIndexUint32, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageCubeArray, pAllocationCallbacks);
-    destroy_structure_copy(obj.independentBlend, pAllocationCallbacks);
-    destroy_structure_copy(obj.geometryShader, pAllocationCallbacks);
-    destroy_structure_copy(obj.tessellationShader, pAllocationCallbacks);
-    destroy_structure_copy(obj.sampleRateShading, pAllocationCallbacks);
-    destroy_structure_copy(obj.dualSrcBlend, pAllocationCallbacks);
-    destroy_structure_copy(obj.logicOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.multiDrawIndirect, pAllocationCallbacks);
-    destroy_structure_copy(obj.drawIndirectFirstInstance, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthClamp, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthBiasClamp, pAllocationCallbacks);
-    destroy_structure_copy(obj.fillModeNonSolid, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthBounds, pAllocationCallbacks);
-    destroy_structure_copy(obj.wideLines, pAllocationCallbacks);
-    destroy_structure_copy(obj.largePoints, pAllocationCallbacks);
-    destroy_structure_copy(obj.alphaToOne, pAllocationCallbacks);
-    destroy_structure_copy(obj.multiViewport, pAllocationCallbacks);
-    destroy_structure_copy(obj.samplerAnisotropy, pAllocationCallbacks);
-    destroy_structure_copy(obj.textureCompressionETC2, pAllocationCallbacks);
-    destroy_structure_copy(obj.textureCompressionASTC_LDR, pAllocationCallbacks);
-    destroy_structure_copy(obj.textureCompressionBC, pAllocationCallbacks);
-    destroy_structure_copy(obj.occlusionQueryPrecise, pAllocationCallbacks);
-    destroy_structure_copy(obj.pipelineStatisticsQuery, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexPipelineStoresAndAtomics, pAllocationCallbacks);
-    destroy_structure_copy(obj.fragmentStoresAndAtomics, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderTessellationAndGeometryPointSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderImageGatherExtended, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageImageExtendedFormats, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageImageMultisample, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageImageReadWithoutFormat, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageImageWriteWithoutFormat, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderUniformBufferArrayDynamicIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSampledImageArrayDynamicIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageBufferArrayDynamicIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageImageArrayDynamicIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderClipDistance, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderCullDistance, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderFloat64, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderInt64, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderInt16, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderResourceResidency, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderResourceMinLod, pAllocationCallbacks);
-    destroy_structure_copy(obj.sparseBinding, pAllocationCallbacks);
-    destroy_structure_copy(obj.sparseResidencyBuffer, pAllocationCallbacks);
-    destroy_structure_copy(obj.sparseResidencyImage2D, pAllocationCallbacks);
-    destroy_structure_copy(obj.sparseResidencyImage3D, pAllocationCallbacks);
-    destroy_structure_copy(obj.sparseResidency2Samples, pAllocationCallbacks);
-    destroy_structure_copy(obj.sparseResidency4Samples, pAllocationCallbacks);
-    destroy_structure_copy(obj.sparseResidency8Samples, pAllocationCallbacks);
-    destroy_structure_copy(obj.sparseResidency16Samples, pAllocationCallbacks);
-    destroy_structure_copy(obj.sparseResidencyAliased, pAllocationCallbacks);
-    destroy_structure_copy(obj.variableMultisampleRate, pAllocationCallbacks);
-    destroy_structure_copy(obj.inheritedQueries, pAllocationCallbacks);
     return result;
 }
 
@@ -4730,35 +2705,35 @@ template <>
 VkPhysicalDeviceFeatures2 destroy_structure_copy<VkPhysicalDeviceFeatures2>(const VkPhysicalDeviceFeatures2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceFeatures2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.features, pAllocationCallbacks);
     return result;
 }
 
+
+
 template <>
 VkPhysicalDeviceFloatControlsProperties destroy_structure_copy<VkPhysicalDeviceFloatControlsProperties>(const VkPhysicalDeviceFloatControlsProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceFloatControlsProperties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.denormBehaviorIndependence, pAllocationCallbacks);
-    destroy_structure_copy(obj.roundingModeIndependence, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSignedZeroInfNanPreserveFloat16, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSignedZeroInfNanPreserveFloat32, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSignedZeroInfNanPreserveFloat64, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderDenormPreserveFloat16, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderDenormPreserveFloat32, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderDenormPreserveFloat64, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderDenormFlushToZeroFloat16, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderDenormFlushToZeroFloat32, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderDenormFlushToZeroFloat64, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderRoundingModeRTEFloat16, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderRoundingModeRTEFloat32, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderRoundingModeRTEFloat64, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderRoundingModeRTZFloat16, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderRoundingModeRTZFloat32, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderRoundingModeRTZFloat64, pAllocationCallbacks);
+    return result;
+}
+
+
+template <>
+VkPhysicalDeviceFragmentDensityMap2FeaturesEXT destroy_structure_copy<VkPhysicalDeviceFragmentDensityMap2FeaturesEXT>(const VkPhysicalDeviceFragmentDensityMap2FeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
+{
+    VkPhysicalDeviceFragmentDensityMap2FeaturesEXT result { };
+    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
+    return result;
+}
+
+template <>
+VkPhysicalDeviceFragmentDensityMap2PropertiesEXT destroy_structure_copy<VkPhysicalDeviceFragmentDensityMap2PropertiesEXT>(const VkPhysicalDeviceFragmentDensityMap2PropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
+{
+    VkPhysicalDeviceFragmentDensityMap2PropertiesEXT result { };
+    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     return result;
 }
 
@@ -4766,11 +2741,7 @@ template <>
 VkPhysicalDeviceFragmentDensityMapFeaturesEXT destroy_structure_copy<VkPhysicalDeviceFragmentDensityMapFeaturesEXT>(const VkPhysicalDeviceFragmentDensityMapFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceFragmentDensityMapFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.fragmentDensityMap, pAllocationCallbacks);
-    destroy_structure_copy(obj.fragmentDensityMapDynamic, pAllocationCallbacks);
-    destroy_structure_copy(obj.fragmentDensityMapNonSubsampledImages, pAllocationCallbacks);
     return result;
 }
 
@@ -4778,11 +2749,9 @@ template <>
 VkPhysicalDeviceFragmentDensityMapPropertiesEXT destroy_structure_copy<VkPhysicalDeviceFragmentDensityMapPropertiesEXT>(const VkPhysicalDeviceFragmentDensityMapPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceFragmentDensityMapPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.minFragmentDensityTexelSize, pAllocationCallbacks);
     destroy_structure_copy(obj.maxFragmentDensityTexelSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.fragmentDensityInvocations, pAllocationCallbacks);
     return result;
 }
 
@@ -4790,9 +2759,7 @@ template <>
 VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV destroy_structure_copy<VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV>(const VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.fragmentShaderBarycentric, pAllocationCallbacks);
     return result;
 }
 
@@ -4800,11 +2767,7 @@ template <>
 VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT destroy_structure_copy<VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT>(const VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.fragmentShaderSampleInterlock, pAllocationCallbacks);
-    destroy_structure_copy(obj.fragmentShaderPixelInterlock, pAllocationCallbacks);
-    destroy_structure_copy(obj.fragmentShaderShadingRateInterlock, pAllocationCallbacks);
     return result;
 }
 
@@ -4812,47 +2775,38 @@ template <>
 VkPhysicalDeviceGroupProperties destroy_structure_copy<VkPhysicalDeviceGroupProperties>(const VkPhysicalDeviceGroupProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceGroupProperties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.physicalDeviceCount, pAllocationCallbacks);
     destroy_static_array_copy<VK_MAX_DEVICE_GROUP_SIZE>(obj.physicalDevices, pAllocationCallbacks);
-    destroy_structure_copy(obj.subsetAllocation, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceHostQueryResetFeatures destroy_structure_copy<VkPhysicalDeviceHostQueryResetFeatures>(const VkPhysicalDeviceHostQueryResetFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceHostQueryResetFeatures result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.hostQueryReset, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceIDProperties destroy_structure_copy<VkPhysicalDeviceIDProperties>(const VkPhysicalDeviceIDProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceIDProperties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_static_array_copy<VK_UUID_SIZE>(obj.deviceUUID, pAllocationCallbacks);
     destroy_static_array_copy<VK_UUID_SIZE>(obj.driverUUID, pAllocationCallbacks);
     destroy_static_array_copy<VK_LUID_SIZE>(obj.deviceLUID, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceNodeMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceLUIDValid, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceImageDrmFormatModifierInfoEXT destroy_structure_copy<VkPhysicalDeviceImageDrmFormatModifierInfoEXT>(const VkPhysicalDeviceImageDrmFormatModifierInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceImageDrmFormatModifierInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.drmFormatModifier, pAllocationCallbacks);
-    destroy_structure_copy(obj.sharingMode, pAllocationCallbacks);
-    destroy_structure_copy(obj.queueFamilyIndexCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.queueFamilyIndexCount, obj.pQueueFamilyIndices, pAllocationCallbacks);
     return result;
 }
@@ -4861,13 +2815,16 @@ template <>
 VkPhysicalDeviceImageFormatInfo2 destroy_structure_copy<VkPhysicalDeviceImageFormatInfo2>(const VkPhysicalDeviceImageFormatInfo2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceImageFormatInfo2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.format, pAllocationCallbacks);
-    destroy_structure_copy(obj.type, pAllocationCallbacks);
-    destroy_structure_copy(obj.tiling, pAllocationCallbacks);
-    destroy_structure_copy(obj.usage, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
+    return result;
+}
+
+
+template <>
+VkPhysicalDeviceImageRobustnessFeaturesEXT destroy_structure_copy<VkPhysicalDeviceImageRobustnessFeaturesEXT>(const VkPhysicalDeviceImageRobustnessFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
+{
+    VkPhysicalDeviceImageRobustnessFeaturesEXT result { };
+    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     return result;
 }
 
@@ -4875,9 +2832,7 @@ template <>
 VkPhysicalDeviceImageViewImageFormatInfoEXT destroy_structure_copy<VkPhysicalDeviceImageViewImageFormatInfoEXT>(const VkPhysicalDeviceImageViewImageFormatInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceImageViewImageFormatInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageViewType, pAllocationCallbacks);
     return result;
 }
 
@@ -4885,19 +2840,16 @@ template <>
 VkPhysicalDeviceImagelessFramebufferFeatures destroy_structure_copy<VkPhysicalDeviceImagelessFramebufferFeatures>(const VkPhysicalDeviceImagelessFramebufferFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceImagelessFramebufferFeatures result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.imagelessFramebuffer, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceIndexTypeUint8FeaturesEXT destroy_structure_copy<VkPhysicalDeviceIndexTypeUint8FeaturesEXT>(const VkPhysicalDeviceIndexTypeUint8FeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceIndexTypeUint8FeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.indexTypeUint8, pAllocationCallbacks);
     return result;
 }
 
@@ -4905,10 +2857,7 @@ template <>
 VkPhysicalDeviceInlineUniformBlockFeaturesEXT destroy_structure_copy<VkPhysicalDeviceInlineUniformBlockFeaturesEXT>(const VkPhysicalDeviceInlineUniformBlockFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceInlineUniformBlockFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.inlineUniformBlock, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingInlineUniformBlockUpdateAfterBind, pAllocationCallbacks);
     return result;
 }
 
@@ -4916,13 +2865,7 @@ template <>
 VkPhysicalDeviceInlineUniformBlockPropertiesEXT destroy_structure_copy<VkPhysicalDeviceInlineUniformBlockPropertiesEXT>(const VkPhysicalDeviceInlineUniformBlockPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceInlineUniformBlockPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxInlineUniformBlockSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorInlineUniformBlocks, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorUpdateAfterBindInlineUniformBlocks, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetInlineUniformBlocks, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUpdateAfterBindInlineUniformBlocks, pAllocationCallbacks);
     return result;
 }
 
@@ -4930,112 +2873,12 @@ template <>
 VkPhysicalDeviceLimits destroy_structure_copy<VkPhysicalDeviceLimits>(const VkPhysicalDeviceLimits& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceLimits result { };
-    destroy_structure_copy(obj.maxImageDimension1D, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxImageDimension2D, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxImageDimension3D, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxImageDimensionCube, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxImageArrayLayers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTexelBufferElements, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxUniformBufferRange, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxStorageBufferRange, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPushConstantsSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxMemoryAllocationCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxSamplerAllocationCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.bufferImageGranularity, pAllocationCallbacks);
-    destroy_structure_copy(obj.sparseAddressSpaceSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxBoundDescriptorSets, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorSamplers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorUniformBuffers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorStorageBuffers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorSampledImages, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorStorageImages, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorInputAttachments, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageResources, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetSamplers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUniformBuffers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUniformBuffersDynamic, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetStorageBuffers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetStorageBuffersDynamic, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetSampledImages, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetStorageImages, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetInputAttachments, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxVertexInputAttributes, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxVertexInputBindings, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxVertexInputAttributeOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxVertexInputBindingStride, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxVertexOutputComponents, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTessellationGenerationLevel, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTessellationPatchSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTessellationControlPerVertexInputComponents, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTessellationControlPerVertexOutputComponents, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTessellationControlPerPatchOutputComponents, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTessellationControlTotalOutputComponents, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTessellationEvaluationInputComponents, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTessellationEvaluationOutputComponents, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxGeometryShaderInvocations, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxGeometryInputComponents, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxGeometryOutputComponents, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxGeometryOutputVertices, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxGeometryTotalOutputComponents, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxFragmentInputComponents, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxFragmentOutputAttachments, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxFragmentDualSrcAttachments, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxFragmentCombinedOutputResources, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxComputeSharedMemorySize, pAllocationCallbacks);
     destroy_static_array_copy<3>(obj.maxComputeWorkGroupCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxComputeWorkGroupInvocations, pAllocationCallbacks);
     destroy_static_array_copy<3>(obj.maxComputeWorkGroupSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.subPixelPrecisionBits, pAllocationCallbacks);
-    destroy_structure_copy(obj.subTexelPrecisionBits, pAllocationCallbacks);
-    destroy_structure_copy(obj.mipmapPrecisionBits, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDrawIndexedIndexValue, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDrawIndirectCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxSamplerLodBias, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxSamplerAnisotropy, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxViewports, pAllocationCallbacks);
     destroy_static_array_copy<2>(obj.maxViewportDimensions, pAllocationCallbacks);
     destroy_static_array_copy<2>(obj.viewportBoundsRange, pAllocationCallbacks);
-    destroy_structure_copy(obj.viewportSubPixelBits, pAllocationCallbacks);
-    destroy_structure_copy(obj.minMemoryMapAlignment, pAllocationCallbacks);
-    destroy_structure_copy(obj.minTexelBufferOffsetAlignment, pAllocationCallbacks);
-    destroy_structure_copy(obj.minUniformBufferOffsetAlignment, pAllocationCallbacks);
-    destroy_structure_copy(obj.minStorageBufferOffsetAlignment, pAllocationCallbacks);
-    destroy_structure_copy(obj.minTexelOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTexelOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.minTexelGatherOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTexelGatherOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.minInterpolationOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxInterpolationOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.subPixelInterpolationOffsetBits, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxFramebufferWidth, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxFramebufferHeight, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxFramebufferLayers, pAllocationCallbacks);
-    destroy_structure_copy(obj.framebufferColorSampleCounts, pAllocationCallbacks);
-    destroy_structure_copy(obj.framebufferDepthSampleCounts, pAllocationCallbacks);
-    destroy_structure_copy(obj.framebufferStencilSampleCounts, pAllocationCallbacks);
-    destroy_structure_copy(obj.framebufferNoAttachmentsSampleCounts, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxColorAttachments, pAllocationCallbacks);
-    destroy_structure_copy(obj.sampledImageColorSampleCounts, pAllocationCallbacks);
-    destroy_structure_copy(obj.sampledImageIntegerSampleCounts, pAllocationCallbacks);
-    destroy_structure_copy(obj.sampledImageDepthSampleCounts, pAllocationCallbacks);
-    destroy_structure_copy(obj.sampledImageStencilSampleCounts, pAllocationCallbacks);
-    destroy_structure_copy(obj.storageImageSampleCounts, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxSampleMaskWords, pAllocationCallbacks);
-    destroy_structure_copy(obj.timestampComputeAndGraphics, pAllocationCallbacks);
-    destroy_structure_copy(obj.timestampPeriod, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxClipDistances, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxCullDistances, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxCombinedClipAndCullDistances, pAllocationCallbacks);
-    destroy_structure_copy(obj.discreteQueuePriorities, pAllocationCallbacks);
     destroy_static_array_copy<2>(obj.pointSizeRange, pAllocationCallbacks);
     destroy_static_array_copy<2>(obj.lineWidthRange, pAllocationCallbacks);
-    destroy_structure_copy(obj.pointSizeGranularity, pAllocationCallbacks);
-    destroy_structure_copy(obj.lineWidthGranularity, pAllocationCallbacks);
-    destroy_structure_copy(obj.strictLines, pAllocationCallbacks);
-    destroy_structure_copy(obj.standardSampleLocations, pAllocationCallbacks);
-    destroy_structure_copy(obj.optimalBufferCopyOffsetAlignment, pAllocationCallbacks);
-    destroy_structure_copy(obj.optimalBufferCopyRowPitchAlignment, pAllocationCallbacks);
-    destroy_structure_copy(obj.nonCoherentAtomSize, pAllocationCallbacks);
     return result;
 }
 
@@ -5043,14 +2886,7 @@ template <>
 VkPhysicalDeviceLineRasterizationFeaturesEXT destroy_structure_copy<VkPhysicalDeviceLineRasterizationFeaturesEXT>(const VkPhysicalDeviceLineRasterizationFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceLineRasterizationFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.rectangularLines, pAllocationCallbacks);
-    destroy_structure_copy(obj.bresenhamLines, pAllocationCallbacks);
-    destroy_structure_copy(obj.smoothLines, pAllocationCallbacks);
-    destroy_structure_copy(obj.stippledRectangularLines, pAllocationCallbacks);
-    destroy_structure_copy(obj.stippledBresenhamLines, pAllocationCallbacks);
-    destroy_structure_copy(obj.stippledSmoothLines, pAllocationCallbacks);
     return result;
 }
 
@@ -5058,9 +2894,7 @@ template <>
 VkPhysicalDeviceLineRasterizationPropertiesEXT destroy_structure_copy<VkPhysicalDeviceLineRasterizationPropertiesEXT>(const VkPhysicalDeviceLineRasterizationPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceLineRasterizationPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.lineSubPixelPrecisionBits, pAllocationCallbacks);
     return result;
 }
 
@@ -5068,18 +2902,15 @@ template <>
 VkPhysicalDeviceMaintenance3Properties destroy_structure_copy<VkPhysicalDeviceMaintenance3Properties>(const VkPhysicalDeviceMaintenance3Properties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceMaintenance3Properties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerSetDescriptors, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxMemoryAllocationSize, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceMemoryBudgetPropertiesEXT destroy_structure_copy<VkPhysicalDeviceMemoryBudgetPropertiesEXT>(const VkPhysicalDeviceMemoryBudgetPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceMemoryBudgetPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_static_array_copy<VK_MAX_MEMORY_HEAPS>(obj.heapBudget, pAllocationCallbacks);
     destroy_static_array_copy<VK_MAX_MEMORY_HEAPS>(obj.heapUsage, pAllocationCallbacks);
@@ -5090,9 +2921,7 @@ template <>
 VkPhysicalDeviceMemoryPriorityFeaturesEXT destroy_structure_copy<VkPhysicalDeviceMemoryPriorityFeaturesEXT>(const VkPhysicalDeviceMemoryPriorityFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceMemoryPriorityFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.memoryPriority, pAllocationCallbacks);
     return result;
 }
 
@@ -5100,9 +2929,7 @@ template <>
 VkPhysicalDeviceMemoryProperties destroy_structure_copy<VkPhysicalDeviceMemoryProperties>(const VkPhysicalDeviceMemoryProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceMemoryProperties result { };
-    destroy_structure_copy(obj.memoryTypeCount, pAllocationCallbacks);
     destroy_static_array_copy<VK_MAX_MEMORY_TYPES>(obj.memoryTypes, pAllocationCallbacks);
-    destroy_structure_copy(obj.memoryHeapCount, pAllocationCallbacks);
     destroy_static_array_copy<VK_MAX_MEMORY_HEAPS>(obj.memoryHeaps, pAllocationCallbacks);
     return result;
 }
@@ -5111,20 +2938,17 @@ template <>
 VkPhysicalDeviceMemoryProperties2 destroy_structure_copy<VkPhysicalDeviceMemoryProperties2>(const VkPhysicalDeviceMemoryProperties2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceMemoryProperties2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.memoryProperties, pAllocationCallbacks);
     return result;
 }
 
+
 template <>
 VkPhysicalDeviceMeshShaderFeaturesNV destroy_structure_copy<VkPhysicalDeviceMeshShaderFeaturesNV>(const VkPhysicalDeviceMeshShaderFeaturesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceMeshShaderFeaturesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.taskShader, pAllocationCallbacks);
-    destroy_structure_copy(obj.meshShader, pAllocationCallbacks);
     return result;
 }
 
@@ -5132,21 +2956,9 @@ template <>
 VkPhysicalDeviceMeshShaderPropertiesNV destroy_structure_copy<VkPhysicalDeviceMeshShaderPropertiesNV>(const VkPhysicalDeviceMeshShaderPropertiesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceMeshShaderPropertiesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDrawMeshTasksCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTaskWorkGroupInvocations, pAllocationCallbacks);
     destroy_static_array_copy<3>(obj.maxTaskWorkGroupSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTaskTotalMemorySize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTaskOutputCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxMeshWorkGroupInvocations, pAllocationCallbacks);
     destroy_static_array_copy<3>(obj.maxMeshWorkGroupSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxMeshTotalMemorySize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxMeshOutputVertices, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxMeshOutputPrimitives, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxMeshMultiviewViewCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.meshOutputPerVertexGranularity, pAllocationCallbacks);
-    destroy_structure_copy(obj.meshOutputPerPrimitiveGranularity, pAllocationCallbacks);
     return result;
 }
 
@@ -5154,21 +2966,16 @@ template <>
 VkPhysicalDeviceMultiviewFeatures destroy_structure_copy<VkPhysicalDeviceMultiviewFeatures>(const VkPhysicalDeviceMultiviewFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceMultiviewFeatures result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.multiview, pAllocationCallbacks);
-    destroy_structure_copy(obj.multiviewGeometryShader, pAllocationCallbacks);
-    destroy_structure_copy(obj.multiviewTessellationShader, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX destroy_structure_copy<VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX>(const VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.perViewPositionAllComponents, pAllocationCallbacks);
     return result;
 }
 
@@ -5176,23 +2983,16 @@ template <>
 VkPhysicalDeviceMultiviewProperties destroy_structure_copy<VkPhysicalDeviceMultiviewProperties>(const VkPhysicalDeviceMultiviewProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceMultiviewProperties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxMultiviewViewCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxMultiviewInstanceIndex, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDevicePCIBusInfoPropertiesEXT destroy_structure_copy<VkPhysicalDevicePCIBusInfoPropertiesEXT>(const VkPhysicalDevicePCIBusInfoPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDevicePCIBusInfoPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.pciDomain, pAllocationCallbacks);
-    destroy_structure_copy(obj.pciBus, pAllocationCallbacks);
-    destroy_structure_copy(obj.pciDevice, pAllocationCallbacks);
-    destroy_structure_copy(obj.pciFunction, pAllocationCallbacks);
     return result;
 }
 
@@ -5200,10 +3000,7 @@ template <>
 VkPhysicalDevicePerformanceQueryFeaturesKHR destroy_structure_copy<VkPhysicalDevicePerformanceQueryFeaturesKHR>(const VkPhysicalDevicePerformanceQueryFeaturesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDevicePerformanceQueryFeaturesKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.performanceCounterQueryPools, pAllocationCallbacks);
-    destroy_structure_copy(obj.performanceCounterMultipleQueryPools, pAllocationCallbacks);
     return result;
 }
 
@@ -5211,9 +3008,7 @@ template <>
 VkPhysicalDevicePerformanceQueryPropertiesKHR destroy_structure_copy<VkPhysicalDevicePerformanceQueryPropertiesKHR>(const VkPhysicalDevicePerformanceQueryPropertiesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDevicePerformanceQueryPropertiesKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.allowCommandBufferQueryCopies, pAllocationCallbacks);
     return result;
 }
 
@@ -5221,9 +3016,7 @@ template <>
 VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT destroy_structure_copy<VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT>(const VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.pipelineCreationCacheControl, pAllocationCallbacks);
     return result;
 }
 
@@ -5231,9 +3024,7 @@ template <>
 VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR destroy_structure_copy<VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR>(const VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.pipelineExecutableInfo, pAllocationCallbacks);
     return result;
 }
 
@@ -5241,20 +3032,17 @@ template <>
 VkPhysicalDevicePointClippingProperties destroy_structure_copy<VkPhysicalDevicePointClippingProperties>(const VkPhysicalDevicePointClippingProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDevicePointClippingProperties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.pointClippingBehavior, pAllocationCallbacks);
     return result;
 }
+
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 template <>
 VkPhysicalDevicePresentationPropertiesANDROID destroy_structure_copy<VkPhysicalDevicePresentationPropertiesANDROID>(const VkPhysicalDevicePresentationPropertiesANDROID& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDevicePresentationPropertiesANDROID result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.sharedImage, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -5263,9 +3051,7 @@ template <>
 VkPhysicalDevicePrivateDataFeaturesEXT destroy_structure_copy<VkPhysicalDevicePrivateDataFeaturesEXT>(const VkPhysicalDevicePrivateDataFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDevicePrivateDataFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.privateData, pAllocationCallbacks);
     return result;
 }
 
@@ -5273,12 +3059,6 @@ template <>
 VkPhysicalDeviceProperties destroy_structure_copy<VkPhysicalDeviceProperties>(const VkPhysicalDeviceProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceProperties result { };
-    destroy_structure_copy(obj.apiVersion, pAllocationCallbacks);
-    destroy_structure_copy(obj.driverVersion, pAllocationCallbacks);
-    destroy_structure_copy(obj.vendorID, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceID, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceType, pAllocationCallbacks);
-
     destroy_static_array_copy<VK_UUID_SIZE>(obj.pipelineCacheUUID, pAllocationCallbacks);
     destroy_structure_copy(obj.limits, pAllocationCallbacks);
     destroy_structure_copy(obj.sparseProperties, pAllocationCallbacks);
@@ -5289,19 +3069,17 @@ template <>
 VkPhysicalDeviceProperties2 destroy_structure_copy<VkPhysicalDeviceProperties2>(const VkPhysicalDeviceProperties2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceProperties2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.properties, pAllocationCallbacks);
     return result;
 }
 
+
 template <>
 VkPhysicalDeviceProtectedMemoryFeatures destroy_structure_copy<VkPhysicalDeviceProtectedMemoryFeatures>(const VkPhysicalDeviceProtectedMemoryFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceProtectedMemoryFeatures result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.protectedMemory, pAllocationCallbacks);
     return result;
 }
 
@@ -5309,9 +3087,7 @@ template <>
 VkPhysicalDeviceProtectedMemoryProperties destroy_structure_copy<VkPhysicalDeviceProtectedMemoryProperties>(const VkPhysicalDeviceProtectedMemoryProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceProtectedMemoryProperties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.protectedNoFault, pAllocationCallbacks);
     return result;
 }
 
@@ -5319,9 +3095,7 @@ template <>
 VkPhysicalDevicePushDescriptorPropertiesKHR destroy_structure_copy<VkPhysicalDevicePushDescriptorPropertiesKHR>(const VkPhysicalDevicePushDescriptorPropertiesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDevicePushDescriptorPropertiesKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPushDescriptors, pAllocationCallbacks);
     return result;
 }
 
@@ -5330,17 +3104,7 @@ template <>
 VkPhysicalDeviceRayTracingFeaturesKHR destroy_structure_copy<VkPhysicalDeviceRayTracingFeaturesKHR>(const VkPhysicalDeviceRayTracingFeaturesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceRayTracingFeaturesKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.rayTracing, pAllocationCallbacks);
-    destroy_structure_copy(obj.rayTracingShaderGroupHandleCaptureReplay, pAllocationCallbacks);
-    destroy_structure_copy(obj.rayTracingShaderGroupHandleCaptureReplayMixed, pAllocationCallbacks);
-    destroy_structure_copy(obj.rayTracingAccelerationStructureCaptureReplay, pAllocationCallbacks);
-    destroy_structure_copy(obj.rayTracingIndirectTraceRays, pAllocationCallbacks);
-    destroy_structure_copy(obj.rayTracingIndirectAccelerationStructureBuild, pAllocationCallbacks);
-    destroy_structure_copy(obj.rayTracingHostAccelerationStructureCommands, pAllocationCallbacks);
-    destroy_structure_copy(obj.rayQuery, pAllocationCallbacks);
-    destroy_structure_copy(obj.rayTracingPrimitiveCulling, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -5350,17 +3114,7 @@ template <>
 VkPhysicalDeviceRayTracingPropertiesKHR destroy_structure_copy<VkPhysicalDeviceRayTracingPropertiesKHR>(const VkPhysicalDeviceRayTracingPropertiesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceRayTracingPropertiesKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderGroupHandleSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxRecursionDepth, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxShaderGroupStride, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderGroupBaseAlignment, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxGeometryCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxInstanceCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPrimitiveCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetAccelerationStructures, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderGroupHandleCaptureReplaySize, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -5369,16 +3123,7 @@ template <>
 VkPhysicalDeviceRayTracingPropertiesNV destroy_structure_copy<VkPhysicalDeviceRayTracingPropertiesNV>(const VkPhysicalDeviceRayTracingPropertiesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceRayTracingPropertiesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderGroupHandleSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxRecursionDepth, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxShaderGroupStride, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderGroupBaseAlignment, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxGeometryCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxInstanceCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTriangleCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetAccelerationStructures, pAllocationCallbacks);
     return result;
 }
 
@@ -5386,9 +3131,7 @@ template <>
 VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV destroy_structure_copy<VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV>(const VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.representativeFragmentTest, pAllocationCallbacks);
     return result;
 }
 
@@ -5396,11 +3139,7 @@ template <>
 VkPhysicalDeviceRobustness2FeaturesEXT destroy_structure_copy<VkPhysicalDeviceRobustness2FeaturesEXT>(const VkPhysicalDeviceRobustness2FeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceRobustness2FeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.robustBufferAccess2, pAllocationCallbacks);
-    destroy_structure_copy(obj.robustImageAccess2, pAllocationCallbacks);
-    destroy_structure_copy(obj.nullDescriptor, pAllocationCallbacks);
     return result;
 }
 
@@ -5408,10 +3147,7 @@ template <>
 VkPhysicalDeviceRobustness2PropertiesEXT destroy_structure_copy<VkPhysicalDeviceRobustness2PropertiesEXT>(const VkPhysicalDeviceRobustness2PropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceRobustness2PropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.robustStorageBufferAccessSizeAlignment, pAllocationCallbacks);
-    destroy_structure_copy(obj.robustUniformBufferAccessSizeAlignment, pAllocationCallbacks);
     return result;
 }
 
@@ -5419,13 +3155,9 @@ template <>
 VkPhysicalDeviceSampleLocationsPropertiesEXT destroy_structure_copy<VkPhysicalDeviceSampleLocationsPropertiesEXT>(const VkPhysicalDeviceSampleLocationsPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceSampleLocationsPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.sampleLocationSampleCounts, pAllocationCallbacks);
     destroy_structure_copy(obj.maxSampleLocationGridSize, pAllocationCallbacks);
     destroy_static_array_copy<2>(obj.sampleLocationCoordinateRange, pAllocationCallbacks);
-    destroy_structure_copy(obj.sampleLocationSubPixelBits, pAllocationCallbacks);
-    destroy_structure_copy(obj.variableSampleLocations, pAllocationCallbacks);
     return result;
 }
 
@@ -5433,40 +3165,43 @@ template <>
 VkPhysicalDeviceSamplerFilterMinmaxProperties destroy_structure_copy<VkPhysicalDeviceSamplerFilterMinmaxProperties>(const VkPhysicalDeviceSamplerFilterMinmaxProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceSamplerFilterMinmaxProperties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.filterMinmaxSingleComponentFormats, pAllocationCallbacks);
-    destroy_structure_copy(obj.filterMinmaxImageComponentMapping, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceSamplerYcbcrConversionFeatures destroy_structure_copy<VkPhysicalDeviceSamplerYcbcrConversionFeatures>(const VkPhysicalDeviceSamplerYcbcrConversionFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceSamplerYcbcrConversionFeatures result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.samplerYcbcrConversion, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceScalarBlockLayoutFeatures destroy_structure_copy<VkPhysicalDeviceScalarBlockLayoutFeatures>(const VkPhysicalDeviceScalarBlockLayoutFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceScalarBlockLayoutFeatures result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.scalarBlockLayout, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures destroy_structure_copy<VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures>(const VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.separateDepthStencilLayouts, pAllocationCallbacks);
+    return result;
+}
+
+
+template <>
+VkPhysicalDeviceShaderAtomicFloatFeaturesEXT destroy_structure_copy<VkPhysicalDeviceShaderAtomicFloatFeaturesEXT>(const VkPhysicalDeviceShaderAtomicFloatFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
+{
+    VkPhysicalDeviceShaderAtomicFloatFeaturesEXT result { };
+    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     return result;
 }
 
@@ -5474,21 +3209,16 @@ template <>
 VkPhysicalDeviceShaderAtomicInt64Features destroy_structure_copy<VkPhysicalDeviceShaderAtomicInt64Features>(const VkPhysicalDeviceShaderAtomicInt64Features& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceShaderAtomicInt64Features result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderBufferInt64Atomics, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSharedInt64Atomics, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceShaderClockFeaturesKHR destroy_structure_copy<VkPhysicalDeviceShaderClockFeaturesKHR>(const VkPhysicalDeviceShaderClockFeaturesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceShaderClockFeaturesKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSubgroupClock, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderDeviceClock, pAllocationCallbacks);
     return result;
 }
 
@@ -5496,10 +3226,7 @@ template <>
 VkPhysicalDeviceShaderCoreProperties2AMD destroy_structure_copy<VkPhysicalDeviceShaderCoreProperties2AMD>(const VkPhysicalDeviceShaderCoreProperties2AMD& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceShaderCoreProperties2AMD result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderCoreFeatures, pAllocationCallbacks);
-    destroy_structure_copy(obj.activeComputeUnitCount, pAllocationCallbacks);
     return result;
 }
 
@@ -5507,22 +3234,7 @@ template <>
 VkPhysicalDeviceShaderCorePropertiesAMD destroy_structure_copy<VkPhysicalDeviceShaderCorePropertiesAMD>(const VkPhysicalDeviceShaderCorePropertiesAMD& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceShaderCorePropertiesAMD result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderEngineCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderArraysPerEngineCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.computeUnitsPerShaderArray, pAllocationCallbacks);
-    destroy_structure_copy(obj.simdPerComputeUnit, pAllocationCallbacks);
-    destroy_structure_copy(obj.wavefrontsPerSimd, pAllocationCallbacks);
-    destroy_structure_copy(obj.wavefrontSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.sgprsPerSimd, pAllocationCallbacks);
-    destroy_structure_copy(obj.minSgprAllocation, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxSgprAllocation, pAllocationCallbacks);
-    destroy_structure_copy(obj.sgprAllocationGranularity, pAllocationCallbacks);
-    destroy_structure_copy(obj.vgprsPerSimd, pAllocationCallbacks);
-    destroy_structure_copy(obj.minVgprAllocation, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxVgprAllocation, pAllocationCallbacks);
-    destroy_structure_copy(obj.vgprAllocationGranularity, pAllocationCallbacks);
     return result;
 }
 
@@ -5530,19 +3242,16 @@ template <>
 VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT destroy_structure_copy<VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT>(const VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderDemoteToHelperInvocation, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceShaderDrawParametersFeatures destroy_structure_copy<VkPhysicalDeviceShaderDrawParametersFeatures>(const VkPhysicalDeviceShaderDrawParametersFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceShaderDrawParametersFeatures result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderDrawParameters, pAllocationCallbacks);
     return result;
 }
 
@@ -5550,20 +3259,16 @@ template <>
 VkPhysicalDeviceShaderFloat16Int8Features destroy_structure_copy<VkPhysicalDeviceShaderFloat16Int8Features>(const VkPhysicalDeviceShaderFloat16Int8Features& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceShaderFloat16Int8Features result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderFloat16, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderInt8, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceShaderImageFootprintFeaturesNV destroy_structure_copy<VkPhysicalDeviceShaderImageFootprintFeaturesNV>(const VkPhysicalDeviceShaderImageFootprintFeaturesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceShaderImageFootprintFeaturesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageFootprint, pAllocationCallbacks);
     return result;
 }
 
@@ -5571,9 +3276,7 @@ template <>
 VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL destroy_structure_copy<VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL>(const VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderIntegerFunctions2, pAllocationCallbacks);
     return result;
 }
 
@@ -5581,9 +3284,7 @@ template <>
 VkPhysicalDeviceShaderSMBuiltinsFeaturesNV destroy_structure_copy<VkPhysicalDeviceShaderSMBuiltinsFeaturesNV>(const VkPhysicalDeviceShaderSMBuiltinsFeaturesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceShaderSMBuiltinsFeaturesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSMBuiltins, pAllocationCallbacks);
     return result;
 }
 
@@ -5591,10 +3292,7 @@ template <>
 VkPhysicalDeviceShaderSMBuiltinsPropertiesNV destroy_structure_copy<VkPhysicalDeviceShaderSMBuiltinsPropertiesNV>(const VkPhysicalDeviceShaderSMBuiltinsPropertiesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceShaderSMBuiltinsPropertiesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSMCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderWarpsPerSM, pAllocationCallbacks);
     return result;
 }
 
@@ -5602,20 +3300,16 @@ template <>
 VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures destroy_structure_copy<VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures>(const VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSubgroupExtendedTypes, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceShadingRateImageFeaturesNV destroy_structure_copy<VkPhysicalDeviceShadingRateImageFeaturesNV>(const VkPhysicalDeviceShadingRateImageFeaturesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceShadingRateImageFeaturesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.shadingRateImage, pAllocationCallbacks);
-    destroy_structure_copy(obj.shadingRateCoarseSampleOrder, pAllocationCallbacks);
     return result;
 }
 
@@ -5623,11 +3317,8 @@ template <>
 VkPhysicalDeviceShadingRateImagePropertiesNV destroy_structure_copy<VkPhysicalDeviceShadingRateImagePropertiesNV>(const VkPhysicalDeviceShadingRateImagePropertiesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceShadingRateImagePropertiesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.shadingRateTexelSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.shadingRatePaletteSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.shadingRateMaxCoarseSamples, pAllocationCallbacks);
     return result;
 }
 
@@ -5635,25 +3326,15 @@ template <>
 VkPhysicalDeviceSparseImageFormatInfo2 destroy_structure_copy<VkPhysicalDeviceSparseImageFormatInfo2>(const VkPhysicalDeviceSparseImageFormatInfo2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceSparseImageFormatInfo2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.format, pAllocationCallbacks);
-    destroy_structure_copy(obj.type, pAllocationCallbacks);
-    destroy_structure_copy(obj.samples, pAllocationCallbacks);
-    destroy_structure_copy(obj.usage, pAllocationCallbacks);
-    destroy_structure_copy(obj.tiling, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceSparseProperties destroy_structure_copy<VkPhysicalDeviceSparseProperties>(const VkPhysicalDeviceSparseProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceSparseProperties result { };
-    destroy_structure_copy(obj.residencyStandard2DBlockShape, pAllocationCallbacks);
-    destroy_structure_copy(obj.residencyStandard2DMultisampleBlockShape, pAllocationCallbacks);
-    destroy_structure_copy(obj.residencyStandard3DBlockShape, pAllocationCallbacks);
-    destroy_structure_copy(obj.residencyAlignedMipSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.residencyNonResidentStrict, pAllocationCallbacks);
     return result;
 }
 
@@ -5661,12 +3342,7 @@ template <>
 VkPhysicalDeviceSubgroupProperties destroy_structure_copy<VkPhysicalDeviceSubgroupProperties>(const VkPhysicalDeviceSubgroupProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceSubgroupProperties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.subgroupSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.supportedStages, pAllocationCallbacks);
-    destroy_structure_copy(obj.supportedOperations, pAllocationCallbacks);
-    destroy_structure_copy(obj.quadOperationsInAllStages, pAllocationCallbacks);
     return result;
 }
 
@@ -5674,10 +3350,7 @@ template <>
 VkPhysicalDeviceSubgroupSizeControlFeaturesEXT destroy_structure_copy<VkPhysicalDeviceSubgroupSizeControlFeaturesEXT>(const VkPhysicalDeviceSubgroupSizeControlFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceSubgroupSizeControlFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.subgroupSizeControl, pAllocationCallbacks);
-    destroy_structure_copy(obj.computeFullSubgroups, pAllocationCallbacks);
     return result;
 }
 
@@ -5685,12 +3358,7 @@ template <>
 VkPhysicalDeviceSubgroupSizeControlPropertiesEXT destroy_structure_copy<VkPhysicalDeviceSubgroupSizeControlPropertiesEXT>(const VkPhysicalDeviceSubgroupSizeControlPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceSubgroupSizeControlPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.minSubgroupSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxSubgroupSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxComputeWorkgroupSubgroups, pAllocationCallbacks);
-    destroy_structure_copy(obj.requiredSubgroupSizeStages, pAllocationCallbacks);
     return result;
 }
 
@@ -5698,9 +3366,7 @@ template <>
 VkPhysicalDeviceSurfaceInfo2KHR destroy_structure_copy<VkPhysicalDeviceSurfaceInfo2KHR>(const VkPhysicalDeviceSurfaceInfo2KHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceSurfaceInfo2KHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.surface, pAllocationCallbacks);
     return result;
 }
 
@@ -5708,9 +3374,7 @@ template <>
 VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT destroy_structure_copy<VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT>(const VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.texelBufferAlignment, pAllocationCallbacks);
     return result;
 }
 
@@ -5718,12 +3382,7 @@ template <>
 VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT destroy_structure_copy<VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT>(const VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.storageTexelBufferOffsetAlignmentBytes, pAllocationCallbacks);
-    destroy_structure_copy(obj.storageTexelBufferOffsetSingleTexelAlignment, pAllocationCallbacks);
-    destroy_structure_copy(obj.uniformTexelBufferOffsetAlignmentBytes, pAllocationCallbacks);
-    destroy_structure_copy(obj.uniformTexelBufferOffsetSingleTexelAlignment, pAllocationCallbacks);
     return result;
 }
 
@@ -5731,9 +3390,7 @@ template <>
 VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT destroy_structure_copy<VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT>(const VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.textureCompressionASTC_HDR, pAllocationCallbacks);
     return result;
 }
 
@@ -5741,33 +3398,25 @@ template <>
 VkPhysicalDeviceTimelineSemaphoreFeatures destroy_structure_copy<VkPhysicalDeviceTimelineSemaphoreFeatures>(const VkPhysicalDeviceTimelineSemaphoreFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceTimelineSemaphoreFeatures result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.timelineSemaphore, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceTimelineSemaphoreProperties destroy_structure_copy<VkPhysicalDeviceTimelineSemaphoreProperties>(const VkPhysicalDeviceTimelineSemaphoreProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceTimelineSemaphoreProperties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTimelineSemaphoreValueDifference, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceToolPropertiesEXT destroy_structure_copy<VkPhysicalDeviceToolPropertiesEXT>(const VkPhysicalDeviceToolPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceToolPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-
-
-    destroy_structure_copy(obj.purposes, pAllocationCallbacks);
-
-
     return result;
 }
 
@@ -5775,10 +3424,7 @@ template <>
 VkPhysicalDeviceTransformFeedbackFeaturesEXT destroy_structure_copy<VkPhysicalDeviceTransformFeedbackFeaturesEXT>(const VkPhysicalDeviceTransformFeedbackFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceTransformFeedbackFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.transformFeedback, pAllocationCallbacks);
-    destroy_structure_copy(obj.geometryStreams, pAllocationCallbacks);
     return result;
 }
 
@@ -5786,18 +3432,7 @@ template <>
 VkPhysicalDeviceTransformFeedbackPropertiesEXT destroy_structure_copy<VkPhysicalDeviceTransformFeedbackPropertiesEXT>(const VkPhysicalDeviceTransformFeedbackPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceTransformFeedbackPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTransformFeedbackStreams, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTransformFeedbackBuffers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTransformFeedbackBufferSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTransformFeedbackStreamDataSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTransformFeedbackBufferDataSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTransformFeedbackBufferDataStride, pAllocationCallbacks);
-    destroy_structure_copy(obj.transformFeedbackQueries, pAllocationCallbacks);
-    destroy_structure_copy(obj.transformFeedbackStreamsLinesTriangles, pAllocationCallbacks);
-    destroy_structure_copy(obj.transformFeedbackRasterizationStreamSelect, pAllocationCallbacks);
-    destroy_structure_copy(obj.transformFeedbackDraw, pAllocationCallbacks);
     return result;
 }
 
@@ -5805,31 +3440,27 @@ template <>
 VkPhysicalDeviceUniformBufferStandardLayoutFeatures destroy_structure_copy<VkPhysicalDeviceUniformBufferStandardLayoutFeatures>(const VkPhysicalDeviceUniformBufferStandardLayoutFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceUniformBufferStandardLayoutFeatures result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.uniformBufferStandardLayout, pAllocationCallbacks);
     return result;
 }
+
+
+
 
 template <>
 VkPhysicalDeviceVariablePointersFeatures destroy_structure_copy<VkPhysicalDeviceVariablePointersFeatures>(const VkPhysicalDeviceVariablePointersFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceVariablePointersFeatures result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.variablePointersStorageBuffer, pAllocationCallbacks);
-    destroy_structure_copy(obj.variablePointers, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT destroy_structure_copy<VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT>(const VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexAttributeInstanceRateDivisor, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexAttributeInstanceRateZeroDivisor, pAllocationCallbacks);
     return result;
 }
 
@@ -5837,9 +3468,7 @@ template <>
 VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT destroy_structure_copy<VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT>(const VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxVertexAttribDivisor, pAllocationCallbacks);
     return result;
 }
 
@@ -5847,20 +3476,7 @@ template <>
 VkPhysicalDeviceVulkan11Features destroy_structure_copy<VkPhysicalDeviceVulkan11Features>(const VkPhysicalDeviceVulkan11Features& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceVulkan11Features result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.storageBuffer16BitAccess, pAllocationCallbacks);
-    destroy_structure_copy(obj.uniformAndStorageBuffer16BitAccess, pAllocationCallbacks);
-    destroy_structure_copy(obj.storagePushConstant16, pAllocationCallbacks);
-    destroy_structure_copy(obj.storageInputOutput16, pAllocationCallbacks);
-    destroy_structure_copy(obj.multiview, pAllocationCallbacks);
-    destroy_structure_copy(obj.multiviewGeometryShader, pAllocationCallbacks);
-    destroy_structure_copy(obj.multiviewTessellationShader, pAllocationCallbacks);
-    destroy_structure_copy(obj.variablePointersStorageBuffer, pAllocationCallbacks);
-    destroy_structure_copy(obj.variablePointers, pAllocationCallbacks);
-    destroy_structure_copy(obj.protectedMemory, pAllocationCallbacks);
-    destroy_structure_copy(obj.samplerYcbcrConversion, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderDrawParameters, pAllocationCallbacks);
     return result;
 }
 
@@ -5868,23 +3484,10 @@ template <>
 VkPhysicalDeviceVulkan11Properties destroy_structure_copy<VkPhysicalDeviceVulkan11Properties>(const VkPhysicalDeviceVulkan11Properties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceVulkan11Properties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_static_array_copy<VK_UUID_SIZE>(obj.deviceUUID, pAllocationCallbacks);
     destroy_static_array_copy<VK_UUID_SIZE>(obj.driverUUID, pAllocationCallbacks);
     destroy_static_array_copy<VK_LUID_SIZE>(obj.deviceLUID, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceNodeMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.deviceLUIDValid, pAllocationCallbacks);
-    destroy_structure_copy(obj.subgroupSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.subgroupSupportedStages, pAllocationCallbacks);
-    destroy_structure_copy(obj.subgroupSupportedOperations, pAllocationCallbacks);
-    destroy_structure_copy(obj.subgroupQuadOperationsInAllStages, pAllocationCallbacks);
-    destroy_structure_copy(obj.pointClippingBehavior, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxMultiviewViewCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxMultiviewInstanceIndex, pAllocationCallbacks);
-    destroy_structure_copy(obj.protectedNoFault, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerSetDescriptors, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxMemoryAllocationSize, pAllocationCallbacks);
     return result;
 }
 
@@ -5892,55 +3495,7 @@ template <>
 VkPhysicalDeviceVulkan12Features destroy_structure_copy<VkPhysicalDeviceVulkan12Features>(const VkPhysicalDeviceVulkan12Features& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceVulkan12Features result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.samplerMirrorClampToEdge, pAllocationCallbacks);
-    destroy_structure_copy(obj.drawIndirectCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.storageBuffer8BitAccess, pAllocationCallbacks);
-    destroy_structure_copy(obj.uniformAndStorageBuffer8BitAccess, pAllocationCallbacks);
-    destroy_structure_copy(obj.storagePushConstant8, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderBufferInt64Atomics, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSharedInt64Atomics, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderFloat16, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderInt8, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderInputAttachmentArrayDynamicIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderUniformTexelBufferArrayDynamicIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageTexelBufferArrayDynamicIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderUniformBufferArrayNonUniformIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSampledImageArrayNonUniformIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageBufferArrayNonUniformIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageImageArrayNonUniformIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderInputAttachmentArrayNonUniformIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderUniformTexelBufferArrayNonUniformIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageTexelBufferArrayNonUniformIndexing, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingUniformBufferUpdateAfterBind, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingSampledImageUpdateAfterBind, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingStorageImageUpdateAfterBind, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingStorageBufferUpdateAfterBind, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingUniformTexelBufferUpdateAfterBind, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingStorageTexelBufferUpdateAfterBind, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingUpdateUnusedWhilePending, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingPartiallyBound, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorBindingVariableDescriptorCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.runtimeDescriptorArray, pAllocationCallbacks);
-    destroy_structure_copy(obj.samplerFilterMinmax, pAllocationCallbacks);
-    destroy_structure_copy(obj.scalarBlockLayout, pAllocationCallbacks);
-    destroy_structure_copy(obj.imagelessFramebuffer, pAllocationCallbacks);
-    destroy_structure_copy(obj.uniformBufferStandardLayout, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSubgroupExtendedTypes, pAllocationCallbacks);
-    destroy_structure_copy(obj.separateDepthStencilLayouts, pAllocationCallbacks);
-    destroy_structure_copy(obj.hostQueryReset, pAllocationCallbacks);
-    destroy_structure_copy(obj.timelineSemaphore, pAllocationCallbacks);
-    destroy_structure_copy(obj.bufferDeviceAddress, pAllocationCallbacks);
-    destroy_structure_copy(obj.bufferDeviceAddressCaptureReplay, pAllocationCallbacks);
-    destroy_structure_copy(obj.bufferDeviceAddressMultiDevice, pAllocationCallbacks);
-    destroy_structure_copy(obj.vulkanMemoryModel, pAllocationCallbacks);
-    destroy_structure_copy(obj.vulkanMemoryModelDeviceScope, pAllocationCallbacks);
-    destroy_structure_copy(obj.vulkanMemoryModelAvailabilityVisibilityChains, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderOutputViewportIndex, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderOutputLayer, pAllocationCallbacks);
-    destroy_structure_copy(obj.subgroupBroadcastDynamicId, pAllocationCallbacks);
     return result;
 }
 
@@ -5948,60 +3503,8 @@ template <>
 VkPhysicalDeviceVulkan12Properties destroy_structure_copy<VkPhysicalDeviceVulkan12Properties>(const VkPhysicalDeviceVulkan12Properties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceVulkan12Properties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.driverID, pAllocationCallbacks);
-
-
     destroy_structure_copy(obj.conformanceVersion, pAllocationCallbacks);
-    destroy_structure_copy(obj.denormBehaviorIndependence, pAllocationCallbacks);
-    destroy_structure_copy(obj.roundingModeIndependence, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSignedZeroInfNanPreserveFloat16, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSignedZeroInfNanPreserveFloat32, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSignedZeroInfNanPreserveFloat64, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderDenormPreserveFloat16, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderDenormPreserveFloat32, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderDenormPreserveFloat64, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderDenormFlushToZeroFloat16, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderDenormFlushToZeroFloat32, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderDenormFlushToZeroFloat64, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderRoundingModeRTEFloat16, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderRoundingModeRTEFloat32, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderRoundingModeRTEFloat64, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderRoundingModeRTZFloat16, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderRoundingModeRTZFloat32, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderRoundingModeRTZFloat64, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxUpdateAfterBindDescriptorsInAllPools, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderUniformBufferArrayNonUniformIndexingNative, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderSampledImageArrayNonUniformIndexingNative, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageBufferArrayNonUniformIndexingNative, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderStorageImageArrayNonUniformIndexingNative, pAllocationCallbacks);
-    destroy_structure_copy(obj.shaderInputAttachmentArrayNonUniformIndexingNative, pAllocationCallbacks);
-    destroy_structure_copy(obj.robustBufferAccessUpdateAfterBind, pAllocationCallbacks);
-    destroy_structure_copy(obj.quadDivergentImplicitLod, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorUpdateAfterBindSamplers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorUpdateAfterBindUniformBuffers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorUpdateAfterBindStorageBuffers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorUpdateAfterBindSampledImages, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorUpdateAfterBindStorageImages, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageDescriptorUpdateAfterBindInputAttachments, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPerStageUpdateAfterBindResources, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUpdateAfterBindSamplers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUpdateAfterBindUniformBuffers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUpdateAfterBindUniformBuffersDynamic, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUpdateAfterBindStorageBuffers, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUpdateAfterBindStorageBuffersDynamic, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUpdateAfterBindSampledImages, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUpdateAfterBindStorageImages, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDescriptorSetUpdateAfterBindInputAttachments, pAllocationCallbacks);
-    destroy_structure_copy(obj.supportedDepthResolveModes, pAllocationCallbacks);
-    destroy_structure_copy(obj.supportedStencilResolveModes, pAllocationCallbacks);
-    destroy_structure_copy(obj.independentResolveNone, pAllocationCallbacks);
-    destroy_structure_copy(obj.independentResolve, pAllocationCallbacks);
-    destroy_structure_copy(obj.filterMinmaxSingleComponentFormats, pAllocationCallbacks);
-    destroy_structure_copy(obj.filterMinmaxImageComponentMapping, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxTimelineSemaphoreValueDifference, pAllocationCallbacks);
-    destroy_structure_copy(obj.framebufferIntegerColorSampleCounts, pAllocationCallbacks);
     return result;
 }
 
@@ -6009,21 +3512,16 @@ template <>
 VkPhysicalDeviceVulkanMemoryModelFeatures destroy_structure_copy<VkPhysicalDeviceVulkanMemoryModelFeatures>(const VkPhysicalDeviceVulkanMemoryModelFeatures& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceVulkanMemoryModelFeatures result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.vulkanMemoryModel, pAllocationCallbacks);
-    destroy_structure_copy(obj.vulkanMemoryModelDeviceScope, pAllocationCallbacks);
-    destroy_structure_copy(obj.vulkanMemoryModelAvailabilityVisibilityChains, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPhysicalDeviceYcbcrImageArraysFeaturesEXT destroy_structure_copy<VkPhysicalDeviceYcbcrImageArraysFeaturesEXT>(const VkPhysicalDeviceYcbcrImageArraysFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPhysicalDeviceYcbcrImageArraysFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.ycbcrImageArrays, pAllocationCallbacks);
     return result;
 }
 
@@ -6031,10 +3529,7 @@ template <>
 VkPipelineCacheCreateInfo destroy_structure_copy<VkPipelineCacheCreateInfo>(const VkPipelineCacheCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineCacheCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.initialDataSize, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.initialDataSize, obj.pInitialData, pAllocationCallbacks);
     return result;
 }
@@ -6043,11 +3538,7 @@ template <>
 VkPipelineColorBlendAdvancedStateCreateInfoEXT destroy_structure_copy<VkPipelineColorBlendAdvancedStateCreateInfoEXT>(const VkPipelineColorBlendAdvancedStateCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineColorBlendAdvancedStateCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.srcPremultiplied, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstPremultiplied, pAllocationCallbacks);
-    destroy_structure_copy(obj.blendOverlap, pAllocationCallbacks);
     return result;
 }
 
@@ -6055,14 +3546,6 @@ template <>
 VkPipelineColorBlendAttachmentState destroy_structure_copy<VkPipelineColorBlendAttachmentState>(const VkPipelineColorBlendAttachmentState& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineColorBlendAttachmentState result { };
-    destroy_structure_copy(obj.blendEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.srcColorBlendFactor, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstColorBlendFactor, pAllocationCallbacks);
-    destroy_structure_copy(obj.colorBlendOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.srcAlphaBlendFactor, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstAlphaBlendFactor, pAllocationCallbacks);
-    destroy_structure_copy(obj.alphaBlendOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.colorWriteMask, pAllocationCallbacks);
     return result;
 }
 
@@ -6070,12 +3553,7 @@ template <>
 VkPipelineColorBlendStateCreateInfo destroy_structure_copy<VkPipelineColorBlendStateCreateInfo>(const VkPipelineColorBlendStateCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineColorBlendStateCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.logicOpEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.logicOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.attachmentCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.attachmentCount, obj.pAttachments, pAllocationCallbacks);
     destroy_static_array_copy<4>(obj.blendConstants, pAllocationCallbacks);
     return result;
@@ -6085,9 +3563,7 @@ template <>
 VkPipelineCompilerControlCreateInfoAMD destroy_structure_copy<VkPipelineCompilerControlCreateInfoAMD>(const VkPipelineCompilerControlCreateInfoAMD& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineCompilerControlCreateInfoAMD result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.compilerControlFlags, pAllocationCallbacks);
     return result;
 }
 
@@ -6095,12 +3571,7 @@ template <>
 VkPipelineCoverageModulationStateCreateInfoNV destroy_structure_copy<VkPipelineCoverageModulationStateCreateInfoNV>(const VkPipelineCoverageModulationStateCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineCoverageModulationStateCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.coverageModulationMode, pAllocationCallbacks);
-    destroy_structure_copy(obj.coverageModulationTableEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.coverageModulationTableCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.coverageModulationTableCount, obj.pCoverageModulationTable, pAllocationCallbacks);
     return result;
 }
@@ -6109,10 +3580,7 @@ template <>
 VkPipelineCoverageReductionStateCreateInfoNV destroy_structure_copy<VkPipelineCoverageReductionStateCreateInfoNV>(const VkPipelineCoverageReductionStateCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineCoverageReductionStateCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.coverageReductionMode, pAllocationCallbacks);
     return result;
 }
 
@@ -6120,11 +3588,7 @@ template <>
 VkPipelineCoverageToColorStateCreateInfoNV destroy_structure_copy<VkPipelineCoverageToColorStateCreateInfoNV>(const VkPipelineCoverageToColorStateCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineCoverageToColorStateCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.coverageToColorEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.coverageToColorLocation, pAllocationCallbacks);
     return result;
 }
 
@@ -6132,10 +3596,8 @@ template <>
 VkPipelineCreationFeedbackCreateInfoEXT destroy_structure_copy<VkPipelineCreationFeedbackCreateInfoEXT>(const VkPipelineCreationFeedbackCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineCreationFeedbackCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-
-    destroy_structure_copy(obj.pipelineStageCreationFeedbackCount, pAllocationCallbacks);
+    destroy_dynamic_array_copy(1, obj.pPipelineCreationFeedback, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.pipelineStageCreationFeedbackCount, obj.pPipelineStageCreationFeedbacks, pAllocationCallbacks);
     return result;
 }
@@ -6144,8 +3606,6 @@ template <>
 VkPipelineCreationFeedbackEXT destroy_structure_copy<VkPipelineCreationFeedbackEXT>(const VkPipelineCreationFeedbackEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineCreationFeedbackEXT result { };
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.duration, pAllocationCallbacks);
     return result;
 }
 
@@ -6153,18 +3613,9 @@ template <>
 VkPipelineDepthStencilStateCreateInfo destroy_structure_copy<VkPipelineDepthStencilStateCreateInfo>(const VkPipelineDepthStencilStateCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineDepthStencilStateCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthTestEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthWriteEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthCompareOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthBoundsTestEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.stencilTestEnable, pAllocationCallbacks);
     destroy_structure_copy(obj.front, pAllocationCallbacks);
     destroy_structure_copy(obj.back, pAllocationCallbacks);
-    destroy_structure_copy(obj.minDepthBounds, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDepthBounds, pAllocationCallbacks);
     return result;
 }
 
@@ -6172,11 +3623,7 @@ template <>
 VkPipelineDiscardRectangleStateCreateInfoEXT destroy_structure_copy<VkPipelineDiscardRectangleStateCreateInfoEXT>(const VkPipelineDiscardRectangleStateCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineDiscardRectangleStateCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.discardRectangleMode, pAllocationCallbacks);
-    destroy_structure_copy(obj.discardRectangleCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.discardRectangleCount, obj.pDiscardRectangles, pAllocationCallbacks);
     return result;
 }
@@ -6185,10 +3632,7 @@ template <>
 VkPipelineDynamicStateCreateInfo destroy_structure_copy<VkPipelineDynamicStateCreateInfo>(const VkPipelineDynamicStateCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineDynamicStateCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.dynamicStateCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.dynamicStateCount, obj.pDynamicStates, pAllocationCallbacks);
     return result;
 }
@@ -6197,10 +3641,7 @@ template <>
 VkPipelineExecutableInfoKHR destroy_structure_copy<VkPipelineExecutableInfoKHR>(const VkPipelineExecutableInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineExecutableInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.pipeline, pAllocationCallbacks);
-    destroy_structure_copy(obj.executableIndex, pAllocationCallbacks);
     return result;
 }
 
@@ -6208,12 +3649,7 @@ template <>
 VkPipelineExecutableInternalRepresentationKHR destroy_structure_copy<VkPipelineExecutableInternalRepresentationKHR>(const VkPipelineExecutableInternalRepresentationKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineExecutableInternalRepresentationKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-
-
-    destroy_structure_copy(obj.isText, pAllocationCallbacks);
-    destroy_structure_copy(obj.dataSize, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.dataSize, obj.pData, pAllocationCallbacks);
     return result;
 }
@@ -6222,12 +3658,7 @@ template <>
 VkPipelineExecutablePropertiesKHR destroy_structure_copy<VkPipelineExecutablePropertiesKHR>(const VkPipelineExecutablePropertiesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineExecutablePropertiesKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.stages, pAllocationCallbacks);
-
-
-    destroy_structure_copy(obj.subgroupSize, pAllocationCallbacks);
     return result;
 }
 
@@ -6235,33 +3666,17 @@ template <>
 VkPipelineExecutableStatisticKHR destroy_structure_copy<VkPipelineExecutableStatisticKHR>(const VkPipelineExecutableStatisticKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineExecutableStatisticKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-
-
-    destroy_structure_copy(obj.format, pAllocationCallbacks);
     destroy_structure_copy(obj.value, pAllocationCallbacks);
     return result;
 }
 
-template <>
-VkPipelineExecutableStatisticValueKHR destroy_structure_copy<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkPipelineExecutableStatisticValueKHR result { };
-    destroy_structure_copy(obj.b32, pAllocationCallbacks);
-    destroy_structure_copy(obj.i64, pAllocationCallbacks);
-    destroy_structure_copy(obj.u64, pAllocationCallbacks);
-    destroy_structure_copy(obj.f64, pAllocationCallbacks);
-    return result;
-}
 
 template <>
 VkPipelineInfoKHR destroy_structure_copy<VkPipelineInfoKHR>(const VkPipelineInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.pipeline, pAllocationCallbacks);
     return result;
 }
 
@@ -6269,11 +3684,7 @@ template <>
 VkPipelineInputAssemblyStateCreateInfo destroy_structure_copy<VkPipelineInputAssemblyStateCreateInfo>(const VkPipelineInputAssemblyStateCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineInputAssemblyStateCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.topology, pAllocationCallbacks);
-    destroy_structure_copy(obj.primitiveRestartEnable, pAllocationCallbacks);
     return result;
 }
 
@@ -6281,12 +3692,8 @@ template <>
 VkPipelineLayoutCreateInfo destroy_structure_copy<VkPipelineLayoutCreateInfo>(const VkPipelineLayoutCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineLayoutCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.setLayoutCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.setLayoutCount, obj.pSetLayouts, pAllocationCallbacks);
-    destroy_structure_copy(obj.pushConstantRangeCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.pushConstantRangeCount, obj.pPushConstantRanges, pAllocationCallbacks);
     return result;
 }
@@ -6296,39 +3703,18 @@ template <>
 VkPipelineLibraryCreateInfoKHR destroy_structure_copy<VkPipelineLibraryCreateInfoKHR>(const VkPipelineLibraryCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineLibraryCreateInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.libraryCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.libraryCount, obj.pLibraries, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
-template <>
-VkPipelineMultisampleStateCreateInfo destroy_structure_copy<VkPipelineMultisampleStateCreateInfo>(const VkPipelineMultisampleStateCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkPipelineMultisampleStateCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.rasterizationSamples, pAllocationCallbacks);
-    destroy_structure_copy(obj.sampleShadingEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.minSampleShading, pAllocationCallbacks);
-    destroy_dynamic_array_copy(obj.latexmath:[\lceil{\mathit{rasterizationSamples} \over 32}\rceil], obj.pSampleMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.alphaToCoverageEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.alphaToOneEnable, pAllocationCallbacks);
-    return result;
-}
 
 template <>
 VkPipelineRasterizationConservativeStateCreateInfoEXT destroy_structure_copy<VkPipelineRasterizationConservativeStateCreateInfoEXT>(const VkPipelineRasterizationConservativeStateCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineRasterizationConservativeStateCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.conservativeRasterizationMode, pAllocationCallbacks);
-    destroy_structure_copy(obj.extraPrimitiveOverestimationSize, pAllocationCallbacks);
     return result;
 }
 
@@ -6336,10 +3722,7 @@ template <>
 VkPipelineRasterizationDepthClipStateCreateInfoEXT destroy_structure_copy<VkPipelineRasterizationDepthClipStateCreateInfoEXT>(const VkPipelineRasterizationDepthClipStateCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineRasterizationDepthClipStateCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthClipEnable, pAllocationCallbacks);
     return result;
 }
 
@@ -6347,12 +3730,7 @@ template <>
 VkPipelineRasterizationLineStateCreateInfoEXT destroy_structure_copy<VkPipelineRasterizationLineStateCreateInfoEXT>(const VkPipelineRasterizationLineStateCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineRasterizationLineStateCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.lineRasterizationMode, pAllocationCallbacks);
-    destroy_structure_copy(obj.stippledLineEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.lineStippleFactor, pAllocationCallbacks);
-    destroy_structure_copy(obj.lineStipplePattern, pAllocationCallbacks);
     return result;
 }
 
@@ -6360,19 +3738,7 @@ template <>
 VkPipelineRasterizationStateCreateInfo destroy_structure_copy<VkPipelineRasterizationStateCreateInfo>(const VkPipelineRasterizationStateCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineRasterizationStateCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthClampEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.rasterizerDiscardEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.polygonMode, pAllocationCallbacks);
-    destroy_structure_copy(obj.cullMode, pAllocationCallbacks);
-    destroy_structure_copy(obj.frontFace, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthBiasEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthBiasConstantFactor, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthBiasClamp, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthBiasSlopeFactor, pAllocationCallbacks);
-    destroy_structure_copy(obj.lineWidth, pAllocationCallbacks);
     return result;
 }
 
@@ -6380,9 +3746,7 @@ template <>
 VkPipelineRasterizationStateRasterizationOrderAMD destroy_structure_copy<VkPipelineRasterizationStateRasterizationOrderAMD>(const VkPipelineRasterizationStateRasterizationOrderAMD& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineRasterizationStateRasterizationOrderAMD result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.rasterizationOrder, pAllocationCallbacks);
     return result;
 }
 
@@ -6390,10 +3754,7 @@ template <>
 VkPipelineRasterizationStateStreamCreateInfoEXT destroy_structure_copy<VkPipelineRasterizationStateStreamCreateInfoEXT>(const VkPipelineRasterizationStateStreamCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineRasterizationStateStreamCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.rasterizationStream, pAllocationCallbacks);
     return result;
 }
 
@@ -6401,9 +3762,7 @@ template <>
 VkPipelineRepresentativeFragmentTestStateCreateInfoNV destroy_structure_copy<VkPipelineRepresentativeFragmentTestStateCreateInfoNV>(const VkPipelineRepresentativeFragmentTestStateCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineRepresentativeFragmentTestStateCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.representativeFragmentTestEnable, pAllocationCallbacks);
     return result;
 }
 
@@ -6411,9 +3770,7 @@ template <>
 VkPipelineSampleLocationsStateCreateInfoEXT destroy_structure_copy<VkPipelineSampleLocationsStateCreateInfoEXT>(const VkPipelineSampleLocationsStateCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineSampleLocationsStateCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.sampleLocationsEnable, pAllocationCallbacks);
     destroy_structure_copy(obj.sampleLocationsInfo, pAllocationCallbacks);
     return result;
 }
@@ -6422,13 +3779,9 @@ template <>
 VkPipelineShaderStageCreateInfo destroy_structure_copy<VkPipelineShaderStageCreateInfo>(const VkPipelineShaderStageCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineShaderStageCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.stage, pAllocationCallbacks);
-    destroy_structure_copy(obj.module, pAllocationCallbacks);
     destroy_dynamic_string_copy(obj.pName, pAllocationCallbacks);
-
+    destroy_dynamic_array_copy(1, obj.pSpecializationInfo, pAllocationCallbacks);
     return result;
 }
 
@@ -6436,9 +3789,7 @@ template <>
 VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT destroy_structure_copy<VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT>(const VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.requiredSubgroupSize, pAllocationCallbacks);
     return result;
 }
 
@@ -6446,20 +3797,16 @@ template <>
 VkPipelineTessellationDomainOriginStateCreateInfo destroy_structure_copy<VkPipelineTessellationDomainOriginStateCreateInfo>(const VkPipelineTessellationDomainOriginStateCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineTessellationDomainOriginStateCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.domainOrigin, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkPipelineTessellationStateCreateInfo destroy_structure_copy<VkPipelineTessellationStateCreateInfo>(const VkPipelineTessellationStateCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineTessellationStateCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.patchControlPoints, pAllocationCallbacks);
     return result;
 }
 
@@ -6467,9 +3814,7 @@ template <>
 VkPipelineVertexInputDivisorStateCreateInfoEXT destroy_structure_copy<VkPipelineVertexInputDivisorStateCreateInfoEXT>(const VkPipelineVertexInputDivisorStateCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineVertexInputDivisorStateCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexBindingDivisorCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.vertexBindingDivisorCount, obj.pVertexBindingDivisors, pAllocationCallbacks);
     return result;
 }
@@ -6478,12 +3823,8 @@ template <>
 VkPipelineVertexInputStateCreateInfo destroy_structure_copy<VkPipelineVertexInputStateCreateInfo>(const VkPipelineVertexInputStateCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineVertexInputStateCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexBindingDescriptionCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.vertexBindingDescriptionCount, obj.pVertexBindingDescriptions, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexAttributeDescriptionCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.vertexAttributeDescriptionCount, obj.pVertexAttributeDescriptions, pAllocationCallbacks);
     return result;
 }
@@ -6492,10 +3833,7 @@ template <>
 VkPipelineViewportCoarseSampleOrderStateCreateInfoNV destroy_structure_copy<VkPipelineViewportCoarseSampleOrderStateCreateInfoNV>(const VkPipelineViewportCoarseSampleOrderStateCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineViewportCoarseSampleOrderStateCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.sampleOrderType, pAllocationCallbacks);
-    destroy_structure_copy(obj.customSampleOrderCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.customSampleOrderCount, obj.pCustomSampleOrders, pAllocationCallbacks);
     return result;
 }
@@ -6504,9 +3842,7 @@ template <>
 VkPipelineViewportExclusiveScissorStateCreateInfoNV destroy_structure_copy<VkPipelineViewportExclusiveScissorStateCreateInfoNV>(const VkPipelineViewportExclusiveScissorStateCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineViewportExclusiveScissorStateCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.exclusiveScissorCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.exclusiveScissorCount, obj.pExclusiveScissors, pAllocationCallbacks);
     return result;
 }
@@ -6515,10 +3851,7 @@ template <>
 VkPipelineViewportShadingRateImageStateCreateInfoNV destroy_structure_copy<VkPipelineViewportShadingRateImageStateCreateInfoNV>(const VkPipelineViewportShadingRateImageStateCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineViewportShadingRateImageStateCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.shadingRateImageEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.viewportCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.viewportCount, obj.pShadingRatePalettes, pAllocationCallbacks);
     return result;
 }
@@ -6527,12 +3860,8 @@ template <>
 VkPipelineViewportStateCreateInfo destroy_structure_copy<VkPipelineViewportStateCreateInfo>(const VkPipelineViewportStateCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineViewportStateCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.viewportCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.viewportCount, obj.pViewports, pAllocationCallbacks);
-    destroy_structure_copy(obj.scissorCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.scissorCount, obj.pScissors, pAllocationCallbacks);
     return result;
 }
@@ -6541,10 +3870,7 @@ template <>
 VkPipelineViewportSwizzleStateCreateInfoNV destroy_structure_copy<VkPipelineViewportSwizzleStateCreateInfoNV>(const VkPipelineViewportSwizzleStateCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineViewportSwizzleStateCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.viewportCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.viewportCount, obj.pViewportSwizzles, pAllocationCallbacks);
     return result;
 }
@@ -6553,10 +3879,7 @@ template <>
 VkPipelineViewportWScalingStateCreateInfoNV destroy_structure_copy<VkPipelineViewportWScalingStateCreateInfoNV>(const VkPipelineViewportWScalingStateCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPipelineViewportWScalingStateCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.viewportWScalingEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.viewportCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.viewportCount, obj.pViewportWScalings, pAllocationCallbacks);
     return result;
 }
@@ -6566,9 +3889,7 @@ template <>
 VkPresentFrameTokenGGP destroy_structure_copy<VkPresentFrameTokenGGP>(const VkPresentFrameTokenGGP& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPresentFrameTokenGGP result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.frameToken, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_GGP
@@ -6577,11 +3898,8 @@ template <>
 VkPresentInfoKHR destroy_structure_copy<VkPresentInfoKHR>(const VkPresentInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPresentInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.waitSemaphoreCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.waitSemaphoreCount, obj.pWaitSemaphores, pAllocationCallbacks);
-    destroy_structure_copy(obj.swapchainCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.swapchainCount, obj.pSwapchains, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.swapchainCount, obj.pImageIndices, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.swapchainCount, obj.pResults, pAllocationCallbacks);
@@ -6592,7 +3910,6 @@ template <>
 VkPresentRegionKHR destroy_structure_copy<VkPresentRegionKHR>(const VkPresentRegionKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPresentRegionKHR result { };
-    destroy_structure_copy(obj.rectangleCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.rectangleCount, obj.pRectangles, pAllocationCallbacks);
     return result;
 }
@@ -6601,9 +3918,7 @@ template <>
 VkPresentRegionsKHR destroy_structure_copy<VkPresentRegionsKHR>(const VkPresentRegionsKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPresentRegionsKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.swapchainCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.swapchainCount, obj.pRegions, pAllocationCallbacks);
     return result;
 }
@@ -6612,8 +3927,6 @@ template <>
 VkPresentTimeGOOGLE destroy_structure_copy<VkPresentTimeGOOGLE>(const VkPresentTimeGOOGLE& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPresentTimeGOOGLE result { };
-    destroy_structure_copy(obj.presentID, pAllocationCallbacks);
-    destroy_structure_copy(obj.desiredPresentTime, pAllocationCallbacks);
     return result;
 }
 
@@ -6621,9 +3934,7 @@ template <>
 VkPresentTimesInfoGOOGLE destroy_structure_copy<VkPresentTimesInfoGOOGLE>(const VkPresentTimesInfoGOOGLE& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPresentTimesInfoGOOGLE result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.swapchainCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.swapchainCount, obj.pTimes, pAllocationCallbacks);
     return result;
 }
@@ -6632,9 +3943,7 @@ template <>
 VkPrivateDataSlotCreateInfoEXT destroy_structure_copy<VkPrivateDataSlotCreateInfoEXT>(const VkPrivateDataSlotCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPrivateDataSlotCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
     return result;
 }
 
@@ -6642,9 +3951,7 @@ template <>
 VkProtectedSubmitInfo destroy_structure_copy<VkProtectedSubmitInfo>(const VkProtectedSubmitInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkProtectedSubmitInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.protectedSubmit, pAllocationCallbacks);
     return result;
 }
 
@@ -6652,9 +3959,6 @@ template <>
 VkPushConstantRange destroy_structure_copy<VkPushConstantRange>(const VkPushConstantRange& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkPushConstantRange result { };
-    destroy_structure_copy(obj.stageFlags, pAllocationCallbacks);
-    destroy_structure_copy(obj.offset, pAllocationCallbacks);
-    destroy_structure_copy(obj.size, pAllocationCallbacks);
     return result;
 }
 
@@ -6662,23 +3966,16 @@ template <>
 VkQueryPoolCreateInfo destroy_structure_copy<VkQueryPoolCreateInfo>(const VkQueryPoolCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkQueryPoolCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.queryType, pAllocationCallbacks);
-    destroy_structure_copy(obj.queryCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.pipelineStatistics, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkQueryPoolPerformanceCreateInfoKHR destroy_structure_copy<VkQueryPoolPerformanceCreateInfoKHR>(const VkQueryPoolPerformanceCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkQueryPoolPerformanceCreateInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.queueFamilyIndex, pAllocationCallbacks);
-    destroy_structure_copy(obj.counterIndexCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.counterIndexCount, obj.pCounterIndices, pAllocationCallbacks);
     return result;
 }
@@ -6687,9 +3984,7 @@ template <>
 VkQueryPoolPerformanceQueryCreateInfoINTEL destroy_structure_copy<VkQueryPoolPerformanceQueryCreateInfoINTEL>(const VkQueryPoolPerformanceQueryCreateInfoINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkQueryPoolPerformanceQueryCreateInfoINTEL result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.performanceCountersSampling, pAllocationCallbacks);
     return result;
 }
 
@@ -6697,9 +3992,7 @@ template <>
 VkQueueFamilyCheckpointPropertiesNV destroy_structure_copy<VkQueueFamilyCheckpointPropertiesNV>(const VkQueueFamilyCheckpointPropertiesNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkQueueFamilyCheckpointPropertiesNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.checkpointExecutionStageMask, pAllocationCallbacks);
     return result;
 }
 
@@ -6707,9 +4000,6 @@ template <>
 VkQueueFamilyProperties destroy_structure_copy<VkQueueFamilyProperties>(const VkQueueFamilyProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkQueueFamilyProperties result { };
-    destroy_structure_copy(obj.queueFlags, pAllocationCallbacks);
-    destroy_structure_copy(obj.queueCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.timestampValidBits, pAllocationCallbacks);
     destroy_structure_copy(obj.minImageTransferGranularity, pAllocationCallbacks);
     return result;
 }
@@ -6718,30 +4008,22 @@ template <>
 VkQueueFamilyProperties2 destroy_structure_copy<VkQueueFamilyProperties2>(const VkQueueFamilyProperties2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkQueueFamilyProperties2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.queueFamilyProperties, pAllocationCallbacks);
     return result;
 }
+
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 VkRayTracingPipelineCreateInfoKHR destroy_structure_copy<VkRayTracingPipelineCreateInfoKHR>(const VkRayTracingPipelineCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkRayTracingPipelineCreateInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.stageCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.stageCount, obj.pStages, pAllocationCallbacks);
-    destroy_structure_copy(obj.groupCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.groupCount, obj.pGroups, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxRecursionDepth, pAllocationCallbacks);
     destroy_structure_copy(obj.libraries, pAllocationCallbacks);
-
-    destroy_structure_copy(obj.layout, pAllocationCallbacks);
-    destroy_structure_copy(obj.basePipelineHandle, pAllocationCallbacks);
-    destroy_structure_copy(obj.basePipelineIndex, pAllocationCallbacks);
+    destroy_dynamic_array_copy(1, obj.pLibraryInterface, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -6750,17 +4032,9 @@ template <>
 VkRayTracingPipelineCreateInfoNV destroy_structure_copy<VkRayTracingPipelineCreateInfoNV>(const VkRayTracingPipelineCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkRayTracingPipelineCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.stageCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.stageCount, obj.pStages, pAllocationCallbacks);
-    destroy_structure_copy(obj.groupCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.groupCount, obj.pGroups, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxRecursionDepth, pAllocationCallbacks);
-    destroy_structure_copy(obj.layout, pAllocationCallbacks);
-    destroy_structure_copy(obj.basePipelineHandle, pAllocationCallbacks);
-    destroy_structure_copy(obj.basePipelineIndex, pAllocationCallbacks);
     return result;
 }
 
@@ -6769,11 +4043,7 @@ template <>
 VkRayTracingPipelineInterfaceCreateInfoKHR destroy_structure_copy<VkRayTracingPipelineInterfaceCreateInfoKHR>(const VkRayTracingPipelineInterfaceCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkRayTracingPipelineInterfaceCreateInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxPayloadSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxAttributeSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxCallableSize, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -6783,14 +4053,7 @@ template <>
 VkRayTracingShaderGroupCreateInfoKHR destroy_structure_copy<VkRayTracingShaderGroupCreateInfoKHR>(const VkRayTracingShaderGroupCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkRayTracingShaderGroupCreateInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.type, pAllocationCallbacks);
-    destroy_structure_copy(obj.generalShader, pAllocationCallbacks);
-    destroy_structure_copy(obj.closestHitShader, pAllocationCallbacks);
-    destroy_structure_copy(obj.anyHitShader, pAllocationCallbacks);
-    destroy_structure_copy(obj.intersectionShader, pAllocationCallbacks);
-
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -6799,13 +4062,7 @@ template <>
 VkRayTracingShaderGroupCreateInfoNV destroy_structure_copy<VkRayTracingShaderGroupCreateInfoNV>(const VkRayTracingShaderGroupCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkRayTracingShaderGroupCreateInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.type, pAllocationCallbacks);
-    destroy_structure_copy(obj.generalShader, pAllocationCallbacks);
-    destroy_structure_copy(obj.closestHitShader, pAllocationCallbacks);
-    destroy_structure_copy(obj.anyHitShader, pAllocationCallbacks);
-    destroy_structure_copy(obj.intersectionShader, pAllocationCallbacks);
     return result;
 }
 
@@ -6824,7 +4081,6 @@ VkRectLayerKHR destroy_structure_copy<VkRectLayerKHR>(const VkRectLayerKHR& obj,
     VkRectLayerKHR result { };
     destroy_structure_copy(obj.offset, pAllocationCallbacks);
     destroy_structure_copy(obj.extent, pAllocationCallbacks);
-    destroy_structure_copy(obj.layer, pAllocationCallbacks);
     return result;
 }
 
@@ -6832,7 +4088,6 @@ template <>
 VkRefreshCycleDurationGOOGLE destroy_structure_copy<VkRefreshCycleDurationGOOGLE>(const VkRefreshCycleDurationGOOGLE& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkRefreshCycleDurationGOOGLE result { };
-    destroy_structure_copy(obj.refreshDuration, pAllocationCallbacks);
     return result;
 }
 
@@ -6840,23 +4095,18 @@ template <>
 VkRenderPassAttachmentBeginInfo destroy_structure_copy<VkRenderPassAttachmentBeginInfo>(const VkRenderPassAttachmentBeginInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkRenderPassAttachmentBeginInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.attachmentCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.attachmentCount, obj.pAttachments, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkRenderPassBeginInfo destroy_structure_copy<VkRenderPassBeginInfo>(const VkRenderPassBeginInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkRenderPassBeginInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.renderPass, pAllocationCallbacks);
-    destroy_structure_copy(obj.framebuffer, pAllocationCallbacks);
     destroy_structure_copy(obj.renderArea, pAllocationCallbacks);
-    destroy_structure_copy(obj.clearValueCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.clearValueCount, obj.pClearValues, pAllocationCallbacks);
     return result;
 }
@@ -6865,14 +4115,9 @@ template <>
 VkRenderPassCreateInfo destroy_structure_copy<VkRenderPassCreateInfo>(const VkRenderPassCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkRenderPassCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.attachmentCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.attachmentCount, obj.pAttachments, pAllocationCallbacks);
-    destroy_structure_copy(obj.subpassCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.subpassCount, obj.pSubpasses, pAllocationCallbacks);
-    destroy_structure_copy(obj.dependencyCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.dependencyCount, obj.pDependencies, pAllocationCallbacks);
     return result;
 }
@@ -6881,25 +4126,19 @@ template <>
 VkRenderPassCreateInfo2 destroy_structure_copy<VkRenderPassCreateInfo2>(const VkRenderPassCreateInfo2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkRenderPassCreateInfo2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.attachmentCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.attachmentCount, obj.pAttachments, pAllocationCallbacks);
-    destroy_structure_copy(obj.subpassCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.subpassCount, obj.pSubpasses, pAllocationCallbacks);
-    destroy_structure_copy(obj.dependencyCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.dependencyCount, obj.pDependencies, pAllocationCallbacks);
-    destroy_structure_copy(obj.correlatedViewMaskCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.correlatedViewMaskCount, obj.pCorrelatedViewMasks, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkRenderPassFragmentDensityMapCreateInfoEXT destroy_structure_copy<VkRenderPassFragmentDensityMapCreateInfoEXT>(const VkRenderPassFragmentDensityMapCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkRenderPassFragmentDensityMapCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.fragmentDensityMapAttachment, pAllocationCallbacks);
     return result;
@@ -6909,37 +4148,30 @@ template <>
 VkRenderPassInputAttachmentAspectCreateInfo destroy_structure_copy<VkRenderPassInputAttachmentAspectCreateInfo>(const VkRenderPassInputAttachmentAspectCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkRenderPassInputAttachmentAspectCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.aspectReferenceCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.aspectReferenceCount, obj.pAspectReferences, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkRenderPassMultiviewCreateInfo destroy_structure_copy<VkRenderPassMultiviewCreateInfo>(const VkRenderPassMultiviewCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkRenderPassMultiviewCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.subpassCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.subpassCount, obj.pViewMasks, pAllocationCallbacks);
-    destroy_structure_copy(obj.dependencyCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.dependencyCount, obj.pViewOffsets, pAllocationCallbacks);
-    destroy_structure_copy(obj.correlationMaskCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.correlationMaskCount, obj.pCorrelationMasks, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkRenderPassSampleLocationsBeginInfoEXT destroy_structure_copy<VkRenderPassSampleLocationsBeginInfoEXT>(const VkRenderPassSampleLocationsBeginInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkRenderPassSampleLocationsBeginInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.attachmentInitialSampleLocationsCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.attachmentInitialSampleLocationsCount, obj.pAttachmentInitialSampleLocations, pAllocationCallbacks);
-    destroy_structure_copy(obj.postSubpassSampleLocationsCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.postSubpassSampleLocationsCount, obj.pPostSubpassSampleLocations, pAllocationCallbacks);
     return result;
 }
@@ -6948,9 +4180,7 @@ template <>
 VkRenderPassTransformBeginInfoQCOM destroy_structure_copy<VkRenderPassTransformBeginInfoQCOM>(const VkRenderPassTransformBeginInfoQCOM& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkRenderPassTransformBeginInfoQCOM result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.transform, pAllocationCallbacks);
     return result;
 }
 
@@ -6958,8 +4188,6 @@ template <>
 VkSampleLocationEXT destroy_structure_copy<VkSampleLocationEXT>(const VkSampleLocationEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSampleLocationEXT result { };
-    destroy_structure_copy(obj.x, pAllocationCallbacks);
-    destroy_structure_copy(obj.y, pAllocationCallbacks);
     return result;
 }
 
@@ -6967,11 +4195,8 @@ template <>
 VkSampleLocationsInfoEXT destroy_structure_copy<VkSampleLocationsInfoEXT>(const VkSampleLocationsInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSampleLocationsInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.sampleLocationsPerPixel, pAllocationCallbacks);
     destroy_structure_copy(obj.sampleLocationGridSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.sampleLocationsCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.sampleLocationsCount, obj.pSampleLocations, pAllocationCallbacks);
     return result;
 }
@@ -6980,24 +4205,7 @@ template <>
 VkSamplerCreateInfo destroy_structure_copy<VkSamplerCreateInfo>(const VkSamplerCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSamplerCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.magFilter, pAllocationCallbacks);
-    destroy_structure_copy(obj.minFilter, pAllocationCallbacks);
-    destroy_structure_copy(obj.mipmapMode, pAllocationCallbacks);
-    destroy_structure_copy(obj.addressModeU, pAllocationCallbacks);
-    destroy_structure_copy(obj.addressModeV, pAllocationCallbacks);
-    destroy_structure_copy(obj.addressModeW, pAllocationCallbacks);
-    destroy_structure_copy(obj.mipLodBias, pAllocationCallbacks);
-    destroy_structure_copy(obj.anisotropyEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxAnisotropy, pAllocationCallbacks);
-    destroy_structure_copy(obj.compareEnable, pAllocationCallbacks);
-    destroy_structure_copy(obj.compareOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.minLod, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxLod, pAllocationCallbacks);
-    destroy_structure_copy(obj.borderColor, pAllocationCallbacks);
-    destroy_structure_copy(obj.unnormalizedCoordinates, pAllocationCallbacks);
     return result;
 }
 
@@ -7005,10 +4213,8 @@ template <>
 VkSamplerCustomBorderColorCreateInfoEXT destroy_structure_copy<VkSamplerCustomBorderColorCreateInfoEXT>(const VkSamplerCustomBorderColorCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSamplerCustomBorderColorCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.customBorderColor, pAllocationCallbacks);
-    destroy_structure_copy(obj.format, pAllocationCallbacks);
     return result;
 }
 
@@ -7016,56 +4222,44 @@ template <>
 VkSamplerReductionModeCreateInfo destroy_structure_copy<VkSamplerReductionModeCreateInfo>(const VkSamplerReductionModeCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSamplerReductionModeCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.reductionMode, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkSamplerYcbcrConversionCreateInfo destroy_structure_copy<VkSamplerYcbcrConversionCreateInfo>(const VkSamplerYcbcrConversionCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSamplerYcbcrConversionCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.format, pAllocationCallbacks);
-    destroy_structure_copy(obj.ycbcrModel, pAllocationCallbacks);
-    destroy_structure_copy(obj.ycbcrRange, pAllocationCallbacks);
     destroy_structure_copy(obj.components, pAllocationCallbacks);
-    destroy_structure_copy(obj.xChromaOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.yChromaOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.chromaFilter, pAllocationCallbacks);
-    destroy_structure_copy(obj.forceExplicitReconstruction, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkSamplerYcbcrConversionImageFormatProperties destroy_structure_copy<VkSamplerYcbcrConversionImageFormatProperties>(const VkSamplerYcbcrConversionImageFormatProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSamplerYcbcrConversionImageFormatProperties result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.combinedImageSamplerDescriptorCount, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkSamplerYcbcrConversionInfo destroy_structure_copy<VkSamplerYcbcrConversionInfo>(const VkSamplerYcbcrConversionInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSamplerYcbcrConversionInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.conversion, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkSemaphoreCreateInfo destroy_structure_copy<VkSemaphoreCreateInfo>(const VkSemaphoreCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSemaphoreCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
     return result;
 }
 
@@ -7073,10 +4267,7 @@ template <>
 VkSemaphoreGetFdInfoKHR destroy_structure_copy<VkSemaphoreGetFdInfoKHR>(const VkSemaphoreGetFdInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSemaphoreGetFdInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.semaphore, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
     return result;
 }
 
@@ -7085,10 +4276,7 @@ template <>
 VkSemaphoreGetWin32HandleInfoKHR destroy_structure_copy<VkSemaphoreGetWin32HandleInfoKHR>(const VkSemaphoreGetWin32HandleInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSemaphoreGetWin32HandleInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.semaphore, pAllocationCallbacks);
-    destroy_structure_copy(obj.handleType, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -7097,64 +4285,44 @@ template <>
 VkSemaphoreSignalInfo destroy_structure_copy<VkSemaphoreSignalInfo>(const VkSemaphoreSignalInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSemaphoreSignalInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.semaphore, pAllocationCallbacks);
-    destroy_structure_copy(obj.value, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkSemaphoreTypeCreateInfo destroy_structure_copy<VkSemaphoreTypeCreateInfo>(const VkSemaphoreTypeCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSemaphoreTypeCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.semaphoreType, pAllocationCallbacks);
-    destroy_structure_copy(obj.initialValue, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkSemaphoreWaitInfo destroy_structure_copy<VkSemaphoreWaitInfo>(const VkSemaphoreWaitInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSemaphoreWaitInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.semaphoreCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.semaphoreCount, obj.pSemaphores, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.semaphoreCount, obj.pValues, pAllocationCallbacks);
     return result;
 }
 
+
 template <>
 VkSetStateFlagsIndirectCommandNV destroy_structure_copy<VkSetStateFlagsIndirectCommandNV>(const VkSetStateFlagsIndirectCommandNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSetStateFlagsIndirectCommandNV result { };
-    destroy_structure_copy(obj.data, pAllocationCallbacks);
     return result;
 }
 
-template <>
-VkShaderModuleCreateInfo destroy_structure_copy<VkShaderModuleCreateInfo>(const VkShaderModuleCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkShaderModuleCreateInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.codeSize, pAllocationCallbacks);
-    destroy_dynamic_array_copy(obj.latexmath:[\textrm{codeSize} \over 4], obj.pCode, pAllocationCallbacks);
-    return result;
-}
 
 template <>
 VkShaderModuleValidationCacheCreateInfoEXT destroy_structure_copy<VkShaderModuleValidationCacheCreateInfoEXT>(const VkShaderModuleValidationCacheCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkShaderModuleValidationCacheCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.validationCache, pAllocationCallbacks);
     return result;
 }
 
@@ -7162,11 +4330,6 @@ template <>
 VkShaderResourceUsageAMD destroy_structure_copy<VkShaderResourceUsageAMD>(const VkShaderResourceUsageAMD& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkShaderResourceUsageAMD result { };
-    destroy_structure_copy(obj.numUsedVgprs, pAllocationCallbacks);
-    destroy_structure_copy(obj.numUsedSgprs, pAllocationCallbacks);
-    destroy_structure_copy(obj.ldsSizePerLocalWorkGroup, pAllocationCallbacks);
-    destroy_structure_copy(obj.ldsUsageSizeInBytes, pAllocationCallbacks);
-    destroy_structure_copy(obj.scratchMemUsageInBytes, pAllocationCallbacks);
     return result;
 }
 
@@ -7174,12 +4337,7 @@ template <>
 VkShaderStatisticsInfoAMD destroy_structure_copy<VkShaderStatisticsInfoAMD>(const VkShaderStatisticsInfoAMD& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkShaderStatisticsInfoAMD result { };
-    destroy_structure_copy(obj.shaderStageMask, pAllocationCallbacks);
     destroy_structure_copy(obj.resourceUsage, pAllocationCallbacks);
-    destroy_structure_copy(obj.numPhysicalVgprs, pAllocationCallbacks);
-    destroy_structure_copy(obj.numPhysicalSgprs, pAllocationCallbacks);
-    destroy_structure_copy(obj.numAvailableVgprs, pAllocationCallbacks);
-    destroy_structure_copy(obj.numAvailableSgprs, pAllocationCallbacks);
     destroy_static_array_copy<3>(obj.computeWorkGroupSize, pAllocationCallbacks);
     return result;
 }
@@ -7188,7 +4346,6 @@ template <>
 VkShadingRatePaletteNV destroy_structure_copy<VkShadingRatePaletteNV>(const VkShadingRatePaletteNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkShadingRatePaletteNV result { };
-    destroy_structure_copy(obj.shadingRatePaletteEntryCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.shadingRatePaletteEntryCount, obj.pShadingRatePaletteEntries, pAllocationCallbacks);
     return result;
 }
@@ -7197,9 +4354,7 @@ template <>
 VkSharedPresentSurfaceCapabilitiesKHR destroy_structure_copy<VkSharedPresentSurfaceCapabilitiesKHR>(const VkSharedPresentSurfaceCapabilitiesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSharedPresentSurfaceCapabilitiesKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.sharedPresentSupportedUsageFlags, pAllocationCallbacks);
     return result;
 }
 
@@ -7207,8 +4362,6 @@ template <>
 VkSparseBufferMemoryBindInfo destroy_structure_copy<VkSparseBufferMemoryBindInfo>(const VkSparseBufferMemoryBindInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSparseBufferMemoryBindInfo result { };
-    destroy_structure_copy(obj.buffer, pAllocationCallbacks);
-    destroy_structure_copy(obj.bindCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.bindCount, obj.pBinds, pAllocationCallbacks);
     return result;
 }
@@ -7217,9 +4370,7 @@ template <>
 VkSparseImageFormatProperties destroy_structure_copy<VkSparseImageFormatProperties>(const VkSparseImageFormatProperties& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSparseImageFormatProperties result { };
-    destroy_structure_copy(obj.aspectMask, pAllocationCallbacks);
     destroy_structure_copy(obj.imageGranularity, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
     return result;
 }
 
@@ -7227,11 +4378,11 @@ template <>
 VkSparseImageFormatProperties2 destroy_structure_copy<VkSparseImageFormatProperties2>(const VkSparseImageFormatProperties2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSparseImageFormatProperties2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.properties, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkSparseImageMemoryBind destroy_structure_copy<VkSparseImageMemoryBind>(const VkSparseImageMemoryBind& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -7240,9 +4391,6 @@ VkSparseImageMemoryBind destroy_structure_copy<VkSparseImageMemoryBind>(const Vk
     destroy_structure_copy(obj.subresource, pAllocationCallbacks);
     destroy_structure_copy(obj.offset, pAllocationCallbacks);
     destroy_structure_copy(obj.extent, pAllocationCallbacks);
-    destroy_structure_copy(obj.memory, pAllocationCallbacks);
-    destroy_structure_copy(obj.memoryOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
     return result;
 }
 
@@ -7250,8 +4398,6 @@ template <>
 VkSparseImageMemoryBindInfo destroy_structure_copy<VkSparseImageMemoryBindInfo>(const VkSparseImageMemoryBindInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSparseImageMemoryBindInfo result { };
-    destroy_structure_copy(obj.image, pAllocationCallbacks);
-    destroy_structure_copy(obj.bindCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.bindCount, obj.pBinds, pAllocationCallbacks);
     return result;
 }
@@ -7261,10 +4407,6 @@ VkSparseImageMemoryRequirements destroy_structure_copy<VkSparseImageMemoryRequir
 {
     VkSparseImageMemoryRequirements result { };
     destroy_structure_copy(obj.formatProperties, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageMipTailFirstLod, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageMipTailSize, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageMipTailOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageMipTailStride, pAllocationCallbacks);
     return result;
 }
 
@@ -7272,18 +4414,16 @@ template <>
 VkSparseImageMemoryRequirements2 destroy_structure_copy<VkSparseImageMemoryRequirements2>(const VkSparseImageMemoryRequirements2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSparseImageMemoryRequirements2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.memoryRequirements, pAllocationCallbacks);
     return result;
 }
 
+
 template <>
 VkSparseImageOpaqueMemoryBindInfo destroy_structure_copy<VkSparseImageOpaqueMemoryBindInfo>(const VkSparseImageOpaqueMemoryBindInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSparseImageOpaqueMemoryBindInfo result { };
-    destroy_structure_copy(obj.image, pAllocationCallbacks);
-    destroy_structure_copy(obj.bindCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.bindCount, obj.pBinds, pAllocationCallbacks);
     return result;
 }
@@ -7292,11 +4432,6 @@ template <>
 VkSparseMemoryBind destroy_structure_copy<VkSparseMemoryBind>(const VkSparseMemoryBind& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSparseMemoryBind result { };
-    destroy_structure_copy(obj.resourceOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.size, pAllocationCallbacks);
-    destroy_structure_copy(obj.memory, pAllocationCallbacks);
-    destroy_structure_copy(obj.memoryOffset, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
     return result;
 }
 
@@ -7304,9 +4439,7 @@ template <>
 VkSpecializationInfo destroy_structure_copy<VkSpecializationInfo>(const VkSpecializationInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSpecializationInfo result { };
-    destroy_structure_copy(obj.mapEntryCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.mapEntryCount, obj.pMapEntries, pAllocationCallbacks);
-    destroy_structure_copy(obj.dataSize, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.dataSize, obj.pData, pAllocationCallbacks);
     return result;
 }
@@ -7315,9 +4448,6 @@ template <>
 VkSpecializationMapEntry destroy_structure_copy<VkSpecializationMapEntry>(const VkSpecializationMapEntry& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSpecializationMapEntry result { };
-    destroy_structure_copy(obj.constantID, pAllocationCallbacks);
-    destroy_structure_copy(obj.offset, pAllocationCallbacks);
-    destroy_structure_copy(obj.size, pAllocationCallbacks);
     return result;
 }
 
@@ -7325,13 +4455,6 @@ template <>
 VkStencilOpState destroy_structure_copy<VkStencilOpState>(const VkStencilOpState& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkStencilOpState result { };
-    destroy_structure_copy(obj.failOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.passOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthFailOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.compareOp, pAllocationCallbacks);
-    destroy_structure_copy(obj.compareMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.writeMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.reference, pAllocationCallbacks);
     return result;
 }
 
@@ -7340,10 +4463,7 @@ template <>
 VkStreamDescriptorSurfaceCreateInfoGGP destroy_structure_copy<VkStreamDescriptorSurfaceCreateInfoGGP>(const VkStreamDescriptorSurfaceCreateInfoGGP& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkStreamDescriptorSurfaceCreateInfoGGP result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.streamDescriptor, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_GGP
@@ -7353,10 +4473,6 @@ template <>
 VkStridedBufferRegionKHR destroy_structure_copy<VkStridedBufferRegionKHR>(const VkStridedBufferRegionKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkStridedBufferRegionKHR result { };
-    destroy_structure_copy(obj.buffer, pAllocationCallbacks);
-    destroy_structure_copy(obj.offset, pAllocationCallbacks);
-    destroy_structure_copy(obj.stride, pAllocationCallbacks);
-    destroy_structure_copy(obj.size, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
@@ -7365,14 +4481,10 @@ template <>
 VkSubmitInfo destroy_structure_copy<VkSubmitInfo>(const VkSubmitInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSubmitInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.waitSemaphoreCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.waitSemaphoreCount, obj.pWaitSemaphores, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.waitSemaphoreCount, obj.pWaitDstStageMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.commandBufferCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.commandBufferCount, obj.pCommandBuffers, pAllocationCallbacks);
-    destroy_structure_copy(obj.signalSemaphoreCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.signalSemaphoreCount, obj.pSignalSemaphores, pAllocationCallbacks);
     return result;
 }
@@ -7381,23 +4493,15 @@ template <>
 VkSubpassBeginInfo destroy_structure_copy<VkSubpassBeginInfo>(const VkSubpassBeginInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSubpassBeginInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.contents, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkSubpassDependency destroy_structure_copy<VkSubpassDependency>(const VkSubpassDependency& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSubpassDependency result { };
-    destroy_structure_copy(obj.srcSubpass, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstSubpass, pAllocationCallbacks);
-    destroy_structure_copy(obj.srcStageMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstStageMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.srcAccessMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstAccessMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.dependencyFlags, pAllocationCallbacks);
     return result;
 }
 
@@ -7405,32 +4509,19 @@ template <>
 VkSubpassDependency2 destroy_structure_copy<VkSubpassDependency2>(const VkSubpassDependency2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSubpassDependency2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.srcSubpass, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstSubpass, pAllocationCallbacks);
-    destroy_structure_copy(obj.srcStageMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstStageMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.srcAccessMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstAccessMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.dependencyFlags, pAllocationCallbacks);
-    destroy_structure_copy(obj.viewOffset, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkSubpassDescription destroy_structure_copy<VkSubpassDescription>(const VkSubpassDescription& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSubpassDescription result { };
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.pipelineBindPoint, pAllocationCallbacks);
-    destroy_structure_copy(obj.inputAttachmentCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.inputAttachmentCount, obj.pInputAttachments, pAllocationCallbacks);
-    destroy_structure_copy(obj.colorAttachmentCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.colorAttachmentCount, obj.pColorAttachments, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.colorAttachmentCount, obj.pResolveAttachments, pAllocationCallbacks);
-
-    destroy_structure_copy(obj.preserveAttachmentCount, pAllocationCallbacks);
+    destroy_dynamic_array_copy(1, obj.pDepthStencilAttachment, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.preserveAttachmentCount, obj.pPreserveAttachments, pAllocationCallbacks);
     return result;
 }
@@ -7439,48 +4530,39 @@ template <>
 VkSubpassDescription2 destroy_structure_copy<VkSubpassDescription2>(const VkSubpassDescription2& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSubpassDescription2 result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.pipelineBindPoint, pAllocationCallbacks);
-    destroy_structure_copy(obj.viewMask, pAllocationCallbacks);
-    destroy_structure_copy(obj.inputAttachmentCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.inputAttachmentCount, obj.pInputAttachments, pAllocationCallbacks);
-    destroy_structure_copy(obj.colorAttachmentCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.colorAttachmentCount, obj.pColorAttachments, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.colorAttachmentCount, obj.pResolveAttachments, pAllocationCallbacks);
-
-    destroy_structure_copy(obj.preserveAttachmentCount, pAllocationCallbacks);
+    destroy_dynamic_array_copy(1, obj.pDepthStencilAttachment, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.preserveAttachmentCount, obj.pPreserveAttachments, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkSubpassDescriptionDepthStencilResolve destroy_structure_copy<VkSubpassDescriptionDepthStencilResolve>(const VkSubpassDescriptionDepthStencilResolve& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSubpassDescriptionDepthStencilResolve result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthResolveMode, pAllocationCallbacks);
-    destroy_structure_copy(obj.stencilResolveMode, pAllocationCallbacks);
-
+    destroy_dynamic_array_copy(1, obj.pDepthStencilResolveAttachment, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkSubpassEndInfo destroy_structure_copy<VkSubpassEndInfo>(const VkSubpassEndInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSubpassEndInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     return result;
 }
+
 
 template <>
 VkSubpassSampleLocationsEXT destroy_structure_copy<VkSubpassSampleLocationsEXT>(const VkSubpassSampleLocationsEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSubpassSampleLocationsEXT result { };
-    destroy_structure_copy(obj.subpassIndex, pAllocationCallbacks);
     destroy_structure_copy(obj.sampleLocationsInfo, pAllocationCallbacks);
     return result;
 }
@@ -7489,11 +4571,6 @@ template <>
 VkSubresourceLayout destroy_structure_copy<VkSubresourceLayout>(const VkSubresourceLayout& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSubresourceLayout result { };
-    destroy_structure_copy(obj.offset, pAllocationCallbacks);
-    destroy_structure_copy(obj.size, pAllocationCallbacks);
-    destroy_structure_copy(obj.rowPitch, pAllocationCallbacks);
-    destroy_structure_copy(obj.arrayPitch, pAllocationCallbacks);
-    destroy_structure_copy(obj.depthPitch, pAllocationCallbacks);
     return result;
 }
 
@@ -7501,19 +4578,10 @@ template <>
 VkSurfaceCapabilities2EXT destroy_structure_copy<VkSurfaceCapabilities2EXT>(const VkSurfaceCapabilities2EXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSurfaceCapabilities2EXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.minImageCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxImageCount, pAllocationCallbacks);
     destroy_structure_copy(obj.currentExtent, pAllocationCallbacks);
     destroy_structure_copy(obj.minImageExtent, pAllocationCallbacks);
     destroy_structure_copy(obj.maxImageExtent, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxImageArrayLayers, pAllocationCallbacks);
-    destroy_structure_copy(obj.supportedTransforms, pAllocationCallbacks);
-    destroy_structure_copy(obj.currentTransform, pAllocationCallbacks);
-    destroy_structure_copy(obj.supportedCompositeAlpha, pAllocationCallbacks);
-    destroy_structure_copy(obj.supportedUsageFlags, pAllocationCallbacks);
-    destroy_structure_copy(obj.supportedSurfaceCounters, pAllocationCallbacks);
     return result;
 }
 
@@ -7521,7 +4589,6 @@ template <>
 VkSurfaceCapabilities2KHR destroy_structure_copy<VkSurfaceCapabilities2KHR>(const VkSurfaceCapabilities2KHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSurfaceCapabilities2KHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.surfaceCapabilities, pAllocationCallbacks);
     return result;
@@ -7532,9 +4599,7 @@ template <>
 VkSurfaceCapabilitiesFullScreenExclusiveEXT destroy_structure_copy<VkSurfaceCapabilitiesFullScreenExclusiveEXT>(const VkSurfaceCapabilitiesFullScreenExclusiveEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSurfaceCapabilitiesFullScreenExclusiveEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.fullScreenExclusiveSupported, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -7543,16 +4608,9 @@ template <>
 VkSurfaceCapabilitiesKHR destroy_structure_copy<VkSurfaceCapabilitiesKHR>(const VkSurfaceCapabilitiesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSurfaceCapabilitiesKHR result { };
-    destroy_structure_copy(obj.minImageCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxImageCount, pAllocationCallbacks);
     destroy_structure_copy(obj.currentExtent, pAllocationCallbacks);
     destroy_structure_copy(obj.minImageExtent, pAllocationCallbacks);
     destroy_structure_copy(obj.maxImageExtent, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxImageArrayLayers, pAllocationCallbacks);
-    destroy_structure_copy(obj.supportedTransforms, pAllocationCallbacks);
-    destroy_structure_copy(obj.currentTransform, pAllocationCallbacks);
-    destroy_structure_copy(obj.supportedCompositeAlpha, pAllocationCallbacks);
-    destroy_structure_copy(obj.supportedUsageFlags, pAllocationCallbacks);
     return result;
 }
 
@@ -7560,7 +4618,6 @@ template <>
 VkSurfaceFormat2KHR destroy_structure_copy<VkSurfaceFormat2KHR>(const VkSurfaceFormat2KHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSurfaceFormat2KHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
     destroy_structure_copy(obj.surfaceFormat, pAllocationCallbacks);
     return result;
@@ -7570,8 +4627,6 @@ template <>
 VkSurfaceFormatKHR destroy_structure_copy<VkSurfaceFormatKHR>(const VkSurfaceFormatKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSurfaceFormatKHR result { };
-    destroy_structure_copy(obj.format, pAllocationCallbacks);
-    destroy_structure_copy(obj.colorSpace, pAllocationCallbacks);
     return result;
 }
 
@@ -7580,9 +4635,7 @@ template <>
 VkSurfaceFullScreenExclusiveInfoEXT destroy_structure_copy<VkSurfaceFullScreenExclusiveInfoEXT>(const VkSurfaceFullScreenExclusiveInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSurfaceFullScreenExclusiveInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.fullScreenExclusive, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -7592,9 +4645,7 @@ template <>
 VkSurfaceFullScreenExclusiveWin32InfoEXT destroy_structure_copy<VkSurfaceFullScreenExclusiveWin32InfoEXT>(const VkSurfaceFullScreenExclusiveWin32InfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSurfaceFullScreenExclusiveWin32InfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.hmonitor, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -7603,9 +4654,7 @@ template <>
 VkSurfaceProtectedCapabilitiesKHR destroy_structure_copy<VkSurfaceProtectedCapabilitiesKHR>(const VkSurfaceProtectedCapabilitiesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSurfaceProtectedCapabilitiesKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.supportsProtected, pAllocationCallbacks);
     return result;
 }
 
@@ -7613,9 +4662,7 @@ template <>
 VkSwapchainCounterCreateInfoEXT destroy_structure_copy<VkSwapchainCounterCreateInfoEXT>(const VkSwapchainCounterCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSwapchainCounterCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.surfaceCounters, pAllocationCallbacks);
     return result;
 }
 
@@ -7623,24 +4670,9 @@ template <>
 VkSwapchainCreateInfoKHR destroy_structure_copy<VkSwapchainCreateInfoKHR>(const VkSwapchainCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSwapchainCreateInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.surface, pAllocationCallbacks);
-    destroy_structure_copy(obj.minImageCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageFormat, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageColorSpace, pAllocationCallbacks);
     destroy_structure_copy(obj.imageExtent, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageArrayLayers, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageUsage, pAllocationCallbacks);
-    destroy_structure_copy(obj.imageSharingMode, pAllocationCallbacks);
-    destroy_structure_copy(obj.queueFamilyIndexCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.queueFamilyIndexCount, obj.pQueueFamilyIndices, pAllocationCallbacks);
-    destroy_structure_copy(obj.preTransform, pAllocationCallbacks);
-    destroy_structure_copy(obj.compositeAlpha, pAllocationCallbacks);
-    destroy_structure_copy(obj.presentMode, pAllocationCallbacks);
-    destroy_structure_copy(obj.clipped, pAllocationCallbacks);
-    destroy_structure_copy(obj.oldSwapchain, pAllocationCallbacks);
     return result;
 }
 
@@ -7648,9 +4680,7 @@ template <>
 VkSwapchainDisplayNativeHdrCreateInfoAMD destroy_structure_copy<VkSwapchainDisplayNativeHdrCreateInfoAMD>(const VkSwapchainDisplayNativeHdrCreateInfoAMD& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSwapchainDisplayNativeHdrCreateInfoAMD result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.localDimmingEnable, pAllocationCallbacks);
     return result;
 }
 
@@ -7659,9 +4689,7 @@ template <>
 VkSwapchainImageCreateInfoANDROID destroy_structure_copy<VkSwapchainImageCreateInfoANDROID>(const VkSwapchainImageCreateInfoANDROID& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkSwapchainImageCreateInfoANDROID result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.usage, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_ANDROID_KHR
@@ -7670,9 +4698,7 @@ template <>
 VkTextureLODGatherFormatPropertiesAMD destroy_structure_copy<VkTextureLODGatherFormatPropertiesAMD>(const VkTextureLODGatherFormatPropertiesAMD& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkTextureLODGatherFormatPropertiesAMD result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.supportsTextureGatherLODBiasAMD, pAllocationCallbacks);
     return result;
 }
 
@@ -7680,45 +4706,29 @@ template <>
 VkTimelineSemaphoreSubmitInfo destroy_structure_copy<VkTimelineSemaphoreSubmitInfo>(const VkTimelineSemaphoreSubmitInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkTimelineSemaphoreSubmitInfo result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.waitSemaphoreValueCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.waitSemaphoreValueCount, obj.pWaitSemaphoreValues, pAllocationCallbacks);
-    destroy_structure_copy(obj.signalSemaphoreValueCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.signalSemaphoreValueCount, obj.pSignalSemaphoreValues, pAllocationCallbacks);
     return result;
 }
+
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 VkTraceRaysIndirectCommandKHR destroy_structure_copy<VkTraceRaysIndirectCommandKHR>(const VkTraceRaysIndirectCommandKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkTraceRaysIndirectCommandKHR result { };
-    destroy_structure_copy(obj.width, pAllocationCallbacks);
-    destroy_structure_copy(obj.height, pAllocationCallbacks);
-    destroy_structure_copy(obj.depth, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-VkTransformMatrixKHR destroy_structure_copy<VkTransformMatrixKHR>(const VkTransformMatrixKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkTransformMatrixKHR result { };
-    destroy_static_array_copy<34>(obj.matrix, pAllocationCallbacks);
-    return result;
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
+
 
 template <>
 VkValidationCacheCreateInfoEXT destroy_structure_copy<VkValidationCacheCreateInfoEXT>(const VkValidationCacheCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkValidationCacheCreateInfoEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.initialDataSize, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.initialDataSize, obj.pInitialData, pAllocationCallbacks);
     return result;
 }
@@ -7727,11 +4737,8 @@ template <>
 VkValidationFeaturesEXT destroy_structure_copy<VkValidationFeaturesEXT>(const VkValidationFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkValidationFeaturesEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.enabledValidationFeatureCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.enabledValidationFeatureCount, obj.pEnabledValidationFeatures, pAllocationCallbacks);
-    destroy_structure_copy(obj.disabledValidationFeatureCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.disabledValidationFeatureCount, obj.pDisabledValidationFeatures, pAllocationCallbacks);
     return result;
 }
@@ -7740,9 +4747,7 @@ template <>
 VkValidationFlagsEXT destroy_structure_copy<VkValidationFlagsEXT>(const VkValidationFlagsEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkValidationFlagsEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.disabledValidationCheckCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.disabledValidationCheckCount, obj.pDisabledValidationChecks, pAllocationCallbacks);
     return result;
 }
@@ -7751,10 +4756,6 @@ template <>
 VkVertexInputAttributeDescription destroy_structure_copy<VkVertexInputAttributeDescription>(const VkVertexInputAttributeDescription& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkVertexInputAttributeDescription result { };
-    destroy_structure_copy(obj.location, pAllocationCallbacks);
-    destroy_structure_copy(obj.binding, pAllocationCallbacks);
-    destroy_structure_copy(obj.format, pAllocationCallbacks);
-    destroy_structure_copy(obj.offset, pAllocationCallbacks);
     return result;
 }
 
@@ -7762,9 +4763,6 @@ template <>
 VkVertexInputBindingDescription destroy_structure_copy<VkVertexInputBindingDescription>(const VkVertexInputBindingDescription& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkVertexInputBindingDescription result { };
-    destroy_structure_copy(obj.binding, pAllocationCallbacks);
-    destroy_structure_copy(obj.stride, pAllocationCallbacks);
-    destroy_structure_copy(obj.inputRate, pAllocationCallbacks);
     return result;
 }
 
@@ -7772,8 +4770,6 @@ template <>
 VkVertexInputBindingDivisorDescriptionEXT destroy_structure_copy<VkVertexInputBindingDivisorDescriptionEXT>(const VkVertexInputBindingDivisorDescriptionEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkVertexInputBindingDivisorDescriptionEXT result { };
-    destroy_structure_copy(obj.binding, pAllocationCallbacks);
-    destroy_structure_copy(obj.divisor, pAllocationCallbacks);
     return result;
 }
 
@@ -7782,10 +4778,7 @@ template <>
 VkViSurfaceCreateInfoNN destroy_structure_copy<VkViSurfaceCreateInfoNN>(const VkViSurfaceCreateInfoNN& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkViSurfaceCreateInfoNN result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-
     return result;
 }
 #endif // VK_USE_PLATFORM_VI_NN
@@ -7794,12 +4787,6 @@ template <>
 VkViewport destroy_structure_copy<VkViewport>(const VkViewport& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkViewport result { };
-    destroy_structure_copy(obj.x, pAllocationCallbacks);
-    destroy_structure_copy(obj.y, pAllocationCallbacks);
-    destroy_structure_copy(obj.width, pAllocationCallbacks);
-    destroy_structure_copy(obj.height, pAllocationCallbacks);
-    destroy_structure_copy(obj.minDepth, pAllocationCallbacks);
-    destroy_structure_copy(obj.maxDepth, pAllocationCallbacks);
     return result;
 }
 
@@ -7807,10 +4794,6 @@ template <>
 VkViewportSwizzleNV destroy_structure_copy<VkViewportSwizzleNV>(const VkViewportSwizzleNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkViewportSwizzleNV result { };
-    destroy_structure_copy(obj.x, pAllocationCallbacks);
-    destroy_structure_copy(obj.y, pAllocationCallbacks);
-    destroy_structure_copy(obj.z, pAllocationCallbacks);
-    destroy_structure_copy(obj.w, pAllocationCallbacks);
     return result;
 }
 
@@ -7818,8 +4801,6 @@ template <>
 VkViewportWScalingNV destroy_structure_copy<VkViewportWScalingNV>(const VkViewportWScalingNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkViewportWScalingNV result { };
-    destroy_structure_copy(obj.xcoeff, pAllocationCallbacks);
-    destroy_structure_copy(obj.ycoeff, pAllocationCallbacks);
     return result;
 }
 
@@ -7828,11 +4809,7 @@ template <>
 VkWaylandSurfaceCreateInfoKHR destroy_structure_copy<VkWaylandSurfaceCreateInfoKHR>(const VkWaylandSurfaceCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkWaylandSurfaceCreateInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-
-
     return result;
 }
 #endif // VK_USE_PLATFORM_WAYLAND_KHR
@@ -7842,13 +4819,10 @@ template <>
 VkWin32KeyedMutexAcquireReleaseInfoKHR destroy_structure_copy<VkWin32KeyedMutexAcquireReleaseInfoKHR>(const VkWin32KeyedMutexAcquireReleaseInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkWin32KeyedMutexAcquireReleaseInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.acquireCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.acquireCount, obj.pAcquireSyncs, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.acquireCount, obj.pAcquireKeys, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.acquireCount, obj.pAcquireTimeouts, pAllocationCallbacks);
-    destroy_structure_copy(obj.releaseCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.releaseCount, obj.pReleaseSyncs, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.releaseCount, obj.pReleaseKeys, pAllocationCallbacks);
     return result;
@@ -7860,13 +4834,10 @@ template <>
 VkWin32KeyedMutexAcquireReleaseInfoNV destroy_structure_copy<VkWin32KeyedMutexAcquireReleaseInfoNV>(const VkWin32KeyedMutexAcquireReleaseInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkWin32KeyedMutexAcquireReleaseInfoNV result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.acquireCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.acquireCount, obj.pAcquireSyncs, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.acquireCount, obj.pAcquireKeys, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.acquireCount, obj.pAcquireTimeoutMilliseconds, pAllocationCallbacks);
-    destroy_structure_copy(obj.releaseCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.releaseCount, obj.pReleaseSyncs, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.releaseCount, obj.pReleaseKeys, pAllocationCallbacks);
     return result;
@@ -7878,11 +4849,7 @@ template <>
 VkWin32SurfaceCreateInfoKHR destroy_structure_copy<VkWin32SurfaceCreateInfoKHR>(const VkWin32SurfaceCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkWin32SurfaceCreateInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-    destroy_structure_copy(obj.hinstance, pAllocationCallbacks);
-    destroy_structure_copy(obj.hwnd, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_WIN32_KHR
@@ -7891,13 +4858,7 @@ template <>
 VkWriteDescriptorSet destroy_structure_copy<VkWriteDescriptorSet>(const VkWriteDescriptorSet& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkWriteDescriptorSet result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstSet, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstBinding, pAllocationCallbacks);
-    destroy_structure_copy(obj.dstArrayElement, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorCount, pAllocationCallbacks);
-    destroy_structure_copy(obj.descriptorType, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.descriptorCount, obj.pImageInfo, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.descriptorCount, obj.pBufferInfo, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.descriptorCount, obj.pTexelBufferView, pAllocationCallbacks);
@@ -7909,21 +4870,18 @@ template <>
 VkWriteDescriptorSetAccelerationStructureKHR destroy_structure_copy<VkWriteDescriptorSetAccelerationStructureKHR>(const VkWriteDescriptorSetAccelerationStructureKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkWriteDescriptorSetAccelerationStructureKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.accelerationStructureCount, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.accelerationStructureCount, obj.pAccelerationStructures, pAllocationCallbacks);
     return result;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
+
 template <>
 VkWriteDescriptorSetInlineUniformBlockEXT destroy_structure_copy<VkWriteDescriptorSetInlineUniformBlockEXT>(const VkWriteDescriptorSetInlineUniformBlockEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkWriteDescriptorSetInlineUniformBlockEXT result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.dataSize, pAllocationCallbacks);
     destroy_dynamic_array_copy(obj.dataSize, obj.pData, pAllocationCallbacks);
     return result;
 }
@@ -7932,8 +4890,6 @@ template <>
 VkXYColorEXT destroy_structure_copy<VkXYColorEXT>(const VkXYColorEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkXYColorEXT result { };
-    destroy_structure_copy(obj.x, pAllocationCallbacks);
-    destroy_structure_copy(obj.y, pAllocationCallbacks);
     return result;
 }
 
@@ -7942,11 +4898,7 @@ template <>
 VkXcbSurfaceCreateInfoKHR destroy_structure_copy<VkXcbSurfaceCreateInfoKHR>(const VkXcbSurfaceCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkXcbSurfaceCreateInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-
-    destroy_structure_copy(obj.window, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_XCB_KHR
@@ -7956,14 +4908,1831 @@ template <>
 VkXlibSurfaceCreateInfoKHR destroy_structure_copy<VkXlibSurfaceCreateInfoKHR>(const VkXlibSurfaceCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VkXlibSurfaceCreateInfoKHR result { };
-    destroy_structure_copy(obj.sType, pAllocationCallbacks);
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.flags, pAllocationCallbacks);
-
-    destroy_structure_copy(obj.window, pAllocationCallbacks);
     return result;
 }
 #endif // VK_USE_PLATFORM_XLIB_KHR
+
+void destroy_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocationCallbacks)
+{
+    if (pNext) {
+        swtich (*(VkStructureType*)pNext) {
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkAabbPositionsKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkAccelerationStructureBuildGeometryInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkAccelerationStructureBuildOffsetInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkAccelerationStructureCreateGeometryTypeInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkAccelerationStructureCreateInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VkAccelerationStructureCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkAccelerationStructureDeviceAddressInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkAccelerationStructureGeometryAabbsDataKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkAccelerationStructureGeometryDataKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkAccelerationStructureGeometryInstancesDataKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkAccelerationStructureGeometryKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkAccelerationStructureGeometryTrianglesDataKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VkAccelerationStructureInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkAccelerationStructureInstanceKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkAccelerationStructureMemoryRequirementsInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VkAccelerationStructureMemoryRequirementsInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkAccelerationStructureVersionKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VkAcquireNextImageInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkAcquireProfilingLockInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkAllocationCallbacks: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_ANDROID_KHR
+        case VkAndroidHardwareBufferFormatPropertiesANDROID: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_ANDROID_KHR
+        #ifdef VK_USE_PLATFORM_ANDROID_KHR
+        case VkAndroidHardwareBufferPropertiesANDROID: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_ANDROID_KHR
+        #ifdef VK_USE_PLATFORM_ANDROID_KHR
+        case VkAndroidHardwareBufferUsageANDROID: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_ANDROID_KHR
+        #ifdef VK_USE_PLATFORM_ANDROID_KHR
+        case VkAndroidSurfaceCreateInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_ANDROID_KHR
+        case VkApplicationInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkAttachmentDescription: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkAttachmentDescription2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkAttachmentDescriptionStencilLayout: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkAttachmentReference: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkAttachmentReference2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkAttachmentReferenceStencilLayout: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkAttachmentSampleLocationsEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBaseInStructure: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBaseOutStructure: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkBindAccelerationStructureMemoryInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VkBindBufferMemoryDeviceGroupInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBindBufferMemoryInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBindImageMemoryDeviceGroupInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBindImageMemoryInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBindImageMemorySwapchainInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBindImagePlaneMemoryInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBindIndexBufferIndirectCommandNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBindShaderGroupIndirectCommandNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBindSparseInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBindVertexBufferIndirectCommandNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBufferCopy: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBufferCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBufferDeviceAddressCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBufferDeviceAddressInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBufferImageCopy: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBufferMemoryBarrier: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBufferMemoryRequirementsInfo2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBufferOpaqueCaptureAddressCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkBufferViewCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkCalibratedTimestampInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkCheckpointDataNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkClearAttachment: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkClearColorValue: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkClearDepthStencilValue: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkClearRect: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkClearValue: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkCoarseSampleLocationNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkCoarseSampleOrderCustomNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkCommandBufferAllocateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkCommandBufferBeginInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkCommandBufferInheritanceConditionalRenderingInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkCommandBufferInheritanceInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkCommandBufferInheritanceRenderPassTransformInfoQCOM: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkCommandPoolCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkComponentMapping: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkComputePipelineCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkConditionalRenderingBeginInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkConformanceVersion: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkCooperativeMatrixPropertiesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkCopyAccelerationStructureInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkCopyAccelerationStructureToMemoryInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VkCopyDescriptorSet: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkCopyMemoryToAccelerationStructureInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkD3D12FenceSubmitInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        case VkDebugMarkerMarkerInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDebugMarkerObjectNameInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDebugMarkerObjectTagInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDebugReportCallbackCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDebugUtilsLabelEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDebugUtilsMessengerCallbackDataEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDebugUtilsMessengerCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDebugUtilsObjectNameInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDebugUtilsObjectTagInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDedicatedAllocationBufferCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDedicatedAllocationImageCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDedicatedAllocationMemoryAllocateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkDeferredOperationInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VkDescriptorBufferInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDescriptorImageInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDescriptorPoolCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDescriptorPoolInlineUniformBlockCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDescriptorPoolSize: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDescriptorSetAllocateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDescriptorSetLayoutBinding: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDescriptorSetLayoutBindingFlagsCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDescriptorSetLayoutCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDescriptorSetLayoutSupport: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDescriptorSetVariableDescriptorCountAllocateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDescriptorSetVariableDescriptorCountLayoutSupport: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDescriptorUpdateTemplateCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDescriptorUpdateTemplateEntry: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDeviceCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDeviceDiagnosticsConfigCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDeviceEventInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDeviceGroupBindSparseInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDeviceGroupCommandBufferBeginInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDeviceGroupDeviceCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDeviceGroupPresentCapabilitiesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDeviceGroupPresentInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDeviceGroupRenderPassBeginInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDeviceGroupSubmitInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDeviceGroupSwapchainCreateInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDeviceMemoryOpaqueCaptureAddressInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDeviceMemoryOverallocationCreateInfoAMD: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkDeviceOrHostAddressConstKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkDeviceOrHostAddressKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VkDevicePrivateDataCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDeviceQueueCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDeviceQueueGlobalPriorityCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDeviceQueueInfo2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_DIRECTFB_EXT
+        case VkDirectFBSurfaceCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_DIRECTFB_EXT
+        case VkDispatchIndirectCommand: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDisplayEventInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDisplayModeCreateInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDisplayModeParametersKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDisplayModeProperties2KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDisplayModePropertiesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDisplayNativeHdrSurfaceCapabilitiesAMD: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDisplayPlaneCapabilities2KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDisplayPlaneCapabilitiesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDisplayPlaneInfo2KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDisplayPlaneProperties2KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDisplayPlanePropertiesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDisplayPowerInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDisplayPresentInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDisplayProperties2KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDisplayPropertiesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDisplaySurfaceCreateInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDrawIndexedIndirectCommand: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDrawIndirectCommand: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDrawMeshTasksIndirectCommandNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDrmFormatModifierPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkDrmFormatModifierPropertiesListEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkEventCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkExportFenceCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkExportFenceWin32HandleInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        case VkExportMemoryAllocateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkExportMemoryAllocateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkExportMemoryWin32HandleInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkExportMemoryWin32HandleInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        case VkExportSemaphoreCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkExportSemaphoreWin32HandleInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        case VkExtensionProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkExtent2D: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkExtent3D: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkExternalBufferProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkExternalFenceProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_ANDROID_KHR
+        case VkExternalFormatANDROID: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_ANDROID_KHR
+        case VkExternalImageFormatProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkExternalImageFormatPropertiesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkExternalMemoryBufferCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkExternalMemoryImageCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkExternalMemoryImageCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkExternalMemoryProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkExternalSemaphoreProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkFenceCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkFenceGetFdInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkFenceGetWin32HandleInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        case VkFilterCubicImageViewImageFormatPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkFormatProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkFormatProperties2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkFramebufferAttachmentImageInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkFramebufferAttachmentsCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkFramebufferCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkFramebufferMixedSamplesCombinationNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkGeneratedCommandsInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkGeneratedCommandsMemoryRequirementsInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkGeometryAABBNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkGeometryDataNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkGeometryNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkGeometryTrianglesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkGraphicsPipelineCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkGraphicsPipelineShaderGroupsCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkGraphicsShaderGroupCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkHdrMetadataEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkHeadlessSurfaceCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_IOS_MVK
+        case VkIOSSurfaceCreateInfoMVK: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_IOS_MVK
+        case VkImageBlit: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageCopy: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageDrmFormatModifierExplicitCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageDrmFormatModifierListCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageDrmFormatModifierPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageFormatListCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageFormatProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageFormatProperties2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageMemoryBarrier: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageMemoryRequirementsInfo2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_FUCHSIA
+        case VkImagePipeSurfaceCreateInfoFUCHSIA: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_FUCHSIA
+        case VkImagePlaneMemoryRequirementsInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageResolve: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageSparseMemoryRequirementsInfo2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageStencilUsageCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageSubresource: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageSubresourceLayers: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageSubresourceRange: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageSwapchainCreateInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageViewASTCDecodeModeEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageViewAddressPropertiesNVX: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageViewCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageViewHandleInfoNVX: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImageViewUsageCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_ANDROID_KHR
+        case VkImportAndroidHardwareBufferInfoANDROID: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_ANDROID_KHR
+        case VkImportFenceFdInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkImportFenceWin32HandleInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        case VkImportMemoryFdInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkImportMemoryHostPointerInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkImportMemoryWin32HandleInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkImportMemoryWin32HandleInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        case VkImportSemaphoreFdInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkImportSemaphoreWin32HandleInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        case VkIndirectCommandsLayoutCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkIndirectCommandsLayoutTokenNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkIndirectCommandsStreamNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkInitializePerformanceApiInfoINTEL: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkInputAttachmentAspectReference: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkInstanceCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkLayerProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_MACOS_MVK
+        case VkMacOSSurfaceCreateInfoMVK: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_MACOS_MVK
+        case VkMappedMemoryRange: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkMemoryAllocateFlagsInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkMemoryAllocateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkMemoryBarrier: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkMemoryDedicatedAllocateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkMemoryDedicatedRequirements: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkMemoryFdPropertiesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_ANDROID_KHR
+        case VkMemoryGetAndroidHardwareBufferInfoANDROID: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_ANDROID_KHR
+        case VkMemoryGetFdInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkMemoryGetWin32HandleInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        case VkMemoryHeap: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkMemoryHostPointerPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkMemoryOpaqueCaptureAddressAllocateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkMemoryPriorityAllocateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkMemoryRequirements: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkMemoryRequirements2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkMemoryType: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkMemoryWin32HandlePropertiesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        #ifdef VK_USE_PLATFORM_METAL_EXT
+        case VkMetalSurfaceCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_METAL_EXT
+        case VkMultisamplePropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_ANDROID_KHR
+        case VkNativeBufferANDROID: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_ANDROID_KHR
+        #ifdef VK_USE_PLATFORM_ANDROID_KHR
+        case VkNativeBufferUsage2ANDROID: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_ANDROID_KHR
+        case VkOffset2D: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkOffset3D: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPastPresentationTimingGOOGLE: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPerformanceConfigurationAcquireInfoINTEL: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPerformanceCounterDescriptionKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPerformanceCounterKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPerformanceCounterResultKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPerformanceMarkerInfoINTEL: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPerformanceOverrideInfoINTEL: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPerformanceQuerySubmitInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPerformanceStreamMarkerInfoINTEL: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPerformanceValueDataINTEL: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPerformanceValueINTEL: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDevice16BitStorageFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDevice8BitStorageFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceASTCDecodeFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceBufferDeviceAddressFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceBufferDeviceAddressFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceCoherentMemoryFeaturesAMD: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceComputeShaderDerivativesFeaturesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceConditionalRenderingFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceConservativeRasterizationPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceCooperativeMatrixFeaturesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceCooperativeMatrixPropertiesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceCornerSampledImageFeaturesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceCoverageReductionModeFeaturesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceCustomBorderColorFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceCustomBorderColorPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceDepthClipEnableFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceDepthStencilResolveProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceDescriptorIndexingFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceDescriptorIndexingProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceDiagnosticsConfigFeaturesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceDiscardRectanglePropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceDriverProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceExclusiveScissorFeaturesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceExtendedDynamicStateFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceExternalBufferInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceExternalFenceInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceExternalImageFormatInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceExternalMemoryHostPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceExternalSemaphoreInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceFeatures2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceFloatControlsProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceFragmentDensityMap2FeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceFragmentDensityMap2PropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceFragmentDensityMapFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceFragmentDensityMapPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceGroupProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceHostQueryResetFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceIDProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceImageDrmFormatModifierInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceImageFormatInfo2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceImageRobustnessFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceImageViewImageFormatInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceImagelessFramebufferFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceIndexTypeUint8FeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceInlineUniformBlockFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceInlineUniformBlockPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceLimits: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceLineRasterizationFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceLineRasterizationPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceMaintenance3Properties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceMemoryBudgetPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceMemoryPriorityFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceMemoryProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceMemoryProperties2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceMeshShaderFeaturesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceMeshShaderPropertiesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceMultiviewFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceMultiviewProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDevicePCIBusInfoPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDevicePerformanceQueryFeaturesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDevicePerformanceQueryPropertiesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDevicePointClippingProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_ANDROID_KHR
+        case VkPhysicalDevicePresentationPropertiesANDROID: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_ANDROID_KHR
+        case VkPhysicalDevicePrivateDataFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceProperties2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceProtectedMemoryFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceProtectedMemoryProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDevicePushDescriptorPropertiesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkPhysicalDeviceRayTracingFeaturesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkPhysicalDeviceRayTracingPropertiesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VkPhysicalDeviceRayTracingPropertiesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceRobustness2FeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceRobustness2PropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceSampleLocationsPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceSamplerFilterMinmaxProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceSamplerYcbcrConversionFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceScalarBlockLayoutFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceShaderAtomicFloatFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceShaderAtomicInt64Features: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceShaderClockFeaturesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceShaderCoreProperties2AMD: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceShaderCorePropertiesAMD: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceShaderDrawParametersFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceShaderFloat16Int8Features: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceShaderImageFootprintFeaturesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceShaderSMBuiltinsFeaturesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceShaderSMBuiltinsPropertiesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceShadingRateImageFeaturesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceShadingRateImagePropertiesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceSparseImageFormatInfo2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceSparseProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceSubgroupProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceSubgroupSizeControlFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceSubgroupSizeControlPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceSurfaceInfo2KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceTimelineSemaphoreFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceTimelineSemaphoreProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceToolPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceTransformFeedbackFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceTransformFeedbackPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceUniformBufferStandardLayoutFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceVariablePointersFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceVulkan11Features: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceVulkan11Properties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceVulkan12Features: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceVulkan12Properties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceVulkanMemoryModelFeatures: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPhysicalDeviceYcbcrImageArraysFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineCacheCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineColorBlendAdvancedStateCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineColorBlendAttachmentState: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineColorBlendStateCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineCompilerControlCreateInfoAMD: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineCoverageModulationStateCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineCoverageReductionStateCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineCoverageToColorStateCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineCreationFeedbackCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineCreationFeedbackEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineDepthStencilStateCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineDiscardRectangleStateCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineDynamicStateCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineExecutableInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineExecutableInternalRepresentationKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineExecutablePropertiesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineExecutableStatisticKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineExecutableStatisticValueKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineInputAssemblyStateCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineLayoutCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkPipelineLibraryCreateInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VkPipelineMultisampleStateCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineRasterizationConservativeStateCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineRasterizationDepthClipStateCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineRasterizationLineStateCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineRasterizationStateCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineRasterizationStateRasterizationOrderAMD: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineRasterizationStateStreamCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineRepresentativeFragmentTestStateCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineSampleLocationsStateCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineShaderStageCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineTessellationDomainOriginStateCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineTessellationStateCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineVertexInputDivisorStateCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineVertexInputStateCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineViewportCoarseSampleOrderStateCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineViewportExclusiveScissorStateCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineViewportShadingRateImageStateCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineViewportStateCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineViewportSwizzleStateCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPipelineViewportWScalingStateCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_GGP
+        case VkPresentFrameTokenGGP: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_GGP
+        case VkPresentInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPresentRegionKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPresentRegionsKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPresentTimeGOOGLE: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPresentTimesInfoGOOGLE: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPrivateDataSlotCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkProtectedSubmitInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkPushConstantRange: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkQueryPoolCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkQueryPoolPerformanceCreateInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkQueryPoolPerformanceQueryCreateInfoINTEL: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkQueueFamilyCheckpointPropertiesNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkQueueFamilyProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkQueueFamilyProperties2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkRayTracingPipelineCreateInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VkRayTracingPipelineCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkRayTracingPipelineInterfaceCreateInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkRayTracingShaderGroupCreateInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VkRayTracingShaderGroupCreateInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkRect2D: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkRectLayerKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkRefreshCycleDurationGOOGLE: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkRenderPassAttachmentBeginInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkRenderPassBeginInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkRenderPassCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkRenderPassCreateInfo2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkRenderPassFragmentDensityMapCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkRenderPassInputAttachmentAspectCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkRenderPassMultiviewCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkRenderPassSampleLocationsBeginInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkRenderPassTransformBeginInfoQCOM: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSampleLocationEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSampleLocationsInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSamplerCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSamplerCustomBorderColorCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSamplerReductionModeCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSamplerYcbcrConversionCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSamplerYcbcrConversionImageFormatProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSamplerYcbcrConversionInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSemaphoreCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSemaphoreGetFdInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkSemaphoreGetWin32HandleInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        case VkSemaphoreSignalInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSemaphoreTypeCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSemaphoreWaitInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSetStateFlagsIndirectCommandNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkShaderModuleCreateInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkShaderModuleValidationCacheCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkShaderResourceUsageAMD: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkShaderStatisticsInfoAMD: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkShadingRatePaletteNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSharedPresentSurfaceCapabilitiesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSparseBufferMemoryBindInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSparseImageFormatProperties: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSparseImageFormatProperties2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSparseImageMemoryBind: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSparseImageMemoryBindInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSparseImageMemoryRequirements: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSparseImageMemoryRequirements2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSparseImageOpaqueMemoryBindInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSparseMemoryBind: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSpecializationInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSpecializationMapEntry: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkStencilOpState: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_GGP
+        case VkStreamDescriptorSurfaceCreateInfoGGP: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_GGP
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkStridedBufferRegionKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VkSubmitInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSubpassBeginInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSubpassDependency: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSubpassDependency2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSubpassDescription: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSubpassDescription2: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSubpassDescriptionDepthStencilResolve: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSubpassEndInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSubpassSampleLocationsEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSubresourceLayout: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSurfaceCapabilities2EXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSurfaceCapabilities2KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkSurfaceCapabilitiesFullScreenExclusiveEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        case VkSurfaceCapabilitiesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSurfaceFormat2KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSurfaceFormatKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkSurfaceFullScreenExclusiveInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkSurfaceFullScreenExclusiveWin32InfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        case VkSurfaceProtectedCapabilitiesKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSwapchainCounterCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSwapchainCreateInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkSwapchainDisplayNativeHdrCreateInfoAMD: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_ANDROID_KHR
+        case VkSwapchainImageCreateInfoANDROID: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_ANDROID_KHR
+        case VkTextureLODGatherFormatPropertiesAMD: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkTimelineSemaphoreSubmitInfo: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkTraceRaysIndirectCommandKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkTransformMatrixKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VkValidationCacheCreateInfoEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkValidationFeaturesEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkValidationFlagsEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkVertexInputAttributeDescription: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkVertexInputBindingDescription: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkVertexInputBindingDivisorDescriptionEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_VI_NN
+        case VkViSurfaceCreateInfoNN: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_VI_NN
+        case VkViewport: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkViewportSwizzleNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkViewportWScalingNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_WAYLAND_KHR
+        case VkWaylandSurfaceCreateInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WAYLAND_KHR
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkWin32KeyedMutexAcquireReleaseInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkWin32KeyedMutexAcquireReleaseInfoNV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VkWin32SurfaceCreateInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        case VkWriteDescriptorSet: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VkWriteDescriptorSetAccelerationStructureKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VkWriteDescriptorSetInlineUniformBlockEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VkXYColorEXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_XCB_KHR
+        case VkXcbSurfaceCreateInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_XCB_KHR
+        #ifdef VK_USE_PLATFORM_XLIB_KHR
+        case VkXlibSurfaceCreateInfoKHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_XLIB_KHR
+        default:
+        }
+    }
+}
 
 } // namespace vk
 } // namespace dst
