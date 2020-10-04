@@ -23,7 +23,7 @@ namespace dst {
 namespace vk {
 
 ////////////////////////////////////////////////////////////////////////////////
-// NOTE : The following to_tuple<> functions are manually implemented
+// NOTE : The following to_tuple<>() functions are manually implemented
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 inline auto to_tuple<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR& obj);

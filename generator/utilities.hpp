@@ -22,17 +22,33 @@ namespace cppgen {
 
 inline const std::set<std::string>& get_manually_implemented_structures()
 {
+    #if 0
+    // TODO : Look into these...
+    "VkAllocationCallbacks",
+    "VkCheckpointDataNV",
+    "VkDebugMarkerObjectTagInfoEXT",
+    "VkDebugReportCallbackCreateInfoEXT",
+    "VkDebugUtilsMessengerCreateInfoEXT",
+    "VkDebugUtilsObjectTagInfoEXT",
+    "VkImportMemoryHostPointerInfoEXT",
+    "VkInitializePerformanceApiInfoINTEL",
+    #endif
     static const std::set<std::string> sManuallyImplementedStructures {
+        // Structures with bitfields
         "VkAccelerationStructureInstanceKHR",
         "VkAccelerationStructureVersionKHR",
+
+        // Structures with members with special case length
+        "VkPipelineMultisampleStateCreateInfo",
+        "VkShaderModuleCreateInfo",
+        "VkTransformMatrixKHR",
+
+        // Unions
         "VkClearColorValue",
         "VkClearValue",
         "VkPerformanceCounterResultKHR",
         "VkPerformanceValueDataINTEL",
         "VkPipelineExecutableStatisticValueKHR",
-        "VkPipelineMultisampleStateCreateInfo",
-        "VkShaderModuleCreateInfo",
-        "VkTransformMatrixKHR",
     };
     return sManuallyImplementedStructures;
 }
@@ -42,9 +58,6 @@ inline bool is_manually_implemented(const xml::Structure& structure)
     return get_manually_implemented_structures().count(structure.name);
 }
 
-/**
-TODO : Documentation
-*/
 inline std::vector<std::string> get_structure_compile_guards(const xml::Structure& structure)
 {
     std::vector<std::string> compileGuards;
@@ -54,9 +67,6 @@ inline std::vector<std::string> get_structure_compile_guards(const xml::Structur
     return compileGuards;
 }
 
-/**
-TODO : Documentation
-*/
 inline dst::cppgen::Condition get_variable_type_condition(const xml::Manifest& xmlManifest, const xml::Parameter& variable)
 {
     if (variable.name == "pNext") {
@@ -88,6 +98,109 @@ inline dst::cppgen::Condition get_variable_type_condition(const xml::Manifest& x
         return { "STRUCTURE", true };
     }
     return { "POD", true };
+}
+
+inline dst::cppgen::SourceBlock get_manually_implemented_structure_source_blocks(const xml::Manifest& xmlManifest)
+{
+    using namespace dst::cppgen;
+    return SourceBlock("MANUALLY_IMPLEMENTED_STRUCTURES", get_manually_implemented_structures(),
+        [&](const std::string& manuallyImpelementedStructure) -> std::vector<SourceBlock>
+        {
+            auto structureItr = xmlManifest.structures.find(manuallyImpelementedStructure);
+            if (structureItr != xmlManifest.structures.end() && structureItr->second.alias.empty()) {
+                const auto& structure = structureItr->second;
+                return {
+                    SourceBlock("STRUCTURE_NAME", structure.name),
+                    SourceBlock("COMPILE_GUARDS", get_structure_compile_guards(structure),
+                        [&](const std::string& compileGuard) -> std::vector<SourceBlock>
+                        {
+                            return { SourceBlock("COMPILE_GUARD", compileGuard) };
+                        }
+                    ),
+                };
+            }
+            return { };
+        }
+    );
+}
+
+inline dst::cppgen::SourceBlock get_automatically_implemented_structure_source_blocks(const xml::Manifest& xmlManifest)
+{
+    // TODO : DRY
+    using namespace dst::cppgen;
+    using namespace dst::vk::xml;
+    return SourceBlock("STRUCTURES", xmlManifest.structures,
+        [&](const std::pair<std::string, Structure>& structureItr) -> std::vector<SourceBlock>
+        {
+            const auto& structure = structureItr.second;
+            if (structure.alias.empty() && !is_manually_implemented(structure)) {
+                return {
+                    SourceBlock("STRUCTURE_NAME", structure.name),
+                    SourceBlock("COMPILE_GUARDS", get_structure_compile_guards(structure),
+                        [&](const std::string& compileGuard) -> std::vector<SourceBlock>
+                        {
+                            return { SourceBlock("COMPILE_GUARD", compileGuard) };
+                        }
+                    ),
+                    SourceBlock("MEMBERS", structure.members,
+                        [&](const Parameter& member) -> std::vector<SourceBlock>
+                        {
+                            return {
+                                get_variable_type_condition(xmlManifest, member),
+                                SourceBlock("MEMBER_NAME", member.name),
+                                SourceBlock("MEMBER_LENGTH", member.length)
+                            };
+                        }
+                    )
+                };
+            }
+            return { };
+        }
+    );
+}
+
+inline dst::cppgen::SourceBlock get_unfiltered_structure_source_blocks(const xml::Manifest& xmlManifest)
+{
+    // TODO : DRY
+    using namespace dst::cppgen;
+    using namespace dst::vk::xml;
+    return SourceBlock("STRUCTURES", xmlManifest.structures,
+        [&](const std::pair<std::string, Structure>& structureItr) -> std::vector<SourceBlock>
+        {
+            const auto& structure = structureItr.second;
+            if (structure.alias.empty()) {
+                return {
+                    SourceBlock("STRUCTURE_NAME", structure.name),
+                    SourceBlock("COMPILE_GUARDS", get_structure_compile_guards(structure),
+                        [&](const std::string& compileGuard) -> std::vector<SourceBlock>
+                        {
+                            return { SourceBlock("COMPILE_GUARD", compileGuard) };
+                        }
+                    ),
+                    SourceBlock("MEMBERS", structure.members,
+                        [&](const Parameter& member) -> std::vector<SourceBlock>
+                        {
+                            return {
+                                get_variable_type_condition(xmlManifest, member),
+                                SourceBlock("MEMBER_NAME", member.name),
+                                SourceBlock("MEMBER_LENGTH", member.length)
+                            };
+                        }
+                    )
+                };
+            }
+            return { };
+        }
+    );
+}
+
+inline std::vector<dst::cppgen::SourceBlock> get_structure_source_blocks(const xml::Manifest& xmlManifest)
+{
+    static const std::vector<dst::cppgen::SourceBlock> sStructureSourceBlocks {
+        get_manually_implemented_structure_source_blocks(xmlManifest),
+        get_automatically_implemented_structure_source_blocks(xmlManifest)
+    };
+    return sStructureSourceBlocks;
 }
 
 /**

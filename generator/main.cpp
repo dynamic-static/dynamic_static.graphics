@@ -15,6 +15,7 @@
 // #include "equality-operators.generator.hpp"
 // #include "managed-handles.generator.hpp"
 // #include "managed-structures.generator.hpp"
+#include "structure-comparison-operators.generator.hpp"
 #include "structure-to-tuple.generator.hpp"
 
 #include "tinyxml2.h"
@@ -29,6 +30,7 @@ int main(int argc, char* argv[])
         dst::vk::xml::Manifest xmlManifest(vkXml);
         dst::Timer timer;
         using namespace dst::vk::cppgen;
+        generate_structure_comparison_operators(xmlManifest);
         generate_structure_to_tuple(xmlManifest);
         // CreateStructureCopyGenerator createStructureCopyGenerator(vkXmlManifest);
         // DestroyStructureCopyGenerator destroyStructureCopyGenerator(vkXmlManifest);

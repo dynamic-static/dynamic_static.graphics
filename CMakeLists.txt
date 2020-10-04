@@ -39,9 +39,9 @@ set(generatedSourcePath "${sourcePath}/vulkan/generated/")
 set(generatedIncludeFiles
     # "${generatedIncludePath}/create-structure-copy.hpp"
     # "${generatedIncludePath}/destroy-structure-copy.hpp"
-    # "${generatedIncludePath}/equality-operators.hpp"
-    # "${generatedIncludePath}/greater-than-operators.hpp"
-    # "${generatedIncludePath}/less-than-operators.hpp"
+    "${generatedIncludePath}/equality-operators.hpp"
+    "${generatedIncludePath}/greater-than-operators.hpp"
+    "${generatedIncludePath}/less-than-operators.hpp"
     "${generatedIncludePath}/structure-to-tuple.hpp"
     # "${generatedIncludePath}/managed-handles.hpp"
     # "${generatedIncludePath}/managed-structures.hpp"
@@ -49,9 +49,9 @@ set(generatedIncludeFiles
 set(generatedSourceFiles
     # "${generatedSourcePath}/create-structure-copy.cpp"
     # "${generatedSourcePath}/destroy-structure-copy.cpp"
-    # "${generatedSourcePath}/equality-operators.cpp"
-    # "${generatedSourcePath}/greater-than-operators.cpp"
-    # "${generatedSourcePath}/less-than-operators.cpp"
+    "${generatedSourcePath}/equality-operators.cpp"
+    "${generatedSourcePath}/greater-than-operators.cpp"
+    "${generatedSourcePath}/less-than-operators.cpp"
     # "${generatedSourcePath}/managed-handles.cpp"
 )
 
@@ -64,10 +64,10 @@ dst_add_cpp_generator(
     sourceFiles
         # "${generatorSourcePath}/create-structure-copy.generator.hpp"
         # "${generatorSourcePath}/destroy-structure-copy.generator.hpp"
-        # "${generatorSourcePath}/equality-operators.generator.hpp"
         "${generatorSourcePath}/main.cpp"
         # "${generatorSourcePath}/managed-handles.generator.hpp"
         # "${generatorSourcePath}/managed-structures.generator.hpp"
+        "${generatorSourcePath}/structure-comparison-operators.generator.hpp"
         "${generatorSourcePath}/structure-to-tuple.generator.hpp"
         "${generatorSourcePath}/utilities.hpp"
     compileDefinitions

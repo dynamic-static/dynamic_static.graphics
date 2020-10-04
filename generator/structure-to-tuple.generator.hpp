@@ -16,7 +16,7 @@ namespace dst {
 namespace vk {
 namespace cppgen {
 
-void generate_structure_to_tuple(const xml::Manifest& xmlManifest)
+inline void generate_structure_to_tuple(const xml::Manifest& xmlManifest)
 {
     using namespace dst::cppgen;
     using namespace dst::vk::xml;
@@ -46,7 +46,7 @@ void generate_structure_to_tuple(const xml::Manifest& xmlManifest)
     namespace vk {
 
     ////////////////////////////////////////////////////////////////////////////////
-    // NOTE : The following to_tuple<> functions are manually implemented
+    // NOTE : The following to_tuple<>() functions are manually implemented
     $<MANUALLY_IMPLEMENTED_STRUCTURES:"\n">
     $<COMPILE_GUARDS>
     #ifdef ${COMPILE_GUARD}
@@ -106,53 +106,7 @@ void generate_structure_to_tuple(const xml::Manifest& xmlManifest)
     } // namespace vk
     } // namespace dst
     )", {
-        SourceBlock("MANUALLY_IMPLEMENTED_STRUCTURES", get_manually_implemented_structures(),
-            [&](const std::string& manuallyImpelementedStructure) -> std::vector<SourceBlock>
-            {
-                auto structureItr = xmlManifest.structures.find(manuallyImpelementedStructure);
-                if (structureItr != xmlManifest.structures.end() && structureItr->second.alias.empty()) {
-                    const auto& structure = structureItr->second;
-                    return {
-                        SourceBlock("STRUCTURE_NAME", structure.name),
-                        SourceBlock("COMPILE_GUARDS", get_structure_compile_guards(structure),
-                            [&](const std::string& compileGuard) -> std::vector<SourceBlock>
-                            {
-                                return { SourceBlock("COMPILE_GUARD", compileGuard) };
-                            }
-                        ),
-                    };
-                }
-                return { };
-            }
-        ),
-        SourceBlock("STRUCTURES", xmlManifest.structures,
-            [&](const std::pair<std::string, Structure>& structureItr) -> std::vector<SourceBlock>
-            {
-                const auto& structure = structureItr.second;
-                if (structure.alias.empty() && !is_manually_implemented(structure)) {
-                    return {
-                        SourceBlock("STRUCTURE_NAME", structure.name),
-                        SourceBlock("COMPILE_GUARDS", get_structure_compile_guards(structure),
-                            [&](const std::string& compileGuard) -> std::vector<SourceBlock>
-                            {
-                                return { SourceBlock("COMPILE_GUARD", compileGuard) };
-                            }
-                        ),
-                        SourceBlock("MEMBERS", structure.members,
-                            [&](const Parameter& member) -> std::vector<SourceBlock>
-                            {
-                                return {
-                                    get_variable_type_condition(xmlManifest, member),
-                                    SourceBlock("MEMBER_NAME", member.name),
-                                    SourceBlock("MEMBER_LENGTH", member.length)
-                                };
-                            }
-                        )
-                    };
-                }
-                return { };
-            }
-        )
+        get_structure_source_blocks(xmlManifest)
     });
 }
 
