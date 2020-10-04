@@ -10,11 +10,9 @@
 
 #include "dynamic_static/core/time.hpp"
 #include "dynamic_static/vk-xml-parser.hpp"
-// #include "equality-operators.generator.hpp"
-// #include "managed-handles.generator.hpp"
-// #include "managed-structures.generator.hpp"
 #include "create-structure-copy.generator.hpp"
 #include "destroy-structure-copy.generator.hpp"
+#include "managed-structures.generator.hpp"
 #include "structure-comparison-operators.generator.hpp"
 #include "structure-to-tuple.generator.hpp"
 
@@ -33,6 +31,7 @@ int main(int argc, char* argv[])
         generate_create_structure_copy(xmlManifest);
         generate_comparison_operators(xmlManifest);
         generate_destroy_structure_copy(xmlManifest);
+        generate_managed_structures(xmlManifest);
         generate_to_tuple(xmlManifest);
         // CreateStructureCopyGenerator createStructureCopyGenerator(vkXmlManifest);
         // DestroyStructureCopyGenerator destroyStructureCopyGenerator(vkXmlManifest);
@@ -40,8 +39,8 @@ int main(int argc, char* argv[])
         // StructureToTupleGenerator structureToTupleGenerator(vkXmlManifest);
         // generate_managed_handles(vkXmlManifest);
         // generate_managed_structures(vkXmlManifest);
-        std::cout << timer.total<dst::Seconds<>>() << " s" << std::endl;
-        std::cout << timer.total<dst::Milliseconds<>>() << " ms" << std::endl;
+        std::cout << timer.total<dst::Seconds<>>() << " s\n";
+        std::cout << timer.total<dst::Milliseconds<>>() << " ms\n";
     }
     return 0;
 }

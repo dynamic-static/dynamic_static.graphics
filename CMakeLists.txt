@@ -44,11 +44,11 @@ set(generatedIncludeFiles
     "${generatedIncludePath}/less-than-operators.hpp"
     "${generatedIncludePath}/structure-to-tuple.hpp"
     # "${generatedIncludePath}/managed-handles.hpp"
-    # "${generatedIncludePath}/managed-structures.hpp"
+    "${generatedIncludePath}/managed-structures.hpp"
 )
 set(generatedSourceFiles
     "${generatedSourcePath}/create-structure-copy.cpp"
-    # "${generatedSourcePath}/destroy-structure-copy.cpp"
+    "${generatedSourcePath}/destroy-structure-copy.cpp"
     "${generatedSourcePath}/equality-operators.cpp"
     "${generatedSourcePath}/greater-than-operators.cpp"
     "${generatedSourcePath}/less-than-operators.cpp"
@@ -66,7 +66,7 @@ dst_add_cpp_generator(
         "${generatorSourcePath}/destroy-structure-copy.generator.hpp"
         "${generatorSourcePath}/main.cpp"
         # "${generatorSourcePath}/managed-handles.generator.hpp"
-        # "${generatorSourcePath}/managed-structures.generator.hpp"
+        "${generatorSourcePath}/managed-structures.generator.hpp"
         "${generatorSourcePath}/structure-comparison-operators.generator.hpp"
         "${generatorSourcePath}/structure-to-tuple.generator.hpp"
         "${generatorSourcePath}/utilities.hpp"
