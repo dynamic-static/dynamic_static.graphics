@@ -12,12 +12,83 @@
 
 #include "dynamic_static/core/string.hpp"
 #include "dynamic_static/cpp-generator.hpp"
+#include "dynamic_static/vk-xml-parser.hpp"
 
 #include <set>
 
 namespace dst {
 namespace vk {
 namespace cppgen {
+
+inline const std::set<std::string>& get_manually_implemented_structures()
+{
+    static const std::set<std::string> sManuallyImplementedStructures {
+        "VkAccelerationStructureInstanceKHR",
+        "VkAccelerationStructureVersionKHR",
+        "VkClearColorValue",
+        "VkClearValue",
+        "VkPerformanceCounterResultKHR",
+        "VkPerformanceValueDataINTEL",
+        "VkPipelineExecutableStatisticValueKHR",
+        "VkPipelineMultisampleStateCreateInfo",
+        "VkShaderModuleCreateInfo",
+        "VkTransformMatrixKHR",
+    };
+    return sManuallyImplementedStructures;
+}
+
+inline bool is_manually_implemented(const xml::Structure& structure)
+{
+    return get_manually_implemented_structures().count(structure.name);
+}
+
+/**
+TODO : Documentation
+*/
+inline std::vector<std::string> get_structure_compile_guards(const xml::Structure& structure)
+{
+    std::vector<std::string> compileGuards;
+    if (!structure.compileGuard.empty()) {
+        compileGuards.push_back(structure.compileGuard);
+    }
+    return compileGuards;
+}
+
+/**
+TODO : Documentation
+*/
+inline dst::cppgen::Condition get_variable_type_condition(const xml::Manifest& xmlManifest, const xml::Parameter& variable)
+{
+    if (variable.name == "pNext") {
+        return { "PNEXT", true };
+    } else
+    if (variable.flags & xml::Parameter::Array) {
+        if (variable.flags & xml::Parameter::StringArray) {
+            return { "DYNAMIC_STRING_ARRAY", true };
+        } else 
+        if (variable.flags & xml::Parameter::StaticArray) {
+            if (variable.flags & xml::Parameter::String) {
+                return { "STATIC_STRING", true };
+            } else {
+                return { "STATIC_ARRAY", true };
+            }
+        }
+        if (variable.flags & xml::Parameter::DynamicArray) {
+            if (variable.flags & xml::Parameter::String) {
+                return { "DYNAMIC_STRING", true };
+            } else {
+                return { "DYNAMIC_ARRAY", true };
+            }
+        }
+    } else
+    if (variable.flags & xml::Parameter::Pointer && xmlManifest.structures.count(variable.unqualifiedType)) {
+        return { "STRUCTURE_POINTER", true };
+    } else
+    if (xmlManifest.structures.count(variable.unqualifiedType)) {
+        return { "STRUCTURE", true };
+    }
+    return { "POD", true };
+}
 
 /**
 TODO : Documentation
