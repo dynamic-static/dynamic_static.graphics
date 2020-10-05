@@ -77,10 +77,10 @@ inline void create_static_array_copy(    VulkanStructureType* pDst, const Vulkan
 TODO : Documentation
 */
 template <size_t Count, typename VulkanStructureType>
-inline void destroy_static_array_copy(const VulkanStructureType* pObjs)
+inline void destroy_static_array_copy(const VulkanStructureType* pObjs, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     for (size_t i = 0; i < Count; ++i) {
-        destroy_structure_copy(pObjs[i]);
+        destroy_structure_copy(pObjs[i], pAllocationCallbacks);
     }
 }
 

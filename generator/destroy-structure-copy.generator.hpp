@@ -38,20 +38,22 @@ inline void generate_destroy_structure_copy_declaration(const xml::Manifest& xml
 
     namespace dst {
     namespace vk {
+    namespace detail {
 
-    void* destroy_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocationCallbacks);
+    void destroy_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocationCallbacks);
 
     $<STRUCTURES:"\n">
     $<COMPILE_GUARDS>
     #ifdef ${COMPILE_GUARD}
     $</>
     template <>
-    ${STRUCTURE_NAME} destroy_structure_copy<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+    void destroy_structure_copy<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}& obj, const VkAllocationCallbacks* pAllocationCallbacks);
     $<COMPILE_GUARDS:reverse=true>
     #endif // ${COMPILE_GUARD}
     $</>
     $</>
 
+    } // namespace detail
     } // namespace vk
     } // namespace dst
     )", {
@@ -74,10 +76,11 @@ inline void generate_destroy_structure_copy_definition(const xml::Manifest& xmlM
     ==========================================
     */
 
-    #include "dynamic_static/graphics/vulkan/generated/create-structure-copy.hpp"
+    #include "dynamic_static/graphics/vulkan/generated/destroy-structure-copy.hpp"
 
     namespace dst {
     namespace vk {
+    namespace detail {
 
     ////////////////////////////////////////////////////////////////////////////////
     // NOTE : The following functions are manually implemented
@@ -87,7 +90,7 @@ inline void generate_destroy_structure_copy_definition(const xml::Manifest& xmlM
     #ifdef ${COMPILE_GUARD}
     $</>
     template <>
-    ${STRUCTURE_NAME} destroy_structure_copy<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+    void destroy_structure_copy<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}& obj, const VkAllocationCallbacks* pAllocationCallbacks);
     $<COMPILE_GUARDS:reverse=true>
     #endif // ${COMPILE_GUARD}
     $</>
@@ -100,9 +103,8 @@ inline void generate_destroy_structure_copy_definition(const xml::Manifest& xmlM
     #ifdef ${COMPILE_GUARD}
     $</>
     template <>
-    ${STRUCTURE_NAME} destroy_structure_copy<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}& obj, const VkAllocationCallbacks* pAllocationCallbacks)
+    void destroy_structure_copy<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}& obj, const VkAllocationCallbacks* pAllocationCallbacks)
     {
-        ${STRUCTURE_NAME} result { };
         $<MEMBERS>
         $<condition="PNEXT">
         destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
@@ -126,7 +128,6 @@ inline void generate_destroy_structure_copy_definition(const xml::Manifest& xmlM
         destroy_structure_copy(obj.${MEMBER_NAME}, pAllocationCallbacks);
         $</>
         $</>
-        return result;
     }
     $<COMPILE_GUARDS:reverse=true>
     #endif // ${COMPILE_GUARD}
@@ -136,23 +137,27 @@ inline void generate_destroy_structure_copy_definition(const xml::Manifest& xmlM
     void destroy_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocationCallbacks)
     {
         if (pNext) {
-            swtich (*(VkStructureType*)pNext) {
+            switch (*(VkStructureType*)pNext) {
             $<UNFILTERED_STRUCTURES>
+            $<condition="HAS_STRUCTURE_TYPE_ENUM">
             $<COMPILE_GUARDS>
             #ifdef ${COMPILE_GUARD}
             $</>
             case ${STRUCTURE_TYPE_ENUM}: {
-                destroy_dynamic_array_copy(1, (const ${VK_STRUCTURE_TYPE}*)pNext, pAllocationCallbacks);
+                destroy_dynamic_array_copy(1, (const ${STRUCTURE_NAME}*)pNext, pAllocationCallbacks);
             } break;
             $<COMPILE_GUARDS:reverse=true>
             #endif // ${COMPILE_GUARD}
             $</>
             $</>
-            default:
+            $</>
+            default: {
+            } break;
             }
         }
     }
 
+    } // namespace detail
     } // namespace vk
     } // namespace dst
     )", {
