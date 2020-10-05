@@ -15,7 +15,6 @@
 #include <cstdlib>
 
 namespace dst {
-namespace gfx {
 namespace vk {
 namespace detail {
 
@@ -31,10 +30,7 @@ Creates a deep copy of a given VulkanStructureType
     @note If pAllocationCallbacks is not null the call to destroy_structure_copy<>() must provide a compatible VkAllocationCallbacks structure
 */
 template <typename VulkanStructureType>
-inline VulkanStructureType create_structure_copy(
-    const VulkanStructureType& obj,
-    const VkAllocationCallbacks* pAllocationCallbacks = nullptr
-)
+inline VulkanStructureType create_structure_copy(const VulkanStructureType& obj, const VkAllocationCallbacks* pAllocationCallbacks = nullptr)
 {
     (void)pAllocationCallbacks;
     return obj;
@@ -44,10 +40,7 @@ inline VulkanStructureType create_structure_copy(
 TODO : Documentation
 */
 template <typename VulkanStructureType>
-inline void destroy_structure_copy(
-    const VulkanStructureType& obj,
-    const VkAllocationCallbacks* pAllocationCallbacks = nullptr
-)
+inline void destroy_structure_copy(const VulkanStructureType& obj, const VkAllocationCallbacks* pAllocationCallbacks = nullptr)
 {
     (void)obj;
     (void)pAllocationCallbacks;
@@ -73,13 +66,10 @@ inline const VkAllocationCallbacks* validate_allocation_callbacks(const VkAlloca
 TODO : Documentation
 */
 template <size_t Count, typename VulkanStructureType>
-inline void create_static_array_copy(
-    VulkanStructureType* pDst,
-    const VulkanStructureType* pSrc
-)
+inline void create_static_array_copy(    VulkanStructureType* pDst, const VulkanStructureType* pSrc, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     for (size_t i = 0; i < Count; ++i) {
-        pDst[i] = create_structure_copy(pSrc[i]);
+        pDst[i] = create_structure_copy(pSrc[i], pAllocationCallbacks);
     }
 }
 
@@ -106,10 +96,7 @@ inline void create_static_string_copy(char* pDst, const char* pSrc)
 /**
 TODO : Documentation
 */
-inline char* create_dynamic_string_copy(
-    const char* pStr,
-    const VkAllocationCallbacks* pAllocationCallbacks
-)
+inline char* create_dynamic_string_copy(const char* pStr, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     char* pResult = nullptr;
     if (pStr) {
@@ -129,10 +116,7 @@ inline char* create_dynamic_string_copy(
 /**
 TODO : Documentation
 */
-inline void destroy_dynamic_string_copy(
-    const char* pStr,
-    const VkAllocationCallbacks* pAllocationCallbacks
-)
+inline void destroy_dynamic_string_copy(const char* pStr, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     pAllocationCallbacks = validate_allocation_callbacks(pAllocationCallbacks);
     pAllocationCallbacks->pfnFree(pAllocationCallbacks->pUserData, (void*)pStr);
@@ -142,11 +126,7 @@ inline void destroy_dynamic_string_copy(
 TODO : Documentation
 */
 template <typename VulkanStructureType>
-inline VulkanStructureType* create_dynamic_array_copy(
-    size_t count,
-    const VulkanStructureType* pObjs,
-    const VkAllocationCallbacks* pAllocationCallbacks
-)
+inline VulkanStructureType* create_dynamic_array_copy(size_t count, const VulkanStructureType* pObjs, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     VulkanStructureType* pResult = nullptr;
     if (count && pObjs) {
@@ -168,11 +148,7 @@ inline VulkanStructureType* create_dynamic_array_copy(
 TODO : Documentation
 */
 template <typename VulkanStructureType>
-inline void destroy_dynamic_array_copy(
-    size_t count,
-    const VulkanStructureType* pObjs,
-    const VkAllocationCallbacks* pAllocationCallbacks
-)
+inline void destroy_dynamic_array_copy(size_t count, const VulkanStructureType* pObjs, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     if (count && pObjs) {
         pAllocationCallbacks = validate_allocation_callbacks(pAllocationCallbacks);
@@ -187,11 +163,7 @@ inline void destroy_dynamic_array_copy(
 TODO : Documentation
 */
 template <>
-inline void* create_dynamic_array_copy<void>(
-    size_t byteCount,
-    const void* pData,
-    const VkAllocationCallbacks* pAllocationCallbacks
-)
+inline void* create_dynamic_array_copy<void>(size_t byteCount, const void* pData, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     return create_dynamic_array_copy(byteCount, (const uint8_t*)pData, pAllocationCallbacks);
 }
@@ -200,11 +172,7 @@ inline void* create_dynamic_array_copy<void>(
 TODO : Documentation
 */
 template <>
-inline void destroy_dynamic_array_copy<void>(
-    size_t byteCount,
-    const void* pData,
-    const VkAllocationCallbacks* pAllocationCallbacks
-)
+inline void destroy_dynamic_array_copy<void>(size_t byteCount, const void* pData, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     destroy_dynamic_array_copy(byteCount, (const uint8_t*)pData, pAllocationCallbacks);
 }
@@ -212,12 +180,7 @@ inline void destroy_dynamic_array_copy<void>(
 /**
 TODO : Documentation
 */
-inline char** create_dynamic_string_array_copy(
-    // TODO : size_t
-    uint32_t count,
-    const char* const* ppStrs,
-    const VkAllocationCallbacks* pAllocationCallbacks
-)
+inline char** create_dynamic_string_array_copy(uint32_t count /* TODO : size_t */, const char* const* ppStrs, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     char** ppResult = nullptr;
     if (count && ppStrs) {
@@ -238,12 +201,7 @@ inline char** create_dynamic_string_array_copy(
 /**
 TODO : Documentation
 */
-inline void destroy_dynamic_string_array_copy(
-    // TODO : size_t
-    uint32_t count,
-    const char* const* ppStrs,
-    const VkAllocationCallbacks* pAllocationCallbacks
-)
+inline void destroy_dynamic_string_array_copy(uint32_t count /* TODO : size_t */, const char* const* ppStrs, const VkAllocationCallbacks* pAllocationCallbacks)
 {
     if (count && ppStrs) {
         pAllocationCallbacks = validate_allocation_callbacks(pAllocationCallbacks);
@@ -256,5 +214,4 @@ inline void destroy_dynamic_string_array_copy(
 
 } // namespace detail
 } // namespace vk
-} // namespace gfx
 } // namespace dst

@@ -16,7 +16,6 @@
 #include <utility>
 
 namespace dst {
-namespace gfx {
 namespace vk {
 namespace detail {
 
@@ -24,23 +23,23 @@ namespace detail {
 TODO : Documentation
 */
 template <typename VulkanHandleType>
-class BasicManagedHandle
+class BasicManaged
 {
 public:
     /**
     Constructs an instance of ManagedHandle<>
     */
-    BasicManagedHandle() = default;
+    BasicManaged() = default;
 
     /**
     Destroys this instance of ManagedHandle<>
     */
-    virtual ~BasicManagedHandle() = 0;
+    virtual ~BasicManaged() = 0;
 
     /**
     TODO : Documentation
     */
-    inline BasicManagedHandle(BasicManagedHandle<VulkanHandleType>&& other)
+    inline BasicManaged(BasicManaged<VulkanHandleType>&& other)
     {
         *this = move(std::move(other));
     }
@@ -48,7 +47,7 @@ public:
     /**
     TODO : Documentation
     */
-    inline BasicManagedHandle<VulkanHandleType>& operator=(BasicManagedHandle<VulkanHandleType>&& other)
+    inline BasicManaged<VulkanHandleType>& operator=(BasicManaged<VulkanHandleType>&& other)
     {
         *this = move(std::move(other));
         return *this;
@@ -102,7 +101,7 @@ public:
     }
 
 protected:
-    inline virtual BasicManagedHandle<VulkanHandleType>& move(BasicManagedHandle<VulkanHandleType>&& other)
+    inline virtual BasicManaged<VulkanHandleType>& move(BasicManaged<VulkanHandleType>&& other)
     {
         if (this != &other) {
             mHandle = std::move(other.mHandle);
@@ -115,17 +114,17 @@ protected:
 
     VulkanHandleType mHandle { VK_NULL_HANDLE };
 
-    BasicManagedHandle(const BasicManagedHandle<VulkanHandleType>&) = delete;
-    BasicManagedHandle<VulkanHandleType>& operator=(const BasicManagedHandle<VulkanHandleType>&) = delete;
+    BasicManaged(const BasicManaged<VulkanHandleType>&) = delete;
+    BasicManaged<VulkanHandleType>& operator=(const BasicManaged<VulkanHandleType>&) = delete;
 };
 
 template <typename VulkanHandleType>
-inline BasicManagedHandle<VulkanHandleType>::~BasicManagedHandle()
+inline BasicManaged<VulkanHandleType>::~BasicManaged()
 {
 }
 
 template <typename VulkanHandleType>
-inline void BasicManagedHandle<VulkanHandleType>::reset(const VkAllocationCallbacks* pAllocator)
+inline void BasicManaged<VulkanHandleType>::reset(const VkAllocationCallbacks* pAllocator)
 {
     (void)pAllocator;
     *this = { };
@@ -135,7 +134,7 @@ inline void BasicManagedHandle<VulkanHandleType>::reset(const VkAllocationCallba
 TODO : Documentation
 */
 template <typename VulkanHandleType>
-inline bool operator==(const BasicManagedHandle<VulkanHandleType>& lhs, const BasicManagedHandle<VulkanHandleType>& rhs)
+inline bool operator==(const BasicManaged<VulkanHandleType>& lhs, const BasicManaged<VulkanHandleType>& rhs)
 {
     return lhs.get_handle() == rhs.get_handle();
 }
@@ -144,7 +143,7 @@ inline bool operator==(const BasicManagedHandle<VulkanHandleType>& lhs, const Ba
 TODO : Documentation
 */
 template <typename VulkanHandleType>
-inline bool operator!=(const BasicManagedHandle<VulkanHandleType>& lhs, const BasicManagedHandle<VulkanHandleType>& rhs)
+inline bool operator!=(const BasicManaged<VulkanHandleType>& lhs, const BasicManaged<VulkanHandleType>& rhs)
 {
     return lhs.get_handle() != rhs.get_handle();
 }
@@ -153,7 +152,7 @@ inline bool operator!=(const BasicManagedHandle<VulkanHandleType>& lhs, const Ba
 TODO : Documentation
 */
 template <typename VulkanHandleType>
-inline bool operator<(const BasicManagedHandle<VulkanHandleType>& lhs, const BasicManagedHandle<VulkanHandleType>& rhs)
+inline bool operator<(const BasicManaged<VulkanHandleType>& lhs, const BasicManaged<VulkanHandleType>& rhs)
 {
     return lhs.get_handle() < rhs.get_handle();
 }
@@ -162,7 +161,7 @@ inline bool operator<(const BasicManagedHandle<VulkanHandleType>& lhs, const Bas
 TODO : Documentation
 */
 template <typename VulkanHandleType>
-inline bool operator<=(const BasicManagedHandle<VulkanHandleType>& lhs, const BasicManagedHandle<VulkanHandleType>& rhs)
+inline bool operator<=(const BasicManaged<VulkanHandleType>& lhs, const BasicManaged<VulkanHandleType>& rhs)
 {
     return lhs.get_handle() <= rhs.get_handle();
 }
@@ -171,7 +170,7 @@ inline bool operator<=(const BasicManagedHandle<VulkanHandleType>& lhs, const Ba
 TODO : Documentation
 */
 template <typename VulkanHandleType>
-inline bool operator<(const BasicManagedHandle<VulkanHandleType>& lhs, const BasicManagedHandle<VulkanHandleType>& rhs)
+inline bool operator<(const BasicManaged<VulkanHandleType>& lhs, const BasicManaged<VulkanHandleType>& rhs)
 {
     return lhs.get_handle() > rhs.get_handle();
 }
@@ -180,12 +179,11 @@ inline bool operator<(const BasicManagedHandle<VulkanHandleType>& lhs, const Bas
 TODO : Documentation
 */
 template <typename VulkanHandleType>
-inline bool operator<=(const BasicManagedHandle<VulkanHandleType>& lhs, const BasicManagedHandle<VulkanHandleType>& rhs)
+inline bool operator<=(const BasicManaged<VulkanHandleType>& lhs, const BasicManaged<VulkanHandleType>& rhs)
 {
     return lhs.get_handle() >= rhs.get_handle();
 }
 
 } // anemspace detail
 } // namespace vk
-} // namespace gfx
 } // namespace dst

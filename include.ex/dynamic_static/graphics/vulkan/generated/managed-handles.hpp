@@ -30,7 +30,7 @@ public:
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     static VkResult create(const Managed<VkDevice>& device, const VkAccelerationStructureCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkAccelerationStructureKHR>* pAccelerationStructure);
     #endif // VK_ENABLE_BETA_EXTENSIONS
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkAccelerationStructureKHR() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkAccelerationStructureKHR>"); };
     template <> const VkAccelerationStructureKHR& get<VkAccelerationStructureKHR>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -53,7 +53,7 @@ class BasicManagedVkBuffer
 public:
     BasicManagedVkBuffer() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkBufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkBuffer>* pBuffer);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkBuffer() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkBuffer>"); };
     template <> const VkBuffer& get<VkBuffer>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -72,7 +72,7 @@ class BasicManagedVkBufferView
 public:
     BasicManagedVkBufferView() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkBufferViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkBufferView>* pView);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkBufferView() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkBufferView>"); };
     template <> const VkBufferView& get<VkBufferView>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -91,7 +91,7 @@ class BasicManagedVkCommandBuffer
 public:
     BasicManagedVkCommandBuffer() = default;
     static VkResult allocate(const Managed<VkDevice>& device, const VkCommandBufferAllocateInfo* pAllocateInfo, Managed<VkCommandBuffer>* pCommandBuffers);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkCommandBuffer() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkCommandBuffer>"); };
     template <> const VkCommandBuffer& get<VkCommandBuffer>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -110,7 +110,7 @@ class BasicManagedVkCommandPool
 public:
     BasicManagedVkCommandPool() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkCommandPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkCommandPool>* pCommandPool);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkCommandPool() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkCommandPool>"); };
     template <> const VkCommandPool& get<VkCommandPool>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -129,7 +129,7 @@ class BasicManagedVkDebugReportCallbackEXT
 public:
     BasicManagedVkDebugReportCallbackEXT() = default;
     static VkResult create(const Managed<VkInstance>& instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDebugReportCallbackEXT>* pCallback);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkDebugReportCallbackEXT() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDebugReportCallbackEXT>"); };
     template <> const VkDebugReportCallbackEXT& get<VkDebugReportCallbackEXT>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -148,7 +148,7 @@ class BasicManagedVkDebugUtilsMessengerEXT
 public:
     BasicManagedVkDebugUtilsMessengerEXT() = default;
     static VkResult create(const Managed<VkInstance>& instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDebugUtilsMessengerEXT>* pMessenger);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkDebugUtilsMessengerEXT() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDebugUtilsMessengerEXT>"); };
     template <> const VkDebugUtilsMessengerEXT& get<VkDebugUtilsMessengerEXT>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -170,7 +170,7 @@ public:
     #ifdef VK_ENABLE_BETA_EXTENSIONS
     static VkResult create(const Managed<VkDevice>& device, const VkAllocationCallbacks* pAllocator, Managed<VkDeferredOperationKHR>* pDeferredOperation);
     #endif // VK_ENABLE_BETA_EXTENSIONS
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkDeferredOperationKHR() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDeferredOperationKHR>"); };
     template <> const VkDeferredOperationKHR& get<VkDeferredOperationKHR>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -189,7 +189,7 @@ class BasicManagedVkDescriptorPool
 public:
     BasicManagedVkDescriptorPool() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkDescriptorPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDescriptorPool>* pDescriptorPool);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkDescriptorPool() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDescriptorPool>"); };
     template <> const VkDescriptorPool& get<VkDescriptorPool>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -208,7 +208,7 @@ class BasicManagedVkDescriptorSet
 public:
     BasicManagedVkDescriptorSet() = default;
     static VkResult allocate(const Managed<VkDevice>& device, const VkDescriptorSetAllocateInfo* pAllocateInfo, Managed<VkDescriptorSet>* pDescriptorSets);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkDescriptorSet() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDescriptorSet>"); };
     template <> const VkDescriptorSet& get<VkDescriptorSet>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -227,7 +227,7 @@ class BasicManagedVkDescriptorSetLayout
 public:
     BasicManagedVkDescriptorSetLayout() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkDescriptorSetLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDescriptorSetLayout>* pSetLayout);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkDescriptorSetLayout() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDescriptorSetLayout>"); };
     template <> const VkDescriptorSetLayout& get<VkDescriptorSetLayout>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -246,7 +246,7 @@ class BasicManagedVkDescriptorUpdateTemplate
 public:
     BasicManagedVkDescriptorUpdateTemplate() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkDescriptorUpdateTemplateCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDescriptorUpdateTemplate>* pDescriptorUpdateTemplate);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkDescriptorUpdateTemplate() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDescriptorUpdateTemplate>"); };
     template <> const VkDescriptorUpdateTemplate& get<VkDescriptorUpdateTemplate>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -266,7 +266,7 @@ class BasicManagedVkDevice
 public:
     BasicManagedVkDevice() = default;
     static VkResult create(const Managed<VkPhysicalDevice>& physicalDevice, const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDevice>* pDevice);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkDevice() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDevice>"); };
     template <> const VkDevice& get<VkDevice>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -285,7 +285,7 @@ class BasicManagedVkDeviceMemory
 public:
     BasicManagedVkDeviceMemory() = default;
     static VkResult allocate(const Managed<VkDevice>& device, const VkMemoryAllocateInfo* pAllocateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDeviceMemory>* pMemory);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkDeviceMemory() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDeviceMemory>"); };
     template <> const VkDeviceMemory& get<VkDeviceMemory>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -303,7 +303,7 @@ class BasicManagedVkDisplayKHR
 {
 public:
     BasicManagedVkDisplayKHR() = default;
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkDisplayKHR() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDisplayKHR>"); };
     template <> const VkDisplayKHR& get<VkDisplayKHR>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -321,7 +321,7 @@ class BasicManagedVkDisplayModeKHR
 public:
     BasicManagedVkDisplayModeKHR() = default;
     static VkResult create(const Managed<VkPhysicalDevice>& physicalDevice, const Managed<VkDisplayKHR>& display, const VkDisplayModeCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDisplayModeKHR>* pMode);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkDisplayModeKHR() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDisplayModeKHR>"); };
     template <> const VkDisplayModeKHR& get<VkDisplayModeKHR>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -340,7 +340,7 @@ class BasicManagedVkEvent
 public:
     BasicManagedVkEvent() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkEventCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkEvent>* pEvent);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkEvent() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkEvent>"); };
     template <> const VkEvent& get<VkEvent>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -359,7 +359,7 @@ class BasicManagedVkFence
 public:
     BasicManagedVkFence() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkFenceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkFence>* pFence);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkFence() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkFence>"); };
     template <> const VkFence& get<VkFence>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -378,7 +378,7 @@ class BasicManagedVkFramebuffer
 public:
     BasicManagedVkFramebuffer() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkFramebufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkFramebuffer>* pFramebuffer);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkFramebuffer() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkFramebuffer>"); };
     template <> const VkFramebuffer& get<VkFramebuffer>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -397,7 +397,7 @@ class BasicManagedVkImage
 public:
     BasicManagedVkImage() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkImageCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkImage>* pImage);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkImage() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkImage>"); };
     template <> const VkImage& get<VkImage>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -416,7 +416,7 @@ class BasicManagedVkImageView
 public:
     BasicManagedVkImageView() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkImageViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkImageView>* pView);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkImageView() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkImageView>"); };
     template <> const VkImageView& get<VkImageView>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -435,7 +435,7 @@ class BasicManagedVkIndirectCommandsLayoutNV
 public:
     BasicManagedVkIndirectCommandsLayoutNV() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkIndirectCommandsLayoutCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkIndirectCommandsLayoutNV>* pIndirectCommandsLayout);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkIndirectCommandsLayoutNV() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkIndirectCommandsLayoutNV>"); };
     template <> const VkIndirectCommandsLayoutNV& get<VkIndirectCommandsLayoutNV>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -454,7 +454,7 @@ class BasicManagedVkInstance
 public:
     BasicManagedVkInstance() = default;
     static VkResult create(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkInstance>* pInstance);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkInstance() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkInstance>"); };
     template <> const VkInstance& get<VkInstance>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -471,7 +471,7 @@ class BasicManagedVkPerformanceConfigurationINTEL
 {
 public:
     BasicManagedVkPerformanceConfigurationINTEL() = default;
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkPerformanceConfigurationINTEL() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkPerformanceConfigurationINTEL>"); };
     template <> const VkPerformanceConfigurationINTEL& get<VkPerformanceConfigurationINTEL>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -488,7 +488,7 @@ class BasicManagedVkPhysicalDevice
 {
 public:
     BasicManagedVkPhysicalDevice() = default;
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkPhysicalDevice() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkPhysicalDevice>"); };
     template <> const VkPhysicalDevice& get<VkPhysicalDevice>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -511,7 +511,7 @@ public:
     static VkResult create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines);
     #endif // VK_ENABLE_BETA_EXTENSIONS
     static VkResult create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoNV* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkPipeline() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkPipeline>"); };
     template <> const VkPipeline& get<VkPipeline>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -535,7 +535,7 @@ class BasicManagedVkPipelineCache
 public:
     BasicManagedVkPipelineCache() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkPipelineCacheCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkPipelineCache>* pPipelineCache);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkPipelineCache() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkPipelineCache>"); };
     template <> const VkPipelineCache& get<VkPipelineCache>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -554,7 +554,7 @@ class BasicManagedVkPipelineLayout
 public:
     BasicManagedVkPipelineLayout() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkPipelineLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkPipelineLayout>* pPipelineLayout);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkPipelineLayout() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkPipelineLayout>"); };
     template <> const VkPipelineLayout& get<VkPipelineLayout>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -573,7 +573,7 @@ class BasicManagedVkPrivateDataSlotEXT
 public:
     BasicManagedVkPrivateDataSlotEXT() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkPrivateDataSlotCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkPrivateDataSlotEXT>* pPrivateDataSlot);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkPrivateDataSlotEXT() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkPrivateDataSlotEXT>"); };
     template <> const VkPrivateDataSlotEXT& get<VkPrivateDataSlotEXT>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -592,7 +592,7 @@ class BasicManagedVkQueryPool
 public:
     BasicManagedVkQueryPool() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkQueryPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkQueryPool>* pQueryPool);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkQueryPool() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkQueryPool>"); };
     template <> const VkQueryPool& get<VkQueryPool>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -610,7 +610,7 @@ class BasicManagedVkQueue
 {
 public:
     BasicManagedVkQueue() = default;
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkQueue() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkQueue>"); };
     template <> const VkQueue& get<VkQueue>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -629,7 +629,7 @@ public:
     BasicManagedVkRenderPass() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkRenderPassCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkRenderPass>* pRenderPass);
     static VkResult create(const Managed<VkDevice>& device, const VkRenderPassCreateInfo2* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkRenderPass>* pRenderPass);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkRenderPass() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkRenderPass>"); };
     template <> const VkRenderPass& get<VkRenderPass>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -649,7 +649,7 @@ class BasicManagedVkSampler
 public:
     BasicManagedVkSampler() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkSamplerCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSampler>* pSampler);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkSampler() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkSampler>"); };
     template <> const VkSampler& get<VkSampler>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -668,7 +668,7 @@ class BasicManagedVkSamplerYcbcrConversion
 public:
     BasicManagedVkSamplerYcbcrConversion() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkSamplerYcbcrConversionCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSamplerYcbcrConversion>* pYcbcrConversion);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkSamplerYcbcrConversion() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkSamplerYcbcrConversion>"); };
     template <> const VkSamplerYcbcrConversion& get<VkSamplerYcbcrConversion>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -688,7 +688,7 @@ class BasicManagedVkSemaphore
 public:
     BasicManagedVkSemaphore() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkSemaphoreCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSemaphore>* pSemaphore);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkSemaphore() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkSemaphore>"); };
     template <> const VkSemaphore& get<VkSemaphore>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -707,7 +707,7 @@ class BasicManagedVkShaderModule
 public:
     BasicManagedVkShaderModule() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkShaderModuleCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkShaderModule>* pShaderModule);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkShaderModule() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkShaderModule>"); };
     template <> const VkShaderModule& get<VkShaderModule>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -763,7 +763,7 @@ public:
     #ifdef VK_USE_PLATFORM_XLIB_KHR
     static VkResult create(const Managed<VkInstance>& instance, const VkXlibSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
     #endif // VK_USE_PLATFORM_XLIB_KHR
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkSurfaceKHR() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkSurfaceKHR>"); };
     template <> const VkSurfaceKHR& get<VkSurfaceKHR>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -820,7 +820,7 @@ public:
     BasicManagedVkSwapchainKHR() = default;
     static VkResult create(const Managed<VkDevice>& device, uint32_t swapchainCount, const VkSwapchainCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkSwapchainKHR>* pSwapchains);
     static VkResult create(const Managed<VkDevice>& device, const VkSwapchainCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSwapchainKHR>* pSwapchain);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkSwapchainKHR() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkSwapchainKHR>"); };
     template <> const VkSwapchainKHR& get<VkSwapchainKHR>() const;
     template <> const VkObjectType& get<VkObjectType>() const;
@@ -840,7 +840,7 @@ class BasicManagedVkValidationCacheEXT
 public:
     BasicManagedVkValidationCacheEXT() = default;
     static VkResult create(const Managed<VkDevice>& device, const VkValidationCacheCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkValidationCacheEXT>* pValidationCache);
-    virtual ~BasicManaged() override;
+    virtual ~BasicManagedVkValidationCacheEXT() override;
     template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkValidationCacheEXT>"); };
     template <> const VkValidationCacheEXT& get<VkValidationCacheEXT>() const;
     template <> const VkObjectType& get<VkObjectType>() const;

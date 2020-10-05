@@ -21,6 +21,16 @@
 
 #include <iostream>
 
+template <typename F>
+void inline time(const std::string& fName, F f)
+{
+    dst::Timer timer;
+    f();
+    std::cout << fName << '\n';
+    std::cout << "    " << timer.total<dst::Seconds<>>() << " s\n";
+    std::cout << "    " << timer.total<dst::Milliseconds<>>() << " ms\n";
+}
+
 int main(int argc, char* argv[])
 {
     tinyxml2::XMLDocument vkXml;
@@ -29,14 +39,15 @@ int main(int argc, char* argv[])
         dst::vk::xml::Manifest xmlManifest(vkXml);
         dst::Timer timer;
         using namespace dst::vk::cppgen;
-        generate_create_structure_copy(xmlManifest);
-        generate_comparison_operators(xmlManifest);
-        generate_destroy_structure_copy(xmlManifest);
-        generate_managed_handles(xmlManifest);
-        generate_managed_structures(xmlManifest);
-        generate_to_tuple(xmlManifest);
-        std::cout << timer.total<dst::Seconds<>>() << " s\n";
-        std::cout << timer.total<dst::Milliseconds<>>() << " ms\n";
+        time("generate_create_structure_copy", [&]() { generate_create_structure_copy(xmlManifest); });
+        // time("generate_comparison_operators", [&]() { generate_comparison_operators(xmlManifest); });
+        // time("generate_destroy_structure_copy", [&]() { generate_destroy_structure_copy(xmlManifest); });
+        // time("generate_managed_handles", [&]() { generate_managed_handles(xmlManifest); });
+        // time("generate_managed_structures", [&]() { generate_managed_structures(xmlManifest); });
+        // time("generate_to_tuple", [&]() { generate_to_tuple(xmlManifest); });
+        std::cout << "total\n";
+        std::cout << "    " << timer.total<dst::Seconds<>>() << " s\n";
+        std::cout << "    " << timer.total<dst::Milliseconds<>>() << " ms\n";
     }
     return 0;
 }

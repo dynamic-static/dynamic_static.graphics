@@ -38,10 +38,11 @@ inline void generate_create_structure_copy_declarations(const xml::Manifest& xml
 
     namespace dst {
     namespace vk {
+    namespace detail {
 
     void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocationCallbacks);
 
-    $<STRUCTURES:"\n">
+    $<UNFILTERED_STRUCTURES:"\n">
     $<COMPILE_GUARDS>
     #ifdef ${COMPILE_GUARD}
     $</>
@@ -52,10 +53,11 @@ inline void generate_create_structure_copy_declarations(const xml::Manifest& xml
     $</>
     $</>
 
+    } // namespace detail
     } // namespace vk
     } // namespace dst
     )", {
-        get_structure_source_blocks(xmlManifest)
+        get_unfiltered_structure_source_blocks(xmlManifest)
     });
 }
 
@@ -78,6 +80,7 @@ inline void generate_create_structure_copy_definitions(const xml::Manifest& xmlM
 
     namespace dst {
     namespace vk {
+    namespace detail {
 
     ////////////////////////////////////////////////////////////////////////////////
     // NOTE : The following functions are manually implemented
@@ -111,7 +114,7 @@ inline void generate_create_structure_copy_definitions(const xml::Manifest& xmlM
         create_static_array_copy<${MEMBER_LENGTH}>(result.${MEMBER_NAME}, obj.${MEMBER_NAME}, pAllocationCallbacks);
         $</>
         $<condition="STATIC_STRING">
-        create_static_string_copy<${MEMBER_LENGTH}>(result.${MEMBER_NAME}, obj.${MEMBER_NAME}, pAllocationCallbacks);
+        create_static_string_copy<${MEMBER_LENGTH}>(result.${MEMBER_NAME}, obj.${MEMBER_NAME});
         $</>
         $<condition="DYNAMIC_ARRAY">
         result.${MEMBER_NAME} = create_dynamic_array_copy(obj.${MEMBER_LENGTH}, obj.${MEMBER_NAME}, pAllocationCallbacks);
@@ -142,8 +145,9 @@ inline void generate_create_structure_copy_definitions(const xml::Manifest& xmlM
     void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocationCallbacks)
     {
         if (pNext) {
-            swtich (*(VkStructureType*)pNext) {
+            switch (*(VkStructureType*)pNext) {
             $<UNFILTERED_STRUCTURES>
+            $<condition="HAS_STRUCTURE_TYPE_ENUM">
             $<COMPILE_GUARDS>
             #ifdef ${COMPILE_GUARD}
             $</>
@@ -154,12 +158,15 @@ inline void generate_create_structure_copy_definitions(const xml::Manifest& xmlM
             #endif // ${COMPILE_GUARD}
             $</>
             $</>
-            default:
+            $</>
+            default: {
+            } break;
             }
         }
         return nullptr;
     }
 
+    } // namespace detail
     } // namespace vk
     } // namespace dst
     )", {

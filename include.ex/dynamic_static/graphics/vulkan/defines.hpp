@@ -34,14 +34,3 @@
 #else
 #define dst_vk(VK_CALL) VK_CALL
 #endif
-
-namespace dst {
-namespace gfx {
-namespace vk {
-
-
-
-} // namespace vk
-} // namespace gfx
-namespace vk = gfx::vk;
-} // namespace dst

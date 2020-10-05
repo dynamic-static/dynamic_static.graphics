@@ -62,7 +62,7 @@ inline void generate_managed_handle_declarations(const xml::Manifest& xmlManifes
         #endif // ${COMPILE_GUARD}
         $</CREATE_FUNCTION_COMPILE_GUARDS>
         $</CREATE_FUNCTIONS>
-        virtual ~BasicManaged${HANDLE_NAME}() override;
+        virtual ~BasicManaged${HANDLE_TYPE}() override;
         template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<${HANDLE_TYPE}>"); };
         template <> const ${HANDLE_TYPE}& get<${HANDLE_TYPE}>() const;
         template <> const VkObjectType& get<VkObjectType>() const;

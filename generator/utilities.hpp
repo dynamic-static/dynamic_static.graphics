@@ -208,6 +208,7 @@ inline dst::cppgen::SourceBlock get_unfiltered_structure_source_blocks(const xml
             if (structure.alias.empty()) {
                 return {
                     SourceBlock("STRUCTURE_NAME", structure.name),
+                    Condition("HAS_STRUCTURE_TYPE_ENUM", !structure.vkStructureType.empty()),
                     SourceBlock("STRUCTURE_TYPE_ENUM", structure.vkStructureType),
                     SourceBlock("COMPILE_GUARDS", get_structure_compile_guards(structure),
                         [&](const std::string& compileGuard) -> std::vector<SourceBlock>
@@ -220,6 +221,7 @@ inline dst::cppgen::SourceBlock get_unfiltered_structure_source_blocks(const xml
                         {
                             return {
                                 get_variable_type_condition(xmlManifest, member),
+                                SourceBlock("MEMBER_TYPE", member.type),
                                 SourceBlock("MEMBER_NAME", member.name),
                                 SourceBlock("MEMBER_LENGTH", member.length)
                             };
