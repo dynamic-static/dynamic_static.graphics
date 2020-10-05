@@ -20,9 +20,9 @@
 namespace dst {
 namespace gfx {
 
-static constexpr int VersionMajor { DYNAMIC_STATIC_GRAPHICS_VERSION_MAJOR }; //!< dynamic_static.graphics major version
-static constexpr int VersionMinor { DYNAMIC_STATIC_GRAPHICS_VERSION_MINOR }; //!< dynamic_static.graphics minor version
-static constexpr int VersionPatch { DYNAMIC_STATIC_GRAPHICS_VERSION_PATCH }; //!< dynamic_static.graphics patch version
+static constexpr int VersionMajor { DYNAMIC_STATIC_GRAPHICS_VERSION_MAJOR };
+static constexpr int VersionMinor { DYNAMIC_STATIC_GRAPHICS_VERSION_MINOR };
+static constexpr int VersionPatch { DYNAMIC_STATIC_GRAPHICS_VERSION_PATCH };
 
 } // namespace gfx
 } // namespace dst

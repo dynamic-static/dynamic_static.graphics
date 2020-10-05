@@ -26,6 +26,11 @@ class Application
 {
 public:
     /**
+    TODO : Documentation
+    */
+    Application(const sys::Window::Info& windowInfo);
+
+    /**
     Destroys this instance of Application
     */
     virtual ~Application() = 0;
@@ -50,31 +55,22 @@ protected:
     /**
     TODO : Documentation
     */
-    virtual void shutdown();
+    virtual void teardown();
 
     /**
     TODO : Documentation
     */
-    virtual void pre_update(
-        const dst::Clock& clock,
-        const dst::sys::Input& input
-    );
+    virtual void pre_update(const dst::Clock& clock, const dst::sys::Input& input);
 
     /**
     TODO : Documentation
     */
-    virtual void update(
-        const dst::Clock& clock,
-        const dst::sys::Input& input
-    );
+    virtual void update(const dst::Clock& clock, const dst::sys::Input& input);
 
     /**
     TODO : Documentation
     */
-    virtual void post_update(
-        const dst::Clock& clock,
-        const dst::sys::Input& input
-    );
+    virtual void post_update(const dst::Clock& clock, const dst::sys::Input& input);
 
     /**
     TODO : Documentation
