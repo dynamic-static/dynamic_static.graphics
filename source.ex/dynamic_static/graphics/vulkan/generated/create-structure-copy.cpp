@@ -18,40 +18,64 @@ namespace detail {
 // NOTE : The following functions are manually implemented
 #if 0
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-VkAccelerationStructureInstanceKHR create_structure_copy<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+template <> VkAccelerationStructureBuildGeometryInfoKHR create_structure_copy<VkAccelerationStructureBuildGeometryInfoKHR>(const VkAccelerationStructureBuildGeometryInfoKHR&, const VkAllocationCallbacks*);
 #endif // VK_ENABLE_BETA_EXTENSIONS
-
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-VkAccelerationStructureVersionKHR create_structure_copy<VkAccelerationStructureVersionKHR>(const VkAccelerationStructureVersionKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+template <> VkAccelerationStructureBuildOffsetInfoKHR create_structure_copy<VkAccelerationStructureBuildOffsetInfoKHR>(const VkAccelerationStructureBuildOffsetInfoKHR&, const VkAllocationCallbacks*);
 #endif // VK_ENABLE_BETA_EXTENSIONS
-
-template <>
-VkClearColorValue create_structure_copy<VkClearColorValue>(const VkClearColorValue& obj, const VkAllocationCallbacks* pAllocationCallbacks);
-
-template <>
-VkClearValue create_structure_copy<VkClearValue>(const VkClearValue& obj, const VkAllocationCallbacks* pAllocationCallbacks);
-
-template <>
-VkPerformanceCounterResultKHR create_structure_copy<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
-
-template <>
-VkPerformanceValueDataINTEL create_structure_copy<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks);
-
-template <>
-VkPipelineExecutableStatisticValueKHR create_structure_copy<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
-
-template <>
-VkPipelineMultisampleStateCreateInfo create_structure_copy<VkPipelineMultisampleStateCreateInfo>(const VkPipelineMultisampleStateCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks);
-
-template <>
-VkShaderModuleCreateInfo create_structure_copy<VkShaderModuleCreateInfo>(const VkShaderModuleCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks);
-
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-VkTransformMatrixKHR create_structure_copy<VkTransformMatrixKHR>(const VkTransformMatrixKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+template <> VkAccelerationStructureCreateGeometryTypeInfoKHR create_structure_copy<VkAccelerationStructureCreateGeometryTypeInfoKHR>(const VkAccelerationStructureCreateGeometryTypeInfoKHR&, const VkAllocationCallbacks*);
 #endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> VkAccelerationStructureCreateInfoKHR create_structure_copy<VkAccelerationStructureCreateInfoKHR>(const VkAccelerationStructureCreateInfoKHR&, const VkAllocationCallbacks*);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+template <> VkAccelerationStructureCreateInfoNV create_structure_copy<VkAccelerationStructureCreateInfoNV>(const VkAccelerationStructureCreateInfoNV&, const VkAllocationCallbacks*);
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> VkAccelerationStructureDeviceAddressInfoKHR create_structure_copy<VkAccelerationStructureDeviceAddressInfoKHR>(const VkAccelerationStructureDeviceAddressInfoKHR&, const VkAllocationCallbacks*);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> VkAccelerationStructureGeometryAabbsDataKHR create_structure_copy<VkAccelerationStructureGeometryAabbsDataKHR>(const VkAccelerationStructureGeometryAabbsDataKHR&, const VkAllocationCallbacks*);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> VkAccelerationStructureGeometryDataKHR create_structure_copy<VkAccelerationStructureGeometryDataKHR>(const VkAccelerationStructureGeometryDataKHR&, const VkAllocationCallbacks*);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> VkAccelerationStructureGeometryInstancesDataKHR create_structure_copy<VkAccelerationStructureGeometryInstancesDataKHR>(const VkAccelerationStructureGeometryInstancesDataKHR&, const VkAllocationCallbacks*);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> VkAccelerationStructureGeometryKHR create_structure_copy<VkAccelerationStructureGeometryKHR>(const VkAccelerationStructureGeometryKHR&, const VkAllocationCallbacks*);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> VkAccelerationStructureGeometryTrianglesDataKHR create_structure_copy<VkAccelerationStructureGeometryTrianglesDataKHR>(const VkAccelerationStructureGeometryTrianglesDataKHR&, const VkAllocationCallbacks*);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+template <> VkAccelerationStructureInfoNV create_structure_copy<VkAccelerationStructureInfoNV>(const VkAccelerationStructureInfoNV&, const VkAllocationCallbacks*);
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> VkAccelerationStructureInstanceKHR create_structure_copy<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR&, const VkAllocationCallbacks*);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> VkAccelerationStructureMemoryRequirementsInfoKHR create_structure_copy<VkAccelerationStructureMemoryRequirementsInfoKHR>(const VkAccelerationStructureMemoryRequirementsInfoKHR&, const VkAllocationCallbacks*);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+template <> VkAccelerationStructureMemoryRequirementsInfoNV create_structure_copy<VkAccelerationStructureMemoryRequirementsInfoNV>(const VkAccelerationStructureMemoryRequirementsInfoNV&, const VkAllocationCallbacks*);
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> VkAccelerationStructureVersionKHR create_structure_copy<VkAccelerationStructureVersionKHR>(const VkAccelerationStructureVersionKHR&, const VkAllocationCallbacks*);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+template <> VkClearColorValue create_structure_copy<VkClearColorValue>(const VkClearColorValue&, const VkAllocationCallbacks*);
+template <> VkClearValue create_structure_copy<VkClearValue>(const VkClearValue&, const VkAllocationCallbacks*);
+template <> VkDebugMarkerObjectTagInfoEXT create_structure_copy<VkDebugMarkerObjectTagInfoEXT>(const VkDebugMarkerObjectTagInfoEXT&, const VkAllocationCallbacks*);
+template <> VkDebugUtilsObjectTagInfoEXT create_structure_copy<VkDebugUtilsObjectTagInfoEXT>(const VkDebugUtilsObjectTagInfoEXT&, const VkAllocationCallbacks*);
+template <> VkPerformanceCounterResultKHR create_structure_copy<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR&, const VkAllocationCallbacks*);
+template <> VkPerformanceValueDataINTEL create_structure_copy<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL&, const VkAllocationCallbacks*);
+template <> VkPipelineCacheCreateInfo create_structure_copy<VkPipelineCacheCreateInfo>(const VkPipelineCacheCreateInfo&, const VkAllocationCallbacks*);
+template <> VkPipelineExecutableInternalRepresentationKHR create_structure_copy<VkPipelineExecutableInternalRepresentationKHR>(const VkPipelineExecutableInternalRepresentationKHR&, const VkAllocationCallbacks*);
+template <> VkPipelineExecutableStatisticValueKHR create_structure_copy<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR&, const VkAllocationCallbacks*);
+template <> VkPipelineMultisampleStateCreateInfo create_structure_copy<VkPipelineMultisampleStateCreateInfo>(const VkPipelineMultisampleStateCreateInfo&, const VkAllocationCallbacks*);
+template <> VkShaderModuleCreateInfo create_structure_copy<VkShaderModuleCreateInfo>(const VkShaderModuleCreateInfo&, const VkAllocationCallbacks*);
+template <> VkSpecializationInfo create_structure_copy<VkSpecializationInfo>(const VkSpecializationInfo&, const VkAllocationCallbacks*);
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> VkTransformMatrixKHR create_structure_copy<VkTransformMatrixKHR>(const VkTransformMatrixKHR&, const VkAllocationCallbacks*);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+template <> VkValidationCacheCreateInfoEXT create_structure_copy<VkValidationCacheCreateInfoEXT>(const VkValidationCacheCreateInfoEXT&, const VkAllocationCallbacks*);
+template <> VkWriteDescriptorSetInlineUniformBlockEXT create_structure_copy<VkWriteDescriptorSetInlineUniformBlockEXT>(const VkWriteDescriptorSetInlineUniformBlockEXT&, const VkAllocationCallbacks*);
 #endif
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -71,205 +95,21 @@ VkAabbPositionsKHR create_structure_copy<VkAabbPositionsKHR>(const VkAabbPositio
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
 
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-VkAccelerationStructureBuildGeometryInfoKHR create_structure_copy<VkAccelerationStructureBuildGeometryInfoKHR>(const VkAccelerationStructureBuildGeometryInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkAccelerationStructureBuildGeometryInfoKHR result { };
-    result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.type = obj.type;
-    result.flags = obj.flags;
-    result.update = obj.update;
-    result.srcAccelerationStructure = obj.srcAccelerationStructure;
-    result.dstAccelerationStructure = obj.dstAccelerationStructure;
-    result.geometryArrayOfPointers = obj.geometryArrayOfPointers;
-    result.geometryCount = obj.geometryCount;
-    result.ppGeometries = create_dynamic_array_copy(1, obj.ppGeometries, pAllocationCallbacks);
-    result.scratchData = create_structure_copy(obj.scratchData, pAllocationCallbacks);
-    return result;
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-VkAccelerationStructureBuildOffsetInfoKHR create_structure_copy<VkAccelerationStructureBuildOffsetInfoKHR>(const VkAccelerationStructureBuildOffsetInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkAccelerationStructureBuildOffsetInfoKHR result { };
-    result.primitiveCount = obj.primitiveCount;
-    result.primitiveOffset = obj.primitiveOffset;
-    result.firstVertex = obj.firstVertex;
-    result.transformOffset = obj.transformOffset;
-    return result;
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-VkAccelerationStructureCreateGeometryTypeInfoKHR create_structure_copy<VkAccelerationStructureCreateGeometryTypeInfoKHR>(const VkAccelerationStructureCreateGeometryTypeInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkAccelerationStructureCreateGeometryTypeInfoKHR result { };
-    result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.geometryType = obj.geometryType;
-    result.maxPrimitiveCount = obj.maxPrimitiveCount;
-    result.indexType = obj.indexType;
-    result.maxVertexCount = obj.maxVertexCount;
-    result.vertexFormat = obj.vertexFormat;
-    result.allowsTransforms = obj.allowsTransforms;
-    return result;
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-VkAccelerationStructureCreateInfoKHR create_structure_copy<VkAccelerationStructureCreateInfoKHR>(const VkAccelerationStructureCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkAccelerationStructureCreateInfoKHR result { };
-    result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.compactedSize = obj.compactedSize;
-    result.type = obj.type;
-    result.flags = obj.flags;
-    result.maxGeometryCount = obj.maxGeometryCount;
-    result.pGeometryInfos = create_dynamic_array_copy(obj.maxGeometryCount, obj.pGeometryInfos, pAllocationCallbacks);
-    result.deviceAddress = obj.deviceAddress;
-    return result;
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-template <>
-VkAccelerationStructureCreateInfoNV create_structure_copy<VkAccelerationStructureCreateInfoNV>(const VkAccelerationStructureCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkAccelerationStructureCreateInfoNV result { };
-    result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.compactedSize = obj.compactedSize;
-    result.info = create_structure_copy(obj.info, pAllocationCallbacks);
-    return result;
-}
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-VkAccelerationStructureDeviceAddressInfoKHR create_structure_copy<VkAccelerationStructureDeviceAddressInfoKHR>(const VkAccelerationStructureDeviceAddressInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkAccelerationStructureDeviceAddressInfoKHR result { };
-    result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.accelerationStructure = obj.accelerationStructure;
-    return result;
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-VkAccelerationStructureGeometryAabbsDataKHR create_structure_copy<VkAccelerationStructureGeometryAabbsDataKHR>(const VkAccelerationStructureGeometryAabbsDataKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkAccelerationStructureGeometryAabbsDataKHR result { };
-    result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.data = create_structure_copy(obj.data, pAllocationCallbacks);
-    result.stride = obj.stride;
-    return result;
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-VkAccelerationStructureGeometryDataKHR create_structure_copy<VkAccelerationStructureGeometryDataKHR>(const VkAccelerationStructureGeometryDataKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkAccelerationStructureGeometryDataKHR result { };
-    result.triangles = create_structure_copy(obj.triangles, pAllocationCallbacks);
-    result.aabbs = create_structure_copy(obj.aabbs, pAllocationCallbacks);
-    result.instances = create_structure_copy(obj.instances, pAllocationCallbacks);
-    return result;
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-VkAccelerationStructureGeometryInstancesDataKHR create_structure_copy<VkAccelerationStructureGeometryInstancesDataKHR>(const VkAccelerationStructureGeometryInstancesDataKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkAccelerationStructureGeometryInstancesDataKHR result { };
-    result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.arrayOfPointers = obj.arrayOfPointers;
-    result.data = create_structure_copy(obj.data, pAllocationCallbacks);
-    return result;
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-VkAccelerationStructureGeometryKHR create_structure_copy<VkAccelerationStructureGeometryKHR>(const VkAccelerationStructureGeometryKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkAccelerationStructureGeometryKHR result { };
-    result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.geometryType = obj.geometryType;
-    result.geometry = create_structure_copy(obj.geometry, pAllocationCallbacks);
-    result.flags = obj.flags;
-    return result;
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-VkAccelerationStructureGeometryTrianglesDataKHR create_structure_copy<VkAccelerationStructureGeometryTrianglesDataKHR>(const VkAccelerationStructureGeometryTrianglesDataKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkAccelerationStructureGeometryTrianglesDataKHR result { };
-    result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.vertexFormat = obj.vertexFormat;
-    result.vertexData = create_structure_copy(obj.vertexData, pAllocationCallbacks);
-    result.vertexStride = obj.vertexStride;
-    result.indexType = obj.indexType;
-    result.indexData = create_structure_copy(obj.indexData, pAllocationCallbacks);
-    result.transformData = create_structure_copy(obj.transformData, pAllocationCallbacks);
-    return result;
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-template <>
-VkAccelerationStructureInfoNV create_structure_copy<VkAccelerationStructureInfoNV>(const VkAccelerationStructureInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkAccelerationStructureInfoNV result { };
-    result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.type = obj.type;
-    result.flags = obj.flags;
-    result.instanceCount = obj.instanceCount;
-    result.geometryCount = obj.geometryCount;
-    result.pGeometries = create_dynamic_array_copy(obj.geometryCount, obj.pGeometries, pAllocationCallbacks);
-    return result;
-}
 
 
 
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-VkAccelerationStructureMemoryRequirementsInfoKHR create_structure_copy<VkAccelerationStructureMemoryRequirementsInfoKHR>(const VkAccelerationStructureMemoryRequirementsInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkAccelerationStructureMemoryRequirementsInfoKHR result { };
-    result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.type = obj.type;
-    result.buildType = obj.buildType;
-    result.accelerationStructure = obj.accelerationStructure;
-    return result;
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
 
-template <>
-VkAccelerationStructureMemoryRequirementsInfoNV create_structure_copy<VkAccelerationStructureMemoryRequirementsInfoNV>(const VkAccelerationStructureMemoryRequirementsInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkAccelerationStructureMemoryRequirementsInfoNV result { };
-    result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.type = obj.type;
-    result.accelerationStructure = obj.accelerationStructure;
-    return result;
-}
+
+
+
+
+
+
+
+
+
+
+
 
 
 template <>
@@ -1043,19 +883,6 @@ VkDebugMarkerObjectNameInfoEXT create_structure_copy<VkDebugMarkerObjectNameInfo
     return result;
 }
 
-template <>
-VkDebugMarkerObjectTagInfoEXT create_structure_copy<VkDebugMarkerObjectTagInfoEXT>(const VkDebugMarkerObjectTagInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkDebugMarkerObjectTagInfoEXT result { };
-    result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.objectType = obj.objectType;
-    result.object = obj.object;
-    result.tagName = obj.tagName;
-    result.tagSize = obj.tagSize;
-    result.pTag = create_dynamic_array_copy(obj.tagSize, obj.pTag, pAllocationCallbacks);
-    return result;
-}
 
 template <>
 VkDebugReportCallbackCreateInfoEXT create_structure_copy<VkDebugReportCallbackCreateInfoEXT>(const VkDebugReportCallbackCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -1125,19 +952,6 @@ VkDebugUtilsObjectNameInfoEXT create_structure_copy<VkDebugUtilsObjectNameInfoEX
     return result;
 }
 
-template <>
-VkDebugUtilsObjectTagInfoEXT create_structure_copy<VkDebugUtilsObjectTagInfoEXT>(const VkDebugUtilsObjectTagInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkDebugUtilsObjectTagInfoEXT result { };
-    result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.objectType = obj.objectType;
-    result.objectHandle = obj.objectHandle;
-    result.tagName = obj.tagName;
-    result.tagSize = obj.tagSize;
-    result.pTag = create_dynamic_array_copy(obj.tagSize, obj.pTag, pAllocationCallbacks);
-    return result;
-}
 
 template <>
 VkDedicatedAllocationBufferCreateInfoNV create_structure_copy<VkDedicatedAllocationBufferCreateInfoNV>(const VkDedicatedAllocationBufferCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -5156,17 +4970,6 @@ VkPhysicalDeviceYcbcrImageArraysFeaturesEXT create_structure_copy<VkPhysicalDevi
     return result;
 }
 
-template <>
-VkPipelineCacheCreateInfo create_structure_copy<VkPipelineCacheCreateInfo>(const VkPipelineCacheCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkPipelineCacheCreateInfo result { };
-    result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.flags = obj.flags;
-    result.initialDataSize = obj.initialDataSize;
-    result.pInitialData = create_dynamic_array_copy(obj.initialDataSize, obj.pInitialData, pAllocationCallbacks);
-    return result;
-}
 
 template <>
 VkPipelineColorBlendAdvancedStateCreateInfoEXT create_structure_copy<VkPipelineColorBlendAdvancedStateCreateInfoEXT>(const VkPipelineColorBlendAdvancedStateCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -5333,19 +5136,6 @@ VkPipelineExecutableInfoKHR create_structure_copy<VkPipelineExecutableInfoKHR>(c
     return result;
 }
 
-template <>
-VkPipelineExecutableInternalRepresentationKHR create_structure_copy<VkPipelineExecutableInternalRepresentationKHR>(const VkPipelineExecutableInternalRepresentationKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkPipelineExecutableInternalRepresentationKHR result { };
-    result.sType = obj.sType;
-    result.pNext = (void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    create_static_string_copy<VK_MAX_DESCRIPTION_SIZE>(result.name, obj.name);
-    create_static_string_copy<VK_MAX_DESCRIPTION_SIZE>(result.description, obj.description);
-    result.isText = obj.isText;
-    result.dataSize = obj.dataSize;
-    result.pData = create_dynamic_array_copy(obj.dataSize, obj.pData, pAllocationCallbacks);
-    return result;
-}
 
 template <>
 VkPipelineExecutablePropertiesKHR create_structure_copy<VkPipelineExecutablePropertiesKHR>(const VkPipelineExecutablePropertiesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -6409,16 +6199,6 @@ VkSparseMemoryBind create_structure_copy<VkSparseMemoryBind>(const VkSparseMemor
     return result;
 }
 
-template <>
-VkSpecializationInfo create_structure_copy<VkSpecializationInfo>(const VkSpecializationInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkSpecializationInfo result { };
-    result.mapEntryCount = obj.mapEntryCount;
-    result.pMapEntries = create_dynamic_array_copy(obj.mapEntryCount, obj.pMapEntries, pAllocationCallbacks);
-    result.dataSize = obj.dataSize;
-    result.pData = create_dynamic_array_copy(obj.dataSize, obj.pData, pAllocationCallbacks);
-    return result;
-}
 
 template <>
 VkSpecializationMapEntry create_structure_copy<VkSpecializationMapEntry>(const VkSpecializationMapEntry& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -6818,17 +6598,6 @@ VkTraceRaysIndirectCommandKHR create_structure_copy<VkTraceRaysIndirectCommandKH
 
 
 
-template <>
-VkValidationCacheCreateInfoEXT create_structure_copy<VkValidationCacheCreateInfoEXT>(const VkValidationCacheCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkValidationCacheCreateInfoEXT result { };
-    result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.flags = obj.flags;
-    result.initialDataSize = obj.initialDataSize;
-    result.pInitialData = create_dynamic_array_copy(obj.initialDataSize, obj.pInitialData, pAllocationCallbacks);
-    return result;
-}
 
 template <>
 VkValidationFeaturesEXT create_structure_copy<VkValidationFeaturesEXT>(const VkValidationFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -7025,16 +6794,6 @@ VkWriteDescriptorSetAccelerationStructureKHR create_structure_copy<VkWriteDescri
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
 
-template <>
-VkWriteDescriptorSetInlineUniformBlockEXT create_structure_copy<VkWriteDescriptorSetInlineUniformBlockEXT>(const VkWriteDescriptorSetInlineUniformBlockEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    VkWriteDescriptorSetInlineUniformBlockEXT result { };
-    result.sType = obj.sType;
-    result.pNext = (const void*)create_pnext_copy(obj.pNext, pAllocationCallbacks);
-    result.dataSize = obj.dataSize;
-    result.pData = create_dynamic_array_copy(obj.dataSize, obj.pData, pAllocationCallbacks);
-    return result;
-}
 
 template <>
 VkXYColorEXT create_structure_copy<VkXYColorEXT>(const VkXYColorEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)

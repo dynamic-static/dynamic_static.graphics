@@ -19,8 +19,72 @@ namespace detail {
 #if 0
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
+void destroy_structure_copy<VkAccelerationStructureBuildGeometryInfoKHR>(const VkAccelerationStructureBuildGeometryInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+void destroy_structure_copy<VkAccelerationStructureBuildOffsetInfoKHR>(const VkAccelerationStructureBuildOffsetInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+void destroy_structure_copy<VkAccelerationStructureCreateGeometryTypeInfoKHR>(const VkAccelerationStructureCreateGeometryTypeInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+void destroy_structure_copy<VkAccelerationStructureCreateInfoKHR>(const VkAccelerationStructureCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+void destroy_structure_copy<VkAccelerationStructureCreateInfoNV>(const VkAccelerationStructureCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+void destroy_structure_copy<VkAccelerationStructureDeviceAddressInfoKHR>(const VkAccelerationStructureDeviceAddressInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+void destroy_structure_copy<VkAccelerationStructureGeometryAabbsDataKHR>(const VkAccelerationStructureGeometryAabbsDataKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+void destroy_structure_copy<VkAccelerationStructureGeometryDataKHR>(const VkAccelerationStructureGeometryDataKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+void destroy_structure_copy<VkAccelerationStructureGeometryInstancesDataKHR>(const VkAccelerationStructureGeometryInstancesDataKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+void destroy_structure_copy<VkAccelerationStructureGeometryKHR>(const VkAccelerationStructureGeometryKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+void destroy_structure_copy<VkAccelerationStructureGeometryTrianglesDataKHR>(const VkAccelerationStructureGeometryTrianglesDataKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+void destroy_structure_copy<VkAccelerationStructureInfoNV>(const VkAccelerationStructureInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
 void destroy_structure_copy<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
 #endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+void destroy_structure_copy<VkAccelerationStructureMemoryRequirementsInfoKHR>(const VkAccelerationStructureMemoryRequirementsInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+void destroy_structure_copy<VkAccelerationStructureMemoryRequirementsInfoNV>(const VkAccelerationStructureMemoryRequirementsInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks);
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
@@ -34,10 +98,22 @@ template <>
 void destroy_structure_copy<VkClearValue>(const VkClearValue& obj, const VkAllocationCallbacks* pAllocationCallbacks);
 
 template <>
+void destroy_structure_copy<VkDebugMarkerObjectTagInfoEXT>(const VkDebugMarkerObjectTagInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+
+template <>
+void destroy_structure_copy<VkDebugUtilsObjectTagInfoEXT>(const VkDebugUtilsObjectTagInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+
+template <>
 void destroy_structure_copy<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
 
 template <>
 void destroy_structure_copy<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+
+template <>
+void destroy_structure_copy<VkPipelineCacheCreateInfo>(const VkPipelineCacheCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+
+template <>
+void destroy_structure_copy<VkPipelineExecutableInternalRepresentationKHR>(const VkPipelineExecutableInternalRepresentationKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
 
 template <>
 void destroy_structure_copy<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
@@ -48,10 +124,19 @@ void destroy_structure_copy<VkPipelineMultisampleStateCreateInfo>(const VkPipeli
 template <>
 void destroy_structure_copy<VkShaderModuleCreateInfo>(const VkShaderModuleCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks);
 
+template <>
+void destroy_structure_copy<VkSpecializationInfo>(const VkSpecializationInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
 void destroy_structure_copy<VkTransformMatrixKHR>(const VkTransformMatrixKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks);
 #endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+void destroy_structure_copy<VkValidationCacheCreateInfoEXT>(const VkValidationCacheCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+
+template <>
+void destroy_structure_copy<VkWriteDescriptorSetInlineUniformBlockEXT>(const VkWriteDescriptorSetInlineUniformBlockEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks);
 #endif
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -63,125 +148,21 @@ void destroy_structure_copy<VkAabbPositionsKHR>(const VkAabbPositionsKHR& obj, c
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
 
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-void destroy_structure_copy<VkAccelerationStructureBuildGeometryInfoKHR>(const VkAccelerationStructureBuildGeometryInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_dynamic_array_copy(1, obj.ppGeometries, pAllocationCallbacks);
-    destroy_structure_copy(obj.scratchData, pAllocationCallbacks);
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-void destroy_structure_copy<VkAccelerationStructureBuildOffsetInfoKHR>(const VkAccelerationStructureBuildOffsetInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-void destroy_structure_copy<VkAccelerationStructureCreateGeometryTypeInfoKHR>(const VkAccelerationStructureCreateGeometryTypeInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-void destroy_structure_copy<VkAccelerationStructureCreateInfoKHR>(const VkAccelerationStructureCreateInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_dynamic_array_copy(obj.maxGeometryCount, obj.pGeometryInfos, pAllocationCallbacks);
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-template <>
-void destroy_structure_copy<VkAccelerationStructureCreateInfoNV>(const VkAccelerationStructureCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.info, pAllocationCallbacks);
-}
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-void destroy_structure_copy<VkAccelerationStructureDeviceAddressInfoKHR>(const VkAccelerationStructureDeviceAddressInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-void destroy_structure_copy<VkAccelerationStructureGeometryAabbsDataKHR>(const VkAccelerationStructureGeometryAabbsDataKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.data, pAllocationCallbacks);
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-void destroy_structure_copy<VkAccelerationStructureGeometryDataKHR>(const VkAccelerationStructureGeometryDataKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_structure_copy(obj.triangles, pAllocationCallbacks);
-    destroy_structure_copy(obj.aabbs, pAllocationCallbacks);
-    destroy_structure_copy(obj.instances, pAllocationCallbacks);
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-void destroy_structure_copy<VkAccelerationStructureGeometryInstancesDataKHR>(const VkAccelerationStructureGeometryInstancesDataKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.data, pAllocationCallbacks);
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-void destroy_structure_copy<VkAccelerationStructureGeometryKHR>(const VkAccelerationStructureGeometryKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.geometry, pAllocationCallbacks);
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-void destroy_structure_copy<VkAccelerationStructureGeometryTrianglesDataKHR>(const VkAccelerationStructureGeometryTrianglesDataKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_structure_copy(obj.vertexData, pAllocationCallbacks);
-    destroy_structure_copy(obj.indexData, pAllocationCallbacks);
-    destroy_structure_copy(obj.transformData, pAllocationCallbacks);
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-template <>
-void destroy_structure_copy<VkAccelerationStructureInfoNV>(const VkAccelerationStructureInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_dynamic_array_copy(obj.geometryCount, obj.pGeometries, pAllocationCallbacks);
-}
 
 
 
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-void destroy_structure_copy<VkAccelerationStructureMemoryRequirementsInfoKHR>(const VkAccelerationStructureMemoryRequirementsInfoKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
 
-template <>
-void destroy_structure_copy<VkAccelerationStructureMemoryRequirementsInfoNV>(const VkAccelerationStructureMemoryRequirementsInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-}
+
+
+
+
+
+
+
+
+
+
+
 
 
 template <>
@@ -605,12 +586,6 @@ void destroy_structure_copy<VkDebugMarkerObjectNameInfoEXT>(const VkDebugMarkerO
     destroy_dynamic_string_copy(obj.pObjectName, pAllocationCallbacks);
 }
 
-template <>
-void destroy_structure_copy<VkDebugMarkerObjectTagInfoEXT>(const VkDebugMarkerObjectTagInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_dynamic_array_copy(obj.tagSize, obj.pTag, pAllocationCallbacks);
-}
 
 template <>
 void destroy_structure_copy<VkDebugReportCallbackCreateInfoEXT>(const VkDebugReportCallbackCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -650,12 +625,6 @@ void destroy_structure_copy<VkDebugUtilsObjectNameInfoEXT>(const VkDebugUtilsObj
     destroy_dynamic_string_copy(obj.pObjectName, pAllocationCallbacks);
 }
 
-template <>
-void destroy_structure_copy<VkDebugUtilsObjectTagInfoEXT>(const VkDebugUtilsObjectTagInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_dynamic_array_copy(obj.tagSize, obj.pTag, pAllocationCallbacks);
-}
 
 template <>
 void destroy_structure_copy<VkDedicatedAllocationBufferCreateInfoNV>(const VkDedicatedAllocationBufferCreateInfoNV& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -2740,12 +2709,6 @@ void destroy_structure_copy<VkPhysicalDeviceYcbcrImageArraysFeaturesEXT>(const V
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
 }
 
-template <>
-void destroy_structure_copy<VkPipelineCacheCreateInfo>(const VkPipelineCacheCreateInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_dynamic_array_copy(obj.initialDataSize, obj.pInitialData, pAllocationCallbacks);
-}
 
 template <>
 void destroy_structure_copy<VkPipelineColorBlendAdvancedStateCreateInfoEXT>(const VkPipelineColorBlendAdvancedStateCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -2832,12 +2795,6 @@ void destroy_structure_copy<VkPipelineExecutableInfoKHR>(const VkPipelineExecuta
     destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
 }
 
-template <>
-void destroy_structure_copy<VkPipelineExecutableInternalRepresentationKHR>(const VkPipelineExecutableInternalRepresentationKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_dynamic_array_copy(obj.dataSize, obj.pData, pAllocationCallbacks);
-}
 
 template <>
 void destroy_structure_copy<VkPipelineExecutablePropertiesKHR>(const VkPipelineExecutablePropertiesKHR& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -3446,12 +3403,6 @@ void destroy_structure_copy<VkSparseMemoryBind>(const VkSparseMemoryBind& obj, c
 {
 }
 
-template <>
-void destroy_structure_copy<VkSpecializationInfo>(const VkSpecializationInfo& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_dynamic_array_copy(obj.mapEntryCount, obj.pMapEntries, pAllocationCallbacks);
-    destroy_dynamic_array_copy(obj.dataSize, obj.pData, pAllocationCallbacks);
-}
 
 template <>
 void destroy_structure_copy<VkSpecializationMapEntry>(const VkSpecializationMapEntry& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -3673,12 +3624,6 @@ void destroy_structure_copy<VkTraceRaysIndirectCommandKHR>(const VkTraceRaysIndi
 
 
 
-template <>
-void destroy_structure_copy<VkValidationCacheCreateInfoEXT>(const VkValidationCacheCreateInfoEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_dynamic_array_copy(obj.initialDataSize, obj.pInitialData, pAllocationCallbacks);
-}
 
 template <>
 void destroy_structure_copy<VkValidationFeaturesEXT>(const VkValidationFeaturesEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
@@ -3794,12 +3739,6 @@ void destroy_structure_copy<VkWriteDescriptorSetAccelerationStructureKHR>(const 
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
 
-template <>
-void destroy_structure_copy<VkWriteDescriptorSetInlineUniformBlockEXT>(const VkWriteDescriptorSetInlineUniformBlockEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)
-{
-    destroy_pnext_copy(obj.pNext, pAllocationCallbacks);
-    destroy_dynamic_array_copy(obj.dataSize, obj.pData, pAllocationCallbacks);
-}
 
 template <>
 void destroy_structure_copy<VkXYColorEXT>(const VkXYColorEXT& obj, const VkAllocationCallbacks* pAllocationCallbacks)

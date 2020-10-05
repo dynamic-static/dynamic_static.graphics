@@ -23,7 +23,7 @@ namespace detail {
 /**
 TODO : Documentation
 */
-bool operator==(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs)
+inline bool operator==(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs)
 {
     // TODO : Generate this function's definition...
     return lhs.pNext == rhs.pNext;
@@ -40,7 +40,7 @@ inline bool operator!=(const PNextTupleElementWrapper& lhs, const PNextTupleElem
 /**
 TODO : Documentation
 */
-bool operator<(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs)
+inline bool operator<(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs)
 {
     // TODO : Generate this function's definition...
     return lhs.pNext < rhs.pNext;

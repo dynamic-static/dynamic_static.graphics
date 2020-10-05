@@ -105,8 +105,6 @@ protected:
     {
         if (this != &other) {
             mHandle = std::move(other.mHandle);
-            mResult = std::move(other.mResult);
-            other.mResult = VK_SUCCESS;
             other.mHandle = VK_NULL_HANDLE;
         }
         return *this;
@@ -127,7 +125,7 @@ template <typename VulkanHandleType>
 inline void BasicManaged<VulkanHandleType>::reset(const VkAllocationCallbacks* pAllocator)
 {
     (void)pAllocator;
-    *this = { };
+    // TODO : reset()
 }
 
 /**
@@ -170,7 +168,7 @@ inline bool operator<=(const BasicManaged<VulkanHandleType>& lhs, const BasicMan
 TODO : Documentation
 */
 template <typename VulkanHandleType>
-inline bool operator<(const BasicManaged<VulkanHandleType>& lhs, const BasicManaged<VulkanHandleType>& rhs)
+inline bool operator>(const BasicManaged<VulkanHandleType>& lhs, const BasicManaged<VulkanHandleType>& rhs)
 {
     return lhs.get_handle() > rhs.get_handle();
 }
@@ -179,7 +177,7 @@ inline bool operator<(const BasicManaged<VulkanHandleType>& lhs, const BasicMana
 TODO : Documentation
 */
 template <typename VulkanHandleType>
-inline bool operator<=(const BasicManaged<VulkanHandleType>& lhs, const BasicManaged<VulkanHandleType>& rhs)
+inline bool operator>=(const BasicManaged<VulkanHandleType>& lhs, const BasicManaged<VulkanHandleType>& rhs)
 {
     return lhs.get_handle() >= rhs.get_handle();
 }

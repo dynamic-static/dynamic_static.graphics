@@ -13,6 +13,7 @@
 
 namespace dst {
 namespace vk {
+namespace detail {
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 class BasicManagedVkAccelerationStructureKHR::ControlBlock final
@@ -33,8 +34,8 @@ public:
     Managed<VkAccelerationStructureCreateInfoKHR> AccelerationStructureCreateInfoKHR;
     #endif // VK_ENABLE_BETA_EXTENSIONS
     VkAllocationCallbacks allocator { };
-    BasicManagedVkAccelerationStructureKHR(const BasicManagedVkAccelerationStructureKHR&) = delete;
-    BasicManagedVkAccelerationStructureKHR& operator=(const BasicManagedVkAccelerationStructureKHR&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
@@ -58,15 +59,15 @@ BasicManagedVkAccelerationStructureKHR::~BasicManagedVkAccelerationStructureKHR(
 }
 
 template <>
-const VkAccelerationStructureKHR& get<VkAccelerationStructureKHR>() const
+const VkAccelerationStructureKHR& BasicManagedVkAccelerationStructureKHR::get<VkAccelerationStructureKHR>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkAccelerationStructureKHR::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkAccelerationStructureKHR_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -105,8 +106,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkBufferCreateInfo> BufferCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkBuffer(const BasicManagedVkBuffer&) = delete;
-    BasicManagedVkBuffer& operator=(const BasicManagedVkBuffer&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkBuffer::create(const Managed<VkDevice>& device, const VkBufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkBuffer>* pBuffer)
@@ -128,15 +129,15 @@ BasicManagedVkBuffer::~BasicManagedVkBuffer()
 }
 
 template <>
-const VkBuffer& get<VkBuffer>() const
+const VkBuffer& BasicManagedVkBuffer::get<VkBuffer>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkBuffer::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkBuffer_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -171,8 +172,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkBufferViewCreateInfo> BufferViewCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkBufferView(const BasicManagedVkBufferView&) = delete;
-    BasicManagedVkBufferView& operator=(const BasicManagedVkBufferView&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkBufferView::create(const Managed<VkDevice>& device, const VkBufferViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkBufferView>* pView)
@@ -194,15 +195,15 @@ BasicManagedVkBufferView::~BasicManagedVkBufferView()
 }
 
 template <>
-const VkBufferView& get<VkBufferView>() const
+const VkBufferView& BasicManagedVkBufferView::get<VkBufferView>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkBufferView::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkBufferView_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -236,11 +237,11 @@ public:
     Managed<VkCommandPool> parentVkCommandPool;
     Managed<VkCommandBufferAllocateInfo> CommandBufferAllocateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkCommandBuffer(const BasicManagedVkCommandBuffer&) = delete;
-    BasicManagedVkCommandBuffer& operator=(const BasicManagedVkCommandBuffer&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
-VkResult BasicManagedVkCommandBuffer::create(const Managed<VkDevice>& device, const VkCommandBufferAllocateInfo* pAllocateInfo, Managed<VkCommandBuffer>* pCommandBuffers)
+VkResult BasicManagedVkCommandBuffer::allocate(const Managed<VkDevice>& device, const VkCommandBufferAllocateInfo* pAllocateInfo, Managed<VkCommandBuffer>* pCommandBuffers)
 {
     #if 0
     VkCommandBuffer handle = VK_NULL_HANDLE;
@@ -259,15 +260,15 @@ BasicManagedVkCommandBuffer::~BasicManagedVkCommandBuffer()
 }
 
 template <>
-const VkCommandBuffer& get<VkCommandBuffer>() const
+const VkCommandBuffer& BasicManagedVkCommandBuffer::get<VkCommandBuffer>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkCommandBuffer::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkCommandBuffer_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -302,8 +303,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkCommandPoolCreateInfo> CommandPoolCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkCommandPool(const BasicManagedVkCommandPool&) = delete;
-    BasicManagedVkCommandPool& operator=(const BasicManagedVkCommandPool&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkCommandPool::create(const Managed<VkDevice>& device, const VkCommandPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkCommandPool>* pCommandPool)
@@ -325,15 +326,15 @@ BasicManagedVkCommandPool::~BasicManagedVkCommandPool()
 }
 
 template <>
-const VkCommandPool& get<VkCommandPool>() const
+const VkCommandPool& BasicManagedVkCommandPool::get<VkCommandPool>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkCommandPool::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkCommandPool_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -368,8 +369,8 @@ public:
     Managed<VkInstance> parentVkInstance;
     Managed<VkDebugReportCallbackCreateInfoEXT> DebugReportCallbackCreateInfoEXT;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkDebugReportCallbackEXT(const BasicManagedVkDebugReportCallbackEXT&) = delete;
-    BasicManagedVkDebugReportCallbackEXT& operator=(const BasicManagedVkDebugReportCallbackEXT&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkDebugReportCallbackEXT::create(const Managed<VkInstance>& instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDebugReportCallbackEXT>* pCallback)
@@ -391,15 +392,15 @@ BasicManagedVkDebugReportCallbackEXT::~BasicManagedVkDebugReportCallbackEXT()
 }
 
 template <>
-const VkDebugReportCallbackEXT& get<VkDebugReportCallbackEXT>() const
+const VkDebugReportCallbackEXT& BasicManagedVkDebugReportCallbackEXT::get<VkDebugReportCallbackEXT>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkDebugReportCallbackEXT::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkDebugReportCallbackEXT_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -434,8 +435,8 @@ public:
     Managed<VkInstance> parentVkInstance;
     Managed<VkDebugUtilsMessengerCreateInfoEXT> DebugUtilsMessengerCreateInfoEXT;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkDebugUtilsMessengerEXT(const BasicManagedVkDebugUtilsMessengerEXT&) = delete;
-    BasicManagedVkDebugUtilsMessengerEXT& operator=(const BasicManagedVkDebugUtilsMessengerEXT&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkDebugUtilsMessengerEXT::create(const Managed<VkInstance>& instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDebugUtilsMessengerEXT>* pMessenger)
@@ -457,15 +458,15 @@ BasicManagedVkDebugUtilsMessengerEXT::~BasicManagedVkDebugUtilsMessengerEXT()
 }
 
 template <>
-const VkDebugUtilsMessengerEXT& get<VkDebugUtilsMessengerEXT>() const
+const VkDebugUtilsMessengerEXT& BasicManagedVkDebugUtilsMessengerEXT::get<VkDebugUtilsMessengerEXT>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkDebugUtilsMessengerEXT::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkDebugUtilsMessengerEXT_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -500,8 +501,8 @@ public:
     VkDeferredOperationKHR vkHandle { VK_NULL_HANDLE };
     Managed<VkDevice> parentVkDevice;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkDeferredOperationKHR(const BasicManagedVkDeferredOperationKHR&) = delete;
-    BasicManagedVkDeferredOperationKHR& operator=(const BasicManagedVkDeferredOperationKHR&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
@@ -525,15 +526,15 @@ BasicManagedVkDeferredOperationKHR::~BasicManagedVkDeferredOperationKHR()
 }
 
 template <>
-const VkDeferredOperationKHR& get<VkDeferredOperationKHR>() const
+const VkDeferredOperationKHR& BasicManagedVkDeferredOperationKHR::get<VkDeferredOperationKHR>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkDeferredOperationKHR::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkDeferredOperationKHR_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -561,8 +562,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkDescriptorPoolCreateInfo> DescriptorPoolCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkDescriptorPool(const BasicManagedVkDescriptorPool&) = delete;
-    BasicManagedVkDescriptorPool& operator=(const BasicManagedVkDescriptorPool&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkDescriptorPool::create(const Managed<VkDevice>& device, const VkDescriptorPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDescriptorPool>* pDescriptorPool)
@@ -584,15 +585,15 @@ BasicManagedVkDescriptorPool::~BasicManagedVkDescriptorPool()
 }
 
 template <>
-const VkDescriptorPool& get<VkDescriptorPool>() const
+const VkDescriptorPool& BasicManagedVkDescriptorPool::get<VkDescriptorPool>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkDescriptorPool::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkDescriptorPool_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -626,11 +627,11 @@ public:
     Managed<VkDescriptorPool> parentVkDescriptorPool;
     Managed<VkDescriptorSetAllocateInfo> DescriptorSetAllocateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkDescriptorSet(const BasicManagedVkDescriptorSet&) = delete;
-    BasicManagedVkDescriptorSet& operator=(const BasicManagedVkDescriptorSet&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
-VkResult BasicManagedVkDescriptorSet::create(const Managed<VkDevice>& device, const VkDescriptorSetAllocateInfo* pAllocateInfo, Managed<VkDescriptorSet>* pDescriptorSets)
+VkResult BasicManagedVkDescriptorSet::allocate(const Managed<VkDevice>& device, const VkDescriptorSetAllocateInfo* pAllocateInfo, Managed<VkDescriptorSet>* pDescriptorSets)
 {
     #if 0
     VkDescriptorSet handle = VK_NULL_HANDLE;
@@ -649,15 +650,15 @@ BasicManagedVkDescriptorSet::~BasicManagedVkDescriptorSet()
 }
 
 template <>
-const VkDescriptorSet& get<VkDescriptorSet>() const
+const VkDescriptorSet& BasicManagedVkDescriptorSet::get<VkDescriptorSet>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkDescriptorSet::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkDescriptorSet_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -692,8 +693,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkDescriptorSetLayoutCreateInfo> DescriptorSetLayoutCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkDescriptorSetLayout(const BasicManagedVkDescriptorSetLayout&) = delete;
-    BasicManagedVkDescriptorSetLayout& operator=(const BasicManagedVkDescriptorSetLayout&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkDescriptorSetLayout::create(const Managed<VkDevice>& device, const VkDescriptorSetLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDescriptorSetLayout>* pSetLayout)
@@ -715,15 +716,15 @@ BasicManagedVkDescriptorSetLayout::~BasicManagedVkDescriptorSetLayout()
 }
 
 template <>
-const VkDescriptorSetLayout& get<VkDescriptorSetLayout>() const
+const VkDescriptorSetLayout& BasicManagedVkDescriptorSetLayout::get<VkDescriptorSetLayout>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkDescriptorSetLayout::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkDescriptorSetLayout_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -758,8 +759,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkDescriptorUpdateTemplateCreateInfo> DescriptorUpdateTemplateCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkDescriptorUpdateTemplate(const BasicManagedVkDescriptorUpdateTemplate&) = delete;
-    BasicManagedVkDescriptorUpdateTemplate& operator=(const BasicManagedVkDescriptorUpdateTemplate&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkDescriptorUpdateTemplate::create(const Managed<VkDevice>& device, const VkDescriptorUpdateTemplateCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDescriptorUpdateTemplate>* pDescriptorUpdateTemplate)
@@ -781,15 +782,15 @@ BasicManagedVkDescriptorUpdateTemplate::~BasicManagedVkDescriptorUpdateTemplate(
 }
 
 template <>
-const VkDescriptorUpdateTemplate& get<VkDescriptorUpdateTemplate>() const
+const VkDescriptorUpdateTemplate& BasicManagedVkDescriptorUpdateTemplate::get<VkDescriptorUpdateTemplate>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkDescriptorUpdateTemplate::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkDescriptorUpdateTemplate_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -825,8 +826,8 @@ public:
     Managed<VkPhysicalDevice> parentVkPhysicalDevice;
     Managed<VkDeviceCreateInfo> DeviceCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkDevice(const BasicManagedVkDevice&) = delete;
-    BasicManagedVkDevice& operator=(const BasicManagedVkDevice&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkDevice::create(const Managed<VkPhysicalDevice>& physicalDevice, const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDevice>* pDevice)
@@ -848,15 +849,15 @@ BasicManagedVkDevice::~BasicManagedVkDevice()
 }
 
 template <>
-const VkDevice& get<VkDevice>() const
+const VkDevice& BasicManagedVkDevice::get<VkDevice>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkDevice::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkDevice_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -891,11 +892,11 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkMemoryAllocateInfo> MemoryAllocateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkDeviceMemory(const BasicManagedVkDeviceMemory&) = delete;
-    BasicManagedVkDeviceMemory& operator=(const BasicManagedVkDeviceMemory&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
-VkResult BasicManagedVkDeviceMemory::create(const Managed<VkDevice>& device, const VkMemoryAllocateInfo* pAllocateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDeviceMemory>* pMemory)
+VkResult BasicManagedVkDeviceMemory::allocate(const Managed<VkDevice>& device, const VkMemoryAllocateInfo* pAllocateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDeviceMemory>* pMemory)
 {
     #if 0
     VkDeviceMemory handle = VK_NULL_HANDLE;
@@ -914,15 +915,15 @@ BasicManagedVkDeviceMemory::~BasicManagedVkDeviceMemory()
 }
 
 template <>
-const VkDeviceMemory& get<VkDeviceMemory>() const
+const VkDeviceMemory& BasicManagedVkDeviceMemory::get<VkDeviceMemory>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkDeviceMemory::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkDeviceMemory_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -955,8 +956,8 @@ public:
     VkDisplayKHR vkHandle { VK_NULL_HANDLE };
     Managed<VkPhysicalDevice> parentVkPhysicalDevice;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkDisplayKHR(const BasicManagedVkDisplayKHR&) = delete;
-    BasicManagedVkDisplayKHR& operator=(const BasicManagedVkDisplayKHR&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 
@@ -965,15 +966,15 @@ BasicManagedVkDisplayKHR::~BasicManagedVkDisplayKHR()
 }
 
 template <>
-const VkDisplayKHR& get<VkDisplayKHR>() const
+const VkDisplayKHR& BasicManagedVkDisplayKHR::get<VkDisplayKHR>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkDisplayKHR::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkDisplayKHR_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -999,8 +1000,8 @@ public:
     Managed<VkDisplayKHR> parentVkDisplayKHR;
     Managed<VkDisplayModeCreateInfoKHR> DisplayModeCreateInfoKHR;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkDisplayModeKHR(const BasicManagedVkDisplayModeKHR&) = delete;
-    BasicManagedVkDisplayModeKHR& operator=(const BasicManagedVkDisplayModeKHR&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkDisplayModeKHR::create(const Managed<VkPhysicalDevice>& physicalDevice, const Managed<VkDisplayKHR>& display, const VkDisplayModeCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDisplayModeKHR>* pMode)
@@ -1022,15 +1023,15 @@ BasicManagedVkDisplayModeKHR::~BasicManagedVkDisplayModeKHR()
 }
 
 template <>
-const VkDisplayModeKHR& get<VkDisplayModeKHR>() const
+const VkDisplayModeKHR& BasicManagedVkDisplayModeKHR::get<VkDisplayModeKHR>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkDisplayModeKHR::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkDisplayModeKHR_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -1065,8 +1066,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkEventCreateInfo> EventCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkEvent(const BasicManagedVkEvent&) = delete;
-    BasicManagedVkEvent& operator=(const BasicManagedVkEvent&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkEvent::create(const Managed<VkDevice>& device, const VkEventCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkEvent>* pEvent)
@@ -1088,15 +1089,15 @@ BasicManagedVkEvent::~BasicManagedVkEvent()
 }
 
 template <>
-const VkEvent& get<VkEvent>() const
+const VkEvent& BasicManagedVkEvent::get<VkEvent>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkEvent::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkEvent_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -1131,8 +1132,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkFenceCreateInfo> FenceCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkFence(const BasicManagedVkFence&) = delete;
-    BasicManagedVkFence& operator=(const BasicManagedVkFence&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkFence::create(const Managed<VkDevice>& device, const VkFenceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkFence>* pFence)
@@ -1154,15 +1155,15 @@ BasicManagedVkFence::~BasicManagedVkFence()
 }
 
 template <>
-const VkFence& get<VkFence>() const
+const VkFence& BasicManagedVkFence::get<VkFence>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkFence::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkFence_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -1197,8 +1198,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkFramebufferCreateInfo> FramebufferCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkFramebuffer(const BasicManagedVkFramebuffer&) = delete;
-    BasicManagedVkFramebuffer& operator=(const BasicManagedVkFramebuffer&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkFramebuffer::create(const Managed<VkDevice>& device, const VkFramebufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkFramebuffer>* pFramebuffer)
@@ -1220,15 +1221,15 @@ BasicManagedVkFramebuffer::~BasicManagedVkFramebuffer()
 }
 
 template <>
-const VkFramebuffer& get<VkFramebuffer>() const
+const VkFramebuffer& BasicManagedVkFramebuffer::get<VkFramebuffer>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkFramebuffer::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkFramebuffer_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -1263,8 +1264,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkImageCreateInfo> ImageCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkImage(const BasicManagedVkImage&) = delete;
-    BasicManagedVkImage& operator=(const BasicManagedVkImage&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkImage::create(const Managed<VkDevice>& device, const VkImageCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkImage>* pImage)
@@ -1286,15 +1287,15 @@ BasicManagedVkImage::~BasicManagedVkImage()
 }
 
 template <>
-const VkImage& get<VkImage>() const
+const VkImage& BasicManagedVkImage::get<VkImage>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkImage::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkImage_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -1329,8 +1330,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkImageViewCreateInfo> ImageViewCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkImageView(const BasicManagedVkImageView&) = delete;
-    BasicManagedVkImageView& operator=(const BasicManagedVkImageView&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkImageView::create(const Managed<VkDevice>& device, const VkImageViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkImageView>* pView)
@@ -1352,15 +1353,15 @@ BasicManagedVkImageView::~BasicManagedVkImageView()
 }
 
 template <>
-const VkImageView& get<VkImageView>() const
+const VkImageView& BasicManagedVkImageView::get<VkImageView>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkImageView::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkImageView_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -1395,8 +1396,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkIndirectCommandsLayoutCreateInfoNV> IndirectCommandsLayoutCreateInfoNV;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkIndirectCommandsLayoutNV(const BasicManagedVkIndirectCommandsLayoutNV&) = delete;
-    BasicManagedVkIndirectCommandsLayoutNV& operator=(const BasicManagedVkIndirectCommandsLayoutNV&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkIndirectCommandsLayoutNV::create(const Managed<VkDevice>& device, const VkIndirectCommandsLayoutCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkIndirectCommandsLayoutNV>* pIndirectCommandsLayout)
@@ -1418,15 +1419,15 @@ BasicManagedVkIndirectCommandsLayoutNV::~BasicManagedVkIndirectCommandsLayoutNV(
 }
 
 template <>
-const VkIndirectCommandsLayoutNV& get<VkIndirectCommandsLayoutNV>() const
+const VkIndirectCommandsLayoutNV& BasicManagedVkIndirectCommandsLayoutNV::get<VkIndirectCommandsLayoutNV>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkIndirectCommandsLayoutNV::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkIndirectCommandsLayoutNV_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -1459,8 +1460,8 @@ public:
     VkInstance vkHandle { VK_NULL_HANDLE };
     Managed<VkInstanceCreateInfo> InstanceCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkInstance(const BasicManagedVkInstance&) = delete;
-    BasicManagedVkInstance& operator=(const BasicManagedVkInstance&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkInstance::create(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkInstance>* pInstance)
@@ -1482,15 +1483,15 @@ BasicManagedVkInstance::~BasicManagedVkInstance()
 }
 
 template <>
-const VkInstance& get<VkInstance>() const
+const VkInstance& BasicManagedVkInstance::get<VkInstance>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkInstance::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkInstance_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -1516,8 +1517,8 @@ public:
     VkPerformanceConfigurationINTEL vkHandle { VK_NULL_HANDLE };
     Managed<VkDevice> parentVkDevice;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkPerformanceConfigurationINTEL(const BasicManagedVkPerformanceConfigurationINTEL&) = delete;
-    BasicManagedVkPerformanceConfigurationINTEL& operator=(const BasicManagedVkPerformanceConfigurationINTEL&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 
@@ -1526,15 +1527,15 @@ BasicManagedVkPerformanceConfigurationINTEL::~BasicManagedVkPerformanceConfigura
 }
 
 template <>
-const VkPerformanceConfigurationINTEL& get<VkPerformanceConfigurationINTEL>() const
+const VkPerformanceConfigurationINTEL& BasicManagedVkPerformanceConfigurationINTEL::get<VkPerformanceConfigurationINTEL>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkPerformanceConfigurationINTEL::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkPerformanceConfigurationINTEL_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -1559,8 +1560,8 @@ public:
     VkPhysicalDevice vkHandle { VK_NULL_HANDLE };
     Managed<VkInstance> parentVkInstance;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkPhysicalDevice(const BasicManagedVkPhysicalDevice&) = delete;
-    BasicManagedVkPhysicalDevice& operator=(const BasicManagedVkPhysicalDevice&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 
@@ -1569,15 +1570,15 @@ BasicManagedVkPhysicalDevice::~BasicManagedVkPhysicalDevice()
 }
 
 template <>
-const VkPhysicalDevice& get<VkPhysicalDevice>() const
+const VkPhysicalDevice& BasicManagedVkPhysicalDevice::get<VkPhysicalDevice>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkPhysicalDevice::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkPhysicalDevice_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -1609,8 +1610,8 @@ public:
     #endif // VK_ENABLE_BETA_EXTENSIONS
     Managed<VkRayTracingPipelineCreateInfoNV> RayTracingPipelineCreateInfoNV;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkPipeline(const BasicManagedVkPipeline&) = delete;
-    BasicManagedVkPipeline& operator=(const BasicManagedVkPipeline&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkPipeline::create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkComputePipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines)
@@ -1676,15 +1677,15 @@ BasicManagedVkPipeline::~BasicManagedVkPipeline()
 }
 
 template <>
-const VkPipeline& get<VkPipeline>() const
+const VkPipeline& BasicManagedVkPipeline::get<VkPipeline>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkPipeline::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkPipeline_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -1745,8 +1746,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkPipelineCacheCreateInfo> PipelineCacheCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkPipelineCache(const BasicManagedVkPipelineCache&) = delete;
-    BasicManagedVkPipelineCache& operator=(const BasicManagedVkPipelineCache&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkPipelineCache::create(const Managed<VkDevice>& device, const VkPipelineCacheCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkPipelineCache>* pPipelineCache)
@@ -1768,15 +1769,15 @@ BasicManagedVkPipelineCache::~BasicManagedVkPipelineCache()
 }
 
 template <>
-const VkPipelineCache& get<VkPipelineCache>() const
+const VkPipelineCache& BasicManagedVkPipelineCache::get<VkPipelineCache>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkPipelineCache::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkPipelineCache_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -1811,8 +1812,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkPipelineLayoutCreateInfo> PipelineLayoutCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkPipelineLayout(const BasicManagedVkPipelineLayout&) = delete;
-    BasicManagedVkPipelineLayout& operator=(const BasicManagedVkPipelineLayout&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkPipelineLayout::create(const Managed<VkDevice>& device, const VkPipelineLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkPipelineLayout>* pPipelineLayout)
@@ -1834,15 +1835,15 @@ BasicManagedVkPipelineLayout::~BasicManagedVkPipelineLayout()
 }
 
 template <>
-const VkPipelineLayout& get<VkPipelineLayout>() const
+const VkPipelineLayout& BasicManagedVkPipelineLayout::get<VkPipelineLayout>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkPipelineLayout::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkPipelineLayout_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -1877,8 +1878,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkPrivateDataSlotCreateInfoEXT> PrivateDataSlotCreateInfoEXT;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkPrivateDataSlotEXT(const BasicManagedVkPrivateDataSlotEXT&) = delete;
-    BasicManagedVkPrivateDataSlotEXT& operator=(const BasicManagedVkPrivateDataSlotEXT&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkPrivateDataSlotEXT::create(const Managed<VkDevice>& device, const VkPrivateDataSlotCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkPrivateDataSlotEXT>* pPrivateDataSlot)
@@ -1900,15 +1901,15 @@ BasicManagedVkPrivateDataSlotEXT::~BasicManagedVkPrivateDataSlotEXT()
 }
 
 template <>
-const VkPrivateDataSlotEXT& get<VkPrivateDataSlotEXT>() const
+const VkPrivateDataSlotEXT& BasicManagedVkPrivateDataSlotEXT::get<VkPrivateDataSlotEXT>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkPrivateDataSlotEXT::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkPrivateDataSlotEXT_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -1943,8 +1944,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkQueryPoolCreateInfo> QueryPoolCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkQueryPool(const BasicManagedVkQueryPool&) = delete;
-    BasicManagedVkQueryPool& operator=(const BasicManagedVkQueryPool&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkQueryPool::create(const Managed<VkDevice>& device, const VkQueryPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkQueryPool>* pQueryPool)
@@ -1966,15 +1967,15 @@ BasicManagedVkQueryPool::~BasicManagedVkQueryPool()
 }
 
 template <>
-const VkQueryPool& get<VkQueryPool>() const
+const VkQueryPool& BasicManagedVkQueryPool::get<VkQueryPool>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkQueryPool::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkQueryPool_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -2007,8 +2008,8 @@ public:
     VkQueue vkHandle { VK_NULL_HANDLE };
     Managed<VkDevice> parentVkDevice;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkQueue(const BasicManagedVkQueue&) = delete;
-    BasicManagedVkQueue& operator=(const BasicManagedVkQueue&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 
@@ -2017,15 +2018,15 @@ BasicManagedVkQueue::~BasicManagedVkQueue()
 }
 
 template <>
-const VkQueue& get<VkQueue>() const
+const VkQueue& BasicManagedVkQueue::get<VkQueue>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkQueue::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkQueue_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -2053,8 +2054,8 @@ public:
     Managed<VkRenderPassCreateInfo> RenderPassCreateInfo;
     Managed<VkRenderPassCreateInfo2> RenderPassCreateInfo2;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkRenderPass(const BasicManagedVkRenderPass&) = delete;
-    BasicManagedVkRenderPass& operator=(const BasicManagedVkRenderPass&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkRenderPass::create(const Managed<VkDevice>& device, const VkRenderPassCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkRenderPass>* pRenderPass)
@@ -2090,15 +2091,15 @@ BasicManagedVkRenderPass::~BasicManagedVkRenderPass()
 }
 
 template <>
-const VkRenderPass& get<VkRenderPass>() const
+const VkRenderPass& BasicManagedVkRenderPass::get<VkRenderPass>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkRenderPass::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkRenderPass_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -2141,8 +2142,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkSamplerCreateInfo> SamplerCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkSampler(const BasicManagedVkSampler&) = delete;
-    BasicManagedVkSampler& operator=(const BasicManagedVkSampler&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkSampler::create(const Managed<VkDevice>& device, const VkSamplerCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSampler>* pSampler)
@@ -2164,15 +2165,15 @@ BasicManagedVkSampler::~BasicManagedVkSampler()
 }
 
 template <>
-const VkSampler& get<VkSampler>() const
+const VkSampler& BasicManagedVkSampler::get<VkSampler>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkSampler::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkSampler_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -2207,8 +2208,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkSamplerYcbcrConversionCreateInfo> SamplerYcbcrConversionCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkSamplerYcbcrConversion(const BasicManagedVkSamplerYcbcrConversion&) = delete;
-    BasicManagedVkSamplerYcbcrConversion& operator=(const BasicManagedVkSamplerYcbcrConversion&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkSamplerYcbcrConversion::create(const Managed<VkDevice>& device, const VkSamplerYcbcrConversionCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSamplerYcbcrConversion>* pYcbcrConversion)
@@ -2230,15 +2231,15 @@ BasicManagedVkSamplerYcbcrConversion::~BasicManagedVkSamplerYcbcrConversion()
 }
 
 template <>
-const VkSamplerYcbcrConversion& get<VkSamplerYcbcrConversion>() const
+const VkSamplerYcbcrConversion& BasicManagedVkSamplerYcbcrConversion::get<VkSamplerYcbcrConversion>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkSamplerYcbcrConversion::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkSamplerYcbcrConversion_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -2274,8 +2275,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkSemaphoreCreateInfo> SemaphoreCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkSemaphore(const BasicManagedVkSemaphore&) = delete;
-    BasicManagedVkSemaphore& operator=(const BasicManagedVkSemaphore&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkSemaphore::create(const Managed<VkDevice>& device, const VkSemaphoreCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSemaphore>* pSemaphore)
@@ -2297,15 +2298,15 @@ BasicManagedVkSemaphore::~BasicManagedVkSemaphore()
 }
 
 template <>
-const VkSemaphore& get<VkSemaphore>() const
+const VkSemaphore& BasicManagedVkSemaphore::get<VkSemaphore>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkSemaphore::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkSemaphore_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -2340,8 +2341,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkShaderModuleCreateInfo> ShaderModuleCreateInfo;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkShaderModule(const BasicManagedVkShaderModule&) = delete;
-    BasicManagedVkShaderModule& operator=(const BasicManagedVkShaderModule&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkShaderModule::create(const Managed<VkDevice>& device, const VkShaderModuleCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkShaderModule>* pShaderModule)
@@ -2363,15 +2364,15 @@ BasicManagedVkShaderModule::~BasicManagedVkShaderModule()
 }
 
 template <>
-const VkShaderModule& get<VkShaderModule>() const
+const VkShaderModule& BasicManagedVkShaderModule::get<VkShaderModule>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkShaderModule::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkShaderModule_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -2443,8 +2444,8 @@ public:
     Managed<VkXlibSurfaceCreateInfoKHR> XlibSurfaceCreateInfoKHR;
     #endif // VK_USE_PLATFORM_XLIB_KHR
     VkAllocationCallbacks allocator { };
-    BasicManagedVkSurfaceKHR(const BasicManagedVkSurfaceKHR&) = delete;
-    BasicManagedVkSurfaceKHR& operator=(const BasicManagedVkSurfaceKHR&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
@@ -2672,15 +2673,15 @@ BasicManagedVkSurfaceKHR::~BasicManagedVkSurfaceKHR()
 }
 
 template <>
-const VkSurfaceKHR& get<VkSurfaceKHR>() const
+const VkSurfaceKHR& BasicManagedVkSurfaceKHR::get<VkSurfaceKHR>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkSurfaceKHR::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkSurfaceKHR_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -2847,8 +2848,8 @@ public:
     Managed<VkSurfaceKHR> parentVkSurfaceKHR;
     Managed<VkSwapchainCreateInfoKHR> SwapchainCreateInfoKHR;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkSwapchainKHR(const BasicManagedVkSwapchainKHR&) = delete;
-    BasicManagedVkSwapchainKHR& operator=(const BasicManagedVkSwapchainKHR&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkSwapchainKHR::create(const Managed<VkDevice>& device, uint32_t swapchainCount, const VkSwapchainCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkSwapchainKHR>* pSwapchains)
@@ -2884,15 +2885,15 @@ BasicManagedVkSwapchainKHR::~BasicManagedVkSwapchainKHR()
 }
 
 template <>
-const VkSwapchainKHR& get<VkSwapchainKHR>() const
+const VkSwapchainKHR& BasicManagedVkSwapchainKHR::get<VkSwapchainKHR>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkSwapchainKHR::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkSwapchainKHR_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -2934,8 +2935,8 @@ public:
     Managed<VkDevice> parentVkDevice;
     Managed<VkValidationCacheCreateInfoEXT> ValidationCacheCreateInfoEXT;
     VkAllocationCallbacks allocator { };
-    BasicManagedVkValidationCacheEXT(const BasicManagedVkValidationCacheEXT&) = delete;
-    BasicManagedVkValidationCacheEXT& operator=(const BasicManagedVkValidationCacheEXT&) = delete;
+    ControlBlock(const ControlBlock&) = delete;
+    ControlBlock& operator=(const ControlBlock&) = delete;
 };
 
 VkResult BasicManagedVkValidationCacheEXT::create(const Managed<VkDevice>& device, const VkValidationCacheCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkValidationCacheEXT>* pValidationCache)
@@ -2957,15 +2958,15 @@ BasicManagedVkValidationCacheEXT::~BasicManagedVkValidationCacheEXT()
 }
 
 template <>
-const VkValidationCacheEXT& get<VkValidationCacheEXT>() const
+const VkValidationCacheEXT& BasicManagedVkValidationCacheEXT::get<VkValidationCacheEXT>() const
 {
     return mHandle;
 }
 
 template <>
-const VkObjectType& get<VkObjectType>() const
+const VkObjectType& BasicManagedVkValidationCacheEXT::get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_VkValidationCacheEXT_TODO;
+    return VK_OBJECT_TYPE_UNKNOWN;
 }
 
 
@@ -2984,5 +2985,6 @@ const Managed<VkValidationCacheCreateInfoEXT>& BasicManagedVkValidationCacheEXT:
     return mspControlBlock ? mspControlBlock->ValidationCacheCreateInfoEXT : sEmptyManagedVkValidationCacheCreateInfoEXT;
 }
 
+} // namespace detail
 } // namespace vk
 } // namespace dst

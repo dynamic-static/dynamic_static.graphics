@@ -28,64 +28,64 @@ namespace detail {
 // NOTE : The following functions are manually implemented
 #if 0
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkAccelerationStructureBuildGeometryInfoKHR>(const VkAccelerationStructureBuildGeometryInfoKHR& obj);
+template <> inline auto to_tuple<VkAccelerationStructureBuildGeometryInfoKHR>(const VkAccelerationStructureBuildGeometryInfoKHR&);
 #endif // VK_ENABLE_BETA_EXTENSIONS
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkAccelerationStructureBuildOffsetInfoKHR>(const VkAccelerationStructureBuildOffsetInfoKHR& obj);
+template <> inline auto to_tuple<VkAccelerationStructureBuildOffsetInfoKHR>(const VkAccelerationStructureBuildOffsetInfoKHR&);
 #endif // VK_ENABLE_BETA_EXTENSIONS
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkAccelerationStructureCreateGeometryTypeInfoKHR>(const VkAccelerationStructureCreateGeometryTypeInfoKHR& obj);
+template <> inline auto to_tuple<VkAccelerationStructureCreateGeometryTypeInfoKHR>(const VkAccelerationStructureCreateGeometryTypeInfoKHR&);
 #endif // VK_ENABLE_BETA_EXTENSIONS
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkAccelerationStructureCreateInfoKHR>(const VkAccelerationStructureCreateInfoKHR& obj);
+template <> inline auto to_tuple<VkAccelerationStructureCreateInfoKHR>(const VkAccelerationStructureCreateInfoKHR&);
 #endif // VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkAccelerationStructureCreateInfoNV>(const VkAccelerationStructureCreateInfoNV& obj);
+template <> inline auto to_tuple<VkAccelerationStructureCreateInfoNV>(const VkAccelerationStructureCreateInfoNV&);
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkAccelerationStructureDeviceAddressInfoKHR>(const VkAccelerationStructureDeviceAddressInfoKHR& obj);
-#endif // VK_ENABLE_BETA_EXTENSIONS
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkAccelerationStructureGeometryAabbsDataKHR>(const VkAccelerationStructureGeometryAabbsDataKHR& obj);
+template <> inline auto to_tuple<VkAccelerationStructureDeviceAddressInfoKHR>(const VkAccelerationStructureDeviceAddressInfoKHR&);
 #endif // VK_ENABLE_BETA_EXTENSIONS
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkAccelerationStructureGeometryDataKHR>(const VkAccelerationStructureGeometryDataKHR& obj);
+template <> inline auto to_tuple<VkAccelerationStructureGeometryAabbsDataKHR>(const VkAccelerationStructureGeometryAabbsDataKHR&);
 #endif // VK_ENABLE_BETA_EXTENSIONS
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkAccelerationStructureGeometryInstancesDataKHR>(const VkAccelerationStructureGeometryInstancesDataKHR& obj);
+template <> inline auto to_tuple<VkAccelerationStructureGeometryDataKHR>(const VkAccelerationStructureGeometryDataKHR&);
 #endif // VK_ENABLE_BETA_EXTENSIONS
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkAccelerationStructureGeometryKHR>(const VkAccelerationStructureGeometryKHR& obj);
+template <> inline auto to_tuple<VkAccelerationStructureGeometryInstancesDataKHR>(const VkAccelerationStructureGeometryInstancesDataKHR&);
 #endif // VK_ENABLE_BETA_EXTENSIONS
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkAccelerationStructureGeometryTrianglesDataKHR>(const VkAccelerationStructureGeometryTrianglesDataKHR& obj);
-#endif // VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkAccelerationStructureInfoNV>(const VkAccelerationStructureInfoNV& obj);
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR& obj);
+template <> inline auto to_tuple<VkAccelerationStructureGeometryKHR>(const VkAccelerationStructureGeometryKHR&);
 #endif // VK_ENABLE_BETA_EXTENSIONS
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkAccelerationStructureMemoryRequirementsInfoKHR>(const VkAccelerationStructureMemoryRequirementsInfoKHR& obj);
+template <> inline auto to_tuple<VkAccelerationStructureGeometryTrianglesDataKHR>(const VkAccelerationStructureGeometryTrianglesDataKHR&);
 #endif // VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkAccelerationStructureMemoryRequirementsInfoNV>(const VkAccelerationStructureMemoryRequirementsInfoNV& obj);
+template <> inline auto to_tuple<VkAccelerationStructureInfoNV>(const VkAccelerationStructureInfoNV&);
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkAccelerationStructureVersionKHR>(const VkAccelerationStructureVersionKHR& obj);
+template <> inline auto to_tuple<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR&);
 #endif // VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkClearColorValue>(const VkClearColorValue& obj);
-template <> inline auto to_tuple<VkClearValue>(const VkClearValue& obj);
-template <> inline auto to_tuple<VkDebugMarkerObjectTagInfoEXT>(const VkDebugMarkerObjectTagInfoEXT& obj);
-template <> inline auto to_tuple<VkDebugUtilsObjectTagInfoEXT>(const VkDebugUtilsObjectTagInfoEXT& obj);
-template <> inline auto to_tuple<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR& obj);
-template <> inline auto to_tuple<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj);
-template <> inline auto to_tuple<VkPipelineCacheCreateInfo>(const VkPipelineCacheCreateInfo& obj);
-template <> inline auto to_tuple<VkPipelineExecutableInternalRepresentationKHR>(const VkPipelineExecutableInternalRepresentationKHR& obj);
-template <> inline auto to_tuple<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR& obj);
-template <> inline auto to_tuple<VkPipelineMultisampleStateCreateInfo>(const VkPipelineMultisampleStateCreateInfo& obj);
-template <> inline auto to_tuple<VkShaderModuleCreateInfo>(const VkShaderModuleCreateInfo& obj);
-template <> inline auto to_tuple<VkSpecializationInfo>(const VkSpecializationInfo& obj);
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkTransformMatrixKHR>(const VkTransformMatrixKHR& obj);
+template <> inline auto to_tuple<VkAccelerationStructureMemoryRequirementsInfoKHR>(const VkAccelerationStructureMemoryRequirementsInfoKHR&);
 #endif // VK_ENABLE_BETA_EXTENSIONS
-template <> inline auto to_tuple<VkValidationCacheCreateInfoEXT>(const VkValidationCacheCreateInfoEXT& obj);
-template <> inline auto to_tuple<VkWriteDescriptorSetInlineUniformBlockEXT>(const VkWriteDescriptorSetInlineUniformBlockEXT& obj);
+template <> inline auto to_tuple<VkAccelerationStructureMemoryRequirementsInfoNV>(const VkAccelerationStructureMemoryRequirementsInfoNV&);
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkAccelerationStructureVersionKHR>(const VkAccelerationStructureVersionKHR&);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkClearColorValue>(const VkClearColorValue&);
+template <> inline auto to_tuple<VkClearValue>(const VkClearValue&);
+template <> inline auto to_tuple<VkDebugMarkerObjectTagInfoEXT>(const VkDebugMarkerObjectTagInfoEXT&);
+template <> inline auto to_tuple<VkDebugUtilsObjectTagInfoEXT>(const VkDebugUtilsObjectTagInfoEXT&);
+template <> inline auto to_tuple<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR&);
+template <> inline auto to_tuple<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL&);
+template <> inline auto to_tuple<VkPipelineCacheCreateInfo>(const VkPipelineCacheCreateInfo&);
+template <> inline auto to_tuple<VkPipelineExecutableInternalRepresentationKHR>(const VkPipelineExecutableInternalRepresentationKHR&);
+template <> inline auto to_tuple<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR&);
+template <> inline auto to_tuple<VkPipelineMultisampleStateCreateInfo>(const VkPipelineMultisampleStateCreateInfo&);
+template <> inline auto to_tuple<VkShaderModuleCreateInfo>(const VkShaderModuleCreateInfo&);
+template <> inline auto to_tuple<VkSpecializationInfo>(const VkSpecializationInfo&);
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkTransformMatrixKHR>(const VkTransformMatrixKHR&);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkValidationCacheCreateInfoEXT>(const VkValidationCacheCreateInfoEXT&);
+template <> inline auto to_tuple<VkWriteDescriptorSetInlineUniformBlockEXT>(const VkWriteDescriptorSetInlineUniformBlockEXT&);
 #endif
 ////////////////////////////////////////////////////////////////////////////////
 

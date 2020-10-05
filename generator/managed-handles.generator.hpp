@@ -42,14 +42,14 @@ inline void generate_managed_handle_declarations(const xml::Manifest& xmlManifes
 
     namespace dst {
     namespace vk {
+    namespace detail {
 
     $<HANDLE_TYPES:"\n">
     $<HANDLE_COMPILE_GUARDS>
     #ifdef ${COMPILE_GUARD}
     $</HANDLE_COMPILE_GUARDS>
-    template <>
     class BasicManaged${HANDLE_TYPE}
-        : public detail::BasicManaged<${HANDLE_TYPE}>
+        : public BasicManaged<${HANDLE_TYPE}>
     {
     public:
         BasicManaged${HANDLE_TYPE}() = default;
@@ -88,6 +88,7 @@ inline void generate_managed_handle_declarations(const xml::Manifest& xmlManifes
     $</HANDLE_COMPILE_GUARDS>
     $</HANDLE_TYPES>
 
+    } // namespace detail
     } // namespace vk
     } // namespace dst
     )", {
@@ -115,6 +116,7 @@ inline void generate_managed_handle_definitions(const xml::Manifest& xmlManifest
 
     namespace dst {
     namespace vk {
+    namespace detail {
 
     $<HANDLE_TYPES:"\n">
     $<HANDLE_COMPILE_GUARDS>
@@ -150,15 +152,15 @@ inline void generate_managed_handle_definitions(const xml::Manifest& xmlManifest
         $</CREATE_INFO_COMPILE_GUARDS>
         $</CREATE_INFO_TYPES>
         VkAllocationCallbacks allocator { };
-        BasicManaged${HANDLE_TYPE}(const BasicManaged${HANDLE_TYPE}&) = delete;
-        BasicManaged${HANDLE_TYPE}& operator=(const BasicManaged${HANDLE_TYPE}&) = delete;
+        ControlBlock(const ControlBlock&) = delete;
+        ControlBlock& operator=(const ControlBlock&) = delete;
     };
 
     $<CREATE_FUNCTIONS:"\n">
     $<CREATE_FUNCTION_COMPILE_GUARDS>
     #ifdef ${COMPILE_GUARD}
     $</CREATE_FUNCTION_COMPILE_GUARDS>
-    VkResult BasicManaged${HANDLE_TYPE}::create($<PARAMETERS:", ">${MANAGED_PARAMETER_TYPE} ${MANAGED_PARAMETER_NAME}$</>)
+    VkResult BasicManaged${HANDLE_TYPE}::${CREATE_FUNCTION_NAME}($<PARAMETERS:", ">${MANAGED_PARAMETER_TYPE} ${MANAGED_PARAMETER_NAME}$</>)
     {
         #if 0
         ${HANDLE_TYPE} handle = VK_NULL_HANDLE;
@@ -181,13 +183,13 @@ inline void generate_managed_handle_definitions(const xml::Manifest& xmlManifest
     }
 
     template <>
-    const ${HANDLE_TYPE}& get<${HANDLE_TYPE}>() const
+    const ${HANDLE_TYPE}& BasicManaged${HANDLE_TYPE}::get<${HANDLE_TYPE}>() const
     {
         return mHandle;
     }
 
     template <>
-    const VkObjectType& get<VkObjectType>() const
+    const VkObjectType& BasicManaged${HANDLE_TYPE}::get<VkObjectType>() const
     {
         return ${OBJECT_TYPE};
     }
@@ -220,6 +222,7 @@ inline void generate_managed_handle_definitions(const xml::Manifest& xmlManifest
     $</HANDLE_COMPILE_GUARDS>
     $</HANDLE_TYPES>
 
+    } // namespace detail
     } // namespace vk
     } // namespace dst
     )", {

@@ -42,12 +42,11 @@ inline void generate_destroy_structure_copy_declaration(const xml::Manifest& xml
 
     void destroy_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocationCallbacks);
 
-    $<STRUCTURES:"\n">
+    $<STRUCTURES>
     $<COMPILE_GUARDS>
     #ifdef ${COMPILE_GUARD}
     $</>
-    template <>
-    void destroy_structure_copy<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+    template <> void destroy_structure_copy<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}&, const VkAllocationCallbacks*);
     $<COMPILE_GUARDS:reverse=true>
     #endif // ${COMPILE_GUARD}
     $</>

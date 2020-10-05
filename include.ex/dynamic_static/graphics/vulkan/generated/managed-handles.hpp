@@ -19,11 +19,11 @@
 
 namespace dst {
 namespace vk {
+namespace detail {
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
 class BasicManagedVkAccelerationStructureKHR
-    : public detail::BasicManaged<VkAccelerationStructureKHR>
+    : public BasicManaged<VkAccelerationStructureKHR>
 {
 public:
     BasicManagedVkAccelerationStructureKHR() = default;
@@ -46,9 +46,8 @@ protected:
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
 
-template <>
 class BasicManagedVkBuffer
-    : public detail::BasicManaged<VkBuffer>
+    : public BasicManaged<VkBuffer>
 {
 public:
     BasicManagedVkBuffer() = default;
@@ -65,9 +64,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkBufferView
-    : public detail::BasicManaged<VkBufferView>
+    : public BasicManaged<VkBufferView>
 {
 public:
     BasicManagedVkBufferView() = default;
@@ -84,9 +82,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkCommandBuffer
-    : public detail::BasicManaged<VkCommandBuffer>
+    : public BasicManaged<VkCommandBuffer>
 {
 public:
     BasicManagedVkCommandBuffer() = default;
@@ -103,9 +100,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkCommandPool
-    : public detail::BasicManaged<VkCommandPool>
+    : public BasicManaged<VkCommandPool>
 {
 public:
     BasicManagedVkCommandPool() = default;
@@ -122,9 +118,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkDebugReportCallbackEXT
-    : public detail::BasicManaged<VkDebugReportCallbackEXT>
+    : public BasicManaged<VkDebugReportCallbackEXT>
 {
 public:
     BasicManagedVkDebugReportCallbackEXT() = default;
@@ -141,9 +136,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkDebugUtilsMessengerEXT
-    : public detail::BasicManaged<VkDebugUtilsMessengerEXT>
+    : public BasicManaged<VkDebugUtilsMessengerEXT>
 {
 public:
     BasicManagedVkDebugUtilsMessengerEXT() = default;
@@ -161,9 +155,8 @@ protected:
 };
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
 class BasicManagedVkDeferredOperationKHR
-    : public detail::BasicManaged<VkDeferredOperationKHR>
+    : public BasicManaged<VkDeferredOperationKHR>
 {
 public:
     BasicManagedVkDeferredOperationKHR() = default;
@@ -182,9 +175,8 @@ protected:
 };
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
-template <>
 class BasicManagedVkDescriptorPool
-    : public detail::BasicManaged<VkDescriptorPool>
+    : public BasicManaged<VkDescriptorPool>
 {
 public:
     BasicManagedVkDescriptorPool() = default;
@@ -201,9 +193,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkDescriptorSet
-    : public detail::BasicManaged<VkDescriptorSet>
+    : public BasicManaged<VkDescriptorSet>
 {
 public:
     BasicManagedVkDescriptorSet() = default;
@@ -220,9 +211,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkDescriptorSetLayout
-    : public detail::BasicManaged<VkDescriptorSetLayout>
+    : public BasicManaged<VkDescriptorSetLayout>
 {
 public:
     BasicManagedVkDescriptorSetLayout() = default;
@@ -239,9 +229,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkDescriptorUpdateTemplate
-    : public detail::BasicManaged<VkDescriptorUpdateTemplate>
+    : public BasicManaged<VkDescriptorUpdateTemplate>
 {
 public:
     BasicManagedVkDescriptorUpdateTemplate() = default;
@@ -259,9 +248,8 @@ protected:
 };
 
 
-template <>
 class BasicManagedVkDevice
-    : public detail::BasicManaged<VkDevice>
+    : public BasicManaged<VkDevice>
 {
 public:
     BasicManagedVkDevice() = default;
@@ -278,9 +266,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkDeviceMemory
-    : public detail::BasicManaged<VkDeviceMemory>
+    : public BasicManaged<VkDeviceMemory>
 {
 public:
     BasicManagedVkDeviceMemory() = default;
@@ -297,9 +284,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkDisplayKHR
-    : public detail::BasicManaged<VkDisplayKHR>
+    : public BasicManaged<VkDisplayKHR>
 {
 public:
     BasicManagedVkDisplayKHR() = default;
@@ -314,9 +300,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkDisplayModeKHR
-    : public detail::BasicManaged<VkDisplayModeKHR>
+    : public BasicManaged<VkDisplayModeKHR>
 {
 public:
     BasicManagedVkDisplayModeKHR() = default;
@@ -333,9 +318,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkEvent
-    : public detail::BasicManaged<VkEvent>
+    : public BasicManaged<VkEvent>
 {
 public:
     BasicManagedVkEvent() = default;
@@ -352,9 +336,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkFence
-    : public detail::BasicManaged<VkFence>
+    : public BasicManaged<VkFence>
 {
 public:
     BasicManagedVkFence() = default;
@@ -371,9 +354,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkFramebuffer
-    : public detail::BasicManaged<VkFramebuffer>
+    : public BasicManaged<VkFramebuffer>
 {
 public:
     BasicManagedVkFramebuffer() = default;
@@ -390,9 +372,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkImage
-    : public detail::BasicManaged<VkImage>
+    : public BasicManaged<VkImage>
 {
 public:
     BasicManagedVkImage() = default;
@@ -409,9 +390,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkImageView
-    : public detail::BasicManaged<VkImageView>
+    : public BasicManaged<VkImageView>
 {
 public:
     BasicManagedVkImageView() = default;
@@ -428,9 +408,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkIndirectCommandsLayoutNV
-    : public detail::BasicManaged<VkIndirectCommandsLayoutNV>
+    : public BasicManaged<VkIndirectCommandsLayoutNV>
 {
 public:
     BasicManagedVkIndirectCommandsLayoutNV() = default;
@@ -447,9 +426,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkInstance
-    : public detail::BasicManaged<VkInstance>
+    : public BasicManaged<VkInstance>
 {
 public:
     BasicManagedVkInstance() = default;
@@ -465,9 +443,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkPerformanceConfigurationINTEL
-    : public detail::BasicManaged<VkPerformanceConfigurationINTEL>
+    : public BasicManaged<VkPerformanceConfigurationINTEL>
 {
 public:
     BasicManagedVkPerformanceConfigurationINTEL() = default;
@@ -482,9 +459,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkPhysicalDevice
-    : public detail::BasicManaged<VkPhysicalDevice>
+    : public BasicManaged<VkPhysicalDevice>
 {
 public:
     BasicManagedVkPhysicalDevice() = default;
@@ -499,9 +475,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkPipeline
-    : public detail::BasicManaged<VkPipeline>
+    : public BasicManaged<VkPipeline>
 {
 public:
     BasicManagedVkPipeline() = default;
@@ -528,9 +503,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkPipelineCache
-    : public detail::BasicManaged<VkPipelineCache>
+    : public BasicManaged<VkPipelineCache>
 {
 public:
     BasicManagedVkPipelineCache() = default;
@@ -547,9 +521,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkPipelineLayout
-    : public detail::BasicManaged<VkPipelineLayout>
+    : public BasicManaged<VkPipelineLayout>
 {
 public:
     BasicManagedVkPipelineLayout() = default;
@@ -566,9 +539,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkPrivateDataSlotEXT
-    : public detail::BasicManaged<VkPrivateDataSlotEXT>
+    : public BasicManaged<VkPrivateDataSlotEXT>
 {
 public:
     BasicManagedVkPrivateDataSlotEXT() = default;
@@ -585,9 +557,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkQueryPool
-    : public detail::BasicManaged<VkQueryPool>
+    : public BasicManaged<VkQueryPool>
 {
 public:
     BasicManagedVkQueryPool() = default;
@@ -604,9 +575,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkQueue
-    : public detail::BasicManaged<VkQueue>
+    : public BasicManaged<VkQueue>
 {
 public:
     BasicManagedVkQueue() = default;
@@ -621,9 +591,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkRenderPass
-    : public detail::BasicManaged<VkRenderPass>
+    : public BasicManaged<VkRenderPass>
 {
 public:
     BasicManagedVkRenderPass() = default;
@@ -642,9 +611,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkSampler
-    : public detail::BasicManaged<VkSampler>
+    : public BasicManaged<VkSampler>
 {
 public:
     BasicManagedVkSampler() = default;
@@ -661,9 +629,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkSamplerYcbcrConversion
-    : public detail::BasicManaged<VkSamplerYcbcrConversion>
+    : public BasicManaged<VkSamplerYcbcrConversion>
 {
 public:
     BasicManagedVkSamplerYcbcrConversion() = default;
@@ -681,9 +648,8 @@ protected:
 };
 
 
-template <>
 class BasicManagedVkSemaphore
-    : public detail::BasicManaged<VkSemaphore>
+    : public BasicManaged<VkSemaphore>
 {
 public:
     BasicManagedVkSemaphore() = default;
@@ -700,9 +666,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkShaderModule
-    : public detail::BasicManaged<VkShaderModule>
+    : public BasicManaged<VkShaderModule>
 {
 public:
     BasicManagedVkShaderModule() = default;
@@ -719,9 +684,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkSurfaceKHR
-    : public detail::BasicManaged<VkSurfaceKHR>
+    : public BasicManaged<VkSurfaceKHR>
 {
 public:
     BasicManagedVkSurfaceKHR() = default;
@@ -812,9 +776,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkSwapchainKHR
-    : public detail::BasicManaged<VkSwapchainKHR>
+    : public BasicManaged<VkSwapchainKHR>
 {
 public:
     BasicManagedVkSwapchainKHR() = default;
@@ -833,9 +796,8 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
-template <>
 class BasicManagedVkValidationCacheEXT
-    : public detail::BasicManaged<VkValidationCacheEXT>
+    : public BasicManaged<VkValidationCacheEXT>
 {
 public:
     BasicManagedVkValidationCacheEXT() = default;
@@ -852,5 +814,6 @@ protected:
     std::shared_ptr<ControlBlock> mspControlBlock;
 };
 
+} // namespace detail
 } // namespace vk
 } // namespace dst

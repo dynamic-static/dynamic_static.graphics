@@ -16,13 +16,15 @@
 namespace dst {
 namespace vk {
 
+#if 0
 template <>
 class Managed<VkBuffer>
-    : public detail::BasicManagedBuffer
+    : public detail::BasicManagedVkBuffer
 {
 public:
 
 };
+#endif
 
 } // namespace vk
 } // namespace dst

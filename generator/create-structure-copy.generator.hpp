@@ -85,12 +85,11 @@ inline void generate_create_structure_copy_definitions(const xml::Manifest& xmlM
     ////////////////////////////////////////////////////////////////////////////////
     // NOTE : The following functions are manually implemented
     #if 0
-    $<MANUALLY_IMPLEMENTED_STRUCTURES:"\n">
+    $<MANUALLY_IMPLEMENTED_STRUCTURES>
     $<COMPILE_GUARDS>
     #ifdef ${COMPILE_GUARD}
     $</>
-    template <>
-    ${STRUCTURE_NAME} create_structure_copy<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+    template <> ${STRUCTURE_NAME} create_structure_copy<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}&, const VkAllocationCallbacks*);
     $<COMPILE_GUARDS:reverse=true>
     #endif // ${COMPILE_GUARD}
     $</>

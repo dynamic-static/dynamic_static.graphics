@@ -342,7 +342,8 @@ inline dst::cppgen::SourceBlock get_handle_source_blocks(const xml::Manifest& xm
                         }
                     ),
                     SourceBlock("HANDLE_TYPE", handle.name),
-                    SourceBlock("OBJECT_TYPE", "VK_OBJECT_TYPE_" + handle.name + "_TODO"),
+                    // TODO : Handle needs a VkObjectType field...
+                    SourceBlock("OBJECT_TYPE", "VK_OBJECT_TYPE_UNKNOWN"),
                     SourceBlock("PARENT_HANDLE_TYPES", handle.parents,
                         [&](const std::string& parent) -> std::vector<SourceBlock>
                         {
