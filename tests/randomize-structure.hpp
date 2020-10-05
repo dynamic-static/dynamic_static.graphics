@@ -66,7 +66,7 @@ Randomizes the contents of a given array of bytes
 inline void randomize_bytes(RngContext& rngContext, size_t byteCount, uint8_t* pBytes)
 {
     for (size_t i = 0; i < byteCount; ++i) {
-        pBytes[i] = rngContext.rng.range<uint8_t>(1, std::numeric_limits<uint8_t>::max());
+        pBytes[i] = (uint8_t)rngContext.rng.range<int>(1, std::numeric_limits<uint8_t>::max());
     }
 }
 
