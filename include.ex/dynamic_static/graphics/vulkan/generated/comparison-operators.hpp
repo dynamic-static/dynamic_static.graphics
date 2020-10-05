@@ -12,9 +12,6 @@
 
 #include "dynamic_static/graphics/vulkan/defines.hpp"
 
-namespace dst {
-namespace vk {
-
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 bool operator==(const VkAabbPositionsKHR& lhs, const VkAabbPositionsKHR& rhs);
 bool operator!=(const VkAabbPositionsKHR& lhs, const VkAabbPositionsKHR& rhs);
@@ -3495,6 +3492,3 @@ bool operator<=(const VkXlibSurfaceCreateInfoKHR& lhs, const VkXlibSurfaceCreate
 bool operator>(const VkXlibSurfaceCreateInfoKHR& lhs, const VkXlibSurfaceCreateInfoKHR& rhs);
 bool operator>=(const VkXlibSurfaceCreateInfoKHR& lhs, const VkXlibSurfaceCreateInfoKHR& rhs);
 #endif // VK_USE_PLATFORM_XLIB_KHR
-
-} // namespace vk
-} // namespace dst

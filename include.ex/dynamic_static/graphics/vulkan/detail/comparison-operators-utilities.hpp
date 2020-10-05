@@ -17,14 +17,17 @@
 #include <string_view>
 
 namespace dst {
-namespace gfx {
 namespace vk {
 namespace detail {
 
 /**
 TODO : Documentation
 */
-bool operator==(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs);
+bool operator==(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs)
+{
+    // TODO : Generate this function's definition...
+    return lhs.pNext == rhs.pNext;
+}
 
 /**
 TODO : Documentation
@@ -37,7 +40,11 @@ inline bool operator!=(const PNextTupleElementWrapper& lhs, const PNextTupleElem
 /**
 TODO : Documentation
 */
-bool operator<(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs);
+bool operator<(const PNextTupleElementWrapper& lhs, const PNextTupleElementWrapper& rhs)
+{
+    // TODO : Generate this function's definition...
+    return lhs.pNext < rhs.pNext;
+}
 
 /**
 TODO : Documentation
@@ -173,5 +180,4 @@ inline bool operator>=(const DynamicStringArrayTupleElementWrapper& lhs, const D
 
 } // namespace detail
 } // namespace vk
-} // namespace gfx
 } // namespace dst

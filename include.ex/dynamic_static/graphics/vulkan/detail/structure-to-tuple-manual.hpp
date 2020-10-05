@@ -13,40 +13,140 @@
 #include "dynamic_static/core/span.hpp"
 #include "dynamic_static/graphics/vulkan/detail/structure-to-tuple-utilities.hpp"
 #include "dynamic_static/graphics/vulkan/detail/tuple-element-wrappers.hpp"
-#include "dynamic_static/graphics/vulkan/generated/structure-to-tuple.hpp"
+#include "dynamic_static/graphics/vulkan/generated/to-tuple.hpp"
 #include "dynamic_static/graphics/vulkan/defines.hpp"
 
 #include <tuple>
 #include <utility>
 
 namespace dst {
-namespace gfx {
 namespace vk {
 namespace detail {
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
-inline auto structure_to_tuple<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR& obj)
+inline auto to_tuple<VkAccelerationStructureBuildGeometryInfoKHR>(const VkAccelerationStructureBuildGeometryInfoKHR& obj)
 {
-    // TODO : Handle bitfields
     return std::make_tuple(0);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
-inline auto structure_to_tuple<VkAccelerationStructureVersionKHR>(const VkAccelerationStructureVersionKHR& obj)
+inline auto to_tuple<VkAccelerationStructureBuildOffsetInfoKHR>(const VkAccelerationStructureBuildOffsetInfoKHR& obj)
 {
-    return std::make_tuple(
-        obj.sType,
-        PNextTupleElementWrapper { obj.pNext },
-        Span(obj.versionData, 2 * VK_UUID_SIZE)
-    );
+    return std::make_tuple(0);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+inline auto to_tuple<VkAccelerationStructureCreateGeometryTypeInfoKHR>(const VkAccelerationStructureCreateGeometryTypeInfoKHR& obj)
+{
+    return std::make_tuple(0);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+inline auto to_tuple<VkAccelerationStructureCreateInfoKHR>(const VkAccelerationStructureCreateInfoKHR& obj)
+{
+    return std::make_tuple(0);
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
 template <>
-inline auto structure_to_tuple<VkClearColorValue>(const VkClearColorValue& obj)
+inline auto to_tuple<VkAccelerationStructureCreateInfoNV>(const VkAccelerationStructureCreateInfoNV& obj)
+{
+    return std::make_tuple(0);
+}
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+inline auto to_tuple<VkAccelerationStructureDeviceAddressInfoKHR>(const VkAccelerationStructureDeviceAddressInfoKHR& obj)
+{
+    return std::make_tuple(0);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+inline auto to_tuple<VkAccelerationStructureGeometryAabbsDataKHR>(const VkAccelerationStructureGeometryAabbsDataKHR& obj)
+{
+    return std::make_tuple(0);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+inline auto to_tuple<VkAccelerationStructureGeometryDataKHR>(const VkAccelerationStructureGeometryDataKHR& obj)
+{
+    return std::make_tuple(0);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+inline auto to_tuple<VkAccelerationStructureGeometryInstancesDataKHR>(const VkAccelerationStructureGeometryInstancesDataKHR& obj)
+{
+    return std::make_tuple(0);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+inline auto to_tuple<VkAccelerationStructureGeometryKHR>(const VkAccelerationStructureGeometryKHR& obj)
+{
+    return std::make_tuple(0);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+inline auto to_tuple<VkAccelerationStructureGeometryTrianglesDataKHR>(const VkAccelerationStructureGeometryTrianglesDataKHR& obj)
+{
+    return std::make_tuple(0);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+inline auto to_tuple<VkAccelerationStructureInfoNV>(const VkAccelerationStructureInfoNV& obj)
+{
+    return std::make_tuple(0);
+}
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+inline auto to_tuple<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR& obj)
+{
+    return std::make_tuple(0);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+inline auto to_tuple<VkAccelerationStructureMemoryRequirementsInfoKHR>(const VkAccelerationStructureMemoryRequirementsInfoKHR& obj)
+{
+    return std::make_tuple(0);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+inline auto to_tuple<VkAccelerationStructureMemoryRequirementsInfoNV>(const VkAccelerationStructureMemoryRequirementsInfoNV& obj)
+{
+    return std::make_tuple(0);
+}
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+inline auto to_tuple<VkAccelerationStructureVersionKHR>(const VkAccelerationStructureVersionKHR& obj)
+{
+    return std::make_tuple(0);
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+inline auto to_tuple<VkClearColorValue>(const VkClearColorValue& obj)
 {
     return std::make_tuple(
         obj.uint32[0],
@@ -57,32 +157,56 @@ inline auto structure_to_tuple<VkClearColorValue>(const VkClearColorValue& obj)
 }
 
 template <>
-inline auto structure_to_tuple<VkClearValue>(const VkClearValue& obj)
+inline auto to_tuple<VkClearValue>(const VkClearValue& obj)
 {
     return std::tie(obj.color);
 }
 
 template <>
-inline auto structure_to_tuple<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR& obj)
+inline auto to_tuple<VkDebugMarkerObjectTagInfoEXT>(const VkDebugMarkerObjectTagInfoEXT& obj)
+{
+    return std::make_tuple(0);
+}
+
+template <>
+inline auto to_tuple<VkDebugUtilsObjectTagInfoEXT>(const VkDebugUtilsObjectTagInfoEXT& obj)
+{
+    return std::make_tuple(0);
+}
+
+template <>
+inline auto to_tuple<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR& obj)
 {
     return std::make_tuple(obj.uint64);
 }
 
 template <>
-inline auto structure_to_tuple<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj)
+inline auto to_tuple<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj)
 {
     // NOPE : Union has const char* member
     return std::make_tuple(0);
 }
 
 template <>
-inline auto structure_to_tuple<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR& obj)
+inline auto to_tuple<VkPipelineCacheCreateInfo>(const VkPipelineCacheCreateInfo& obj)
+{
+    return std::make_tuple(0);
+}
+
+template <>
+inline auto to_tuple<VkPipelineExecutableInternalRepresentationKHR>(const VkPipelineExecutableInternalRepresentationKHR& obj)
+{
+    return std::make_tuple(0);
+}
+
+template <>
+inline auto to_tuple<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR& obj)
 {
     return std::make_tuple(obj.u64);
 }
 
 template <>
-inline auto structure_to_tuple<VkPipelineMultisampleStateCreateInfo>(const VkPipelineMultisampleStateCreateInfo& obj)
+inline auto to_tuple<VkPipelineMultisampleStateCreateInfo>(const VkPipelineMultisampleStateCreateInfo& obj)
 {
     return std::make_tuple(
         obj.sType,
@@ -98,7 +222,7 @@ inline auto structure_to_tuple<VkPipelineMultisampleStateCreateInfo>(const VkPip
 }
 
 template <>
-inline auto structure_to_tuple<VkShaderModuleCreateInfo>(const VkShaderModuleCreateInfo& obj)
+inline auto to_tuple<VkShaderModuleCreateInfo>(const VkShaderModuleCreateInfo& obj)
 {
     return std::make_tuple(
         obj.sType,
@@ -109,9 +233,15 @@ inline auto structure_to_tuple<VkShaderModuleCreateInfo>(const VkShaderModuleCre
     );
 }
 
+template <>
+inline auto to_tuple<VkSpecializationInfo>(const VkSpecializationInfo& obj)
+{
+    return std::make_tuple(0);
+}
+
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 template <>
-inline auto structure_to_tuple<VkTransformMatrixKHR>(const VkTransformMatrixKHR& obj)
+inline auto to_tuple<VkTransformMatrixKHR>(const VkTransformMatrixKHR& obj)
 {
     return std::make_tuple(
         obj.matrix[0][0], obj.matrix[0][1], obj.matrix[0][2], obj.matrix[0][3],
@@ -121,7 +251,18 @@ inline auto structure_to_tuple<VkTransformMatrixKHR>(const VkTransformMatrixKHR&
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
+template <>
+inline auto to_tuple<VkValidationCacheCreateInfoEXT>(const VkValidationCacheCreateInfoEXT& obj)
+{
+    return std::make_tuple(0);
+}
+
+template <>
+inline auto to_tuple<VkWriteDescriptorSetInlineUniformBlockEXT>(const VkWriteDescriptorSetInlineUniformBlockEXT& obj)
+{
+    return std::make_tuple(0);
+}
+
 } // namespace detail
 } // namespace vk
-} // namespace gfx
 } // namespace dst

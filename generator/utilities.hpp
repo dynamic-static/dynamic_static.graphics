@@ -15,6 +15,7 @@
 #include "dynamic_static/vk-xml-parser.hpp"
 
 #include <set>
+#include <string_view>
 
 namespace dst {
 namespace vk {
@@ -38,25 +39,46 @@ inline std::string strip_vk(const std::string& str)
     return string::remove(string::remove(string::remove(str, "VK_"), "Vk"), "vk");
 }
 
-inline const std::set<std::string>& get_manually_implemented_structures()
+inline const std::set<std::string>& get_manually_implemented_structures(const xml::Manifest& xmlManifest)
 {
-    #if 0
-    // TODO : Look into these...
-    "VkAllocationCallbacks",
-    "VkCheckpointDataNV",
-    "VkDebugMarkerObjectTagInfoEXT",
-    "VkDebugReportCallbackCreateInfoEXT",
-    "VkDebugUtilsMessengerCreateInfoEXT",
-    "VkDebugUtilsObjectTagInfoEXT",
-    "VkImportMemoryHostPointerInfoEXT",
-    "VkInitializePerformanceApiInfoINTEL",
-    #endif
-    static const std::set<std::string> sManuallyImplementedStructures {
-        // Structures with bitfields
-        "VkAccelerationStructureInstanceKHR",
-        "VkAccelerationStructureVersionKHR",
+    static const std::set<std::string> sManuallyImplementedStructures =
+    [&xmlManifest]()
+    {
+        std::set<std::string> manuallyImplementedStructures {
+            // Structures with special case arrays
+            "VkPipelineMultisampleStateCreateInfo",
+            "VkShaderModuleCreateInfo",
+            "VkTransformMatrixKHR",
 
-        // Structures with members with special case length
+            // Unions
+            "VkClearColorValue",
+            "VkClearValue",
+            "VkPerformanceCounterResultKHR",
+            "VkPerformanceValueDataINTEL",
+            "VkPipelineExecutableStatisticValueKHR",
+
+            // Non pNext void*
+            "VkDebugMarkerObjectTagInfoEXT",
+            "VkDebugUtilsObjectTagInfoEXT",
+            "VkPipelineCacheCreateInfo",
+            "VkPipelineExecutableInternalRepresentationKHR",
+            "VkSpecializationInfo",
+            "VkValidationCacheCreateInfoEXT",
+            "VkWriteDescriptorSetInlineUniformBlockEXT",
+        };
+        for (auto structureItr : xmlManifest.structures) {
+            const auto& structure = structureItr.second;
+            static const std::string VkAccelerationPrefix = "VkAcceleration";
+            if (structure.alias.empty() &&
+                VkAccelerationPrefix.size() < structure.name.size() &&
+                std::string_view(structure.name.c_str(), VkAccelerationPrefix.size()) == VkAccelerationPrefix) {
+                manuallyImplementedStructures.insert(structure.name);
+            }
+        }
+        return manuallyImplementedStructures;
+    }();
+#if 0
+        // Structures with special case arrays
         "VkPipelineMultisampleStateCreateInfo",
         "VkShaderModuleCreateInfo",
         "VkTransformMatrixKHR",
@@ -67,13 +89,73 @@ inline const std::set<std::string>& get_manually_implemented_structures()
         "VkPerformanceCounterResultKHR",
         "VkPerformanceValueDataINTEL",
         "VkPipelineExecutableStatisticValueKHR",
+
+        // Non pNext void*
+        "VkDebugMarkerObjectTagInfoEXT",
+        "VkDebugUtilsObjectTagInfoEXT",
+        "VkPipelineCacheCreateInfo",
+        "VkPipelineExecutableInternalRepresentationKHR",
+        "VkSpecializationInfo",
+        "VkValidationCacheCreateInfoEXT",
+        "VkWriteDescriptorSetInlineUniformBlockEXT",
     };
+#endif
+
+    #if 0
+    // TODO : Look into these...
+    "VkAllocationCallbacks",
+    "VkCheckpointDataNV",
+    "VkDebugMarkerObjectTagInfoEXT",
+    "VkDebugReportCallbackCreateInfoEXT",
+    "VkDebugUtilsMessengerCreateInfoEXT",
+    "VkDebugUtilsObjectTagInfoEXT",
+    "VkImportMemoryHostPointerInfoEXT",
+    "VkInitializePerformanceApiInfoINTEL",
+
+    static const std::set<std::string> sManuallyImplementedStructures {
+        // Structures with special case arrays
+        "VkPipelineMultisampleStateCreateInfo",
+        "VkShaderModuleCreateInfo",
+        "VkTransformMatrixKHR",
+
+        // Unions
+        "VkClearColorValue",
+        "VkClearValue",
+        "VkPerformanceCounterResultKHR",
+        "VkPerformanceValueDataINTEL",
+        "VkPipelineExecutableStatisticValueKHR",
+
+        // Non pNext void*
+        "VkDebugMarkerObjectTagInfoEXT",
+        "VkDebugUtilsObjectTagInfoEXT",
+        "VkPipelineCacheCreateInfo",
+        "VkPipelineExecutableInternalRepresentationKHR",
+        "VkSpecializationInfo",
+        "VkValidationCacheCreateInfoEXT",
+        "VkWriteDescriptorSetInlineUniformBlockEXT",
+    };
+#endif
     return sManuallyImplementedStructures;
 }
 
-inline bool is_manually_implemented(const xml::Structure& structure)
+inline bool is_manually_implemented(const xml::Manifest& xmlManifest, const xml::Structure& structure)
 {
-    return get_manually_implemented_structures().count(structure.name);
+#if 0
+    if (get_manually_implemented_structures().count(structure.name)) {
+        return true;
+    }
+    // TODO : I'm not exactly sure why most of the VkAcceleration structures have a
+    //  bunch of problems with to_tuple<>().  Maybe an issued with xml parsing?
+    static const std::string VkAccelerationPrefix = "VkAcceleration";
+    if (VkAccelerationPrefix.size() < structure.name.size()) {
+        auto b = std::string_view(structure.name.c_str(), VkAccelerationPrefix.size()) == VkAccelerationPrefix;
+        if (b) {
+            int bi = 0;
+        }
+        return std::string_view(structure.name.c_str(), VkAccelerationPrefix.size()) == VkAccelerationPrefix;
+    }
+#endif
+    return get_manually_implemented_structures(xmlManifest).count(structure.name);
 }
 
 inline std::vector<std::string> get_handle_compile_guards(const xml::Handle& handle)
@@ -139,7 +221,7 @@ inline dst::cppgen::Condition get_variable_type_condition(const xml::Manifest& x
 inline dst::cppgen::SourceBlock get_manually_implemented_structure_source_blocks(const xml::Manifest& xmlManifest)
 {
     using namespace dst::cppgen;
-    return SourceBlock("MANUALLY_IMPLEMENTED_STRUCTURES", get_manually_implemented_structures(),
+    return SourceBlock("MANUALLY_IMPLEMENTED_STRUCTURES", get_manually_implemented_structures(xmlManifest),
         [&](const std::string& manuallyImpelementedStructure) -> std::vector<SourceBlock>
         {
             auto structureItr = xmlManifest.structures.find(manuallyImpelementedStructure);
@@ -169,7 +251,7 @@ inline dst::cppgen::SourceBlock get_automatically_implemented_structure_source_b
         [&](const std::pair<std::string, Structure>& structureItr) -> std::vector<SourceBlock>
         {
             const auto& structure = structureItr.second;
-            if (structure.alias.empty() && !is_manually_implemented(structure)) {
+            if (structure.alias.empty() && !is_manually_implemented(xmlManifest, structure)) {
                 return {
                     SourceBlock("STRUCTURE_NAME", structure.name),
                     SourceBlock("COMPILE_GUARDS", get_structure_compile_guards(structure),

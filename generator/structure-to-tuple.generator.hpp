@@ -38,25 +38,28 @@ inline void generate_to_tuple(const xml::Manifest& xmlManifest)
     #include "dynamic_static/graphics/vulkan/detail/tuple-element-wrappers.hpp"
     #include "dynamic_static/graphics/vulkan/defines.hpp"
 
+    #include <functional>
     #include <string_view>
     #include <tuple>
     #include <utility>
 
     namespace dst {
     namespace vk {
+    namespace detail {
 
     ////////////////////////////////////////////////////////////////////////////////
     // NOTE : The following functions are manually implemented
-    $<MANUALLY_IMPLEMENTED_STRUCTURES:"\n">
+    #if 0
+    $<MANUALLY_IMPLEMENTED_STRUCTURES>
     $<COMPILE_GUARDS>
     #ifdef ${COMPILE_GUARD}
     $</>
-    template <>
-    inline auto to_tuple<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}& obj);
+    template <> inline auto to_tuple<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}& obj);
     $<COMPILE_GUARDS:reverse=true>
     #endif // ${COMPILE_GUARD}
     $</>
     $</>
+    #endif
     ////////////////////////////////////////////////////////////////////////////////
 
     $<STRUCTURES:"\n">
@@ -69,7 +72,7 @@ inline void generate_to_tuple(const xml::Manifest& xmlManifest)
         return std::make_tuple(
             $<MEMBERS:",">
             $<condition="PNEXT">
-            PNextTupleElementWrapper(obj.pNext)
+            PNextTupleElementWrapper { obj.pNext }
             $</>
             $<condition="STATIC_ARRAY">
             Span(obj.${MEMBER_NAME}, ${MEMBER_LENGTH})
@@ -103,6 +106,7 @@ inline void generate_to_tuple(const xml::Manifest& xmlManifest)
     $</>
     $</>
 
+    } // namespace detail
     } // namespace vk
     } // namespace dst
     )", {

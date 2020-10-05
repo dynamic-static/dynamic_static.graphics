@@ -15,50 +15,78 @@
 #include "dynamic_static/graphics/vulkan/detail/tuple-element-wrappers.hpp"
 #include "dynamic_static/graphics/vulkan/defines.hpp"
 
+#include <functional>
 #include <string_view>
 #include <tuple>
 #include <utility>
 
 namespace dst {
 namespace vk {
+namespace detail {
 
 ////////////////////////////////////////////////////////////////////////////////
 // NOTE : The following functions are manually implemented
+#if 0
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-inline auto to_tuple<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR& obj);
+template <> inline auto to_tuple<VkAccelerationStructureBuildGeometryInfoKHR>(const VkAccelerationStructureBuildGeometryInfoKHR& obj);
 #endif // VK_ENABLE_BETA_EXTENSIONS
-
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-inline auto to_tuple<VkAccelerationStructureVersionKHR>(const VkAccelerationStructureVersionKHR& obj);
+template <> inline auto to_tuple<VkAccelerationStructureBuildOffsetInfoKHR>(const VkAccelerationStructureBuildOffsetInfoKHR& obj);
 #endif // VK_ENABLE_BETA_EXTENSIONS
-
-template <>
-inline auto to_tuple<VkClearColorValue>(const VkClearColorValue& obj);
-
-template <>
-inline auto to_tuple<VkClearValue>(const VkClearValue& obj);
-
-template <>
-inline auto to_tuple<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR& obj);
-
-template <>
-inline auto to_tuple<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj);
-
-template <>
-inline auto to_tuple<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR& obj);
-
-template <>
-inline auto to_tuple<VkPipelineMultisampleStateCreateInfo>(const VkPipelineMultisampleStateCreateInfo& obj);
-
-template <>
-inline auto to_tuple<VkShaderModuleCreateInfo>(const VkShaderModuleCreateInfo& obj);
-
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-inline auto to_tuple<VkTransformMatrixKHR>(const VkTransformMatrixKHR& obj);
+template <> inline auto to_tuple<VkAccelerationStructureCreateGeometryTypeInfoKHR>(const VkAccelerationStructureCreateGeometryTypeInfoKHR& obj);
 #endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkAccelerationStructureCreateInfoKHR>(const VkAccelerationStructureCreateInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkAccelerationStructureCreateInfoNV>(const VkAccelerationStructureCreateInfoNV& obj);
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkAccelerationStructureDeviceAddressInfoKHR>(const VkAccelerationStructureDeviceAddressInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkAccelerationStructureGeometryAabbsDataKHR>(const VkAccelerationStructureGeometryAabbsDataKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkAccelerationStructureGeometryDataKHR>(const VkAccelerationStructureGeometryDataKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkAccelerationStructureGeometryInstancesDataKHR>(const VkAccelerationStructureGeometryInstancesDataKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkAccelerationStructureGeometryKHR>(const VkAccelerationStructureGeometryKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkAccelerationStructureGeometryTrianglesDataKHR>(const VkAccelerationStructureGeometryTrianglesDataKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkAccelerationStructureInfoNV>(const VkAccelerationStructureInfoNV& obj);
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkAccelerationStructureInstanceKHR>(const VkAccelerationStructureInstanceKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkAccelerationStructureMemoryRequirementsInfoKHR>(const VkAccelerationStructureMemoryRequirementsInfoKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkAccelerationStructureMemoryRequirementsInfoNV>(const VkAccelerationStructureMemoryRequirementsInfoNV& obj);
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkAccelerationStructureVersionKHR>(const VkAccelerationStructureVersionKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkClearColorValue>(const VkClearColorValue& obj);
+template <> inline auto to_tuple<VkClearValue>(const VkClearValue& obj);
+template <> inline auto to_tuple<VkDebugMarkerObjectTagInfoEXT>(const VkDebugMarkerObjectTagInfoEXT& obj);
+template <> inline auto to_tuple<VkDebugUtilsObjectTagInfoEXT>(const VkDebugUtilsObjectTagInfoEXT& obj);
+template <> inline auto to_tuple<VkPerformanceCounterResultKHR>(const VkPerformanceCounterResultKHR& obj);
+template <> inline auto to_tuple<VkPerformanceValueDataINTEL>(const VkPerformanceValueDataINTEL& obj);
+template <> inline auto to_tuple<VkPipelineCacheCreateInfo>(const VkPipelineCacheCreateInfo& obj);
+template <> inline auto to_tuple<VkPipelineExecutableInternalRepresentationKHR>(const VkPipelineExecutableInternalRepresentationKHR& obj);
+template <> inline auto to_tuple<VkPipelineExecutableStatisticValueKHR>(const VkPipelineExecutableStatisticValueKHR& obj);
+template <> inline auto to_tuple<VkPipelineMultisampleStateCreateInfo>(const VkPipelineMultisampleStateCreateInfo& obj);
+template <> inline auto to_tuple<VkShaderModuleCreateInfo>(const VkShaderModuleCreateInfo& obj);
+template <> inline auto to_tuple<VkSpecializationInfo>(const VkSpecializationInfo& obj);
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkTransformMatrixKHR>(const VkTransformMatrixKHR& obj);
+#endif // VK_ENABLE_BETA_EXTENSIONS
+template <> inline auto to_tuple<VkValidationCacheCreateInfoEXT>(const VkValidationCacheCreateInfoEXT& obj);
+template <> inline auto to_tuple<VkWriteDescriptorSetInlineUniformBlockEXT>(const VkWriteDescriptorSetInlineUniformBlockEXT& obj);
+#endif
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
@@ -82,269 +110,21 @@ inline auto to_tuple<VkAabbPositionsKHR>(const VkAabbPositionsKHR& obj)
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
 
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-inline auto to_tuple<VkAccelerationStructureBuildGeometryInfoKHR>(const VkAccelerationStructureBuildGeometryInfoKHR& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        obj.type
-        ,
-        obj.flags
-        ,
-        obj.update
-        ,
-        obj.srcAccelerationStructure
-        ,
-        obj.dstAccelerationStructure
-        ,
-        obj.geometryArrayOfPointers
-        ,
-        obj.geometryCount
-        ,
-        Span(obj.ppGeometries, 1)
-        ,
-        std::ref(obj.scratchData)
-    );
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-inline auto to_tuple<VkAccelerationStructureBuildOffsetInfoKHR>(const VkAccelerationStructureBuildOffsetInfoKHR& obj)
-{
-    return std::make_tuple(
-        obj.primitiveCount
-        ,
-        obj.primitiveOffset
-        ,
-        obj.firstVertex
-        ,
-        obj.transformOffset
-    );
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-inline auto to_tuple<VkAccelerationStructureCreateGeometryTypeInfoKHR>(const VkAccelerationStructureCreateGeometryTypeInfoKHR& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        obj.geometryType
-        ,
-        obj.maxPrimitiveCount
-        ,
-        obj.indexType
-        ,
-        obj.maxVertexCount
-        ,
-        obj.vertexFormat
-        ,
-        obj.allowsTransforms
-    );
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-inline auto to_tuple<VkAccelerationStructureCreateInfoKHR>(const VkAccelerationStructureCreateInfoKHR& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        obj.compactedSize
-        ,
-        obj.type
-        ,
-        obj.flags
-        ,
-        obj.maxGeometryCount
-        ,
-        Span(obj.pGeometryInfos, obj.maxGeometryCount)
-        ,
-        obj.deviceAddress
-    );
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-template <>
-inline auto to_tuple<VkAccelerationStructureCreateInfoNV>(const VkAccelerationStructureCreateInfoNV& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        obj.compactedSize
-        ,
-        std::ref(obj.info)
-    );
-}
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-inline auto to_tuple<VkAccelerationStructureDeviceAddressInfoKHR>(const VkAccelerationStructureDeviceAddressInfoKHR& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        obj.accelerationStructure
-    );
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-inline auto to_tuple<VkAccelerationStructureGeometryAabbsDataKHR>(const VkAccelerationStructureGeometryAabbsDataKHR& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        std::ref(obj.data)
-        ,
-        obj.stride
-    );
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-inline auto to_tuple<VkAccelerationStructureGeometryDataKHR>(const VkAccelerationStructureGeometryDataKHR& obj)
-{
-    return std::make_tuple(
-        std::ref(obj.triangles)
-        ,
-        std::ref(obj.aabbs)
-        ,
-        std::ref(obj.instances)
-    );
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-inline auto to_tuple<VkAccelerationStructureGeometryInstancesDataKHR>(const VkAccelerationStructureGeometryInstancesDataKHR& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        obj.arrayOfPointers
-        ,
-        std::ref(obj.data)
-    );
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-inline auto to_tuple<VkAccelerationStructureGeometryKHR>(const VkAccelerationStructureGeometryKHR& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        obj.geometryType
-        ,
-        std::ref(obj.geometry)
-        ,
-        obj.flags
-    );
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-inline auto to_tuple<VkAccelerationStructureGeometryTrianglesDataKHR>(const VkAccelerationStructureGeometryTrianglesDataKHR& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        obj.vertexFormat
-        ,
-        std::ref(obj.vertexData)
-        ,
-        obj.vertexStride
-        ,
-        obj.indexType
-        ,
-        std::ref(obj.indexData)
-        ,
-        std::ref(obj.transformData)
-    );
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-template <>
-inline auto to_tuple<VkAccelerationStructureInfoNV>(const VkAccelerationStructureInfoNV& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        obj.type
-        ,
-        obj.flags
-        ,
-        obj.instanceCount
-        ,
-        obj.geometryCount
-        ,
-        Span(obj.pGeometries, obj.geometryCount)
-    );
-}
 
 
 
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-inline auto to_tuple<VkAccelerationStructureMemoryRequirementsInfoKHR>(const VkAccelerationStructureMemoryRequirementsInfoKHR& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        obj.type
-        ,
-        obj.buildType
-        ,
-        obj.accelerationStructure
-    );
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
 
-template <>
-inline auto to_tuple<VkAccelerationStructureMemoryRequirementsInfoNV>(const VkAccelerationStructureMemoryRequirementsInfoNV& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        obj.type
-        ,
-        obj.accelerationStructure
-    );
-}
+
+
+
+
+
+
+
+
+
+
+
 
 
 template <>
@@ -353,7 +133,7 @@ inline auto to_tuple<VkAcquireNextImageInfoKHR>(const VkAcquireNextImageInfoKHR&
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.swapchain
         ,
@@ -373,7 +153,7 @@ inline auto to_tuple<VkAcquireProfilingLockInfoKHR>(const VkAcquireProfilingLock
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -406,7 +186,7 @@ inline auto to_tuple<VkAndroidHardwareBufferFormatPropertiesANDROID>(const VkAnd
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.format
         ,
@@ -434,7 +214,7 @@ inline auto to_tuple<VkAndroidHardwareBufferPropertiesANDROID>(const VkAndroidHa
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.allocationSize
         ,
@@ -450,7 +230,7 @@ inline auto to_tuple<VkAndroidHardwareBufferUsageANDROID>(const VkAndroidHardwar
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.androidHardwareBufferUsage
     );
@@ -464,7 +244,7 @@ inline auto to_tuple<VkAndroidSurfaceCreateInfoKHR>(const VkAndroidSurfaceCreate
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -479,7 +259,7 @@ inline auto to_tuple<VkApplicationInfo>(const VkApplicationInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.pApplicationName ? std::string_view(obj.pApplicationName) : std::string_view()
         ,
@@ -523,7 +303,7 @@ inline auto to_tuple<VkAttachmentDescription2>(const VkAttachmentDescription2& o
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -552,7 +332,7 @@ inline auto to_tuple<VkAttachmentDescriptionStencilLayout>(const VkAttachmentDes
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.stencilInitialLayout
         ,
@@ -577,7 +357,7 @@ inline auto to_tuple<VkAttachmentReference2>(const VkAttachmentReference2& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.attachment
         ,
@@ -594,7 +374,7 @@ inline auto to_tuple<VkAttachmentReferenceStencilLayout>(const VkAttachmentRefer
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.stencilLayout
     );
@@ -617,7 +397,7 @@ inline auto to_tuple<VkBaseInStructure>(const VkBaseInStructure& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
     );
 }
 
@@ -627,7 +407,7 @@ inline auto to_tuple<VkBaseOutStructure>(const VkBaseOutStructure& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
     );
 }
 
@@ -638,7 +418,7 @@ inline auto to_tuple<VkBindAccelerationStructureMemoryInfoKHR>(const VkBindAccel
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.accelerationStructure
         ,
@@ -660,7 +440,7 @@ inline auto to_tuple<VkBindBufferMemoryDeviceGroupInfo>(const VkBindBufferMemory
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.deviceIndexCount
         ,
@@ -675,7 +455,7 @@ inline auto to_tuple<VkBindBufferMemoryInfo>(const VkBindBufferMemoryInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.buffer
         ,
@@ -692,7 +472,7 @@ inline auto to_tuple<VkBindImageMemoryDeviceGroupInfo>(const VkBindImageMemoryDe
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.deviceIndexCount
         ,
@@ -711,7 +491,7 @@ inline auto to_tuple<VkBindImageMemoryInfo>(const VkBindImageMemoryInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.image
         ,
@@ -728,7 +508,7 @@ inline auto to_tuple<VkBindImageMemorySwapchainInfoKHR>(const VkBindImageMemoryS
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.swapchain
         ,
@@ -742,7 +522,7 @@ inline auto to_tuple<VkBindImagePlaneMemoryInfo>(const VkBindImagePlaneMemoryInf
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.planeAspect
     );
@@ -775,7 +555,7 @@ inline auto to_tuple<VkBindSparseInfo>(const VkBindSparseInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.waitSemaphoreCount
         ,
@@ -829,7 +609,7 @@ inline auto to_tuple<VkBufferCreateInfo>(const VkBufferCreateInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -851,7 +631,7 @@ inline auto to_tuple<VkBufferDeviceAddressCreateInfoEXT>(const VkBufferDeviceAdd
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.deviceAddress
     );
@@ -863,7 +643,7 @@ inline auto to_tuple<VkBufferDeviceAddressInfo>(const VkBufferDeviceAddressInfo&
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.buffer
     );
@@ -895,7 +675,7 @@ inline auto to_tuple<VkBufferMemoryBarrier>(const VkBufferMemoryBarrier& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.srcAccessMask
         ,
@@ -919,7 +699,7 @@ inline auto to_tuple<VkBufferMemoryRequirementsInfo2>(const VkBufferMemoryRequir
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.buffer
     );
@@ -932,7 +712,7 @@ inline auto to_tuple<VkBufferOpaqueCaptureAddressCreateInfo>(const VkBufferOpaqu
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.opaqueCaptureAddress
     );
@@ -945,7 +725,7 @@ inline auto to_tuple<VkBufferViewCreateInfo>(const VkBufferViewCreateInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -965,7 +745,7 @@ inline auto to_tuple<VkCalibratedTimestampInfoEXT>(const VkCalibratedTimestampIn
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.timeDomain
     );
@@ -977,7 +757,7 @@ inline auto to_tuple<VkCheckpointDataNV>(const VkCheckpointDataNV& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.stage
         ,
@@ -1053,7 +833,7 @@ inline auto to_tuple<VkCommandBufferAllocateInfo>(const VkCommandBufferAllocateI
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.commandPool
         ,
@@ -1069,7 +849,7 @@ inline auto to_tuple<VkCommandBufferBeginInfo>(const VkCommandBufferBeginInfo& o
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -1083,7 +863,7 @@ inline auto to_tuple<VkCommandBufferInheritanceConditionalRenderingInfoEXT>(cons
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.conditionalRenderingEnable
     );
@@ -1095,7 +875,7 @@ inline auto to_tuple<VkCommandBufferInheritanceInfo>(const VkCommandBufferInheri
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.renderPass
         ,
@@ -1117,7 +897,7 @@ inline auto to_tuple<VkCommandBufferInheritanceRenderPassTransformInfoQCOM>(cons
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.transform
         ,
@@ -1131,7 +911,7 @@ inline auto to_tuple<VkCommandPoolCreateInfo>(const VkCommandPoolCreateInfo& obj
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -1159,7 +939,7 @@ inline auto to_tuple<VkComputePipelineCreateInfo>(const VkComputePipelineCreateI
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -1179,7 +959,7 @@ inline auto to_tuple<VkConditionalRenderingBeginInfoEXT>(const VkConditionalRend
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.buffer
         ,
@@ -1210,7 +990,7 @@ inline auto to_tuple<VkCooperativeMatrixPropertiesNV>(const VkCooperativeMatrixP
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.MSize
         ,
@@ -1237,7 +1017,7 @@ inline auto to_tuple<VkCopyAccelerationStructureInfoKHR>(const VkCopyAcceleratio
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.src
         ,
@@ -1255,7 +1035,7 @@ inline auto to_tuple<VkCopyAccelerationStructureToMemoryInfoKHR>(const VkCopyAcc
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.src
         ,
@@ -1272,7 +1052,7 @@ inline auto to_tuple<VkCopyDescriptorSet>(const VkCopyDescriptorSet& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.srcSet
         ,
@@ -1297,7 +1077,7 @@ inline auto to_tuple<VkCopyMemoryToAccelerationStructureInfoKHR>(const VkCopyMem
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.src)
         ,
@@ -1315,7 +1095,7 @@ inline auto to_tuple<VkD3D12FenceSubmitInfoKHR>(const VkD3D12FenceSubmitInfoKHR&
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.waitSemaphoreValuesCount
         ,
@@ -1334,7 +1114,7 @@ inline auto to_tuple<VkDebugMarkerMarkerInfoEXT>(const VkDebugMarkerMarkerInfoEX
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.pMarkerName ? std::string_view(obj.pMarkerName) : std::string_view()
         ,
@@ -1348,7 +1128,7 @@ inline auto to_tuple<VkDebugMarkerObjectNameInfoEXT>(const VkDebugMarkerObjectNa
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.objectType
         ,
@@ -1358,25 +1138,6 @@ inline auto to_tuple<VkDebugMarkerObjectNameInfoEXT>(const VkDebugMarkerObjectNa
     );
 }
 
-template <>
-inline auto to_tuple<VkDebugMarkerObjectTagInfoEXT>(const VkDebugMarkerObjectTagInfoEXT& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        obj.objectType
-        ,
-        obj.object
-        ,
-        obj.tagName
-        ,
-        obj.tagSize
-        ,
-        Span(obj.pTag, obj.tagSize)
-    );
-}
 
 template <>
 inline auto to_tuple<VkDebugReportCallbackCreateInfoEXT>(const VkDebugReportCallbackCreateInfoEXT& obj)
@@ -1384,7 +1145,7 @@ inline auto to_tuple<VkDebugReportCallbackCreateInfoEXT>(const VkDebugReportCall
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -1400,7 +1161,7 @@ inline auto to_tuple<VkDebugUtilsLabelEXT>(const VkDebugUtilsLabelEXT& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.pLabelName ? std::string_view(obj.pLabelName) : std::string_view()
         ,
@@ -1414,7 +1175,7 @@ inline auto to_tuple<VkDebugUtilsMessengerCallbackDataEXT>(const VkDebugUtilsMes
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -1444,7 +1205,7 @@ inline auto to_tuple<VkDebugUtilsMessengerCreateInfoEXT>(const VkDebugUtilsMesse
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -1464,7 +1225,7 @@ inline auto to_tuple<VkDebugUtilsObjectNameInfoEXT>(const VkDebugUtilsObjectName
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.objectType
         ,
@@ -1474,25 +1235,6 @@ inline auto to_tuple<VkDebugUtilsObjectNameInfoEXT>(const VkDebugUtilsObjectName
     );
 }
 
-template <>
-inline auto to_tuple<VkDebugUtilsObjectTagInfoEXT>(const VkDebugUtilsObjectTagInfoEXT& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        obj.objectType
-        ,
-        obj.objectHandle
-        ,
-        obj.tagName
-        ,
-        obj.tagSize
-        ,
-        Span(obj.pTag, obj.tagSize)
-    );
-}
 
 template <>
 inline auto to_tuple<VkDedicatedAllocationBufferCreateInfoNV>(const VkDedicatedAllocationBufferCreateInfoNV& obj)
@@ -1500,7 +1242,7 @@ inline auto to_tuple<VkDedicatedAllocationBufferCreateInfoNV>(const VkDedicatedA
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.dedicatedAllocation
     );
@@ -1512,7 +1254,7 @@ inline auto to_tuple<VkDedicatedAllocationImageCreateInfoNV>(const VkDedicatedAl
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.dedicatedAllocation
     );
@@ -1524,7 +1266,7 @@ inline auto to_tuple<VkDedicatedAllocationMemoryAllocateInfoNV>(const VkDedicate
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.image
         ,
@@ -1539,7 +1281,7 @@ inline auto to_tuple<VkDeferredOperationInfoKHR>(const VkDeferredOperationInfoKH
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.operationHandle
     );
@@ -1576,7 +1318,7 @@ inline auto to_tuple<VkDescriptorPoolCreateInfo>(const VkDescriptorPoolCreateInf
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -1594,7 +1336,7 @@ inline auto to_tuple<VkDescriptorPoolInlineUniformBlockCreateInfoEXT>(const VkDe
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.maxInlineUniformBlockBindings
     );
@@ -1616,7 +1358,7 @@ inline auto to_tuple<VkDescriptorSetAllocateInfo>(const VkDescriptorSetAllocateI
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.descriptorPool
         ,
@@ -1648,7 +1390,7 @@ inline auto to_tuple<VkDescriptorSetLayoutBindingFlagsCreateInfo>(const VkDescri
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.bindingCount
         ,
@@ -1663,7 +1405,7 @@ inline auto to_tuple<VkDescriptorSetLayoutCreateInfo>(const VkDescriptorSetLayou
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -1679,7 +1421,7 @@ inline auto to_tuple<VkDescriptorSetLayoutSupport>(const VkDescriptorSetLayoutSu
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.supported
     );
@@ -1692,7 +1434,7 @@ inline auto to_tuple<VkDescriptorSetVariableDescriptorCountAllocateInfo>(const V
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.descriptorSetCount
         ,
@@ -1707,7 +1449,7 @@ inline auto to_tuple<VkDescriptorSetVariableDescriptorCountLayoutSupport>(const 
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.maxVariableDescriptorCount
     );
@@ -1720,7 +1462,7 @@ inline auto to_tuple<VkDescriptorUpdateTemplateCreateInfo>(const VkDescriptorUpd
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -1766,7 +1508,7 @@ inline auto to_tuple<VkDeviceCreateInfo>(const VkDeviceCreateInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -1792,7 +1534,7 @@ inline auto to_tuple<VkDeviceDiagnosticsConfigCreateInfoNV>(const VkDeviceDiagno
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
     );
@@ -1804,7 +1546,7 @@ inline auto to_tuple<VkDeviceEventInfoEXT>(const VkDeviceEventInfoEXT& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.deviceEvent
     );
@@ -1816,7 +1558,7 @@ inline auto to_tuple<VkDeviceGroupBindSparseInfo>(const VkDeviceGroupBindSparseI
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.resourceDeviceIndex
         ,
@@ -1831,7 +1573,7 @@ inline auto to_tuple<VkDeviceGroupCommandBufferBeginInfo>(const VkDeviceGroupCom
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.deviceMask
     );
@@ -1844,7 +1586,7 @@ inline auto to_tuple<VkDeviceGroupDeviceCreateInfo>(const VkDeviceGroupDeviceCre
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.physicalDeviceCount
         ,
@@ -1859,7 +1601,7 @@ inline auto to_tuple<VkDeviceGroupPresentCapabilitiesKHR>(const VkDeviceGroupPre
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         Span(obj.presentMask, VK_MAX_DEVICE_GROUP_SIZE)
         ,
@@ -1873,7 +1615,7 @@ inline auto to_tuple<VkDeviceGroupPresentInfoKHR>(const VkDeviceGroupPresentInfo
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.swapchainCount
         ,
@@ -1889,7 +1631,7 @@ inline auto to_tuple<VkDeviceGroupRenderPassBeginInfo>(const VkDeviceGroupRender
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.deviceMask
         ,
@@ -1906,7 +1648,7 @@ inline auto to_tuple<VkDeviceGroupSubmitInfo>(const VkDeviceGroupSubmitInfo& obj
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.waitSemaphoreCount
         ,
@@ -1929,7 +1671,7 @@ inline auto to_tuple<VkDeviceGroupSwapchainCreateInfoKHR>(const VkDeviceGroupSwa
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.modes
     );
@@ -1941,7 +1683,7 @@ inline auto to_tuple<VkDeviceMemoryOpaqueCaptureAddressInfo>(const VkDeviceMemor
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.memory
     );
@@ -1954,7 +1696,7 @@ inline auto to_tuple<VkDeviceMemoryOverallocationCreateInfoAMD>(const VkDeviceMe
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.overallocationBehavior
     );
@@ -1990,7 +1732,7 @@ inline auto to_tuple<VkDevicePrivateDataCreateInfoEXT>(const VkDevicePrivateData
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.privateDataSlotRequestCount
     );
@@ -2002,7 +1744,7 @@ inline auto to_tuple<VkDeviceQueueCreateInfo>(const VkDeviceQueueCreateInfo& obj
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -2020,7 +1762,7 @@ inline auto to_tuple<VkDeviceQueueGlobalPriorityCreateInfoEXT>(const VkDeviceQue
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.globalPriority
     );
@@ -2032,7 +1774,7 @@ inline auto to_tuple<VkDeviceQueueInfo2>(const VkDeviceQueueInfo2& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -2049,7 +1791,7 @@ inline auto to_tuple<VkDirectFBSurfaceCreateInfoEXT>(const VkDirectFBSurfaceCrea
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -2078,7 +1820,7 @@ inline auto to_tuple<VkDisplayEventInfoEXT>(const VkDisplayEventInfoEXT& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.displayEvent
     );
@@ -2090,7 +1832,7 @@ inline auto to_tuple<VkDisplayModeCreateInfoKHR>(const VkDisplayModeCreateInfoKH
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -2114,7 +1856,7 @@ inline auto to_tuple<VkDisplayModeProperties2KHR>(const VkDisplayModeProperties2
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.displayModeProperties)
     );
@@ -2136,7 +1878,7 @@ inline auto to_tuple<VkDisplayNativeHdrSurfaceCapabilitiesAMD>(const VkDisplayNa
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.localDimmingSupport
     );
@@ -2148,7 +1890,7 @@ inline auto to_tuple<VkDisplayPlaneCapabilities2KHR>(const VkDisplayPlaneCapabil
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.capabilities)
     );
@@ -2184,7 +1926,7 @@ inline auto to_tuple<VkDisplayPlaneInfo2KHR>(const VkDisplayPlaneInfo2KHR& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.mode
         ,
@@ -2198,7 +1940,7 @@ inline auto to_tuple<VkDisplayPlaneProperties2KHR>(const VkDisplayPlanePropertie
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.displayPlaneProperties)
     );
@@ -2220,7 +1962,7 @@ inline auto to_tuple<VkDisplayPowerInfoEXT>(const VkDisplayPowerInfoEXT& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.powerState
     );
@@ -2232,7 +1974,7 @@ inline auto to_tuple<VkDisplayPresentInfoKHR>(const VkDisplayPresentInfoKHR& obj
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.srcRect)
         ,
@@ -2248,7 +1990,7 @@ inline auto to_tuple<VkDisplayProperties2KHR>(const VkDisplayProperties2KHR& obj
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.displayProperties)
     );
@@ -2280,7 +2022,7 @@ inline auto to_tuple<VkDisplaySurfaceCreateInfoKHR>(const VkDisplaySurfaceCreate
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -2358,7 +2100,7 @@ inline auto to_tuple<VkDrmFormatModifierPropertiesListEXT>(const VkDrmFormatModi
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.drmFormatModifierCount
         ,
@@ -2372,7 +2114,7 @@ inline auto to_tuple<VkEventCreateInfo>(const VkEventCreateInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
     );
@@ -2384,7 +2126,7 @@ inline auto to_tuple<VkExportFenceCreateInfo>(const VkExportFenceCreateInfo& obj
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.handleTypes
     );
@@ -2398,7 +2140,7 @@ inline auto to_tuple<VkExportFenceWin32HandleInfoKHR>(const VkExportFenceWin32Ha
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.pAttributes
         ,
@@ -2415,7 +2157,7 @@ inline auto to_tuple<VkExportMemoryAllocateInfo>(const VkExportMemoryAllocateInf
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.handleTypes
     );
@@ -2428,7 +2170,7 @@ inline auto to_tuple<VkExportMemoryAllocateInfoNV>(const VkExportMemoryAllocateI
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.handleTypes
     );
@@ -2441,7 +2183,7 @@ inline auto to_tuple<VkExportMemoryWin32HandleInfoKHR>(const VkExportMemoryWin32
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.pAttributes
         ,
@@ -2459,7 +2201,7 @@ inline auto to_tuple<VkExportMemoryWin32HandleInfoNV>(const VkExportMemoryWin32H
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.pAttributes
         ,
@@ -2474,7 +2216,7 @@ inline auto to_tuple<VkExportSemaphoreCreateInfo>(const VkExportSemaphoreCreateI
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.handleTypes
     );
@@ -2488,7 +2230,7 @@ inline auto to_tuple<VkExportSemaphoreWin32HandleInfoKHR>(const VkExportSemaphor
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.pAttributes
         ,
@@ -2537,7 +2279,7 @@ inline auto to_tuple<VkExternalBufferProperties>(const VkExternalBufferPropertie
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.externalMemoryProperties)
     );
@@ -2550,7 +2292,7 @@ inline auto to_tuple<VkExternalFenceProperties>(const VkExternalFenceProperties&
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.exportFromImportedHandleTypes
         ,
@@ -2568,7 +2310,7 @@ inline auto to_tuple<VkExternalFormatANDROID>(const VkExternalFormatANDROID& obj
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.externalFormat
     );
@@ -2581,7 +2323,7 @@ inline auto to_tuple<VkExternalImageFormatProperties>(const VkExternalImageForma
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.externalMemoryProperties)
     );
@@ -2608,7 +2350,7 @@ inline auto to_tuple<VkExternalMemoryBufferCreateInfo>(const VkExternalMemoryBuf
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.handleTypes
     );
@@ -2621,7 +2363,7 @@ inline auto to_tuple<VkExternalMemoryImageCreateInfo>(const VkExternalMemoryImag
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.handleTypes
     );
@@ -2634,7 +2376,7 @@ inline auto to_tuple<VkExternalMemoryImageCreateInfoNV>(const VkExternalMemoryIm
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.handleTypes
     );
@@ -2659,7 +2401,7 @@ inline auto to_tuple<VkExternalSemaphoreProperties>(const VkExternalSemaphorePro
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.exportFromImportedHandleTypes
         ,
@@ -2676,7 +2418,7 @@ inline auto to_tuple<VkFenceCreateInfo>(const VkFenceCreateInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
     );
@@ -2688,7 +2430,7 @@ inline auto to_tuple<VkFenceGetFdInfoKHR>(const VkFenceGetFdInfoKHR& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.fence
         ,
@@ -2703,7 +2445,7 @@ inline auto to_tuple<VkFenceGetWin32HandleInfoKHR>(const VkFenceGetWin32HandleIn
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.fence
         ,
@@ -2718,7 +2460,7 @@ inline auto to_tuple<VkFilterCubicImageViewImageFormatPropertiesEXT>(const VkFil
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.filterCubic
         ,
@@ -2744,7 +2486,7 @@ inline auto to_tuple<VkFormatProperties2>(const VkFormatProperties2& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.formatProperties)
     );
@@ -2757,7 +2499,7 @@ inline auto to_tuple<VkFramebufferAttachmentImageInfo>(const VkFramebufferAttach
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -2782,7 +2524,7 @@ inline auto to_tuple<VkFramebufferAttachmentsCreateInfo>(const VkFramebufferAtta
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.attachmentImageInfoCount
         ,
@@ -2797,7 +2539,7 @@ inline auto to_tuple<VkFramebufferCreateInfo>(const VkFramebufferCreateInfo& obj
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -2821,7 +2563,7 @@ inline auto to_tuple<VkFramebufferMixedSamplesCombinationNV>(const VkFramebuffer
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.coverageReductionMode
         ,
@@ -2839,7 +2581,7 @@ inline auto to_tuple<VkGeneratedCommandsInfoNV>(const VkGeneratedCommandsInfoNV&
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.pipelineBindPoint
         ,
@@ -2875,7 +2617,7 @@ inline auto to_tuple<VkGeneratedCommandsMemoryRequirementsInfoNV>(const VkGenera
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.pipelineBindPoint
         ,
@@ -2893,7 +2635,7 @@ inline auto to_tuple<VkGeometryAABBNV>(const VkGeometryAABBNV& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.aabbData
         ,
@@ -2921,7 +2663,7 @@ inline auto to_tuple<VkGeometryNV>(const VkGeometryNV& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.geometryType
         ,
@@ -2937,7 +2679,7 @@ inline auto to_tuple<VkGeometryTrianglesNV>(const VkGeometryTrianglesNV& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.vertexData
         ,
@@ -2969,7 +2711,7 @@ inline auto to_tuple<VkGraphicsPipelineCreateInfo>(const VkGraphicsPipelineCreat
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -3013,7 +2755,7 @@ inline auto to_tuple<VkGraphicsPipelineShaderGroupsCreateInfoNV>(const VkGraphic
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.groupCount
         ,
@@ -3031,7 +2773,7 @@ inline auto to_tuple<VkGraphicsShaderGroupCreateInfoNV>(const VkGraphicsShaderGr
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.stageCount
         ,
@@ -3049,7 +2791,7 @@ inline auto to_tuple<VkHdrMetadataEXT>(const VkHdrMetadataEXT& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.displayPrimaryRed)
         ,
@@ -3075,7 +2817,7 @@ inline auto to_tuple<VkHeadlessSurfaceCreateInfoEXT>(const VkHeadlessSurfaceCrea
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
     );
@@ -3088,7 +2830,7 @@ inline auto to_tuple<VkIOSSurfaceCreateInfoMVK>(const VkIOSSurfaceCreateInfoMVK&
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -3133,7 +2875,7 @@ inline auto to_tuple<VkImageCreateInfo>(const VkImageCreateInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -3169,7 +2911,7 @@ inline auto to_tuple<VkImageDrmFormatModifierExplicitCreateInfoEXT>(const VkImag
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.drmFormatModifier
         ,
@@ -3185,7 +2927,7 @@ inline auto to_tuple<VkImageDrmFormatModifierListCreateInfoEXT>(const VkImageDrm
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.drmFormatModifierCount
         ,
@@ -3199,7 +2941,7 @@ inline auto to_tuple<VkImageDrmFormatModifierPropertiesEXT>(const VkImageDrmForm
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.drmFormatModifier
     );
@@ -3211,7 +2953,7 @@ inline auto to_tuple<VkImageFormatListCreateInfo>(const VkImageFormatListCreateI
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.viewFormatCount
         ,
@@ -3242,7 +2984,7 @@ inline auto to_tuple<VkImageFormatProperties2>(const VkImageFormatProperties2& o
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.imageFormatProperties)
     );
@@ -3255,7 +2997,7 @@ inline auto to_tuple<VkImageMemoryBarrier>(const VkImageMemoryBarrier& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.srcAccessMask
         ,
@@ -3281,7 +3023,7 @@ inline auto to_tuple<VkImageMemoryRequirementsInfo2>(const VkImageMemoryRequirem
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.image
     );
@@ -3295,7 +3037,7 @@ inline auto to_tuple<VkImagePipeSurfaceCreateInfoFUCHSIA>(const VkImagePipeSurfa
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -3310,7 +3052,7 @@ inline auto to_tuple<VkImagePlaneMemoryRequirementsInfo>(const VkImagePlaneMemor
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.planeAspect
     );
@@ -3339,7 +3081,7 @@ inline auto to_tuple<VkImageSparseMemoryRequirementsInfo2>(const VkImageSparseMe
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.image
     );
@@ -3352,7 +3094,7 @@ inline auto to_tuple<VkImageStencilUsageCreateInfo>(const VkImageStencilUsageCre
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.stencilUsage
     );
@@ -3407,7 +3149,7 @@ inline auto to_tuple<VkImageSwapchainCreateInfoKHR>(const VkImageSwapchainCreate
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.swapchain
     );
@@ -3419,7 +3161,7 @@ inline auto to_tuple<VkImageViewASTCDecodeModeEXT>(const VkImageViewASTCDecodeMo
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.decodeMode
     );
@@ -3431,7 +3173,7 @@ inline auto to_tuple<VkImageViewAddressPropertiesNVX>(const VkImageViewAddressPr
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.deviceAddress
         ,
@@ -3445,7 +3187,7 @@ inline auto to_tuple<VkImageViewCreateInfo>(const VkImageViewCreateInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -3467,7 +3209,7 @@ inline auto to_tuple<VkImageViewHandleInfoNVX>(const VkImageViewHandleInfoNVX& o
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.imageView
         ,
@@ -3483,7 +3225,7 @@ inline auto to_tuple<VkImageViewUsageCreateInfo>(const VkImageViewUsageCreateInf
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.usage
     );
@@ -3497,7 +3239,7 @@ inline auto to_tuple<VkImportAndroidHardwareBufferInfoANDROID>(const VkImportAnd
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.buffer
     );
@@ -3510,7 +3252,7 @@ inline auto to_tuple<VkImportFenceFdInfoKHR>(const VkImportFenceFdInfoKHR& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.fence
         ,
@@ -3529,7 +3271,7 @@ inline auto to_tuple<VkImportFenceWin32HandleInfoKHR>(const VkImportFenceWin32Ha
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.fence
         ,
@@ -3550,7 +3292,7 @@ inline auto to_tuple<VkImportMemoryFdInfoKHR>(const VkImportMemoryFdInfoKHR& obj
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.handleType
         ,
@@ -3564,7 +3306,7 @@ inline auto to_tuple<VkImportMemoryHostPointerInfoEXT>(const VkImportMemoryHostP
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.handleType
         ,
@@ -3579,7 +3321,7 @@ inline auto to_tuple<VkImportMemoryWin32HandleInfoKHR>(const VkImportMemoryWin32
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.handleType
         ,
@@ -3597,7 +3339,7 @@ inline auto to_tuple<VkImportMemoryWin32HandleInfoNV>(const VkImportMemoryWin32H
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.handleType
         ,
@@ -3612,7 +3354,7 @@ inline auto to_tuple<VkImportSemaphoreFdInfoKHR>(const VkImportSemaphoreFdInfoKH
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.semaphore
         ,
@@ -3631,7 +3373,7 @@ inline auto to_tuple<VkImportSemaphoreWin32HandleInfoKHR>(const VkImportSemaphor
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.semaphore
         ,
@@ -3652,7 +3394,7 @@ inline auto to_tuple<VkIndirectCommandsLayoutCreateInfoNV>(const VkIndirectComma
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -3674,7 +3416,7 @@ inline auto to_tuple<VkIndirectCommandsLayoutTokenNV>(const VkIndirectCommandsLa
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.tokenType
         ,
@@ -3720,7 +3462,7 @@ inline auto to_tuple<VkInitializePerformanceApiInfoINTEL>(const VkInitializePerf
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.pUserData
     );
@@ -3745,7 +3487,7 @@ inline auto to_tuple<VkInstanceCreateInfo>(const VkInstanceCreateInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -3782,7 +3524,7 @@ inline auto to_tuple<VkMacOSSurfaceCreateInfoMVK>(const VkMacOSSurfaceCreateInfo
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -3797,7 +3539,7 @@ inline auto to_tuple<VkMappedMemoryRange>(const VkMappedMemoryRange& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.memory
         ,
@@ -3813,7 +3555,7 @@ inline auto to_tuple<VkMemoryAllocateFlagsInfo>(const VkMemoryAllocateFlagsInfo&
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -3828,7 +3570,7 @@ inline auto to_tuple<VkMemoryAllocateInfo>(const VkMemoryAllocateInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.allocationSize
         ,
@@ -3842,7 +3584,7 @@ inline auto to_tuple<VkMemoryBarrier>(const VkMemoryBarrier& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.srcAccessMask
         ,
@@ -3856,7 +3598,7 @@ inline auto to_tuple<VkMemoryDedicatedAllocateInfo>(const VkMemoryDedicatedAlloc
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.image
         ,
@@ -3871,7 +3613,7 @@ inline auto to_tuple<VkMemoryDedicatedRequirements>(const VkMemoryDedicatedRequi
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.prefersDedicatedAllocation
         ,
@@ -3886,7 +3628,7 @@ inline auto to_tuple<VkMemoryFdPropertiesKHR>(const VkMemoryFdPropertiesKHR& obj
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.memoryTypeBits
     );
@@ -3899,7 +3641,7 @@ inline auto to_tuple<VkMemoryGetAndroidHardwareBufferInfoANDROID>(const VkMemory
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.memory
     );
@@ -3912,7 +3654,7 @@ inline auto to_tuple<VkMemoryGetFdInfoKHR>(const VkMemoryGetFdInfoKHR& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.memory
         ,
@@ -3927,7 +3669,7 @@ inline auto to_tuple<VkMemoryGetWin32HandleInfoKHR>(const VkMemoryGetWin32Handle
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.memory
         ,
@@ -3952,7 +3694,7 @@ inline auto to_tuple<VkMemoryHostPointerPropertiesEXT>(const VkMemoryHostPointer
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.memoryTypeBits
     );
@@ -3964,7 +3706,7 @@ inline auto to_tuple<VkMemoryOpaqueCaptureAddressAllocateInfo>(const VkMemoryOpa
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.opaqueCaptureAddress
     );
@@ -3977,7 +3719,7 @@ inline auto to_tuple<VkMemoryPriorityAllocateInfoEXT>(const VkMemoryPriorityAllo
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.priority
     );
@@ -4001,7 +3743,7 @@ inline auto to_tuple<VkMemoryRequirements2>(const VkMemoryRequirements2& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.memoryRequirements)
     );
@@ -4025,7 +3767,7 @@ inline auto to_tuple<VkMemoryWin32HandlePropertiesKHR>(const VkMemoryWin32Handle
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.memoryTypeBits
     );
@@ -4039,7 +3781,7 @@ inline auto to_tuple<VkMetalSurfaceCreateInfoEXT>(const VkMetalSurfaceCreateInfo
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -4054,7 +3796,7 @@ inline auto to_tuple<VkMultisamplePropertiesEXT>(const VkMultisamplePropertiesEX
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.maxSampleLocationGridSize)
     );
@@ -4067,7 +3809,7 @@ inline auto to_tuple<VkNativeBufferANDROID>(const VkNativeBufferANDROID& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.handle
         ,
@@ -4138,7 +3880,7 @@ inline auto to_tuple<VkPerformanceConfigurationAcquireInfoINTEL>(const VkPerform
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.type
     );
@@ -4150,7 +3892,7 @@ inline auto to_tuple<VkPerformanceCounterDescriptionKHR>(const VkPerformanceCoun
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -4168,7 +3910,7 @@ inline auto to_tuple<VkPerformanceCounterKHR>(const VkPerformanceCounterKHR& obj
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.unit
         ,
@@ -4187,7 +3929,7 @@ inline auto to_tuple<VkPerformanceMarkerInfoINTEL>(const VkPerformanceMarkerInfo
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.marker
     );
@@ -4199,7 +3941,7 @@ inline auto to_tuple<VkPerformanceOverrideInfoINTEL>(const VkPerformanceOverride
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.type
         ,
@@ -4215,7 +3957,7 @@ inline auto to_tuple<VkPerformanceQuerySubmitInfoKHR>(const VkPerformanceQuerySu
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.counterPassIndex
     );
@@ -4227,7 +3969,7 @@ inline auto to_tuple<VkPerformanceStreamMarkerInfoINTEL>(const VkPerformanceStre
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.marker
     );
@@ -4250,7 +3992,7 @@ inline auto to_tuple<VkPhysicalDevice16BitStorageFeatures>(const VkPhysicalDevic
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.storageBuffer16BitAccess
         ,
@@ -4269,7 +4011,7 @@ inline auto to_tuple<VkPhysicalDevice8BitStorageFeatures>(const VkPhysicalDevice
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.storageBuffer8BitAccess
         ,
@@ -4286,7 +4028,7 @@ inline auto to_tuple<VkPhysicalDeviceASTCDecodeFeaturesEXT>(const VkPhysicalDevi
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.decodeModeSharedExponent
     );
@@ -4298,7 +4040,7 @@ inline auto to_tuple<VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT>(const Vk
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.advancedBlendCoherentOperations
     );
@@ -4310,7 +4052,7 @@ inline auto to_tuple<VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT>(const 
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.advancedBlendMaxColorAttachments
         ,
@@ -4333,7 +4075,7 @@ inline auto to_tuple<VkPhysicalDeviceBufferDeviceAddressFeatures>(const VkPhysic
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.bufferDeviceAddress
         ,
@@ -4349,7 +4091,7 @@ inline auto to_tuple<VkPhysicalDeviceBufferDeviceAddressFeaturesEXT>(const VkPhy
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.bufferDeviceAddress
         ,
@@ -4366,7 +4108,7 @@ inline auto to_tuple<VkPhysicalDeviceCoherentMemoryFeaturesAMD>(const VkPhysical
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.deviceCoherentMemory
     );
@@ -4378,7 +4120,7 @@ inline auto to_tuple<VkPhysicalDeviceComputeShaderDerivativesFeaturesNV>(const V
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.computeDerivativeGroupQuads
         ,
@@ -4392,7 +4134,7 @@ inline auto to_tuple<VkPhysicalDeviceConditionalRenderingFeaturesEXT>(const VkPh
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.conditionalRendering
         ,
@@ -4406,7 +4148,7 @@ inline auto to_tuple<VkPhysicalDeviceConservativeRasterizationPropertiesEXT>(con
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.primitiveOverestimationSize
         ,
@@ -4434,7 +4176,7 @@ inline auto to_tuple<VkPhysicalDeviceCooperativeMatrixFeaturesNV>(const VkPhysic
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.cooperativeMatrix
         ,
@@ -4448,7 +4190,7 @@ inline auto to_tuple<VkPhysicalDeviceCooperativeMatrixPropertiesNV>(const VkPhys
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.cooperativeMatrixSupportedStages
     );
@@ -4460,7 +4202,7 @@ inline auto to_tuple<VkPhysicalDeviceCornerSampledImageFeaturesNV>(const VkPhysi
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.cornerSampledImage
     );
@@ -4472,7 +4214,7 @@ inline auto to_tuple<VkPhysicalDeviceCoverageReductionModeFeaturesNV>(const VkPh
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.coverageReductionMode
     );
@@ -4484,7 +4226,7 @@ inline auto to_tuple<VkPhysicalDeviceCustomBorderColorFeaturesEXT>(const VkPhysi
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.customBorderColors
         ,
@@ -4498,7 +4240,7 @@ inline auto to_tuple<VkPhysicalDeviceCustomBorderColorPropertiesEXT>(const VkPhy
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.maxCustomBorderColorSamplers
     );
@@ -4510,7 +4252,7 @@ inline auto to_tuple<VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV>
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.dedicatedAllocationImageAliasing
     );
@@ -4522,7 +4264,7 @@ inline auto to_tuple<VkPhysicalDeviceDepthClipEnableFeaturesEXT>(const VkPhysica
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.depthClipEnable
     );
@@ -4534,7 +4276,7 @@ inline auto to_tuple<VkPhysicalDeviceDepthStencilResolveProperties>(const VkPhys
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.supportedDepthResolveModes
         ,
@@ -4553,7 +4295,7 @@ inline auto to_tuple<VkPhysicalDeviceDescriptorIndexingFeatures>(const VkPhysica
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.shaderInputAttachmentArrayDynamicIndexing
         ,
@@ -4604,7 +4346,7 @@ inline auto to_tuple<VkPhysicalDeviceDescriptorIndexingProperties>(const VkPhysi
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.maxUpdateAfterBindDescriptorsInAllPools
         ,
@@ -4661,7 +4403,7 @@ inline auto to_tuple<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV>(const Vk
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.deviceGeneratedCommands
     );
@@ -4673,7 +4415,7 @@ inline auto to_tuple<VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV>(const 
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.maxGraphicsShaderGroupCount
         ,
@@ -4701,7 +4443,7 @@ inline auto to_tuple<VkPhysicalDeviceDiagnosticsConfigFeaturesNV>(const VkPhysic
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.diagnosticsConfig
     );
@@ -4713,7 +4455,7 @@ inline auto to_tuple<VkPhysicalDeviceDiscardRectanglePropertiesEXT>(const VkPhys
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.maxDiscardRectangles
     );
@@ -4725,7 +4467,7 @@ inline auto to_tuple<VkPhysicalDeviceDriverProperties>(const VkPhysicalDeviceDri
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.driverID
         ,
@@ -4744,7 +4486,7 @@ inline auto to_tuple<VkPhysicalDeviceExclusiveScissorFeaturesNV>(const VkPhysica
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.exclusiveScissor
     );
@@ -4756,7 +4498,7 @@ inline auto to_tuple<VkPhysicalDeviceExtendedDynamicStateFeaturesEXT>(const VkPh
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.extendedDynamicState
     );
@@ -4768,7 +4510,7 @@ inline auto to_tuple<VkPhysicalDeviceExternalBufferInfo>(const VkPhysicalDeviceE
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -4785,7 +4527,7 @@ inline auto to_tuple<VkPhysicalDeviceExternalFenceInfo>(const VkPhysicalDeviceEx
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.handleType
     );
@@ -4798,7 +4540,7 @@ inline auto to_tuple<VkPhysicalDeviceExternalImageFormatInfo>(const VkPhysicalDe
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.handleType
     );
@@ -4811,7 +4553,7 @@ inline auto to_tuple<VkPhysicalDeviceExternalMemoryHostPropertiesEXT>(const VkPh
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.minImportedHostPointerAlignment
     );
@@ -4823,7 +4565,7 @@ inline auto to_tuple<VkPhysicalDeviceExternalSemaphoreInfo>(const VkPhysicalDevi
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.handleType
     );
@@ -4952,7 +4694,7 @@ inline auto to_tuple<VkPhysicalDeviceFeatures2>(const VkPhysicalDeviceFeatures2&
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.features)
     );
@@ -4966,7 +4708,7 @@ inline auto to_tuple<VkPhysicalDeviceFloatControlsProperties>(const VkPhysicalDe
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.denormBehaviorIndependence
         ,
@@ -5011,7 +4753,7 @@ inline auto to_tuple<VkPhysicalDeviceFragmentDensityMap2FeaturesEXT>(const VkPhy
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.fragmentDensityMapDeferred
     );
@@ -5023,7 +4765,7 @@ inline auto to_tuple<VkPhysicalDeviceFragmentDensityMap2PropertiesEXT>(const VkP
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.subsampledLoads
         ,
@@ -5041,7 +4783,7 @@ inline auto to_tuple<VkPhysicalDeviceFragmentDensityMapFeaturesEXT>(const VkPhys
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.fragmentDensityMap
         ,
@@ -5057,7 +4799,7 @@ inline auto to_tuple<VkPhysicalDeviceFragmentDensityMapPropertiesEXT>(const VkPh
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.minFragmentDensityTexelSize)
         ,
@@ -5073,7 +4815,7 @@ inline auto to_tuple<VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV>(const 
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.fragmentShaderBarycentric
     );
@@ -5085,7 +4827,7 @@ inline auto to_tuple<VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT>(const V
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.fragmentShaderSampleInterlock
         ,
@@ -5101,7 +4843,7 @@ inline auto to_tuple<VkPhysicalDeviceGroupProperties>(const VkPhysicalDeviceGrou
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.physicalDeviceCount
         ,
@@ -5118,7 +4860,7 @@ inline auto to_tuple<VkPhysicalDeviceHostQueryResetFeatures>(const VkPhysicalDev
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.hostQueryReset
     );
@@ -5131,7 +4873,7 @@ inline auto to_tuple<VkPhysicalDeviceIDProperties>(const VkPhysicalDeviceIDPrope
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         Span(obj.deviceUUID, VK_UUID_SIZE)
         ,
@@ -5152,7 +4894,7 @@ inline auto to_tuple<VkPhysicalDeviceImageDrmFormatModifierInfoEXT>(const VkPhys
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.drmFormatModifier
         ,
@@ -5170,7 +4912,7 @@ inline auto to_tuple<VkPhysicalDeviceImageFormatInfo2>(const VkPhysicalDeviceIma
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.format
         ,
@@ -5191,7 +4933,7 @@ inline auto to_tuple<VkPhysicalDeviceImageRobustnessFeaturesEXT>(const VkPhysica
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.robustImageAccess
     );
@@ -5203,7 +4945,7 @@ inline auto to_tuple<VkPhysicalDeviceImageViewImageFormatInfoEXT>(const VkPhysic
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.imageViewType
     );
@@ -5215,7 +4957,7 @@ inline auto to_tuple<VkPhysicalDeviceImagelessFramebufferFeatures>(const VkPhysi
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.imagelessFramebuffer
     );
@@ -5228,7 +4970,7 @@ inline auto to_tuple<VkPhysicalDeviceIndexTypeUint8FeaturesEXT>(const VkPhysical
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.indexTypeUint8
     );
@@ -5240,7 +4982,7 @@ inline auto to_tuple<VkPhysicalDeviceInlineUniformBlockFeaturesEXT>(const VkPhys
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.inlineUniformBlock
         ,
@@ -5254,7 +4996,7 @@ inline auto to_tuple<VkPhysicalDeviceInlineUniformBlockPropertiesEXT>(const VkPh
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.maxInlineUniformBlockSize
         ,
@@ -5492,7 +5234,7 @@ inline auto to_tuple<VkPhysicalDeviceLineRasterizationFeaturesEXT>(const VkPhysi
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.rectangularLines
         ,
@@ -5514,7 +5256,7 @@ inline auto to_tuple<VkPhysicalDeviceLineRasterizationPropertiesEXT>(const VkPhy
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.lineSubPixelPrecisionBits
     );
@@ -5526,7 +5268,7 @@ inline auto to_tuple<VkPhysicalDeviceMaintenance3Properties>(const VkPhysicalDev
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.maxPerSetDescriptors
         ,
@@ -5541,7 +5283,7 @@ inline auto to_tuple<VkPhysicalDeviceMemoryBudgetPropertiesEXT>(const VkPhysical
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         Span(obj.heapBudget, VK_MAX_MEMORY_HEAPS)
         ,
@@ -5555,7 +5297,7 @@ inline auto to_tuple<VkPhysicalDeviceMemoryPriorityFeaturesEXT>(const VkPhysical
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.memoryPriority
     );
@@ -5581,7 +5323,7 @@ inline auto to_tuple<VkPhysicalDeviceMemoryProperties2>(const VkPhysicalDeviceMe
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.memoryProperties)
     );
@@ -5594,7 +5336,7 @@ inline auto to_tuple<VkPhysicalDeviceMeshShaderFeaturesNV>(const VkPhysicalDevic
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.taskShader
         ,
@@ -5608,7 +5350,7 @@ inline auto to_tuple<VkPhysicalDeviceMeshShaderPropertiesNV>(const VkPhysicalDev
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.maxDrawMeshTasksCount
         ,
@@ -5644,7 +5386,7 @@ inline auto to_tuple<VkPhysicalDeviceMultiviewFeatures>(const VkPhysicalDeviceMu
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.multiview
         ,
@@ -5661,7 +5403,7 @@ inline auto to_tuple<VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX>(co
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.perViewPositionAllComponents
     );
@@ -5673,7 +5415,7 @@ inline auto to_tuple<VkPhysicalDeviceMultiviewProperties>(const VkPhysicalDevice
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.maxMultiviewViewCount
         ,
@@ -5688,7 +5430,7 @@ inline auto to_tuple<VkPhysicalDevicePCIBusInfoPropertiesEXT>(const VkPhysicalDe
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.pciDomain
         ,
@@ -5706,7 +5448,7 @@ inline auto to_tuple<VkPhysicalDevicePerformanceQueryFeaturesKHR>(const VkPhysic
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.performanceCounterQueryPools
         ,
@@ -5720,7 +5462,7 @@ inline auto to_tuple<VkPhysicalDevicePerformanceQueryPropertiesKHR>(const VkPhys
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.allowCommandBufferQueryCopies
     );
@@ -5732,7 +5474,7 @@ inline auto to_tuple<VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT>(co
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.pipelineCreationCacheControl
     );
@@ -5744,7 +5486,7 @@ inline auto to_tuple<VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR>(co
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.pipelineExecutableInfo
     );
@@ -5756,7 +5498,7 @@ inline auto to_tuple<VkPhysicalDevicePointClippingProperties>(const VkPhysicalDe
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.pointClippingBehavior
     );
@@ -5770,7 +5512,7 @@ inline auto to_tuple<VkPhysicalDevicePresentationPropertiesANDROID>(const VkPhys
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.sharedImage
     );
@@ -5783,7 +5525,7 @@ inline auto to_tuple<VkPhysicalDevicePrivateDataFeaturesEXT>(const VkPhysicalDev
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.privateData
     );
@@ -5819,7 +5561,7 @@ inline auto to_tuple<VkPhysicalDeviceProperties2>(const VkPhysicalDeviceProperti
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.properties)
     );
@@ -5832,7 +5574,7 @@ inline auto to_tuple<VkPhysicalDeviceProtectedMemoryFeatures>(const VkPhysicalDe
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.protectedMemory
     );
@@ -5844,7 +5586,7 @@ inline auto to_tuple<VkPhysicalDeviceProtectedMemoryProperties>(const VkPhysical
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.protectedNoFault
     );
@@ -5856,7 +5598,7 @@ inline auto to_tuple<VkPhysicalDevicePushDescriptorPropertiesKHR>(const VkPhysic
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.maxPushDescriptors
     );
@@ -5869,7 +5611,7 @@ inline auto to_tuple<VkPhysicalDeviceRayTracingFeaturesKHR>(const VkPhysicalDevi
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.rayTracing
         ,
@@ -5899,7 +5641,7 @@ inline auto to_tuple<VkPhysicalDeviceRayTracingPropertiesKHR>(const VkPhysicalDe
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.shaderGroupHandleSize
         ,
@@ -5928,7 +5670,7 @@ inline auto to_tuple<VkPhysicalDeviceRayTracingPropertiesNV>(const VkPhysicalDev
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.shaderGroupHandleSize
         ,
@@ -5954,7 +5696,7 @@ inline auto to_tuple<VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV>(const
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.representativeFragmentTest
     );
@@ -5966,7 +5708,7 @@ inline auto to_tuple<VkPhysicalDeviceRobustness2FeaturesEXT>(const VkPhysicalDev
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.robustBufferAccess2
         ,
@@ -5982,7 +5724,7 @@ inline auto to_tuple<VkPhysicalDeviceRobustness2PropertiesEXT>(const VkPhysicalD
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.robustStorageBufferAccessSizeAlignment
         ,
@@ -5996,7 +5738,7 @@ inline auto to_tuple<VkPhysicalDeviceSampleLocationsPropertiesEXT>(const VkPhysi
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.sampleLocationSampleCounts
         ,
@@ -6016,7 +5758,7 @@ inline auto to_tuple<VkPhysicalDeviceSamplerFilterMinmaxProperties>(const VkPhys
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.filterMinmaxSingleComponentFormats
         ,
@@ -6031,7 +5773,7 @@ inline auto to_tuple<VkPhysicalDeviceSamplerYcbcrConversionFeatures>(const VkPhy
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.samplerYcbcrConversion
     );
@@ -6044,7 +5786,7 @@ inline auto to_tuple<VkPhysicalDeviceScalarBlockLayoutFeatures>(const VkPhysical
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.scalarBlockLayout
     );
@@ -6057,7 +5799,7 @@ inline auto to_tuple<VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures>(const 
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.separateDepthStencilLayouts
     );
@@ -6070,7 +5812,7 @@ inline auto to_tuple<VkPhysicalDeviceShaderAtomicFloatFeaturesEXT>(const VkPhysi
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.shaderBufferFloat32Atomics
         ,
@@ -6104,7 +5846,7 @@ inline auto to_tuple<VkPhysicalDeviceShaderAtomicInt64Features>(const VkPhysical
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.shaderBufferInt64Atomics
         ,
@@ -6119,7 +5861,7 @@ inline auto to_tuple<VkPhysicalDeviceShaderClockFeaturesKHR>(const VkPhysicalDev
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.shaderSubgroupClock
         ,
@@ -6133,7 +5875,7 @@ inline auto to_tuple<VkPhysicalDeviceShaderCoreProperties2AMD>(const VkPhysicalD
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.shaderCoreFeatures
         ,
@@ -6147,7 +5889,7 @@ inline auto to_tuple<VkPhysicalDeviceShaderCorePropertiesAMD>(const VkPhysicalDe
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.shaderEngineCount
         ,
@@ -6185,7 +5927,7 @@ inline auto to_tuple<VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT>(
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.shaderDemoteToHelperInvocation
     );
@@ -6198,7 +5940,7 @@ inline auto to_tuple<VkPhysicalDeviceShaderDrawParametersFeatures>(const VkPhysi
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.shaderDrawParameters
     );
@@ -6210,7 +5952,7 @@ inline auto to_tuple<VkPhysicalDeviceShaderFloat16Int8Features>(const VkPhysical
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.shaderFloat16
         ,
@@ -6225,7 +5967,7 @@ inline auto to_tuple<VkPhysicalDeviceShaderImageFootprintFeaturesNV>(const VkPhy
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.imageFootprint
     );
@@ -6237,7 +5979,7 @@ inline auto to_tuple<VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL>(const
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.shaderIntegerFunctions2
     );
@@ -6249,7 +5991,7 @@ inline auto to_tuple<VkPhysicalDeviceShaderSMBuiltinsFeaturesNV>(const VkPhysica
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.shaderSMBuiltins
     );
@@ -6261,7 +6003,7 @@ inline auto to_tuple<VkPhysicalDeviceShaderSMBuiltinsPropertiesNV>(const VkPhysi
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.shaderSMCount
         ,
@@ -6275,7 +6017,7 @@ inline auto to_tuple<VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures>(const 
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.shaderSubgroupExtendedTypes
     );
@@ -6288,7 +6030,7 @@ inline auto to_tuple<VkPhysicalDeviceShadingRateImageFeaturesNV>(const VkPhysica
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.shadingRateImage
         ,
@@ -6302,7 +6044,7 @@ inline auto to_tuple<VkPhysicalDeviceShadingRateImagePropertiesNV>(const VkPhysi
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.shadingRateTexelSize)
         ,
@@ -6318,7 +6060,7 @@ inline auto to_tuple<VkPhysicalDeviceSparseImageFormatInfo2>(const VkPhysicalDev
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.format
         ,
@@ -6355,7 +6097,7 @@ inline auto to_tuple<VkPhysicalDeviceSubgroupProperties>(const VkPhysicalDeviceS
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.subgroupSize
         ,
@@ -6373,7 +6115,7 @@ inline auto to_tuple<VkPhysicalDeviceSubgroupSizeControlFeaturesEXT>(const VkPhy
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.subgroupSizeControl
         ,
@@ -6387,7 +6129,7 @@ inline auto to_tuple<VkPhysicalDeviceSubgroupSizeControlPropertiesEXT>(const VkP
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.minSubgroupSize
         ,
@@ -6405,7 +6147,7 @@ inline auto to_tuple<VkPhysicalDeviceSurfaceInfo2KHR>(const VkPhysicalDeviceSurf
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.surface
     );
@@ -6417,7 +6159,7 @@ inline auto to_tuple<VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT>(const VkPh
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.texelBufferAlignment
     );
@@ -6429,7 +6171,7 @@ inline auto to_tuple<VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT>(const Vk
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.storageTexelBufferOffsetAlignmentBytes
         ,
@@ -6447,7 +6189,7 @@ inline auto to_tuple<VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT>(const
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.textureCompressionASTC_HDR
     );
@@ -6459,7 +6201,7 @@ inline auto to_tuple<VkPhysicalDeviceTimelineSemaphoreFeatures>(const VkPhysical
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.timelineSemaphore
     );
@@ -6472,7 +6214,7 @@ inline auto to_tuple<VkPhysicalDeviceTimelineSemaphoreProperties>(const VkPhysic
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.maxTimelineSemaphoreValueDifference
     );
@@ -6485,7 +6227,7 @@ inline auto to_tuple<VkPhysicalDeviceToolPropertiesEXT>(const VkPhysicalDeviceTo
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         Span(obj.name, VK_MAX_EXTENSION_NAME_SIZE)
         ,
@@ -6505,7 +6247,7 @@ inline auto to_tuple<VkPhysicalDeviceTransformFeedbackFeaturesEXT>(const VkPhysi
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.transformFeedback
         ,
@@ -6519,7 +6261,7 @@ inline auto to_tuple<VkPhysicalDeviceTransformFeedbackPropertiesEXT>(const VkPhy
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.maxTransformFeedbackStreams
         ,
@@ -6549,7 +6291,7 @@ inline auto to_tuple<VkPhysicalDeviceUniformBufferStandardLayoutFeatures>(const 
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.uniformBufferStandardLayout
     );
@@ -6564,7 +6306,7 @@ inline auto to_tuple<VkPhysicalDeviceVariablePointersFeatures>(const VkPhysicalD
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.variablePointersStorageBuffer
         ,
@@ -6579,7 +6321,7 @@ inline auto to_tuple<VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT>(const Vk
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.vertexAttributeInstanceRateDivisor
         ,
@@ -6593,7 +6335,7 @@ inline auto to_tuple<VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT>(const 
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.maxVertexAttribDivisor
     );
@@ -6605,7 +6347,7 @@ inline auto to_tuple<VkPhysicalDeviceVulkan11Features>(const VkPhysicalDeviceVul
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.storageBuffer16BitAccess
         ,
@@ -6639,7 +6381,7 @@ inline auto to_tuple<VkPhysicalDeviceVulkan11Properties>(const VkPhysicalDeviceV
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         Span(obj.deviceUUID, VK_UUID_SIZE)
         ,
@@ -6679,7 +6421,7 @@ inline auto to_tuple<VkPhysicalDeviceVulkan12Features>(const VkPhysicalDeviceVul
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.samplerMirrorClampToEdge
         ,
@@ -6783,7 +6525,7 @@ inline auto to_tuple<VkPhysicalDeviceVulkan12Properties>(const VkPhysicalDeviceV
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.driverID
         ,
@@ -6897,7 +6639,7 @@ inline auto to_tuple<VkPhysicalDeviceVulkanMemoryModelFeatures>(const VkPhysical
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.vulkanMemoryModel
         ,
@@ -6914,27 +6656,12 @@ inline auto to_tuple<VkPhysicalDeviceYcbcrImageArraysFeaturesEXT>(const VkPhysic
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.ycbcrImageArrays
     );
 }
 
-template <>
-inline auto to_tuple<VkPipelineCacheCreateInfo>(const VkPipelineCacheCreateInfo& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        obj.flags
-        ,
-        obj.initialDataSize
-        ,
-        Span(obj.pInitialData, obj.initialDataSize)
-    );
-}
 
 template <>
 inline auto to_tuple<VkPipelineColorBlendAdvancedStateCreateInfoEXT>(const VkPipelineColorBlendAdvancedStateCreateInfoEXT& obj)
@@ -6942,7 +6669,7 @@ inline auto to_tuple<VkPipelineColorBlendAdvancedStateCreateInfoEXT>(const VkPip
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.srcPremultiplied
         ,
@@ -6980,7 +6707,7 @@ inline auto to_tuple<VkPipelineColorBlendStateCreateInfo>(const VkPipelineColorB
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7002,7 +6729,7 @@ inline auto to_tuple<VkPipelineCompilerControlCreateInfoAMD>(const VkPipelineCom
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.compilerControlFlags
     );
@@ -7014,7 +6741,7 @@ inline auto to_tuple<VkPipelineCoverageModulationStateCreateInfoNV>(const VkPipe
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7034,7 +6761,7 @@ inline auto to_tuple<VkPipelineCoverageReductionStateCreateInfoNV>(const VkPipel
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7048,7 +6775,7 @@ inline auto to_tuple<VkPipelineCoverageToColorStateCreateInfoNV>(const VkPipelin
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7064,7 +6791,7 @@ inline auto to_tuple<VkPipelineCreationFeedbackCreateInfoEXT>(const VkPipelineCr
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         Span(obj.pPipelineCreationFeedback, 1)
         ,
@@ -7090,7 +6817,7 @@ inline auto to_tuple<VkPipelineDepthStencilStateCreateInfo>(const VkPipelineDept
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7120,7 +6847,7 @@ inline auto to_tuple<VkPipelineDiscardRectangleStateCreateInfoEXT>(const VkPipel
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7138,7 +6865,7 @@ inline auto to_tuple<VkPipelineDynamicStateCreateInfo>(const VkPipelineDynamicSt
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7154,7 +6881,7 @@ inline auto to_tuple<VkPipelineExecutableInfoKHR>(const VkPipelineExecutableInfo
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.pipeline
         ,
@@ -7162,25 +6889,6 @@ inline auto to_tuple<VkPipelineExecutableInfoKHR>(const VkPipelineExecutableInfo
     );
 }
 
-template <>
-inline auto to_tuple<VkPipelineExecutableInternalRepresentationKHR>(const VkPipelineExecutableInternalRepresentationKHR& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        Span(obj.name, VK_MAX_DESCRIPTION_SIZE)
-        ,
-        Span(obj.description, VK_MAX_DESCRIPTION_SIZE)
-        ,
-        obj.isText
-        ,
-        obj.dataSize
-        ,
-        Span(obj.pData, obj.dataSize)
-    );
-}
 
 template <>
 inline auto to_tuple<VkPipelineExecutablePropertiesKHR>(const VkPipelineExecutablePropertiesKHR& obj)
@@ -7188,7 +6896,7 @@ inline auto to_tuple<VkPipelineExecutablePropertiesKHR>(const VkPipelineExecutab
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.stages
         ,
@@ -7206,7 +6914,7 @@ inline auto to_tuple<VkPipelineExecutableStatisticKHR>(const VkPipelineExecutabl
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         Span(obj.name, VK_MAX_DESCRIPTION_SIZE)
         ,
@@ -7225,7 +6933,7 @@ inline auto to_tuple<VkPipelineInfoKHR>(const VkPipelineInfoKHR& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.pipeline
     );
@@ -7237,7 +6945,7 @@ inline auto to_tuple<VkPipelineInputAssemblyStateCreateInfo>(const VkPipelineInp
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7253,7 +6961,7 @@ inline auto to_tuple<VkPipelineLayoutCreateInfo>(const VkPipelineLayoutCreateInf
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7274,7 +6982,7 @@ inline auto to_tuple<VkPipelineLibraryCreateInfoKHR>(const VkPipelineLibraryCrea
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.libraryCount
         ,
@@ -7290,7 +6998,7 @@ inline auto to_tuple<VkPipelineRasterizationConservativeStateCreateInfoEXT>(cons
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7306,7 +7014,7 @@ inline auto to_tuple<VkPipelineRasterizationDepthClipStateCreateInfoEXT>(const V
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7320,7 +7028,7 @@ inline auto to_tuple<VkPipelineRasterizationLineStateCreateInfoEXT>(const VkPipe
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.lineRasterizationMode
         ,
@@ -7338,7 +7046,7 @@ inline auto to_tuple<VkPipelineRasterizationStateCreateInfo>(const VkPipelineRas
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7370,7 +7078,7 @@ inline auto to_tuple<VkPipelineRasterizationStateRasterizationOrderAMD>(const Vk
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.rasterizationOrder
     );
@@ -7382,7 +7090,7 @@ inline auto to_tuple<VkPipelineRasterizationStateStreamCreateInfoEXT>(const VkPi
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7396,7 +7104,7 @@ inline auto to_tuple<VkPipelineRepresentativeFragmentTestStateCreateInfoNV>(cons
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.representativeFragmentTestEnable
     );
@@ -7408,7 +7116,7 @@ inline auto to_tuple<VkPipelineSampleLocationsStateCreateInfoEXT>(const VkPipeli
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.sampleLocationsEnable
         ,
@@ -7422,7 +7130,7 @@ inline auto to_tuple<VkPipelineShaderStageCreateInfo>(const VkPipelineShaderStag
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7442,7 +7150,7 @@ inline auto to_tuple<VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT>(con
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.requiredSubgroupSize
     );
@@ -7454,7 +7162,7 @@ inline auto to_tuple<VkPipelineTessellationDomainOriginStateCreateInfo>(const Vk
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.domainOrigin
     );
@@ -7467,7 +7175,7 @@ inline auto to_tuple<VkPipelineTessellationStateCreateInfo>(const VkPipelineTess
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7481,7 +7189,7 @@ inline auto to_tuple<VkPipelineVertexInputDivisorStateCreateInfoEXT>(const VkPip
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.vertexBindingDivisorCount
         ,
@@ -7495,7 +7203,7 @@ inline auto to_tuple<VkPipelineVertexInputStateCreateInfo>(const VkPipelineVerte
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7515,7 +7223,7 @@ inline auto to_tuple<VkPipelineViewportCoarseSampleOrderStateCreateInfoNV>(const
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.sampleOrderType
         ,
@@ -7531,7 +7239,7 @@ inline auto to_tuple<VkPipelineViewportExclusiveScissorStateCreateInfoNV>(const 
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.exclusiveScissorCount
         ,
@@ -7545,7 +7253,7 @@ inline auto to_tuple<VkPipelineViewportShadingRateImageStateCreateInfoNV>(const 
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.shadingRateImageEnable
         ,
@@ -7561,7 +7269,7 @@ inline auto to_tuple<VkPipelineViewportStateCreateInfo>(const VkPipelineViewport
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7581,7 +7289,7 @@ inline auto to_tuple<VkPipelineViewportSwizzleStateCreateInfoNV>(const VkPipelin
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7597,7 +7305,7 @@ inline auto to_tuple<VkPipelineViewportWScalingStateCreateInfoNV>(const VkPipeli
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.viewportWScalingEnable
         ,
@@ -7614,7 +7322,7 @@ inline auto to_tuple<VkPresentFrameTokenGGP>(const VkPresentFrameTokenGGP& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.frameToken
     );
@@ -7627,7 +7335,7 @@ inline auto to_tuple<VkPresentInfoKHR>(const VkPresentInfoKHR& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.waitSemaphoreCount
         ,
@@ -7659,7 +7367,7 @@ inline auto to_tuple<VkPresentRegionsKHR>(const VkPresentRegionsKHR& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.swapchainCount
         ,
@@ -7683,7 +7391,7 @@ inline auto to_tuple<VkPresentTimesInfoGOOGLE>(const VkPresentTimesInfoGOOGLE& o
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.swapchainCount
         ,
@@ -7697,7 +7405,7 @@ inline auto to_tuple<VkPrivateDataSlotCreateInfoEXT>(const VkPrivateDataSlotCrea
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
     );
@@ -7709,7 +7417,7 @@ inline auto to_tuple<VkProtectedSubmitInfo>(const VkProtectedSubmitInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.protectedSubmit
     );
@@ -7733,7 +7441,7 @@ inline auto to_tuple<VkQueryPoolCreateInfo>(const VkQueryPoolCreateInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7752,7 +7460,7 @@ inline auto to_tuple<VkQueryPoolPerformanceCreateInfoKHR>(const VkQueryPoolPerfo
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.queueFamilyIndex
         ,
@@ -7768,7 +7476,7 @@ inline auto to_tuple<VkQueryPoolPerformanceQueryCreateInfoINTEL>(const VkQueryPo
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.performanceCountersSampling
     );
@@ -7780,7 +7488,7 @@ inline auto to_tuple<VkQueueFamilyCheckpointPropertiesNV>(const VkQueueFamilyChe
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.checkpointExecutionStageMask
     );
@@ -7806,7 +7514,7 @@ inline auto to_tuple<VkQueueFamilyProperties2>(const VkQueueFamilyProperties2& o
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.queueFamilyProperties)
     );
@@ -7820,7 +7528,7 @@ inline auto to_tuple<VkRayTracingPipelineCreateInfoKHR>(const VkRayTracingPipeli
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7853,7 +7561,7 @@ inline auto to_tuple<VkRayTracingPipelineCreateInfoNV>(const VkRayTracingPipelin
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -7882,7 +7590,7 @@ inline auto to_tuple<VkRayTracingPipelineInterfaceCreateInfoKHR>(const VkRayTrac
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.maxPayloadSize
         ,
@@ -7900,7 +7608,7 @@ inline auto to_tuple<VkRayTracingShaderGroupCreateInfoKHR>(const VkRayTracingSha
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.type
         ,
@@ -7923,7 +7631,7 @@ inline auto to_tuple<VkRayTracingShaderGroupCreateInfoNV>(const VkRayTracingShad
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.type
         ,
@@ -7973,7 +7681,7 @@ inline auto to_tuple<VkRenderPassAttachmentBeginInfo>(const VkRenderPassAttachme
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.attachmentCount
         ,
@@ -7988,7 +7696,7 @@ inline auto to_tuple<VkRenderPassBeginInfo>(const VkRenderPassBeginInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.renderPass
         ,
@@ -8008,7 +7716,7 @@ inline auto to_tuple<VkRenderPassCreateInfo>(const VkRenderPassCreateInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -8032,7 +7740,7 @@ inline auto to_tuple<VkRenderPassCreateInfo2>(const VkRenderPassCreateInfo2& obj
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -8061,7 +7769,7 @@ inline auto to_tuple<VkRenderPassFragmentDensityMapCreateInfoEXT>(const VkRender
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.fragmentDensityMapAttachment)
     );
@@ -8073,7 +7781,7 @@ inline auto to_tuple<VkRenderPassInputAttachmentAspectCreateInfo>(const VkRender
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.aspectReferenceCount
         ,
@@ -8088,7 +7796,7 @@ inline auto to_tuple<VkRenderPassMultiviewCreateInfo>(const VkRenderPassMultivie
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.subpassCount
         ,
@@ -8111,7 +7819,7 @@ inline auto to_tuple<VkRenderPassSampleLocationsBeginInfoEXT>(const VkRenderPass
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.attachmentInitialSampleLocationsCount
         ,
@@ -8129,7 +7837,7 @@ inline auto to_tuple<VkRenderPassTransformBeginInfoQCOM>(const VkRenderPassTrans
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.transform
     );
@@ -8151,7 +7859,7 @@ inline auto to_tuple<VkSampleLocationsInfoEXT>(const VkSampleLocationsInfoEXT& o
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.sampleLocationsPerPixel
         ,
@@ -8169,7 +7877,7 @@ inline auto to_tuple<VkSamplerCreateInfo>(const VkSamplerCreateInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -8211,7 +7919,7 @@ inline auto to_tuple<VkSamplerCustomBorderColorCreateInfoEXT>(const VkSamplerCus
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.customBorderColor)
         ,
@@ -8225,7 +7933,7 @@ inline auto to_tuple<VkSamplerReductionModeCreateInfo>(const VkSamplerReductionM
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.reductionMode
     );
@@ -8238,7 +7946,7 @@ inline auto to_tuple<VkSamplerYcbcrConversionCreateInfo>(const VkSamplerYcbcrCon
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.format
         ,
@@ -8265,7 +7973,7 @@ inline auto to_tuple<VkSamplerYcbcrConversionImageFormatProperties>(const VkSamp
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.combinedImageSamplerDescriptorCount
     );
@@ -8278,7 +7986,7 @@ inline auto to_tuple<VkSamplerYcbcrConversionInfo>(const VkSamplerYcbcrConversio
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.conversion
     );
@@ -8291,7 +7999,7 @@ inline auto to_tuple<VkSemaphoreCreateInfo>(const VkSemaphoreCreateInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
     );
@@ -8303,7 +8011,7 @@ inline auto to_tuple<VkSemaphoreGetFdInfoKHR>(const VkSemaphoreGetFdInfoKHR& obj
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.semaphore
         ,
@@ -8318,7 +8026,7 @@ inline auto to_tuple<VkSemaphoreGetWin32HandleInfoKHR>(const VkSemaphoreGetWin32
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.semaphore
         ,
@@ -8333,7 +8041,7 @@ inline auto to_tuple<VkSemaphoreSignalInfo>(const VkSemaphoreSignalInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.semaphore
         ,
@@ -8348,7 +8056,7 @@ inline auto to_tuple<VkSemaphoreTypeCreateInfo>(const VkSemaphoreTypeCreateInfo&
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.semaphoreType
         ,
@@ -8363,7 +8071,7 @@ inline auto to_tuple<VkSemaphoreWaitInfo>(const VkSemaphoreWaitInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -8391,7 +8099,7 @@ inline auto to_tuple<VkShaderModuleValidationCacheCreateInfoEXT>(const VkShaderM
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.validationCache
     );
@@ -8449,7 +8157,7 @@ inline auto to_tuple<VkSharedPresentSurfaceCapabilitiesKHR>(const VkSharedPresen
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.sharedPresentSupportedUsageFlags
     );
@@ -8485,7 +8193,7 @@ inline auto to_tuple<VkSparseImageFormatProperties2>(const VkSparseImageFormatPr
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.properties)
     );
@@ -8544,7 +8252,7 @@ inline auto to_tuple<VkSparseImageMemoryRequirements2>(const VkSparseImageMemory
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.memoryRequirements)
     );
@@ -8579,19 +8287,6 @@ inline auto to_tuple<VkSparseMemoryBind>(const VkSparseMemoryBind& obj)
     );
 }
 
-template <>
-inline auto to_tuple<VkSpecializationInfo>(const VkSpecializationInfo& obj)
-{
-    return std::make_tuple(
-        obj.mapEntryCount
-        ,
-        Span(obj.pMapEntries, obj.mapEntryCount)
-        ,
-        obj.dataSize
-        ,
-        Span(obj.pData, obj.dataSize)
-    );
-}
 
 template <>
 inline auto to_tuple<VkSpecializationMapEntry>(const VkSpecializationMapEntry& obj)
@@ -8632,7 +8327,7 @@ inline auto to_tuple<VkStreamDescriptorSurfaceCreateInfoGGP>(const VkStreamDescr
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -8663,7 +8358,7 @@ inline auto to_tuple<VkSubmitInfo>(const VkSubmitInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.waitSemaphoreCount
         ,
@@ -8687,7 +8382,7 @@ inline auto to_tuple<VkSubpassBeginInfo>(const VkSubpassBeginInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.contents
     );
@@ -8720,7 +8415,7 @@ inline auto to_tuple<VkSubpassDependency2>(const VkSubpassDependency2& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.srcSubpass
         ,
@@ -8773,7 +8468,7 @@ inline auto to_tuple<VkSubpassDescription2>(const VkSubpassDescription2& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -8806,7 +8501,7 @@ inline auto to_tuple<VkSubpassDescriptionDepthStencilResolve>(const VkSubpassDes
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.depthResolveMode
         ,
@@ -8823,7 +8518,7 @@ inline auto to_tuple<VkSubpassEndInfo>(const VkSubpassEndInfo& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
     );
 }
 
@@ -8860,7 +8555,7 @@ inline auto to_tuple<VkSurfaceCapabilities2EXT>(const VkSurfaceCapabilities2EXT&
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.minImageCount
         ,
@@ -8892,7 +8587,7 @@ inline auto to_tuple<VkSurfaceCapabilities2KHR>(const VkSurfaceCapabilities2KHR&
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.surfaceCapabilities)
     );
@@ -8905,7 +8600,7 @@ inline auto to_tuple<VkSurfaceCapabilitiesFullScreenExclusiveEXT>(const VkSurfac
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.fullScreenExclusiveSupported
     );
@@ -8944,7 +8639,7 @@ inline auto to_tuple<VkSurfaceFormat2KHR>(const VkSurfaceFormat2KHR& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         std::ref(obj.surfaceFormat)
     );
@@ -8967,7 +8662,7 @@ inline auto to_tuple<VkSurfaceFullScreenExclusiveInfoEXT>(const VkSurfaceFullScr
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.fullScreenExclusive
     );
@@ -8981,7 +8676,7 @@ inline auto to_tuple<VkSurfaceFullScreenExclusiveWin32InfoEXT>(const VkSurfaceFu
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.hmonitor
     );
@@ -8994,7 +8689,7 @@ inline auto to_tuple<VkSurfaceProtectedCapabilitiesKHR>(const VkSurfaceProtected
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.supportsProtected
     );
@@ -9006,7 +8701,7 @@ inline auto to_tuple<VkSwapchainCounterCreateInfoEXT>(const VkSwapchainCounterCr
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.surfaceCounters
     );
@@ -9018,7 +8713,7 @@ inline auto to_tuple<VkSwapchainCreateInfoKHR>(const VkSwapchainCreateInfoKHR& o
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -9060,7 +8755,7 @@ inline auto to_tuple<VkSwapchainDisplayNativeHdrCreateInfoAMD>(const VkSwapchain
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.localDimmingEnable
     );
@@ -9073,7 +8768,7 @@ inline auto to_tuple<VkSwapchainImageCreateInfoANDROID>(const VkSwapchainImageCr
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.usage
     );
@@ -9086,7 +8781,7 @@ inline auto to_tuple<VkTextureLODGatherFormatPropertiesAMD>(const VkTextureLODGa
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.supportsTextureGatherLODBiasAMD
     );
@@ -9098,7 +8793,7 @@ inline auto to_tuple<VkTimelineSemaphoreSubmitInfo>(const VkTimelineSemaphoreSub
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.waitSemaphoreValueCount
         ,
@@ -9127,21 +8822,6 @@ inline auto to_tuple<VkTraceRaysIndirectCommandKHR>(const VkTraceRaysIndirectCom
 
 
 
-template <>
-inline auto to_tuple<VkValidationCacheCreateInfoEXT>(const VkValidationCacheCreateInfoEXT& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        obj.flags
-        ,
-        obj.initialDataSize
-        ,
-        Span(obj.pInitialData, obj.initialDataSize)
-    );
-}
 
 template <>
 inline auto to_tuple<VkValidationFeaturesEXT>(const VkValidationFeaturesEXT& obj)
@@ -9149,7 +8829,7 @@ inline auto to_tuple<VkValidationFeaturesEXT>(const VkValidationFeaturesEXT& obj
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.enabledValidationFeatureCount
         ,
@@ -9167,7 +8847,7 @@ inline auto to_tuple<VkValidationFlagsEXT>(const VkValidationFlagsEXT& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.disabledValidationCheckCount
         ,
@@ -9218,7 +8898,7 @@ inline auto to_tuple<VkViSurfaceCreateInfoNN>(const VkViSurfaceCreateInfoNN& obj
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -9276,7 +8956,7 @@ inline auto to_tuple<VkWaylandSurfaceCreateInfoKHR>(const VkWaylandSurfaceCreate
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -9294,7 +8974,7 @@ inline auto to_tuple<VkWin32KeyedMutexAcquireReleaseInfoKHR>(const VkWin32KeyedM
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.acquireCount
         ,
@@ -9320,7 +9000,7 @@ inline auto to_tuple<VkWin32KeyedMutexAcquireReleaseInfoNV>(const VkWin32KeyedMu
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.acquireCount
         ,
@@ -9346,7 +9026,7 @@ inline auto to_tuple<VkWin32SurfaceCreateInfoKHR>(const VkWin32SurfaceCreateInfo
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -9363,7 +9043,7 @@ inline auto to_tuple<VkWriteDescriptorSet>(const VkWriteDescriptorSet& obj)
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.dstSet
         ,
@@ -9390,7 +9070,7 @@ inline auto to_tuple<VkWriteDescriptorSetAccelerationStructureKHR>(const VkWrite
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.accelerationStructureCount
         ,
@@ -9400,19 +9080,6 @@ inline auto to_tuple<VkWriteDescriptorSetAccelerationStructureKHR>(const VkWrite
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
 
-template <>
-inline auto to_tuple<VkWriteDescriptorSetInlineUniformBlockEXT>(const VkWriteDescriptorSetInlineUniformBlockEXT& obj)
-{
-    return std::make_tuple(
-        obj.sType
-        ,
-        PNextTupleElementWrapper(obj.pNext)
-        ,
-        obj.dataSize
-        ,
-        Span(obj.pData, obj.dataSize)
-    );
-}
 
 template <>
 inline auto to_tuple<VkXYColorEXT>(const VkXYColorEXT& obj)
@@ -9431,7 +9098,7 @@ inline auto to_tuple<VkXcbSurfaceCreateInfoKHR>(const VkXcbSurfaceCreateInfoKHR&
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -9449,7 +9116,7 @@ inline auto to_tuple<VkXlibSurfaceCreateInfoKHR>(const VkXlibSurfaceCreateInfoKH
     return std::make_tuple(
         obj.sType
         ,
-        PNextTupleElementWrapper(obj.pNext)
+        PNextTupleElementWrapper { obj.pNext }
         ,
         obj.flags
         ,
@@ -9460,5 +9127,6 @@ inline auto to_tuple<VkXlibSurfaceCreateInfoKHR>(const VkXlibSurfaceCreateInfoKH
 }
 #endif // VK_USE_PLATFORM_XLIB_KHR
 
+} // namespace detail
 } // namespace vk
 } // namespace dst
