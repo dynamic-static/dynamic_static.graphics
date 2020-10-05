@@ -74,15 +74,7 @@ public:
     Gets this ManagedHandle<> object's VkObjectType
     @return This ManagedHandle<> object's VkObjectType
     */
-    inline virtual VkObjectType get_object_type() const = 0;
-
-    /**
-    TODO : Documentation
-    */
-    inline VkResult get_result() const
-    {
-        return mResult;
-    }
+    inline virtual VkObjectType get_type() const = 0;
 
     /**
     Gets this ManagedHandle<> object's Vulkan handle
@@ -122,10 +114,7 @@ protected:
     }
 
     VulkanHandleType mHandle { VK_NULL_HANDLE };
-    VkResult mResult { VK_SUCCESS };
 
-private:
-    std::string mName;
     BasicManagedHandle(const BasicManagedHandle<VulkanHandleType>&) = delete;
     BasicManagedHandle<VulkanHandleType>& operator=(const BasicManagedHandle<VulkanHandleType>&) = delete;
 };
@@ -139,8 +128,7 @@ template <typename VulkanHandleType>
 inline void BasicManagedHandle<VulkanHandleType>::reset(const VkAllocationCallbacks* pAllocator)
 {
     (void)pAllocator;
-    mHandle = VK_NULL_HANDLE;
-    mResult = VK_SUCCESS;
+    *this = { };
 }
 
 /**

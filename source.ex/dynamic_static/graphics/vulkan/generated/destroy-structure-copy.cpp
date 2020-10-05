@@ -4918,1814 +4918,1814 @@ void destroy_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocat
     if (pNext) {
         swtich (*(VkStructureType*)pNext) {
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAabbPositionsKHR: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureBuildGeometryInfoKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_BUILD_GEOMETRY_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureBuildOffsetInfoKHR: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureCreateGeometryTypeInfoKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_CREATE_GEOMETRY_TYPE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_CREATE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_CREATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureDeviceAddressInfoKHR: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureGeometryAabbsDataKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_DEVICE_ADDRESS_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureGeometryDataKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_AABBS_DATA_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureGeometryInstancesDataKHR: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureGeometryKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_INSTANCES_DATA_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureGeometryTrianglesDataKHR: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureInfoNV: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureInstanceKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureMemoryRequirementsInfoKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_TRIANGLES_DATA_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureMemoryRequirementsInfoNV: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureVersionKHR: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkAcquireNextImageInfoKHR: {
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_MEMORY_REQUIREMENTS_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkAcquireProfilingLockInfoKHR: {
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_MEMORY_REQUIREMENTS_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkAllocationCallbacks: {
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_VERSION_KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VK_STRUCTURE_TYPE_ACQUIRE_NEXT_IMAGE_INFO_KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_ACQUIRE_PROFILING_LOCK_INFO_KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkAndroidHardwareBufferFormatPropertiesANDROID: {
+        case VK_STRUCTURE_TYPE_ANDROID_HARDWARE_BUFFER_FORMAT_PROPERTIES_ANDROID: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkAndroidHardwareBufferPropertiesANDROID: {
+        case VK_STRUCTURE_TYPE_ANDROID_HARDWARE_BUFFER_PROPERTIES_ANDROID: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkAndroidHardwareBufferUsageANDROID: {
+        case VK_STRUCTURE_TYPE_ANDROID_HARDWARE_BUFFER_USAGE_ANDROID: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkAndroidSurfaceCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_ANDROID_SURFACE_CREATE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VkApplicationInfo: {
+        case VK_STRUCTURE_TYPE_APPLICATION_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkAttachmentDescription: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkAttachmentDescription2: {
+        case VK_STRUCTURE_TYPE_ATTACHMENT_DESCRIPTION_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkAttachmentDescriptionStencilLayout: {
+        case VK_STRUCTURE_TYPE_ATTACHMENT_DESCRIPTION_STENCIL_LAYOUT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkAttachmentReference: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkAttachmentReference2: {
+        case VK_STRUCTURE_TYPE_ATTACHMENT_REFERENCE_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkAttachmentReferenceStencilLayout: {
+        case VK_STRUCTURE_TYPE_ATTACHMENT_REFERENCE_STENCIL_LAYOUT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkAttachmentSampleLocationsEXT: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBaseInStructure: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBaseOutStructure: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkBindAccelerationStructureMemoryInfoKHR: {
+        case VK_STRUCTURE_TYPE_BIND_ACCELERATION_STRUCTURE_MEMORY_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkBindBufferMemoryDeviceGroupInfo: {
+        case VK_STRUCTURE_TYPE_BIND_BUFFER_MEMORY_DEVICE_GROUP_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBindBufferMemoryInfo: {
+        case VK_STRUCTURE_TYPE_BIND_BUFFER_MEMORY_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBindImageMemoryDeviceGroupInfo: {
+        case VK_STRUCTURE_TYPE_BIND_IMAGE_MEMORY_DEVICE_GROUP_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBindImageMemoryInfo: {
+        case VK_STRUCTURE_TYPE_BIND_IMAGE_MEMORY_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBindImageMemorySwapchainInfoKHR: {
+        case VK_STRUCTURE_TYPE_BIND_IMAGE_MEMORY_SWAPCHAIN_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBindImagePlaneMemoryInfo: {
+        case VK_STRUCTURE_TYPE_BIND_IMAGE_PLANE_MEMORY_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBindIndexBufferIndirectCommandNV: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBindShaderGroupIndirectCommandNV: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBindSparseInfo: {
+        case VK_STRUCTURE_TYPE_BIND_SPARSE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBindVertexBufferIndirectCommandNV: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferCopy: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferCreateInfo: {
+        case VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferDeviceAddressCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferDeviceAddressInfo: {
+        case VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferImageCopy: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferMemoryBarrier: {
+        case VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferMemoryRequirementsInfo2: {
+        case VK_STRUCTURE_TYPE_BUFFER_MEMORY_REQUIREMENTS_INFO_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferOpaqueCaptureAddressCreateInfo: {
+        case VK_STRUCTURE_TYPE_BUFFER_OPAQUE_CAPTURE_ADDRESS_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferViewCreateInfo: {
+        case VK_STRUCTURE_TYPE_BUFFER_VIEW_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkCalibratedTimestampInfoEXT: {
+        case VK_STRUCTURE_TYPE_CALIBRATED_TIMESTAMP_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkCheckpointDataNV: {
+        case VK_STRUCTURE_TYPE_CHECKPOINT_DATA_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkClearAttachment: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkClearColorValue: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkClearDepthStencilValue: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkClearRect: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkClearValue: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkCoarseSampleLocationNV: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkCoarseSampleOrderCustomNV: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkCommandBufferAllocateInfo: {
+        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkCommandBufferBeginInfo: {
+        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkCommandBufferInheritanceConditionalRenderingInfoEXT: {
+        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_CONDITIONAL_RENDERING_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkCommandBufferInheritanceInfo: {
+        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkCommandBufferInheritanceRenderPassTransformInfoQCOM: {
+        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDER_PASS_TRANSFORM_INFO_QCOM: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkCommandPoolCreateInfo: {
+        case VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkComponentMapping: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkComputePipelineCreateInfo: {
+        case VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkConditionalRenderingBeginInfoEXT: {
+        case VK_STRUCTURE_TYPE_CONDITIONAL_RENDERING_BEGIN_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkConformanceVersion: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkCooperativeMatrixPropertiesNV: {
+        case VK_STRUCTURE_TYPE_COOPERATIVE_MATRIX_PROPERTIES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkCopyAccelerationStructureInfoKHR: {
+        case VK_STRUCTURE_TYPE_COPY_ACCELERATION_STRUCTURE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkCopyAccelerationStructureToMemoryInfoKHR: {
+        case VK_STRUCTURE_TYPE_COPY_ACCELERATION_STRUCTURE_TO_MEMORY_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkCopyDescriptorSet: {
+        case VK_STRUCTURE_TYPE_COPY_DESCRIPTOR_SET: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkCopyMemoryToAccelerationStructureInfoKHR: {
+        case VK_STRUCTURE_TYPE_COPY_MEMORY_TO_ACCELERATION_STRUCTURE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkD3D12FenceSubmitInfoKHR: {
+        case VK_STRUCTURE_TYPE_D3D12_FENCE_SUBMIT_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkDebugMarkerMarkerInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_MARKER_MARKER_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDebugMarkerObjectNameInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_MARKER_OBJECT_NAME_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDebugMarkerObjectTagInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_MARKER_OBJECT_TAG_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDebugReportCallbackCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDebugUtilsLabelEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_UTILS_LABEL_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDebugUtilsMessengerCallbackDataEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CALLBACK_DATA_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDebugUtilsMessengerCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDebugUtilsObjectNameInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_UTILS_OBJECT_NAME_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDebugUtilsObjectTagInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_UTILS_OBJECT_TAG_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDedicatedAllocationBufferCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_BUFFER_CREATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDedicatedAllocationImageCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_IMAGE_CREATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDedicatedAllocationMemoryAllocateInfoNV: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkDeferredOperationInfoKHR: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkDescriptorBufferInfo: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDescriptorImageInfo: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDescriptorPoolCreateInfo: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDescriptorPoolInlineUniformBlockCreateInfoEXT: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDescriptorPoolSize: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDescriptorSetAllocateInfo: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDescriptorSetLayoutBinding: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDescriptorSetLayoutBindingFlagsCreateInfo: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDescriptorSetLayoutCreateInfo: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDescriptorSetLayoutSupport: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDescriptorSetVariableDescriptorCountAllocateInfo: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDescriptorSetVariableDescriptorCountLayoutSupport: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDescriptorUpdateTemplateCreateInfo: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDescriptorUpdateTemplateEntry: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDeviceCreateInfo: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDeviceDiagnosticsConfigCreateInfoNV: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDeviceEventInfoEXT: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDeviceGroupBindSparseInfo: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDeviceGroupCommandBufferBeginInfo: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDeviceGroupDeviceCreateInfo: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDeviceGroupPresentCapabilitiesKHR: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDeviceGroupPresentInfoKHR: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDeviceGroupRenderPassBeginInfo: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDeviceGroupSubmitInfo: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDeviceGroupSwapchainCreateInfoKHR: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDeviceMemoryOpaqueCaptureAddressInfo: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkDeviceMemoryOverallocationCreateInfoAMD: {
+        case VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_MEMORY_ALLOCATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkDeviceOrHostAddressConstKHR: {
+        case VK_STRUCTURE_TYPE_DEFERRED_OPERATION_INFO_KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case : {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case : {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_INLINE_UNIFORM_BLOCK_CREATE_INFO_EXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case : {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case : {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_BINDING_FLAGS_CREATE_INFO: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_SUPPORT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_ALLOCATE_INFO: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_LAYOUT_SUPPORT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_UPDATE_TEMPLATE_CREATE_INFO: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case : {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DEVICE_DIAGNOSTICS_CONFIG_CREATE_INFO_NV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DEVICE_EVENT_INFO_EXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_BIND_SPARSE_INFO: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_COMMAND_BUFFER_BEGIN_INFO: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_DEVICE_CREATE_INFO: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_PRESENT_CAPABILITIES_KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_PRESENT_INFO_KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_RENDER_PASS_BEGIN_INFO: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_SUBMIT_INFO: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_SWAPCHAIN_CREATE_INFO_KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DEVICE_MEMORY_OPAQUE_CAPTURE_ADDRESS_INFO: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_DEVICE_MEMORY_OVERALLOCATION_CREATE_INFO_AMD: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkDeviceOrHostAddressKHR: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkDevicePrivateDataCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEVICE_PRIVATE_DATA_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceQueueCreateInfo: {
+        case VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceQueueGlobalPriorityCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEVICE_QUEUE_GLOBAL_PRIORITY_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceQueueInfo2: {
+        case VK_STRUCTURE_TYPE_DEVICE_QUEUE_INFO_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_DIRECTFB_EXT
-        case VkDirectFBSurfaceCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_DIRECTFB_SURFACE_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_DIRECTFB_EXT
-        case VkDispatchIndirectCommand: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayEventInfoEXT: {
+        case VK_STRUCTURE_TYPE_DISPLAY_EVENT_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayModeCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_DISPLAY_MODE_CREATE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayModeParametersKHR: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayModeProperties2KHR: {
+        case VK_STRUCTURE_TYPE_DISPLAY_MODE_PROPERTIES_2_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayModePropertiesKHR: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayNativeHdrSurfaceCapabilitiesAMD: {
+        case VK_STRUCTURE_TYPE_DISPLAY_NATIVE_HDR_SURFACE_CAPABILITIES_AMD: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayPlaneCapabilities2KHR: {
+        case VK_STRUCTURE_TYPE_DISPLAY_PLANE_CAPABILITIES_2_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayPlaneCapabilitiesKHR: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayPlaneInfo2KHR: {
+        case VK_STRUCTURE_TYPE_DISPLAY_PLANE_INFO_2_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayPlaneProperties2KHR: {
+        case VK_STRUCTURE_TYPE_DISPLAY_PLANE_PROPERTIES_2_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayPlanePropertiesKHR: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayPowerInfoEXT: {
+        case VK_STRUCTURE_TYPE_DISPLAY_POWER_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayPresentInfoKHR: {
+        case VK_STRUCTURE_TYPE_DISPLAY_PRESENT_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayProperties2KHR: {
+        case VK_STRUCTURE_TYPE_DISPLAY_PROPERTIES_2_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayPropertiesKHR: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplaySurfaceCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_DISPLAY_SURFACE_CREATE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDrawIndexedIndirectCommand: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDrawIndirectCommand: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDrawMeshTasksIndirectCommandNV: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDrmFormatModifierPropertiesEXT: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkDrmFormatModifierPropertiesListEXT: {
+        case VK_STRUCTURE_TYPE_DRM_FORMAT_MODIFIER_PROPERTIES_LIST_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkEventCreateInfo: {
+        case VK_STRUCTURE_TYPE_EVENT_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkExportFenceCreateInfo: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkExportFenceWin32HandleInfoKHR: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkExportMemoryAllocateInfo: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkExportMemoryAllocateInfoNV: {
+        case VK_STRUCTURE_TYPE_EXPORT_FENCE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkExportMemoryWin32HandleInfoKHR: {
+        case VK_STRUCTURE_TYPE_EXPORT_FENCE_WIN32_HANDLE_INFO_KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        case VK_STRUCTURE_TYPE_EXPORT_MEMORY_ALLOCATE_INFO: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_EXPORT_MEMORY_ALLOCATE_INFO_NV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VK_STRUCTURE_TYPE_EXPORT_MEMORY_WIN32_HANDLE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkExportMemoryWin32HandleInfoNV: {
+        case VK_STRUCTURE_TYPE_EXPORT_MEMORY_WIN32_HANDLE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkExportSemaphoreCreateInfo: {
+        case VK_STRUCTURE_TYPE_EXPORT_SEMAPHORE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkExportSemaphoreWin32HandleInfoKHR: {
+        case VK_STRUCTURE_TYPE_EXPORT_SEMAPHORE_WIN32_HANDLE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkExtensionProperties: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkExtent2D: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkExtent3D: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkExternalBufferProperties: {
+        case VK_STRUCTURE_TYPE_EXTERNAL_BUFFER_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkExternalFenceProperties: {
+        case VK_STRUCTURE_TYPE_EXTERNAL_FENCE_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkExternalFormatANDROID: {
+        case VK_STRUCTURE_TYPE_EXTERNAL_FORMAT_ANDROID: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VkExternalImageFormatProperties: {
+        case VK_STRUCTURE_TYPE_EXTERNAL_IMAGE_FORMAT_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkExternalImageFormatPropertiesNV: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkExternalMemoryBufferCreateInfo: {
+        case VK_STRUCTURE_TYPE_EXTERNAL_MEMORY_BUFFER_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkExternalMemoryImageCreateInfo: {
+        case VK_STRUCTURE_TYPE_EXTERNAL_MEMORY_IMAGE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkExternalMemoryImageCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_EXTERNAL_MEMORY_IMAGE_CREATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkExternalMemoryProperties: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkExternalSemaphoreProperties: {
+        case VK_STRUCTURE_TYPE_EXTERNAL_SEMAPHORE_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkFenceCreateInfo: {
+        case VK_STRUCTURE_TYPE_FENCE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkFenceGetFdInfoKHR: {
+        case VK_STRUCTURE_TYPE_FENCE_GET_FD_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkFenceGetWin32HandleInfoKHR: {
+        case VK_STRUCTURE_TYPE_FENCE_GET_WIN32_HANDLE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkFilterCubicImageViewImageFormatPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_FILTER_CUBIC_IMAGE_VIEW_IMAGE_FORMAT_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkFormatProperties: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkFormatProperties2: {
+        case VK_STRUCTURE_TYPE_FORMAT_PROPERTIES_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkFramebufferAttachmentImageInfo: {
+        case VK_STRUCTURE_TYPE_FRAMEBUFFER_ATTACHMENT_IMAGE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkFramebufferAttachmentsCreateInfo: {
+        case VK_STRUCTURE_TYPE_FRAMEBUFFER_ATTACHMENTS_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkFramebufferCreateInfo: {
+        case VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkFramebufferMixedSamplesCombinationNV: {
+        case VK_STRUCTURE_TYPE_FRAMEBUFFER_MIXED_SAMPLES_COMBINATION_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkGeneratedCommandsInfoNV: {
+        case VK_STRUCTURE_TYPE_GENERATED_COMMANDS_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkGeneratedCommandsMemoryRequirementsInfoNV: {
+        case VK_STRUCTURE_TYPE_GENERATED_COMMANDS_MEMORY_REQUIREMENTS_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkGeometryAABBNV: {
+        case VK_STRUCTURE_TYPE_GEOMETRY_AABB_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkGeometryDataNV: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkGeometryNV: {
+        case VK_STRUCTURE_TYPE_GEOMETRY_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkGeometryTrianglesNV: {
+        case VK_STRUCTURE_TYPE_GEOMETRY_TRIANGLES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkGraphicsPipelineCreateInfo: {
+        case VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkGraphicsPipelineShaderGroupsCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_SHADER_GROUPS_CREATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkGraphicsShaderGroupCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_GRAPHICS_SHADER_GROUP_CREATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkHdrMetadataEXT: {
+        case VK_STRUCTURE_TYPE_HDR_METADATA_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkHeadlessSurfaceCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_HEADLESS_SURFACE_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_IOS_MVK
-        case VkIOSSurfaceCreateInfoMVK: {
+        case VK_STRUCTURE_TYPE_IOS_SURFACE_CREATE_INFO_MVK: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_IOS_MVK
-        case VkImageBlit: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageCopy: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageCreateInfo: {
+        case VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageDrmFormatModifierExplicitCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_IMAGE_DRM_FORMAT_MODIFIER_EXPLICIT_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageDrmFormatModifierListCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_IMAGE_DRM_FORMAT_MODIFIER_LIST_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageDrmFormatModifierPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_IMAGE_DRM_FORMAT_MODIFIER_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageFormatListCreateInfo: {
+        case VK_STRUCTURE_TYPE_IMAGE_FORMAT_LIST_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageFormatProperties: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageFormatProperties2: {
+        case VK_STRUCTURE_TYPE_IMAGE_FORMAT_PROPERTIES_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageMemoryBarrier: {
+        case VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageMemoryRequirementsInfo2: {
+        case VK_STRUCTURE_TYPE_IMAGE_MEMORY_REQUIREMENTS_INFO_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_FUCHSIA
-        case VkImagePipeSurfaceCreateInfoFUCHSIA: {
+        case VK_STRUCTURE_TYPE_IMAGEPIPE_SURFACE_CREATE_INFO_FUCHSIA: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_FUCHSIA
-        case VkImagePlaneMemoryRequirementsInfo: {
+        case VK_STRUCTURE_TYPE_IMAGE_PLANE_MEMORY_REQUIREMENTS_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageResolve: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageSparseMemoryRequirementsInfo2: {
+        case VK_STRUCTURE_TYPE_IMAGE_SPARSE_MEMORY_REQUIREMENTS_INFO_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageStencilUsageCreateInfo: {
+        case VK_STRUCTURE_TYPE_IMAGE_STENCIL_USAGE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageSubresource: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageSubresourceLayers: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageSubresourceRange: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageSwapchainCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_IMAGE_SWAPCHAIN_CREATE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageViewASTCDecodeModeEXT: {
+        case VK_STRUCTURE_TYPE_IMAGE_VIEW_ASTC_DECODE_MODE_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageViewAddressPropertiesNVX: {
+        case VK_STRUCTURE_TYPE_IMAGE_VIEW_ADDRESS_PROPERTIES_NVX: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageViewCreateInfo: {
+        case VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageViewHandleInfoNVX: {
+        case VK_STRUCTURE_TYPE_IMAGE_VIEW_HANDLE_INFO_NVX: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImageViewUsageCreateInfo: {
+        case VK_STRUCTURE_TYPE_IMAGE_VIEW_USAGE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkImportAndroidHardwareBufferInfoANDROID: {
+        case VK_STRUCTURE_TYPE_IMPORT_ANDROID_HARDWARE_BUFFER_INFO_ANDROID: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VkImportFenceFdInfoKHR: {
+        case VK_STRUCTURE_TYPE_IMPORT_FENCE_FD_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkImportFenceWin32HandleInfoKHR: {
+        case VK_STRUCTURE_TYPE_IMPORT_FENCE_WIN32_HANDLE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkImportMemoryFdInfoKHR: {
+        case VK_STRUCTURE_TYPE_IMPORT_MEMORY_FD_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkImportMemoryHostPointerInfoEXT: {
+        case VK_STRUCTURE_TYPE_IMPORT_MEMORY_HOST_POINTER_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkImportMemoryWin32HandleInfoKHR: {
+        case VK_STRUCTURE_TYPE_IMPORT_MEMORY_WIN32_HANDLE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkImportMemoryWin32HandleInfoNV: {
+        case VK_STRUCTURE_TYPE_IMPORT_MEMORY_WIN32_HANDLE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkImportSemaphoreFdInfoKHR: {
+        case VK_STRUCTURE_TYPE_IMPORT_SEMAPHORE_FD_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkImportSemaphoreWin32HandleInfoKHR: {
+        case VK_STRUCTURE_TYPE_IMPORT_SEMAPHORE_WIN32_HANDLE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkIndirectCommandsLayoutCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_INDIRECT_COMMANDS_LAYOUT_CREATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkIndirectCommandsLayoutTokenNV: {
+        case VK_STRUCTURE_TYPE_INDIRECT_COMMANDS_LAYOUT_TOKEN_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkIndirectCommandsStreamNV: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkInitializePerformanceApiInfoINTEL: {
+        case VK_STRUCTURE_TYPE_INITIALIZE_PERFORMANCE_API_INFO_INTEL: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkInputAttachmentAspectReference: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkInstanceCreateInfo: {
+        case VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkLayerProperties: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_MACOS_MVK
-        case VkMacOSSurfaceCreateInfoMVK: {
+        case VK_STRUCTURE_TYPE_MACOS_SURFACE_CREATE_INFO_MVK: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_MACOS_MVK
-        case VkMappedMemoryRange: {
+        case VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryAllocateFlagsInfo: {
+        case VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_FLAGS_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryAllocateInfo: {
+        case VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryBarrier: {
+        case VK_STRUCTURE_TYPE_MEMORY_BARRIER: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryDedicatedAllocateInfo: {
+        case VK_STRUCTURE_TYPE_MEMORY_DEDICATED_ALLOCATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryDedicatedRequirements: {
+        case VK_STRUCTURE_TYPE_MEMORY_DEDICATED_REQUIREMENTS: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryFdPropertiesKHR: {
+        case VK_STRUCTURE_TYPE_MEMORY_FD_PROPERTIES_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkMemoryGetAndroidHardwareBufferInfoANDROID: {
+        case VK_STRUCTURE_TYPE_MEMORY_GET_ANDROID_HARDWARE_BUFFER_INFO_ANDROID: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VkMemoryGetFdInfoKHR: {
+        case VK_STRUCTURE_TYPE_MEMORY_GET_FD_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkMemoryGetWin32HandleInfoKHR: {
+        case VK_STRUCTURE_TYPE_MEMORY_GET_WIN32_HANDLE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkMemoryHeap: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryHostPointerPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_MEMORY_HOST_POINTER_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryOpaqueCaptureAddressAllocateInfo: {
+        case VK_STRUCTURE_TYPE_MEMORY_OPAQUE_CAPTURE_ADDRESS_ALLOCATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryPriorityAllocateInfoEXT: {
+        case VK_STRUCTURE_TYPE_MEMORY_PRIORITY_ALLOCATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryRequirements: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryRequirements2: {
+        case VK_STRUCTURE_TYPE_MEMORY_REQUIREMENTS_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryType: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkMemoryWin32HandlePropertiesKHR: {
+        case VK_STRUCTURE_TYPE_MEMORY_WIN32_HANDLE_PROPERTIES_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
         #ifdef VK_USE_PLATFORM_METAL_EXT
-        case VkMetalSurfaceCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_METAL_SURFACE_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_METAL_EXT
-        case VkMultisamplePropertiesEXT: {
+        case VK_STRUCTURE_TYPE_MULTISAMPLE_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkNativeBufferANDROID: {
+        case VK_STRUCTURE_TYPE_NATIVE_BUFFER_ANDROID: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkNativeBufferUsage2ANDROID: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VkOffset2D: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkOffset3D: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPastPresentationTimingGOOGLE: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceConfigurationAcquireInfoINTEL: {
+        case VK_STRUCTURE_TYPE_PERFORMANCE_CONFIGURATION_ACQUIRE_INFO_INTEL: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceCounterDescriptionKHR: {
+        case VK_STRUCTURE_TYPE_PERFORMANCE_COUNTER_DESCRIPTION_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceCounterKHR: {
+        case VK_STRUCTURE_TYPE_PERFORMANCE_COUNTER_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceCounterResultKHR: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceMarkerInfoINTEL: {
+        case VK_STRUCTURE_TYPE_PERFORMANCE_MARKER_INFO_INTEL: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceOverrideInfoINTEL: {
+        case VK_STRUCTURE_TYPE_PERFORMANCE_OVERRIDE_INFO_INTEL: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceQuerySubmitInfoKHR: {
+        case VK_STRUCTURE_TYPE_PERFORMANCE_QUERY_SUBMIT_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceStreamMarkerInfoINTEL: {
+        case VK_STRUCTURE_TYPE_PERFORMANCE_STREAM_MARKER_INFO_INTEL: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceValueDataINTEL: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceValueINTEL: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevice16BitStorageFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_16BIT_STORAGE_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevice8BitStorageFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_8BIT_STORAGE_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceASTCDecodeFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ASTC_DECODE_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BLEND_OPERATION_ADVANCED_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BLEND_OPERATION_ADVANCED_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceBufferDeviceAddressFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceBufferDeviceAddressFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceCoherentMemoryFeaturesAMD: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COHERENT_MEMORY_FEATURES_AMD: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceComputeShaderDerivativesFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceConditionalRenderingFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONDITIONAL_RENDERING_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceConservativeRasterizationPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONSERVATIVE_RASTERIZATION_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceCooperativeMatrixFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceCooperativeMatrixPropertiesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_PROPERTIES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceCornerSampledImageFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CORNER_SAMPLED_IMAGE_FEATURES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceCoverageReductionModeFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COVERAGE_REDUCTION_MODE_FEATURES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceCustomBorderColorFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceCustomBorderColorPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEDICATED_ALLOCATION_IMAGE_ALIASING_FEATURES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDepthClipEnableFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLIP_ENABLE_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDepthStencilResolveProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_STENCIL_RESOLVE_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDescriptorIndexingFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDescriptorIndexingProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_PROPERTIES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDiagnosticsConfigFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DIAGNOSTICS_CONFIG_FEATURES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDiscardRectanglePropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DISCARD_RECTANGLE_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDriverProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DRIVER_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceExclusiveScissorFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXCLUSIVE_SCISSOR_FEATURES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceExtendedDynamicStateFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_DYNAMIC_STATE_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceExternalBufferInfo: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_BUFFER_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceExternalFenceInfo: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_FENCE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceExternalImageFormatInfo: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_IMAGE_FORMAT_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceExternalMemoryHostPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_MEMORY_HOST_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceExternalSemaphoreInfo: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_SEMAPHORE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFeatures: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFeatures2: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFloatControlsProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FLOAT_CONTROLS_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFragmentDensityMap2FeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_2_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFragmentDensityMap2PropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_2_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFragmentDensityMapFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFragmentDensityMapPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_BARYCENTRIC_FEATURES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_INTERLOCK_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceGroupProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GROUP_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceHostQueryResetFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceIDProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ID_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceImageDrmFormatModifierInfoEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_DRM_FORMAT_MODIFIER_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceImageFormatInfo2: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_FORMAT_INFO_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceImageRobustnessFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_ROBUSTNESS_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceImageViewImageFormatInfoEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_IMAGE_FORMAT_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceImagelessFramebufferFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGELESS_FRAMEBUFFER_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceIndexTypeUint8FeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceInlineUniformBlockFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceInlineUniformBlockPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceLimits: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceLineRasterizationFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceLineRasterizationPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMaintenance3Properties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_3_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMemoryBudgetPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_BUDGET_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMemoryPriorityFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_PRIORITY_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMemoryProperties: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMemoryProperties2: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_PROPERTIES_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMeshShaderFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMeshShaderPropertiesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_PROPERTIES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMultiviewFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_PER_VIEW_ATTRIBUTES_PROPERTIES_NVX: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMultiviewProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevicePCIBusInfoPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PCI_BUS_INFO_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevicePerformanceQueryFeaturesKHR: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PERFORMANCE_QUERY_FEATURES_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevicePerformanceQueryPropertiesKHR: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PERFORMANCE_QUERY_PROPERTIES_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_CREATION_CACHE_CONTROL_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_EXECUTABLE_PROPERTIES_FEATURES_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevicePointClippingProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_POINT_CLIPPING_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkPhysicalDevicePresentationPropertiesANDROID: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENTATION_PROPERTIES_ANDROID: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VkPhysicalDevicePrivateDataFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIVATE_DATA_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceProperties: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceProperties2: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceProtectedMemoryFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceProtectedMemoryProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevicePushDescriptorPropertiesKHR: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkPhysicalDeviceRayTracingFeaturesKHR: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_FEATURES_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkPhysicalDeviceRayTracingPropertiesKHR: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PROPERTIES_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkPhysicalDeviceRayTracingPropertiesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PROPERTIES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_REPRESENTATIVE_FRAGMENT_TEST_FEATURES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceRobustness2FeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceRobustness2PropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSampleLocationsPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLE_LOCATIONS_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSamplerFilterMinmaxProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_FILTER_MINMAX_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSamplerYcbcrConversionFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_YCBCR_CONVERSION_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceScalarBlockLayoutFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SCALAR_BLOCK_LAYOUT_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SEPARATE_DEPTH_STENCIL_LAYOUTS_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderAtomicFloatFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderAtomicInt64Features: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_INT64_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderClockFeaturesKHR: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CLOCK_FEATURES_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderCoreProperties2AMD: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CORE_PROPERTIES_2_AMD: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderCorePropertiesAMD: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CORE_PROPERTIES_AMD: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DEMOTE_TO_HELPER_INVOCATION_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderDrawParametersFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETERS_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderFloat16Int8Features: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT16_INT8_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderImageFootprintFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_IMAGE_FOOTPRINT_FEATURES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_INTEGER_FUNCTIONS_2_FEATURES_INTEL: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderSMBuiltinsFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SM_BUILTINS_FEATURES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderSMBuiltinsPropertiesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SM_BUILTINS_PROPERTIES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_EXTENDED_TYPES_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShadingRateImageFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_FEATURES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShadingRateImagePropertiesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_PROPERTIES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSparseImageFormatInfo2: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SPARSE_IMAGE_FORMAT_INFO_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSparseProperties: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSubgroupProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSubgroupSizeControlFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSubgroupSizeControlPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSurfaceInfo2KHR: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SURFACE_INFO_2_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXEL_BUFFER_ALIGNMENT_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXEL_BUFFER_ALIGNMENT_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXTURE_COMPRESSION_ASTC_HDR_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceTimelineSemaphoreFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceTimelineSemaphoreProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceToolPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TOOL_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceTransformFeedbackFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceTransformFeedbackPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceUniformBufferStandardLayoutFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_UNIFORM_BUFFER_STANDARD_LAYOUT_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceVariablePointersFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VARIABLE_POINTERS_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceVulkan11Features: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceVulkan11Properties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceVulkan12Features: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceVulkan12Properties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceVulkanMemoryModelFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceYcbcrImageArraysFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_YCBCR_IMAGE_ARRAYS_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineCacheCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineColorBlendAdvancedStateCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_ADVANCED_STATE_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineColorBlendAttachmentState: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineColorBlendStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineCompilerControlCreateInfoAMD: {
+        case VK_STRUCTURE_TYPE_PIPELINE_COMPILER_CONTROL_CREATE_INFO_AMD: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineCoverageModulationStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_COVERAGE_MODULATION_STATE_CREATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineCoverageReductionStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_COVERAGE_REDUCTION_STATE_CREATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineCoverageToColorStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_COVERAGE_TO_COLOR_STATE_CREATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineCreationFeedbackCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_CREATION_FEEDBACK_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineCreationFeedbackEXT: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineDepthStencilStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineDiscardRectangleStateCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_DISCARD_RECTANGLE_STATE_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineDynamicStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineExecutableInfoKHR: {
+        case VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineExecutableInternalRepresentationKHR: {
+        case VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_INTERNAL_REPRESENTATION_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineExecutablePropertiesKHR: {
+        case VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_PROPERTIES_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineExecutableStatisticKHR: {
+        case VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_STATISTIC_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineExecutableStatisticValueKHR: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineInfoKHR: {
+        case VK_STRUCTURE_TYPE_PIPELINE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineInputAssemblyStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineLayoutCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkPipelineLibraryCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_PIPELINE_LIBRARY_CREATE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkPipelineMultisampleStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineRasterizationConservativeStateCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_CONSERVATIVE_STATE_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineRasterizationDepthClipStateCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_DEPTH_CLIP_STATE_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineRasterizationLineStateCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_LINE_STATE_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineRasterizationStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineRasterizationStateRasterizationOrderAMD: {
+        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_RASTERIZATION_ORDER_AMD: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineRasterizationStateStreamCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_STREAM_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineRepresentativeFragmentTestStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_REPRESENTATIVE_FRAGMENT_TEST_STATE_CREATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineSampleLocationsStateCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_SAMPLE_LOCATIONS_STATE_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineShaderStageCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_REQUIRED_SUBGROUP_SIZE_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineTessellationDomainOriginStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_DOMAIN_ORIGIN_STATE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineTessellationStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineVertexInputDivisorStateCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_DIVISOR_STATE_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineVertexInputStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineViewportCoarseSampleOrderStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_COARSE_SAMPLE_ORDER_STATE_CREATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineViewportExclusiveScissorStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_EXCLUSIVE_SCISSOR_STATE_CREATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineViewportShadingRateImageStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_SHADING_RATE_IMAGE_STATE_CREATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineViewportStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineViewportSwizzleStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_SWIZZLE_STATE_CREATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineViewportWScalingStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_W_SCALING_STATE_CREATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_GGP
-        case VkPresentFrameTokenGGP: {
+        case VK_STRUCTURE_TYPE_PRESENT_FRAME_TOKEN_GGP: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_GGP
-        case VkPresentInfoKHR: {
+        case VK_STRUCTURE_TYPE_PRESENT_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPresentRegionKHR: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPresentRegionsKHR: {
+        case VK_STRUCTURE_TYPE_PRESENT_REGIONS_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPresentTimeGOOGLE: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPresentTimesInfoGOOGLE: {
+        case VK_STRUCTURE_TYPE_PRESENT_TIMES_INFO_GOOGLE: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPrivateDataSlotCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PRIVATE_DATA_SLOT_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkProtectedSubmitInfo: {
+        case VK_STRUCTURE_TYPE_PROTECTED_SUBMIT_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkPushConstantRange: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkQueryPoolCreateInfo: {
+        case VK_STRUCTURE_TYPE_QUERY_POOL_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkQueryPoolPerformanceCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_QUERY_POOL_PERFORMANCE_CREATE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkQueryPoolPerformanceQueryCreateInfoINTEL: {
+        case VK_STRUCTURE_TYPE_QUERY_POOL_PERFORMANCE_QUERY_CREATE_INFO_INTEL: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkQueueFamilyCheckpointPropertiesNV: {
+        case VK_STRUCTURE_TYPE_QUEUE_FAMILY_CHECKPOINT_PROPERTIES_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkQueueFamilyProperties: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkQueueFamilyProperties2: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkRayTracingPipelineCreateInfoKHR: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkRayTracingPipelineCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_QUEUE_FAMILY_PROPERTIES_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkRayTracingPipelineInterfaceCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_RAY_TRACING_PIPELINE_CREATE_INFO_KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_ENABLE_BETA_EXTENSIONS
+        case VK_STRUCTURE_TYPE_RAY_TRACING_PIPELINE_CREATE_INFO_NV: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VK_STRUCTURE_TYPE_RAY_TRACING_PIPELINE_INTERFACE_CREATE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkRayTracingShaderGroupCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_RAY_TRACING_SHADER_GROUP_CREATE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkRayTracingShaderGroupCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_RAY_TRACING_SHADER_GROUP_CREATE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkRect2D: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkRectLayerKHR: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkRefreshCycleDurationGOOGLE: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassAttachmentBeginInfo: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_ATTACHMENT_BEGIN_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassBeginInfo: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassCreateInfo: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassCreateInfo2: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassFragmentDensityMapCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_FRAGMENT_DENSITY_MAP_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassInputAttachmentAspectCreateInfo: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_INPUT_ATTACHMENT_ASPECT_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassMultiviewCreateInfo: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_MULTIVIEW_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassSampleLocationsBeginInfoEXT: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_SAMPLE_LOCATIONS_BEGIN_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassTransformBeginInfoQCOM: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_TRANSFORM_BEGIN_INFO_QCOM: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSampleLocationEXT: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSampleLocationsInfoEXT: {
+        case VK_STRUCTURE_TYPE_SAMPLE_LOCATIONS_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSamplerCreateInfo: {
+        case VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSamplerCustomBorderColorCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_SAMPLER_CUSTOM_BORDER_COLOR_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSamplerReductionModeCreateInfo: {
+        case VK_STRUCTURE_TYPE_SAMPLER_REDUCTION_MODE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSamplerYcbcrConversionCreateInfo: {
+        case VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSamplerYcbcrConversionImageFormatProperties: {
+        case VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_IMAGE_FORMAT_PROPERTIES: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSamplerYcbcrConversionInfo: {
+        case VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSemaphoreCreateInfo: {
+        case VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSemaphoreGetFdInfoKHR: {
+        case VK_STRUCTURE_TYPE_SEMAPHORE_GET_FD_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkSemaphoreGetWin32HandleInfoKHR: {
+        case VK_STRUCTURE_TYPE_SEMAPHORE_GET_WIN32_HANDLE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkSemaphoreSignalInfo: {
+        case VK_STRUCTURE_TYPE_SEMAPHORE_SIGNAL_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSemaphoreTypeCreateInfo: {
+        case VK_STRUCTURE_TYPE_SEMAPHORE_TYPE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSemaphoreWaitInfo: {
+        case VK_STRUCTURE_TYPE_SEMAPHORE_WAIT_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSetStateFlagsIndirectCommandNV: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkShaderModuleCreateInfo: {
+        case VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkShaderModuleValidationCacheCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_SHADER_MODULE_VALIDATION_CACHE_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkShaderResourceUsageAMD: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkShaderStatisticsInfoAMD: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkShadingRatePaletteNV: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSharedPresentSurfaceCapabilitiesKHR: {
+        case VK_STRUCTURE_TYPE_SHARED_PRESENT_SURFACE_CAPABILITIES_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseBufferMemoryBindInfo: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseImageFormatProperties: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseImageFormatProperties2: {
+        case VK_STRUCTURE_TYPE_SPARSE_IMAGE_FORMAT_PROPERTIES_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseImageMemoryBind: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseImageMemoryBindInfo: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseImageMemoryRequirements: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseImageMemoryRequirements2: {
+        case VK_STRUCTURE_TYPE_SPARSE_IMAGE_MEMORY_REQUIREMENTS_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseImageOpaqueMemoryBindInfo: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseMemoryBind: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSpecializationInfo: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSpecializationMapEntry: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkStencilOpState: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_GGP
-        case VkStreamDescriptorSurfaceCreateInfoGGP: {
+        case VK_STRUCTURE_TYPE_STREAM_DESCRIPTOR_SURFACE_CREATE_INFO_GGP: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_GGP
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkStridedBufferRegionKHR: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkSubmitInfo: {
+        case VK_STRUCTURE_TYPE_SUBMIT_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSubpassBeginInfo: {
+        case VK_STRUCTURE_TYPE_SUBPASS_BEGIN_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSubpassDependency: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSubpassDependency2: {
+        case VK_STRUCTURE_TYPE_SUBPASS_DEPENDENCY_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSubpassDescription: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSubpassDescription2: {
+        case VK_STRUCTURE_TYPE_SUBPASS_DESCRIPTION_2: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSubpassDescriptionDepthStencilResolve: {
+        case VK_STRUCTURE_TYPE_SUBPASS_DESCRIPTION_DEPTH_STENCIL_RESOLVE: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSubpassEndInfo: {
+        case VK_STRUCTURE_TYPE_SUBPASS_END_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSubpassSampleLocationsEXT: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSubresourceLayout: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSurfaceCapabilities2EXT: {
+        case VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_2_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSurfaceCapabilities2KHR: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkSurfaceCapabilitiesFullScreenExclusiveEXT: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkSurfaceCapabilitiesKHR: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkSurfaceFormat2KHR: {
-            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
-        } break;
-        case VkSurfaceFormatKHR: {
+        case VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_2_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkSurfaceFullScreenExclusiveInfoEXT: {
+        case VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_FULL_SCREEN_EXCLUSIVE_EXT: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #endif // VK_USE_PLATFORM_WIN32_KHR
+        case : {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case VK_STRUCTURE_TYPE_SURFACE_FORMAT_2_KHR: {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        case : {
+            destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
+        } break;
+        #ifdef VK_USE_PLATFORM_WIN32_KHR
+        case VK_STRUCTURE_TYPE_SURFACE_FULL_SCREEN_EXCLUSIVE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkSurfaceFullScreenExclusiveWin32InfoEXT: {
+        case VK_STRUCTURE_TYPE_SURFACE_FULL_SCREEN_EXCLUSIVE_WIN32_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkSurfaceProtectedCapabilitiesKHR: {
+        case VK_STRUCTURE_TYPE_SURFACE_PROTECTED_CAPABILITIES_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSwapchainCounterCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_SWAPCHAIN_COUNTER_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSwapchainCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkSwapchainDisplayNativeHdrCreateInfoAMD: {
+        case VK_STRUCTURE_TYPE_SWAPCHAIN_DISPLAY_NATIVE_HDR_CREATE_INFO_AMD: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkSwapchainImageCreateInfoANDROID: {
+        case VK_STRUCTURE_TYPE_SWAPCHAIN_IMAGE_CREATE_INFO_ANDROID: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VkTextureLODGatherFormatPropertiesAMD: {
+        case VK_STRUCTURE_TYPE_TEXTURE_LOD_GATHER_FORMAT_PROPERTIES_AMD: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkTimelineSemaphoreSubmitInfo: {
+        case VK_STRUCTURE_TYPE_TIMELINE_SEMAPHORE_SUBMIT_INFO: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkTraceRaysIndirectCommandKHR: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkTransformMatrixKHR: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkValidationCacheCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_VALIDATION_CACHE_CREATE_INFO_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkValidationFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkValidationFlagsEXT: {
+        case VK_STRUCTURE_TYPE_VALIDATION_FLAGS_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkVertexInputAttributeDescription: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkVertexInputBindingDescription: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkVertexInputBindingDivisorDescriptionEXT: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_VI_NN
-        case VkViSurfaceCreateInfoNN: {
+        case VK_STRUCTURE_TYPE_VI_SURFACE_CREATE_INFO_NN: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_VI_NN
-        case VkViewport: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkViewportSwizzleNV: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkViewportWScalingNV: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WAYLAND_KHR
-        case VkWaylandSurfaceCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_WAYLAND_SURFACE_CREATE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WAYLAND_KHR
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkWin32KeyedMutexAcquireReleaseInfoKHR: {
+        case VK_STRUCTURE_TYPE_WIN32_KEYED_MUTEX_ACQUIRE_RELEASE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkWin32KeyedMutexAcquireReleaseInfoNV: {
+        case VK_STRUCTURE_TYPE_WIN32_KEYED_MUTEX_ACQUIRE_RELEASE_INFO_NV: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkWin32SurfaceCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkWriteDescriptorSet: {
+        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkWriteDescriptorSetAccelerationStructureKHR: {
+        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_ACCELERATION_STRUCTURE_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkWriteDescriptorSetInlineUniformBlockEXT: {
+        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_INLINE_UNIFORM_BLOCK_EXT: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
-        case VkXYColorEXT: {
+        case : {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_XCB_KHR
-        case VkXcbSurfaceCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_XCB_SURFACE_CREATE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_XCB_KHR
         #ifdef VK_USE_PLATFORM_XLIB_KHR
-        case VkXlibSurfaceCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR: {
             destroy_dynamic_array_copy(1, (const *)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_XLIB_KHR

@@ -16,7 +16,7 @@ namespace dst {
 namespace vk {
 namespace cppgen {
 
-inline void generate_create_structure_copy_declaration(const xml::Manifest& xmlManifest)
+inline void generate_create_structure_copy_declarations(const xml::Manifest& xmlManifest)
 {
     using namespace dst::cppgen;
     using namespace dst::vk::xml;
@@ -59,7 +59,7 @@ inline void generate_create_structure_copy_declaration(const xml::Manifest& xmlM
     });
 }
 
-inline void generate_create_structure_copy_definition(const xml::Manifest& xmlManifest)
+inline void generate_create_structure_copy_definitions(const xml::Manifest& xmlManifest)
 {
     using namespace dst::cppgen;
     using namespace dst::vk::xml;
@@ -147,7 +147,7 @@ inline void generate_create_structure_copy_definition(const xml::Manifest& xmlMa
             $<COMPILE_GUARDS>
             #ifdef ${COMPILE_GUARD}
             $</>
-            case ${STRUCTURE_NAME}: {
+            case ${STRUCTURE_TYPE_ENUM}: {
                 return create_dynamic_array_copy(1, (${STRUCTURE_NAME}*)pNext, pAllocationCallbacks);
             } break;
             $<COMPILE_GUARDS:reverse=true>
@@ -171,8 +171,8 @@ inline void generate_create_structure_copy_definition(const xml::Manifest& xmlMa
 
 inline void generate_create_structure_copy(const xml::Manifest& xmlManifest)
 {
-    generate_create_structure_copy_declaration(xmlManifest);
-    generate_create_structure_copy_definition(xmlManifest);
+    generate_create_structure_copy_declarations(xmlManifest);
+    generate_create_structure_copy_definitions(xmlManifest);
 }
 
 } // namespace cppgen

@@ -1,9 +1,9 @@
 
 /*
 ==========================================
-  Copyright (c) 2020 Dynamic_Static
+    Copyright (c) 2020 Dynamic_Static
     Patrick Purcell
-      Licensed under the MIT license
+        Licensed under the MIT license
     http://opensource.org/licenses/MIT
 ==========================================
 */
@@ -12,1500 +12,2977 @@
 #include "dynamic_static/graphics/vulkan/managed.hpp"
 
 namespace dst {
-namespace gfx {
 namespace vk {
-namespace detail {
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
+class BasicManagedVkAccelerationStructureKHR::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyAccelerationStructureKHR(device.get<VkDevice>(), vkAccelerationStructure, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkAccelerationStructureKHR vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    #ifdef VK_ENABLE_BETA_EXTENSIONS
+    Managed<VkAccelerationStructureCreateInfoKHR> AccelerationStructureCreateInfoKHR;
+    #endif // VK_ENABLE_BETA_EXTENSIONS
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkAccelerationStructureKHR(const BasicManagedVkAccelerationStructureKHR&) = delete;
+    BasicManagedVkAccelerationStructureKHR& operator=(const BasicManagedVkAccelerationStructureKHR&) = delete;
+};
+
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-BasicManagedAccelerationStructureKHR::BasicManagedAccelerationStructureKHR(const std::shared_ptr<Managed<VkDevice>>& device, const VkAccelerationStructureCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+VkResult BasicManagedVkAccelerationStructureKHR::create(const Managed<VkDevice>& device, const VkAccelerationStructureCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkAccelerationStructureKHR>* pAccelerationStructure)
 {
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedAccelerationStructureKHR::~BasicManagedAccelerationStructureKHR()
-{
-    reset();
-}
-
-VkObjectType BasicManagedAccelerationStructureKHR::get_object_type() const
-{
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
-
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedAccelerationStructureKHR::get_device() const
-{
-    return mDevice;
-}
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-const Managed<VkAccelerationStructureCreateInfoKHR>& BasicManagedAccelerationStructureKHR::get_acceleration_structure_create_info_khr() const
-{
-    return mAccelerationStructureCreateInfoKHR;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedAccelerationStructureKHR::reset(const VkAllocationCallbacks* pAllocator)
-{
+    #if 0
+    VkAccelerationStructureKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateAccelerationStructureKHR(device, pCreateInfo, pAllocator, pAccelerationStructure));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
-#ifdef
-#ifdef
-BasicManagedBuffer::BasicManagedBuffer(const std::shared_ptr<Managed<VkDevice>>& device, const VkBufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+BasicManagedVkAccelerationStructureKHR::~BasicManagedVkAccelerationStructureKHR()
 {
 }
-#endif // ${_COMPILE_GUARD}
 
-BasicManagedBuffer::~BasicManagedBuffer()
+template <>
+const VkAccelerationStructureKHR& get<VkAccelerationStructureKHR>() const
 {
-    reset();
+    return mHandle;
 }
 
-VkObjectType BasicManagedBuffer::get_object_type() const
+template <>
+const VkObjectType& get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+    return VK_OBJECT_TYPE_VkAccelerationStructureKHR_TODO;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedBuffer::get_device() const
+
+template <>
+const Managed<VkDevice>& BasicManagedVkAccelerationStructureKHR::get<Managed<VkDevice>>() const
 {
-    return mDevice;
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
 }
 
-#ifdef
-const Managed<VkBufferCreateInfo>& BasicManagedBuffer::get_buffer_create_info() const
-{
-    return mBufferCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedBuffer::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
-
-#ifdef
-#ifdef
-BasicManagedBufferView::BasicManagedBufferView(const std::shared_ptr<Managed<VkDevice>>& device, const VkBufferViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedBufferView::~BasicManagedBufferView()
-{
-    reset();
-}
-
-VkObjectType BasicManagedBufferView::get_object_type() const
-{
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
-
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedBufferView::get_device() const
-{
-    return mDevice;
-}
-
-#ifdef
-const Managed<VkBufferViewCreateInfo>& BasicManagedBufferView::get_buffer_view_create_info() const
-{
-    return mBufferViewCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedBufferView::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
-
-#ifdef
-#ifdef DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION
-#ifdef
-BasicManagedCommandBuffer::BasicManagedCommandBuffer(VkDevice device, const VkCommandBufferAllocateInfo* pAllocateInfo)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedCommandBuffer::~BasicManagedCommandBuffer()
-{
-    reset();
-}
-
-VkObjectType BasicManagedCommandBuffer::get_object_type() const
-{
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
-
-const std::shared_ptr<Managed<VkCommandPool>>& BasicManagedCommandBuffer::get_command_pool() const
-{
-    return mCommandPool;
-}
-
-#ifdef
-const Managed<VkCommandBufferAllocateInfo>& BasicManagedCommandBuffer::get_command_buffer_allocate_info() const
-{
-    return mCommandBufferAllocateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedCommandBuffer::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION
-#endif //
-
-#ifdef
-#ifdef
-BasicManagedCommandPool::BasicManagedCommandPool(const std::shared_ptr<Managed<VkDevice>>& device, const VkCommandPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedCommandPool::~BasicManagedCommandPool()
-{
-    reset();
-}
-
-VkObjectType BasicManagedCommandPool::get_object_type() const
-{
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
-
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedCommandPool::get_device() const
-{
-    return mDevice;
-}
-
-#ifdef
-const Managed<VkCommandPoolCreateInfo>& BasicManagedCommandPool::get_command_pool_create_info() const
-{
-    return mCommandPoolCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedCommandPool::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
-
-#ifdef
-#ifdef
-BasicManagedDebugReportCallbackEXT::BasicManagedDebugReportCallbackEXT(const std::shared_ptr<Managed<VkInstance>>& instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedDebugReportCallbackEXT::~BasicManagedDebugReportCallbackEXT()
-{
-    reset();
-}
-
-VkObjectType BasicManagedDebugReportCallbackEXT::get_object_type() const
-{
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
-
-const std::shared_ptr<Managed<VkInstance>>& BasicManagedDebugReportCallbackEXT::get_instance() const
-{
-    return mInstance;
-}
-
-#ifdef
-const Managed<VkDebugReportCallbackCreateInfoEXT>& BasicManagedDebugReportCallbackEXT::get_debug_report_callback_create_info_ext() const
-{
-    return mDebugReportCallbackCreateInfoEXT;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedDebugReportCallbackEXT::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
-
-#ifdef
-#ifdef
-BasicManagedDebugUtilsMessengerEXT::BasicManagedDebugUtilsMessengerEXT(const std::shared_ptr<Managed<VkInstance>>& instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedDebugUtilsMessengerEXT::~BasicManagedDebugUtilsMessengerEXT()
-{
-    reset();
-}
-
-VkObjectType BasicManagedDebugUtilsMessengerEXT::get_object_type() const
-{
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
-
-const std::shared_ptr<Managed<VkInstance>>& BasicManagedDebugUtilsMessengerEXT::get_instance() const
-{
-    return mInstance;
-}
-
-#ifdef
-const Managed<VkDebugUtilsMessengerCreateInfoEXT>& BasicManagedDebugUtilsMessengerEXT::get_debug_utils_messenger_create_info_ext() const
-{
-    return mDebugUtilsMessengerCreateInfoEXT;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedDebugUtilsMessengerEXT::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
-
-#ifdef DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-BasicManagedDeferredOperationKHR::BasicManagedDeferredOperationKHR(const std::shared_ptr<Managed<VkDevice>>& device, const VkAllocationCallbacks* pAllocator)
+template <>
+const Managed<VkAccelerationStructureCreateInfoKHR>& BasicManagedVkAccelerationStructureKHR::get<Managed<VkAccelerationStructureCreateInfoKHR>>() const
 {
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedDeferredOperationKHR::~BasicManagedDeferredOperationKHR()
-{
-    reset();
-}
-
-VkObjectType BasicManagedDeferredOperationKHR::get_object_type() const
-{
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
-
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedDeferredOperationKHR::get_device() const
-{
-    return mDevice;
-}
-
-void BasicManagedDeferredOperationKHR::reset(const VkAllocationCallbacks* pAllocator)
-{
+    // TODO : Return Default<VkAccelerationStructureCreateInfoKHR>...
+    static const Managed<VkAccelerationStructureCreateInfoKHR> sEmptyManagedVkAccelerationStructureCreateInfoKHR;
+    return mspControlBlock ? mspControlBlock->AccelerationStructureCreateInfoKHR : sEmptyManagedVkAccelerationStructureCreateInfoKHR;
 }
 #endif // VK_ENABLE_BETA_EXTENSIONS
-#endif // DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION
+#endif // VK_ENABLE_BETA_EXTENSIONS
 
-#ifdef
-#ifdef
-BasicManagedDescriptorPool::BasicManagedDescriptorPool(const std::shared_ptr<Managed<VkDevice>>& device, const VkDescriptorPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedDescriptorPool::~BasicManagedDescriptorPool()
-{
-    reset();
-}
-
-VkObjectType BasicManagedDescriptorPool::get_object_type() const
-{
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
-
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedDescriptorPool::get_device() const
-{
-    return mDevice;
-}
-
-#ifdef
-const Managed<VkDescriptorPoolCreateInfo>& BasicManagedDescriptorPool::get_descriptor_pool_create_info() const
-{
-    return mDescriptorPoolCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedDescriptorPool::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
-
-#ifdef
-#ifdef DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION
-#ifdef
-BasicManagedDescriptorSet::BasicManagedDescriptorSet(VkDevice device, const VkDescriptorSetAllocateInfo* pAllocateInfo)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedDescriptorSet::~BasicManagedDescriptorSet()
-{
-    reset();
-}
-
-VkObjectType BasicManagedDescriptorSet::get_object_type() const
-{
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
-
-const std::shared_ptr<Managed<VkDescriptorPool>>& BasicManagedDescriptorSet::get_descriptor_pool() const
-{
-    return mDescriptorPool;
-}
-
-#ifdef
-const Managed<VkDescriptorSetAllocateInfo>& BasicManagedDescriptorSet::get_descriptor_set_allocate_info() const
-{
-    return mDescriptorSetAllocateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedDescriptorSet::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION
-#endif //
-
-#ifdef
-#ifdef
-BasicManagedDescriptorSetLayout::BasicManagedDescriptorSetLayout(const std::shared_ptr<Managed<VkDevice>>& device, const VkDescriptorSetLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedDescriptorSetLayout::~BasicManagedDescriptorSetLayout()
-{
-    reset();
-}
-
-VkObjectType BasicManagedDescriptorSetLayout::get_object_type() const
-{
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
-
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedDescriptorSetLayout::get_device() const
-{
-    return mDevice;
-}
-
-#ifdef
-const Managed<VkDescriptorSetLayoutCreateInfo>& BasicManagedDescriptorSetLayout::get_descriptor_set_layout_create_info() const
-{
-    return mDescriptorSetLayoutCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedDescriptorSetLayout::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
-
-#ifdef
-#ifdef
-BasicManagedDescriptorUpdateTemplate::BasicManagedDescriptorUpdateTemplate(const std::shared_ptr<Managed<VkDevice>>& device, const VkDescriptorUpdateTemplateCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedDescriptorUpdateTemplate::~BasicManagedDescriptorUpdateTemplate()
-{
-    reset();
-}
-
-VkObjectType BasicManagedDescriptorUpdateTemplate::get_object_type() const
-{
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
-
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedDescriptorUpdateTemplate::get_device() const
-{
-    return mDevice;
-}
-
-#ifdef
-const Managed<VkDescriptorUpdateTemplateCreateInfo>& BasicManagedDescriptorUpdateTemplate::get_descriptor_update_template_create_info() const
-{
-    return mDescriptorUpdateTemplateCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedDescriptorUpdateTemplate::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
-
-#ifdef
-#ifdef
-BasicManagedDevice::BasicManagedDevice(const std::shared_ptr<Managed<VkPhysicalDevice>>& physicalDevice, const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedDevice::~BasicManagedDevice()
-{
-    reset();
-}
-
-VkObjectType BasicManagedDevice::get_object_type() const
-{
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
-
-const std::shared_ptr<Managed<VkPhysicalDevice>>& BasicManagedDevice::get_physical_device() const
-{
-    return mPhysicalDevice;
-}
-
-#ifdef
-const Managed<VkDeviceCreateInfo>& BasicManagedDevice::get_device_create_info() const
-{
-    return mDeviceCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedDevice::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
-
-#ifdef
-#ifdef
-BasicManagedDeviceMemory::BasicManagedDeviceMemory(const std::shared_ptr<Managed<VkDevice>>& device, const VkMemoryAllocateInfo* pAllocateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedDeviceMemory::~BasicManagedDeviceMemory()
-{
-    reset();
-}
-
-VkObjectType BasicManagedDeviceMemory::get_object_type() const
-{
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
-
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedDeviceMemory::get_device() const
-{
-    return mDevice;
-}
-
-#ifdef
-const Managed<VkMemoryAllocateInfo>& BasicManagedDeviceMemory::get_memory_allocate_info() const
-{
-    return mMemoryAllocateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedDeviceMemory::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
-
-#ifdef
-BasicManagedDisplayKHR::~BasicManagedDisplayKHR()
-{
-    reset();
-}
-
-VkObjectType BasicManagedDisplayKHR::get_object_type() const
-{
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
-
-const std::shared_ptr<Managed<VkPhysicalDevice>>& BasicManagedDisplayKHR::get_physical_device() const
-{
-    return mPhysicalDevice;
-}
-
-void BasicManagedDisplayKHR::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
-
-#ifdef
-#ifdef
-BasicManagedDisplayModeKHR::BasicManagedDisplayModeKHR(VkPhysicalDevice physicalDevice, const std::shared_ptr<Managed<VkDisplayKHR>>& display, const VkDisplayModeCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedDisplayModeKHR::~BasicManagedDisplayModeKHR()
-{
-    reset();
-}
-
-VkObjectType BasicManagedDisplayModeKHR::get_object_type() const
-{
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
 
-const std::shared_ptr<Managed<VkDisplayKHR>>& BasicManagedDisplayModeKHR::get_display_khr() const
+class BasicManagedVkBuffer::ControlBlock final
 {
-    return mDisplayKHR;
-}
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyBuffer(device.get<VkDevice>(), vkBuffer, nullptr /* TODO : pAllocator */);
+        #endif
+    }
 
-#ifdef
-const Managed<VkDisplayModeCreateInfoKHR>& BasicManagedDisplayModeKHR::get_display_mode_create_info_khr() const
-{
-    return mDisplayModeCreateInfoKHR;
-}
-#endif // ${_COMPILE_GUARD}
+    VkBuffer vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkBufferCreateInfo> BufferCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkBuffer(const BasicManagedVkBuffer&) = delete;
+    BasicManagedVkBuffer& operator=(const BasicManagedVkBuffer&) = delete;
+};
 
-void BasicManagedDisplayModeKHR::reset(const VkAllocationCallbacks* pAllocator)
+VkResult BasicManagedVkBuffer::create(const Managed<VkDevice>& device, const VkBufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkBuffer>* pBuffer)
 {
+    #if 0
+    VkBuffer handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateBuffer(device, pCreateInfo, pAllocator, pBuffer));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
-#endif //
 
-#ifdef
-#ifdef
-BasicManagedEvent::BasicManagedEvent(const std::shared_ptr<Managed<VkDevice>>& device, const VkEventCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+BasicManagedVkBuffer::~BasicManagedVkBuffer()
 {
 }
-#endif // ${_COMPILE_GUARD}
 
-BasicManagedEvent::~BasicManagedEvent()
+template <>
+const VkBuffer& get<VkBuffer>() const
 {
-    reset();
+    return mHandle;
 }
 
-VkObjectType BasicManagedEvent::get_object_type() const
+template <>
+const VkObjectType& get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+    return VK_OBJECT_TYPE_VkBuffer_TODO;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedEvent::get_device() const
-{
-    return mDevice;
-}
 
-#ifdef
-const Managed<VkEventCreateInfo>& BasicManagedEvent::get_event_create_info() const
+template <>
+const Managed<VkDevice>& BasicManagedVkBuffer::get<Managed<VkDevice>>() const
 {
-    return mEventCreateInfo;
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
 }
-#endif // ${_COMPILE_GUARD}
 
-void BasicManagedEvent::reset(const VkAllocationCallbacks* pAllocator)
+template <>
+const Managed<VkBufferCreateInfo>& BasicManagedVkBuffer::get<Managed<VkBufferCreateInfo>>() const
 {
+    // TODO : Return Default<VkBufferCreateInfo>...
+    static const Managed<VkBufferCreateInfo> sEmptyManagedVkBufferCreateInfo;
+    return mspControlBlock ? mspControlBlock->BufferCreateInfo : sEmptyManagedVkBufferCreateInfo;
 }
-#endif //
 
-#ifdef
-#ifdef
-BasicManagedFence::BasicManagedFence(const std::shared_ptr<Managed<VkDevice>>& device, const VkFenceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+class BasicManagedVkBufferView::ControlBlock final
 {
-}
-#endif // ${_COMPILE_GUARD}
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyBufferView(device.get<VkDevice>(), vkBufferView, nullptr /* TODO : pAllocator */);
+        #endif
+    }
 
-BasicManagedFence::~BasicManagedFence()
-{
-    reset();
-}
+    VkBufferView vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkBufferViewCreateInfo> BufferViewCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkBufferView(const BasicManagedVkBufferView&) = delete;
+    BasicManagedVkBufferView& operator=(const BasicManagedVkBufferView&) = delete;
+};
 
-VkObjectType BasicManagedFence::get_object_type() const
+VkResult BasicManagedVkBufferView::create(const Managed<VkDevice>& device, const VkBufferViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkBufferView>* pView)
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+    #if 0
+    VkBufferView handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateBufferView(device, pCreateInfo, pAllocator, pView));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedFence::get_device() const
+BasicManagedVkBufferView::~BasicManagedVkBufferView()
 {
-    return mDevice;
 }
 
-#ifdef
-const Managed<VkFenceCreateInfo>& BasicManagedFence::get_fence_create_info() const
+template <>
+const VkBufferView& get<VkBufferView>() const
 {
-    return mFenceCreateInfo;
+    return mHandle;
 }
-#endif // ${_COMPILE_GUARD}
 
-void BasicManagedFence::reset(const VkAllocationCallbacks* pAllocator)
+template <>
+const VkObjectType& get<VkObjectType>() const
 {
+    return VK_OBJECT_TYPE_VkBufferView_TODO;
 }
-#endif //
 
-#ifdef
-#ifdef
-BasicManagedFramebuffer::BasicManagedFramebuffer(const std::shared_ptr<Managed<VkDevice>>& device, const VkFramebufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
 
-BasicManagedFramebuffer::~BasicManagedFramebuffer()
+template <>
+const Managed<VkDevice>& BasicManagedVkBufferView::get<Managed<VkDevice>>() const
 {
-    reset();
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
 }
 
-VkObjectType BasicManagedFramebuffer::get_object_type() const
+template <>
+const Managed<VkBufferViewCreateInfo>& BasicManagedVkBufferView::get<Managed<VkBufferViewCreateInfo>>() const
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+    // TODO : Return Default<VkBufferViewCreateInfo>...
+    static const Managed<VkBufferViewCreateInfo> sEmptyManagedVkBufferViewCreateInfo;
+    return mspControlBlock ? mspControlBlock->BufferViewCreateInfo : sEmptyManagedVkBufferViewCreateInfo;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedFramebuffer::get_device() const
+class BasicManagedVkCommandBuffer::ControlBlock final
 {
-    return mDevice;
-}
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkCommandPool);
+        #endif
+    }
 
-#ifdef
-const Managed<VkFramebufferCreateInfo>& BasicManagedFramebuffer::get_framebuffer_create_info() const
-{
-    return mFramebufferCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
+    VkCommandBuffer vkHandle { VK_NULL_HANDLE };
+    Managed<VkCommandPool> parentVkCommandPool;
+    Managed<VkCommandBufferAllocateInfo> CommandBufferAllocateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkCommandBuffer(const BasicManagedVkCommandBuffer&) = delete;
+    BasicManagedVkCommandBuffer& operator=(const BasicManagedVkCommandBuffer&) = delete;
+};
 
-void BasicManagedFramebuffer::reset(const VkAllocationCallbacks* pAllocator)
+VkResult BasicManagedVkCommandBuffer::create(const Managed<VkDevice>& device, const VkCommandBufferAllocateInfo* pAllocateInfo, Managed<VkCommandBuffer>* pCommandBuffers)
 {
+    #if 0
+    VkCommandBuffer handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkAllocateCommandBuffers(device, pAllocateInfo, pCommandBuffers));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
-#endif //
 
-#ifdef
-#ifdef
-BasicManagedImage::BasicManagedImage(const std::shared_ptr<Managed<VkDevice>>& device, const VkImageCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+BasicManagedVkCommandBuffer::~BasicManagedVkCommandBuffer()
 {
 }
-#endif // ${_COMPILE_GUARD}
 
-BasicManagedImage::~BasicManagedImage()
+template <>
+const VkCommandBuffer& get<VkCommandBuffer>() const
 {
-    reset();
+    return mHandle;
 }
 
-VkObjectType BasicManagedImage::get_object_type() const
+template <>
+const VkObjectType& get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+    return VK_OBJECT_TYPE_VkCommandBuffer_TODO;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedImage::get_device() const
-{
-    return mDevice;
-}
 
-#ifdef
-const Managed<VkImageCreateInfo>& BasicManagedImage::get_image_create_info() const
+template <>
+const Managed<VkCommandPool>& BasicManagedVkCommandBuffer::get<Managed<VkCommandPool>>() const
 {
-    return mImageCreateInfo;
+    static const Managed<VkCommandPool> sNullManagedVkCommandPool;
+    return mspControlBlock ? mspControlBlock->parentVkCommandPool : sNullManagedVkCommandPool;
 }
-#endif // ${_COMPILE_GUARD}
 
-void BasicManagedImage::reset(const VkAllocationCallbacks* pAllocator)
+template <>
+const Managed<VkCommandBufferAllocateInfo>& BasicManagedVkCommandBuffer::get<Managed<VkCommandBufferAllocateInfo>>() const
 {
+    // TODO : Return Default<VkCommandBufferAllocateInfo>...
+    static const Managed<VkCommandBufferAllocateInfo> sEmptyManagedVkCommandBufferAllocateInfo;
+    return mspControlBlock ? mspControlBlock->CommandBufferAllocateInfo : sEmptyManagedVkCommandBufferAllocateInfo;
 }
-#endif //
 
-#ifdef
-#ifdef
-BasicManagedImageView::BasicManagedImageView(const std::shared_ptr<Managed<VkDevice>>& device, const VkImageViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+class BasicManagedVkCommandPool::ControlBlock final
 {
-}
-#endif // ${_COMPILE_GUARD}
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyCommandPool(device.get<VkDevice>(), vkCommandPool, nullptr /* TODO : pAllocator */);
+        #endif
+    }
 
-BasicManagedImageView::~BasicManagedImageView()
-{
-    reset();
-}
+    VkCommandPool vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkCommandPoolCreateInfo> CommandPoolCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkCommandPool(const BasicManagedVkCommandPool&) = delete;
+    BasicManagedVkCommandPool& operator=(const BasicManagedVkCommandPool&) = delete;
+};
 
-VkObjectType BasicManagedImageView::get_object_type() const
+VkResult BasicManagedVkCommandPool::create(const Managed<VkDevice>& device, const VkCommandPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkCommandPool>* pCommandPool)
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+    #if 0
+    VkCommandPool handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateCommandPool(device, pCreateInfo, pAllocator, pCommandPool));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedImageView::get_device() const
+BasicManagedVkCommandPool::~BasicManagedVkCommandPool()
 {
-    return mDevice;
 }
 
-#ifdef
-const Managed<VkImageViewCreateInfo>& BasicManagedImageView::get_image_view_create_info() const
+template <>
+const VkCommandPool& get<VkCommandPool>() const
 {
-    return mImageViewCreateInfo;
+    return mHandle;
 }
-#endif // ${_COMPILE_GUARD}
 
-void BasicManagedImageView::reset(const VkAllocationCallbacks* pAllocator)
+template <>
+const VkObjectType& get<VkObjectType>() const
 {
+    return VK_OBJECT_TYPE_VkCommandPool_TODO;
 }
-#endif //
 
-#ifdef
-#ifdef
-BasicManagedIndirectCommandsLayoutNV::BasicManagedIndirectCommandsLayoutNV(const std::shared_ptr<Managed<VkDevice>>& device, const VkIndirectCommandsLayoutCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
 
-BasicManagedIndirectCommandsLayoutNV::~BasicManagedIndirectCommandsLayoutNV()
+template <>
+const Managed<VkDevice>& BasicManagedVkCommandPool::get<Managed<VkDevice>>() const
 {
-    reset();
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
 }
 
-VkObjectType BasicManagedIndirectCommandsLayoutNV::get_object_type() const
+template <>
+const Managed<VkCommandPoolCreateInfo>& BasicManagedVkCommandPool::get<Managed<VkCommandPoolCreateInfo>>() const
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+    // TODO : Return Default<VkCommandPoolCreateInfo>...
+    static const Managed<VkCommandPoolCreateInfo> sEmptyManagedVkCommandPoolCreateInfo;
+    return mspControlBlock ? mspControlBlock->CommandPoolCreateInfo : sEmptyManagedVkCommandPoolCreateInfo;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedIndirectCommandsLayoutNV::get_device() const
+class BasicManagedVkDebugReportCallbackEXT::ControlBlock final
 {
-    return mDevice;
-}
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkInstance);
+        vkDestroyDebugReportCallbackEXT(instance.get<VkInstance>(), vkCallback, nullptr /* TODO : pAllocator */);
+        #endif
+    }
 
-#ifdef
-const Managed<VkIndirectCommandsLayoutCreateInfoNV>& BasicManagedIndirectCommandsLayoutNV::get_indirect_commands_layout_create_info_nv() const
-{
-    return mIndirectCommandsLayoutCreateInfoNV;
-}
-#endif // ${_COMPILE_GUARD}
+    VkDebugReportCallbackEXT vkHandle { VK_NULL_HANDLE };
+    Managed<VkInstance> parentVkInstance;
+    Managed<VkDebugReportCallbackCreateInfoEXT> DebugReportCallbackCreateInfoEXT;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkDebugReportCallbackEXT(const BasicManagedVkDebugReportCallbackEXT&) = delete;
+    BasicManagedVkDebugReportCallbackEXT& operator=(const BasicManagedVkDebugReportCallbackEXT&) = delete;
+};
 
-void BasicManagedIndirectCommandsLayoutNV::reset(const VkAllocationCallbacks* pAllocator)
+VkResult BasicManagedVkDebugReportCallbackEXT::create(const Managed<VkInstance>& instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDebugReportCallbackEXT>* pCallback)
 {
+    #if 0
+    VkDebugReportCallbackEXT handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateDebugReportCallbackEXT(instance, pCreateInfo, pAllocator, pCallback));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
-#endif //
 
-#ifdef
-#ifdef DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION
-#ifdef
-BasicManagedInstance::BasicManagedInstance(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+BasicManagedVkDebugReportCallbackEXT::~BasicManagedVkDebugReportCallbackEXT()
 {
 }
-#endif // ${_COMPILE_GUARD}
 
-BasicManagedInstance::~BasicManagedInstance()
+template <>
+const VkDebugReportCallbackEXT& get<VkDebugReportCallbackEXT>() const
 {
-    reset();
+    return mHandle;
 }
 
-VkObjectType BasicManagedInstance::get_object_type() const
+template <>
+const VkObjectType& get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+    return VK_OBJECT_TYPE_VkDebugReportCallbackEXT_TODO;
 }
 
-#ifdef
-const Managed<VkInstanceCreateInfo>& BasicManagedInstance::get_instance_create_info() const
-{
-    return mInstanceCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
 
-void BasicManagedInstance::reset(const VkAllocationCallbacks* pAllocator)
+template <>
+const Managed<VkInstance>& BasicManagedVkDebugReportCallbackEXT::get<Managed<VkInstance>>() const
 {
+    static const Managed<VkInstance> sNullManagedVkInstance;
+    return mspControlBlock ? mspControlBlock->parentVkInstance : sNullManagedVkInstance;
 }
-#endif // DST_GFX_VK_HANDLE_MANUAL_IMPLEMENTATION
-#endif //
 
-#ifdef
-BasicManagedPerformanceConfigurationINTEL::~BasicManagedPerformanceConfigurationINTEL()
+template <>
+const Managed<VkDebugReportCallbackCreateInfoEXT>& BasicManagedVkDebugReportCallbackEXT::get<Managed<VkDebugReportCallbackCreateInfoEXT>>() const
 {
-    reset();
+    // TODO : Return Default<VkDebugReportCallbackCreateInfoEXT>...
+    static const Managed<VkDebugReportCallbackCreateInfoEXT> sEmptyManagedVkDebugReportCallbackCreateInfoEXT;
+    return mspControlBlock ? mspControlBlock->DebugReportCallbackCreateInfoEXT : sEmptyManagedVkDebugReportCallbackCreateInfoEXT;
 }
 
-VkObjectType BasicManagedPerformanceConfigurationINTEL::get_object_type() const
+class BasicManagedVkDebugUtilsMessengerEXT::ControlBlock final
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkInstance);
+        vkDestroyDebugUtilsMessengerEXT(instance.get<VkInstance>(), vkMessenger, nullptr /* TODO : pAllocator */);
+        #endif
+    }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedPerformanceConfigurationINTEL::get_device() const
-{
-    return mDevice;
-}
+    VkDebugUtilsMessengerEXT vkHandle { VK_NULL_HANDLE };
+    Managed<VkInstance> parentVkInstance;
+    Managed<VkDebugUtilsMessengerCreateInfoEXT> DebugUtilsMessengerCreateInfoEXT;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkDebugUtilsMessengerEXT(const BasicManagedVkDebugUtilsMessengerEXT&) = delete;
+    BasicManagedVkDebugUtilsMessengerEXT& operator=(const BasicManagedVkDebugUtilsMessengerEXT&) = delete;
+};
 
-void BasicManagedPerformanceConfigurationINTEL::reset(const VkAllocationCallbacks* pAllocator)
+VkResult BasicManagedVkDebugUtilsMessengerEXT::create(const Managed<VkInstance>& instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDebugUtilsMessengerEXT>* pMessenger)
 {
+    #if 0
+    VkDebugUtilsMessengerEXT handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateDebugUtilsMessengerEXT(instance, pCreateInfo, pAllocator, pMessenger));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
-#endif //
 
-#ifdef
-BasicManagedPhysicalDevice::~BasicManagedPhysicalDevice()
+BasicManagedVkDebugUtilsMessengerEXT::~BasicManagedVkDebugUtilsMessengerEXT()
 {
-    reset();
 }
 
-VkObjectType BasicManagedPhysicalDevice::get_object_type() const
+template <>
+const VkDebugUtilsMessengerEXT& get<VkDebugUtilsMessengerEXT>() const
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+    return mHandle;
 }
 
-const std::shared_ptr<Managed<VkInstance>>& BasicManagedPhysicalDevice::get_instance() const
+template <>
+const VkObjectType& get<VkObjectType>() const
 {
-    return mInstance;
+    return VK_OBJECT_TYPE_VkDebugUtilsMessengerEXT_TODO;
 }
 
-void BasicManagedPhysicalDevice::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
 
-#ifdef
-#ifdef
-BasicManagedPipeline::BasicManagedPipeline(const std::shared_ptr<Managed<VkDevice>>& device, VkPipelineCache pipelineCache, uint32_t createInfoCount, const VkComputePipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator)
+template <>
+const Managed<VkInstance>& BasicManagedVkDebugUtilsMessengerEXT::get<Managed<VkInstance>>() const
 {
+    static const Managed<VkInstance> sNullManagedVkInstance;
+    return mspControlBlock ? mspControlBlock->parentVkInstance : sNullManagedVkInstance;
 }
-#endif // ${_COMPILE_GUARD}
 
-#ifdef
-BasicManagedPipeline::BasicManagedPipeline(const std::shared_ptr<Managed<VkDevice>>& device, VkPipelineCache pipelineCache, uint32_t createInfoCount, const VkGraphicsPipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator)
+template <>
+const Managed<VkDebugUtilsMessengerCreateInfoEXT>& BasicManagedVkDebugUtilsMessengerEXT::get<Managed<VkDebugUtilsMessengerCreateInfoEXT>>() const
 {
+    // TODO : Return Default<VkDebugUtilsMessengerCreateInfoEXT>...
+    static const Managed<VkDebugUtilsMessengerCreateInfoEXT> sEmptyManagedVkDebugUtilsMessengerCreateInfoEXT;
+    return mspControlBlock ? mspControlBlock->DebugUtilsMessengerCreateInfoEXT : sEmptyManagedVkDebugUtilsMessengerCreateInfoEXT;
 }
-#endif // ${_COMPILE_GUARD}
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-BasicManagedPipeline::BasicManagedPipeline(const std::shared_ptr<Managed<VkDevice>>& device, VkPipelineCache pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator)
+class BasicManagedVkDeferredOperationKHR::ControlBlock final
 {
-}
-#endif // ${_COMPILE_GUARD}
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyDeferredOperationKHR(device.get<VkDevice>(), vkOperation, nullptr /* TODO : pAllocator */);
+        #endif
+    }
 
-#ifdef
-BasicManagedPipeline::BasicManagedPipeline(const std::shared_ptr<Managed<VkDevice>>& device, VkPipelineCache pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoNV* pCreateInfos, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedPipeline::~BasicManagedPipeline()
-{
-    reset();
-}
-
-VkObjectType BasicManagedPipeline::get_object_type() const
-{
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
-
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedPipeline::get_device() const
-{
-    return mDevice;
-}
-
-#ifdef
-const Managed<VkComputePipelineCreateInfo>& BasicManagedPipeline::get_compute_pipeline_create_info() const
-{
-    return mComputePipelineCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-#ifdef
-const Managed<VkGraphicsPipelineCreateInfo>& BasicManagedPipeline::get_graphics_pipeline_create_info() const
-{
-    return mGraphicsPipelineCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
+    VkDeferredOperationKHR vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkDeferredOperationKHR(const BasicManagedVkDeferredOperationKHR&) = delete;
+    BasicManagedVkDeferredOperationKHR& operator=(const BasicManagedVkDeferredOperationKHR&) = delete;
+};
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-const Managed<VkRayTracingPipelineCreateInfoKHR>& BasicManagedPipeline::get_ray_tracing_pipeline_create_info_khr() const
+VkResult BasicManagedVkDeferredOperationKHR::create(const Managed<VkDevice>& device, const VkAllocationCallbacks* pAllocator, Managed<VkDeferredOperationKHR>* pDeferredOperation)
 {
-    return mRayTracingPipelineCreateInfoKHR;
+    #if 0
+    VkDeferredOperationKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateDeferredOperationKHR(device, pAllocator, pDeferredOperation));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_ENABLE_BETA_EXTENSIONS
 
-#ifdef
-const Managed<VkRayTracingPipelineCreateInfoNV>& BasicManagedPipeline::get_ray_tracing_pipeline_create_info_nv() const
-{
-    return mRayTracingPipelineCreateInfoNV;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedPipeline::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
-
-#ifdef
-#ifdef
-BasicManagedPipelineCache::BasicManagedPipelineCache(const std::shared_ptr<Managed<VkDevice>>& device, const VkPipelineCacheCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+BasicManagedVkDeferredOperationKHR::~BasicManagedVkDeferredOperationKHR()
 {
 }
-#endif // ${_COMPILE_GUARD}
 
-BasicManagedPipelineCache::~BasicManagedPipelineCache()
+template <>
+const VkDeferredOperationKHR& get<VkDeferredOperationKHR>() const
 {
-    reset();
+    return mHandle;
 }
 
-VkObjectType BasicManagedPipelineCache::get_object_type() const
+template <>
+const VkObjectType& get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+    return VK_OBJECT_TYPE_VkDeferredOperationKHR_TODO;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedPipelineCache::get_device() const
+
+template <>
+const Managed<VkDevice>& BasicManagedVkDeferredOperationKHR::get<Managed<VkDevice>>() const
 {
-    return mDevice;
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+class BasicManagedVkDescriptorPool::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyDescriptorPool(device.get<VkDevice>(), vkDescriptorPool, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkDescriptorPool vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkDescriptorPoolCreateInfo> DescriptorPoolCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkDescriptorPool(const BasicManagedVkDescriptorPool&) = delete;
+    BasicManagedVkDescriptorPool& operator=(const BasicManagedVkDescriptorPool&) = delete;
+};
+
+VkResult BasicManagedVkDescriptorPool::create(const Managed<VkDevice>& device, const VkDescriptorPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDescriptorPool>* pDescriptorPool)
+{
+    #if 0
+    VkDescriptorPool handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateDescriptorPool(device, pCreateInfo, pAllocator, pDescriptorPool));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
 
-#ifdef
-const Managed<VkPipelineCacheCreateInfo>& BasicManagedPipelineCache::get_pipeline_cache_create_info() const
-{
-    return mPipelineCacheCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedPipelineCache::reset(const VkAllocationCallbacks* pAllocator)
+BasicManagedVkDescriptorPool::~BasicManagedVkDescriptorPool()
 {
 }
-#endif //
 
-#ifdef
-#ifdef
-BasicManagedPipelineLayout::BasicManagedPipelineLayout(const std::shared_ptr<Managed<VkDevice>>& device, const VkPipelineLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+template <>
+const VkDescriptorPool& get<VkDescriptorPool>() const
 {
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedPipelineLayout::~BasicManagedPipelineLayout()
-{
-    reset();
+    return mHandle;
 }
 
-VkObjectType BasicManagedPipelineLayout::get_object_type() const
+template <>
+const VkObjectType& get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+    return VK_OBJECT_TYPE_VkDescriptorPool_TODO;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedPipelineLayout::get_device() const
+
+template <>
+const Managed<VkDevice>& BasicManagedVkDescriptorPool::get<Managed<VkDevice>>() const
 {
-    return mDevice;
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
 }
 
-#ifdef
-const Managed<VkPipelineLayoutCreateInfo>& BasicManagedPipelineLayout::get_pipeline_layout_create_info() const
+template <>
+const Managed<VkDescriptorPoolCreateInfo>& BasicManagedVkDescriptorPool::get<Managed<VkDescriptorPoolCreateInfo>>() const
 {
-    return mPipelineLayoutCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedPipelineLayout::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
-
-#ifdef
-#ifdef
-BasicManagedPrivateDataSlotEXT::BasicManagedPrivateDataSlotEXT(const std::shared_ptr<Managed<VkDevice>>& device, const VkPrivateDataSlotCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedPrivateDataSlotEXT::~BasicManagedPrivateDataSlotEXT()
-{
-    reset();
+    // TODO : Return Default<VkDescriptorPoolCreateInfo>...
+    static const Managed<VkDescriptorPoolCreateInfo> sEmptyManagedVkDescriptorPoolCreateInfo;
+    return mspControlBlock ? mspControlBlock->DescriptorPoolCreateInfo : sEmptyManagedVkDescriptorPoolCreateInfo;
 }
 
-VkObjectType BasicManagedPrivateDataSlotEXT::get_object_type() const
+class BasicManagedVkDescriptorSet::ControlBlock final
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDescriptorPool);
+        #endif
+    }
+
+    VkDescriptorSet vkHandle { VK_NULL_HANDLE };
+    Managed<VkDescriptorPool> parentVkDescriptorPool;
+    Managed<VkDescriptorSetAllocateInfo> DescriptorSetAllocateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkDescriptorSet(const BasicManagedVkDescriptorSet&) = delete;
+    BasicManagedVkDescriptorSet& operator=(const BasicManagedVkDescriptorSet&) = delete;
+};
+
+VkResult BasicManagedVkDescriptorSet::create(const Managed<VkDevice>& device, const VkDescriptorSetAllocateInfo* pAllocateInfo, Managed<VkDescriptorSet>* pDescriptorSets)
+{
+    #if 0
+    VkDescriptorSet handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkAllocateDescriptorSets(device, pAllocateInfo, pDescriptorSets));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedPrivateDataSlotEXT::get_device() const
-{
-    return mDevice;
-}
-
-#ifdef
-const Managed<VkPrivateDataSlotCreateInfoEXT>& BasicManagedPrivateDataSlotEXT::get_private_data_slot_create_info_ext() const
-{
-    return mPrivateDataSlotCreateInfoEXT;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedPrivateDataSlotEXT::reset(const VkAllocationCallbacks* pAllocator)
+BasicManagedVkDescriptorSet::~BasicManagedVkDescriptorSet()
 {
 }
-#endif //
 
-#ifdef
-#ifdef
-BasicManagedQueryPool::BasicManagedQueryPool(const std::shared_ptr<Managed<VkDevice>>& device, const VkQueryPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+template <>
+const VkDescriptorSet& get<VkDescriptorSet>() const
 {
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedQueryPool::~BasicManagedQueryPool()
-{
-    reset();
+    return mHandle;
 }
 
-VkObjectType BasicManagedQueryPool::get_object_type() const
+template <>
+const VkObjectType& get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+    return VK_OBJECT_TYPE_VkDescriptorSet_TODO;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedQueryPool::get_device() const
+
+template <>
+const Managed<VkDescriptorPool>& BasicManagedVkDescriptorSet::get<Managed<VkDescriptorPool>>() const
 {
-    return mDevice;
+    static const Managed<VkDescriptorPool> sNullManagedVkDescriptorPool;
+    return mspControlBlock ? mspControlBlock->parentVkDescriptorPool : sNullManagedVkDescriptorPool;
 }
 
-#ifdef
-const Managed<VkQueryPoolCreateInfo>& BasicManagedQueryPool::get_query_pool_create_info() const
+template <>
+const Managed<VkDescriptorSetAllocateInfo>& BasicManagedVkDescriptorSet::get<Managed<VkDescriptorSetAllocateInfo>>() const
 {
-    return mQueryPoolCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedQueryPool::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
-
-#ifdef
-BasicManagedQueue::~BasicManagedQueue()
-{
-    reset();
+    // TODO : Return Default<VkDescriptorSetAllocateInfo>...
+    static const Managed<VkDescriptorSetAllocateInfo> sEmptyManagedVkDescriptorSetAllocateInfo;
+    return mspControlBlock ? mspControlBlock->DescriptorSetAllocateInfo : sEmptyManagedVkDescriptorSetAllocateInfo;
 }
 
-VkObjectType BasicManagedQueue::get_object_type() const
+class BasicManagedVkDescriptorSetLayout::ControlBlock final
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyDescriptorSetLayout(device.get<VkDevice>(), vkDescriptorSetLayout, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkDescriptorSetLayout vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkDescriptorSetLayoutCreateInfo> DescriptorSetLayoutCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkDescriptorSetLayout(const BasicManagedVkDescriptorSetLayout&) = delete;
+    BasicManagedVkDescriptorSetLayout& operator=(const BasicManagedVkDescriptorSetLayout&) = delete;
+};
+
+VkResult BasicManagedVkDescriptorSetLayout::create(const Managed<VkDevice>& device, const VkDescriptorSetLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDescriptorSetLayout>* pSetLayout)
+{
+    #if 0
+    VkDescriptorSetLayout handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateDescriptorSetLayout(device, pCreateInfo, pAllocator, pSetLayout));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedQueue::get_device() const
-{
-    return mDevice;
-}
-
-void BasicManagedQueue::reset(const VkAllocationCallbacks* pAllocator)
+BasicManagedVkDescriptorSetLayout::~BasicManagedVkDescriptorSetLayout()
 {
 }
-#endif //
 
-#ifdef
-#ifdef
-BasicManagedRenderPass::BasicManagedRenderPass(const std::shared_ptr<Managed<VkDevice>>& device, const VkRenderPassCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+template <>
+const VkDescriptorSetLayout& get<VkDescriptorSetLayout>() const
 {
-}
-#endif // ${_COMPILE_GUARD}
-
-#ifdef
-BasicManagedRenderPass::BasicManagedRenderPass(const std::shared_ptr<Managed<VkDevice>>& device, const VkRenderPassCreateInfo2* pCreateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedRenderPass::~BasicManagedRenderPass()
-{
-    reset();
+    return mHandle;
 }
 
-VkObjectType BasicManagedRenderPass::get_object_type() const
+template <>
+const VkObjectType& get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+    return VK_OBJECT_TYPE_VkDescriptorSetLayout_TODO;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedRenderPass::get_device() const
+
+template <>
+const Managed<VkDevice>& BasicManagedVkDescriptorSetLayout::get<Managed<VkDevice>>() const
 {
-    return mDevice;
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
 }
 
-#ifdef
-const Managed<VkRenderPassCreateInfo>& BasicManagedRenderPass::get_render_pass_create_info() const
+template <>
+const Managed<VkDescriptorSetLayoutCreateInfo>& BasicManagedVkDescriptorSetLayout::get<Managed<VkDescriptorSetLayoutCreateInfo>>() const
 {
-    return mRenderPassCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-#ifdef
-const Managed<VkRenderPassCreateInfo2>& BasicManagedRenderPass::get_render_pass_create_info2() const
-{
-    return mRenderPassCreateInfo2;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedRenderPass::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
-
-#ifdef
-#ifdef
-BasicManagedSampler::BasicManagedSampler(const std::shared_ptr<Managed<VkDevice>>& device, const VkSamplerCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedSampler::~BasicManagedSampler()
-{
-    reset();
+    // TODO : Return Default<VkDescriptorSetLayoutCreateInfo>...
+    static const Managed<VkDescriptorSetLayoutCreateInfo> sEmptyManagedVkDescriptorSetLayoutCreateInfo;
+    return mspControlBlock ? mspControlBlock->DescriptorSetLayoutCreateInfo : sEmptyManagedVkDescriptorSetLayoutCreateInfo;
 }
 
-VkObjectType BasicManagedSampler::get_object_type() const
+class BasicManagedVkDescriptorUpdateTemplate::ControlBlock final
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyDescriptorUpdateTemplate(device.get<VkDevice>(), vkDescriptorUpdateTemplate, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkDescriptorUpdateTemplate vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkDescriptorUpdateTemplateCreateInfo> DescriptorUpdateTemplateCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkDescriptorUpdateTemplate(const BasicManagedVkDescriptorUpdateTemplate&) = delete;
+    BasicManagedVkDescriptorUpdateTemplate& operator=(const BasicManagedVkDescriptorUpdateTemplate&) = delete;
+};
+
+VkResult BasicManagedVkDescriptorUpdateTemplate::create(const Managed<VkDevice>& device, const VkDescriptorUpdateTemplateCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDescriptorUpdateTemplate>* pDescriptorUpdateTemplate)
+{
+    #if 0
+    VkDescriptorUpdateTemplate handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateDescriptorUpdateTemplate(device, pCreateInfo, pAllocator, pDescriptorUpdateTemplate));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedSampler::get_device() const
-{
-    return mDevice;
-}
-
-#ifdef
-const Managed<VkSamplerCreateInfo>& BasicManagedSampler::get_sampler_create_info() const
-{
-    return mSamplerCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedSampler::reset(const VkAllocationCallbacks* pAllocator)
+BasicManagedVkDescriptorUpdateTemplate::~BasicManagedVkDescriptorUpdateTemplate()
 {
 }
-#endif //
 
-#ifdef
-#ifdef
-BasicManagedSamplerYcbcrConversion::BasicManagedSamplerYcbcrConversion(const std::shared_ptr<Managed<VkDevice>>& device, const VkSamplerYcbcrConversionCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+template <>
+const VkDescriptorUpdateTemplate& get<VkDescriptorUpdateTemplate>() const
 {
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedSamplerYcbcrConversion::~BasicManagedSamplerYcbcrConversion()
-{
-    reset();
+    return mHandle;
 }
 
-VkObjectType BasicManagedSamplerYcbcrConversion::get_object_type() const
+template <>
+const VkObjectType& get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+    return VK_OBJECT_TYPE_VkDescriptorUpdateTemplate_TODO;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedSamplerYcbcrConversion::get_device() const
+
+template <>
+const Managed<VkDevice>& BasicManagedVkDescriptorUpdateTemplate::get<Managed<VkDevice>>() const
 {
-    return mDevice;
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
 }
 
-#ifdef
-const Managed<VkSamplerYcbcrConversionCreateInfo>& BasicManagedSamplerYcbcrConversion::get_sampler_ycbcr_conversion_create_info() const
+template <>
+const Managed<VkDescriptorUpdateTemplateCreateInfo>& BasicManagedVkDescriptorUpdateTemplate::get<Managed<VkDescriptorUpdateTemplateCreateInfo>>() const
 {
-    return mSamplerYcbcrConversionCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedSamplerYcbcrConversion::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
-
-#ifdef
-#ifdef
-BasicManagedSemaphore::BasicManagedSemaphore(const std::shared_ptr<Managed<VkDevice>>& device, const VkSemaphoreCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedSemaphore::~BasicManagedSemaphore()
-{
-    reset();
+    // TODO : Return Default<VkDescriptorUpdateTemplateCreateInfo>...
+    static const Managed<VkDescriptorUpdateTemplateCreateInfo> sEmptyManagedVkDescriptorUpdateTemplateCreateInfo;
+    return mspControlBlock ? mspControlBlock->DescriptorUpdateTemplateCreateInfo : sEmptyManagedVkDescriptorUpdateTemplateCreateInfo;
 }
 
-VkObjectType BasicManagedSemaphore::get_object_type() const
+
+class BasicManagedVkDevice::ControlBlock final
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkPhysicalDevice);
+        vkDestroyDevice(vkDevice, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkDevice vkHandle { VK_NULL_HANDLE };
+    Managed<VkPhysicalDevice> parentVkPhysicalDevice;
+    Managed<VkDeviceCreateInfo> DeviceCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkDevice(const BasicManagedVkDevice&) = delete;
+    BasicManagedVkDevice& operator=(const BasicManagedVkDevice&) = delete;
+};
+
+VkResult BasicManagedVkDevice::create(const Managed<VkPhysicalDevice>& physicalDevice, const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDevice>* pDevice)
+{
+    #if 0
+    VkDevice handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateDevice(physicalDevice, pCreateInfo, pAllocator, pDevice));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedSemaphore::get_device() const
-{
-    return mDevice;
-}
-
-#ifdef
-const Managed<VkSemaphoreCreateInfo>& BasicManagedSemaphore::get_semaphore_create_info() const
-{
-    return mSemaphoreCreateInfo;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedSemaphore::reset(const VkAllocationCallbacks* pAllocator)
+BasicManagedVkDevice::~BasicManagedVkDevice()
 {
 }
-#endif //
 
-#ifdef
-#ifdef
-BasicManagedShaderModule::BasicManagedShaderModule(const std::shared_ptr<Managed<VkDevice>>& device, const VkShaderModuleCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+template <>
+const VkDevice& get<VkDevice>() const
 {
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedShaderModule::~BasicManagedShaderModule()
-{
-    reset();
+    return mHandle;
 }
 
-VkObjectType BasicManagedShaderModule::get_object_type() const
+template <>
+const VkObjectType& get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+    return VK_OBJECT_TYPE_VkDevice_TODO;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedShaderModule::get_device() const
+
+template <>
+const Managed<VkPhysicalDevice>& BasicManagedVkDevice::get<Managed<VkPhysicalDevice>>() const
 {
-    return mDevice;
+    static const Managed<VkPhysicalDevice> sNullManagedVkPhysicalDevice;
+    return mspControlBlock ? mspControlBlock->parentVkPhysicalDevice : sNullManagedVkPhysicalDevice;
 }
 
-#ifdef
-const Managed<VkShaderModuleCreateInfo>& BasicManagedShaderModule::get_shader_module_create_info() const
+template <>
+const Managed<VkDeviceCreateInfo>& BasicManagedVkDevice::get<Managed<VkDeviceCreateInfo>>() const
 {
-    return mShaderModuleCreateInfo;
+    // TODO : Return Default<VkDeviceCreateInfo>...
+    static const Managed<VkDeviceCreateInfo> sEmptyManagedVkDeviceCreateInfo;
+    return mspControlBlock ? mspControlBlock->DeviceCreateInfo : sEmptyManagedVkDeviceCreateInfo;
 }
-#endif // ${_COMPILE_GUARD}
 
-void BasicManagedShaderModule::reset(const VkAllocationCallbacks* pAllocator)
+class BasicManagedVkDeviceMemory::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkFreeMemory(device.get<VkDevice>(), vkMemory, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkDeviceMemory vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkMemoryAllocateInfo> MemoryAllocateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkDeviceMemory(const BasicManagedVkDeviceMemory&) = delete;
+    BasicManagedVkDeviceMemory& operator=(const BasicManagedVkDeviceMemory&) = delete;
+};
+
+VkResult BasicManagedVkDeviceMemory::create(const Managed<VkDevice>& device, const VkMemoryAllocateInfo* pAllocateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDeviceMemory>* pMemory)
+{
+    #if 0
+    VkDeviceMemory handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkAllocateMemory(device, pAllocateInfo, pAllocator, pMemory));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkDeviceMemory::~BasicManagedVkDeviceMemory()
 {
 }
-#endif //
 
-#ifdef
+template <>
+const VkDeviceMemory& get<VkDeviceMemory>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkDeviceMemory_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkDeviceMemory::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkMemoryAllocateInfo>& BasicManagedVkDeviceMemory::get<Managed<VkMemoryAllocateInfo>>() const
+{
+    // TODO : Return Default<VkMemoryAllocateInfo>...
+    static const Managed<VkMemoryAllocateInfo> sEmptyManagedVkMemoryAllocateInfo;
+    return mspControlBlock ? mspControlBlock->MemoryAllocateInfo : sEmptyManagedVkMemoryAllocateInfo;
+}
+
+class BasicManagedVkDisplayKHR::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkPhysicalDevice);
+        #endif
+    }
+
+    VkDisplayKHR vkHandle { VK_NULL_HANDLE };
+    Managed<VkPhysicalDevice> parentVkPhysicalDevice;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkDisplayKHR(const BasicManagedVkDisplayKHR&) = delete;
+    BasicManagedVkDisplayKHR& operator=(const BasicManagedVkDisplayKHR&) = delete;
+};
+
+
+BasicManagedVkDisplayKHR::~BasicManagedVkDisplayKHR()
+{
+}
+
+template <>
+const VkDisplayKHR& get<VkDisplayKHR>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkDisplayKHR_TODO;
+}
+
+
+template <>
+const Managed<VkPhysicalDevice>& BasicManagedVkDisplayKHR::get<Managed<VkPhysicalDevice>>() const
+{
+    static const Managed<VkPhysicalDevice> sNullManagedVkPhysicalDevice;
+    return mspControlBlock ? mspControlBlock->parentVkPhysicalDevice : sNullManagedVkPhysicalDevice;
+}
+
+class BasicManagedVkDisplayModeKHR::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDisplayKHR);
+        #endif
+    }
+
+    VkDisplayModeKHR vkHandle { VK_NULL_HANDLE };
+    Managed<VkDisplayKHR> parentVkDisplayKHR;
+    Managed<VkDisplayModeCreateInfoKHR> DisplayModeCreateInfoKHR;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkDisplayModeKHR(const BasicManagedVkDisplayModeKHR&) = delete;
+    BasicManagedVkDisplayModeKHR& operator=(const BasicManagedVkDisplayModeKHR&) = delete;
+};
+
+VkResult BasicManagedVkDisplayModeKHR::create(const Managed<VkPhysicalDevice>& physicalDevice, const Managed<VkDisplayKHR>& display, const VkDisplayModeCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDisplayModeKHR>* pMode)
+{
+    #if 0
+    VkDisplayModeKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateDisplayModeKHR(physicalDevice, display, pCreateInfo, pAllocator, pMode));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkDisplayModeKHR::~BasicManagedVkDisplayModeKHR()
+{
+}
+
+template <>
+const VkDisplayModeKHR& get<VkDisplayModeKHR>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkDisplayModeKHR_TODO;
+}
+
+
+template <>
+const Managed<VkDisplayKHR>& BasicManagedVkDisplayModeKHR::get<Managed<VkDisplayKHR>>() const
+{
+    static const Managed<VkDisplayKHR> sNullManagedVkDisplayKHR;
+    return mspControlBlock ? mspControlBlock->parentVkDisplayKHR : sNullManagedVkDisplayKHR;
+}
+
+template <>
+const Managed<VkDisplayModeCreateInfoKHR>& BasicManagedVkDisplayModeKHR::get<Managed<VkDisplayModeCreateInfoKHR>>() const
+{
+    // TODO : Return Default<VkDisplayModeCreateInfoKHR>...
+    static const Managed<VkDisplayModeCreateInfoKHR> sEmptyManagedVkDisplayModeCreateInfoKHR;
+    return mspControlBlock ? mspControlBlock->DisplayModeCreateInfoKHR : sEmptyManagedVkDisplayModeCreateInfoKHR;
+}
+
+class BasicManagedVkEvent::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyEvent(device.get<VkDevice>(), vkEvent, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkEvent vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkEventCreateInfo> EventCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkEvent(const BasicManagedVkEvent&) = delete;
+    BasicManagedVkEvent& operator=(const BasicManagedVkEvent&) = delete;
+};
+
+VkResult BasicManagedVkEvent::create(const Managed<VkDevice>& device, const VkEventCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkEvent>* pEvent)
+{
+    #if 0
+    VkEvent handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateEvent(device, pCreateInfo, pAllocator, pEvent));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkEvent::~BasicManagedVkEvent()
+{
+}
+
+template <>
+const VkEvent& get<VkEvent>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkEvent_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkEvent::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkEventCreateInfo>& BasicManagedVkEvent::get<Managed<VkEventCreateInfo>>() const
+{
+    // TODO : Return Default<VkEventCreateInfo>...
+    static const Managed<VkEventCreateInfo> sEmptyManagedVkEventCreateInfo;
+    return mspControlBlock ? mspControlBlock->EventCreateInfo : sEmptyManagedVkEventCreateInfo;
+}
+
+class BasicManagedVkFence::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyFence(device.get<VkDevice>(), vkFence, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkFence vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkFenceCreateInfo> FenceCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkFence(const BasicManagedVkFence&) = delete;
+    BasicManagedVkFence& operator=(const BasicManagedVkFence&) = delete;
+};
+
+VkResult BasicManagedVkFence::create(const Managed<VkDevice>& device, const VkFenceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkFence>* pFence)
+{
+    #if 0
+    VkFence handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateFence(device, pCreateInfo, pAllocator, pFence));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkFence::~BasicManagedVkFence()
+{
+}
+
+template <>
+const VkFence& get<VkFence>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkFence_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkFence::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkFenceCreateInfo>& BasicManagedVkFence::get<Managed<VkFenceCreateInfo>>() const
+{
+    // TODO : Return Default<VkFenceCreateInfo>...
+    static const Managed<VkFenceCreateInfo> sEmptyManagedVkFenceCreateInfo;
+    return mspControlBlock ? mspControlBlock->FenceCreateInfo : sEmptyManagedVkFenceCreateInfo;
+}
+
+class BasicManagedVkFramebuffer::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyFramebuffer(device.get<VkDevice>(), vkFramebuffer, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkFramebuffer vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkFramebufferCreateInfo> FramebufferCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkFramebuffer(const BasicManagedVkFramebuffer&) = delete;
+    BasicManagedVkFramebuffer& operator=(const BasicManagedVkFramebuffer&) = delete;
+};
+
+VkResult BasicManagedVkFramebuffer::create(const Managed<VkDevice>& device, const VkFramebufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkFramebuffer>* pFramebuffer)
+{
+    #if 0
+    VkFramebuffer handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateFramebuffer(device, pCreateInfo, pAllocator, pFramebuffer));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkFramebuffer::~BasicManagedVkFramebuffer()
+{
+}
+
+template <>
+const VkFramebuffer& get<VkFramebuffer>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkFramebuffer_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkFramebuffer::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkFramebufferCreateInfo>& BasicManagedVkFramebuffer::get<Managed<VkFramebufferCreateInfo>>() const
+{
+    // TODO : Return Default<VkFramebufferCreateInfo>...
+    static const Managed<VkFramebufferCreateInfo> sEmptyManagedVkFramebufferCreateInfo;
+    return mspControlBlock ? mspControlBlock->FramebufferCreateInfo : sEmptyManagedVkFramebufferCreateInfo;
+}
+
+class BasicManagedVkImage::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyImage(device.get<VkDevice>(), vkImage, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkImage vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkImageCreateInfo> ImageCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkImage(const BasicManagedVkImage&) = delete;
+    BasicManagedVkImage& operator=(const BasicManagedVkImage&) = delete;
+};
+
+VkResult BasicManagedVkImage::create(const Managed<VkDevice>& device, const VkImageCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkImage>* pImage)
+{
+    #if 0
+    VkImage handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateImage(device, pCreateInfo, pAllocator, pImage));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkImage::~BasicManagedVkImage()
+{
+}
+
+template <>
+const VkImage& get<VkImage>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkImage_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkImage::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkImageCreateInfo>& BasicManagedVkImage::get<Managed<VkImageCreateInfo>>() const
+{
+    // TODO : Return Default<VkImageCreateInfo>...
+    static const Managed<VkImageCreateInfo> sEmptyManagedVkImageCreateInfo;
+    return mspControlBlock ? mspControlBlock->ImageCreateInfo : sEmptyManagedVkImageCreateInfo;
+}
+
+class BasicManagedVkImageView::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyImageView(device.get<VkDevice>(), vkImageView, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkImageView vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkImageViewCreateInfo> ImageViewCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkImageView(const BasicManagedVkImageView&) = delete;
+    BasicManagedVkImageView& operator=(const BasicManagedVkImageView&) = delete;
+};
+
+VkResult BasicManagedVkImageView::create(const Managed<VkDevice>& device, const VkImageViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkImageView>* pView)
+{
+    #if 0
+    VkImageView handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateImageView(device, pCreateInfo, pAllocator, pView));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkImageView::~BasicManagedVkImageView()
+{
+}
+
+template <>
+const VkImageView& get<VkImageView>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkImageView_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkImageView::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkImageViewCreateInfo>& BasicManagedVkImageView::get<Managed<VkImageViewCreateInfo>>() const
+{
+    // TODO : Return Default<VkImageViewCreateInfo>...
+    static const Managed<VkImageViewCreateInfo> sEmptyManagedVkImageViewCreateInfo;
+    return mspControlBlock ? mspControlBlock->ImageViewCreateInfo : sEmptyManagedVkImageViewCreateInfo;
+}
+
+class BasicManagedVkIndirectCommandsLayoutNV::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyIndirectCommandsLayoutNV(device.get<VkDevice>(), vkIndirectCommandsLayout, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkIndirectCommandsLayoutNV vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkIndirectCommandsLayoutCreateInfoNV> IndirectCommandsLayoutCreateInfoNV;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkIndirectCommandsLayoutNV(const BasicManagedVkIndirectCommandsLayoutNV&) = delete;
+    BasicManagedVkIndirectCommandsLayoutNV& operator=(const BasicManagedVkIndirectCommandsLayoutNV&) = delete;
+};
+
+VkResult BasicManagedVkIndirectCommandsLayoutNV::create(const Managed<VkDevice>& device, const VkIndirectCommandsLayoutCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkIndirectCommandsLayoutNV>* pIndirectCommandsLayout)
+{
+    #if 0
+    VkIndirectCommandsLayoutNV handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateIndirectCommandsLayoutNV(device, pCreateInfo, pAllocator, pIndirectCommandsLayout));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkIndirectCommandsLayoutNV::~BasicManagedVkIndirectCommandsLayoutNV()
+{
+}
+
+template <>
+const VkIndirectCommandsLayoutNV& get<VkIndirectCommandsLayoutNV>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkIndirectCommandsLayoutNV_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkIndirectCommandsLayoutNV::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkIndirectCommandsLayoutCreateInfoNV>& BasicManagedVkIndirectCommandsLayoutNV::get<Managed<VkIndirectCommandsLayoutCreateInfoNV>>() const
+{
+    // TODO : Return Default<VkIndirectCommandsLayoutCreateInfoNV>...
+    static const Managed<VkIndirectCommandsLayoutCreateInfoNV> sEmptyManagedVkIndirectCommandsLayoutCreateInfoNV;
+    return mspControlBlock ? mspControlBlock->IndirectCommandsLayoutCreateInfoNV : sEmptyManagedVkIndirectCommandsLayoutCreateInfoNV;
+}
+
+class BasicManagedVkInstance::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        vkDestroyInstance(vkInstance, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkInstance vkHandle { VK_NULL_HANDLE };
+    Managed<VkInstanceCreateInfo> InstanceCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkInstance(const BasicManagedVkInstance&) = delete;
+    BasicManagedVkInstance& operator=(const BasicManagedVkInstance&) = delete;
+};
+
+VkResult BasicManagedVkInstance::create(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkInstance>* pInstance)
+{
+    #if 0
+    VkInstance handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateInstance(pCreateInfo, pAllocator, pInstance));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkInstance::~BasicManagedVkInstance()
+{
+}
+
+template <>
+const VkInstance& get<VkInstance>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkInstance_TODO;
+}
+
+
+template <>
+const Managed<VkInstanceCreateInfo>& BasicManagedVkInstance::get<Managed<VkInstanceCreateInfo>>() const
+{
+    // TODO : Return Default<VkInstanceCreateInfo>...
+    static const Managed<VkInstanceCreateInfo> sEmptyManagedVkInstanceCreateInfo;
+    return mspControlBlock ? mspControlBlock->InstanceCreateInfo : sEmptyManagedVkInstanceCreateInfo;
+}
+
+class BasicManagedVkPerformanceConfigurationINTEL::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        #endif
+    }
+
+    VkPerformanceConfigurationINTEL vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkPerformanceConfigurationINTEL(const BasicManagedVkPerformanceConfigurationINTEL&) = delete;
+    BasicManagedVkPerformanceConfigurationINTEL& operator=(const BasicManagedVkPerformanceConfigurationINTEL&) = delete;
+};
+
+
+BasicManagedVkPerformanceConfigurationINTEL::~BasicManagedVkPerformanceConfigurationINTEL()
+{
+}
+
+template <>
+const VkPerformanceConfigurationINTEL& get<VkPerformanceConfigurationINTEL>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkPerformanceConfigurationINTEL_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkPerformanceConfigurationINTEL::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+class BasicManagedVkPhysicalDevice::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkInstance);
+        #endif
+    }
+
+    VkPhysicalDevice vkHandle { VK_NULL_HANDLE };
+    Managed<VkInstance> parentVkInstance;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkPhysicalDevice(const BasicManagedVkPhysicalDevice&) = delete;
+    BasicManagedVkPhysicalDevice& operator=(const BasicManagedVkPhysicalDevice&) = delete;
+};
+
+
+BasicManagedVkPhysicalDevice::~BasicManagedVkPhysicalDevice()
+{
+}
+
+template <>
+const VkPhysicalDevice& get<VkPhysicalDevice>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkPhysicalDevice_TODO;
+}
+
+
+template <>
+const Managed<VkInstance>& BasicManagedVkPhysicalDevice::get<Managed<VkInstance>>() const
+{
+    static const Managed<VkInstance> sNullManagedVkInstance;
+    return mspControlBlock ? mspControlBlock->parentVkInstance : sNullManagedVkInstance;
+}
+
+class BasicManagedVkPipeline::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyPipeline(device.get<VkDevice>(), vkPipeline, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkPipeline vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkComputePipelineCreateInfo> ComputePipelineCreateInfo;
+    Managed<VkGraphicsPipelineCreateInfo> GraphicsPipelineCreateInfo;
+    #ifdef VK_ENABLE_BETA_EXTENSIONS
+    Managed<VkRayTracingPipelineCreateInfoKHR> RayTracingPipelineCreateInfoKHR;
+    #endif // VK_ENABLE_BETA_EXTENSIONS
+    Managed<VkRayTracingPipelineCreateInfoNV> RayTracingPipelineCreateInfoNV;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkPipeline(const BasicManagedVkPipeline&) = delete;
+    BasicManagedVkPipeline& operator=(const BasicManagedVkPipeline&) = delete;
+};
+
+VkResult BasicManagedVkPipeline::create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkComputePipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines)
+{
+    #if 0
+    VkPipeline handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateComputePipelines(device, pipelineCache, createInfoCount, pCreateInfos, pAllocator, pPipelines));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+VkResult BasicManagedVkPipeline::create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkGraphicsPipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines)
+{
+    #if 0
+    VkPipeline handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateGraphicsPipelines(device, pipelineCache, createInfoCount, pCreateInfos, pAllocator, pPipelines));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+VkResult BasicManagedVkPipeline::create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines)
+{
+    #if 0
+    VkPipeline handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateRayTracingPipelinesKHR(device, pipelineCache, createInfoCount, pCreateInfos, pAllocator, pPipelines));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+VkResult BasicManagedVkPipeline::create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoNV* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines)
+{
+    #if 0
+    VkPipeline handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateRayTracingPipelinesNV(device, pipelineCache, createInfoCount, pCreateInfos, pAllocator, pPipelines));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkPipeline::~BasicManagedVkPipeline()
+{
+}
+
+template <>
+const VkPipeline& get<VkPipeline>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkPipeline_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkPipeline::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkComputePipelineCreateInfo>& BasicManagedVkPipeline::get<Managed<VkComputePipelineCreateInfo>>() const
+{
+    // TODO : Return Default<VkComputePipelineCreateInfo>...
+    static const Managed<VkComputePipelineCreateInfo> sEmptyManagedVkComputePipelineCreateInfo;
+    return mspControlBlock ? mspControlBlock->ComputePipelineCreateInfo : sEmptyManagedVkComputePipelineCreateInfo;
+}
+
+template <>
+const Managed<VkGraphicsPipelineCreateInfo>& BasicManagedVkPipeline::get<Managed<VkGraphicsPipelineCreateInfo>>() const
+{
+    // TODO : Return Default<VkGraphicsPipelineCreateInfo>...
+    static const Managed<VkGraphicsPipelineCreateInfo> sEmptyManagedVkGraphicsPipelineCreateInfo;
+    return mspControlBlock ? mspControlBlock->GraphicsPipelineCreateInfo : sEmptyManagedVkGraphicsPipelineCreateInfo;
+}
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+template <>
+const Managed<VkRayTracingPipelineCreateInfoKHR>& BasicManagedVkPipeline::get<Managed<VkRayTracingPipelineCreateInfoKHR>>() const
+{
+    // TODO : Return Default<VkRayTracingPipelineCreateInfoKHR>...
+    static const Managed<VkRayTracingPipelineCreateInfoKHR> sEmptyManagedVkRayTracingPipelineCreateInfoKHR;
+    return mspControlBlock ? mspControlBlock->RayTracingPipelineCreateInfoKHR : sEmptyManagedVkRayTracingPipelineCreateInfoKHR;
+}
+#endif // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+const Managed<VkRayTracingPipelineCreateInfoNV>& BasicManagedVkPipeline::get<Managed<VkRayTracingPipelineCreateInfoNV>>() const
+{
+    // TODO : Return Default<VkRayTracingPipelineCreateInfoNV>...
+    static const Managed<VkRayTracingPipelineCreateInfoNV> sEmptyManagedVkRayTracingPipelineCreateInfoNV;
+    return mspControlBlock ? mspControlBlock->RayTracingPipelineCreateInfoNV : sEmptyManagedVkRayTracingPipelineCreateInfoNV;
+}
+
+class BasicManagedVkPipelineCache::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyPipelineCache(device.get<VkDevice>(), vkPipelineCache, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkPipelineCache vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkPipelineCacheCreateInfo> PipelineCacheCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkPipelineCache(const BasicManagedVkPipelineCache&) = delete;
+    BasicManagedVkPipelineCache& operator=(const BasicManagedVkPipelineCache&) = delete;
+};
+
+VkResult BasicManagedVkPipelineCache::create(const Managed<VkDevice>& device, const VkPipelineCacheCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkPipelineCache>* pPipelineCache)
+{
+    #if 0
+    VkPipelineCache handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreatePipelineCache(device, pCreateInfo, pAllocator, pPipelineCache));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkPipelineCache::~BasicManagedVkPipelineCache()
+{
+}
+
+template <>
+const VkPipelineCache& get<VkPipelineCache>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkPipelineCache_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkPipelineCache::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkPipelineCacheCreateInfo>& BasicManagedVkPipelineCache::get<Managed<VkPipelineCacheCreateInfo>>() const
+{
+    // TODO : Return Default<VkPipelineCacheCreateInfo>...
+    static const Managed<VkPipelineCacheCreateInfo> sEmptyManagedVkPipelineCacheCreateInfo;
+    return mspControlBlock ? mspControlBlock->PipelineCacheCreateInfo : sEmptyManagedVkPipelineCacheCreateInfo;
+}
+
+class BasicManagedVkPipelineLayout::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyPipelineLayout(device.get<VkDevice>(), vkPipelineLayout, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkPipelineLayout vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkPipelineLayoutCreateInfo> PipelineLayoutCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkPipelineLayout(const BasicManagedVkPipelineLayout&) = delete;
+    BasicManagedVkPipelineLayout& operator=(const BasicManagedVkPipelineLayout&) = delete;
+};
+
+VkResult BasicManagedVkPipelineLayout::create(const Managed<VkDevice>& device, const VkPipelineLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkPipelineLayout>* pPipelineLayout)
+{
+    #if 0
+    VkPipelineLayout handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreatePipelineLayout(device, pCreateInfo, pAllocator, pPipelineLayout));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkPipelineLayout::~BasicManagedVkPipelineLayout()
+{
+}
+
+template <>
+const VkPipelineLayout& get<VkPipelineLayout>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkPipelineLayout_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkPipelineLayout::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkPipelineLayoutCreateInfo>& BasicManagedVkPipelineLayout::get<Managed<VkPipelineLayoutCreateInfo>>() const
+{
+    // TODO : Return Default<VkPipelineLayoutCreateInfo>...
+    static const Managed<VkPipelineLayoutCreateInfo> sEmptyManagedVkPipelineLayoutCreateInfo;
+    return mspControlBlock ? mspControlBlock->PipelineLayoutCreateInfo : sEmptyManagedVkPipelineLayoutCreateInfo;
+}
+
+class BasicManagedVkPrivateDataSlotEXT::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyPrivateDataSlotEXT(device.get<VkDevice>(), vkPrivateDataSlot, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkPrivateDataSlotEXT vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkPrivateDataSlotCreateInfoEXT> PrivateDataSlotCreateInfoEXT;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkPrivateDataSlotEXT(const BasicManagedVkPrivateDataSlotEXT&) = delete;
+    BasicManagedVkPrivateDataSlotEXT& operator=(const BasicManagedVkPrivateDataSlotEXT&) = delete;
+};
+
+VkResult BasicManagedVkPrivateDataSlotEXT::create(const Managed<VkDevice>& device, const VkPrivateDataSlotCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkPrivateDataSlotEXT>* pPrivateDataSlot)
+{
+    #if 0
+    VkPrivateDataSlotEXT handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreatePrivateDataSlotEXT(device, pCreateInfo, pAllocator, pPrivateDataSlot));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkPrivateDataSlotEXT::~BasicManagedVkPrivateDataSlotEXT()
+{
+}
+
+template <>
+const VkPrivateDataSlotEXT& get<VkPrivateDataSlotEXT>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkPrivateDataSlotEXT_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkPrivateDataSlotEXT::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkPrivateDataSlotCreateInfoEXT>& BasicManagedVkPrivateDataSlotEXT::get<Managed<VkPrivateDataSlotCreateInfoEXT>>() const
+{
+    // TODO : Return Default<VkPrivateDataSlotCreateInfoEXT>...
+    static const Managed<VkPrivateDataSlotCreateInfoEXT> sEmptyManagedVkPrivateDataSlotCreateInfoEXT;
+    return mspControlBlock ? mspControlBlock->PrivateDataSlotCreateInfoEXT : sEmptyManagedVkPrivateDataSlotCreateInfoEXT;
+}
+
+class BasicManagedVkQueryPool::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyQueryPool(device.get<VkDevice>(), vkQueryPool, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkQueryPool vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkQueryPoolCreateInfo> QueryPoolCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkQueryPool(const BasicManagedVkQueryPool&) = delete;
+    BasicManagedVkQueryPool& operator=(const BasicManagedVkQueryPool&) = delete;
+};
+
+VkResult BasicManagedVkQueryPool::create(const Managed<VkDevice>& device, const VkQueryPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkQueryPool>* pQueryPool)
+{
+    #if 0
+    VkQueryPool handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateQueryPool(device, pCreateInfo, pAllocator, pQueryPool));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkQueryPool::~BasicManagedVkQueryPool()
+{
+}
+
+template <>
+const VkQueryPool& get<VkQueryPool>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkQueryPool_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkQueryPool::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkQueryPoolCreateInfo>& BasicManagedVkQueryPool::get<Managed<VkQueryPoolCreateInfo>>() const
+{
+    // TODO : Return Default<VkQueryPoolCreateInfo>...
+    static const Managed<VkQueryPoolCreateInfo> sEmptyManagedVkQueryPoolCreateInfo;
+    return mspControlBlock ? mspControlBlock->QueryPoolCreateInfo : sEmptyManagedVkQueryPoolCreateInfo;
+}
+
+class BasicManagedVkQueue::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        #endif
+    }
+
+    VkQueue vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkQueue(const BasicManagedVkQueue&) = delete;
+    BasicManagedVkQueue& operator=(const BasicManagedVkQueue&) = delete;
+};
+
+
+BasicManagedVkQueue::~BasicManagedVkQueue()
+{
+}
+
+template <>
+const VkQueue& get<VkQueue>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkQueue_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkQueue::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+class BasicManagedVkRenderPass::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyRenderPass(device.get<VkDevice>(), vkRenderPass, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkRenderPass vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkRenderPassCreateInfo> RenderPassCreateInfo;
+    Managed<VkRenderPassCreateInfo2> RenderPassCreateInfo2;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkRenderPass(const BasicManagedVkRenderPass&) = delete;
+    BasicManagedVkRenderPass& operator=(const BasicManagedVkRenderPass&) = delete;
+};
+
+VkResult BasicManagedVkRenderPass::create(const Managed<VkDevice>& device, const VkRenderPassCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkRenderPass>* pRenderPass)
+{
+    #if 0
+    VkRenderPass handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateRenderPass(device, pCreateInfo, pAllocator, pRenderPass));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+VkResult BasicManagedVkRenderPass::create(const Managed<VkDevice>& device, const VkRenderPassCreateInfo2* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkRenderPass>* pRenderPass)
+{
+    #if 0
+    VkRenderPass handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateRenderPass2(device, pCreateInfo, pAllocator, pRenderPass));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkRenderPass::~BasicManagedVkRenderPass()
+{
+}
+
+template <>
+const VkRenderPass& get<VkRenderPass>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkRenderPass_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkRenderPass::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkRenderPassCreateInfo>& BasicManagedVkRenderPass::get<Managed<VkRenderPassCreateInfo>>() const
+{
+    // TODO : Return Default<VkRenderPassCreateInfo>...
+    static const Managed<VkRenderPassCreateInfo> sEmptyManagedVkRenderPassCreateInfo;
+    return mspControlBlock ? mspControlBlock->RenderPassCreateInfo : sEmptyManagedVkRenderPassCreateInfo;
+}
+
+template <>
+const Managed<VkRenderPassCreateInfo2>& BasicManagedVkRenderPass::get<Managed<VkRenderPassCreateInfo2>>() const
+{
+    // TODO : Return Default<VkRenderPassCreateInfo2>...
+    static const Managed<VkRenderPassCreateInfo2> sEmptyManagedVkRenderPassCreateInfo2;
+    return mspControlBlock ? mspControlBlock->RenderPassCreateInfo2 : sEmptyManagedVkRenderPassCreateInfo2;
+}
+
+class BasicManagedVkSampler::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroySampler(device.get<VkDevice>(), vkSampler, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkSampler vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkSamplerCreateInfo> SamplerCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkSampler(const BasicManagedVkSampler&) = delete;
+    BasicManagedVkSampler& operator=(const BasicManagedVkSampler&) = delete;
+};
+
+VkResult BasicManagedVkSampler::create(const Managed<VkDevice>& device, const VkSamplerCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSampler>* pSampler)
+{
+    #if 0
+    VkSampler handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateSampler(device, pCreateInfo, pAllocator, pSampler));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkSampler::~BasicManagedVkSampler()
+{
+}
+
+template <>
+const VkSampler& get<VkSampler>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkSampler_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkSampler::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkSamplerCreateInfo>& BasicManagedVkSampler::get<Managed<VkSamplerCreateInfo>>() const
+{
+    // TODO : Return Default<VkSamplerCreateInfo>...
+    static const Managed<VkSamplerCreateInfo> sEmptyManagedVkSamplerCreateInfo;
+    return mspControlBlock ? mspControlBlock->SamplerCreateInfo : sEmptyManagedVkSamplerCreateInfo;
+}
+
+class BasicManagedVkSamplerYcbcrConversion::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroySamplerYcbcrConversion(device.get<VkDevice>(), vkYcbcrConversion, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkSamplerYcbcrConversion vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkSamplerYcbcrConversionCreateInfo> SamplerYcbcrConversionCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkSamplerYcbcrConversion(const BasicManagedVkSamplerYcbcrConversion&) = delete;
+    BasicManagedVkSamplerYcbcrConversion& operator=(const BasicManagedVkSamplerYcbcrConversion&) = delete;
+};
+
+VkResult BasicManagedVkSamplerYcbcrConversion::create(const Managed<VkDevice>& device, const VkSamplerYcbcrConversionCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSamplerYcbcrConversion>* pYcbcrConversion)
+{
+    #if 0
+    VkSamplerYcbcrConversion handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateSamplerYcbcrConversion(device, pCreateInfo, pAllocator, pYcbcrConversion));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkSamplerYcbcrConversion::~BasicManagedVkSamplerYcbcrConversion()
+{
+}
+
+template <>
+const VkSamplerYcbcrConversion& get<VkSamplerYcbcrConversion>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkSamplerYcbcrConversion_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkSamplerYcbcrConversion::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkSamplerYcbcrConversionCreateInfo>& BasicManagedVkSamplerYcbcrConversion::get<Managed<VkSamplerYcbcrConversionCreateInfo>>() const
+{
+    // TODO : Return Default<VkSamplerYcbcrConversionCreateInfo>...
+    static const Managed<VkSamplerYcbcrConversionCreateInfo> sEmptyManagedVkSamplerYcbcrConversionCreateInfo;
+    return mspControlBlock ? mspControlBlock->SamplerYcbcrConversionCreateInfo : sEmptyManagedVkSamplerYcbcrConversionCreateInfo;
+}
+
+
+class BasicManagedVkSemaphore::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroySemaphore(device.get<VkDevice>(), vkSemaphore, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkSemaphore vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkSemaphoreCreateInfo> SemaphoreCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkSemaphore(const BasicManagedVkSemaphore&) = delete;
+    BasicManagedVkSemaphore& operator=(const BasicManagedVkSemaphore&) = delete;
+};
+
+VkResult BasicManagedVkSemaphore::create(const Managed<VkDevice>& device, const VkSemaphoreCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSemaphore>* pSemaphore)
+{
+    #if 0
+    VkSemaphore handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateSemaphore(device, pCreateInfo, pAllocator, pSemaphore));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkSemaphore::~BasicManagedVkSemaphore()
+{
+}
+
+template <>
+const VkSemaphore& get<VkSemaphore>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkSemaphore_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkSemaphore::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkSemaphoreCreateInfo>& BasicManagedVkSemaphore::get<Managed<VkSemaphoreCreateInfo>>() const
+{
+    // TODO : Return Default<VkSemaphoreCreateInfo>...
+    static const Managed<VkSemaphoreCreateInfo> sEmptyManagedVkSemaphoreCreateInfo;
+    return mspControlBlock ? mspControlBlock->SemaphoreCreateInfo : sEmptyManagedVkSemaphoreCreateInfo;
+}
+
+class BasicManagedVkShaderModule::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyShaderModule(device.get<VkDevice>(), vkShaderModule, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkShaderModule vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkShaderModuleCreateInfo> ShaderModuleCreateInfo;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkShaderModule(const BasicManagedVkShaderModule&) = delete;
+    BasicManagedVkShaderModule& operator=(const BasicManagedVkShaderModule&) = delete;
+};
+
+VkResult BasicManagedVkShaderModule::create(const Managed<VkDevice>& device, const VkShaderModuleCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkShaderModule>* pShaderModule)
+{
+    #if 0
+    VkShaderModule handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateShaderModule(device, pCreateInfo, pAllocator, pShaderModule));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkShaderModule::~BasicManagedVkShaderModule()
+{
+}
+
+template <>
+const VkShaderModule& get<VkShaderModule>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkShaderModule_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkShaderModule::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkShaderModuleCreateInfo>& BasicManagedVkShaderModule::get<Managed<VkShaderModuleCreateInfo>>() const
+{
+    // TODO : Return Default<VkShaderModuleCreateInfo>...
+    static const Managed<VkShaderModuleCreateInfo> sEmptyManagedVkShaderModuleCreateInfo;
+    return mspControlBlock ? mspControlBlock->ShaderModuleCreateInfo : sEmptyManagedVkShaderModuleCreateInfo;
+}
+
+class BasicManagedVkSurfaceKHR::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkInstance);
+        vkDestroySurfaceKHR(instance.get<VkInstance>(), vkSurface, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkSurfaceKHR vkHandle { VK_NULL_HANDLE };
+    Managed<VkInstance> parentVkInstance;
+    #ifdef VK_USE_PLATFORM_ANDROID_KHR
+    Managed<VkAndroidSurfaceCreateInfoKHR> AndroidSurfaceCreateInfoKHR;
+    #endif // VK_USE_PLATFORM_ANDROID_KHR
+    #ifdef VK_USE_PLATFORM_DIRECTFB_EXT
+    Managed<VkDirectFBSurfaceCreateInfoEXT> DirectFBSurfaceCreateInfoEXT;
+    #endif // VK_USE_PLATFORM_DIRECTFB_EXT
+    Managed<VkDisplaySurfaceCreateInfoKHR> DisplaySurfaceCreateInfoKHR;
+    Managed<VkHeadlessSurfaceCreateInfoEXT> HeadlessSurfaceCreateInfoEXT;
+    #ifdef VK_USE_PLATFORM_IOS_MVK
+    Managed<VkIOSSurfaceCreateInfoMVK> IOSSurfaceCreateInfoMVK;
+    #endif // VK_USE_PLATFORM_IOS_MVK
+    #ifdef VK_USE_PLATFORM_FUCHSIA
+    Managed<VkImagePipeSurfaceCreateInfoFUCHSIA> ImagePipeSurfaceCreateInfoFUCHSIA;
+    #endif // VK_USE_PLATFORM_FUCHSIA
+    #ifdef VK_USE_PLATFORM_MACOS_MVK
+    Managed<VkMacOSSurfaceCreateInfoMVK> MacOSSurfaceCreateInfoMVK;
+    #endif // VK_USE_PLATFORM_MACOS_MVK
+    #ifdef VK_USE_PLATFORM_METAL_EXT
+    Managed<VkMetalSurfaceCreateInfoEXT> MetalSurfaceCreateInfoEXT;
+    #endif // VK_USE_PLATFORM_METAL_EXT
+    #ifdef VK_USE_PLATFORM_GGP
+    Managed<VkStreamDescriptorSurfaceCreateInfoGGP> StreamDescriptorSurfaceCreateInfoGGP;
+    #endif // VK_USE_PLATFORM_GGP
+    #ifdef VK_USE_PLATFORM_VI_NN
+    Managed<VkViSurfaceCreateInfoNN> ViSurfaceCreateInfoNN;
+    #endif // VK_USE_PLATFORM_VI_NN
+    #ifdef VK_USE_PLATFORM_WAYLAND_KHR
+    Managed<VkWaylandSurfaceCreateInfoKHR> WaylandSurfaceCreateInfoKHR;
+    #endif // VK_USE_PLATFORM_WAYLAND_KHR
+    #ifdef VK_USE_PLATFORM_WIN32_KHR
+    Managed<VkWin32SurfaceCreateInfoKHR> Win32SurfaceCreateInfoKHR;
+    #endif // VK_USE_PLATFORM_WIN32_KHR
+    #ifdef VK_USE_PLATFORM_XCB_KHR
+    Managed<VkXcbSurfaceCreateInfoKHR> XcbSurfaceCreateInfoKHR;
+    #endif // VK_USE_PLATFORM_XCB_KHR
+    #ifdef VK_USE_PLATFORM_XLIB_KHR
+    Managed<VkXlibSurfaceCreateInfoKHR> XlibSurfaceCreateInfoKHR;
+    #endif // VK_USE_PLATFORM_XLIB_KHR
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkSurfaceKHR(const BasicManagedVkSurfaceKHR&) = delete;
+    BasicManagedVkSurfaceKHR& operator=(const BasicManagedVkSurfaceKHR&) = delete;
+};
+
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
-BasicManagedSurfaceKHR::BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkAndroidSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+VkResult BasicManagedVkSurfaceKHR::create(const Managed<VkInstance>& instance, const VkAndroidSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface)
 {
+    #if 0
+    VkSurfaceKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateAndroidSurfaceKHR(instance, pCreateInfo, pAllocator, pSurface));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_ANDROID_KHR
 
-#ifdef
-BasicManagedSurfaceKHR::BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkDisplaySurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+#ifdef VK_USE_PLATFORM_DIRECTFB_EXT
+VkResult BasicManagedVkSurfaceKHR::create(const Managed<VkInstance>& instance, const VkDirectFBSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface)
 {
+    #if 0
+    VkSurfaceKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateDirectFBSurfaceEXT(instance, pCreateInfo, pAllocator, pSurface));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_DIRECTFB_EXT
 
-#ifdef
-BasicManagedSurfaceKHR::BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkHeadlessSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+VkResult BasicManagedVkSurfaceKHR::create(const Managed<VkInstance>& instance, const VkDisplaySurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface)
 {
+    #if 0
+    VkSurfaceKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateDisplayPlaneSurfaceKHR(instance, pCreateInfo, pAllocator, pSurface));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
-#endif // ${_COMPILE_GUARD}
+
+VkResult BasicManagedVkSurfaceKHR::create(const Managed<VkInstance>& instance, const VkHeadlessSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface)
+{
+    #if 0
+    VkSurfaceKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateHeadlessSurfaceEXT(instance, pCreateInfo, pAllocator, pSurface));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
 
 #ifdef VK_USE_PLATFORM_IOS_MVK
-BasicManagedSurfaceKHR::BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkIOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+VkResult BasicManagedVkSurfaceKHR::create(const Managed<VkInstance>& instance, const VkIOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface)
 {
+    #if 0
+    VkSurfaceKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateIOSSurfaceMVK(instance, pCreateInfo, pAllocator, pSurface));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_IOS_MVK
 
 #ifdef VK_USE_PLATFORM_FUCHSIA
-BasicManagedSurfaceKHR::BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkImagePipeSurfaceCreateInfoFUCHSIA* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+VkResult BasicManagedVkSurfaceKHR::create(const Managed<VkInstance>& instance, const VkImagePipeSurfaceCreateInfoFUCHSIA* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface)
 {
+    #if 0
+    VkSurfaceKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateImagePipeSurfaceFUCHSIA(instance, pCreateInfo, pAllocator, pSurface));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_FUCHSIA
 
 #ifdef VK_USE_PLATFORM_MACOS_MVK
-BasicManagedSurfaceKHR::BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkMacOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+VkResult BasicManagedVkSurfaceKHR::create(const Managed<VkInstance>& instance, const VkMacOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface)
 {
+    #if 0
+    VkSurfaceKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateMacOSSurfaceMVK(instance, pCreateInfo, pAllocator, pSurface));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_MACOS_MVK
 
 #ifdef VK_USE_PLATFORM_METAL_EXT
-BasicManagedSurfaceKHR::BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkMetalSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+VkResult BasicManagedVkSurfaceKHR::create(const Managed<VkInstance>& instance, const VkMetalSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface)
 {
+    #if 0
+    VkSurfaceKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateMetalSurfaceEXT(instance, pCreateInfo, pAllocator, pSurface));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_METAL_EXT
 
 #ifdef VK_USE_PLATFORM_GGP
-BasicManagedSurfaceKHR::BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+VkResult BasicManagedVkSurfaceKHR::create(const Managed<VkInstance>& instance, const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface)
 {
+    #if 0
+    VkSurfaceKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateStreamDescriptorSurfaceGGP(instance, pCreateInfo, pAllocator, pSurface));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_GGP
 
 #ifdef VK_USE_PLATFORM_VI_NN
-BasicManagedSurfaceKHR::BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkViSurfaceCreateInfoNN* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+VkResult BasicManagedVkSurfaceKHR::create(const Managed<VkInstance>& instance, const VkViSurfaceCreateInfoNN* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface)
 {
+    #if 0
+    VkSurfaceKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateViSurfaceNN(instance, pCreateInfo, pAllocator, pSurface));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_VI_NN
 
 #ifdef VK_USE_PLATFORM_WAYLAND_KHR
-BasicManagedSurfaceKHR::BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkWaylandSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+VkResult BasicManagedVkSurfaceKHR::create(const Managed<VkInstance>& instance, const VkWaylandSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface)
 {
+    #if 0
+    VkSurfaceKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateWaylandSurfaceKHR(instance, pCreateInfo, pAllocator, pSurface));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_WAYLAND_KHR
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
-BasicManagedSurfaceKHR::BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkWin32SurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+VkResult BasicManagedVkSurfaceKHR::create(const Managed<VkInstance>& instance, const VkWin32SurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface)
 {
+    #if 0
+    VkSurfaceKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateWin32SurfaceKHR(instance, pCreateInfo, pAllocator, pSurface));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_WIN32_KHR
 
 #ifdef VK_USE_PLATFORM_XCB_KHR
-BasicManagedSurfaceKHR::BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkXcbSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+VkResult BasicManagedVkSurfaceKHR::create(const Managed<VkInstance>& instance, const VkXcbSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface)
 {
+    #if 0
+    VkSurfaceKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateXcbSurfaceKHR(instance, pCreateInfo, pAllocator, pSurface));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_XCB_KHR
 
 #ifdef VK_USE_PLATFORM_XLIB_KHR
-BasicManagedSurfaceKHR::BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkXlibSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator)
+VkResult BasicManagedVkSurfaceKHR::create(const Managed<VkInstance>& instance, const VkXlibSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface)
+{
+    #if 0
+    VkSurfaceKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateXlibSurfaceKHR(instance, pCreateInfo, pAllocator, pSurface));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+#endif // VK_USE_PLATFORM_XLIB_KHR
+
+BasicManagedVkSurfaceKHR::~BasicManagedVkSurfaceKHR()
 {
 }
-#endif // ${_COMPILE_GUARD}
 
-BasicManagedSurfaceKHR::~BasicManagedSurfaceKHR()
+template <>
+const VkSurfaceKHR& get<VkSurfaceKHR>() const
 {
-    reset();
+    return mHandle;
 }
 
-VkObjectType BasicManagedSurfaceKHR::get_object_type() const
+template <>
+const VkObjectType& get<VkObjectType>() const
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+    return VK_OBJECT_TYPE_VkSurfaceKHR_TODO;
 }
 
-const std::shared_ptr<Managed<VkInstance>>& BasicManagedSurfaceKHR::get_instance() const
+
+template <>
+const Managed<VkInstance>& BasicManagedVkSurfaceKHR::get<Managed<VkInstance>>() const
 {
-    return mInstance;
+    static const Managed<VkInstance> sNullManagedVkInstance;
+    return mspControlBlock ? mspControlBlock->parentVkInstance : sNullManagedVkInstance;
 }
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
-const Managed<VkAndroidSurfaceCreateInfoKHR>& BasicManagedSurfaceKHR::get_android_surface_create_info_khr() const
+template <>
+const Managed<VkAndroidSurfaceCreateInfoKHR>& BasicManagedVkSurfaceKHR::get<Managed<VkAndroidSurfaceCreateInfoKHR>>() const
 {
-    return mAndroidSurfaceCreateInfoKHR;
+    // TODO : Return Default<VkAndroidSurfaceCreateInfoKHR>...
+    static const Managed<VkAndroidSurfaceCreateInfoKHR> sEmptyManagedVkAndroidSurfaceCreateInfoKHR;
+    return mspControlBlock ? mspControlBlock->AndroidSurfaceCreateInfoKHR : sEmptyManagedVkAndroidSurfaceCreateInfoKHR;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_ANDROID_KHR
 
-#ifdef
-const Managed<VkDisplaySurfaceCreateInfoKHR>& BasicManagedSurfaceKHR::get_display_surface_create_info_khr() const
+#ifdef VK_USE_PLATFORM_DIRECTFB_EXT
+template <>
+const Managed<VkDirectFBSurfaceCreateInfoEXT>& BasicManagedVkSurfaceKHR::get<Managed<VkDirectFBSurfaceCreateInfoEXT>>() const
 {
-    return mDisplaySurfaceCreateInfoKHR;
+    // TODO : Return Default<VkDirectFBSurfaceCreateInfoEXT>...
+    static const Managed<VkDirectFBSurfaceCreateInfoEXT> sEmptyManagedVkDirectFBSurfaceCreateInfoEXT;
+    return mspControlBlock ? mspControlBlock->DirectFBSurfaceCreateInfoEXT : sEmptyManagedVkDirectFBSurfaceCreateInfoEXT;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_DIRECTFB_EXT
 
-#ifdef
-const Managed<VkHeadlessSurfaceCreateInfoEXT>& BasicManagedSurfaceKHR::get_headless_surface_create_info_ext() const
+template <>
+const Managed<VkDisplaySurfaceCreateInfoKHR>& BasicManagedVkSurfaceKHR::get<Managed<VkDisplaySurfaceCreateInfoKHR>>() const
 {
-    return mHeadlessSurfaceCreateInfoEXT;
+    // TODO : Return Default<VkDisplaySurfaceCreateInfoKHR>...
+    static const Managed<VkDisplaySurfaceCreateInfoKHR> sEmptyManagedVkDisplaySurfaceCreateInfoKHR;
+    return mspControlBlock ? mspControlBlock->DisplaySurfaceCreateInfoKHR : sEmptyManagedVkDisplaySurfaceCreateInfoKHR;
 }
-#endif // ${_COMPILE_GUARD}
+
+template <>
+const Managed<VkHeadlessSurfaceCreateInfoEXT>& BasicManagedVkSurfaceKHR::get<Managed<VkHeadlessSurfaceCreateInfoEXT>>() const
+{
+    // TODO : Return Default<VkHeadlessSurfaceCreateInfoEXT>...
+    static const Managed<VkHeadlessSurfaceCreateInfoEXT> sEmptyManagedVkHeadlessSurfaceCreateInfoEXT;
+    return mspControlBlock ? mspControlBlock->HeadlessSurfaceCreateInfoEXT : sEmptyManagedVkHeadlessSurfaceCreateInfoEXT;
+}
 
 #ifdef VK_USE_PLATFORM_IOS_MVK
-const Managed<VkIOSSurfaceCreateInfoMVK>& BasicManagedSurfaceKHR::get_ios_surface_create_info_mvk() const
+template <>
+const Managed<VkIOSSurfaceCreateInfoMVK>& BasicManagedVkSurfaceKHR::get<Managed<VkIOSSurfaceCreateInfoMVK>>() const
 {
-    return mIOSSurfaceCreateInfoMVK;
+    // TODO : Return Default<VkIOSSurfaceCreateInfoMVK>...
+    static const Managed<VkIOSSurfaceCreateInfoMVK> sEmptyManagedVkIOSSurfaceCreateInfoMVK;
+    return mspControlBlock ? mspControlBlock->IOSSurfaceCreateInfoMVK : sEmptyManagedVkIOSSurfaceCreateInfoMVK;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_IOS_MVK
 
 #ifdef VK_USE_PLATFORM_FUCHSIA
-const Managed<VkImagePipeSurfaceCreateInfoFUCHSIA>& BasicManagedSurfaceKHR::get_image_pipe_surface_create_info_fuchsia() const
+template <>
+const Managed<VkImagePipeSurfaceCreateInfoFUCHSIA>& BasicManagedVkSurfaceKHR::get<Managed<VkImagePipeSurfaceCreateInfoFUCHSIA>>() const
 {
-    return mImagePipeSurfaceCreateInfoFUCHSIA;
+    // TODO : Return Default<VkImagePipeSurfaceCreateInfoFUCHSIA>...
+    static const Managed<VkImagePipeSurfaceCreateInfoFUCHSIA> sEmptyManagedVkImagePipeSurfaceCreateInfoFUCHSIA;
+    return mspControlBlock ? mspControlBlock->ImagePipeSurfaceCreateInfoFUCHSIA : sEmptyManagedVkImagePipeSurfaceCreateInfoFUCHSIA;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_FUCHSIA
 
 #ifdef VK_USE_PLATFORM_MACOS_MVK
-const Managed<VkMacOSSurfaceCreateInfoMVK>& BasicManagedSurfaceKHR::get_mac_os_surface_create_info_mvk() const
+template <>
+const Managed<VkMacOSSurfaceCreateInfoMVK>& BasicManagedVkSurfaceKHR::get<Managed<VkMacOSSurfaceCreateInfoMVK>>() const
 {
-    return mMacOSSurfaceCreateInfoMVK;
+    // TODO : Return Default<VkMacOSSurfaceCreateInfoMVK>...
+    static const Managed<VkMacOSSurfaceCreateInfoMVK> sEmptyManagedVkMacOSSurfaceCreateInfoMVK;
+    return mspControlBlock ? mspControlBlock->MacOSSurfaceCreateInfoMVK : sEmptyManagedVkMacOSSurfaceCreateInfoMVK;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_MACOS_MVK
 
 #ifdef VK_USE_PLATFORM_METAL_EXT
-const Managed<VkMetalSurfaceCreateInfoEXT>& BasicManagedSurfaceKHR::get_metal_surface_create_info_ext() const
+template <>
+const Managed<VkMetalSurfaceCreateInfoEXT>& BasicManagedVkSurfaceKHR::get<Managed<VkMetalSurfaceCreateInfoEXT>>() const
 {
-    return mMetalSurfaceCreateInfoEXT;
+    // TODO : Return Default<VkMetalSurfaceCreateInfoEXT>...
+    static const Managed<VkMetalSurfaceCreateInfoEXT> sEmptyManagedVkMetalSurfaceCreateInfoEXT;
+    return mspControlBlock ? mspControlBlock->MetalSurfaceCreateInfoEXT : sEmptyManagedVkMetalSurfaceCreateInfoEXT;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_METAL_EXT
 
 #ifdef VK_USE_PLATFORM_GGP
-const Managed<VkStreamDescriptorSurfaceCreateInfoGGP>& BasicManagedSurfaceKHR::get_stream_descriptor_surface_create_info_ggp() const
+template <>
+const Managed<VkStreamDescriptorSurfaceCreateInfoGGP>& BasicManagedVkSurfaceKHR::get<Managed<VkStreamDescriptorSurfaceCreateInfoGGP>>() const
 {
-    return mStreamDescriptorSurfaceCreateInfoGGP;
+    // TODO : Return Default<VkStreamDescriptorSurfaceCreateInfoGGP>...
+    static const Managed<VkStreamDescriptorSurfaceCreateInfoGGP> sEmptyManagedVkStreamDescriptorSurfaceCreateInfoGGP;
+    return mspControlBlock ? mspControlBlock->StreamDescriptorSurfaceCreateInfoGGP : sEmptyManagedVkStreamDescriptorSurfaceCreateInfoGGP;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_GGP
 
 #ifdef VK_USE_PLATFORM_VI_NN
-const Managed<VkViSurfaceCreateInfoNN>& BasicManagedSurfaceKHR::get_vi_surface_create_info_nn() const
+template <>
+const Managed<VkViSurfaceCreateInfoNN>& BasicManagedVkSurfaceKHR::get<Managed<VkViSurfaceCreateInfoNN>>() const
 {
-    return mViSurfaceCreateInfoNN;
+    // TODO : Return Default<VkViSurfaceCreateInfoNN>...
+    static const Managed<VkViSurfaceCreateInfoNN> sEmptyManagedVkViSurfaceCreateInfoNN;
+    return mspControlBlock ? mspControlBlock->ViSurfaceCreateInfoNN : sEmptyManagedVkViSurfaceCreateInfoNN;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_VI_NN
 
 #ifdef VK_USE_PLATFORM_WAYLAND_KHR
-const Managed<VkWaylandSurfaceCreateInfoKHR>& BasicManagedSurfaceKHR::get_wayland_surface_create_info_khr() const
+template <>
+const Managed<VkWaylandSurfaceCreateInfoKHR>& BasicManagedVkSurfaceKHR::get<Managed<VkWaylandSurfaceCreateInfoKHR>>() const
 {
-    return mWaylandSurfaceCreateInfoKHR;
+    // TODO : Return Default<VkWaylandSurfaceCreateInfoKHR>...
+    static const Managed<VkWaylandSurfaceCreateInfoKHR> sEmptyManagedVkWaylandSurfaceCreateInfoKHR;
+    return mspControlBlock ? mspControlBlock->WaylandSurfaceCreateInfoKHR : sEmptyManagedVkWaylandSurfaceCreateInfoKHR;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_WAYLAND_KHR
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
-const Managed<VkWin32SurfaceCreateInfoKHR>& BasicManagedSurfaceKHR::get_win32_surface_create_info_khr() const
+template <>
+const Managed<VkWin32SurfaceCreateInfoKHR>& BasicManagedVkSurfaceKHR::get<Managed<VkWin32SurfaceCreateInfoKHR>>() const
 {
-    return mWin32SurfaceCreateInfoKHR;
+    // TODO : Return Default<VkWin32SurfaceCreateInfoKHR>...
+    static const Managed<VkWin32SurfaceCreateInfoKHR> sEmptyManagedVkWin32SurfaceCreateInfoKHR;
+    return mspControlBlock ? mspControlBlock->Win32SurfaceCreateInfoKHR : sEmptyManagedVkWin32SurfaceCreateInfoKHR;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_WIN32_KHR
 
 #ifdef VK_USE_PLATFORM_XCB_KHR
-const Managed<VkXcbSurfaceCreateInfoKHR>& BasicManagedSurfaceKHR::get_xcb_surface_create_info_khr() const
+template <>
+const Managed<VkXcbSurfaceCreateInfoKHR>& BasicManagedVkSurfaceKHR::get<Managed<VkXcbSurfaceCreateInfoKHR>>() const
 {
-    return mXcbSurfaceCreateInfoKHR;
+    // TODO : Return Default<VkXcbSurfaceCreateInfoKHR>...
+    static const Managed<VkXcbSurfaceCreateInfoKHR> sEmptyManagedVkXcbSurfaceCreateInfoKHR;
+    return mspControlBlock ? mspControlBlock->XcbSurfaceCreateInfoKHR : sEmptyManagedVkXcbSurfaceCreateInfoKHR;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_XCB_KHR
 
 #ifdef VK_USE_PLATFORM_XLIB_KHR
-const Managed<VkXlibSurfaceCreateInfoKHR>& BasicManagedSurfaceKHR::get_xlib_surface_create_info_khr() const
+template <>
+const Managed<VkXlibSurfaceCreateInfoKHR>& BasicManagedVkSurfaceKHR::get<Managed<VkXlibSurfaceCreateInfoKHR>>() const
 {
-    return mXlibSurfaceCreateInfoKHR;
+    // TODO : Return Default<VkXlibSurfaceCreateInfoKHR>...
+    static const Managed<VkXlibSurfaceCreateInfoKHR> sEmptyManagedVkXlibSurfaceCreateInfoKHR;
+    return mspControlBlock ? mspControlBlock->XlibSurfaceCreateInfoKHR : sEmptyManagedVkXlibSurfaceCreateInfoKHR;
 }
-#endif // ${_COMPILE_GUARD}
+#endif // VK_USE_PLATFORM_XLIB_KHR
 
-void BasicManagedSurfaceKHR::reset(const VkAllocationCallbacks* pAllocator)
+class BasicManagedVkSwapchainKHR::ControlBlock final
 {
-}
-#endif //
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
 
-#ifdef
-#ifdef
-BasicManagedSwapchainKHR::BasicManagedSwapchainKHR(const std::shared_ptr<Managed<VkDevice>>& device, uint32_t swapchainCount, const VkSwapchainCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
+        assert(parentVkSurfaceKHR);
+        vkDestroySwapchainKHR(device.get<VkDevice>(), vkSwapchain, nullptr /* TODO : pAllocator */);
+        #endif
+    }
 
-#ifdef
-BasicManagedSwapchainKHR::BasicManagedSwapchainKHR(const std::shared_ptr<Managed<VkDevice>>& device, const VkSwapchainCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
+    VkSwapchainKHR vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
 
-BasicManagedSwapchainKHR::~BasicManagedSwapchainKHR()
-{
-    reset();
-}
+    Managed<VkSurfaceKHR> parentVkSurfaceKHR;
+    Managed<VkSwapchainCreateInfoKHR> SwapchainCreateInfoKHR;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkSwapchainKHR(const BasicManagedVkSwapchainKHR&) = delete;
+    BasicManagedVkSwapchainKHR& operator=(const BasicManagedVkSwapchainKHR&) = delete;
+};
 
-VkObjectType BasicManagedSwapchainKHR::get_object_type() const
+VkResult BasicManagedVkSwapchainKHR::create(const Managed<VkDevice>& device, uint32_t swapchainCount, const VkSwapchainCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkSwapchainKHR>* pSwapchains)
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
-}
-
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedSwapchainKHR::get_device() const
-{
-    return mDevice;
-}
-
-const std::shared_ptr<Managed<VkSurfaceKHR>>& BasicManagedSwapchainKHR::get_surface_khr() const
-{
-    return mSurfaceKHR;
-}
-
-#ifdef
-const Managed<VkSwapchainCreateInfoKHR>& BasicManagedSwapchainKHR::get_swapchain_create_info_khr() const
-{
-    return mSwapchainCreateInfoKHR;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedSwapchainKHR::reset(const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif //
-
-#ifdef
-#ifdef
-BasicManagedValidationCacheEXT::BasicManagedValidationCacheEXT(const std::shared_ptr<Managed<VkDevice>>& device, const VkValidationCacheCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator)
-{
-}
-#endif // ${_COMPILE_GUARD}
-
-BasicManagedValidationCacheEXT::~BasicManagedValidationCacheEXT()
-{
-    reset();
+    #if 0
+    VkSwapchainKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateSharedSwapchainsKHR(device, swapchainCount, pCreateInfos, pAllocator, pSwapchains));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
 
-VkObjectType BasicManagedValidationCacheEXT::get_object_type() const
+VkResult BasicManagedVkSwapchainKHR::create(const Managed<VkDevice>& device, const VkSwapchainCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSwapchainKHR>* pSwapchain)
 {
-    return VK_OBJECT_TYPE_UNKNOWN; // TODO : Parse VkObjectType from xml..
+    #if 0
+    VkSwapchainKHR handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateSwapchainKHR(device, pCreateInfo, pAllocator, pSwapchain));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
 }
 
-const std::shared_ptr<Managed<VkDevice>>& BasicManagedValidationCacheEXT::get_device() const
-{
-    return mDevice;
-}
-
-#ifdef
-const Managed<VkValidationCacheCreateInfoEXT>& BasicManagedValidationCacheEXT::get_validation_cache_create_info_ext() const
-{
-    return mValidationCacheCreateInfoEXT;
-}
-#endif // ${_COMPILE_GUARD}
-
-void BasicManagedValidationCacheEXT::reset(const VkAllocationCallbacks* pAllocator)
+BasicManagedVkSwapchainKHR::~BasicManagedVkSwapchainKHR()
 {
 }
-#endif //
 
-} // namespace detail
+template <>
+const VkSwapchainKHR& get<VkSwapchainKHR>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkSwapchainKHR_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkSwapchainKHR::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkSurfaceKHR>& BasicManagedVkSwapchainKHR::get<Managed<VkSurfaceKHR>>() const
+{
+    static const Managed<VkSurfaceKHR> sNullManagedVkSurfaceKHR;
+    return mspControlBlock ? mspControlBlock->parentVkSurfaceKHR : sNullManagedVkSurfaceKHR;
+}
+
+template <>
+const Managed<VkSwapchainCreateInfoKHR>& BasicManagedVkSwapchainKHR::get<Managed<VkSwapchainCreateInfoKHR>>() const
+{
+    // TODO : Return Default<VkSwapchainCreateInfoKHR>...
+    static const Managed<VkSwapchainCreateInfoKHR> sEmptyManagedVkSwapchainCreateInfoKHR;
+    return mspControlBlock ? mspControlBlock->SwapchainCreateInfoKHR : sEmptyManagedVkSwapchainCreateInfoKHR;
+}
+
+class BasicManagedVkValidationCacheEXT::ControlBlock final
+{
+public:
+    inline ~ControlBlock()
+    {
+        #if 0
+        assert(vkHandle);
+        assert(parentVkDevice);
+        vkDestroyValidationCacheEXT(device.get<VkDevice>(), vkValidationCache, nullptr /* TODO : pAllocator */);
+        #endif
+    }
+
+    VkValidationCacheEXT vkHandle { VK_NULL_HANDLE };
+    Managed<VkDevice> parentVkDevice;
+    Managed<VkValidationCacheCreateInfoEXT> ValidationCacheCreateInfoEXT;
+    VkAllocationCallbacks allocator { };
+    BasicManagedVkValidationCacheEXT(const BasicManagedVkValidationCacheEXT&) = delete;
+    BasicManagedVkValidationCacheEXT& operator=(const BasicManagedVkValidationCacheEXT&) = delete;
+};
+
+VkResult BasicManagedVkValidationCacheEXT::create(const Managed<VkDevice>& device, const VkValidationCacheCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkValidationCacheEXT>* pValidationCache)
+{
+    #if 0
+    VkValidationCacheEXT handle = VK_NULL_HANDLE;
+    auto vkResult = dst_vk(vkCreateValidationCacheEXT(device, pCreateInfo, pAllocator, pValidationCache));
+    if (vkResult == VK_SUCCESS) {
+        // TODO : std::allocate_shared<>() using pAllocator...
+        handle.mspControlBlock = std::make_shared<ControlBlock>();
+    }
+    return vkResult;
+    #endif
+    return VK_SUCCESS;
+}
+
+BasicManagedVkValidationCacheEXT::~BasicManagedVkValidationCacheEXT()
+{
+}
+
+template <>
+const VkValidationCacheEXT& get<VkValidationCacheEXT>() const
+{
+    return mHandle;
+}
+
+template <>
+const VkObjectType& get<VkObjectType>() const
+{
+    return VK_OBJECT_TYPE_VkValidationCacheEXT_TODO;
+}
+
+
+template <>
+const Managed<VkDevice>& BasicManagedVkValidationCacheEXT::get<Managed<VkDevice>>() const
+{
+    static const Managed<VkDevice> sNullManagedVkDevice;
+    return mspControlBlock ? mspControlBlock->parentVkDevice : sNullManagedVkDevice;
+}
+
+template <>
+const Managed<VkValidationCacheCreateInfoEXT>& BasicManagedVkValidationCacheEXT::get<Managed<VkValidationCacheCreateInfoEXT>>() const
+{
+    // TODO : Return Default<VkValidationCacheCreateInfoEXT>...
+    static const Managed<VkValidationCacheCreateInfoEXT> sEmptyManagedVkValidationCacheCreateInfoEXT;
+    return mspControlBlock ? mspControlBlock->ValidationCacheCreateInfoEXT : sEmptyManagedVkValidationCacheCreateInfoEXT;
+}
+
 } // namespace vk
-} // namespace gfx
 } // namespace dst

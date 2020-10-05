@@ -1,9 +1,9 @@
 
 /*
 ==========================================
-  Copyright (c) 2020 Dynamic_Static
+    Copyright (c) 2020 Dynamic_Static
     Patrick Purcell
-      Licensed under the MIT license
+        Licensed under the MIT license
     http://opensource.org/licenses/MIT
 ==========================================
 */
@@ -15,827 +15,842 @@
 #include "dynamic_static/graphics/vulkan/generated/managed-structures.hpp"
 #include "dynamic_static/graphics/vulkan/defines.hpp"
 
-#include <memory>"
+#include <memory>
 
 namespace dst {
-namespace gfx {
 namespace vk {
-namespace detail {
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-class BasicManagedAccelerationStructureKHR
-    : public detail::BasicManagedHandle<VkAccelerationStructureKHR>
+template <>
+class BasicManagedVkAccelerationStructureKHR
+    : public detail::BasicManaged<VkAccelerationStructureKHR>
 {
 public:
-    BasicManagedAccelerationStructureKHR() = default;
+    BasicManagedVkAccelerationStructureKHR() = default;
     #ifdef VK_ENABLE_BETA_EXTENSIONS
-    BasicManagedAccelerationStructureKHR(const std::shared_ptr<Managed<VkDevice>>& device, const VkAccelerationStructureCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    static VkResult create(const Managed<VkDevice>& device, const VkAccelerationStructureCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkAccelerationStructureKHR>* pAccelerationStructure);
     #endif // VK_ENABLE_BETA_EXTENSIONS
-    virtual ~BasicManagedAccelerationStructureKHR() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkAccelerationStructureKHR>"); };
+    template <> const VkAccelerationStructureKHR& get<VkAccelerationStructureKHR>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
     #ifdef VK_ENABLE_BETA_EXTENSIONS
-    const Managed<VkAccelerationStructureCreateInfoKHR>& get_acceleration_structure_create_info_khr() const;
+    template <> const Managed<VkAccelerationStructureCreateInfoKHR>& get<Managed<VkAccelerationStructureCreateInfoKHR>>() const;
     #endif // VK_ENABLE_BETA_EXTENSIONS
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
-#ifdef
-class BasicManagedBuffer
-    : public detail::BasicManagedHandle<VkBuffer>
-{
-public:
-    BasicManagedBuffer() = default;
-    #ifdef
-    BasicManagedBuffer(const std::shared_ptr<Managed<VkDevice>>& device, const VkBufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedBuffer() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkBufferCreateInfo>& get_buffer_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
 
-#ifdef
-class BasicManagedBufferView
-    : public detail::BasicManagedHandle<VkBufferView>
+template <>
+class BasicManagedVkBuffer
+    : public detail::BasicManaged<VkBuffer>
 {
 public:
-    BasicManagedBufferView() = default;
-    #ifdef
-    BasicManagedBufferView(const std::shared_ptr<Managed<VkDevice>>& device, const VkBufferViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedBufferView() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkBufferViewCreateInfo>& get_buffer_view_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
+    BasicManagedVkBuffer() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkBufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkBuffer>* pBuffer);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkBuffer>"); };
+    template <> const VkBuffer& get<VkBuffer>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkBufferCreateInfo>& get<Managed<VkBufferCreateInfo>>() const;
 
-#ifdef
-class BasicManagedCommandBuffer
-    : public detail::BasicManagedHandle<VkCommandBuffer>
-{
-public:
-    BasicManagedCommandBuffer() = default;
-    #ifdef
-    BasicManagedCommandBuffer(VkDevice device, const VkCommandBufferAllocateInfo* pAllocateInfo);
-    #endif //
-    virtual ~BasicManagedCommandBuffer() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkCommandPool>>& get_command_pool() const;
-    #ifdef
-    const Managed<VkCommandBufferAllocateInfo>& get_command_buffer_allocate_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedCommandPool
-    : public detail::BasicManagedHandle<VkCommandPool>
+template <>
+class BasicManagedVkBufferView
+    : public detail::BasicManaged<VkBufferView>
 {
 public:
-    BasicManagedCommandPool() = default;
-    #ifdef
-    BasicManagedCommandPool(const std::shared_ptr<Managed<VkDevice>>& device, const VkCommandPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedCommandPool() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkCommandPoolCreateInfo>& get_command_pool_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
+    BasicManagedVkBufferView() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkBufferViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkBufferView>* pView);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkBufferView>"); };
+    template <> const VkBufferView& get<VkBufferView>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkBufferViewCreateInfo>& get<Managed<VkBufferViewCreateInfo>>() const;
 
-#ifdef
-class BasicManagedDebugReportCallbackEXT
-    : public detail::BasicManagedHandle<VkDebugReportCallbackEXT>
-{
-public:
-    BasicManagedDebugReportCallbackEXT() = default;
-    #ifdef
-    BasicManagedDebugReportCallbackEXT(const std::shared_ptr<Managed<VkInstance>>& instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedDebugReportCallbackEXT() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkInstance>>& get_instance() const;
-    #ifdef
-    const Managed<VkDebugReportCallbackCreateInfoEXT>& get_debug_report_callback_create_info_ext() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedDebugUtilsMessengerEXT
-    : public detail::BasicManagedHandle<VkDebugUtilsMessengerEXT>
+template <>
+class BasicManagedVkCommandBuffer
+    : public detail::BasicManaged<VkCommandBuffer>
 {
 public:
-    BasicManagedDebugUtilsMessengerEXT() = default;
-    #ifdef
-    BasicManagedDebugUtilsMessengerEXT(const std::shared_ptr<Managed<VkInstance>>& instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedDebugUtilsMessengerEXT() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkInstance>>& get_instance() const;
-    #ifdef
-    const Managed<VkDebugUtilsMessengerCreateInfoEXT>& get_debug_utils_messenger_create_info_ext() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+    BasicManagedVkCommandBuffer() = default;
+    static VkResult allocate(const Managed<VkDevice>& device, const VkCommandBufferAllocateInfo* pAllocateInfo, Managed<VkCommandBuffer>* pCommandBuffers);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkCommandBuffer>"); };
+    template <> const VkCommandBuffer& get<VkCommandBuffer>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkCommandPool>& get<Managed<VkCommandPool>>() const;
+    template <> const Managed<VkCommandBufferAllocateInfo>& get<Managed<VkCommandBufferAllocateInfo>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
+
+template <>
+class BasicManagedVkCommandPool
+    : public detail::BasicManaged<VkCommandPool>
+{
+public:
+    BasicManagedVkCommandPool() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkCommandPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkCommandPool>* pCommandPool);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkCommandPool>"); };
+    template <> const VkCommandPool& get<VkCommandPool>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkCommandPoolCreateInfo>& get<Managed<VkCommandPoolCreateInfo>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
+
+template <>
+class BasicManagedVkDebugReportCallbackEXT
+    : public detail::BasicManaged<VkDebugReportCallbackEXT>
+{
+public:
+    BasicManagedVkDebugReportCallbackEXT() = default;
+    static VkResult create(const Managed<VkInstance>& instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDebugReportCallbackEXT>* pCallback);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDebugReportCallbackEXT>"); };
+    template <> const VkDebugReportCallbackEXT& get<VkDebugReportCallbackEXT>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkInstance>& get<Managed<VkInstance>>() const;
+    template <> const Managed<VkDebugReportCallbackCreateInfoEXT>& get<Managed<VkDebugReportCallbackCreateInfoEXT>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
+
+template <>
+class BasicManagedVkDebugUtilsMessengerEXT
+    : public detail::BasicManaged<VkDebugUtilsMessengerEXT>
+{
+public:
+    BasicManagedVkDebugUtilsMessengerEXT() = default;
+    static VkResult create(const Managed<VkInstance>& instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDebugUtilsMessengerEXT>* pMessenger);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDebugUtilsMessengerEXT>"); };
+    template <> const VkDebugUtilsMessengerEXT& get<VkDebugUtilsMessengerEXT>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkInstance>& get<Managed<VkInstance>>() const;
+    template <> const Managed<VkDebugUtilsMessengerCreateInfoEXT>& get<Managed<VkDebugUtilsMessengerCreateInfoEXT>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-class BasicManagedDeferredOperationKHR
-    : public detail::BasicManagedHandle<VkDeferredOperationKHR>
+template <>
+class BasicManagedVkDeferredOperationKHR
+    : public detail::BasicManaged<VkDeferredOperationKHR>
 {
 public:
-    BasicManagedDeferredOperationKHR() = default;
+    BasicManagedVkDeferredOperationKHR() = default;
     #ifdef VK_ENABLE_BETA_EXTENSIONS
-    BasicManagedDeferredOperationKHR(const std::shared_ptr<Managed<VkDevice>>& device, const VkAllocationCallbacks* pAllocator = nullptr);
+    static VkResult create(const Managed<VkDevice>& device, const VkAllocationCallbacks* pAllocator, Managed<VkDeferredOperationKHR>* pDeferredOperation);
     #endif // VK_ENABLE_BETA_EXTENSIONS
-    virtual ~BasicManagedDeferredOperationKHR() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDeferredOperationKHR>"); };
+    template <> const VkDeferredOperationKHR& get<VkDeferredOperationKHR>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
 #endif // VK_ENABLE_BETA_EXTENSIONS
 
-#ifdef
-class BasicManagedDescriptorPool
-    : public detail::BasicManagedHandle<VkDescriptorPool>
+template <>
+class BasicManagedVkDescriptorPool
+    : public detail::BasicManaged<VkDescriptorPool>
 {
 public:
-    BasicManagedDescriptorPool() = default;
-    #ifdef
-    BasicManagedDescriptorPool(const std::shared_ptr<Managed<VkDevice>>& device, const VkDescriptorPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedDescriptorPool() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkDescriptorPoolCreateInfo>& get_descriptor_pool_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
+    BasicManagedVkDescriptorPool() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkDescriptorPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDescriptorPool>* pDescriptorPool);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDescriptorPool>"); };
+    template <> const VkDescriptorPool& get<VkDescriptorPool>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkDescriptorPoolCreateInfo>& get<Managed<VkDescriptorPoolCreateInfo>>() const;
 
-#ifdef
-class BasicManagedDescriptorSet
-    : public detail::BasicManagedHandle<VkDescriptorSet>
-{
-public:
-    BasicManagedDescriptorSet() = default;
-    #ifdef
-    BasicManagedDescriptorSet(VkDevice device, const VkDescriptorSetAllocateInfo* pAllocateInfo);
-    #endif //
-    virtual ~BasicManagedDescriptorSet() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDescriptorPool>>& get_descriptor_pool() const;
-    #ifdef
-    const Managed<VkDescriptorSetAllocateInfo>& get_descriptor_set_allocate_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedDescriptorSetLayout
-    : public detail::BasicManagedHandle<VkDescriptorSetLayout>
+template <>
+class BasicManagedVkDescriptorSet
+    : public detail::BasicManaged<VkDescriptorSet>
 {
 public:
-    BasicManagedDescriptorSetLayout() = default;
-    #ifdef
-    BasicManagedDescriptorSetLayout(const std::shared_ptr<Managed<VkDevice>>& device, const VkDescriptorSetLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedDescriptorSetLayout() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkDescriptorSetLayoutCreateInfo>& get_descriptor_set_layout_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+    BasicManagedVkDescriptorSet() = default;
+    static VkResult allocate(const Managed<VkDevice>& device, const VkDescriptorSetAllocateInfo* pAllocateInfo, Managed<VkDescriptorSet>* pDescriptorSets);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDescriptorSet>"); };
+    template <> const VkDescriptorSet& get<VkDescriptorSet>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDescriptorPool>& get<Managed<VkDescriptorPool>>() const;
+    template <> const Managed<VkDescriptorSetAllocateInfo>& get<Managed<VkDescriptorSetAllocateInfo>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedDescriptorUpdateTemplate
-    : public detail::BasicManagedHandle<VkDescriptorUpdateTemplate>
+template <>
+class BasicManagedVkDescriptorSetLayout
+    : public detail::BasicManaged<VkDescriptorSetLayout>
 {
 public:
-    BasicManagedDescriptorUpdateTemplate() = default;
-    #ifdef
-    BasicManagedDescriptorUpdateTemplate(const std::shared_ptr<Managed<VkDevice>>& device, const VkDescriptorUpdateTemplateCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedDescriptorUpdateTemplate() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkDescriptorUpdateTemplateCreateInfo>& get_descriptor_update_template_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+    BasicManagedVkDescriptorSetLayout() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkDescriptorSetLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDescriptorSetLayout>* pSetLayout);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDescriptorSetLayout>"); };
+    template <> const VkDescriptorSetLayout& get<VkDescriptorSetLayout>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkDescriptorSetLayoutCreateInfo>& get<Managed<VkDescriptorSetLayoutCreateInfo>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedDevice
-    : public detail::BasicManagedHandle<VkDevice>
+template <>
+class BasicManagedVkDescriptorUpdateTemplate
+    : public detail::BasicManaged<VkDescriptorUpdateTemplate>
 {
 public:
-    BasicManagedDevice() = default;
-    #ifdef
-    BasicManagedDevice(const std::shared_ptr<Managed<VkPhysicalDevice>>& physicalDevice, const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedDevice() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkPhysicalDevice>>& get_physical_device() const;
-    #ifdef
-    const Managed<VkDeviceCreateInfo>& get_device_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+    BasicManagedVkDescriptorUpdateTemplate() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkDescriptorUpdateTemplateCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDescriptorUpdateTemplate>* pDescriptorUpdateTemplate);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDescriptorUpdateTemplate>"); };
+    template <> const VkDescriptorUpdateTemplate& get<VkDescriptorUpdateTemplate>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkDescriptorUpdateTemplateCreateInfo>& get<Managed<VkDescriptorUpdateTemplateCreateInfo>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedDeviceMemory
-    : public detail::BasicManagedHandle<VkDeviceMemory>
+
+template <>
+class BasicManagedVkDevice
+    : public detail::BasicManaged<VkDevice>
 {
 public:
-    BasicManagedDeviceMemory() = default;
-    #ifdef
-    BasicManagedDeviceMemory(const std::shared_ptr<Managed<VkDevice>>& device, const VkMemoryAllocateInfo* pAllocateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedDeviceMemory() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkMemoryAllocateInfo>& get_memory_allocate_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+    BasicManagedVkDevice() = default;
+    static VkResult create(const Managed<VkPhysicalDevice>& physicalDevice, const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDevice>* pDevice);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDevice>"); };
+    template <> const VkDevice& get<VkDevice>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkPhysicalDevice>& get<Managed<VkPhysicalDevice>>() const;
+    template <> const Managed<VkDeviceCreateInfo>& get<Managed<VkDeviceCreateInfo>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedDisplayKHR
-    : public detail::BasicManagedHandle<VkDisplayKHR>
+template <>
+class BasicManagedVkDeviceMemory
+    : public detail::BasicManaged<VkDeviceMemory>
 {
 public:
-    BasicManagedDisplayKHR() = default;
-    virtual ~BasicManagedDisplayKHR() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkPhysicalDevice>>& get_physical_device() const;
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+    BasicManagedVkDeviceMemory() = default;
+    static VkResult allocate(const Managed<VkDevice>& device, const VkMemoryAllocateInfo* pAllocateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDeviceMemory>* pMemory);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDeviceMemory>"); };
+    template <> const VkDeviceMemory& get<VkDeviceMemory>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkMemoryAllocateInfo>& get<Managed<VkMemoryAllocateInfo>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedDisplayModeKHR
-    : public detail::BasicManagedHandle<VkDisplayModeKHR>
+template <>
+class BasicManagedVkDisplayKHR
+    : public detail::BasicManaged<VkDisplayKHR>
 {
 public:
-    BasicManagedDisplayModeKHR() = default;
-    #ifdef
-    BasicManagedDisplayModeKHR(VkPhysicalDevice physicalDevice, const std::shared_ptr<Managed<VkDisplayKHR>>& display, const VkDisplayModeCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedDisplayModeKHR() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDisplayKHR>>& get_display_khr() const;
-    #ifdef
-    const Managed<VkDisplayModeCreateInfoKHR>& get_display_mode_create_info_khr() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+    BasicManagedVkDisplayKHR() = default;
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDisplayKHR>"); };
+    template <> const VkDisplayKHR& get<VkDisplayKHR>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkPhysicalDevice>& get<Managed<VkPhysicalDevice>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedEvent
-    : public detail::BasicManagedHandle<VkEvent>
+template <>
+class BasicManagedVkDisplayModeKHR
+    : public detail::BasicManaged<VkDisplayModeKHR>
 {
 public:
-    BasicManagedEvent() = default;
-    #ifdef
-    BasicManagedEvent(const std::shared_ptr<Managed<VkDevice>>& device, const VkEventCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedEvent() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkEventCreateInfo>& get_event_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+    BasicManagedVkDisplayModeKHR() = default;
+    static VkResult create(const Managed<VkPhysicalDevice>& physicalDevice, const Managed<VkDisplayKHR>& display, const VkDisplayModeCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDisplayModeKHR>* pMode);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkDisplayModeKHR>"); };
+    template <> const VkDisplayModeKHR& get<VkDisplayModeKHR>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDisplayKHR>& get<Managed<VkDisplayKHR>>() const;
+    template <> const Managed<VkDisplayModeCreateInfoKHR>& get<Managed<VkDisplayModeCreateInfoKHR>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedFence
-    : public detail::BasicManagedHandle<VkFence>
+template <>
+class BasicManagedVkEvent
+    : public detail::BasicManaged<VkEvent>
 {
 public:
-    BasicManagedFence() = default;
-    #ifdef
-    BasicManagedFence(const std::shared_ptr<Managed<VkDevice>>& device, const VkFenceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedFence() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkFenceCreateInfo>& get_fence_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+    BasicManagedVkEvent() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkEventCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkEvent>* pEvent);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkEvent>"); };
+    template <> const VkEvent& get<VkEvent>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkEventCreateInfo>& get<Managed<VkEventCreateInfo>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedFramebuffer
-    : public detail::BasicManagedHandle<VkFramebuffer>
+template <>
+class BasicManagedVkFence
+    : public detail::BasicManaged<VkFence>
 {
 public:
-    BasicManagedFramebuffer() = default;
-    #ifdef
-    BasicManagedFramebuffer(const std::shared_ptr<Managed<VkDevice>>& device, const VkFramebufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedFramebuffer() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkFramebufferCreateInfo>& get_framebuffer_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+    BasicManagedVkFence() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkFenceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkFence>* pFence);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkFence>"); };
+    template <> const VkFence& get<VkFence>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkFenceCreateInfo>& get<Managed<VkFenceCreateInfo>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedImage
-    : public detail::BasicManagedHandle<VkImage>
+template <>
+class BasicManagedVkFramebuffer
+    : public detail::BasicManaged<VkFramebuffer>
 {
 public:
-    BasicManagedImage() = default;
-    #ifdef
-    BasicManagedImage(const std::shared_ptr<Managed<VkDevice>>& device, const VkImageCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedImage() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkImageCreateInfo>& get_image_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+    BasicManagedVkFramebuffer() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkFramebufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkFramebuffer>* pFramebuffer);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkFramebuffer>"); };
+    template <> const VkFramebuffer& get<VkFramebuffer>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkFramebufferCreateInfo>& get<Managed<VkFramebufferCreateInfo>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedImageView
-    : public detail::BasicManagedHandle<VkImageView>
+template <>
+class BasicManagedVkImage
+    : public detail::BasicManaged<VkImage>
 {
 public:
-    BasicManagedImageView() = default;
-    #ifdef
-    BasicManagedImageView(const std::shared_ptr<Managed<VkDevice>>& device, const VkImageViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedImageView() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkImageViewCreateInfo>& get_image_view_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+    BasicManagedVkImage() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkImageCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkImage>* pImage);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkImage>"); };
+    template <> const VkImage& get<VkImage>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkImageCreateInfo>& get<Managed<VkImageCreateInfo>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedIndirectCommandsLayoutNV
-    : public detail::BasicManagedHandle<VkIndirectCommandsLayoutNV>
+template <>
+class BasicManagedVkImageView
+    : public detail::BasicManaged<VkImageView>
 {
 public:
-    BasicManagedIndirectCommandsLayoutNV() = default;
-    #ifdef
-    BasicManagedIndirectCommandsLayoutNV(const std::shared_ptr<Managed<VkDevice>>& device, const VkIndirectCommandsLayoutCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedIndirectCommandsLayoutNV() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkIndirectCommandsLayoutCreateInfoNV>& get_indirect_commands_layout_create_info_nv() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+    BasicManagedVkImageView() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkImageViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkImageView>* pView);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkImageView>"); };
+    template <> const VkImageView& get<VkImageView>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkImageViewCreateInfo>& get<Managed<VkImageViewCreateInfo>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedInstance
-    : public detail::BasicManagedHandle<VkInstance>
+template <>
+class BasicManagedVkIndirectCommandsLayoutNV
+    : public detail::BasicManaged<VkIndirectCommandsLayoutNV>
 {
 public:
-    BasicManagedInstance() = default;
-    #ifdef
-    BasicManagedInstance(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedInstance() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    #ifdef
-    const Managed<VkInstanceCreateInfo>& get_instance_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+    BasicManagedVkIndirectCommandsLayoutNV() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkIndirectCommandsLayoutCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkIndirectCommandsLayoutNV>* pIndirectCommandsLayout);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkIndirectCommandsLayoutNV>"); };
+    template <> const VkIndirectCommandsLayoutNV& get<VkIndirectCommandsLayoutNV>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkIndirectCommandsLayoutCreateInfoNV>& get<Managed<VkIndirectCommandsLayoutCreateInfoNV>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedPerformanceConfigurationINTEL
-    : public detail::BasicManagedHandle<VkPerformanceConfigurationINTEL>
+template <>
+class BasicManagedVkInstance
+    : public detail::BasicManaged<VkInstance>
 {
 public:
-    BasicManagedPerformanceConfigurationINTEL() = default;
-    virtual ~BasicManagedPerformanceConfigurationINTEL() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+    BasicManagedVkInstance() = default;
+    static VkResult create(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkInstance>* pInstance);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkInstance>"); };
+    template <> const VkInstance& get<VkInstance>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkInstanceCreateInfo>& get<Managed<VkInstanceCreateInfo>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedPhysicalDevice
-    : public detail::BasicManagedHandle<VkPhysicalDevice>
+template <>
+class BasicManagedVkPerformanceConfigurationINTEL
+    : public detail::BasicManaged<VkPerformanceConfigurationINTEL>
 {
 public:
-    BasicManagedPhysicalDevice() = default;
-    virtual ~BasicManagedPhysicalDevice() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkInstance>>& get_instance() const;
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
+    BasicManagedVkPerformanceConfigurationINTEL() = default;
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkPerformanceConfigurationINTEL>"); };
+    template <> const VkPerformanceConfigurationINTEL& get<VkPerformanceConfigurationINTEL>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
 };
-#endif //
 
-#ifdef
-class BasicManagedPipeline
-    : public detail::BasicManagedHandle<VkPipeline>
+template <>
+class BasicManagedVkPhysicalDevice
+    : public detail::BasicManaged<VkPhysicalDevice>
 {
 public:
-    BasicManagedPipeline() = default;
-    #ifdef
-    BasicManagedPipeline(const std::shared_ptr<Managed<VkDevice>>& device, VkPipelineCache pipelineCache, uint32_t createInfoCount, const VkComputePipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    #ifdef
-    BasicManagedPipeline(const std::shared_ptr<Managed<VkDevice>>& device, VkPipelineCache pipelineCache, uint32_t createInfoCount, const VkGraphicsPipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
+    BasicManagedVkPhysicalDevice() = default;
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkPhysicalDevice>"); };
+    template <> const VkPhysicalDevice& get<VkPhysicalDevice>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkInstance>& get<Managed<VkInstance>>() const;
+
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
+
+template <>
+class BasicManagedVkPipeline
+    : public detail::BasicManaged<VkPipeline>
+{
+public:
+    BasicManagedVkPipeline() = default;
+    static VkResult create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkComputePipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines);
+    static VkResult create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkGraphicsPipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines);
     #ifdef VK_ENABLE_BETA_EXTENSIONS
-    BasicManagedPipeline(const std::shared_ptr<Managed<VkDevice>>& device, VkPipelineCache pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator = nullptr);
+    static VkResult create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines);
     #endif // VK_ENABLE_BETA_EXTENSIONS
-    #ifdef
-    BasicManagedPipeline(const std::shared_ptr<Managed<VkDevice>>& device, VkPipelineCache pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoNV* pCreateInfos, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedPipeline() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkComputePipelineCreateInfo>& get_compute_pipeline_create_info() const;
-    #endif //
-    #ifdef
-    const Managed<VkGraphicsPipelineCreateInfo>& get_graphics_pipeline_create_info() const;
-    #endif //
+    static VkResult create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoNV* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkPipeline>"); };
+    template <> const VkPipeline& get<VkPipeline>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkComputePipelineCreateInfo>& get<Managed<VkComputePipelineCreateInfo>>() const;
+    template <> const Managed<VkGraphicsPipelineCreateInfo>& get<Managed<VkGraphicsPipelineCreateInfo>>() const;
     #ifdef VK_ENABLE_BETA_EXTENSIONS
-    const Managed<VkRayTracingPipelineCreateInfoKHR>& get_ray_tracing_pipeline_create_info_khr() const;
+    template <> const Managed<VkRayTracingPipelineCreateInfoKHR>& get<Managed<VkRayTracingPipelineCreateInfoKHR>>() const;
     #endif // VK_ENABLE_BETA_EXTENSIONS
-    #ifdef
-    const Managed<VkRayTracingPipelineCreateInfoNV>& get_ray_tracing_pipeline_create_info_nv() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
+    template <> const Managed<VkRayTracingPipelineCreateInfoNV>& get<Managed<VkRayTracingPipelineCreateInfoNV>>() const;
 
-#ifdef
-class BasicManagedPipelineCache
-    : public detail::BasicManagedHandle<VkPipelineCache>
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
+
+template <>
+class BasicManagedVkPipelineCache
+    : public detail::BasicManaged<VkPipelineCache>
 {
 public:
-    BasicManagedPipelineCache() = default;
-    #ifdef
-    BasicManagedPipelineCache(const std::shared_ptr<Managed<VkDevice>>& device, const VkPipelineCacheCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedPipelineCache() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkPipelineCacheCreateInfo>& get_pipeline_cache_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
+    BasicManagedVkPipelineCache() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkPipelineCacheCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkPipelineCache>* pPipelineCache);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkPipelineCache>"); };
+    template <> const VkPipelineCache& get<VkPipelineCache>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkPipelineCacheCreateInfo>& get<Managed<VkPipelineCacheCreateInfo>>() const;
 
-#ifdef
-class BasicManagedPipelineLayout
-    : public detail::BasicManagedHandle<VkPipelineLayout>
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
+
+template <>
+class BasicManagedVkPipelineLayout
+    : public detail::BasicManaged<VkPipelineLayout>
 {
 public:
-    BasicManagedPipelineLayout() = default;
-    #ifdef
-    BasicManagedPipelineLayout(const std::shared_ptr<Managed<VkDevice>>& device, const VkPipelineLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedPipelineLayout() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkPipelineLayoutCreateInfo>& get_pipeline_layout_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
+    BasicManagedVkPipelineLayout() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkPipelineLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkPipelineLayout>* pPipelineLayout);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkPipelineLayout>"); };
+    template <> const VkPipelineLayout& get<VkPipelineLayout>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkPipelineLayoutCreateInfo>& get<Managed<VkPipelineLayoutCreateInfo>>() const;
 
-#ifdef
-class BasicManagedPrivateDataSlotEXT
-    : public detail::BasicManagedHandle<VkPrivateDataSlotEXT>
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
+
+template <>
+class BasicManagedVkPrivateDataSlotEXT
+    : public detail::BasicManaged<VkPrivateDataSlotEXT>
 {
 public:
-    BasicManagedPrivateDataSlotEXT() = default;
-    #ifdef
-    BasicManagedPrivateDataSlotEXT(const std::shared_ptr<Managed<VkDevice>>& device, const VkPrivateDataSlotCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedPrivateDataSlotEXT() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkPrivateDataSlotCreateInfoEXT>& get_private_data_slot_create_info_ext() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
+    BasicManagedVkPrivateDataSlotEXT() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkPrivateDataSlotCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkPrivateDataSlotEXT>* pPrivateDataSlot);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkPrivateDataSlotEXT>"); };
+    template <> const VkPrivateDataSlotEXT& get<VkPrivateDataSlotEXT>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkPrivateDataSlotCreateInfoEXT>& get<Managed<VkPrivateDataSlotCreateInfoEXT>>() const;
 
-#ifdef
-class BasicManagedQueryPool
-    : public detail::BasicManagedHandle<VkQueryPool>
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
+
+template <>
+class BasicManagedVkQueryPool
+    : public detail::BasicManaged<VkQueryPool>
 {
 public:
-    BasicManagedQueryPool() = default;
-    #ifdef
-    BasicManagedQueryPool(const std::shared_ptr<Managed<VkDevice>>& device, const VkQueryPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedQueryPool() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkQueryPoolCreateInfo>& get_query_pool_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
+    BasicManagedVkQueryPool() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkQueryPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkQueryPool>* pQueryPool);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkQueryPool>"); };
+    template <> const VkQueryPool& get<VkQueryPool>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkQueryPoolCreateInfo>& get<Managed<VkQueryPoolCreateInfo>>() const;
 
-#ifdef
-class BasicManagedQueue
-    : public detail::BasicManagedHandle<VkQueue>
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
+
+template <>
+class BasicManagedVkQueue
+    : public detail::BasicManaged<VkQueue>
 {
 public:
-    BasicManagedQueue() = default;
-    virtual ~BasicManagedQueue() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
+    BasicManagedVkQueue() = default;
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkQueue>"); };
+    template <> const VkQueue& get<VkQueue>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
 
-#ifdef
-class BasicManagedRenderPass
-    : public detail::BasicManagedHandle<VkRenderPass>
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
+
+template <>
+class BasicManagedVkRenderPass
+    : public detail::BasicManaged<VkRenderPass>
 {
 public:
-    BasicManagedRenderPass() = default;
-    #ifdef
-    BasicManagedRenderPass(const std::shared_ptr<Managed<VkDevice>>& device, const VkRenderPassCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    #ifdef
-    BasicManagedRenderPass(const std::shared_ptr<Managed<VkDevice>>& device, const VkRenderPassCreateInfo2* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedRenderPass() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkRenderPassCreateInfo>& get_render_pass_create_info() const;
-    #endif //
-    #ifdef
-    const Managed<VkRenderPassCreateInfo2>& get_render_pass_create_info2() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
+    BasicManagedVkRenderPass() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkRenderPassCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkRenderPass>* pRenderPass);
+    static VkResult create(const Managed<VkDevice>& device, const VkRenderPassCreateInfo2* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkRenderPass>* pRenderPass);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkRenderPass>"); };
+    template <> const VkRenderPass& get<VkRenderPass>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkRenderPassCreateInfo>& get<Managed<VkRenderPassCreateInfo>>() const;
+    template <> const Managed<VkRenderPassCreateInfo2>& get<Managed<VkRenderPassCreateInfo2>>() const;
 
-#ifdef
-class BasicManagedSampler
-    : public detail::BasicManagedHandle<VkSampler>
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
+
+template <>
+class BasicManagedVkSampler
+    : public detail::BasicManaged<VkSampler>
 {
 public:
-    BasicManagedSampler() = default;
-    #ifdef
-    BasicManagedSampler(const std::shared_ptr<Managed<VkDevice>>& device, const VkSamplerCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedSampler() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkSamplerCreateInfo>& get_sampler_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
+    BasicManagedVkSampler() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkSamplerCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSampler>* pSampler);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkSampler>"); };
+    template <> const VkSampler& get<VkSampler>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkSamplerCreateInfo>& get<Managed<VkSamplerCreateInfo>>() const;
 
-#ifdef
-class BasicManagedSamplerYcbcrConversion
-    : public detail::BasicManagedHandle<VkSamplerYcbcrConversion>
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
+
+template <>
+class BasicManagedVkSamplerYcbcrConversion
+    : public detail::BasicManaged<VkSamplerYcbcrConversion>
 {
 public:
-    BasicManagedSamplerYcbcrConversion() = default;
-    #ifdef
-    BasicManagedSamplerYcbcrConversion(const std::shared_ptr<Managed<VkDevice>>& device, const VkSamplerYcbcrConversionCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedSamplerYcbcrConversion() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkSamplerYcbcrConversionCreateInfo>& get_sampler_ycbcr_conversion_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
+    BasicManagedVkSamplerYcbcrConversion() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkSamplerYcbcrConversionCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSamplerYcbcrConversion>* pYcbcrConversion);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkSamplerYcbcrConversion>"); };
+    template <> const VkSamplerYcbcrConversion& get<VkSamplerYcbcrConversion>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkSamplerYcbcrConversionCreateInfo>& get<Managed<VkSamplerYcbcrConversionCreateInfo>>() const;
 
-#ifdef
-class BasicManagedSemaphore
-    : public detail::BasicManagedHandle<VkSemaphore>
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
+
+
+template <>
+class BasicManagedVkSemaphore
+    : public detail::BasicManaged<VkSemaphore>
 {
 public:
-    BasicManagedSemaphore() = default;
-    #ifdef
-    BasicManagedSemaphore(const std::shared_ptr<Managed<VkDevice>>& device, const VkSemaphoreCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedSemaphore() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkSemaphoreCreateInfo>& get_semaphore_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
+    BasicManagedVkSemaphore() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkSemaphoreCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSemaphore>* pSemaphore);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkSemaphore>"); };
+    template <> const VkSemaphore& get<VkSemaphore>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkSemaphoreCreateInfo>& get<Managed<VkSemaphoreCreateInfo>>() const;
 
-#ifdef
-class BasicManagedShaderModule
-    : public detail::BasicManagedHandle<VkShaderModule>
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
+
+template <>
+class BasicManagedVkShaderModule
+    : public detail::BasicManaged<VkShaderModule>
 {
 public:
-    BasicManagedShaderModule() = default;
-    #ifdef
-    BasicManagedShaderModule(const std::shared_ptr<Managed<VkDevice>>& device, const VkShaderModuleCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedShaderModule() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkShaderModuleCreateInfo>& get_shader_module_create_info() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
+    BasicManagedVkShaderModule() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkShaderModuleCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkShaderModule>* pShaderModule);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkShaderModule>"); };
+    template <> const VkShaderModule& get<VkShaderModule>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkShaderModuleCreateInfo>& get<Managed<VkShaderModuleCreateInfo>>() const;
 
-#ifdef
-class BasicManagedSurfaceKHR
-    : public detail::BasicManagedHandle<VkSurfaceKHR>
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
+
+template <>
+class BasicManagedVkSurfaceKHR
+    : public detail::BasicManaged<VkSurfaceKHR>
 {
 public:
-    BasicManagedSurfaceKHR() = default;
+    BasicManagedVkSurfaceKHR() = default;
     #ifdef VK_USE_PLATFORM_ANDROID_KHR
-    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkAndroidSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    static VkResult create(const Managed<VkInstance>& instance, const VkAndroidSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
     #endif // VK_USE_PLATFORM_ANDROID_KHR
-    #ifdef
-    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkDisplaySurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    #ifdef
-    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkHeadlessSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
+    #ifdef VK_USE_PLATFORM_DIRECTFB_EXT
+    static VkResult create(const Managed<VkInstance>& instance, const VkDirectFBSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
+    #endif // VK_USE_PLATFORM_DIRECTFB_EXT
+    static VkResult create(const Managed<VkInstance>& instance, const VkDisplaySurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
+    static VkResult create(const Managed<VkInstance>& instance, const VkHeadlessSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
     #ifdef VK_USE_PLATFORM_IOS_MVK
-    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkIOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    static VkResult create(const Managed<VkInstance>& instance, const VkIOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
     #endif // VK_USE_PLATFORM_IOS_MVK
     #ifdef VK_USE_PLATFORM_FUCHSIA
-    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkImagePipeSurfaceCreateInfoFUCHSIA* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    static VkResult create(const Managed<VkInstance>& instance, const VkImagePipeSurfaceCreateInfoFUCHSIA* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
     #endif // VK_USE_PLATFORM_FUCHSIA
     #ifdef VK_USE_PLATFORM_MACOS_MVK
-    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkMacOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    static VkResult create(const Managed<VkInstance>& instance, const VkMacOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
     #endif // VK_USE_PLATFORM_MACOS_MVK
     #ifdef VK_USE_PLATFORM_METAL_EXT
-    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkMetalSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    static VkResult create(const Managed<VkInstance>& instance, const VkMetalSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
     #endif // VK_USE_PLATFORM_METAL_EXT
     #ifdef VK_USE_PLATFORM_GGP
-    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    static VkResult create(const Managed<VkInstance>& instance, const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
     #endif // VK_USE_PLATFORM_GGP
     #ifdef VK_USE_PLATFORM_VI_NN
-    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkViSurfaceCreateInfoNN* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    static VkResult create(const Managed<VkInstance>& instance, const VkViSurfaceCreateInfoNN* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
     #endif // VK_USE_PLATFORM_VI_NN
     #ifdef VK_USE_PLATFORM_WAYLAND_KHR
-    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkWaylandSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    static VkResult create(const Managed<VkInstance>& instance, const VkWaylandSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
     #endif // VK_USE_PLATFORM_WAYLAND_KHR
     #ifdef VK_USE_PLATFORM_WIN32_KHR
-    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkWin32SurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    static VkResult create(const Managed<VkInstance>& instance, const VkWin32SurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
     #endif // VK_USE_PLATFORM_WIN32_KHR
     #ifdef VK_USE_PLATFORM_XCB_KHR
-    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkXcbSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    static VkResult create(const Managed<VkInstance>& instance, const VkXcbSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
     #endif // VK_USE_PLATFORM_XCB_KHR
     #ifdef VK_USE_PLATFORM_XLIB_KHR
-    BasicManagedSurfaceKHR(const std::shared_ptr<Managed<VkInstance>>& instance, const VkXlibSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
+    static VkResult create(const Managed<VkInstance>& instance, const VkXlibSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
     #endif // VK_USE_PLATFORM_XLIB_KHR
-    virtual ~BasicManagedSurfaceKHR() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkInstance>>& get_instance() const;
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkSurfaceKHR>"); };
+    template <> const VkSurfaceKHR& get<VkSurfaceKHR>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkInstance>& get<Managed<VkInstance>>() const;
     #ifdef VK_USE_PLATFORM_ANDROID_KHR
-    const Managed<VkAndroidSurfaceCreateInfoKHR>& get_android_surface_create_info_khr() const;
+    template <> const Managed<VkAndroidSurfaceCreateInfoKHR>& get<Managed<VkAndroidSurfaceCreateInfoKHR>>() const;
     #endif // VK_USE_PLATFORM_ANDROID_KHR
-    #ifdef
-    const Managed<VkDisplaySurfaceCreateInfoKHR>& get_display_surface_create_info_khr() const;
-    #endif //
-    #ifdef
-    const Managed<VkHeadlessSurfaceCreateInfoEXT>& get_headless_surface_create_info_ext() const;
-    #endif //
+    #ifdef VK_USE_PLATFORM_DIRECTFB_EXT
+    template <> const Managed<VkDirectFBSurfaceCreateInfoEXT>& get<Managed<VkDirectFBSurfaceCreateInfoEXT>>() const;
+    #endif // VK_USE_PLATFORM_DIRECTFB_EXT
+    template <> const Managed<VkDisplaySurfaceCreateInfoKHR>& get<Managed<VkDisplaySurfaceCreateInfoKHR>>() const;
+    template <> const Managed<VkHeadlessSurfaceCreateInfoEXT>& get<Managed<VkHeadlessSurfaceCreateInfoEXT>>() const;
     #ifdef VK_USE_PLATFORM_IOS_MVK
-    const Managed<VkIOSSurfaceCreateInfoMVK>& get_ios_surface_create_info_mvk() const;
+    template <> const Managed<VkIOSSurfaceCreateInfoMVK>& get<Managed<VkIOSSurfaceCreateInfoMVK>>() const;
     #endif // VK_USE_PLATFORM_IOS_MVK
     #ifdef VK_USE_PLATFORM_FUCHSIA
-    const Managed<VkImagePipeSurfaceCreateInfoFUCHSIA>& get_image_pipe_surface_create_info_fuchsia() const;
+    template <> const Managed<VkImagePipeSurfaceCreateInfoFUCHSIA>& get<Managed<VkImagePipeSurfaceCreateInfoFUCHSIA>>() const;
     #endif // VK_USE_PLATFORM_FUCHSIA
     #ifdef VK_USE_PLATFORM_MACOS_MVK
-    const Managed<VkMacOSSurfaceCreateInfoMVK>& get_mac_os_surface_create_info_mvk() const;
+    template <> const Managed<VkMacOSSurfaceCreateInfoMVK>& get<Managed<VkMacOSSurfaceCreateInfoMVK>>() const;
     #endif // VK_USE_PLATFORM_MACOS_MVK
     #ifdef VK_USE_PLATFORM_METAL_EXT
-    const Managed<VkMetalSurfaceCreateInfoEXT>& get_metal_surface_create_info_ext() const;
+    template <> const Managed<VkMetalSurfaceCreateInfoEXT>& get<Managed<VkMetalSurfaceCreateInfoEXT>>() const;
     #endif // VK_USE_PLATFORM_METAL_EXT
     #ifdef VK_USE_PLATFORM_GGP
-    const Managed<VkStreamDescriptorSurfaceCreateInfoGGP>& get_stream_descriptor_surface_create_info_ggp() const;
+    template <> const Managed<VkStreamDescriptorSurfaceCreateInfoGGP>& get<Managed<VkStreamDescriptorSurfaceCreateInfoGGP>>() const;
     #endif // VK_USE_PLATFORM_GGP
     #ifdef VK_USE_PLATFORM_VI_NN
-    const Managed<VkViSurfaceCreateInfoNN>& get_vi_surface_create_info_nn() const;
+    template <> const Managed<VkViSurfaceCreateInfoNN>& get<Managed<VkViSurfaceCreateInfoNN>>() const;
     #endif // VK_USE_PLATFORM_VI_NN
     #ifdef VK_USE_PLATFORM_WAYLAND_KHR
-    const Managed<VkWaylandSurfaceCreateInfoKHR>& get_wayland_surface_create_info_khr() const;
+    template <> const Managed<VkWaylandSurfaceCreateInfoKHR>& get<Managed<VkWaylandSurfaceCreateInfoKHR>>() const;
     #endif // VK_USE_PLATFORM_WAYLAND_KHR
     #ifdef VK_USE_PLATFORM_WIN32_KHR
-    const Managed<VkWin32SurfaceCreateInfoKHR>& get_win32_surface_create_info_khr() const;
+    template <> const Managed<VkWin32SurfaceCreateInfoKHR>& get<Managed<VkWin32SurfaceCreateInfoKHR>>() const;
     #endif // VK_USE_PLATFORM_WIN32_KHR
     #ifdef VK_USE_PLATFORM_XCB_KHR
-    const Managed<VkXcbSurfaceCreateInfoKHR>& get_xcb_surface_create_info_khr() const;
+    template <> const Managed<VkXcbSurfaceCreateInfoKHR>& get<Managed<VkXcbSurfaceCreateInfoKHR>>() const;
     #endif // VK_USE_PLATFORM_XCB_KHR
     #ifdef VK_USE_PLATFORM_XLIB_KHR
-    const Managed<VkXlibSurfaceCreateInfoKHR>& get_xlib_surface_create_info_khr() const;
+    template <> const Managed<VkXlibSurfaceCreateInfoKHR>& get<Managed<VkXlibSurfaceCreateInfoKHR>>() const;
     #endif // VK_USE_PLATFORM_XLIB_KHR
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
 
-#ifdef
-class BasicManagedSwapchainKHR
-    : public detail::BasicManagedHandle<VkSwapchainKHR>
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
+
+template <>
+class BasicManagedVkSwapchainKHR
+    : public detail::BasicManaged<VkSwapchainKHR>
 {
 public:
-    BasicManagedSwapchainKHR() = default;
-    #ifdef
-    BasicManagedSwapchainKHR(const std::shared_ptr<Managed<VkDevice>>& device, uint32_t swapchainCount, const VkSwapchainCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    #ifdef
-    BasicManagedSwapchainKHR(const std::shared_ptr<Managed<VkDevice>>& device, const VkSwapchainCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedSwapchainKHR() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    const std::shared_ptr<Managed<VkSurfaceKHR>>& get_surface_khr() const;
-    #ifdef
-    const Managed<VkSwapchainCreateInfoKHR>& get_swapchain_create_info_khr() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
+    BasicManagedVkSwapchainKHR() = default;
+    static VkResult create(const Managed<VkDevice>& device, uint32_t swapchainCount, const VkSwapchainCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkSwapchainKHR>* pSwapchains);
+    static VkResult create(const Managed<VkDevice>& device, const VkSwapchainCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSwapchainKHR>* pSwapchain);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkSwapchainKHR>"); };
+    template <> const VkSwapchainKHR& get<VkSwapchainKHR>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkSurfaceKHR>& get<Managed<VkSurfaceKHR>>() const;
+    template <> const Managed<VkSwapchainCreateInfoKHR>& get<Managed<VkSwapchainCreateInfoKHR>>() const;
 
-#ifdef
-class BasicManagedValidationCacheEXT
-    : public detail::BasicManagedHandle<VkValidationCacheEXT>
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
+
+template <>
+class BasicManagedVkValidationCacheEXT
+    : public detail::BasicManaged<VkValidationCacheEXT>
 {
 public:
-    BasicManagedValidationCacheEXT() = default;
-    #ifdef
-    BasicManagedValidationCacheEXT(const std::shared_ptr<Managed<VkDevice>>& device, const VkValidationCacheCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator = nullptr);
-    #endif //
-    virtual ~BasicManagedValidationCacheEXT() = 0 override final;
-    VkObjectType get_object_type() const override final;
-    const std::shared_ptr<Managed<VkDevice>>& get_device() const;
-    #ifdef
-    const Managed<VkValidationCacheCreateInfoEXT>& get_validation_cache_create_info_ext() const;
-    #endif //
-    virtual void reset(const VkAllocationCallbacks* pAllocator = nullptr) = 0 override final;
-};
-#endif //
+    BasicManagedVkValidationCacheEXT() = default;
+    static VkResult create(const Managed<VkDevice>& device, const VkValidationCacheCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkValidationCacheEXT>* pValidationCache);
+    virtual ~BasicManaged() override;
+    template <typename T> inline const T& get() const { static_assert(false && "The requested object type cannot be accessed from a Managed<VkValidationCacheEXT>"); };
+    template <> const VkValidationCacheEXT& get<VkValidationCacheEXT>() const;
+    template <> const VkObjectType& get<VkObjectType>() const;
+    template <> const Managed<VkDevice>& get<Managed<VkDevice>>() const;
+    template <> const Managed<VkValidationCacheCreateInfoEXT>& get<Managed<VkValidationCacheCreateInfoEXT>>() const;
 
-} // namespace detail
+protected:
+    class ControlBlock;
+    std::shared_ptr<ControlBlock> mspControlBlock;
+};
+
 } // namespace vk
-} // namespace gfx
 } // namespace dst

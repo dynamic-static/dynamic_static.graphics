@@ -7077,1814 +7077,1814 @@ void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocat
     if (pNext) {
         swtich (*(VkStructureType*)pNext) {
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAabbPositionsKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkAabbPositionsKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureBuildGeometryInfoKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_BUILD_GEOMETRY_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureBuildGeometryInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureBuildOffsetInfoKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkAccelerationStructureBuildOffsetInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureCreateGeometryTypeInfoKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_CREATE_GEOMETRY_TYPE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureCreateGeometryTypeInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureDeviceAddressInfoKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_DEVICE_ADDRESS_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureDeviceAddressInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureGeometryAabbsDataKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_AABBS_DATA_KHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureGeometryAabbsDataKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureGeometryDataKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkAccelerationStructureGeometryDataKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureGeometryInstancesDataKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_INSTANCES_DATA_KHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureGeometryInstancesDataKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureGeometryKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_KHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureGeometryKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureGeometryTrianglesDataKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_TRIANGLES_DATA_KHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureGeometryTrianglesDataKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureInfoNV: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureInfoNV*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureInstanceKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkAccelerationStructureInstanceKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureMemoryRequirementsInfoKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_MEMORY_REQUIREMENTS_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureMemoryRequirementsInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureMemoryRequirementsInfoNV: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_MEMORY_REQUIREMENTS_INFO_NV: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureMemoryRequirementsInfoNV*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkAccelerationStructureVersionKHR: {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_VERSION_KHR: {
             return create_dynamic_array_copy(1, (VkAccelerationStructureVersionKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkAcquireNextImageInfoKHR: {
+        case VK_STRUCTURE_TYPE_ACQUIRE_NEXT_IMAGE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkAcquireNextImageInfoKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkAcquireProfilingLockInfoKHR: {
+        case VK_STRUCTURE_TYPE_ACQUIRE_PROFILING_LOCK_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkAcquireProfilingLockInfoKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkAllocationCallbacks: {
+        case : {
             return create_dynamic_array_copy(1, (VkAllocationCallbacks*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkAndroidHardwareBufferFormatPropertiesANDROID: {
+        case VK_STRUCTURE_TYPE_ANDROID_HARDWARE_BUFFER_FORMAT_PROPERTIES_ANDROID: {
             return create_dynamic_array_copy(1, (VkAndroidHardwareBufferFormatPropertiesANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkAndroidHardwareBufferPropertiesANDROID: {
+        case VK_STRUCTURE_TYPE_ANDROID_HARDWARE_BUFFER_PROPERTIES_ANDROID: {
             return create_dynamic_array_copy(1, (VkAndroidHardwareBufferPropertiesANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkAndroidHardwareBufferUsageANDROID: {
+        case VK_STRUCTURE_TYPE_ANDROID_HARDWARE_BUFFER_USAGE_ANDROID: {
             return create_dynamic_array_copy(1, (VkAndroidHardwareBufferUsageANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkAndroidSurfaceCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_ANDROID_SURFACE_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkAndroidSurfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VkApplicationInfo: {
+        case VK_STRUCTURE_TYPE_APPLICATION_INFO: {
             return create_dynamic_array_copy(1, (VkApplicationInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkAttachmentDescription: {
+        case : {
             return create_dynamic_array_copy(1, (VkAttachmentDescription*)pNext, pAllocationCallbacks);
         } break;
-        case VkAttachmentDescription2: {
+        case VK_STRUCTURE_TYPE_ATTACHMENT_DESCRIPTION_2: {
             return create_dynamic_array_copy(1, (VkAttachmentDescription2*)pNext, pAllocationCallbacks);
         } break;
-        case VkAttachmentDescriptionStencilLayout: {
+        case VK_STRUCTURE_TYPE_ATTACHMENT_DESCRIPTION_STENCIL_LAYOUT: {
             return create_dynamic_array_copy(1, (VkAttachmentDescriptionStencilLayout*)pNext, pAllocationCallbacks);
         } break;
-        case VkAttachmentReference: {
+        case : {
             return create_dynamic_array_copy(1, (VkAttachmentReference*)pNext, pAllocationCallbacks);
         } break;
-        case VkAttachmentReference2: {
+        case VK_STRUCTURE_TYPE_ATTACHMENT_REFERENCE_2: {
             return create_dynamic_array_copy(1, (VkAttachmentReference2*)pNext, pAllocationCallbacks);
         } break;
-        case VkAttachmentReferenceStencilLayout: {
+        case VK_STRUCTURE_TYPE_ATTACHMENT_REFERENCE_STENCIL_LAYOUT: {
             return create_dynamic_array_copy(1, (VkAttachmentReferenceStencilLayout*)pNext, pAllocationCallbacks);
         } break;
-        case VkAttachmentSampleLocationsEXT: {
+        case : {
             return create_dynamic_array_copy(1, (VkAttachmentSampleLocationsEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkBaseInStructure: {
+        case : {
             return create_dynamic_array_copy(1, (VkBaseInStructure*)pNext, pAllocationCallbacks);
         } break;
-        case VkBaseOutStructure: {
+        case : {
             return create_dynamic_array_copy(1, (VkBaseOutStructure*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkBindAccelerationStructureMemoryInfoKHR: {
+        case VK_STRUCTURE_TYPE_BIND_ACCELERATION_STRUCTURE_MEMORY_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkBindAccelerationStructureMemoryInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkBindBufferMemoryDeviceGroupInfo: {
+        case VK_STRUCTURE_TYPE_BIND_BUFFER_MEMORY_DEVICE_GROUP_INFO: {
             return create_dynamic_array_copy(1, (VkBindBufferMemoryDeviceGroupInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkBindBufferMemoryInfo: {
+        case VK_STRUCTURE_TYPE_BIND_BUFFER_MEMORY_INFO: {
             return create_dynamic_array_copy(1, (VkBindBufferMemoryInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkBindImageMemoryDeviceGroupInfo: {
+        case VK_STRUCTURE_TYPE_BIND_IMAGE_MEMORY_DEVICE_GROUP_INFO: {
             return create_dynamic_array_copy(1, (VkBindImageMemoryDeviceGroupInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkBindImageMemoryInfo: {
+        case VK_STRUCTURE_TYPE_BIND_IMAGE_MEMORY_INFO: {
             return create_dynamic_array_copy(1, (VkBindImageMemoryInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkBindImageMemorySwapchainInfoKHR: {
+        case VK_STRUCTURE_TYPE_BIND_IMAGE_MEMORY_SWAPCHAIN_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkBindImageMemorySwapchainInfoKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkBindImagePlaneMemoryInfo: {
+        case VK_STRUCTURE_TYPE_BIND_IMAGE_PLANE_MEMORY_INFO: {
             return create_dynamic_array_copy(1, (VkBindImagePlaneMemoryInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkBindIndexBufferIndirectCommandNV: {
+        case : {
             return create_dynamic_array_copy(1, (VkBindIndexBufferIndirectCommandNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkBindShaderGroupIndirectCommandNV: {
+        case : {
             return create_dynamic_array_copy(1, (VkBindShaderGroupIndirectCommandNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkBindSparseInfo: {
+        case VK_STRUCTURE_TYPE_BIND_SPARSE_INFO: {
             return create_dynamic_array_copy(1, (VkBindSparseInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkBindVertexBufferIndirectCommandNV: {
+        case : {
             return create_dynamic_array_copy(1, (VkBindVertexBufferIndirectCommandNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferCopy: {
+        case : {
             return create_dynamic_array_copy(1, (VkBufferCopy*)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferCreateInfo: {
+        case VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkBufferCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferDeviceAddressCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkBufferDeviceAddressCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferDeviceAddressInfo: {
+        case VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO: {
             return create_dynamic_array_copy(1, (VkBufferDeviceAddressInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferImageCopy: {
+        case : {
             return create_dynamic_array_copy(1, (VkBufferImageCopy*)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferMemoryBarrier: {
+        case VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER: {
             return create_dynamic_array_copy(1, (VkBufferMemoryBarrier*)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferMemoryRequirementsInfo2: {
+        case VK_STRUCTURE_TYPE_BUFFER_MEMORY_REQUIREMENTS_INFO_2: {
             return create_dynamic_array_copy(1, (VkBufferMemoryRequirementsInfo2*)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferOpaqueCaptureAddressCreateInfo: {
+        case VK_STRUCTURE_TYPE_BUFFER_OPAQUE_CAPTURE_ADDRESS_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkBufferOpaqueCaptureAddressCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkBufferViewCreateInfo: {
+        case VK_STRUCTURE_TYPE_BUFFER_VIEW_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkBufferViewCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkCalibratedTimestampInfoEXT: {
+        case VK_STRUCTURE_TYPE_CALIBRATED_TIMESTAMP_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkCalibratedTimestampInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkCheckpointDataNV: {
+        case VK_STRUCTURE_TYPE_CHECKPOINT_DATA_NV: {
             return create_dynamic_array_copy(1, (VkCheckpointDataNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkClearAttachment: {
+        case : {
             return create_dynamic_array_copy(1, (VkClearAttachment*)pNext, pAllocationCallbacks);
         } break;
-        case VkClearColorValue: {
+        case : {
             return create_dynamic_array_copy(1, (VkClearColorValue*)pNext, pAllocationCallbacks);
         } break;
-        case VkClearDepthStencilValue: {
+        case : {
             return create_dynamic_array_copy(1, (VkClearDepthStencilValue*)pNext, pAllocationCallbacks);
         } break;
-        case VkClearRect: {
+        case : {
             return create_dynamic_array_copy(1, (VkClearRect*)pNext, pAllocationCallbacks);
         } break;
-        case VkClearValue: {
+        case : {
             return create_dynamic_array_copy(1, (VkClearValue*)pNext, pAllocationCallbacks);
         } break;
-        case VkCoarseSampleLocationNV: {
+        case : {
             return create_dynamic_array_copy(1, (VkCoarseSampleLocationNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkCoarseSampleOrderCustomNV: {
+        case : {
             return create_dynamic_array_copy(1, (VkCoarseSampleOrderCustomNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkCommandBufferAllocateInfo: {
+        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO: {
             return create_dynamic_array_copy(1, (VkCommandBufferAllocateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkCommandBufferBeginInfo: {
+        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO: {
             return create_dynamic_array_copy(1, (VkCommandBufferBeginInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkCommandBufferInheritanceConditionalRenderingInfoEXT: {
+        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_CONDITIONAL_RENDERING_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkCommandBufferInheritanceConditionalRenderingInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkCommandBufferInheritanceInfo: {
+        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO: {
             return create_dynamic_array_copy(1, (VkCommandBufferInheritanceInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkCommandBufferInheritanceRenderPassTransformInfoQCOM: {
+        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDER_PASS_TRANSFORM_INFO_QCOM: {
             return create_dynamic_array_copy(1, (VkCommandBufferInheritanceRenderPassTransformInfoQCOM*)pNext, pAllocationCallbacks);
         } break;
-        case VkCommandPoolCreateInfo: {
+        case VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkCommandPoolCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkComponentMapping: {
+        case : {
             return create_dynamic_array_copy(1, (VkComponentMapping*)pNext, pAllocationCallbacks);
         } break;
-        case VkComputePipelineCreateInfo: {
+        case VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkComputePipelineCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkConditionalRenderingBeginInfoEXT: {
+        case VK_STRUCTURE_TYPE_CONDITIONAL_RENDERING_BEGIN_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkConditionalRenderingBeginInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkConformanceVersion: {
+        case : {
             return create_dynamic_array_copy(1, (VkConformanceVersion*)pNext, pAllocationCallbacks);
         } break;
-        case VkCooperativeMatrixPropertiesNV: {
+        case VK_STRUCTURE_TYPE_COOPERATIVE_MATRIX_PROPERTIES_NV: {
             return create_dynamic_array_copy(1, (VkCooperativeMatrixPropertiesNV*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkCopyAccelerationStructureInfoKHR: {
+        case VK_STRUCTURE_TYPE_COPY_ACCELERATION_STRUCTURE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkCopyAccelerationStructureInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkCopyAccelerationStructureToMemoryInfoKHR: {
+        case VK_STRUCTURE_TYPE_COPY_ACCELERATION_STRUCTURE_TO_MEMORY_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkCopyAccelerationStructureToMemoryInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkCopyDescriptorSet: {
+        case VK_STRUCTURE_TYPE_COPY_DESCRIPTOR_SET: {
             return create_dynamic_array_copy(1, (VkCopyDescriptorSet*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkCopyMemoryToAccelerationStructureInfoKHR: {
+        case VK_STRUCTURE_TYPE_COPY_MEMORY_TO_ACCELERATION_STRUCTURE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkCopyMemoryToAccelerationStructureInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkD3D12FenceSubmitInfoKHR: {
+        case VK_STRUCTURE_TYPE_D3D12_FENCE_SUBMIT_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkD3D12FenceSubmitInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkDebugMarkerMarkerInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_MARKER_MARKER_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkDebugMarkerMarkerInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkDebugMarkerObjectNameInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_MARKER_OBJECT_NAME_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkDebugMarkerObjectNameInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkDebugMarkerObjectTagInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_MARKER_OBJECT_TAG_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkDebugMarkerObjectTagInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkDebugReportCallbackCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkDebugReportCallbackCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkDebugUtilsLabelEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_UTILS_LABEL_EXT: {
             return create_dynamic_array_copy(1, (VkDebugUtilsLabelEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkDebugUtilsMessengerCallbackDataEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CALLBACK_DATA_EXT: {
             return create_dynamic_array_copy(1, (VkDebugUtilsMessengerCallbackDataEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkDebugUtilsMessengerCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkDebugUtilsMessengerCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkDebugUtilsObjectNameInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_UTILS_OBJECT_NAME_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkDebugUtilsObjectNameInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkDebugUtilsObjectTagInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEBUG_UTILS_OBJECT_TAG_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkDebugUtilsObjectTagInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkDedicatedAllocationBufferCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_BUFFER_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkDedicatedAllocationBufferCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkDedicatedAllocationImageCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_IMAGE_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkDedicatedAllocationImageCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkDedicatedAllocationMemoryAllocateInfoNV: {
+        case VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_MEMORY_ALLOCATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkDedicatedAllocationMemoryAllocateInfoNV*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkDeferredOperationInfoKHR: {
+        case VK_STRUCTURE_TYPE_DEFERRED_OPERATION_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkDeferredOperationInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkDescriptorBufferInfo: {
+        case : {
             return create_dynamic_array_copy(1, (VkDescriptorBufferInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkDescriptorImageInfo: {
+        case : {
             return create_dynamic_array_copy(1, (VkDescriptorImageInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkDescriptorPoolCreateInfo: {
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkDescriptorPoolCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkDescriptorPoolInlineUniformBlockCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_INLINE_UNIFORM_BLOCK_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkDescriptorPoolInlineUniformBlockCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkDescriptorPoolSize: {
+        case : {
             return create_dynamic_array_copy(1, (VkDescriptorPoolSize*)pNext, pAllocationCallbacks);
         } break;
-        case VkDescriptorSetAllocateInfo: {
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO: {
             return create_dynamic_array_copy(1, (VkDescriptorSetAllocateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkDescriptorSetLayoutBinding: {
+        case : {
             return create_dynamic_array_copy(1, (VkDescriptorSetLayoutBinding*)pNext, pAllocationCallbacks);
         } break;
-        case VkDescriptorSetLayoutBindingFlagsCreateInfo: {
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_BINDING_FLAGS_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkDescriptorSetLayoutBindingFlagsCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkDescriptorSetLayoutCreateInfo: {
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkDescriptorSetLayoutCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkDescriptorSetLayoutSupport: {
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_SUPPORT: {
             return create_dynamic_array_copy(1, (VkDescriptorSetLayoutSupport*)pNext, pAllocationCallbacks);
         } break;
-        case VkDescriptorSetVariableDescriptorCountAllocateInfo: {
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_ALLOCATE_INFO: {
             return create_dynamic_array_copy(1, (VkDescriptorSetVariableDescriptorCountAllocateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkDescriptorSetVariableDescriptorCountLayoutSupport: {
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_LAYOUT_SUPPORT: {
             return create_dynamic_array_copy(1, (VkDescriptorSetVariableDescriptorCountLayoutSupport*)pNext, pAllocationCallbacks);
         } break;
-        case VkDescriptorUpdateTemplateCreateInfo: {
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_UPDATE_TEMPLATE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkDescriptorUpdateTemplateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkDescriptorUpdateTemplateEntry: {
+        case : {
             return create_dynamic_array_copy(1, (VkDescriptorUpdateTemplateEntry*)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceCreateInfo: {
+        case VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkDeviceCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceDiagnosticsConfigCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_DEVICE_DIAGNOSTICS_CONFIG_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkDeviceDiagnosticsConfigCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceEventInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEVICE_EVENT_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkDeviceEventInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceGroupBindSparseInfo: {
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_BIND_SPARSE_INFO: {
             return create_dynamic_array_copy(1, (VkDeviceGroupBindSparseInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceGroupCommandBufferBeginInfo: {
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_COMMAND_BUFFER_BEGIN_INFO: {
             return create_dynamic_array_copy(1, (VkDeviceGroupCommandBufferBeginInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceGroupDeviceCreateInfo: {
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_DEVICE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkDeviceGroupDeviceCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceGroupPresentCapabilitiesKHR: {
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_PRESENT_CAPABILITIES_KHR: {
             return create_dynamic_array_copy(1, (VkDeviceGroupPresentCapabilitiesKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceGroupPresentInfoKHR: {
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_PRESENT_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkDeviceGroupPresentInfoKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceGroupRenderPassBeginInfo: {
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_RENDER_PASS_BEGIN_INFO: {
             return create_dynamic_array_copy(1, (VkDeviceGroupRenderPassBeginInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceGroupSubmitInfo: {
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_SUBMIT_INFO: {
             return create_dynamic_array_copy(1, (VkDeviceGroupSubmitInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceGroupSwapchainCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_SWAPCHAIN_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkDeviceGroupSwapchainCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceMemoryOpaqueCaptureAddressInfo: {
+        case VK_STRUCTURE_TYPE_DEVICE_MEMORY_OPAQUE_CAPTURE_ADDRESS_INFO: {
             return create_dynamic_array_copy(1, (VkDeviceMemoryOpaqueCaptureAddressInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceMemoryOverallocationCreateInfoAMD: {
+        case VK_STRUCTURE_TYPE_DEVICE_MEMORY_OVERALLOCATION_CREATE_INFO_AMD: {
             return create_dynamic_array_copy(1, (VkDeviceMemoryOverallocationCreateInfoAMD*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkDeviceOrHostAddressConstKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkDeviceOrHostAddressConstKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkDeviceOrHostAddressKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkDeviceOrHostAddressKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkDevicePrivateDataCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEVICE_PRIVATE_DATA_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkDevicePrivateDataCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceQueueCreateInfo: {
+        case VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkDeviceQueueCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceQueueGlobalPriorityCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_DEVICE_QUEUE_GLOBAL_PRIORITY_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkDeviceQueueGlobalPriorityCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkDeviceQueueInfo2: {
+        case VK_STRUCTURE_TYPE_DEVICE_QUEUE_INFO_2: {
             return create_dynamic_array_copy(1, (VkDeviceQueueInfo2*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_DIRECTFB_EXT
-        case VkDirectFBSurfaceCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_DIRECTFB_SURFACE_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkDirectFBSurfaceCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_DIRECTFB_EXT
-        case VkDispatchIndirectCommand: {
+        case : {
             return create_dynamic_array_copy(1, (VkDispatchIndirectCommand*)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayEventInfoEXT: {
+        case VK_STRUCTURE_TYPE_DISPLAY_EVENT_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkDisplayEventInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayModeCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_DISPLAY_MODE_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkDisplayModeCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayModeParametersKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkDisplayModeParametersKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayModeProperties2KHR: {
+        case VK_STRUCTURE_TYPE_DISPLAY_MODE_PROPERTIES_2_KHR: {
             return create_dynamic_array_copy(1, (VkDisplayModeProperties2KHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayModePropertiesKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkDisplayModePropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayNativeHdrSurfaceCapabilitiesAMD: {
+        case VK_STRUCTURE_TYPE_DISPLAY_NATIVE_HDR_SURFACE_CAPABILITIES_AMD: {
             return create_dynamic_array_copy(1, (VkDisplayNativeHdrSurfaceCapabilitiesAMD*)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayPlaneCapabilities2KHR: {
+        case VK_STRUCTURE_TYPE_DISPLAY_PLANE_CAPABILITIES_2_KHR: {
             return create_dynamic_array_copy(1, (VkDisplayPlaneCapabilities2KHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayPlaneCapabilitiesKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkDisplayPlaneCapabilitiesKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayPlaneInfo2KHR: {
+        case VK_STRUCTURE_TYPE_DISPLAY_PLANE_INFO_2_KHR: {
             return create_dynamic_array_copy(1, (VkDisplayPlaneInfo2KHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayPlaneProperties2KHR: {
+        case VK_STRUCTURE_TYPE_DISPLAY_PLANE_PROPERTIES_2_KHR: {
             return create_dynamic_array_copy(1, (VkDisplayPlaneProperties2KHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayPlanePropertiesKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkDisplayPlanePropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayPowerInfoEXT: {
+        case VK_STRUCTURE_TYPE_DISPLAY_POWER_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkDisplayPowerInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayPresentInfoKHR: {
+        case VK_STRUCTURE_TYPE_DISPLAY_PRESENT_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkDisplayPresentInfoKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayProperties2KHR: {
+        case VK_STRUCTURE_TYPE_DISPLAY_PROPERTIES_2_KHR: {
             return create_dynamic_array_copy(1, (VkDisplayProperties2KHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplayPropertiesKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkDisplayPropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkDisplaySurfaceCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_DISPLAY_SURFACE_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkDisplaySurfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkDrawIndexedIndirectCommand: {
+        case : {
             return create_dynamic_array_copy(1, (VkDrawIndexedIndirectCommand*)pNext, pAllocationCallbacks);
         } break;
-        case VkDrawIndirectCommand: {
+        case : {
             return create_dynamic_array_copy(1, (VkDrawIndirectCommand*)pNext, pAllocationCallbacks);
         } break;
-        case VkDrawMeshTasksIndirectCommandNV: {
+        case : {
             return create_dynamic_array_copy(1, (VkDrawMeshTasksIndirectCommandNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkDrmFormatModifierPropertiesEXT: {
+        case : {
             return create_dynamic_array_copy(1, (VkDrmFormatModifierPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkDrmFormatModifierPropertiesListEXT: {
+        case VK_STRUCTURE_TYPE_DRM_FORMAT_MODIFIER_PROPERTIES_LIST_EXT: {
             return create_dynamic_array_copy(1, (VkDrmFormatModifierPropertiesListEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkEventCreateInfo: {
+        case VK_STRUCTURE_TYPE_EVENT_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkEventCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkExportFenceCreateInfo: {
+        case VK_STRUCTURE_TYPE_EXPORT_FENCE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkExportFenceCreateInfo*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkExportFenceWin32HandleInfoKHR: {
+        case VK_STRUCTURE_TYPE_EXPORT_FENCE_WIN32_HANDLE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkExportFenceWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkExportMemoryAllocateInfo: {
+        case VK_STRUCTURE_TYPE_EXPORT_MEMORY_ALLOCATE_INFO: {
             return create_dynamic_array_copy(1, (VkExportMemoryAllocateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkExportMemoryAllocateInfoNV: {
+        case VK_STRUCTURE_TYPE_EXPORT_MEMORY_ALLOCATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkExportMemoryAllocateInfoNV*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkExportMemoryWin32HandleInfoKHR: {
+        case VK_STRUCTURE_TYPE_EXPORT_MEMORY_WIN32_HANDLE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkExportMemoryWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkExportMemoryWin32HandleInfoNV: {
+        case VK_STRUCTURE_TYPE_EXPORT_MEMORY_WIN32_HANDLE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkExportMemoryWin32HandleInfoNV*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkExportSemaphoreCreateInfo: {
+        case VK_STRUCTURE_TYPE_EXPORT_SEMAPHORE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkExportSemaphoreCreateInfo*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkExportSemaphoreWin32HandleInfoKHR: {
+        case VK_STRUCTURE_TYPE_EXPORT_SEMAPHORE_WIN32_HANDLE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkExportSemaphoreWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkExtensionProperties: {
+        case : {
             return create_dynamic_array_copy(1, (VkExtensionProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkExtent2D: {
+        case : {
             return create_dynamic_array_copy(1, (VkExtent2D*)pNext, pAllocationCallbacks);
         } break;
-        case VkExtent3D: {
+        case : {
             return create_dynamic_array_copy(1, (VkExtent3D*)pNext, pAllocationCallbacks);
         } break;
-        case VkExternalBufferProperties: {
+        case VK_STRUCTURE_TYPE_EXTERNAL_BUFFER_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkExternalBufferProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkExternalFenceProperties: {
+        case VK_STRUCTURE_TYPE_EXTERNAL_FENCE_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkExternalFenceProperties*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkExternalFormatANDROID: {
+        case VK_STRUCTURE_TYPE_EXTERNAL_FORMAT_ANDROID: {
             return create_dynamic_array_copy(1, (VkExternalFormatANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VkExternalImageFormatProperties: {
+        case VK_STRUCTURE_TYPE_EXTERNAL_IMAGE_FORMAT_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkExternalImageFormatProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkExternalImageFormatPropertiesNV: {
+        case : {
             return create_dynamic_array_copy(1, (VkExternalImageFormatPropertiesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkExternalMemoryBufferCreateInfo: {
+        case VK_STRUCTURE_TYPE_EXTERNAL_MEMORY_BUFFER_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkExternalMemoryBufferCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkExternalMemoryImageCreateInfo: {
+        case VK_STRUCTURE_TYPE_EXTERNAL_MEMORY_IMAGE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkExternalMemoryImageCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkExternalMemoryImageCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_EXTERNAL_MEMORY_IMAGE_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkExternalMemoryImageCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkExternalMemoryProperties: {
+        case : {
             return create_dynamic_array_copy(1, (VkExternalMemoryProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkExternalSemaphoreProperties: {
+        case VK_STRUCTURE_TYPE_EXTERNAL_SEMAPHORE_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkExternalSemaphoreProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkFenceCreateInfo: {
+        case VK_STRUCTURE_TYPE_FENCE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkFenceCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkFenceGetFdInfoKHR: {
+        case VK_STRUCTURE_TYPE_FENCE_GET_FD_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkFenceGetFdInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkFenceGetWin32HandleInfoKHR: {
+        case VK_STRUCTURE_TYPE_FENCE_GET_WIN32_HANDLE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkFenceGetWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkFilterCubicImageViewImageFormatPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_FILTER_CUBIC_IMAGE_VIEW_IMAGE_FORMAT_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkFilterCubicImageViewImageFormatPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkFormatProperties: {
+        case : {
             return create_dynamic_array_copy(1, (VkFormatProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkFormatProperties2: {
+        case VK_STRUCTURE_TYPE_FORMAT_PROPERTIES_2: {
             return create_dynamic_array_copy(1, (VkFormatProperties2*)pNext, pAllocationCallbacks);
         } break;
-        case VkFramebufferAttachmentImageInfo: {
+        case VK_STRUCTURE_TYPE_FRAMEBUFFER_ATTACHMENT_IMAGE_INFO: {
             return create_dynamic_array_copy(1, (VkFramebufferAttachmentImageInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkFramebufferAttachmentsCreateInfo: {
+        case VK_STRUCTURE_TYPE_FRAMEBUFFER_ATTACHMENTS_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkFramebufferAttachmentsCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkFramebufferCreateInfo: {
+        case VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkFramebufferCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkFramebufferMixedSamplesCombinationNV: {
+        case VK_STRUCTURE_TYPE_FRAMEBUFFER_MIXED_SAMPLES_COMBINATION_NV: {
             return create_dynamic_array_copy(1, (VkFramebufferMixedSamplesCombinationNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkGeneratedCommandsInfoNV: {
+        case VK_STRUCTURE_TYPE_GENERATED_COMMANDS_INFO_NV: {
             return create_dynamic_array_copy(1, (VkGeneratedCommandsInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkGeneratedCommandsMemoryRequirementsInfoNV: {
+        case VK_STRUCTURE_TYPE_GENERATED_COMMANDS_MEMORY_REQUIREMENTS_INFO_NV: {
             return create_dynamic_array_copy(1, (VkGeneratedCommandsMemoryRequirementsInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkGeometryAABBNV: {
+        case VK_STRUCTURE_TYPE_GEOMETRY_AABB_NV: {
             return create_dynamic_array_copy(1, (VkGeometryAABBNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkGeometryDataNV: {
+        case : {
             return create_dynamic_array_copy(1, (VkGeometryDataNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkGeometryNV: {
+        case VK_STRUCTURE_TYPE_GEOMETRY_NV: {
             return create_dynamic_array_copy(1, (VkGeometryNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkGeometryTrianglesNV: {
+        case VK_STRUCTURE_TYPE_GEOMETRY_TRIANGLES_NV: {
             return create_dynamic_array_copy(1, (VkGeometryTrianglesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkGraphicsPipelineCreateInfo: {
+        case VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkGraphicsPipelineCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkGraphicsPipelineShaderGroupsCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_SHADER_GROUPS_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkGraphicsPipelineShaderGroupsCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkGraphicsShaderGroupCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_GRAPHICS_SHADER_GROUP_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkGraphicsShaderGroupCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkHdrMetadataEXT: {
+        case VK_STRUCTURE_TYPE_HDR_METADATA_EXT: {
             return create_dynamic_array_copy(1, (VkHdrMetadataEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkHeadlessSurfaceCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_HEADLESS_SURFACE_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkHeadlessSurfaceCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_IOS_MVK
-        case VkIOSSurfaceCreateInfoMVK: {
+        case VK_STRUCTURE_TYPE_IOS_SURFACE_CREATE_INFO_MVK: {
             return create_dynamic_array_copy(1, (VkIOSSurfaceCreateInfoMVK*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_IOS_MVK
-        case VkImageBlit: {
+        case : {
             return create_dynamic_array_copy(1, (VkImageBlit*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageCopy: {
+        case : {
             return create_dynamic_array_copy(1, (VkImageCopy*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageCreateInfo: {
+        case VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkImageCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageDrmFormatModifierExplicitCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_IMAGE_DRM_FORMAT_MODIFIER_EXPLICIT_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkImageDrmFormatModifierExplicitCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageDrmFormatModifierListCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_IMAGE_DRM_FORMAT_MODIFIER_LIST_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkImageDrmFormatModifierListCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageDrmFormatModifierPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_IMAGE_DRM_FORMAT_MODIFIER_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkImageDrmFormatModifierPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageFormatListCreateInfo: {
+        case VK_STRUCTURE_TYPE_IMAGE_FORMAT_LIST_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkImageFormatListCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageFormatProperties: {
+        case : {
             return create_dynamic_array_copy(1, (VkImageFormatProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageFormatProperties2: {
+        case VK_STRUCTURE_TYPE_IMAGE_FORMAT_PROPERTIES_2: {
             return create_dynamic_array_copy(1, (VkImageFormatProperties2*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageMemoryBarrier: {
+        case VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER: {
             return create_dynamic_array_copy(1, (VkImageMemoryBarrier*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageMemoryRequirementsInfo2: {
+        case VK_STRUCTURE_TYPE_IMAGE_MEMORY_REQUIREMENTS_INFO_2: {
             return create_dynamic_array_copy(1, (VkImageMemoryRequirementsInfo2*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_FUCHSIA
-        case VkImagePipeSurfaceCreateInfoFUCHSIA: {
+        case VK_STRUCTURE_TYPE_IMAGEPIPE_SURFACE_CREATE_INFO_FUCHSIA: {
             return create_dynamic_array_copy(1, (VkImagePipeSurfaceCreateInfoFUCHSIA*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_FUCHSIA
-        case VkImagePlaneMemoryRequirementsInfo: {
+        case VK_STRUCTURE_TYPE_IMAGE_PLANE_MEMORY_REQUIREMENTS_INFO: {
             return create_dynamic_array_copy(1, (VkImagePlaneMemoryRequirementsInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageResolve: {
+        case : {
             return create_dynamic_array_copy(1, (VkImageResolve*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageSparseMemoryRequirementsInfo2: {
+        case VK_STRUCTURE_TYPE_IMAGE_SPARSE_MEMORY_REQUIREMENTS_INFO_2: {
             return create_dynamic_array_copy(1, (VkImageSparseMemoryRequirementsInfo2*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageStencilUsageCreateInfo: {
+        case VK_STRUCTURE_TYPE_IMAGE_STENCIL_USAGE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkImageStencilUsageCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageSubresource: {
+        case : {
             return create_dynamic_array_copy(1, (VkImageSubresource*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageSubresourceLayers: {
+        case : {
             return create_dynamic_array_copy(1, (VkImageSubresourceLayers*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageSubresourceRange: {
+        case : {
             return create_dynamic_array_copy(1, (VkImageSubresourceRange*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageSwapchainCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_IMAGE_SWAPCHAIN_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkImageSwapchainCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageViewASTCDecodeModeEXT: {
+        case VK_STRUCTURE_TYPE_IMAGE_VIEW_ASTC_DECODE_MODE_EXT: {
             return create_dynamic_array_copy(1, (VkImageViewASTCDecodeModeEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageViewAddressPropertiesNVX: {
+        case VK_STRUCTURE_TYPE_IMAGE_VIEW_ADDRESS_PROPERTIES_NVX: {
             return create_dynamic_array_copy(1, (VkImageViewAddressPropertiesNVX*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageViewCreateInfo: {
+        case VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkImageViewCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageViewHandleInfoNVX: {
+        case VK_STRUCTURE_TYPE_IMAGE_VIEW_HANDLE_INFO_NVX: {
             return create_dynamic_array_copy(1, (VkImageViewHandleInfoNVX*)pNext, pAllocationCallbacks);
         } break;
-        case VkImageViewUsageCreateInfo: {
+        case VK_STRUCTURE_TYPE_IMAGE_VIEW_USAGE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkImageViewUsageCreateInfo*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkImportAndroidHardwareBufferInfoANDROID: {
+        case VK_STRUCTURE_TYPE_IMPORT_ANDROID_HARDWARE_BUFFER_INFO_ANDROID: {
             return create_dynamic_array_copy(1, (VkImportAndroidHardwareBufferInfoANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VkImportFenceFdInfoKHR: {
+        case VK_STRUCTURE_TYPE_IMPORT_FENCE_FD_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkImportFenceFdInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkImportFenceWin32HandleInfoKHR: {
+        case VK_STRUCTURE_TYPE_IMPORT_FENCE_WIN32_HANDLE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkImportFenceWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkImportMemoryFdInfoKHR: {
+        case VK_STRUCTURE_TYPE_IMPORT_MEMORY_FD_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkImportMemoryFdInfoKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkImportMemoryHostPointerInfoEXT: {
+        case VK_STRUCTURE_TYPE_IMPORT_MEMORY_HOST_POINTER_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkImportMemoryHostPointerInfoEXT*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkImportMemoryWin32HandleInfoKHR: {
+        case VK_STRUCTURE_TYPE_IMPORT_MEMORY_WIN32_HANDLE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkImportMemoryWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkImportMemoryWin32HandleInfoNV: {
+        case VK_STRUCTURE_TYPE_IMPORT_MEMORY_WIN32_HANDLE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkImportMemoryWin32HandleInfoNV*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkImportSemaphoreFdInfoKHR: {
+        case VK_STRUCTURE_TYPE_IMPORT_SEMAPHORE_FD_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkImportSemaphoreFdInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkImportSemaphoreWin32HandleInfoKHR: {
+        case VK_STRUCTURE_TYPE_IMPORT_SEMAPHORE_WIN32_HANDLE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkImportSemaphoreWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkIndirectCommandsLayoutCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_INDIRECT_COMMANDS_LAYOUT_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkIndirectCommandsLayoutCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkIndirectCommandsLayoutTokenNV: {
+        case VK_STRUCTURE_TYPE_INDIRECT_COMMANDS_LAYOUT_TOKEN_NV: {
             return create_dynamic_array_copy(1, (VkIndirectCommandsLayoutTokenNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkIndirectCommandsStreamNV: {
+        case : {
             return create_dynamic_array_copy(1, (VkIndirectCommandsStreamNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkInitializePerformanceApiInfoINTEL: {
+        case VK_STRUCTURE_TYPE_INITIALIZE_PERFORMANCE_API_INFO_INTEL: {
             return create_dynamic_array_copy(1, (VkInitializePerformanceApiInfoINTEL*)pNext, pAllocationCallbacks);
         } break;
-        case VkInputAttachmentAspectReference: {
+        case : {
             return create_dynamic_array_copy(1, (VkInputAttachmentAspectReference*)pNext, pAllocationCallbacks);
         } break;
-        case VkInstanceCreateInfo: {
+        case VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkInstanceCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkLayerProperties: {
+        case : {
             return create_dynamic_array_copy(1, (VkLayerProperties*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_MACOS_MVK
-        case VkMacOSSurfaceCreateInfoMVK: {
+        case VK_STRUCTURE_TYPE_MACOS_SURFACE_CREATE_INFO_MVK: {
             return create_dynamic_array_copy(1, (VkMacOSSurfaceCreateInfoMVK*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_MACOS_MVK
-        case VkMappedMemoryRange: {
+        case VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE: {
             return create_dynamic_array_copy(1, (VkMappedMemoryRange*)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryAllocateFlagsInfo: {
+        case VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_FLAGS_INFO: {
             return create_dynamic_array_copy(1, (VkMemoryAllocateFlagsInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryAllocateInfo: {
+        case VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO: {
             return create_dynamic_array_copy(1, (VkMemoryAllocateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryBarrier: {
+        case VK_STRUCTURE_TYPE_MEMORY_BARRIER: {
             return create_dynamic_array_copy(1, (VkMemoryBarrier*)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryDedicatedAllocateInfo: {
+        case VK_STRUCTURE_TYPE_MEMORY_DEDICATED_ALLOCATE_INFO: {
             return create_dynamic_array_copy(1, (VkMemoryDedicatedAllocateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryDedicatedRequirements: {
+        case VK_STRUCTURE_TYPE_MEMORY_DEDICATED_REQUIREMENTS: {
             return create_dynamic_array_copy(1, (VkMemoryDedicatedRequirements*)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryFdPropertiesKHR: {
+        case VK_STRUCTURE_TYPE_MEMORY_FD_PROPERTIES_KHR: {
             return create_dynamic_array_copy(1, (VkMemoryFdPropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkMemoryGetAndroidHardwareBufferInfoANDROID: {
+        case VK_STRUCTURE_TYPE_MEMORY_GET_ANDROID_HARDWARE_BUFFER_INFO_ANDROID: {
             return create_dynamic_array_copy(1, (VkMemoryGetAndroidHardwareBufferInfoANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VkMemoryGetFdInfoKHR: {
+        case VK_STRUCTURE_TYPE_MEMORY_GET_FD_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkMemoryGetFdInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkMemoryGetWin32HandleInfoKHR: {
+        case VK_STRUCTURE_TYPE_MEMORY_GET_WIN32_HANDLE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkMemoryGetWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkMemoryHeap: {
+        case : {
             return create_dynamic_array_copy(1, (VkMemoryHeap*)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryHostPointerPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_MEMORY_HOST_POINTER_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkMemoryHostPointerPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryOpaqueCaptureAddressAllocateInfo: {
+        case VK_STRUCTURE_TYPE_MEMORY_OPAQUE_CAPTURE_ADDRESS_ALLOCATE_INFO: {
             return create_dynamic_array_copy(1, (VkMemoryOpaqueCaptureAddressAllocateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryPriorityAllocateInfoEXT: {
+        case VK_STRUCTURE_TYPE_MEMORY_PRIORITY_ALLOCATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkMemoryPriorityAllocateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryRequirements: {
+        case : {
             return create_dynamic_array_copy(1, (VkMemoryRequirements*)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryRequirements2: {
+        case VK_STRUCTURE_TYPE_MEMORY_REQUIREMENTS_2: {
             return create_dynamic_array_copy(1, (VkMemoryRequirements2*)pNext, pAllocationCallbacks);
         } break;
-        case VkMemoryType: {
+        case : {
             return create_dynamic_array_copy(1, (VkMemoryType*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkMemoryWin32HandlePropertiesKHR: {
+        case VK_STRUCTURE_TYPE_MEMORY_WIN32_HANDLE_PROPERTIES_KHR: {
             return create_dynamic_array_copy(1, (VkMemoryWin32HandlePropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
         #ifdef VK_USE_PLATFORM_METAL_EXT
-        case VkMetalSurfaceCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_METAL_SURFACE_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkMetalSurfaceCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_METAL_EXT
-        case VkMultisamplePropertiesEXT: {
+        case VK_STRUCTURE_TYPE_MULTISAMPLE_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkMultisamplePropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkNativeBufferANDROID: {
+        case VK_STRUCTURE_TYPE_NATIVE_BUFFER_ANDROID: {
             return create_dynamic_array_copy(1, (VkNativeBufferANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkNativeBufferUsage2ANDROID: {
+        case : {
             return create_dynamic_array_copy(1, (VkNativeBufferUsage2ANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VkOffset2D: {
+        case : {
             return create_dynamic_array_copy(1, (VkOffset2D*)pNext, pAllocationCallbacks);
         } break;
-        case VkOffset3D: {
+        case : {
             return create_dynamic_array_copy(1, (VkOffset3D*)pNext, pAllocationCallbacks);
         } break;
-        case VkPastPresentationTimingGOOGLE: {
+        case : {
             return create_dynamic_array_copy(1, (VkPastPresentationTimingGOOGLE*)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceConfigurationAcquireInfoINTEL: {
+        case VK_STRUCTURE_TYPE_PERFORMANCE_CONFIGURATION_ACQUIRE_INFO_INTEL: {
             return create_dynamic_array_copy(1, (VkPerformanceConfigurationAcquireInfoINTEL*)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceCounterDescriptionKHR: {
+        case VK_STRUCTURE_TYPE_PERFORMANCE_COUNTER_DESCRIPTION_KHR: {
             return create_dynamic_array_copy(1, (VkPerformanceCounterDescriptionKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceCounterKHR: {
+        case VK_STRUCTURE_TYPE_PERFORMANCE_COUNTER_KHR: {
             return create_dynamic_array_copy(1, (VkPerformanceCounterKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceCounterResultKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkPerformanceCounterResultKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceMarkerInfoINTEL: {
+        case VK_STRUCTURE_TYPE_PERFORMANCE_MARKER_INFO_INTEL: {
             return create_dynamic_array_copy(1, (VkPerformanceMarkerInfoINTEL*)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceOverrideInfoINTEL: {
+        case VK_STRUCTURE_TYPE_PERFORMANCE_OVERRIDE_INFO_INTEL: {
             return create_dynamic_array_copy(1, (VkPerformanceOverrideInfoINTEL*)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceQuerySubmitInfoKHR: {
+        case VK_STRUCTURE_TYPE_PERFORMANCE_QUERY_SUBMIT_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkPerformanceQuerySubmitInfoKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceStreamMarkerInfoINTEL: {
+        case VK_STRUCTURE_TYPE_PERFORMANCE_STREAM_MARKER_INFO_INTEL: {
             return create_dynamic_array_copy(1, (VkPerformanceStreamMarkerInfoINTEL*)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceValueDataINTEL: {
+        case : {
             return create_dynamic_array_copy(1, (VkPerformanceValueDataINTEL*)pNext, pAllocationCallbacks);
         } break;
-        case VkPerformanceValueINTEL: {
+        case : {
             return create_dynamic_array_copy(1, (VkPerformanceValueINTEL*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevice16BitStorageFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_16BIT_STORAGE_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDevice16BitStorageFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevice8BitStorageFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_8BIT_STORAGE_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDevice8BitStorageFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceASTCDecodeFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ASTC_DECODE_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceASTCDecodeFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BLEND_OPERATION_ADVANCED_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BLEND_OPERATION_ADVANCED_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceBufferDeviceAddressFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceBufferDeviceAddressFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceBufferDeviceAddressFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceBufferDeviceAddressFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceCoherentMemoryFeaturesAMD: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COHERENT_MEMORY_FEATURES_AMD: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceCoherentMemoryFeaturesAMD*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceComputeShaderDerivativesFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceComputeShaderDerivativesFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceConditionalRenderingFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONDITIONAL_RENDERING_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceConditionalRenderingFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceConservativeRasterizationPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONSERVATIVE_RASTERIZATION_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceConservativeRasterizationPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceCooperativeMatrixFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceCooperativeMatrixFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceCooperativeMatrixPropertiesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_PROPERTIES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceCooperativeMatrixPropertiesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceCornerSampledImageFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CORNER_SAMPLED_IMAGE_FEATURES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceCornerSampledImageFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceCoverageReductionModeFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COVERAGE_REDUCTION_MODE_FEATURES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceCoverageReductionModeFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceCustomBorderColorFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceCustomBorderColorFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceCustomBorderColorPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceCustomBorderColorPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEDICATED_ALLOCATION_IMAGE_ALIASING_FEATURES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDepthClipEnableFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLIP_ENABLE_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDepthClipEnableFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDepthStencilResolveProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_STENCIL_RESOLVE_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDepthStencilResolveProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDescriptorIndexingFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDescriptorIndexingFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDescriptorIndexingProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDescriptorIndexingProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_PROPERTIES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDiagnosticsConfigFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DIAGNOSTICS_CONFIG_FEATURES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDiagnosticsConfigFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDiscardRectanglePropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DISCARD_RECTANGLE_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDiscardRectanglePropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceDriverProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DRIVER_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceDriverProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceExclusiveScissorFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXCLUSIVE_SCISSOR_FEATURES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceExclusiveScissorFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceExtendedDynamicStateFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_DYNAMIC_STATE_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceExtendedDynamicStateFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceExternalBufferInfo: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_BUFFER_INFO: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceExternalBufferInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceExternalFenceInfo: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_FENCE_INFO: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceExternalFenceInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceExternalImageFormatInfo: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_IMAGE_FORMAT_INFO: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceExternalImageFormatInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceExternalMemoryHostPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_MEMORY_HOST_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceExternalMemoryHostPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceExternalSemaphoreInfo: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_SEMAPHORE_INFO: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceExternalSemaphoreInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFeatures: {
+        case : {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFeatures2: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFeatures2*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFloatControlsProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FLOAT_CONTROLS_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFloatControlsProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFragmentDensityMap2FeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_2_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFragmentDensityMap2FeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFragmentDensityMap2PropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_2_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFragmentDensityMap2PropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFragmentDensityMapFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFragmentDensityMapFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFragmentDensityMapPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_DENSITY_MAP_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFragmentDensityMapPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_BARYCENTRIC_FEATURES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFragmentShaderBarycentricFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADER_INTERLOCK_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceGroupProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GROUP_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceGroupProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceHostQueryResetFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceHostQueryResetFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceIDProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ID_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceIDProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceImageDrmFormatModifierInfoEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_DRM_FORMAT_MODIFIER_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceImageDrmFormatModifierInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceImageFormatInfo2: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_FORMAT_INFO_2: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceImageFormatInfo2*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceImageRobustnessFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_ROBUSTNESS_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceImageRobustnessFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceImageViewImageFormatInfoEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_IMAGE_FORMAT_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceImageViewImageFormatInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceImagelessFramebufferFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGELESS_FRAMEBUFFER_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceImagelessFramebufferFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceIndexTypeUint8FeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceIndexTypeUint8FeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceInlineUniformBlockFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceInlineUniformBlockFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceInlineUniformBlockPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceInlineUniformBlockPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceLimits: {
+        case : {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceLimits*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceLineRasterizationFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceLineRasterizationFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceLineRasterizationPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceLineRasterizationPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMaintenance3Properties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_3_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMaintenance3Properties*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMemoryBudgetPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_BUDGET_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMemoryBudgetPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMemoryPriorityFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_PRIORITY_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMemoryPriorityFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMemoryProperties: {
+        case : {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMemoryProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMemoryProperties2: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_PROPERTIES_2: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMemoryProperties2*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMeshShaderFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMeshShaderFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMeshShaderPropertiesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_PROPERTIES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMeshShaderPropertiesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMultiviewFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMultiviewFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_PER_VIEW_ATTRIBUTES_PROPERTIES_NVX: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceMultiviewProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceMultiviewProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevicePCIBusInfoPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PCI_BUS_INFO_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePCIBusInfoPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevicePerformanceQueryFeaturesKHR: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PERFORMANCE_QUERY_FEATURES_KHR: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePerformanceQueryFeaturesKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevicePerformanceQueryPropertiesKHR: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PERFORMANCE_QUERY_PROPERTIES_KHR: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePerformanceQueryPropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_CREATION_CACHE_CONTROL_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePipelineCreationCacheControlFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_EXECUTABLE_PROPERTIES_FEATURES_KHR: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevicePointClippingProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_POINT_CLIPPING_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePointClippingProperties*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkPhysicalDevicePresentationPropertiesANDROID: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENTATION_PROPERTIES_ANDROID: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePresentationPropertiesANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VkPhysicalDevicePrivateDataFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIVATE_DATA_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePrivateDataFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceProperties: {
+        case : {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceProperties2: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceProperties2*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceProtectedMemoryFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceProtectedMemoryFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceProtectedMemoryProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceProtectedMemoryProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDevicePushDescriptorPropertiesKHR: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES_KHR: {
             return create_dynamic_array_copy(1, (VkPhysicalDevicePushDescriptorPropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkPhysicalDeviceRayTracingFeaturesKHR: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_FEATURES_KHR: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceRayTracingFeaturesKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkPhysicalDeviceRayTracingPropertiesKHR: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PROPERTIES_KHR: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceRayTracingPropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkPhysicalDeviceRayTracingPropertiesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PROPERTIES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceRayTracingPropertiesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_REPRESENTATIVE_FRAGMENT_TEST_FEATURES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceRobustness2FeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceRobustness2FeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceRobustness2PropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceRobustness2PropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSampleLocationsPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLE_LOCATIONS_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSampleLocationsPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSamplerFilterMinmaxProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_FILTER_MINMAX_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSamplerFilterMinmaxProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSamplerYcbcrConversionFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_YCBCR_CONVERSION_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSamplerYcbcrConversionFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceScalarBlockLayoutFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SCALAR_BLOCK_LAYOUT_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceScalarBlockLayoutFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SEPARATE_DEPTH_STENCIL_LAYOUTS_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderAtomicFloatFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderAtomicFloatFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderAtomicInt64Features: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_INT64_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderAtomicInt64Features*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderClockFeaturesKHR: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CLOCK_FEATURES_KHR: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderClockFeaturesKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderCoreProperties2AMD: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CORE_PROPERTIES_2_AMD: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderCoreProperties2AMD*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderCorePropertiesAMD: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_CORE_PROPERTIES_AMD: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderCorePropertiesAMD*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DEMOTE_TO_HELPER_INVOCATION_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderDrawParametersFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETERS_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderDrawParametersFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderFloat16Int8Features: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT16_INT8_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderFloat16Int8Features*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderImageFootprintFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_IMAGE_FOOTPRINT_FEATURES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderImageFootprintFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_INTEGER_FUNCTIONS_2_FEATURES_INTEL: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderSMBuiltinsFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SM_BUILTINS_FEATURES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderSMBuiltinsFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderSMBuiltinsPropertiesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SM_BUILTINS_PROPERTIES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderSMBuiltinsPropertiesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_EXTENDED_TYPES_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShadingRateImageFeaturesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_FEATURES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShadingRateImageFeaturesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceShadingRateImagePropertiesNV: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_PROPERTIES_NV: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceShadingRateImagePropertiesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSparseImageFormatInfo2: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SPARSE_IMAGE_FORMAT_INFO_2: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSparseImageFormatInfo2*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSparseProperties: {
+        case : {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSparseProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSubgroupProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSubgroupProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSubgroupSizeControlFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSubgroupSizeControlFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSubgroupSizeControlPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSubgroupSizeControlPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceSurfaceInfo2KHR: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SURFACE_INFO_2_KHR: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceSurfaceInfo2KHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXEL_BUFFER_ALIGNMENT_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXEL_BUFFER_ALIGNMENT_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXTURE_COMPRESSION_ASTC_HDR_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceTimelineSemaphoreFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceTimelineSemaphoreFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceTimelineSemaphoreProperties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceTimelineSemaphoreProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceToolPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TOOL_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceToolPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceTransformFeedbackFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceTransformFeedbackFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceTransformFeedbackPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceTransformFeedbackPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceUniformBufferStandardLayoutFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_UNIFORM_BUFFER_STANDARD_LAYOUT_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceUniformBufferStandardLayoutFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceVariablePointersFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VARIABLE_POINTERS_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceVariablePointersFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceVulkan11Features: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceVulkan11Features*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceVulkan11Properties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceVulkan11Properties*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceVulkan12Features: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceVulkan12Features*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceVulkan12Properties: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceVulkan12Properties*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceVulkanMemoryModelFeatures: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceVulkanMemoryModelFeatures*)pNext, pAllocationCallbacks);
         } break;
-        case VkPhysicalDeviceYcbcrImageArraysFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_YCBCR_IMAGE_ARRAYS_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkPhysicalDeviceYcbcrImageArraysFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineCacheCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkPipelineCacheCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineColorBlendAdvancedStateCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_ADVANCED_STATE_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkPipelineColorBlendAdvancedStateCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineColorBlendAttachmentState: {
+        case : {
             return create_dynamic_array_copy(1, (VkPipelineColorBlendAttachmentState*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineColorBlendStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkPipelineColorBlendStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineCompilerControlCreateInfoAMD: {
+        case VK_STRUCTURE_TYPE_PIPELINE_COMPILER_CONTROL_CREATE_INFO_AMD: {
             return create_dynamic_array_copy(1, (VkPipelineCompilerControlCreateInfoAMD*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineCoverageModulationStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_COVERAGE_MODULATION_STATE_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkPipelineCoverageModulationStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineCoverageReductionStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_COVERAGE_REDUCTION_STATE_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkPipelineCoverageReductionStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineCoverageToColorStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_COVERAGE_TO_COLOR_STATE_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkPipelineCoverageToColorStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineCreationFeedbackCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_CREATION_FEEDBACK_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkPipelineCreationFeedbackCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineCreationFeedbackEXT: {
+        case : {
             return create_dynamic_array_copy(1, (VkPipelineCreationFeedbackEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineDepthStencilStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkPipelineDepthStencilStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineDiscardRectangleStateCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_DISCARD_RECTANGLE_STATE_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkPipelineDiscardRectangleStateCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineDynamicStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkPipelineDynamicStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineExecutableInfoKHR: {
+        case VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkPipelineExecutableInfoKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineExecutableInternalRepresentationKHR: {
+        case VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_INTERNAL_REPRESENTATION_KHR: {
             return create_dynamic_array_copy(1, (VkPipelineExecutableInternalRepresentationKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineExecutablePropertiesKHR: {
+        case VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_PROPERTIES_KHR: {
             return create_dynamic_array_copy(1, (VkPipelineExecutablePropertiesKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineExecutableStatisticKHR: {
+        case VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_STATISTIC_KHR: {
             return create_dynamic_array_copy(1, (VkPipelineExecutableStatisticKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineExecutableStatisticValueKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkPipelineExecutableStatisticValueKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineInfoKHR: {
+        case VK_STRUCTURE_TYPE_PIPELINE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkPipelineInfoKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineInputAssemblyStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkPipelineInputAssemblyStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineLayoutCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkPipelineLayoutCreateInfo*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkPipelineLibraryCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_PIPELINE_LIBRARY_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkPipelineLibraryCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkPipelineMultisampleStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkPipelineMultisampleStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineRasterizationConservativeStateCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_CONSERVATIVE_STATE_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkPipelineRasterizationConservativeStateCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineRasterizationDepthClipStateCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_DEPTH_CLIP_STATE_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkPipelineRasterizationDepthClipStateCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineRasterizationLineStateCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_LINE_STATE_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkPipelineRasterizationLineStateCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineRasterizationStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkPipelineRasterizationStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineRasterizationStateRasterizationOrderAMD: {
+        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_RASTERIZATION_ORDER_AMD: {
             return create_dynamic_array_copy(1, (VkPipelineRasterizationStateRasterizationOrderAMD*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineRasterizationStateStreamCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_STREAM_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkPipelineRasterizationStateStreamCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineRepresentativeFragmentTestStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_REPRESENTATIVE_FRAGMENT_TEST_STATE_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkPipelineRepresentativeFragmentTestStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineSampleLocationsStateCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_SAMPLE_LOCATIONS_STATE_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkPipelineSampleLocationsStateCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineShaderStageCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkPipelineShaderStageCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_REQUIRED_SUBGROUP_SIZE_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineTessellationDomainOriginStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_DOMAIN_ORIGIN_STATE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkPipelineTessellationDomainOriginStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineTessellationStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkPipelineTessellationStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineVertexInputDivisorStateCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_DIVISOR_STATE_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkPipelineVertexInputDivisorStateCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineVertexInputStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkPipelineVertexInputStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineViewportCoarseSampleOrderStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_COARSE_SAMPLE_ORDER_STATE_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkPipelineViewportCoarseSampleOrderStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineViewportExclusiveScissorStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_EXCLUSIVE_SCISSOR_STATE_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkPipelineViewportExclusiveScissorStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineViewportShadingRateImageStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_SHADING_RATE_IMAGE_STATE_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkPipelineViewportShadingRateImageStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineViewportStateCreateInfo: {
+        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkPipelineViewportStateCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineViewportSwizzleStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_SWIZZLE_STATE_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkPipelineViewportSwizzleStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkPipelineViewportWScalingStateCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_W_SCALING_STATE_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkPipelineViewportWScalingStateCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_GGP
-        case VkPresentFrameTokenGGP: {
+        case VK_STRUCTURE_TYPE_PRESENT_FRAME_TOKEN_GGP: {
             return create_dynamic_array_copy(1, (VkPresentFrameTokenGGP*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_GGP
-        case VkPresentInfoKHR: {
+        case VK_STRUCTURE_TYPE_PRESENT_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkPresentInfoKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPresentRegionKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkPresentRegionKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPresentRegionsKHR: {
+        case VK_STRUCTURE_TYPE_PRESENT_REGIONS_KHR: {
             return create_dynamic_array_copy(1, (VkPresentRegionsKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkPresentTimeGOOGLE: {
+        case : {
             return create_dynamic_array_copy(1, (VkPresentTimeGOOGLE*)pNext, pAllocationCallbacks);
         } break;
-        case VkPresentTimesInfoGOOGLE: {
+        case VK_STRUCTURE_TYPE_PRESENT_TIMES_INFO_GOOGLE: {
             return create_dynamic_array_copy(1, (VkPresentTimesInfoGOOGLE*)pNext, pAllocationCallbacks);
         } break;
-        case VkPrivateDataSlotCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_PRIVATE_DATA_SLOT_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkPrivateDataSlotCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkProtectedSubmitInfo: {
+        case VK_STRUCTURE_TYPE_PROTECTED_SUBMIT_INFO: {
             return create_dynamic_array_copy(1, (VkProtectedSubmitInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkPushConstantRange: {
+        case : {
             return create_dynamic_array_copy(1, (VkPushConstantRange*)pNext, pAllocationCallbacks);
         } break;
-        case VkQueryPoolCreateInfo: {
+        case VK_STRUCTURE_TYPE_QUERY_POOL_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkQueryPoolCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkQueryPoolPerformanceCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_QUERY_POOL_PERFORMANCE_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkQueryPoolPerformanceCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkQueryPoolPerformanceQueryCreateInfoINTEL: {
+        case VK_STRUCTURE_TYPE_QUERY_POOL_PERFORMANCE_QUERY_CREATE_INFO_INTEL: {
             return create_dynamic_array_copy(1, (VkQueryPoolPerformanceQueryCreateInfoINTEL*)pNext, pAllocationCallbacks);
         } break;
-        case VkQueueFamilyCheckpointPropertiesNV: {
+        case VK_STRUCTURE_TYPE_QUEUE_FAMILY_CHECKPOINT_PROPERTIES_NV: {
             return create_dynamic_array_copy(1, (VkQueueFamilyCheckpointPropertiesNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkQueueFamilyProperties: {
+        case : {
             return create_dynamic_array_copy(1, (VkQueueFamilyProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkQueueFamilyProperties2: {
+        case VK_STRUCTURE_TYPE_QUEUE_FAMILY_PROPERTIES_2: {
             return create_dynamic_array_copy(1, (VkQueueFamilyProperties2*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkRayTracingPipelineCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_RAY_TRACING_PIPELINE_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkRayTracingPipelineCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkRayTracingPipelineCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_RAY_TRACING_PIPELINE_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkRayTracingPipelineCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkRayTracingPipelineInterfaceCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_RAY_TRACING_PIPELINE_INTERFACE_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkRayTracingPipelineInterfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkRayTracingShaderGroupCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_RAY_TRACING_SHADER_GROUP_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkRayTracingShaderGroupCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkRayTracingShaderGroupCreateInfoNV: {
+        case VK_STRUCTURE_TYPE_RAY_TRACING_SHADER_GROUP_CREATE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkRayTracingShaderGroupCreateInfoNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkRect2D: {
+        case : {
             return create_dynamic_array_copy(1, (VkRect2D*)pNext, pAllocationCallbacks);
         } break;
-        case VkRectLayerKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkRectLayerKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkRefreshCycleDurationGOOGLE: {
+        case : {
             return create_dynamic_array_copy(1, (VkRefreshCycleDurationGOOGLE*)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassAttachmentBeginInfo: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_ATTACHMENT_BEGIN_INFO: {
             return create_dynamic_array_copy(1, (VkRenderPassAttachmentBeginInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassBeginInfo: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO: {
             return create_dynamic_array_copy(1, (VkRenderPassBeginInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassCreateInfo: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkRenderPassCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassCreateInfo2: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO_2: {
             return create_dynamic_array_copy(1, (VkRenderPassCreateInfo2*)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassFragmentDensityMapCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_FRAGMENT_DENSITY_MAP_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkRenderPassFragmentDensityMapCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassInputAttachmentAspectCreateInfo: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_INPUT_ATTACHMENT_ASPECT_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkRenderPassInputAttachmentAspectCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassMultiviewCreateInfo: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_MULTIVIEW_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkRenderPassMultiviewCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassSampleLocationsBeginInfoEXT: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_SAMPLE_LOCATIONS_BEGIN_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkRenderPassSampleLocationsBeginInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkRenderPassTransformBeginInfoQCOM: {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_TRANSFORM_BEGIN_INFO_QCOM: {
             return create_dynamic_array_copy(1, (VkRenderPassTransformBeginInfoQCOM*)pNext, pAllocationCallbacks);
         } break;
-        case VkSampleLocationEXT: {
+        case : {
             return create_dynamic_array_copy(1, (VkSampleLocationEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkSampleLocationsInfoEXT: {
+        case VK_STRUCTURE_TYPE_SAMPLE_LOCATIONS_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkSampleLocationsInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkSamplerCreateInfo: {
+        case VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkSamplerCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkSamplerCustomBorderColorCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_SAMPLER_CUSTOM_BORDER_COLOR_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkSamplerCustomBorderColorCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkSamplerReductionModeCreateInfo: {
+        case VK_STRUCTURE_TYPE_SAMPLER_REDUCTION_MODE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkSamplerReductionModeCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkSamplerYcbcrConversionCreateInfo: {
+        case VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkSamplerYcbcrConversionCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkSamplerYcbcrConversionImageFormatProperties: {
+        case VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_IMAGE_FORMAT_PROPERTIES: {
             return create_dynamic_array_copy(1, (VkSamplerYcbcrConversionImageFormatProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkSamplerYcbcrConversionInfo: {
+        case VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_INFO: {
             return create_dynamic_array_copy(1, (VkSamplerYcbcrConversionInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkSemaphoreCreateInfo: {
+        case VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkSemaphoreCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkSemaphoreGetFdInfoKHR: {
+        case VK_STRUCTURE_TYPE_SEMAPHORE_GET_FD_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkSemaphoreGetFdInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkSemaphoreGetWin32HandleInfoKHR: {
+        case VK_STRUCTURE_TYPE_SEMAPHORE_GET_WIN32_HANDLE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkSemaphoreGetWin32HandleInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkSemaphoreSignalInfo: {
+        case VK_STRUCTURE_TYPE_SEMAPHORE_SIGNAL_INFO: {
             return create_dynamic_array_copy(1, (VkSemaphoreSignalInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkSemaphoreTypeCreateInfo: {
+        case VK_STRUCTURE_TYPE_SEMAPHORE_TYPE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkSemaphoreTypeCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkSemaphoreWaitInfo: {
+        case VK_STRUCTURE_TYPE_SEMAPHORE_WAIT_INFO: {
             return create_dynamic_array_copy(1, (VkSemaphoreWaitInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkSetStateFlagsIndirectCommandNV: {
+        case : {
             return create_dynamic_array_copy(1, (VkSetStateFlagsIndirectCommandNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkShaderModuleCreateInfo: {
+        case VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO: {
             return create_dynamic_array_copy(1, (VkShaderModuleCreateInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkShaderModuleValidationCacheCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_SHADER_MODULE_VALIDATION_CACHE_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkShaderModuleValidationCacheCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkShaderResourceUsageAMD: {
+        case : {
             return create_dynamic_array_copy(1, (VkShaderResourceUsageAMD*)pNext, pAllocationCallbacks);
         } break;
-        case VkShaderStatisticsInfoAMD: {
+        case : {
             return create_dynamic_array_copy(1, (VkShaderStatisticsInfoAMD*)pNext, pAllocationCallbacks);
         } break;
-        case VkShadingRatePaletteNV: {
+        case : {
             return create_dynamic_array_copy(1, (VkShadingRatePaletteNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkSharedPresentSurfaceCapabilitiesKHR: {
+        case VK_STRUCTURE_TYPE_SHARED_PRESENT_SURFACE_CAPABILITIES_KHR: {
             return create_dynamic_array_copy(1, (VkSharedPresentSurfaceCapabilitiesKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseBufferMemoryBindInfo: {
+        case : {
             return create_dynamic_array_copy(1, (VkSparseBufferMemoryBindInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseImageFormatProperties: {
+        case : {
             return create_dynamic_array_copy(1, (VkSparseImageFormatProperties*)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseImageFormatProperties2: {
+        case VK_STRUCTURE_TYPE_SPARSE_IMAGE_FORMAT_PROPERTIES_2: {
             return create_dynamic_array_copy(1, (VkSparseImageFormatProperties2*)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseImageMemoryBind: {
+        case : {
             return create_dynamic_array_copy(1, (VkSparseImageMemoryBind*)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseImageMemoryBindInfo: {
+        case : {
             return create_dynamic_array_copy(1, (VkSparseImageMemoryBindInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseImageMemoryRequirements: {
+        case : {
             return create_dynamic_array_copy(1, (VkSparseImageMemoryRequirements*)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseImageMemoryRequirements2: {
+        case VK_STRUCTURE_TYPE_SPARSE_IMAGE_MEMORY_REQUIREMENTS_2: {
             return create_dynamic_array_copy(1, (VkSparseImageMemoryRequirements2*)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseImageOpaqueMemoryBindInfo: {
+        case : {
             return create_dynamic_array_copy(1, (VkSparseImageOpaqueMemoryBindInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkSparseMemoryBind: {
+        case : {
             return create_dynamic_array_copy(1, (VkSparseMemoryBind*)pNext, pAllocationCallbacks);
         } break;
-        case VkSpecializationInfo: {
+        case : {
             return create_dynamic_array_copy(1, (VkSpecializationInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkSpecializationMapEntry: {
+        case : {
             return create_dynamic_array_copy(1, (VkSpecializationMapEntry*)pNext, pAllocationCallbacks);
         } break;
-        case VkStencilOpState: {
+        case : {
             return create_dynamic_array_copy(1, (VkStencilOpState*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_GGP
-        case VkStreamDescriptorSurfaceCreateInfoGGP: {
+        case VK_STRUCTURE_TYPE_STREAM_DESCRIPTOR_SURFACE_CREATE_INFO_GGP: {
             return create_dynamic_array_copy(1, (VkStreamDescriptorSurfaceCreateInfoGGP*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_GGP
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkStridedBufferRegionKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkStridedBufferRegionKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkSubmitInfo: {
+        case VK_STRUCTURE_TYPE_SUBMIT_INFO: {
             return create_dynamic_array_copy(1, (VkSubmitInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkSubpassBeginInfo: {
+        case VK_STRUCTURE_TYPE_SUBPASS_BEGIN_INFO: {
             return create_dynamic_array_copy(1, (VkSubpassBeginInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkSubpassDependency: {
+        case : {
             return create_dynamic_array_copy(1, (VkSubpassDependency*)pNext, pAllocationCallbacks);
         } break;
-        case VkSubpassDependency2: {
+        case VK_STRUCTURE_TYPE_SUBPASS_DEPENDENCY_2: {
             return create_dynamic_array_copy(1, (VkSubpassDependency2*)pNext, pAllocationCallbacks);
         } break;
-        case VkSubpassDescription: {
+        case : {
             return create_dynamic_array_copy(1, (VkSubpassDescription*)pNext, pAllocationCallbacks);
         } break;
-        case VkSubpassDescription2: {
+        case VK_STRUCTURE_TYPE_SUBPASS_DESCRIPTION_2: {
             return create_dynamic_array_copy(1, (VkSubpassDescription2*)pNext, pAllocationCallbacks);
         } break;
-        case VkSubpassDescriptionDepthStencilResolve: {
+        case VK_STRUCTURE_TYPE_SUBPASS_DESCRIPTION_DEPTH_STENCIL_RESOLVE: {
             return create_dynamic_array_copy(1, (VkSubpassDescriptionDepthStencilResolve*)pNext, pAllocationCallbacks);
         } break;
-        case VkSubpassEndInfo: {
+        case VK_STRUCTURE_TYPE_SUBPASS_END_INFO: {
             return create_dynamic_array_copy(1, (VkSubpassEndInfo*)pNext, pAllocationCallbacks);
         } break;
-        case VkSubpassSampleLocationsEXT: {
+        case : {
             return create_dynamic_array_copy(1, (VkSubpassSampleLocationsEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkSubresourceLayout: {
+        case : {
             return create_dynamic_array_copy(1, (VkSubresourceLayout*)pNext, pAllocationCallbacks);
         } break;
-        case VkSurfaceCapabilities2EXT: {
+        case VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_2_EXT: {
             return create_dynamic_array_copy(1, (VkSurfaceCapabilities2EXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkSurfaceCapabilities2KHR: {
+        case VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_2_KHR: {
             return create_dynamic_array_copy(1, (VkSurfaceCapabilities2KHR*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkSurfaceCapabilitiesFullScreenExclusiveEXT: {
+        case VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_FULL_SCREEN_EXCLUSIVE_EXT: {
             return create_dynamic_array_copy(1, (VkSurfaceCapabilitiesFullScreenExclusiveEXT*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkSurfaceCapabilitiesKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkSurfaceCapabilitiesKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkSurfaceFormat2KHR: {
+        case VK_STRUCTURE_TYPE_SURFACE_FORMAT_2_KHR: {
             return create_dynamic_array_copy(1, (VkSurfaceFormat2KHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkSurfaceFormatKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkSurfaceFormatKHR*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkSurfaceFullScreenExclusiveInfoEXT: {
+        case VK_STRUCTURE_TYPE_SURFACE_FULL_SCREEN_EXCLUSIVE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkSurfaceFullScreenExclusiveInfoEXT*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkSurfaceFullScreenExclusiveWin32InfoEXT: {
+        case VK_STRUCTURE_TYPE_SURFACE_FULL_SCREEN_EXCLUSIVE_WIN32_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkSurfaceFullScreenExclusiveWin32InfoEXT*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkSurfaceProtectedCapabilitiesKHR: {
+        case VK_STRUCTURE_TYPE_SURFACE_PROTECTED_CAPABILITIES_KHR: {
             return create_dynamic_array_copy(1, (VkSurfaceProtectedCapabilitiesKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkSwapchainCounterCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_SWAPCHAIN_COUNTER_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkSwapchainCounterCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkSwapchainCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkSwapchainCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
-        case VkSwapchainDisplayNativeHdrCreateInfoAMD: {
+        case VK_STRUCTURE_TYPE_SWAPCHAIN_DISPLAY_NATIVE_HDR_CREATE_INFO_AMD: {
             return create_dynamic_array_copy(1, (VkSwapchainDisplayNativeHdrCreateInfoAMD*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VkSwapchainImageCreateInfoANDROID: {
+        case VK_STRUCTURE_TYPE_SWAPCHAIN_IMAGE_CREATE_INFO_ANDROID: {
             return create_dynamic_array_copy(1, (VkSwapchainImageCreateInfoANDROID*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_ANDROID_KHR
-        case VkTextureLODGatherFormatPropertiesAMD: {
+        case VK_STRUCTURE_TYPE_TEXTURE_LOD_GATHER_FORMAT_PROPERTIES_AMD: {
             return create_dynamic_array_copy(1, (VkTextureLODGatherFormatPropertiesAMD*)pNext, pAllocationCallbacks);
         } break;
-        case VkTimelineSemaphoreSubmitInfo: {
+        case VK_STRUCTURE_TYPE_TIMELINE_SEMAPHORE_SUBMIT_INFO: {
             return create_dynamic_array_copy(1, (VkTimelineSemaphoreSubmitInfo*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkTraceRaysIndirectCommandKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkTraceRaysIndirectCommandKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkTransformMatrixKHR: {
+        case : {
             return create_dynamic_array_copy(1, (VkTransformMatrixKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkValidationCacheCreateInfoEXT: {
+        case VK_STRUCTURE_TYPE_VALIDATION_CACHE_CREATE_INFO_EXT: {
             return create_dynamic_array_copy(1, (VkValidationCacheCreateInfoEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkValidationFeaturesEXT: {
+        case VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT: {
             return create_dynamic_array_copy(1, (VkValidationFeaturesEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkValidationFlagsEXT: {
+        case VK_STRUCTURE_TYPE_VALIDATION_FLAGS_EXT: {
             return create_dynamic_array_copy(1, (VkValidationFlagsEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkVertexInputAttributeDescription: {
+        case : {
             return create_dynamic_array_copy(1, (VkVertexInputAttributeDescription*)pNext, pAllocationCallbacks);
         } break;
-        case VkVertexInputBindingDescription: {
+        case : {
             return create_dynamic_array_copy(1, (VkVertexInputBindingDescription*)pNext, pAllocationCallbacks);
         } break;
-        case VkVertexInputBindingDivisorDescriptionEXT: {
+        case : {
             return create_dynamic_array_copy(1, (VkVertexInputBindingDivisorDescriptionEXT*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_VI_NN
-        case VkViSurfaceCreateInfoNN: {
+        case VK_STRUCTURE_TYPE_VI_SURFACE_CREATE_INFO_NN: {
             return create_dynamic_array_copy(1, (VkViSurfaceCreateInfoNN*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_VI_NN
-        case VkViewport: {
+        case : {
             return create_dynamic_array_copy(1, (VkViewport*)pNext, pAllocationCallbacks);
         } break;
-        case VkViewportSwizzleNV: {
+        case : {
             return create_dynamic_array_copy(1, (VkViewportSwizzleNV*)pNext, pAllocationCallbacks);
         } break;
-        case VkViewportWScalingNV: {
+        case : {
             return create_dynamic_array_copy(1, (VkViewportWScalingNV*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_WAYLAND_KHR
-        case VkWaylandSurfaceCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_WAYLAND_SURFACE_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkWaylandSurfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WAYLAND_KHR
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkWin32KeyedMutexAcquireReleaseInfoKHR: {
+        case VK_STRUCTURE_TYPE_WIN32_KEYED_MUTEX_ACQUIRE_RELEASE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkWin32KeyedMutexAcquireReleaseInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkWin32KeyedMutexAcquireReleaseInfoNV: {
+        case VK_STRUCTURE_TYPE_WIN32_KEYED_MUTEX_ACQUIRE_RELEASE_INFO_NV: {
             return create_dynamic_array_copy(1, (VkWin32KeyedMutexAcquireReleaseInfoNV*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
         #ifdef VK_USE_PLATFORM_WIN32_KHR
-        case VkWin32SurfaceCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkWin32SurfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_WIN32_KHR
-        case VkWriteDescriptorSet: {
+        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET: {
             return create_dynamic_array_copy(1, (VkWriteDescriptorSet*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-        case VkWriteDescriptorSetAccelerationStructureKHR: {
+        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_ACCELERATION_STRUCTURE_KHR: {
             return create_dynamic_array_copy(1, (VkWriteDescriptorSetAccelerationStructureKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_ENABLE_BETA_EXTENSIONS
-        case VkWriteDescriptorSetInlineUniformBlockEXT: {
+        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_INLINE_UNIFORM_BLOCK_EXT: {
             return create_dynamic_array_copy(1, (VkWriteDescriptorSetInlineUniformBlockEXT*)pNext, pAllocationCallbacks);
         } break;
-        case VkXYColorEXT: {
+        case : {
             return create_dynamic_array_copy(1, (VkXYColorEXT*)pNext, pAllocationCallbacks);
         } break;
         #ifdef VK_USE_PLATFORM_XCB_KHR
-        case VkXcbSurfaceCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_XCB_SURFACE_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkXcbSurfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_XCB_KHR
         #ifdef VK_USE_PLATFORM_XLIB_KHR
-        case VkXlibSurfaceCreateInfoKHR: {
+        case VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR: {
             return create_dynamic_array_copy(1, (VkXlibSurfaceCreateInfoKHR*)pNext, pAllocationCallbacks);
         } break;
         #endif // VK_USE_PLATFORM_XLIB_KHR

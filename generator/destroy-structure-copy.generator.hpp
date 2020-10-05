@@ -141,7 +141,7 @@ inline void generate_destroy_structure_copy_definition(const xml::Manifest& xmlM
             $<COMPILE_GUARDS>
             #ifdef ${COMPILE_GUARD}
             $</>
-            case ${STRUCTURE_NAME}: {
+            case ${STRUCTURE_TYPE_ENUM}: {
                 destroy_dynamic_array_copy(1, (const ${VK_STRUCTURE_TYPE}*)pNext, pAllocationCallbacks);
             } break;
             $<COMPILE_GUARDS:reverse=true>

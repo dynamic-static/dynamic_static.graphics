@@ -20,6 +20,24 @@ namespace dst {
 namespace vk {
 namespace cppgen {
 
+#if 0
+inline bool vk_handle_requires_manual_implementation(const std::string& structureName)
+{
+    static const std::set<std::string> sHandlesRequiringManualImplementation {
+        "VkCommandBuffer",
+        "VkDeferredOperationKHR",
+        "VkDescriptorSet",
+        "VkInstance",
+    };
+    return sHandlesRequiringManualImplementation.count(structureName);
+}
+#endif
+
+inline std::string strip_vk(const std::string& str)
+{
+    return string::remove(string::remove(string::remove(str, "VK_"), "Vk"), "vk");
+}
+
 inline const std::set<std::string>& get_manually_implemented_structures()
 {
     #if 0
@@ -58,11 +76,29 @@ inline bool is_manually_implemented(const xml::Structure& structure)
     return get_manually_implemented_structures().count(structure.name);
 }
 
+inline std::vector<std::string> get_handle_compile_guards(const xml::Handle& handle)
+{
+    std::vector<std::string> compileGuards;
+    if (!handle.compileGuard.empty()) {
+        compileGuards.push_back(handle.compileGuard);
+    }
+    return compileGuards;
+}
+
 inline std::vector<std::string> get_structure_compile_guards(const xml::Structure& structure)
 {
     std::vector<std::string> compileGuards;
     if (!structure.compileGuard.empty()) {
         compileGuards.push_back(structure.compileGuard);
+    }
+    return compileGuards;
+}
+
+inline std::vector<std::string> get_function_compile_guards(const xml::Function& function)
+{
+    std::vector<std::string> compileGuards;
+    if (!function.compileGuard.empty()) {
+        compileGuards.push_back(function.compileGuard);
     }
     return compileGuards;
 }
@@ -172,6 +208,7 @@ inline dst::cppgen::SourceBlock get_unfiltered_structure_source_blocks(const xml
             if (structure.alias.empty()) {
                 return {
                     SourceBlock("STRUCTURE_NAME", structure.name),
+                    SourceBlock("STRUCTURE_TYPE_ENUM", structure.vkStructureType),
                     SourceBlock("COMPILE_GUARDS", get_structure_compile_guards(structure),
                         [&](const std::string& compileGuard) -> std::vector<SourceBlock>
                         {
@@ -204,147 +241,134 @@ inline std::vector<dst::cppgen::SourceBlock> get_structure_source_blocks(const x
     return sStructureSourceBlocks;
 }
 
-/**
-TODO : Documentation
-*/
-inline bool vk_handle_requires_manual_implementation(const std::string& structureName)
-{
-    static const std::set<std::string> sHandlesRequiringManualImplementation {
-        "VkCommandBuffer",
-        "VkDeferredOperationKHR",
-        "VkDescriptorSet",
-        "VkInstance",
-    };
-    return sHandlesRequiringManualImplementation.count(structureName);
-}
-
-/**
-TODO : Documentation
-*/
-inline bool vk_structure_requires_manual_implementation(const std::string& structureName)
-{
-    static const std::set<std::string> sStructuresRequiringManualImplementation {
-        // Structures with bitfields
-        "VkAccelerationStructureInstanceKHR",
-        "VkAccelerationStructureVersionKHR",
-        //"VkAllocationCallbacks",
-        //"VkCheckpointDataNV",
-        
-        //"VkDebugMarkerObjectTagInfoEXT",
-        //"VkDebugReportCallbackCreateInfoEXT",
-        //"VkDebugUtilsMessengerCreateInfoEXT",
-        //"VkDebugUtilsObjectTagInfoEXT",
-        //"VkImportMemoryHostPointerInfoEXT",
-        //"VkInitializePerformanceApiInfoINTEL",
-        
-        // Structures with members with special case length
-        "VkPipelineMultisampleStateCreateInfo",
-        "VkShaderModuleCreateInfo",
-        "VkTransformMatrixKHR",
-        // Unions
-        "VkClearColorValue",
-        "VkClearValue",
-        "VkPerformanceCounterResultKHR",
-        "VkPerformanceValueDataINTEL",
-        "VkPipelineExecutableStatisticValueKHR",
-    };
-    return sStructuresRequiringManualImplementation.count(structureName);
-}
-
-/**
-TODO : Documentation
-*/
-inline std::string vk_structure_manual_implemntation_compile_guard(const std::string& structureName)
-{
-    return vk_structure_requires_manual_implementation(structureName) ? "DST_GFX_VK_STRUCTURE_MANUAL_IMPLEMENTATION" : std::string();
-}
-
-/**
-TODO : Documentation
-*/
-inline std::string strip_vk(const std::string& str)
-{
-    return string::remove(string::remove(string::remove(str, "VK_"), "Vk"), "vk");
-}
-
-#if 0
-/**
-TODO : Documentation
-*/
-template <typename GenerateCaseFunctionType>
-inline dst::cppgen::CppSwitch generate_vk_structure_type_switch(
-    const vk::xml::Manifest& vkXmlManifest,
-    const std::string& condition,
-    GenerateCaseFunctionType generateCase
-)
+inline dst::cppgen::SourceBlock get_handle_source_blocks(const xml::Manifest& xmlManifest)
 {
     using namespace dst::cppgen;
-    CppSwitch cppSwitch;
-    cppSwitch.cppCondition = condition;
-    auto vkStructureTypeEnumerationItr = vkXmlManifest.enumerations.find("VkStructureType");
-    if (vkStructureTypeEnumerationItr != vkXmlManifest.enumerations.end()) {
-        const auto& vkStructureTypeEnumeration = vkStructureTypeEnumerationItr->second;
-        for (const auto& vkStructureTypeEnumerator : vkStructureTypeEnumeration.enumerators) {
-            if (vkStructureTypeEnumerator.alias.empty()) {
-                auto vkStructureTypeItr = vkXmlManifest.structureTypes.find(vkStructureTypeEnumerator.name);
-                if (vkStructureTypeItr != vkXmlManifest.structureTypes.end()) {
-                    auto vkStructureItr = vkXmlManifest.structures.find(vkStructureTypeItr->second);
-                    if (vkStructureItr != vkXmlManifest.structures.end()) {
-                        CppSwitch::CppCase cppCase;
-                        cppCase.cppCompileGuards = { vkStructureTypeEnumerator.compileGuard };
-                        cppCase.cppName = vkStructureTypeEnumerator.name;
-                        generateCase(vkStructureItr->second, cppCase);
-                        cppSwitch.cppCases.push_back(cppCase);
-                    }
-                }
+    using namespace dst::vk::xml;
+    return SourceBlock("HANDLE_TYPES", xmlManifest.handles,
+        [&](const std::pair<std::string, Handle>& handleItr) -> std::vector<SourceBlock>
+        {
+            const auto& handle = handleItr.second;
+            if (handle.alias.empty()) {
+                return {
+                    SourceBlock("HANDLE_COMPILE_GUARDS", get_handle_compile_guards(handle),
+                        [&](const std::string& compileGuard) -> std::vector<SourceBlock>
+                        {
+                            return { SourceBlock("COMPILE_GUARD", compileGuard) };
+                        }
+                    ),
+                    SourceBlock("HANDLE_TYPE", handle.name),
+                    SourceBlock("OBJECT_TYPE", "VK_OBJECT_TYPE_" + handle.name + "_TODO"),
+                    SourceBlock("PARENT_HANDLE_TYPES", handle.parents,
+                        [&](const std::string& parent) -> std::vector<SourceBlock>
+                        {
+                            return { SourceBlock("PARENT_HANDLE_TYPE", parent) };
+                        }
+                    ),
+                    SourceBlock("CREATE_INFO_TYPES", handle.createInfos,
+                        [&](const std::string& createInfo) -> std::vector<SourceBlock>
+                        {
+                            auto structureItr = xmlManifest.structures.find(createInfo);
+                            if (structureItr != xmlManifest.structures.end()) {
+                                const auto& structure = structureItr->second;
+                                return {
+                                    SourceBlock("CREATE_INFO_COMPILE_GUARDS", get_structure_compile_guards(structure),
+                                        [&](const std::string& compileGuard) -> std::vector<SourceBlock>
+                                        {
+                                            return { SourceBlock("COMPILE_GUARD", compileGuard) };
+                                        }
+                                    ),
+                                    SourceBlock("CREATE_INFO_TYPE", structure.name),
+                                    SourceBlock("STRIP_VK_CREATE_INFO_TYPE", strip_vk(structure.name))
+                                };
+                            }
+                            return { };
+                        }
+                    ),
+                    SourceBlock("CREATE_FUNCTIONS", handle.createFunctions,
+                        [&](std::string functionName) -> std::vector<SourceBlock>
+                        {
+                            static const std::string VkCreatePrefix = "vkC";
+                            auto functionItr = xmlManifest.functions.find(functionName);
+                            if (functionItr != xmlManifest.functions.end() && VkCreatePrefix.size() <= functionItr->second.name.size()) {
+                                const auto& function = functionItr->second;
+                                functionName = function.name[VkCreatePrefix.size() - 1] == 'C' ? "create" : "allocate";
+                                return {
+                                    SourceBlock("CREATE_FUNCTION_COMPILE_GUARDS", get_function_compile_guards(function),
+                                        [&](const std::string& compileGuard) -> std::vector<SourceBlock>
+                                        {
+                                            return { SourceBlock("COMPILE_GUARD", compileGuard) };
+                                        }
+                                    ),
+                                    SourceBlock("CREATE_FUNCTION_NAME", functionName),
+                                    SourceBlock("VK_CREATE_FUNCTION_NAME", function.name),
+                                    SourceBlock("PARAMETERS", function.parameters,
+                                        [&](const Parameter& parameter) -> std::vector<SourceBlock>
+                                        {
+                                            auto vkParameter = parameter.name;
+                                            auto managedParameter = parameter;
+                                            if (parameter.unqualifiedType == handle.name) {
+                                                vkParameter = "&handle";
+                                                managedParameter.type = "Managed<" + handle.name + ">*";
+                                            } else
+                                            if (xmlManifest.handles.count(parameter.unqualifiedType)) {
+                                                vkParameter = vkParameter + ".get<" + parameter.unqualifiedType + ">()";
+                                                managedParameter.type = "const Managed<" + managedParameter.type + ">&";
+                                            }
+                                            return {
+                                                SourceBlock("UNQUALIFIED_PARAMETER_TYPE", parameter.unqualifiedType),
+                                                SourceBlock("VK_PARAMETER", parameter.name),
+                                                SourceBlock("MANAGED_PARAMETER_TYPE", managedParameter.type),
+                                                SourceBlock("MANAGED_PARAMETER_NAME", managedParameter.name),
+                                            };
+                                        }
+                                    ),
+                                };
+                            }
+                            return { };
+                        }
+                    ),
+                    SourceBlock("DESTROY_FUNCTIONS", handle.destroyFunctions,
+                        [&](std::string functionName) -> std::vector<SourceBlock>
+                        {
+                            assert(handle.destroyFunctions.size() == 1);
+                            static const std::string VkDestroyPrefix = "vkD";
+                            auto functionItr = xmlManifest.functions.find(functionName);
+                            if (functionItr != xmlManifest.functions.end() && VkDestroyPrefix.size() <= functionItr->second.name.size()) {
+                                const auto& function = functionItr->second;
+                                functionName = function.name[VkDestroyPrefix.size() - 1] == 'D' ? "destroy" : "free";
+                                return {
+                                    SourceBlock("VK_DESTROY_FUNCTION_NAME", function.name),
+                                    SourceBlock("PARAMETERS", function.parameters,
+                                        [&](const Parameter& parameter) -> std::vector<SourceBlock>
+                                        {
+                                            auto vkParameter = parameter.name;
+                                            if (parameter.unqualifiedType == handle.name) {
+                                                vkParameter[0] = (char)toupper((int)vkParameter[0]);
+                                                vkParameter = "vk" + vkParameter;
+                                            } else
+                                            if (xmlManifest.handles.count(parameter.unqualifiedType)) {
+                                                vkParameter = strip_vk(vkParameter) + ".get<" + parameter.unqualifiedType + ">()";
+                                                vkParameter[0] = (char)tolower((int)vkParameter[0]);
+                                            } else
+                                            if (parameter.name == "pAllocator") {
+                                                vkParameter = "nullptr /* TODO : pAllocator */";
+                                            }
+                                            return {
+                                                SourceBlock("VK_PARAMETER", vkParameter),
+                                            };
+                                        }
+                                    )
+                                };
+                            }
+                            return { };
+                        }
+                    )
+                };
             }
+            return { };
         }
-    }
-    return cppSwitch;
-}
-#endif
-
-/**
-TODO : Documentation
-*/
-template <typename GenerateCaseFunctionType>
-inline std::string generate_vk_structure_type_switch(
-    const vk::xml::Manifest& vkXmlManifest,
-    const std::string& condition,
-    GenerateCaseFunctionType generateCase
-)
-{
-    using namespace dst::cppgen;
-    CppSwitch cppSwitch;
-    cppSwitch.cppCondition = condition;
-    auto structureTypeEnumerationItr = vkXmlManifest.enumerations.find("VkStructureType");
-    if (structureTypeEnumerationItr != vkXmlManifest.enumerations.end()) {
-        const auto& vkStructureTypeEnumeration = structureTypeEnumerationItr->second;
-        for (const auto& structureTypeEnumerator : vkStructureTypeEnumeration.enumerators) {
-            if (structureTypeEnumerator.alias.empty()) {
-                auto structureTypeItr = vkXmlManifest.structureTypes.find(structureTypeEnumerator.name);
-                if (structureTypeItr != vkXmlManifest.structureTypes.end()) {
-                    auto structureItr = vkXmlManifest.structures.find(structureTypeItr->second);
-                    if (structureItr != vkXmlManifest.structures.end()) {
-                        cppSwitch.cppCases.emplace_back(
-                            CppCompileGuard { structureTypeEnumerator.compileGuard },
-                            structureTypeEnumerator.name,
-                            generateCase(structureItr->second),
-                            Break
-                        );
-                        #if 0
-                        CppCase cppCase;
-                        cppCase.cppCompileGuards = { vkStructureTypeEnumerator.compileGuard };
-                        cppCase.cppLabel = vkStructureTypeEnumerator.name;
-                        cppCase.cppSourceBlock = generateCase(vkStructureItr->second);
-                        cppSwitch.cppCases.push_back(cppCase);
-                        #endif
-                    }
-                }
-            }
-        }
-    }
-    return to_string(cppSwitch, 0);
+    );
 }
 
 } // namespace cppgen

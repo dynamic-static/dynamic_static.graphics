@@ -43,7 +43,7 @@ set(generatedIncludeFiles
     "${generatedIncludePath}/greater-than-operators.hpp"
     "${generatedIncludePath}/less-than-operators.hpp"
     "${generatedIncludePath}/structure-to-tuple.hpp"
-    # "${generatedIncludePath}/managed-handles.hpp"
+    "${generatedIncludePath}/managed-handles.hpp"
     "${generatedIncludePath}/managed-structures.hpp"
 )
 set(generatedSourceFiles
@@ -52,7 +52,7 @@ set(generatedSourceFiles
     "${generatedSourcePath}/equality-operators.cpp"
     "${generatedSourcePath}/greater-than-operators.cpp"
     "${generatedSourcePath}/less-than-operators.cpp"
-    # "${generatedSourcePath}/managed-handles.cpp"
+    "${generatedSourcePath}/managed-handles.cpp"
 )
 
 # dynamic_static.graphics.vulkan.generator
@@ -65,7 +65,7 @@ dst_add_cpp_generator(
         "${generatorSourcePath}/create-structure-copy.generator.hpp"
         "${generatorSourcePath}/destroy-structure-copy.generator.hpp"
         "${generatorSourcePath}/main.cpp"
-        # "${generatorSourcePath}/managed-handles.generator.hpp"
+        "${generatorSourcePath}/managed-handles.generator.hpp"
         "${generatorSourcePath}/managed-structures.generator.hpp"
         "${generatorSourcePath}/structure-comparison-operators.generator.hpp"
         "${generatorSourcePath}/structure-to-tuple.generator.hpp"
