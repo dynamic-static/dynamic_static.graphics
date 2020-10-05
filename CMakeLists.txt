@@ -226,17 +226,17 @@ dst_add_static_library(
         ${CMAKE_CURRENT_LIST_DIR}/source/Dynamic_Static/Graphics/TinyGLTFInclude.cpp
 )
 
-# # dynamic_static.graphics.tests
-# if(DST_CORE_BUILD_TESTS)
-#     set(testsPath "${Dynamic_Static.Graphics_SOURCE_DIR}/tests/")
-#     dst_add_test_suite(
-#         target dynamic_static.graphics
-#         sourceFiles
-#             "${testsPath}/comparison-operators.tests.cpp"
-#             "${testsPath}/randomize-structure.hpp"
-#             "${testsPath}/structure-copy.tests.cpp"
-#     )
-# endif()
+# dynamic_static.graphics.tests
+if(DST_CORE_BUILD_TESTS)
+    set(testsPath "${CMAKE_CURRENT_LIST_DIR}/tests/")
+    dst_add_target_test_suite(
+        target dynamic_static.graphics
+        sourceFiles
+            "${testsPath}/comparison-operators.tests.cpp"
+            "${testsPath}/randomize-structure.hpp"
+            "${testsPath}/structure-copy.tests.cpp"
+    )
+endif()
 
 #### # Examples
 #### if(DST_GFX_BUILD_EXAMPLES)

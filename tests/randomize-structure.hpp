@@ -16,7 +16,6 @@
 #include <vector>
 
 namespace dst {
-namespace gfx {
 namespace vk {
 namespace tests {
 
@@ -52,7 +51,7 @@ public:
         return (T*)mAllocations.back().data();
     }
 
-    RandomNumberGenerator<> rng; //!< This RngContext object's RandomNumberGenerator<>
+    RandomNumberGenerator rng; //!< This RngContext object's RandomNumberGenerator<>
 
 private:
     std::vector<std::vector<uint8_t>> mAllocations;
@@ -355,5 +354,4 @@ inline std::vector<VulkanStructureType> get_randomized_structures(RngContext& rn
 
 } // namespace tests
 } // namespace vk
-} // namespace gfx
 } // namespace dst

@@ -40,14 +40,14 @@ inline void generate_create_structure_copy_declarations(const xml::Manifest& xml
     namespace vk {
     namespace detail {
 
-    void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocationCallbacks);
+    void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocator);
 
     $<UNFILTERED_STRUCTURES:"\n">
     $<COMPILE_GUARDS>
     #ifdef ${COMPILE_GUARD}
     $</>
     template <>
-    ${STRUCTURE_NAME} create_structure_copy<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}& obj, const VkAllocationCallbacks* pAllocationCallbacks);
+    ${STRUCTURE_NAME} create_structure_copy<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}& obj, const VkAllocationCallbacks* pAllocator);
     $<COMPILE_GUARDS:reverse=true>
     #endif // ${COMPILE_GUARD}
     $</>
@@ -89,7 +89,7 @@ inline void generate_create_structure_copy_definitions(const xml::Manifest& xmlM
     $<COMPILE_GUARDS>
     #ifdef ${COMPILE_GUARD}
     $</>
-    template <> ${STRUCTURE_NAME} create_structure_copy<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}&, const VkAllocationCallbacks*);
+    template <> ${STRUCTURE_NAME} create_structure_copy<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}& obj, const VkAllocationCallbacks* pAllocator);
     $<COMPILE_GUARDS:reverse=true>
     #endif // ${COMPILE_GUARD}
     $</>
@@ -102,33 +102,33 @@ inline void generate_create_structure_copy_definitions(const xml::Manifest& xmlM
     #ifdef ${COMPILE_GUARD}
     $</>
     template <>
-    ${STRUCTURE_NAME} create_structure_copy<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}& obj, const VkAllocationCallbacks* pAllocationCallbacks)
+    ${STRUCTURE_NAME} create_structure_copy<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}& obj, const VkAllocationCallbacks* pAllocator)
     {
         ${STRUCTURE_NAME} result { };
         $<MEMBERS>
         $<condition="PNEXT">
-        result.pNext = (${MEMBER_TYPE})create_pnext_copy(obj.pNext, pAllocationCallbacks);
+        result.pNext = (${MEMBER_TYPE})create_pnext_copy(obj.pNext, pAllocator);
         $</>
         $<condition="STATIC_ARRAY">
-        create_static_array_copy<${MEMBER_LENGTH}>(result.${MEMBER_NAME}, obj.${MEMBER_NAME}, pAllocationCallbacks);
+        create_static_array_copy<${MEMBER_LENGTH}>(result.${MEMBER_NAME}, obj.${MEMBER_NAME}, pAllocator);
         $</>
         $<condition="STATIC_STRING">
         create_static_string_copy<${MEMBER_LENGTH}>(result.${MEMBER_NAME}, obj.${MEMBER_NAME});
         $</>
         $<condition="DYNAMIC_ARRAY">
-        result.${MEMBER_NAME} = create_dynamic_array_copy(obj.${MEMBER_LENGTH}, obj.${MEMBER_NAME}, pAllocationCallbacks);
+        result.${MEMBER_NAME} = create_dynamic_array_copy(obj.${MEMBER_LENGTH}, obj.${MEMBER_NAME}, pAllocator);
         $</>
         $<condition="DYNAMIC_STRING">
-        result.${MEMBER_NAME} = create_dynamic_string_copy(obj.${MEMBER_NAME}, pAllocationCallbacks);
+        result.${MEMBER_NAME} = create_dynamic_string_copy(obj.${MEMBER_NAME}, pAllocator);
         $</>
         $<condition="DYNAMIC_STRING_ARRAY">
-        result.${MEMBER_NAME} = create_dynamic_string_array_copy(obj.${MEMBER_LENGTH}, obj.${MEMBER_NAME}, pAllocationCallbacks);
+        result.${MEMBER_NAME} = create_dynamic_string_array_copy(obj.${MEMBER_LENGTH}, obj.${MEMBER_NAME}, pAllocator);
         $</>
         $<condition="STRUCTURE_POINTER">
-        result.${MEMBER_NAME} = create_dynamic_array_copy(1, obj.${MEMBER_NAME}, pAllocationCallbacks);
+        result.${MEMBER_NAME} = create_dynamic_array_copy(1, obj.${MEMBER_NAME}, pAllocator);
         $</>
         $<condition="STRUCTURE">
-        result.${MEMBER_NAME} = create_structure_copy(obj.${MEMBER_NAME}, pAllocationCallbacks);
+        result.${MEMBER_NAME} = create_structure_copy(obj.${MEMBER_NAME}, pAllocator);
         $</>
         $<condition="POD">
         result.${MEMBER_NAME} = obj.${MEMBER_NAME};
@@ -141,7 +141,7 @@ inline void generate_create_structure_copy_definitions(const xml::Manifest& xmlM
     $</>
     $</>
 
-    void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocationCallbacks)
+    void* create_pnext_copy(const void* pNext, const VkAllocationCallbacks* pAllocator)
     {
         if (pNext) {
             switch (*(VkStructureType*)pNext) {
@@ -151,7 +151,7 @@ inline void generate_create_structure_copy_definitions(const xml::Manifest& xmlM
             #ifdef ${COMPILE_GUARD}
             $</>
             case ${STRUCTURE_TYPE_ENUM}: {
-                return create_dynamic_array_copy(1, (${STRUCTURE_NAME}*)pNext, pAllocationCallbacks);
+                return create_dynamic_array_copy(1, (${STRUCTURE_NAME}*)pNext, pAllocator);
             } break;
             $<COMPILE_GUARDS:reverse=true>
             #endif // ${COMPILE_GUARD}

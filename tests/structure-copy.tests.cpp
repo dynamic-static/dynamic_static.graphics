@@ -17,7 +17,6 @@
 #include <unordered_set>
 
 namespace dst {
-namespace gfx {
 namespace vk {
 namespace tests {
 
@@ -191,5 +190,4 @@ TEST_CASE("Structure copy for structures with pNext members")
 
 } // namespace tests
 } // namespace vk
-} // namespace gfx
 } // namespace dst

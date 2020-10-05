@@ -54,7 +54,7 @@ inline void generate_to_tuple(const xml::Manifest& xmlManifest)
     $<COMPILE_GUARDS>
     #ifdef ${COMPILE_GUARD}
     $</>
-    template <> inline auto to_tuple<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}&);
+    template <> inline auto to_tuple<${STRUCTURE_NAME}>(const ${STRUCTURE_NAME}& obj);
     $<COMPILE_GUARDS:reverse=true>
     #endif // ${COMPILE_GUARD}
     $</>

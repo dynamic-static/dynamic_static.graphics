@@ -16,7 +16,6 @@
 #include <vector>
 
 namespace dst {
-namespace gfx {
 namespace vk {
 namespace tests {
 
@@ -221,5 +220,4 @@ TEST_CASE("Comparison operators for structures with pNext members")
 
 } // namespace tests
 } // namespace vk
-} // namespace gfx
 } // namespace dst
