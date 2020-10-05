@@ -10,7 +10,5 @@
 
 #pragma once
 
-#include "dynamic_static/graphics/vulkan/generated/equality-operators.hpp"
-#include "dynamic_static/graphics/vulkan/generated/greater-than-operators.hpp"
-#include "dynamic_static/graphics/vulkan/generated/less-than-operators.hpp"
+#include "dynamic_static/graphics/vulkan/generated/comparison-operators.hpp"
 #include "dynamic_static/graphics/vulkan/defines.hpp"

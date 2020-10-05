@@ -19,7 +19,6 @@
 #include "dynamic_static/graphics/vulkan/defines.hpp"
 
 namespace dst {
-namespace gfx {
 namespace vk {
 
 #define DST_GFX_VK_DECLARE_MANAGED_HANDLE(HANDLE_TYPE) \
@@ -29,6 +28,7 @@ class Managed<Vk##HANDLE_TYPE>                         \
 {                                                      \
 };
 
+#if 0
 // TODO : Generate these so spec changes are automatically picked up...
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 DST_GFX_VK_DECLARE_MANAGED_HANDLE(AccelerationStructureKHR)
@@ -74,7 +74,7 @@ DST_GFX_VK_DECLARE_MANAGED_HANDLE(ShaderModule)
 DST_GFX_VK_DECLARE_MANAGED_HANDLE(SurfaceKHR)
 DST_GFX_VK_DECLARE_MANAGED_HANDLE(SwapchainKHR)
 DST_GFX_VK_DECLARE_MANAGED_HANDLE(ValidationCacheEXT)
+#endif
 
 } // namespace vk
-} // namespace gfx
 } // namespace dst

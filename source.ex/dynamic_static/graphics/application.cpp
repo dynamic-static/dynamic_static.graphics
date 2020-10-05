@@ -20,6 +20,7 @@ Application::~Application()
 
 void Application::start()
 {
+    #if 0
     setup();
     mRunning = true;
     mClock.update();
@@ -35,6 +36,7 @@ void Application::start()
         post_render(mClock);
     }
     shutdown();
+    #endif
 }
 
 void Application::stop()

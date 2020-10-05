@@ -13,7 +13,6 @@
 #include "dynamic_static/graphics/vulkan/defines.hpp"
 
 namespace dst {
-namespace gfx {
 namespace vk {
 
 /**
@@ -25,5 +24,4 @@ class Managed final
 };
 
 } // namespace vk
-} // namespace gfx
 } // namespace dst

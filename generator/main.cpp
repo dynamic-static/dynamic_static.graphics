@@ -40,11 +40,11 @@ int main(int argc, char* argv[])
         dst::Timer timer;
         using namespace dst::vk::cppgen;
         // time("generate_create_structure_copy", [&]() { generate_create_structure_copy(xmlManifest); });
-        time("generate_comparison_operators", [&]() { generate_comparison_operators(xmlManifest); });
+        // time("generate_comparison_operators", [&]() { generate_comparison_operators(xmlManifest); });
         // time("generate_destroy_structure_copy", [&]() { generate_destroy_structure_copy(xmlManifest); });
-        // time("generate_managed_handles", [&]() { generate_managed_handles(xmlManifest); });
-        // time("generate_managed_structures", [&]() { generate_managed_structures(xmlManifest); });
-        time("generate_to_tuple", [&]() { generate_to_tuple(xmlManifest); });
+        time("generate_managed_handles", [&]() { generate_managed_handles(xmlManifest); });
+        time("generate_managed_structures", [&]() { generate_managed_structures(xmlManifest); });
+        // time("generate_to_tuple", [&]() { generate_to_tuple(xmlManifest); });
         std::cout << "total\n";
         std::cout << "    " << timer.total<dst::Seconds<>>() << " s\n";
         std::cout << "    " << timer.total<dst::Milliseconds<>>() << " ms\n";

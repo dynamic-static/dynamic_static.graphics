@@ -17,7 +17,6 @@
 #include <utility>
 
 namespace dst {
-namespace gfx {
 namespace vk {
 namespace detail {
 
@@ -363,5 +362,4 @@ inline bool operator>=(
 
 } // namespace detail
 } // namespace vk
-} // namespace gfx
 } // namespace dst

@@ -52,7 +52,7 @@ inline void generate_managed_structures(const xml::Manifest& xmlManifest)
         : public detail::ManagedStructure<${STRUCTURE_NAME}>
     {
     public:
-        using detail::ManagedStructure<${STRUCTURE_NAME}>::ManagedStructure<${STRUCTURE_NAME}>;
+        using detail::ManagedStructure<${STRUCTURE_NAME}>::ManagedStructure;
     };
     $<COMPILE_GUARDS:reverse=true>
     #endif // ${COMPILE_GUARD}

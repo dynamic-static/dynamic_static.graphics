@@ -14,7 +14,6 @@
 #include "dynamic_static/graphics/vulkan/generated/managed-handles.hpp"
 
 namespace dst {
-namespace gfx {
 namespace vk {
 
 template <>
@@ -26,5 +25,4 @@ public:
 };
 
 } // namespace vk
-} // namespace gfx
 } // namespace dst
