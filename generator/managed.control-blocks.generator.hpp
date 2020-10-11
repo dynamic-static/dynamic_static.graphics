@@ -69,13 +69,13 @@ inline void generate_managed_control_block_declarations(const xml::Manifest& xml
             return std::get<T>(mFields);
         }
 
-    private:
         template <typename T>
         inline void set(T&& field)
         {
             std::get<T>(mFields) = std::move(field);
         }
 
+    private:
         std::tuple<
             VkObjectType,
             $<PARENT_HANDLES>
@@ -92,6 +92,9 @@ inline void generate_managed_control_block_declarations(const xml::Manifest& xml
             $</>
             $<condition="HAS_ALLOCATOR">
             VkAllocationCallbacks,
+            $</>
+            $<CUSTOM_FIELDS>
+            ${CUSTOM_FIELD},
             $</>
             ${HANDLE_TYPE_NAME}
         > mFields;
@@ -124,6 +127,7 @@ inline void generate_managed_control_block_definitions(const xml::Manifest& xmlM
     */
 
     #include "dynamic_static/graphics/vulkan/generated/managed.control-blocks.hpp"
+    #include "dynamic_static/graphics/vulkan/detail/managed.control-blocks.manual.hpp"
     #include "dynamic_static/graphics/vulkan/managed.hpp"
 
     namespace dst {
@@ -161,6 +165,7 @@ inline void generate_managed_control_block_definitions(const xml::Manifest& xmlM
                 ${MANAGED_HANDLE_PARAMETER_NAME}->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
                 $</>
                 ${MANAGED_HANDLE_PARAMETER_NAME}->mspControlBlock->set(std::move(vkHandle));
+                detail::on_managed_handle_created(*${MANAGED_HANDLE_PARAMETER_NAME});
             }
         }
         return vkResult;

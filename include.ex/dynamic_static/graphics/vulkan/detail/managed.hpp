@@ -24,12 +24,21 @@ namespace vk {
 template <typename T, class Enable = void>
 class Managed
 {
-public:
-    inline Managed()
-    {
-        static_assert(false && "TODO : Fail");
-    }
 };
+
+namespace detail {
+
+template <typename VulkanHandleType>
+inline void on_managed_handle_created(Managed<VulkanHandleType>&)
+{
+}
+
+template <typename VulkanHandleType>
+inline void on_managed_handle_destroyed(Managed<VulkanHandleType>&)
+{
+}
+
+} // namespace detail
 
 /**
 TODO : Documentation
@@ -73,7 +82,6 @@ public:
     inline ~Managed()
     {
         reset();
-        detail::destroy_structure_copy(mVkStructure, nullptr);
     }
 
     /**
@@ -126,6 +134,7 @@ public:
     inline void reset()
     {
         detail::destroy_structure_copy(mVkStructure, nullptr);
+        mVkStructure = { };
     }
 
 private:
@@ -145,6 +154,14 @@ public:
     TODO : Documentation
     */
     Managed() = default;
+
+    /**
+    TODO : Documentation
+    */
+    inline ~Managed()
+    {
+        reset();
+    }
 
     /**
     TODO : Documentation
@@ -221,6 +238,7 @@ public:
     */
     inline void reset()
     {
+        detail::on_managed_handle_destroyed(*this);
         mspControlBlock.reset();
         mVkHandle = VK_NULL_HANDLE;
     }
@@ -228,6 +246,10 @@ public:
 private:
     VulkanHandleType mVkHandle { VK_NULL_HANDLE };
     std::shared_ptr<ControlBlock> mspControlBlock;
+    template <typename VulkanHandleType>
+    friend void detail::on_managed_handle_created(Managed<VulkanHandleType>&);
+    template <typename VulkanHandleType>
+    friend void detail::on_managed_handle_destroyed(Managed<VulkanHandleType>&);
 };
 
 template <typename ManagedVulkanHandleType, typename ...Args>

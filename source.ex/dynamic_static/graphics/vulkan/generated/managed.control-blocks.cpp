@@ -9,6 +9,7 @@
 */
 
 #include "dynamic_static/graphics/vulkan/generated/managed.control-blocks.hpp"
+#include "dynamic_static/graphics/vulkan/detail/managed.control-blocks.manual.hpp"
 #include "dynamic_static/graphics/vulkan/managed.hpp"
 
 namespace dst {
@@ -29,6 +30,7 @@ VkResult Managed<VkInstance>::ControlBlock::create(const VkInstanceCreateInfo* p
             pInstance->mspControlBlock->set(std::move(Managed<VkInstanceCreateInfo>(*pCreateInfo)));
             pInstance->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pInstance->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pInstance);
         }
     }
     return vkResult;
@@ -61,6 +63,7 @@ VkResult Managed<VkDevice>::ControlBlock::create(const Managed<VkPhysicalDevice>
             pDevice->mspControlBlock->set(std::move(Managed<VkDeviceCreateInfo>(*pCreateInfo)));
             pDevice->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pDevice->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pDevice);
         }
     }
     return vkResult;
@@ -89,6 +92,7 @@ VkResult Managed<VkBuffer>::ControlBlock::create(const Managed<VkDevice>& device
             pBuffer->mspControlBlock->set(std::move(Managed<VkBufferCreateInfo>(*pCreateInfo)));
             pBuffer->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pBuffer->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pBuffer);
         }
     }
     return vkResult;
@@ -119,6 +123,7 @@ VkResult Managed<VkBufferView>::ControlBlock::create(const Managed<VkDevice>& de
             pView->mspControlBlock->set(std::move(Managed<VkBufferViewCreateInfo>(*pCreateInfo)));
             pView->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pView->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pView);
         }
     }
     return vkResult;
@@ -149,6 +154,7 @@ VkResult Managed<VkCommandPool>::ControlBlock::create(const Managed<VkDevice>& d
             pCommandPool->mspControlBlock->set(std::move(Managed<VkCommandPoolCreateInfo>(*pCreateInfo)));
             pCommandPool->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pCommandPool->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pCommandPool);
         }
     }
     return vkResult;
@@ -179,6 +185,7 @@ VkResult Managed<VkCommandBuffer>::ControlBlock::allocate(const Managed<VkDevice
             pCommandBuffers->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
             pCommandBuffers->mspControlBlock->set(std::move(Managed<VkCommandBufferAllocateInfo>(*pAllocateInfo)));
             pCommandBuffers->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pCommandBuffers);
         }
     }
     return vkResult;
@@ -204,6 +211,7 @@ VkResult Managed<VkDescriptorPool>::ControlBlock::create(const Managed<VkDevice>
             pDescriptorPool->mspControlBlock->set(std::move(Managed<VkDescriptorPoolCreateInfo>(*pCreateInfo)));
             pDescriptorPool->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pDescriptorPool->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pDescriptorPool);
         }
     }
     return vkResult;
@@ -234,6 +242,7 @@ VkResult Managed<VkDescriptorSet>::ControlBlock::allocate(const Managed<VkDevice
             pDescriptorSets->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
             pDescriptorSets->mspControlBlock->set(std::move(Managed<VkDescriptorSetAllocateInfo>(*pAllocateInfo)));
             pDescriptorSets->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pDescriptorSets);
         }
     }
     return vkResult;
@@ -259,6 +268,7 @@ VkResult Managed<VkDescriptorSetLayout>::ControlBlock::create(const Managed<VkDe
             pSetLayout->mspControlBlock->set(std::move(Managed<VkDescriptorSetLayoutCreateInfo>(*pCreateInfo)));
             pSetLayout->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSetLayout->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSetLayout);
         }
     }
     return vkResult;
@@ -289,6 +299,7 @@ VkResult Managed<VkDescriptorUpdateTemplate>::ControlBlock::create(const Managed
             pDescriptorUpdateTemplate->mspControlBlock->set(std::move(Managed<VkDescriptorUpdateTemplateCreateInfo>(*pCreateInfo)));
             pDescriptorUpdateTemplate->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pDescriptorUpdateTemplate->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pDescriptorUpdateTemplate);
         }
     }
     return vkResult;
@@ -320,6 +331,7 @@ VkResult Managed<VkDeviceMemory>::ControlBlock::allocate(const Managed<VkDevice>
             pMemory->mspControlBlock->set(std::move(Managed<VkMemoryAllocateInfo>(*pAllocateInfo)));
             pMemory->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pMemory->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pMemory);
         }
     }
     return vkResult;
@@ -355,6 +367,7 @@ VkResult Managed<VkDisplayModeKHR>::ControlBlock::create(const Managed<VkPhysica
             pMode->mspControlBlock->set(std::move(Managed<VkDisplayModeCreateInfoKHR>(*pCreateInfo)));
             pMode->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pMode->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pMode);
         }
     }
     return vkResult;
@@ -379,6 +392,7 @@ VkResult Managed<VkEvent>::ControlBlock::create(const Managed<VkDevice>& device,
             pEvent->mspControlBlock->set(std::move(Managed<VkEventCreateInfo>(*pCreateInfo)));
             pEvent->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pEvent->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pEvent);
         }
     }
     return vkResult;
@@ -409,6 +423,7 @@ VkResult Managed<VkFence>::ControlBlock::create(const Managed<VkDevice>& device,
             pFence->mspControlBlock->set(std::move(Managed<VkFenceCreateInfo>(*pCreateInfo)));
             pFence->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pFence->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pFence);
         }
     }
     return vkResult;
@@ -439,6 +454,7 @@ VkResult Managed<VkFramebuffer>::ControlBlock::create(const Managed<VkDevice>& d
             pFramebuffer->mspControlBlock->set(std::move(Managed<VkFramebufferCreateInfo>(*pCreateInfo)));
             pFramebuffer->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pFramebuffer->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pFramebuffer);
         }
     }
     return vkResult;
@@ -469,6 +485,7 @@ VkResult Managed<VkImage>::ControlBlock::create(const Managed<VkDevice>& device,
             pImage->mspControlBlock->set(std::move(Managed<VkImageCreateInfo>(*pCreateInfo)));
             pImage->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pImage->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pImage);
         }
     }
     return vkResult;
@@ -499,6 +516,7 @@ VkResult Managed<VkImageView>::ControlBlock::create(const Managed<VkDevice>& dev
             pView->mspControlBlock->set(std::move(Managed<VkImageViewCreateInfo>(*pCreateInfo)));
             pView->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pView->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pView);
         }
     }
     return vkResult;
@@ -533,6 +551,7 @@ VkResult Managed<VkPipeline>::ControlBlock::create(const Managed<VkDevice>& devi
             pPipelines->mspControlBlock->set(std::move(Managed<VkComputePipelineCreateInfo>(*pCreateInfos)));
             pPipelines->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pPipelines->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pPipelines);
         }
     }
     return vkResult;
@@ -552,6 +571,7 @@ VkResult Managed<VkPipeline>::ControlBlock::create(const Managed<VkDevice>& devi
             pPipelines->mspControlBlock->set(std::move(Managed<VkGraphicsPipelineCreateInfo>(*pCreateInfos)));
             pPipelines->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pPipelines->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pPipelines);
         }
     }
     return vkResult;
@@ -582,6 +602,7 @@ VkResult Managed<VkPipelineCache>::ControlBlock::create(const Managed<VkDevice>&
             pPipelineCache->mspControlBlock->set(std::move(Managed<VkPipelineCacheCreateInfo>(*pCreateInfo)));
             pPipelineCache->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pPipelineCache->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pPipelineCache);
         }
     }
     return vkResult;
@@ -612,6 +633,7 @@ VkResult Managed<VkPipelineLayout>::ControlBlock::create(const Managed<VkDevice>
             pPipelineLayout->mspControlBlock->set(std::move(Managed<VkPipelineLayoutCreateInfo>(*pCreateInfo)));
             pPipelineLayout->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pPipelineLayout->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pPipelineLayout);
         }
     }
     return vkResult;
@@ -642,6 +664,7 @@ VkResult Managed<VkQueryPool>::ControlBlock::create(const Managed<VkDevice>& dev
             pQueryPool->mspControlBlock->set(std::move(Managed<VkQueryPoolCreateInfo>(*pCreateInfo)));
             pQueryPool->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pQueryPool->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pQueryPool);
         }
     }
     return vkResult;
@@ -676,6 +699,7 @@ VkResult Managed<VkRenderPass>::ControlBlock::create(const Managed<VkDevice>& de
             pRenderPass->mspControlBlock->set(std::move(Managed<VkRenderPassCreateInfo>(*pCreateInfo)));
             pRenderPass->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pRenderPass->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pRenderPass);
         }
     }
     return vkResult;
@@ -695,6 +719,7 @@ VkResult Managed<VkRenderPass>::ControlBlock::create(const Managed<VkDevice>& de
             pRenderPass->mspControlBlock->set(std::move(Managed<VkRenderPassCreateInfo2>(*pCreateInfo)));
             pRenderPass->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pRenderPass->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pRenderPass);
         }
     }
     return vkResult;
@@ -725,6 +750,7 @@ VkResult Managed<VkSampler>::ControlBlock::create(const Managed<VkDevice>& devic
             pSampler->mspControlBlock->set(std::move(Managed<VkSamplerCreateInfo>(*pCreateInfo)));
             pSampler->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSampler->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSampler);
         }
     }
     return vkResult;
@@ -755,6 +781,7 @@ VkResult Managed<VkSamplerYcbcrConversion>::ControlBlock::create(const Managed<V
             pYcbcrConversion->mspControlBlock->set(std::move(Managed<VkSamplerYcbcrConversionCreateInfo>(*pCreateInfo)));
             pYcbcrConversion->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pYcbcrConversion->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pYcbcrConversion);
         }
     }
     return vkResult;
@@ -786,6 +813,7 @@ VkResult Managed<VkSemaphore>::ControlBlock::create(const Managed<VkDevice>& dev
             pSemaphore->mspControlBlock->set(std::move(Managed<VkSemaphoreCreateInfo>(*pCreateInfo)));
             pSemaphore->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSemaphore->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSemaphore);
         }
     }
     return vkResult;
@@ -816,6 +844,7 @@ VkResult Managed<VkShaderModule>::ControlBlock::create(const Managed<VkDevice>& 
             pShaderModule->mspControlBlock->set(std::move(Managed<VkShaderModuleCreateInfo>(*pCreateInfo)));
             pShaderModule->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pShaderModule->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pShaderModule);
         }
     }
     return vkResult;
@@ -847,6 +876,7 @@ VkResult Managed<VkSurfaceKHR>::ControlBlock::create(const Managed<VkInstance>& 
             pSurface->mspControlBlock->set(std::move(Managed<VkAndroidSurfaceCreateInfoKHR>(*pCreateInfo)));
             pSurface->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSurface->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSurface);
         }
     }
     return vkResult;
@@ -868,6 +898,7 @@ VkResult Managed<VkSurfaceKHR>::ControlBlock::create(const Managed<VkInstance>& 
             pSurface->mspControlBlock->set(std::move(Managed<VkDirectFBSurfaceCreateInfoEXT>(*pCreateInfo)));
             pSurface->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSurface->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSurface);
         }
     }
     return vkResult;
@@ -888,6 +919,7 @@ VkResult Managed<VkSurfaceKHR>::ControlBlock::create(const Managed<VkInstance>& 
             pSurface->mspControlBlock->set(std::move(Managed<VkDisplaySurfaceCreateInfoKHR>(*pCreateInfo)));
             pSurface->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSurface->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSurface);
         }
     }
     return vkResult;
@@ -908,6 +940,7 @@ VkResult Managed<VkSurfaceKHR>::ControlBlock::create(const Managed<VkInstance>& 
             pSurface->mspControlBlock->set(std::move(Managed<VkIOSSurfaceCreateInfoMVK>(*pCreateInfo)));
             pSurface->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSurface->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSurface);
         }
     }
     return vkResult;
@@ -929,6 +962,7 @@ VkResult Managed<VkSurfaceKHR>::ControlBlock::create(const Managed<VkInstance>& 
             pSurface->mspControlBlock->set(std::move(Managed<VkImagePipeSurfaceCreateInfoFUCHSIA>(*pCreateInfo)));
             pSurface->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSurface->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSurface);
         }
     }
     return vkResult;
@@ -950,6 +984,7 @@ VkResult Managed<VkSurfaceKHR>::ControlBlock::create(const Managed<VkInstance>& 
             pSurface->mspControlBlock->set(std::move(Managed<VkMacOSSurfaceCreateInfoMVK>(*pCreateInfo)));
             pSurface->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSurface->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSurface);
         }
     }
     return vkResult;
@@ -971,6 +1006,7 @@ VkResult Managed<VkSurfaceKHR>::ControlBlock::create(const Managed<VkInstance>& 
             pSurface->mspControlBlock->set(std::move(Managed<VkMetalSurfaceCreateInfoEXT>(*pCreateInfo)));
             pSurface->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSurface->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSurface);
         }
     }
     return vkResult;
@@ -992,6 +1028,7 @@ VkResult Managed<VkSurfaceKHR>::ControlBlock::create(const Managed<VkInstance>& 
             pSurface->mspControlBlock->set(std::move(Managed<VkStreamDescriptorSurfaceCreateInfoGGP>(*pCreateInfo)));
             pSurface->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSurface->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSurface);
         }
     }
     return vkResult;
@@ -1013,6 +1050,7 @@ VkResult Managed<VkSurfaceKHR>::ControlBlock::create(const Managed<VkInstance>& 
             pSurface->mspControlBlock->set(std::move(Managed<VkViSurfaceCreateInfoNN>(*pCreateInfo)));
             pSurface->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSurface->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSurface);
         }
     }
     return vkResult;
@@ -1034,6 +1072,7 @@ VkResult Managed<VkSurfaceKHR>::ControlBlock::create(const Managed<VkInstance>& 
             pSurface->mspControlBlock->set(std::move(Managed<VkWaylandSurfaceCreateInfoKHR>(*pCreateInfo)));
             pSurface->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSurface->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSurface);
         }
     }
     return vkResult;
@@ -1055,6 +1094,7 @@ VkResult Managed<VkSurfaceKHR>::ControlBlock::create(const Managed<VkInstance>& 
             pSurface->mspControlBlock->set(std::move(Managed<VkWin32SurfaceCreateInfoKHR>(*pCreateInfo)));
             pSurface->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSurface->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSurface);
         }
     }
     return vkResult;
@@ -1076,6 +1116,7 @@ VkResult Managed<VkSurfaceKHR>::ControlBlock::create(const Managed<VkInstance>& 
             pSurface->mspControlBlock->set(std::move(Managed<VkXcbSurfaceCreateInfoKHR>(*pCreateInfo)));
             pSurface->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSurface->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSurface);
         }
     }
     return vkResult;
@@ -1097,6 +1138,7 @@ VkResult Managed<VkSurfaceKHR>::ControlBlock::create(const Managed<VkInstance>& 
             pSurface->mspControlBlock->set(std::move(Managed<VkXlibSurfaceCreateInfoKHR>(*pCreateInfo)));
             pSurface->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSurface->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSurface);
         }
     }
     return vkResult;
@@ -1128,6 +1170,7 @@ VkResult Managed<VkSwapchainKHR>::ControlBlock::create(const Managed<VkDevice>& 
             pSwapchains->mspControlBlock->set(std::move(Managed<VkSwapchainCreateInfoKHR>(*pCreateInfos)));
             pSwapchains->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSwapchains->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSwapchains);
         }
     }
     return vkResult;
@@ -1147,6 +1190,7 @@ VkResult Managed<VkSwapchainKHR>::ControlBlock::create(const Managed<VkDevice>& 
             pSwapchain->mspControlBlock->set(std::move(Managed<VkSwapchainCreateInfoKHR>(*pCreateInfo)));
             pSwapchain->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSwapchain->mspControlBlock->set(std::move(vkHandle));
+            detail::on_managed_handle_created(*pSwapchain);
         }
     }
     return vkResult;

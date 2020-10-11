@@ -31,6 +31,9 @@ void Application::start()
         dst::sys::Window::poll_events();
         mClock.update();
         const auto& input = mWindow.get_input();
+        if (input.keyboard.down(dst::sys::Keyboard::Key::Escape)) {
+            mRunning = false;
+        }
         pre_update(mClock, input);
         update(mClock, input);
         post_update(mClock, input);

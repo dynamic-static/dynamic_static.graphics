@@ -85,6 +85,7 @@ dst_add_static_library(
     includeFiles
         "${includePath}/vulkan/detail/comparison-operators-utilities.hpp"
         "${includePath}/vulkan/detail/managed.hpp"
+        "${includePath}/vulkan/detail/managed.control-blocks.manual.hpp"
         "${includePath}/vulkan/detail/managed-handle.hpp"
         "${includePath}/vulkan/detail/managed-structure.hpp"
         "${includePath}/vulkan/detail/structure-copy-utilities.hpp"

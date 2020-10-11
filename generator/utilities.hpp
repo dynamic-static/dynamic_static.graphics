@@ -39,6 +39,17 @@ inline std::string strip_vk(const std::string& str)
     return string::remove(string::remove(string::remove(str, "VK_"), "Vk"), "vk");
 }
 
+inline std::vector<std::string> get_custom_handle_fields(const std::string& handleType)
+{
+    static const std::unordered_map<std::string, std::vector<std::string>> sCustomHandleFields {
+        { "VkInstance", { "std::vector<Managed<VkPhysicalDevice>>" }},
+        { "VkDevice", { "std::vector<Managed<VkQueue>>" }},
+        { "VkQueue", { "Managed<VkDeviceQueueCreateInfo>" }},
+    };
+    auto itr = sCustomHandleFields.find(handleType);
+    return itr != sCustomHandleFields.end() ? itr->second : std::vector<std::string> { };
+}
+
 inline const std::set<std::string>& get_manually_implemented_structures(const xml::Manifest& xmlManifest)
 {
     static const std::set<std::string> sManuallyImplementedStructures =
@@ -420,6 +431,12 @@ inline dst::cppgen::SourceBlock get_handle_source_blocks(const xml::Manifest& xm
                     SourceBlock("HANDLE_TYPE_NAME", handle.name),
                     Condition("HAS_ALLOCATOR", hasAllocator),
                     // TODO : Handle needs a VkObjectType field...
+                    SourceBlock("CUSTOM_FIELDS", get_custom_handle_fields(handle.name),
+                        [&](const std::string& field) -> std::vector<SourceBlock>
+                        {
+                            return { SourceBlock("CUSTOM_FIELD", field) };
+                        }
+                    ),
                     SourceBlock("HANDLE_OBJECT_TYPE", "VK_OBJECT_TYPE_UNKNOWN"),
                     SourceBlock("PARENT_HANDLES", handle.parents,
                         [&](const std::string& parent) -> std::vector<SourceBlock>

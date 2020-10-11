@@ -11,6 +11,8 @@ macro(dst_add_example target)
         target ${target}
         folder dynamic_static.graphics/examples
         linkLibraries dynamic_static.graphics
+        includeDirectories "${CMAKE_CURRENT_SOURCE_DIR}/"
+        includeFiles "${CMAKE_CURRENT_SOURCE_DIR}/common/common.hpp"
         sourceFiles "${CMAKE_CURRENT_SOURCE_DIR}/${target}.cpp"
     )
 endmacro()

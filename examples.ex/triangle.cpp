@@ -8,6 +8,8 @@
 ==========================================
 */
 
+#include "common/common.hpp"
+
 #include "dynamic_static/graphics/vulkan/application.hpp"
 #include "dynamic_static/graphics/vulkan/managed.hpp"
 

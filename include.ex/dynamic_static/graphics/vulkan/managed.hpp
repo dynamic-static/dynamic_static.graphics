@@ -10,6 +10,7 @@
 
 #pragma once
 
-#include "dynamic_static/graphics/vulkan/generated/managed.control-blocks.hpp"
 #include "dynamic_static/graphics/vulkan/detail/managed.hpp"
+#include "dynamic_static/graphics/vulkan/detail/managed.control-blocks.manual.hpp"
+#include "dynamic_static/graphics/vulkan/generated/managed.control-blocks.hpp"
 #include "dynamic_static/graphics/vulkan/defines.hpp"

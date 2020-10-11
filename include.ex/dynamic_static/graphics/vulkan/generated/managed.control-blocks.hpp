@@ -36,17 +36,18 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkInstanceCreateInfo>,
         VkAllocationCallbacks,
+        std::vector<Managed<VkPhysicalDevice>>,
         VkInstance
     > mFields;
 };
@@ -63,13 +64,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkInstance>,
@@ -91,18 +92,19 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkPhysicalDevice>,
         Managed<VkDeviceCreateInfo>,
         VkAllocationCallbacks,
+        std::vector<Managed<VkQueue>>,
         VkDevice
     > mFields;
 };
@@ -121,13 +123,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -151,13 +153,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -181,13 +183,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -211,13 +213,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkCommandPool>,
@@ -240,13 +242,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -270,13 +272,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDescriptorPool>,
@@ -299,13 +301,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -329,13 +331,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -360,13 +362,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -388,13 +390,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkPhysicalDevice>,
@@ -416,13 +418,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDisplayKHR>,
@@ -447,13 +449,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -477,13 +479,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -507,13 +509,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -537,13 +539,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -567,13 +569,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -595,13 +597,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -624,13 +626,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -659,13 +661,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -689,13 +691,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -719,13 +721,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -747,16 +749,17 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
+        Managed<VkDeviceQueueCreateInfo>,
         VkQueue
     > mFields;
 };
@@ -776,13 +779,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -807,13 +810,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -837,13 +840,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -868,13 +871,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -898,13 +901,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
@@ -964,13 +967,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkInstance>,
@@ -1032,13 +1035,13 @@ public:
         return std::get<T>(mFields);
     }
 
-private:
     template <typename T>
     inline void set(T&& field)
     {
         std::get<T>(mFields) = std::move(field);
     }
 
+private:
     std::tuple<
         VkObjectType,
         Managed<VkDevice>,
