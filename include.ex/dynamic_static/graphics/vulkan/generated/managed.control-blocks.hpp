@@ -21,14 +21,12 @@
 namespace dst {
 namespace vk {
 
-#ifdef VK_ENABLE_BETA_EXTENSIONS
+
 template <>
-class Managed<VkAccelerationStructureKHR>::ControlBlock
+class Managed<VkInstance>::ControlBlock
 {
 public:
-    #ifdef VK_ENABLE_BETA_EXTENSIONS
-    static VkResult create(const Managed<VkDevice>& device, const VkAccelerationStructureCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkAccelerationStructureKHR>* pAccelerationStructure);
-    #endif // VK_ENABLE_BETA_EXTENSIONS
+    static VkResult create(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkInstance>* pInstance);
 
     ~ControlBlock();
 
@@ -47,16 +45,67 @@ private:
 
     std::tuple<
         VkObjectType,
-        Managed<VkDevice>,
-        #ifdef VK_ENABLE_BETA_EXTENSIONS
-        Managed<VkAccelerationStructureCreateInfoKHR>,
-        #endif // VK_ENABLE_BETA_EXTENSIONS
+        Managed<VkInstanceCreateInfo>,
         VkAllocationCallbacks,
-        VkAccelerationStructureKHR
+        VkInstance
     > mFields;
 };
-#endif // VK_ENABLE_BETA_EXTENSIONS
 
+template <>
+class Managed<VkPhysicalDevice>::ControlBlock
+{
+public:
+    ~ControlBlock();
+
+    template <typename T>
+    inline const T& get() const
+    {
+        return std::get<T>(mFields);
+    }
+
+private:
+    template <typename T>
+    inline void set(T&& field)
+    {
+        std::get<T>(mFields) = std::move(field);
+    }
+
+    std::tuple<
+        VkObjectType,
+        Managed<VkInstance>,
+        VkPhysicalDevice
+    > mFields;
+};
+
+template <>
+class Managed<VkDevice>::ControlBlock
+{
+public:
+    static VkResult create(const Managed<VkPhysicalDevice>& physicalDevice, const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDevice>* pDevice);
+
+    ~ControlBlock();
+
+    template <typename T>
+    inline const T& get() const
+    {
+        return std::get<T>(mFields);
+    }
+
+private:
+    template <typename T>
+    inline void set(T&& field)
+    {
+        std::get<T>(mFields) = std::move(field);
+    }
+
+    std::tuple<
+        VkObjectType,
+        Managed<VkPhysicalDevice>,
+        Managed<VkDeviceCreateInfo>,
+        VkAllocationCallbacks,
+        VkDevice
+    > mFields;
+};
 
 template <>
 class Managed<VkBuffer>::ControlBlock
@@ -119,35 +168,6 @@ private:
 };
 
 template <>
-class Managed<VkCommandBuffer>::ControlBlock
-{
-public:
-    static VkResult allocate(const Managed<VkDevice>& device, const VkCommandBufferAllocateInfo* pAllocateInfo, Managed<VkCommandBuffer>* pCommandBuffers);
-
-    ~ControlBlock();
-
-    template <typename T>
-    inline const T& get() const
-    {
-        return std::get<T>(mFields);
-    }
-
-private:
-    template <typename T>
-    inline void set(T&& field)
-    {
-        std::get<T>(mFields) = std::move(field);
-    }
-
-    std::tuple<
-        VkObjectType,
-        Managed<VkCommandPool>,
-        Managed<VkCommandBufferAllocateInfo>,
-        VkCommandBuffer
-    > mFields;
-};
-
-template <>
 class Managed<VkCommandPool>::ControlBlock
 {
 public:
@@ -178,10 +198,10 @@ private:
 };
 
 template <>
-class Managed<VkDebugReportCallbackEXT>::ControlBlock
+class Managed<VkCommandBuffer>::ControlBlock
 {
 public:
-    static VkResult create(const Managed<VkInstance>& instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDebugReportCallbackEXT>* pCallback);
+    static VkResult allocate(const Managed<VkDevice>& device, const VkCommandBufferAllocateInfo* pAllocateInfo, Managed<VkCommandBuffer>* pCommandBuffers);
 
     ~ControlBlock();
 
@@ -200,75 +220,11 @@ private:
 
     std::tuple<
         VkObjectType,
-        Managed<VkInstance>,
-        Managed<VkDebugReportCallbackCreateInfoEXT>,
-        VkAllocationCallbacks,
-        VkDebugReportCallbackEXT
+        Managed<VkCommandPool>,
+        Managed<VkCommandBufferAllocateInfo>,
+        VkCommandBuffer
     > mFields;
 };
-
-template <>
-class Managed<VkDebugUtilsMessengerEXT>::ControlBlock
-{
-public:
-    static VkResult create(const Managed<VkInstance>& instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDebugUtilsMessengerEXT>* pMessenger);
-
-    ~ControlBlock();
-
-    template <typename T>
-    inline const T& get() const
-    {
-        return std::get<T>(mFields);
-    }
-
-private:
-    template <typename T>
-    inline void set(T&& field)
-    {
-        std::get<T>(mFields) = std::move(field);
-    }
-
-    std::tuple<
-        VkObjectType,
-        Managed<VkInstance>,
-        Managed<VkDebugUtilsMessengerCreateInfoEXT>,
-        VkAllocationCallbacks,
-        VkDebugUtilsMessengerEXT
-    > mFields;
-};
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-template <>
-class Managed<VkDeferredOperationKHR>::ControlBlock
-{
-public:
-    #ifdef VK_ENABLE_BETA_EXTENSIONS
-    static VkResult create(const Managed<VkDevice>& device, const VkAllocationCallbacks* pAllocator, Managed<VkDeferredOperationKHR>* pDeferredOperation);
-    #endif // VK_ENABLE_BETA_EXTENSIONS
-
-    ~ControlBlock();
-
-    template <typename T>
-    inline const T& get() const
-    {
-        return std::get<T>(mFields);
-    }
-
-private:
-    template <typename T>
-    inline void set(T&& field)
-    {
-        std::get<T>(mFields) = std::move(field);
-    }
-
-    std::tuple<
-        VkObjectType,
-        Managed<VkDevice>,
-        VkAllocationCallbacks,
-        VkDeferredOperationKHR
-    > mFields;
-};
-#endif // VK_ENABLE_BETA_EXTENSIONS
 
 template <>
 class Managed<VkDescriptorPool>::ControlBlock
@@ -391,36 +347,6 @@ private:
 
 
 template <>
-class Managed<VkDevice>::ControlBlock
-{
-public:
-    static VkResult create(const Managed<VkPhysicalDevice>& physicalDevice, const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDevice>* pDevice);
-
-    ~ControlBlock();
-
-    template <typename T>
-    inline const T& get() const
-    {
-        return std::get<T>(mFields);
-    }
-
-private:
-    template <typename T>
-    inline void set(T&& field)
-    {
-        std::get<T>(mFields) = std::move(field);
-    }
-
-    std::tuple<
-        VkObjectType,
-        Managed<VkPhysicalDevice>,
-        Managed<VkDeviceCreateInfo>,
-        VkAllocationCallbacks,
-        VkDevice
-    > mFields;
-};
-
-template <>
 class Managed<VkDeviceMemory>::ControlBlock
 {
 public:
@@ -500,6 +426,7 @@ private:
     std::tuple<
         VkObjectType,
         Managed<VkDisplayKHR>,
+        Managed<VkPhysicalDevice>,
         Managed<VkDisplayModeCreateInfoKHR>,
         VkAllocationCallbacks,
         VkDisplayModeKHR
@@ -657,65 +584,6 @@ private:
 };
 
 template <>
-class Managed<VkIndirectCommandsLayoutNV>::ControlBlock
-{
-public:
-    static VkResult create(const Managed<VkDevice>& device, const VkIndirectCommandsLayoutCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkIndirectCommandsLayoutNV>* pIndirectCommandsLayout);
-
-    ~ControlBlock();
-
-    template <typename T>
-    inline const T& get() const
-    {
-        return std::get<T>(mFields);
-    }
-
-private:
-    template <typename T>
-    inline void set(T&& field)
-    {
-        std::get<T>(mFields) = std::move(field);
-    }
-
-    std::tuple<
-        VkObjectType,
-        Managed<VkDevice>,
-        Managed<VkIndirectCommandsLayoutCreateInfoNV>,
-        VkAllocationCallbacks,
-        VkIndirectCommandsLayoutNV
-    > mFields;
-};
-
-template <>
-class Managed<VkInstance>::ControlBlock
-{
-public:
-    static VkResult create(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkInstance>* pInstance);
-
-    ~ControlBlock();
-
-    template <typename T>
-    inline const T& get() const
-    {
-        return std::get<T>(mFields);
-    }
-
-private:
-    template <typename T>
-    inline void set(T&& field)
-    {
-        std::get<T>(mFields) = std::move(field);
-    }
-
-    std::tuple<
-        VkObjectType,
-        Managed<VkInstanceCreateInfo>,
-        VkAllocationCallbacks,
-        VkInstance
-    > mFields;
-};
-
-template <>
 class Managed<VkPerformanceConfigurationINTEL>::ControlBlock
 {
 public:
@@ -742,41 +610,11 @@ private:
 };
 
 template <>
-class Managed<VkPhysicalDevice>::ControlBlock
-{
-public:
-    ~ControlBlock();
-
-    template <typename T>
-    inline const T& get() const
-    {
-        return std::get<T>(mFields);
-    }
-
-private:
-    template <typename T>
-    inline void set(T&& field)
-    {
-        std::get<T>(mFields) = std::move(field);
-    }
-
-    std::tuple<
-        VkObjectType,
-        Managed<VkInstance>,
-        VkPhysicalDevice
-    > mFields;
-};
-
-template <>
 class Managed<VkPipeline>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkComputePipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines);
     static VkResult create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkGraphicsPipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines);
-    #ifdef VK_ENABLE_BETA_EXTENSIONS
-    static VkResult create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines);
-    #endif // VK_ENABLE_BETA_EXTENSIONS
-    static VkResult create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoNV* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines);
 
     ~ControlBlock();
 
@@ -864,36 +702,6 @@ private:
         Managed<VkPipelineLayoutCreateInfo>,
         VkAllocationCallbacks,
         VkPipelineLayout
-    > mFields;
-};
-
-template <>
-class Managed<VkPrivateDataSlotEXT>::ControlBlock
-{
-public:
-    static VkResult create(const Managed<VkDevice>& device, const VkPrivateDataSlotCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkPrivateDataSlotEXT>* pPrivateDataSlot);
-
-    ~ControlBlock();
-
-    template <typename T>
-    inline const T& get() const
-    {
-        return std::get<T>(mFields);
-    }
-
-private:
-    template <typename T>
-    inline void set(T&& field)
-    {
-        std::get<T>(mFields) = std::move(field);
-    }
-
-    std::tuple<
-        VkObjectType,
-        Managed<VkDevice>,
-        Managed<VkPrivateDataSlotCreateInfoEXT>,
-        VkAllocationCallbacks,
-        VkPrivateDataSlotEXT
     > mFields;
 };
 
@@ -1117,7 +925,6 @@ public:
     static VkResult create(const Managed<VkInstance>& instance, const VkDirectFBSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
     #endif // VK_USE_PLATFORM_DIRECTFB_EXT
     static VkResult create(const Managed<VkInstance>& instance, const VkDisplaySurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
-    static VkResult create(const Managed<VkInstance>& instance, const VkHeadlessSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
     #ifdef VK_USE_PLATFORM_IOS_MVK
     static VkResult create(const Managed<VkInstance>& instance, const VkIOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
     #endif // VK_USE_PLATFORM_IOS_MVK
@@ -1239,36 +1046,6 @@ private:
         Managed<VkSwapchainCreateInfoKHR>,
         VkAllocationCallbacks,
         VkSwapchainKHR
-    > mFields;
-};
-
-template <>
-class Managed<VkValidationCacheEXT>::ControlBlock
-{
-public:
-    static VkResult create(const Managed<VkDevice>& device, const VkValidationCacheCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkValidationCacheEXT>* pValidationCache);
-
-    ~ControlBlock();
-
-    template <typename T>
-    inline const T& get() const
-    {
-        return std::get<T>(mFields);
-    }
-
-private:
-    template <typename T>
-    inline void set(T&& field)
-    {
-        std::get<T>(mFields) = std::move(field);
-    }
-
-    std::tuple<
-        VkObjectType,
-        Managed<VkDevice>,
-        Managed<VkValidationCacheCreateInfoEXT>,
-        VkAllocationCallbacks,
-        VkValidationCacheEXT
     > mFields;
 };
 

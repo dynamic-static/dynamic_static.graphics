@@ -14,40 +14,65 @@
 namespace dst {
 namespace vk {
 
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-VkResult Managed<VkAccelerationStructureKHR>::ControlBlock::create(const Managed<VkDevice>& device, const VkAccelerationStructureCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkAccelerationStructureKHR>* pAccelerationStructure)
+
+VkResult Managed<VkInstance>::ControlBlock::create(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkInstance>* pInstance)
 {
     auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
-    if (pAccelerationStructure) {
-        pAccelerationStructure->reset();
-        VkAccelerationStructureKHR vkHandle = VK_NULL_HANDLE;
-        vkResult = vkCreateAccelerationStructureKHR(device, pCreateInfo, pAllocator, &vkHandle);
+    if (pInstance) {
+        pInstance->reset();
+        VkInstance vkHandle = VK_NULL_HANDLE;
+        vkResult = vkCreateInstance(pCreateInfo, pAllocator, &vkHandle);
         if (vkResult == VK_SUCCESS) {
-            pAccelerationStructure->mVkHandle = vkHandle;
-            pAccelerationStructure->mspControlBlock = std::make_shared<Managed<VkAccelerationStructureKHR>::ControlBlock>();
-            pAccelerationStructure->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
-            pAccelerationStructure->mspControlBlock->set(std::move(Managed<VkDevice>(device)));
-            pAccelerationStructure->mspControlBlock->set(std::move(Managed<VkAccelerationStructureCreateInfoKHR>(*pCreateInfo)));
-            pAccelerationStructure->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
-            pAccelerationStructure->mspControlBlock->set(std::move(vkHandle));
+            pInstance->mVkHandle = vkHandle;
+            pInstance->mspControlBlock = std::make_shared<Managed<VkInstance>::ControlBlock>();
+            pInstance->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
+            pInstance->mspControlBlock->set(std::move(Managed<VkInstanceCreateInfo>(*pCreateInfo)));
+            pInstance->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
+            pInstance->mspControlBlock->set(std::move(vkHandle));
         }
     }
     return vkResult;
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
 
-Managed<VkAccelerationStructureKHR>::ControlBlock::~ControlBlock()
+Managed<VkInstance>::ControlBlock::~ControlBlock()
 {
-    auto vkHandle = get<VkAccelerationStructureKHR>();
+    auto vkHandle = get<VkInstance>();
     if (vkHandle) {
-        auto vkDevice = *get<Managed<VkDevice>>();
-        assert(vkDevice);
-        vkDestroyAccelerationStructureKHR(vkDevice, vkHandle, get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
+        vkDestroyInstance(vkHandle, get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
     }
 }
-#endif // VK_ENABLE_BETA_EXTENSIONS
 
+Managed<VkPhysicalDevice>::ControlBlock::~ControlBlock()
+{
+}
+
+VkResult Managed<VkDevice>::ControlBlock::create(const Managed<VkPhysicalDevice>& physicalDevice, const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDevice>* pDevice)
+{
+    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
+    if (pDevice) {
+        pDevice->reset();
+        VkDevice vkHandle = VK_NULL_HANDLE;
+        vkResult = vkCreateDevice(physicalDevice, pCreateInfo, pAllocator, &vkHandle);
+        if (vkResult == VK_SUCCESS) {
+            pDevice->mVkHandle = vkHandle;
+            pDevice->mspControlBlock = std::make_shared<Managed<VkDevice>::ControlBlock>();
+            pDevice->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
+            pDevice->mspControlBlock->set(std::move(Managed<VkPhysicalDevice>(physicalDevice)));
+            pDevice->mspControlBlock->set(std::move(Managed<VkDeviceCreateInfo>(*pCreateInfo)));
+            pDevice->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
+            pDevice->mspControlBlock->set(std::move(vkHandle));
+        }
+    }
+    return vkResult;
+}
+
+Managed<VkDevice>::ControlBlock::~ControlBlock()
+{
+    auto vkHandle = get<VkDevice>();
+    if (vkHandle) {
+        vkDestroyDevice(vkHandle, get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
+    }
+}
 
 VkResult Managed<VkBuffer>::ControlBlock::create(const Managed<VkDevice>& device, const VkBufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkBuffer>* pBuffer)
 {
@@ -109,32 +134,6 @@ Managed<VkBufferView>::ControlBlock::~ControlBlock()
     }
 }
 
-#if 0
-// The following ControlBlock is manually implemented
-VkResult Managed<VkCommandBuffer>::ControlBlock::allocate(const Managed<VkDevice>& device, const VkCommandBufferAllocateInfo* pAllocateInfo, Managed<VkCommandBuffer>* pCommandBuffers)
-{
-    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
-    if (pCommandBuffers) {
-        pCommandBuffers->reset();
-        VkCommandBuffer vkHandle = VK_NULL_HANDLE;
-        vkResult = vkAllocateCommandBuffers(device, pAllocateInfo, &vkHandle);
-        if (vkResult == VK_SUCCESS) {
-            pCommandBuffers->mVkHandle = vkHandle;
-            pCommandBuffers->mspControlBlock = std::make_shared<Managed<VkCommandBuffer>::ControlBlock>();
-            pCommandBuffers->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
-            pCommandBuffers->mspControlBlock->set(std::move(Managed<VkDevice>(device)));
-            pCommandBuffers->mspControlBlock->set(std::move(Managed<VkCommandBufferAllocateInfo>(*pAllocateInfo)));
-            pCommandBuffers->mspControlBlock->set(std::move(vkHandle));
-        }
-    }
-    return vkResult;
-}
-
-Managed<VkCommandBuffer>::ControlBlock::~ControlBlock()
-{
-}
-#endif
-
 VkResult Managed<VkCommandPool>::ControlBlock::create(const Managed<VkDevice>& device, const VkCommandPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkCommandPool>* pCommandPool)
 {
     auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
@@ -165,98 +164,30 @@ Managed<VkCommandPool>::ControlBlock::~ControlBlock()
     }
 }
 
-VkResult Managed<VkDebugReportCallbackEXT>::ControlBlock::create(const Managed<VkInstance>& instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDebugReportCallbackEXT>* pCallback)
+#if 0
+// The following ControlBlock is manually implemented
+VkResult Managed<VkCommandBuffer>::ControlBlock::allocate(const Managed<VkDevice>& device, const VkCommandBufferAllocateInfo* pAllocateInfo, Managed<VkCommandBuffer>* pCommandBuffers)
 {
     auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
-    if (pCallback) {
-        pCallback->reset();
-        VkDebugReportCallbackEXT vkHandle = VK_NULL_HANDLE;
-        vkResult = vkCreateDebugReportCallbackEXT(instance, pCreateInfo, pAllocator, &vkHandle);
+    if (pCommandBuffers) {
+        pCommandBuffers->reset();
+        VkCommandBuffer vkHandle = VK_NULL_HANDLE;
+        vkResult = vkAllocateCommandBuffers(device, pAllocateInfo, &vkHandle);
         if (vkResult == VK_SUCCESS) {
-            pCallback->mVkHandle = vkHandle;
-            pCallback->mspControlBlock = std::make_shared<Managed<VkDebugReportCallbackEXT>::ControlBlock>();
-            pCallback->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
-            pCallback->mspControlBlock->set(std::move(Managed<VkInstance>(instance)));
-            pCallback->mspControlBlock->set(std::move(Managed<VkDebugReportCallbackCreateInfoEXT>(*pCreateInfo)));
-            pCallback->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
-            pCallback->mspControlBlock->set(std::move(vkHandle));
+            pCommandBuffers->mVkHandle = vkHandle;
+            pCommandBuffers->mspControlBlock = std::make_shared<Managed<VkCommandBuffer>::ControlBlock>();
+            pCommandBuffers->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
+            pCommandBuffers->mspControlBlock->set(std::move(Managed<VkCommandBufferAllocateInfo>(*pAllocateInfo)));
+            pCommandBuffers->mspControlBlock->set(std::move(vkHandle));
         }
     }
     return vkResult;
 }
 
-Managed<VkDebugReportCallbackEXT>::ControlBlock::~ControlBlock()
+Managed<VkCommandBuffer>::ControlBlock::~ControlBlock()
 {
-    auto vkHandle = get<VkDebugReportCallbackEXT>();
-    if (vkHandle) {
-        auto vkInstance = *get<Managed<VkInstance>>();
-        assert(vkInstance);
-        vkDestroyDebugReportCallbackEXT(vkInstance, vkHandle, get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
-    }
 }
-
-VkResult Managed<VkDebugUtilsMessengerEXT>::ControlBlock::create(const Managed<VkInstance>& instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDebugUtilsMessengerEXT>* pMessenger)
-{
-    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
-    if (pMessenger) {
-        pMessenger->reset();
-        VkDebugUtilsMessengerEXT vkHandle = VK_NULL_HANDLE;
-        vkResult = vkCreateDebugUtilsMessengerEXT(instance, pCreateInfo, pAllocator, &vkHandle);
-        if (vkResult == VK_SUCCESS) {
-            pMessenger->mVkHandle = vkHandle;
-            pMessenger->mspControlBlock = std::make_shared<Managed<VkDebugUtilsMessengerEXT>::ControlBlock>();
-            pMessenger->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
-            pMessenger->mspControlBlock->set(std::move(Managed<VkInstance>(instance)));
-            pMessenger->mspControlBlock->set(std::move(Managed<VkDebugUtilsMessengerCreateInfoEXT>(*pCreateInfo)));
-            pMessenger->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
-            pMessenger->mspControlBlock->set(std::move(vkHandle));
-        }
-    }
-    return vkResult;
-}
-
-Managed<VkDebugUtilsMessengerEXT>::ControlBlock::~ControlBlock()
-{
-    auto vkHandle = get<VkDebugUtilsMessengerEXT>();
-    if (vkHandle) {
-        auto vkInstance = *get<Managed<VkInstance>>();
-        assert(vkInstance);
-        vkDestroyDebugUtilsMessengerEXT(vkInstance, vkHandle, get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
-    }
-}
-
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-VkResult Managed<VkDeferredOperationKHR>::ControlBlock::create(const Managed<VkDevice>& device, const VkAllocationCallbacks* pAllocator, Managed<VkDeferredOperationKHR>* pDeferredOperation)
-{
-    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
-    if (pDeferredOperation) {
-        pDeferredOperation->reset();
-        VkDeferredOperationKHR vkHandle = VK_NULL_HANDLE;
-        vkResult = vkCreateDeferredOperationKHR(device, pAllocator, &vkHandle);
-        if (vkResult == VK_SUCCESS) {
-            pDeferredOperation->mVkHandle = vkHandle;
-            pDeferredOperation->mspControlBlock = std::make_shared<Managed<VkDeferredOperationKHR>::ControlBlock>();
-            pDeferredOperation->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
-            pDeferredOperation->mspControlBlock->set(std::move(Managed<VkDevice>(device)));
-            pDeferredOperation->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
-            pDeferredOperation->mspControlBlock->set(std::move(vkHandle));
-        }
-    }
-    return vkResult;
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-
-Managed<VkDeferredOperationKHR>::ControlBlock::~ControlBlock()
-{
-    auto vkHandle = get<VkDeferredOperationKHR>();
-    if (vkHandle) {
-        auto vkDevice = *get<Managed<VkDevice>>();
-        assert(vkDevice);
-        vkDestroyDeferredOperationKHR(vkDevice, vkHandle, get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
-    }
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
+#endif
 
 VkResult Managed<VkDescriptorPool>::ControlBlock::create(const Managed<VkDevice>& device, const VkDescriptorPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDescriptorPool>* pDescriptorPool)
 {
@@ -301,7 +232,6 @@ VkResult Managed<VkDescriptorSet>::ControlBlock::allocate(const Managed<VkDevice
             pDescriptorSets->mVkHandle = vkHandle;
             pDescriptorSets->mspControlBlock = std::make_shared<Managed<VkDescriptorSet>::ControlBlock>();
             pDescriptorSets->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
-            pDescriptorSets->mspControlBlock->set(std::move(Managed<VkDevice>(device)));
             pDescriptorSets->mspControlBlock->set(std::move(Managed<VkDescriptorSetAllocateInfo>(*pAllocateInfo)));
             pDescriptorSets->mspControlBlock->set(std::move(vkHandle));
         }
@@ -374,34 +304,6 @@ Managed<VkDescriptorUpdateTemplate>::ControlBlock::~ControlBlock()
     }
 }
 
-
-VkResult Managed<VkDevice>::ControlBlock::create(const Managed<VkPhysicalDevice>& physicalDevice, const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDevice>* pDevice)
-{
-    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
-    if (pDevice) {
-        pDevice->reset();
-        VkDevice vkHandle = VK_NULL_HANDLE;
-        vkResult = vkCreateDevice(physicalDevice, pCreateInfo, pAllocator, &vkHandle);
-        if (vkResult == VK_SUCCESS) {
-            pDevice->mVkHandle = vkHandle;
-            pDevice->mspControlBlock = std::make_shared<Managed<VkDevice>::ControlBlock>();
-            pDevice->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
-            pDevice->mspControlBlock->set(std::move(Managed<VkPhysicalDevice>(physicalDevice)));
-            pDevice->mspControlBlock->set(std::move(Managed<VkDeviceCreateInfo>(*pCreateInfo)));
-            pDevice->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
-            pDevice->mspControlBlock->set(std::move(vkHandle));
-        }
-    }
-    return vkResult;
-}
-
-Managed<VkDevice>::ControlBlock::~ControlBlock()
-{
-    auto vkHandle = get<VkDevice>();
-    if (vkHandle) {
-        vkDestroyDevice(vkHandle, get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
-    }
-}
 
 VkResult Managed<VkDeviceMemory>::ControlBlock::allocate(const Managed<VkDevice>& device, const VkMemoryAllocateInfo* pAllocateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDeviceMemory>* pMemory)
 {
@@ -612,68 +514,7 @@ Managed<VkImageView>::ControlBlock::~ControlBlock()
     }
 }
 
-VkResult Managed<VkIndirectCommandsLayoutNV>::ControlBlock::create(const Managed<VkDevice>& device, const VkIndirectCommandsLayoutCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkIndirectCommandsLayoutNV>* pIndirectCommandsLayout)
-{
-    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
-    if (pIndirectCommandsLayout) {
-        pIndirectCommandsLayout->reset();
-        VkIndirectCommandsLayoutNV vkHandle = VK_NULL_HANDLE;
-        vkResult = vkCreateIndirectCommandsLayoutNV(device, pCreateInfo, pAllocator, &vkHandle);
-        if (vkResult == VK_SUCCESS) {
-            pIndirectCommandsLayout->mVkHandle = vkHandle;
-            pIndirectCommandsLayout->mspControlBlock = std::make_shared<Managed<VkIndirectCommandsLayoutNV>::ControlBlock>();
-            pIndirectCommandsLayout->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
-            pIndirectCommandsLayout->mspControlBlock->set(std::move(Managed<VkDevice>(device)));
-            pIndirectCommandsLayout->mspControlBlock->set(std::move(Managed<VkIndirectCommandsLayoutCreateInfoNV>(*pCreateInfo)));
-            pIndirectCommandsLayout->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
-            pIndirectCommandsLayout->mspControlBlock->set(std::move(vkHandle));
-        }
-    }
-    return vkResult;
-}
-
-Managed<VkIndirectCommandsLayoutNV>::ControlBlock::~ControlBlock()
-{
-    auto vkHandle = get<VkIndirectCommandsLayoutNV>();
-    if (vkHandle) {
-        auto vkDevice = *get<Managed<VkDevice>>();
-        assert(vkDevice);
-        vkDestroyIndirectCommandsLayoutNV(vkDevice, vkHandle, get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
-    }
-}
-
-VkResult Managed<VkInstance>::ControlBlock::create(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkInstance>* pInstance)
-{
-    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
-    if (pInstance) {
-        pInstance->reset();
-        VkInstance vkHandle = VK_NULL_HANDLE;
-        vkResult = vkCreateInstance(pCreateInfo, pAllocator, &vkHandle);
-        if (vkResult == VK_SUCCESS) {
-            pInstance->mVkHandle = vkHandle;
-            pInstance->mspControlBlock = std::make_shared<Managed<VkInstance>::ControlBlock>();
-            pInstance->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
-            pInstance->mspControlBlock->set(std::move(Managed<VkInstanceCreateInfo>(*pCreateInfo)));
-            pInstance->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
-            pInstance->mspControlBlock->set(std::move(vkHandle));
-        }
-    }
-    return vkResult;
-}
-
-Managed<VkInstance>::ControlBlock::~ControlBlock()
-{
-    auto vkHandle = get<VkInstance>();
-    if (vkHandle) {
-        vkDestroyInstance(vkHandle, get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
-    }
-}
-
 Managed<VkPerformanceConfigurationINTEL>::ControlBlock::~ControlBlock()
-{
-}
-
-Managed<VkPhysicalDevice>::ControlBlock::~ControlBlock()
 {
 }
 
@@ -689,7 +530,6 @@ VkResult Managed<VkPipeline>::ControlBlock::create(const Managed<VkDevice>& devi
             pPipelines->mspControlBlock = std::make_shared<Managed<VkPipeline>::ControlBlock>();
             pPipelines->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
             pPipelines->mspControlBlock->set(std::move(Managed<VkDevice>(device)));
-            pPipelines->mspControlBlock->set(std::move(Managed<VkPipelineCache>(pipelineCache)));
             pPipelines->mspControlBlock->set(std::move(Managed<VkComputePipelineCreateInfo>(*pCreateInfos)));
             pPipelines->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pPipelines->mspControlBlock->set(std::move(vkHandle));
@@ -709,50 +549,7 @@ VkResult Managed<VkPipeline>::ControlBlock::create(const Managed<VkDevice>& devi
             pPipelines->mspControlBlock = std::make_shared<Managed<VkPipeline>::ControlBlock>();
             pPipelines->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
             pPipelines->mspControlBlock->set(std::move(Managed<VkDevice>(device)));
-            pPipelines->mspControlBlock->set(std::move(Managed<VkPipelineCache>(pipelineCache)));
             pPipelines->mspControlBlock->set(std::move(Managed<VkGraphicsPipelineCreateInfo>(*pCreateInfos)));
-            pPipelines->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
-            pPipelines->mspControlBlock->set(std::move(vkHandle));
-        }
-    }
-    return vkResult;
-}
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-VkResult Managed<VkPipeline>::ControlBlock::create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines)
-{
-    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
-    if (pPipelines) {
-        pPipelines->reset();
-        VkPipeline vkHandle = VK_NULL_HANDLE;
-        vkResult = vkCreateRayTracingPipelinesKHR(device, pipelineCache, createInfoCount, pCreateInfos, pAllocator, &vkHandle);
-        if (vkResult == VK_SUCCESS) {
-            pPipelines->mVkHandle = vkHandle;
-            pPipelines->mspControlBlock = std::make_shared<Managed<VkPipeline>::ControlBlock>();
-            pPipelines->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
-            pPipelines->mspControlBlock->set(std::move(Managed<VkDevice>(device)));
-            pPipelines->mspControlBlock->set(std::move(Managed<VkPipelineCache>(pipelineCache)));
-            pPipelines->mspControlBlock->set(std::move(Managed<VkRayTracingPipelineCreateInfoKHR>(*pCreateInfos)));
-            pPipelines->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
-            pPipelines->mspControlBlock->set(std::move(vkHandle));
-        }
-    }
-    return vkResult;
-}
-#endif // VK_ENABLE_BETA_EXTENSIONS
-VkResult Managed<VkPipeline>::ControlBlock::create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkRayTracingPipelineCreateInfoNV* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines)
-{
-    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
-    if (pPipelines) {
-        pPipelines->reset();
-        VkPipeline vkHandle = VK_NULL_HANDLE;
-        vkResult = vkCreateRayTracingPipelinesNV(device, pipelineCache, createInfoCount, pCreateInfos, pAllocator, &vkHandle);
-        if (vkResult == VK_SUCCESS) {
-            pPipelines->mVkHandle = vkHandle;
-            pPipelines->mspControlBlock = std::make_shared<Managed<VkPipeline>::ControlBlock>();
-            pPipelines->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
-            pPipelines->mspControlBlock->set(std::move(Managed<VkDevice>(device)));
-            pPipelines->mspControlBlock->set(std::move(Managed<VkPipelineCache>(pipelineCache)));
-            pPipelines->mspControlBlock->set(std::move(Managed<VkRayTracingPipelineCreateInfoNV>(*pCreateInfos)));
             pPipelines->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pPipelines->mspControlBlock->set(std::move(vkHandle));
         }
@@ -827,36 +624,6 @@ Managed<VkPipelineLayout>::ControlBlock::~ControlBlock()
         auto vkDevice = *get<Managed<VkDevice>>();
         assert(vkDevice);
         vkDestroyPipelineLayout(vkDevice, vkHandle, get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
-    }
-}
-
-VkResult Managed<VkPrivateDataSlotEXT>::ControlBlock::create(const Managed<VkDevice>& device, const VkPrivateDataSlotCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkPrivateDataSlotEXT>* pPrivateDataSlot)
-{
-    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
-    if (pPrivateDataSlot) {
-        pPrivateDataSlot->reset();
-        VkPrivateDataSlotEXT vkHandle = VK_NULL_HANDLE;
-        vkResult = vkCreatePrivateDataSlotEXT(device, pCreateInfo, pAllocator, &vkHandle);
-        if (vkResult == VK_SUCCESS) {
-            pPrivateDataSlot->mVkHandle = vkHandle;
-            pPrivateDataSlot->mspControlBlock = std::make_shared<Managed<VkPrivateDataSlotEXT>::ControlBlock>();
-            pPrivateDataSlot->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
-            pPrivateDataSlot->mspControlBlock->set(std::move(Managed<VkDevice>(device)));
-            pPrivateDataSlot->mspControlBlock->set(std::move(Managed<VkPrivateDataSlotCreateInfoEXT>(*pCreateInfo)));
-            pPrivateDataSlot->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
-            pPrivateDataSlot->mspControlBlock->set(std::move(vkHandle));
-        }
-    }
-    return vkResult;
-}
-
-Managed<VkPrivateDataSlotEXT>::ControlBlock::~ControlBlock()
-{
-    auto vkHandle = get<VkPrivateDataSlotEXT>();
-    if (vkHandle) {
-        auto vkDevice = *get<Managed<VkDevice>>();
-        assert(vkDevice);
-        vkDestroyPrivateDataSlotEXT(vkDevice, vkHandle, get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
     }
 }
 
@@ -1119,25 +886,6 @@ VkResult Managed<VkSurfaceKHR>::ControlBlock::create(const Managed<VkInstance>& 
             pSurface->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
             pSurface->mspControlBlock->set(std::move(Managed<VkInstance>(instance)));
             pSurface->mspControlBlock->set(std::move(Managed<VkDisplaySurfaceCreateInfoKHR>(*pCreateInfo)));
-            pSurface->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
-            pSurface->mspControlBlock->set(std::move(vkHandle));
-        }
-    }
-    return vkResult;
-}
-VkResult Managed<VkSurfaceKHR>::ControlBlock::create(const Managed<VkInstance>& instance, const VkHeadlessSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface)
-{
-    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
-    if (pSurface) {
-        pSurface->reset();
-        VkSurfaceKHR vkHandle = VK_NULL_HANDLE;
-        vkResult = vkCreateHeadlessSurfaceEXT(instance, pCreateInfo, pAllocator, &vkHandle);
-        if (vkResult == VK_SUCCESS) {
-            pSurface->mVkHandle = vkHandle;
-            pSurface->mspControlBlock = std::make_shared<Managed<VkSurfaceKHR>::ControlBlock>();
-            pSurface->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
-            pSurface->mspControlBlock->set(std::move(Managed<VkInstance>(instance)));
-            pSurface->mspControlBlock->set(std::move(Managed<VkHeadlessSurfaceCreateInfoEXT>(*pCreateInfo)));
             pSurface->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
             pSurface->mspControlBlock->set(std::move(vkHandle));
         }
@@ -1411,36 +1159,6 @@ Managed<VkSwapchainKHR>::ControlBlock::~ControlBlock()
         auto vkDevice = *get<Managed<VkDevice>>();
         assert(vkDevice);
         vkDestroySwapchainKHR(vkDevice, vkHandle, get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
-    }
-}
-
-VkResult Managed<VkValidationCacheEXT>::ControlBlock::create(const Managed<VkDevice>& device, const VkValidationCacheCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkValidationCacheEXT>* pValidationCache)
-{
-    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
-    if (pValidationCache) {
-        pValidationCache->reset();
-        VkValidationCacheEXT vkHandle = VK_NULL_HANDLE;
-        vkResult = vkCreateValidationCacheEXT(device, pCreateInfo, pAllocator, &vkHandle);
-        if (vkResult == VK_SUCCESS) {
-            pValidationCache->mVkHandle = vkHandle;
-            pValidationCache->mspControlBlock = std::make_shared<Managed<VkValidationCacheEXT>::ControlBlock>();
-            pValidationCache->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
-            pValidationCache->mspControlBlock->set(std::move(Managed<VkDevice>(device)));
-            pValidationCache->mspControlBlock->set(std::move(Managed<VkValidationCacheCreateInfoEXT>(*pCreateInfo)));
-            pValidationCache->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
-            pValidationCache->mspControlBlock->set(std::move(vkHandle));
-        }
-    }
-    return vkResult;
-}
-
-Managed<VkValidationCacheEXT>::ControlBlock::~ControlBlock()
-{
-    auto vkHandle = get<VkValidationCacheEXT>();
-    if (vkHandle) {
-        auto vkDevice = *get<Managed<VkDevice>>();
-        assert(vkDevice);
-        vkDestroyValidationCacheEXT(vkDevice, vkHandle, get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
     }
 }
 

@@ -195,8 +195,34 @@ inline void generate_managed_control_block_definitions(const xml::Manifest& xmlM
     });
 }
 
-inline void generate_managed_handles(const xml::Manifest& xmlManifest)
+inline void generate_managed_handles(xml::Manifest xmlManifest)
 {
+    auto addParents =
+    [&xmlManifest](const std::string& handleTypeName, const std::vector<std::string>& parentTypeNames)
+    {
+        auto handleItr = xmlManifest.handles.find(handleTypeName);
+        if (handleItr != xmlManifest.handles.end()) {
+            for (const auto& parentTypeName : parentTypeNames) {
+                handleItr->second.parents.insert(parentTypeName);
+            }
+        }
+    };
+    addParents("VkDisplayModeKHR", { "VkPhysicalDevice" });
+    #if 1
+    // TODO : These should be exposed but they're failing to link
+    xmlManifest.handles.erase("VkAccelerationStructureKHR");
+    xmlManifest.handles.erase("VkDebugReportCallbackEXT");
+    xmlManifest.handles.erase("VkDebugUtilsMessengerEXT");
+    xmlManifest.handles.erase("VkDeferredOperationKHR");
+    xmlManifest.handles.erase("VkIndirectCommandsLayoutNV");
+    xmlManifest.handles.erase("VkPrivateDataSlotEXT");
+    xmlManifest.handles.erase("VkRayTracingPipelinesKHR");
+    xmlManifest.handles.erase("VkRayTracingPipelinesNV");
+    xmlManifest.handles.erase("VkValidationCacheEXT");
+    xmlManifest.functions.erase("vkCreateHeadlessSurfaceEXT");
+    xmlManifest.functions.erase("vkCreateRayTracingPipelinesKHR");
+    xmlManifest.functions.erase("vkCreateRayTracingPipelinesNV");
+    #endif
     generate_managed_control_block_declarations(xmlManifest);
     generate_managed_control_block_definitions(xmlManifest);
 }

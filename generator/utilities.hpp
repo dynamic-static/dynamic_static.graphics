@@ -177,6 +177,23 @@ inline bool is_manually_implemented(const xml::Manifest& xmlManifest, const xml:
     return get_manually_implemented_handles(xmlManifest).count(handle.name);
 }
 
+inline const std::set<std::string>& get_unimplemented_handles(const xml::Manifest& xmlManifest)
+{
+    static const std::set<std::string> sUnimplementedHandles =
+    [&xmlManifest]()
+    {
+        std::set<std::string> unimplementedHandles {
+        };
+        return unimplementedHandles;
+    }();
+    return sUnimplementedHandles;
+}
+
+inline bool is_unimplemented(const xml::Manifest& xmlManifest, const xml::Handle& handle)
+{
+    return get_unimplemented_handles(xmlManifest).count(handle.name);
+}
+
 inline std::vector<std::string> get_handle_compile_guards(const xml::Handle& handle)
 {
     std::vector<std::string> compileGuards;
@@ -468,11 +485,17 @@ inline dst::cppgen::SourceBlock get_handle_source_blocks(const xml::Manifest& xm
                                             if (xmlManifest.handles.count(parameter.unqualifiedType)) {
                                                 managedParameter.type = "const Managed<" + managedParameter.type + ">&";
                                             }
-                                            auto parentParemter = parameter.type != handle.name && xmlManifest.handles.count(parameter.type);
+                                            bool parentParameter = false;
+                                            for (const auto& parent : handle.parents) {
+                                                if (parent == parameter.type) {
+                                                    parentParameter = true;
+                                                    break;
+                                                }
+                                            }
                                             auto createInfoParameter = parameter.unqualifiedType != "VkAllocationCallbacks" && xmlManifest.structures.count(parameter.unqualifiedType);
                                             return {
                                                 // TODO : cpp-generator needs to support multiple Conditions in one SourceBlock
-                                                parentParemter ? Condition("PARENT_PARAMETER", true) : createInfoParameter ? Condition("CREATE_INFO_PARAMETER", true) : Condition { },
+                                                parentParameter ? Condition("PARENT_PARAMETER", true) : createInfoParameter ? Condition("CREATE_INFO_PARAMETER", true) : Condition { },
                                                 SourceBlock("MANAGED_PARAMETER_UNQUALIFIED_TYPE", parameter.unqualifiedType),
                                                 SourceBlock("MANAGED_PARAMETER_TYPE", managedParameter.type),
                                                 SourceBlock("MANAGED_PARAMETER_NAME", parameter.name),
