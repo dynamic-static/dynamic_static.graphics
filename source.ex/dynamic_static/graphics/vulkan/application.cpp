@@ -13,17 +13,27 @@
 namespace dst {
 namespace vk {
 
-template <typename ManagedVulkanType>
-inline VkResult create(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, ManagedVulkanType* pInstance)
+#if 0
+template <typename T, typename ...Args>
+inline VkResult create()
 {
-    return VK_SUCCESS;
 }
 
-template <typename ManagedVulkanType>
-inline VkResult create(const Managed<VkDevice>& device, const VkImageCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, ManagedVulkanType* pInstance)
+template <>
+inline VkResult create<Managed<VkInstance>>(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkIsntance>* pInstance)
+{
+    if (pInstance) {
+        return ManagedInstance::create(pCreateInfo, pAllocator, pInstance);
+    }
+    return VK_INCOMPLETE;
+}
+
+template <typename ManagedDevice>
+inline VkResult create(const Managed<VkDevice>& device, const VkImageCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, ManagedDevice* pInstance)
 {
     return VK_SUCCESS;
 }
+#endif
 
 Application::Application(const sys::Window::Info& windowInfo, const Info& applicationInfo)
     : gfx::Application(windowInfo)
@@ -38,16 +48,7 @@ Application::Application(const sys::Window::Info& windowInfo, const Info& applic
     instanceCreateInfo.ppEnabledLayerNames = !applicationInfo.instanceLayers.empty() ? applicationInfo.instanceLayers.data() : nullptr;
     instanceCreateInfo.enabledExtensionCount = (uint32_t)applicationInfo.instanceExtensions.size();
     instanceCreateInfo.ppEnabledExtensionNames = !applicationInfo.instanceExtensions.empty() ? applicationInfo.instanceExtensions.data() : nullptr;
-    #if 1
-    // Managed<VkInstance>::create(&instanceCreateInfo, nullptr, &mInstance);
     dst_vk(create<Managed<VkInstance>>(&instanceCreateInfo, nullptr, &mInstance));
-    VkImageCreateInfo imageCreateInfo { };
-    imageCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
-    Managed<VkImage> mImage;
-    dst_vk(create<Managed<VkImage>>(mDevice, &imageCreateInfo, nullptr, &mImage));
-    #else
-    dst_vk(detail::BasicManagedVkInstance::create(&instanceCreateInfo, nullptr, &mInstance));
-    #endif
 
     //uint32_t physicalDeviceCount = 0;
     //vkEnumeratePhysicalDevices(mInstance, &physicalDeviceCount, nullptr);

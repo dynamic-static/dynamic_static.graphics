@@ -12,7 +12,7 @@
 
 #include "dynamic_static/graphics/application.hpp"
 #include "dynamic_static/graphics/vulkan/defines.hpp"
-#include "dynamic_static/graphics/vulkan/managed-handles/managed-buffer.hpp"
+#include "dynamic_static/graphics/vulkan/managed.hpp"
 
 #include <string>
 #include <vector>

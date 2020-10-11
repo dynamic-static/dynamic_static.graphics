@@ -12,8 +12,7 @@
 #include "dynamic_static/vk-xml-parser.hpp"
 #include "create-structure-copy.generator.hpp"
 #include "destroy-structure-copy.generator.hpp"
-#include "managed-handles.generator.hpp"
-#include "managed-structures.generator.hpp"
+#include "managed.control-blocks.generator.hpp"
 #include "structure-comparison-operators.generator.hpp"
 #include "structure-to-tuple.generator.hpp"
 
@@ -42,8 +41,7 @@ int main(int argc, char* argv[])
         time("generate_create_structure_copy", [&]() { generate_create_structure_copy(xmlManifest); });
         time("generate_comparison_operators", [&]() { generate_comparison_operators(xmlManifest); });
         time("generate_destroy_structure_copy", [&]() { generate_destroy_structure_copy(xmlManifest); });
-        time("generate_managed_handles", [&]() { generate_managed_handles(xmlManifest); });
-        time("generate_managed_structures", [&]() { generate_managed_structures(xmlManifest); });
+        time("generate_managed_control_blocks", [&]() { generate_managed_handles(xmlManifest); });
         time("generate_to_tuple", [&]() { generate_to_tuple(xmlManifest); });
         std::cout << "total\n";
         std::cout << "    " << timer.total<dst::Seconds<>>() << " s\n";

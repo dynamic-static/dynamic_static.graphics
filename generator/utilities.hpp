@@ -329,42 +329,56 @@ inline dst::cppgen::SourceBlock get_handle_source_blocks(const xml::Manifest& xm
 {
     using namespace dst::cppgen;
     using namespace dst::vk::xml;
-    return SourceBlock("HANDLE_TYPES", xmlManifest.handles,
+    return SourceBlock("HANDLES", xmlManifest.handles,
         [&](const std::pair<std::string, Handle>& handleItr) -> std::vector<SourceBlock>
         {
             const auto& handle = handleItr.second;
+            bool hasAllocator = false;
+            for (const auto& functionName : handle.createFunctions) {
+                auto createFunctionItr = xmlManifest.functions.find(functionName);
+                assert(createFunctionItr != xmlManifest.functions.end());
+                for (const auto& parameter : createFunctionItr->second.parameters) {
+                    if (parameter.name == "pAllocator") {
+                        hasAllocator = true;
+                        break;
+                    }
+                }
+                if (hasAllocator) {
+                    break;
+                }
+            }
             if (handle.alias.empty()) {
                 return {
-                    SourceBlock("HANDLE_COMPILE_GUARDS", get_handle_compile_guards(handle),
+                    SourceBlock("COMPILE_GUARDS", get_handle_compile_guards(handle),
                         [&](const std::string& compileGuard) -> std::vector<SourceBlock>
                         {
                             return { SourceBlock("COMPILE_GUARD", compileGuard) };
                         }
                     ),
-                    SourceBlock("HANDLE_TYPE", handle.name),
+                    SourceBlock("HANDLE_TYPE_NAME", handle.name),
+                    Condition("HAS_ALLOCATOR", hasAllocator),
                     // TODO : Handle needs a VkObjectType field...
-                    SourceBlock("OBJECT_TYPE", "VK_OBJECT_TYPE_UNKNOWN"),
-                    SourceBlock("PARENT_HANDLE_TYPES", handle.parents,
+                    SourceBlock("HANDLE_OBJECT_TYPE", "VK_OBJECT_TYPE_UNKNOWN"),
+                    SourceBlock("PARENT_HANDLES", handle.parents,
                         [&](const std::string& parent) -> std::vector<SourceBlock>
                         {
-                            return { SourceBlock("PARENT_HANDLE_TYPE", parent) };
+                            return { SourceBlock("PARENT_HANDLE_TYPE_NAME", parent) };
                         }
                     ),
-                    SourceBlock("CREATE_INFO_TYPES", handle.createInfos,
+                    SourceBlock("CREATE_INFO_STRUCTURES", handle.createInfos,
                         [&](const std::string& createInfo) -> std::vector<SourceBlock>
                         {
                             auto structureItr = xmlManifest.structures.find(createInfo);
                             if (structureItr != xmlManifest.structures.end()) {
                                 const auto& structure = structureItr->second;
                                 return {
-                                    SourceBlock("CREATE_INFO_COMPILE_GUARDS", get_structure_compile_guards(structure),
+                                    SourceBlock("COMPILE_GUARDS", get_structure_compile_guards(structure),
                                         [&](const std::string& compileGuard) -> std::vector<SourceBlock>
                                         {
                                             return { SourceBlock("COMPILE_GUARD", compileGuard) };
                                         }
                                     ),
-                                    SourceBlock("CREATE_INFO_TYPE", structure.name),
-                                    SourceBlock("STRIP_VK_CREATE_INFO_TYPE", strip_vk(structure.name))
+                                    SourceBlock("STRUCTURE_TYPE_NAME", structure.name)
                                 };
                             }
                             return { };
@@ -378,33 +392,46 @@ inline dst::cppgen::SourceBlock get_handle_source_blocks(const xml::Manifest& xm
                             if (functionItr != xmlManifest.functions.end() && VkCreatePrefix.size() <= functionItr->second.name.size()) {
                                 const auto& function = functionItr->second;
                                 functionName = function.name[VkCreatePrefix.size() - 1] == 'C' ? "create" : "allocate";
+                                std::string managedHandleParameterName;
+                                for (const auto& parameter : function.parameters) {
+                                    if (parameter.unqualifiedType == handle.name) {
+                                        managedHandleParameterName = parameter.name;
+                                        break;
+                                    }
+                                }
                                 return {
-                                    SourceBlock("CREATE_FUNCTION_COMPILE_GUARDS", get_function_compile_guards(function),
+                                    // TODO : Need to chain Coniditions in cpp-generator...
+                                    Condition("HAS_ALLOCATOR", hasAllocator),
+                                    SourceBlock("COMPILE_GUARDS", get_function_compile_guards(function),
                                         [&](const std::string& compileGuard) -> std::vector<SourceBlock>
                                         {
                                             return { SourceBlock("COMPILE_GUARD", compileGuard) };
                                         }
                                     ),
-                                    SourceBlock("CREATE_FUNCTION_NAME", functionName),
-                                    SourceBlock("VK_CREATE_FUNCTION_NAME", function.name),
+                                    SourceBlock("MANAGED_CREATE_FUNCTION_NAME", functionName),
+                                    SourceBlock("CREATE_FUNCTION_NAME", function.name),
+                                    SourceBlock("MANAGED_HANDLE_PARAMETER_NAME", managedHandleParameterName),
                                     SourceBlock("PARAMETERS", function.parameters,
                                         [&](const Parameter& parameter) -> std::vector<SourceBlock>
                                         {
-                                            auto vkParameter = parameter.name;
                                             auto managedParameter = parameter;
+                                            auto vkCallArgument = parameter.name;
                                             if (parameter.unqualifiedType == handle.name) {
-                                                vkParameter = "&handle";
                                                 managedParameter.type = "Managed<" + handle.name + ">*";
+                                                vkCallArgument = "&vkHandle";
                                             } else
                                             if (xmlManifest.handles.count(parameter.unqualifiedType)) {
-                                                vkParameter = vkParameter + ".get<" + parameter.unqualifiedType + ">()";
                                                 managedParameter.type = "const Managed<" + managedParameter.type + ">&";
                                             }
+                                            auto parentParemter = parameter.type != handle.name && xmlManifest.handles.count(parameter.type);
+                                            auto createInfoParameter = parameter.unqualifiedType != "VkAllocationCallbacks" && xmlManifest.structures.count(parameter.unqualifiedType);
                                             return {
-                                                SourceBlock("UNQUALIFIED_PARAMETER_TYPE", parameter.unqualifiedType),
-                                                SourceBlock("VK_PARAMETER", parameter.name),
+                                                // TODO : cpp-generator needs to support multiple Conditions in one SourceBlock
+                                                parentParemter ? Condition("PARENT_PARAMETER", true) : createInfoParameter ? Condition("CREATE_INFO_PARAMETER", true) : Condition { },
+                                                SourceBlock("MANAGED_PARAMETER_UNQUALIFIED_TYPE", parameter.unqualifiedType),
                                                 SourceBlock("MANAGED_PARAMETER_TYPE", managedParameter.type),
-                                                SourceBlock("MANAGED_PARAMETER_NAME", managedParameter.name),
+                                                SourceBlock("MANAGED_PARAMETER_NAME", parameter.name),
+                                                SourceBlock("VK_CALL_ARGUMENT", vkCallArgument),
                                             };
                                         }
                                     ),
@@ -422,8 +449,24 @@ inline dst::cppgen::SourceBlock get_handle_source_blocks(const xml::Manifest& xm
                             if (functionItr != xmlManifest.functions.end() && VkDestroyPrefix.size() <= functionItr->second.name.size()) {
                                 const auto& function = functionItr->second;
                                 functionName = function.name[VkDestroyPrefix.size() - 1] == 'D' ? "destroy" : "free";
+                                std::vector<const xml::Parameter*> parentParameters;
+                                for (const auto& parameter : function.parameters) {
+                                    if (parameter.unqualifiedType == handle.name) {
+                                        break;
+                                    }
+                                    parentParameters.push_back(&parameter);
+                                }
                                 return {
                                     SourceBlock("VK_DESTROY_FUNCTION_NAME", function.name),
+                                    SourceBlock("PARENT_PARAMETERS", parentParameters,
+                                        [&](const xml::Parameter* pParentParameter) -> std::vector<SourceBlock>
+                                        {
+                                            return {
+                                                SourceBlock("STRIP_VK_PARENT_HANDLE_PARAMETER_TYPE_NAME", strip_vk(pParentParameter->unqualifiedType)),
+                                                SourceBlock("PARENT_HANDLE_PARAMETER_TYPE_NAME", pParentParameter->unqualifiedType),
+                                            };
+                                        }
+                                    ),
                                     SourceBlock("PARAMETERS", function.parameters,
                                         [&](const Parameter& parameter) -> std::vector<SourceBlock>
                                         {

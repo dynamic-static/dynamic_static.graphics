@@ -40,8 +40,7 @@ set(generatedIncludeFiles
     "${generatedIncludePath}/comparison-operators.hpp"
     "${generatedIncludePath}/create-structure-copy.hpp"
     "${generatedIncludePath}/destroy-structure-copy.hpp"
-    "${generatedIncludePath}/managed-handles.hpp"
-    "${generatedIncludePath}/managed-structures.hpp"
+    "${generatedIncludePath}/managed.control-blocks.hpp"
     "${generatedIncludePath}/to-tuple.hpp"
 )
 set(generatedSourceFiles
@@ -50,7 +49,7 @@ set(generatedSourceFiles
     "${generatedSourcePath}/equality-operators.cpp"
     "${generatedSourcePath}/greater-than-operators.cpp"
     "${generatedSourcePath}/less-than-operators.cpp"
-    "${generatedSourcePath}/managed-handles.cpp"
+    "${generatedSourcePath}/managed.control-blocks.cpp"
 )
 
 # dynamic_static.graphics.vulkan.generator
@@ -63,8 +62,7 @@ dst_add_cpp_generator(
         "${generatorSourcePath}/create-structure-copy.generator.hpp"
         "${generatorSourcePath}/destroy-structure-copy.generator.hpp"
         "${generatorSourcePath}/main.cpp"
-        "${generatorSourcePath}/managed-handles.generator.hpp"
-        "${generatorSourcePath}/managed-structures.generator.hpp"
+        "${generatorSourcePath}/managed.control-blocks.generator.hpp"
         "${generatorSourcePath}/structure-comparison-operators.generator.hpp"
         "${generatorSourcePath}/structure-to-tuple.generator.hpp"
         "${generatorSourcePath}/utilities.hpp"
@@ -94,7 +92,6 @@ dst_add_static_library(
         "${includePath}/vulkan/detail/structure-to-tuple-manual.hpp"
         "${includePath}/vulkan/detail/structure-to-tuple-utilities.hpp"
         "${includePath}/vulkan/detail/tuple-element-wrappers.hpp"
-        "${includePath}/vulkan/managed-handles/managed-buffer.hpp"
         "${includePath}/vulkan/comparison-operators.hpp"
         "${includePath}/vulkan/application.hpp"
         "${includePath}/vulkan/defines.hpp"
@@ -238,7 +235,7 @@ if(DST_CORE_BUILD_TESTS)
     )
 endif()
 
-#### # Examples
-#### if(DST_GFX_BUILD_EXAMPLES)
-####     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/examples.ex/")
-#### endif()
+# Examples
+# if(DST_GFX_BUILD_EXAMPLES)
+    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/examples.ex/")
+# endif()
