@@ -124,6 +124,8 @@ class Managed<VkCommandBuffer>::ControlBlock
 public:
     static VkResult allocate(const Managed<VkDevice>& device, const VkCommandBufferAllocateInfo* pAllocateInfo, Managed<VkCommandBuffer>* pCommandBuffers);
 
+    ~ControlBlock();
+
     template <typename T>
     inline const T& get() const
     {
@@ -304,6 +306,8 @@ class Managed<VkDescriptorSet>::ControlBlock
 public:
     static VkResult allocate(const Managed<VkDevice>& device, const VkDescriptorSetAllocateInfo* pAllocateInfo, Managed<VkDescriptorSet>* pDescriptorSets);
 
+    ~ControlBlock();
+
     template <typename T>
     inline const T& get() const
     {
@@ -450,6 +454,8 @@ template <>
 class Managed<VkDisplayKHR>::ControlBlock
 {
 public:
+    ~ControlBlock();
+
     template <typename T>
     inline const T& get() const
     {
@@ -475,6 +481,8 @@ class Managed<VkDisplayModeKHR>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkPhysicalDevice>& physicalDevice, const Managed<VkDisplayKHR>& display, const VkDisplayModeCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDisplayModeKHR>* pMode);
+
+    ~ControlBlock();
 
     template <typename T>
     inline const T& get() const
@@ -711,6 +719,8 @@ template <>
 class Managed<VkPerformanceConfigurationINTEL>::ControlBlock
 {
 public:
+    ~ControlBlock();
+
     template <typename T>
     inline const T& get() const
     {
@@ -735,6 +745,8 @@ template <>
 class Managed<VkPhysicalDevice>::ControlBlock
 {
 public:
+    ~ControlBlock();
+
     template <typename T>
     inline const T& get() const
     {
@@ -919,6 +931,8 @@ template <>
 class Managed<VkQueue>::ControlBlock
 {
 public:
+    ~ControlBlock();
+
     template <typename T>
     inline const T& get() const
     {

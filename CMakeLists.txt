@@ -165,6 +165,7 @@ dst_add_static_library(
     sourceFiles
         "${sourcePath}/vulkan/detail/create-structure-copy-manual.cpp"
         "${sourcePath}/vulkan/detail/destroy-structure-copy-manual.cpp"
+        "${sourcePath}/vulkan/detail/managed.control-blocks.manual.cpp"
         "${sourcePath}/vulkan/application.cpp"
         "${sourcePath}/application.cpp"
         "${generatedSourceFiles}"

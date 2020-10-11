@@ -158,6 +158,25 @@ inline bool is_manually_implemented(const xml::Manifest& xmlManifest, const xml:
     return get_manually_implemented_structures(xmlManifest).count(structure.name);
 }
 
+inline const std::set<std::string>& get_manually_implemented_handles(const xml::Manifest& xmlManifest)
+{
+    static const std::set<std::string> sManuallyImplementedHandles =
+    [&xmlManifest]()
+    {
+        std::set<std::string> manuallyImplementedHandles {
+            "VkCommandBuffer",
+            "VkDescriptorSet",
+        };
+        return manuallyImplementedHandles;
+    }();
+    return sManuallyImplementedHandles;
+}
+
+inline bool is_manually_implemented(const xml::Manifest& xmlManifest, const xml::Handle& handle)
+{
+    return get_manually_implemented_handles(xmlManifest).count(handle.name);
+}
+
 inline std::vector<std::string> get_handle_compile_guards(const xml::Handle& handle)
 {
     std::vector<std::string> compileGuards;
@@ -316,6 +335,19 @@ inline dst::cppgen::SourceBlock get_unfiltered_structure_source_blocks(const xml
     );
 }
 
+inline std::vector<const xml::Handle*> get_dependency_ordered_handles(const xml::Manifest& xmlManifest)
+{
+    std::vector<const xml::Handle*> handles;
+    handles.reserve(xmlManifest.handles.size());
+    xmlManifest.handles.enumerate_in_dependency_order(
+        [&](const xml::Handle& handle)
+        {
+            handles.push_back(&handle);
+        }
+    );
+    return handles;
+}
+
 inline std::vector<dst::cppgen::SourceBlock> get_structure_source_blocks(const xml::Manifest& xmlManifest)
 {
     static const std::vector<dst::cppgen::SourceBlock> sStructureSourceBlocks {
@@ -329,10 +361,21 @@ inline dst::cppgen::SourceBlock get_handle_source_blocks(const xml::Manifest& xm
 {
     using namespace dst::cppgen;
     using namespace dst::vk::xml;
-    return SourceBlock("HANDLES", xmlManifest.handles,
+    return SourceBlock("HANDLES",
+        #if 0
+        xmlManifest.handles,
         [&](const std::pair<std::string, Handle>& handleItr) -> std::vector<SourceBlock>
+        #else
+        get_dependency_ordered_handles(xmlManifest),
+        [&](const xml::Handle* pHandle) -> std::vector<SourceBlock>
+        #endif
         {
+            #if 0
             const auto& handle = handleItr.second;
+            #else
+            assert(pHandle);
+            const auto& handle = *pHandle;
+            #endif
             bool hasAllocator = false;
             for (const auto& functionName : handle.createFunctions) {
                 auto createFunctionItr = xmlManifest.functions.find(functionName);
@@ -349,6 +392,8 @@ inline dst::cppgen::SourceBlock get_handle_source_blocks(const xml::Manifest& xm
             }
             if (handle.alias.empty()) {
                 return {
+                    SourceBlock("OPEN_MANUALLY_IMPLEMENTED_COMPILE_GUARD", is_manually_implemented(xmlManifest, handle) ? "#if 0\n// The following ControlBlock is manually implemented" : std::string()),
+                    SourceBlock("CLOSE_MANUALLY_IMPLEMENTED_COMPILE_GUARD", is_manually_implemented(xmlManifest, handle) ? "#endif" : std::string()),
                     SourceBlock("COMPILE_GUARDS", get_handle_compile_guards(handle),
                         [&](const std::string& compileGuard) -> std::vector<SourceBlock>
                         {

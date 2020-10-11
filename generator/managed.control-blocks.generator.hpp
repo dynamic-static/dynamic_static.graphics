@@ -61,9 +61,8 @@ inline void generate_managed_control_block_declarations(const xml::Manifest& xml
         #endif // ${COMPILE_GUARD}
         $</>
         $</"\n">
-        $<DESTROY_FUNCTIONS>
         ~ControlBlock();
-        $</"\n">
+
         template <typename T>
         inline const T& get() const
         {
@@ -131,6 +130,7 @@ inline void generate_managed_control_block_definitions(const xml::Manifest& xmlM
     namespace vk {
 
     $<HANDLES:"\n">
+    ${OPEN_MANUALLY_IMPLEMENTED_COMPILE_GUARD}
     $<COMPILE_GUARDS>
     #ifdef ${COMPILE_GUARD}
     $</>
@@ -169,9 +169,9 @@ inline void generate_managed_control_block_definitions(const xml::Manifest& xmlM
     #endif // ${COMPILE_GUARD}
     $</>
     $</"\n">
-    $<DESTROY_FUNCTIONS>
     Managed<${HANDLE_TYPE_NAME}>::ControlBlock::~ControlBlock()
     {
+        $<DESTROY_FUNCTIONS>
         auto vkHandle = get<${HANDLE_TYPE_NAME}>();
         if (vkHandle) {
             $<PARENT_PARAMETERS>
@@ -180,11 +180,12 @@ inline void generate_managed_control_block_definitions(const xml::Manifest& xmlM
             $</>
             ${VK_DESTROY_FUNCTION_NAME}($<PARENT_PARAMETERS:", ">vk${STRIP_VK_PARENT_HANDLE_PARAMETER_TYPE_NAME}$</", ">vkHandle, get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
         }
+        $</>
     }
-    $</>
     $<COMPILE_GUARDS:reverse="true">
     #endif // ${COMPILE_GUARD}
     $</>
+    ${CLOSE_MANUALLY_IMPLEMENTED_COMPILE_GUARD}
     $</>
 
     } // namespace vk

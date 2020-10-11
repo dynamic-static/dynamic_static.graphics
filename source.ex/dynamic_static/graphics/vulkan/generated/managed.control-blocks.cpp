@@ -109,6 +109,8 @@ Managed<VkBufferView>::ControlBlock::~ControlBlock()
     }
 }
 
+#if 0
+// The following ControlBlock is manually implemented
 VkResult Managed<VkCommandBuffer>::ControlBlock::allocate(const Managed<VkDevice>& device, const VkCommandBufferAllocateInfo* pAllocateInfo, Managed<VkCommandBuffer>* pCommandBuffers)
 {
     auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
@@ -128,6 +130,10 @@ VkResult Managed<VkCommandBuffer>::ControlBlock::allocate(const Managed<VkDevice
     return vkResult;
 }
 
+Managed<VkCommandBuffer>::ControlBlock::~ControlBlock()
+{
+}
+#endif
 
 VkResult Managed<VkCommandPool>::ControlBlock::create(const Managed<VkDevice>& device, const VkCommandPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkCommandPool>* pCommandPool)
 {
@@ -282,6 +288,8 @@ Managed<VkDescriptorPool>::ControlBlock::~ControlBlock()
     }
 }
 
+#if 0
+// The following ControlBlock is manually implemented
 VkResult Managed<VkDescriptorSet>::ControlBlock::allocate(const Managed<VkDevice>& device, const VkDescriptorSetAllocateInfo* pAllocateInfo, Managed<VkDescriptorSet>* pDescriptorSets)
 {
     auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
@@ -301,6 +309,10 @@ VkResult Managed<VkDescriptorSet>::ControlBlock::allocate(const Managed<VkDevice
     return vkResult;
 }
 
+Managed<VkDescriptorSet>::ControlBlock::~ControlBlock()
+{
+}
+#endif
 
 VkResult Managed<VkDescriptorSetLayout>::ControlBlock::create(const Managed<VkDevice>& device, const VkDescriptorSetLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDescriptorSetLayout>* pSetLayout)
 {
@@ -421,6 +433,9 @@ Managed<VkDeviceMemory>::ControlBlock::~ControlBlock()
     }
 }
 
+Managed<VkDisplayKHR>::ControlBlock::~ControlBlock()
+{
+}
 
 VkResult Managed<VkDisplayModeKHR>::ControlBlock::create(const Managed<VkPhysicalDevice>& physicalDevice, const Managed<VkDisplayKHR>& display, const VkDisplayModeCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDisplayModeKHR>* pMode)
 {
@@ -443,6 +458,9 @@ VkResult Managed<VkDisplayModeKHR>::ControlBlock::create(const Managed<VkPhysica
     return vkResult;
 }
 
+Managed<VkDisplayModeKHR>::ControlBlock::~ControlBlock()
+{
+}
 
 VkResult Managed<VkEvent>::ControlBlock::create(const Managed<VkDevice>& device, const VkEventCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkEvent>* pEvent)
 {
@@ -651,7 +669,13 @@ Managed<VkInstance>::ControlBlock::~ControlBlock()
     }
 }
 
+Managed<VkPerformanceConfigurationINTEL>::ControlBlock::~ControlBlock()
+{
+}
 
+Managed<VkPhysicalDevice>::ControlBlock::~ControlBlock()
+{
+}
 
 VkResult Managed<VkPipeline>::ControlBlock::create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkComputePipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines)
 {
@@ -866,6 +890,9 @@ Managed<VkQueryPool>::ControlBlock::~ControlBlock()
     }
 }
 
+Managed<VkQueue>::ControlBlock::~ControlBlock()
+{
+}
 
 VkResult Managed<VkRenderPass>::ControlBlock::create(const Managed<VkDevice>& device, const VkRenderPassCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkRenderPass>* pRenderPass)
 {
