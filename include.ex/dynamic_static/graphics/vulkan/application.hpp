@@ -43,7 +43,9 @@ public:
             VK_KHR_XLIB_SURFACE_EXTENSION_NAME,
             #endif
         };
-        std::vector<std::string> deviceExtensions;
+        std::vector<const char*> deviceExtensions {
+            VK_KHR_SWAPCHAIN_EXTENSION_NAME,
+        };
     };
 
     /**
@@ -92,8 +94,14 @@ protected:
     */
     virtual void post_render(const dst::Clock& clock) override;
 
-    Managed<VkInstance> mInstance; //!< TODO : Documentation
-    Managed<VkDevice> mDevice;     //!< TODO : Documentation
+    Managed<VkInstance> mInstance;                           //!< TODO : Documentation
+    std::vector<Managed<VkPhysicalDevice>> mPhysicalDevices; //!< TODO : Documentation
+    Managed<VkDevice> mDevice;                               //!< TODO : Documentation
+    Managed<VkQueue> mComputeQueue;                          //!< TODO : Documentation
+    Managed<VkQueue> mGraphicsQueue;                         //!< TODO : Documentation
+    Managed<VkQueue> mTransferQueue;                         //!< TODO : Documentation
+    Managed<VkSurfaceKHR> mSurface;                          //!< TODO : Documentation
+    Managed<VkSwapchainKHR> mSwapchain;                      //!< TODO : Documentation
 };
 
 } // namespace vk

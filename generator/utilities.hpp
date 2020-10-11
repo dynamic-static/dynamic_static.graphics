@@ -45,6 +45,8 @@ inline std::vector<std::string> get_custom_handle_fields(const std::string& hand
         { "VkInstance", { "std::vector<Managed<VkPhysicalDevice>>" }},
         { "VkDevice", { "std::vector<Managed<VkQueue>>" }},
         { "VkQueue", { "Managed<VkDeviceQueueCreateInfo>" }},
+        { "VkSwapchainKHR", { "std::vector<Managed<VkImage>>" }},
+        { "VkImage", { "Managed<VkSwapchainKHR>" }},
     };
     auto itr = sCustomHandleFields.find(handleType);
     return itr != sCustomHandleFields.end() ? itr->second : std::vector<std::string> { };

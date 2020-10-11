@@ -129,6 +129,83 @@ void on_managed_handle_destroyed(Managed<VkQueue>& queue)
     }
 }
 
+template <>
+void on_managed_handle_created(Managed<VkSwapchainKHR>& swapchain)
+{
+    // TODO : Scratch pad allocator...
+    // TODO : Error handling...
+    assert(swapchain);
+    const auto& device = swapchain.get<Managed<VkDevice>>();
+    assert(device);
+    uint32_t imageCount = 0;
+    dst_vk(vkGetSwapchainImagesKHR(device, swapchain, &imageCount, nullptr));
+    assert(imageCount);
+    std::vector<VkImage> vkImages(imageCount);
+    dst_vk(vkGetSwapchainImagesKHR(device, swapchain, &imageCount, vkImages.data()));
+    std::vector<Managed<VkImage>> images(vkImages.size());
+    const auto& swapchainCreateInfo = swapchain.get<Managed<VkSwapchainCreateInfoKHR>>();
+    VkImageCreateInfo imageCreateInfo { };
+    imageCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+    imageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
+    imageCreateInfo.format = swapchainCreateInfo->imageFormat;
+    imageCreateInfo.extent.width = swapchainCreateInfo->imageExtent.width;
+    imageCreateInfo.extent.height = swapchainCreateInfo->imageExtent.height;
+    imageCreateInfo.extent.depth = 1;
+    imageCreateInfo.mipLevels = 1;
+    imageCreateInfo.arrayLayers = swapchainCreateInfo->imageArrayLayers;
+    imageCreateInfo.samples = VK_SAMPLE_COUNT_1_BIT;
+    imageCreateInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+    imageCreateInfo.usage = swapchainCreateInfo->imageUsage;
+    imageCreateInfo.sharingMode = swapchainCreateInfo->imageSharingMode;
+    imageCreateInfo.queueFamilyIndexCount = swapchainCreateInfo->queueFamilyIndexCount;
+    imageCreateInfo.pQueueFamilyIndices = swapchainCreateInfo->pQueueFamilyIndices;
+    imageCreateInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    for (uint32_t i = 0; i < imageCount; ++i) {
+        auto& image = images[i];
+        image.mVkHandle = vkImages[i];
+        image.mspControlBlock = std::make_shared<Managed<VkImage>::ControlBlock>();
+        image.mspControlBlock->set(VK_OBJECT_TYPE_IMAGE);
+        image.mspControlBlock->set(std::move(Managed<VkDevice>(device)));
+        image.mspControlBlock->set(std::move(Managed<VkImageCreateInfo>(imageCreateInfo)));
+        image.mspControlBlock->set(std::move(Managed<VkSwapchainKHR>(swapchain)));
+        image.mspControlBlock->set(std::move(vkImages[i]));
+    }
+    swapchain.mspControlBlock->set(std::move(images));
+}
+
+template <>
+void on_managed_handle_destroyed(Managed<VkSwapchainKHR>& swapchain)
+{
+    if (swapchain) {
+        auto& images = const_cast<std::vector<Managed<VkImage>>&>(swapchain.get<std::vector<Managed<VkImage>>>());
+        if (swapchain.mspControlBlock.use_count() <= images.size() + 1) {
+            if (std::all_of(images.begin(), images.end(),
+                [](const auto& image)
+                {
+                    return image.mspControlBlock.use_count() <= 2;
+                }
+            )) {
+                for (const auto& image : images) {
+                    if (image.mspControlBlock) {
+                        image.mspControlBlock->set(Managed<VkDevice>());
+                        image.mspControlBlock->set(Managed<VkSwapchainKHR>());
+                        image.mspControlBlock->set<VkImage>(VK_NULL_HANDLE);
+                    }
+                }
+                images.clear();
+            }
+        }
+    }
+}
+
+template <>
+void on_managed_handle_destroyed(Managed<VkImage>& image)
+{
+    if (image) {
+        on_managed_handle_destroyed(const_cast<Managed<VkSwapchainKHR>&>(image.get<Managed<VkSwapchainKHR>>()));
+    }
+}
+
 } // namespace detail
 
 VkResult Managed<VkCommandBuffer>::ControlBlock::allocate(const Managed<VkDevice>& device, const VkCommandBufferAllocateInfo* pAllocateInfo, Managed<VkCommandBuffer>* pCommandBuffers)

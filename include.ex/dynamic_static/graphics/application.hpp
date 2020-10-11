@@ -87,11 +87,14 @@ protected:
     */
     virtual void post_render(const dst::Clock& clock);
 
+    dst::sys::Window mWindow; //!< TODO : Documentation
+    bool mRunning { false };  //!< TODO : Documentation
+
 private:
     dst::Clock mClock;
     dst::Version mVersion { 1, 0, 0 };
-    dst::sys::Window mWindow;
-    bool mRunning { false };
+    Application(const Application&) = delete;
+    Application& operator=(const Application&) = delete;
 };
 
 } // namespace gfx

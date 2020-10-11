@@ -153,6 +153,68 @@ public:
     /**
     TODO : Documentation
     */
+    class EqualityComparer final
+    {
+    public:
+        /**
+        TODO : Documentation
+        */
+        inline bool operator()(const Managed<VulkanHandleType>& lhs, const Managed<VulkanHandleType>& rhs) const
+        {
+            return lhs.mVkHandle == rhs.mVkHandle;
+        }
+
+        /**
+        TODO : Documentation
+        */
+        inline bool operator()(const Managed<VulkanHandleType>& lhs, const VulkanHandleType& rhs) const
+        {
+            return lhs.mVkHandle == rhs;
+        }
+
+        /**
+        TODO : Documentation
+        */
+        inline bool operator()(const VulkanHandleType& lhs, const Managed<VulkanHandleType>& rhs) const
+        {
+            return lhs == rhs.mVkHandle;
+        }
+    };
+
+    /**
+    TODO : Documentation
+    */
+    class LessThanComparer final
+    {
+    public:
+        /**
+        TODO : Documentation
+        */
+        inline bool operator()(const Managed<VulkanHandleType>& lhs, const Managed<VulkanHandleType>& rhs) const
+        {
+            return lhs.mVkHandle < rhs.mVkHandle;
+        }
+
+        /**
+        TODO : Documentation
+        */
+        inline bool operator()(const Managed<VulkanHandleType>& lhs, const VulkanHandleType& rhs) const
+        {
+            return lhs.mVkHandle < rhs;
+        }
+
+        /**
+        TODO : Documentation
+        */
+        inline bool operator()(const VulkanHandleType& lhs, const Managed<VulkanHandleType>& rhs) const
+        {
+            return lhs < rhs.mVkHandle;
+        }
+    };
+
+    /**
+    TODO : Documentation
+    */
     Managed() = default;
 
     /**
@@ -243,6 +305,60 @@ public:
         mVkHandle = VK_NULL_HANDLE;
     }
 
+    /**
+    TODO : Documentation
+    */
+    template <typename RhsType>
+    inline friend bool operator==(const Managed<VulkanHandleType>& lhs, const RhsType& rhs)
+    {
+        return EqualityComparer()(lhs, rhs);
+    }
+
+    /**
+    TODO : Documentation
+    */
+    template <typename RhsType>
+    inline friend bool operator!=(const Managed<VulkanHandleType>& lhs, const RhsType& rhs)
+    {
+        return !(lhs == rhs);
+    }
+
+    /**
+    TODO : Documentation
+    */
+    template <typename RhsType>
+    inline friend bool operator<(const Managed<VulkanHandleType>& lhs, const RhsType& rhs)
+    {
+        return LessThanComparer()(lhs, rhs);
+    }
+
+    /**
+    TODO : Documentation
+    */
+    template <typename RhsType>
+    inline friend bool operator>(const Managed<VulkanHandleType>& lhs, const RhsType& rhs)
+    {
+        return rhs < lhs;
+    }
+
+    /**
+    TODO : Documentation
+    */
+    template <typename RhsType>
+    inline friend bool operator<=(const Managed<VulkanHandleType>& lhs, const RhsType& rhs)
+    {
+        return !(lhs > rhs);
+    }
+
+    /**
+    TODO : Documentation
+    */
+    template <typename RhsType>
+    inline friend bool operator>=(const Managed<VulkanHandleType>& lhs, const RhsType& rhs)
+    {
+        return !(lhs < rhs);
+    }
+
 private:
     VulkanHandleType mVkHandle { VK_NULL_HANDLE };
     std::shared_ptr<ControlBlock> mspControlBlock;
@@ -252,19 +368,23 @@ private:
     friend void detail::on_managed_handle_destroyed(Managed<VulkanHandleType>&);
 };
 
-template <typename ManagedVulkanHandleType, typename ...Args>
-inline VkResult create(Args&&... args)
-{
-    return ManagedVulkanHandleType::ControlBlock::create(std::forward<Args>(args)...);
-}
-
-#if 0
+/**
+TODO : Documentation
+*/
 template <typename ManagedVulkanHandleType, typename ...Args>
 inline VkResult allocate(Args&&... args)
 {
     return ManagedVulkanHandleType::ControlBlock::allocate(std::forward<Args>(args)...);
 }
-#endif
+
+/**
+TODO : Documentation
+*/
+template <typename ManagedVulkanHandleType, typename ...Args>
+inline VkResult create(Args&&... args)
+{
+    return ManagedVulkanHandleType::ControlBlock::create(std::forward<Args>(args)...);
+}
 
 } // namespace vk
 } // namespace dst

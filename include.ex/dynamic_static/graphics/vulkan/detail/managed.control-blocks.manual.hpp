@@ -36,6 +36,15 @@ void on_managed_handle_destroyed(Managed<VkDevice>& device);
 template <>
 void on_managed_handle_destroyed(Managed<VkQueue>& queue);
 
+template <>
+void on_managed_handle_created(Managed<VkSwapchainKHR>& swapchain);
+
+template <>
+void on_managed_handle_destroyed(Managed<VkSwapchainKHR>& swapchain);
+
+template <>
+void on_managed_handle_destroyed(Managed<VkImage>& image);
+
 } // namespace detail
 } // namespace vk
 } // namespace dst

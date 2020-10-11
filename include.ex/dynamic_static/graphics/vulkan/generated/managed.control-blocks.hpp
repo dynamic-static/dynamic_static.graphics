@@ -551,6 +551,7 @@ private:
         Managed<VkDevice>,
         Managed<VkImageCreateInfo>,
         VkAllocationCallbacks,
+        Managed<VkSwapchainKHR>,
         VkImage
     > mFields;
 };
@@ -1048,6 +1049,7 @@ private:
         Managed<VkSurfaceKHR>,
         Managed<VkSwapchainCreateInfoKHR>,
         VkAllocationCallbacks,
+        std::vector<Managed<VkImage>>,
         VkSwapchainKHR
     > mFields;
 };

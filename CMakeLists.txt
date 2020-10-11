@@ -97,6 +97,7 @@ dst_add_static_library(
         "${includePath}/vulkan/application.hpp"
         "${includePath}/vulkan/defines.hpp"
         "${includePath}/vulkan/managed.hpp"
+        "${includePath}/vulkan/render-target.hpp"
         "${includePath}/application.hpp"
         "${includePath}/defines.hpp"
         "${includePath}/vulkan.hpp"
@@ -168,6 +169,7 @@ dst_add_static_library(
         "${sourcePath}/vulkan/detail/destroy-structure-copy-manual.cpp"
         "${sourcePath}/vulkan/detail/managed.control-blocks.manual.cpp"
         "${sourcePath}/vulkan/application.cpp"
+        "${sourcePath}/vulkan/render-target.cpp"
         "${sourcePath}/application.cpp"
         "${generatedSourceFiles}"
 
