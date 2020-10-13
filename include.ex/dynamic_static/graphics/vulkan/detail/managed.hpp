@@ -14,8 +14,11 @@
 #include "dynamic_static/graphics/vulkan/generated/destroy-structure-copy.hpp"
 #include "dynamic_static/graphics/vulkan/defines.hpp"
 
+#include <cassert>
 #include <memory>
+#include <mutex>
 #include <type_traits>
+#include <unordered_map>
 #include <utility>
 
 namespace dst {
@@ -226,6 +229,24 @@ public:
     }
 
     /**
+    TODO : Docuemntation
+    */
+    inline Managed(VulkanHandleType vkHandle)
+    {
+        access_control_blocks(
+            [this, vkHandle](const std::unordered_map<VulkanHandleType, std::weak_ptr<ControlBlock>>& controlBlocks)
+            {
+                auto itr = controlBlocks.find(vkHandle);
+                if (itr != controlBlocks.end()) {
+                    assert(!itr->second.expired());
+                    mVkHandle = vkHandle;
+                    mspControlBlock = itr->second.lock();
+                }
+            }
+        );
+    }
+
+    /**
     TODO : Documentation
     */
     inline Managed(const Managed<VulkanHandleType>& other)
@@ -292,6 +313,7 @@ public:
     template <typename T>
     inline const T& get() const
     {
+        assert(mspControlBlock);
         return mspControlBlock->get<T>();
     }
 
@@ -360,6 +382,60 @@ public:
     }
 
 private:
+    inline static std::mutex& get_control_block_mutex()
+    {
+        static std::mutex sControlBlockMutex;
+        return sControlBlockMutex;
+    }
+
+    inline static std::unordered_map<VulkanHandleType, std::weak_ptr<ControlBlock>>& get_control_blocks()
+    {
+        static std::unordered_map<VulkanHandleType, std::weak_ptr<ControlBlock>> sControlBlocks;
+        return sControlBlocks;
+    }
+
+    template <typename AccessControlBlocksFunctionType>
+    inline static void access_control_blocks(AccessControlBlocksFunctionType accessControlBlocks)
+    {
+        std::lock_guard<std::mutex> lock(get_control_block_mutex());
+        accessControlBlocks(get_control_blocks());
+    }
+
+    inline static void register_control_block(const std::shared_ptr<ControlBlock>& spControlBlock)
+    {
+        access_control_blocks(
+            [&spControlBlock](std::unordered_map<VulkanHandleType, std::weak_ptr<ControlBlock>>& controlBlocks)
+            {
+                assert(spControlBlock);
+                assert(spControlBlock->get<VulkanHandleType>());
+                auto inserted = controlBlocks.insert({ spControlBlock->get<VulkanHandleType>(), spControlBlock }).second;
+                (void)inserted;
+                assert(inserted);
+            }
+        );
+    }
+
+    inline static void unregister_control_block(VulkanHandleType vkHandle)
+    {
+        access_control_blocks(
+            [vkHandle](std::unordered_map<VulkanHandleType, std::weak_ptr<ControlBlock>>& controlBlocks)
+            {
+                assert(vkHandle);
+                auto removed = controlBlocks.erase(vkHandle);
+                (void)removed;
+                assert(removed);
+            }
+        );
+    }
+
+    inline static std::shared_ptr<ControlBlock> create_control_block(VulkanHandleType vkHandle)
+    {
+        assert(vkHandle);
+        auto spControlBlock = std::make_shared<ControlBlock>(vkHandle);
+        register_control_block(spControlBlock);
+        return spControlBlock;
+    }
+
     VulkanHandleType mVkHandle { VK_NULL_HANDLE };
     std::shared_ptr<ControlBlock> mspControlBlock;
     template <typename VulkanHandleType>

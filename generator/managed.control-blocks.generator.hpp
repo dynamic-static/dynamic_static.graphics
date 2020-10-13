@@ -60,7 +60,8 @@ inline void generate_managed_control_block_declarations(const xml::Manifest& xml
         $<COMPILE_GUARDS:reverse="true">
         #endif // ${COMPILE_GUARD}
         $</>
-        $</"\n">
+        $</>
+        ControlBlock(${HANDLE_TYPE_NAME} vkHandle);
         ~ControlBlock();
 
         template <typename T>
@@ -138,6 +139,12 @@ inline void generate_managed_control_block_definitions(const xml::Manifest& xmlM
     $<COMPILE_GUARDS>
     #ifdef ${COMPILE_GUARD}
     $</>
+    Managed<${HANDLE_TYPE_NAME}>::ControlBlock::ControlBlock(${HANDLE_TYPE_NAME} vkHandle)
+    {
+        assert(vkHandle);
+        set(std::move(vkHandle));
+    }
+
     $<CREATE_FUNCTIONS>
     $<COMPILE_GUARDS>
     #ifdef ${COMPILE_GUARD}
@@ -151,7 +158,7 @@ inline void generate_managed_control_block_definitions(const xml::Manifest& xmlM
             vkResult = ${CREATE_FUNCTION_NAME}($<PARAMETERS:", ">${VK_CALL_ARGUMENT}$</>);
             if (vkResult == VK_SUCCESS) {
                 ${MANAGED_HANDLE_PARAMETER_NAME}->mVkHandle = vkHandle;
-                ${MANAGED_HANDLE_PARAMETER_NAME}->mspControlBlock = std::make_shared<Managed<${HANDLE_TYPE_NAME}>::ControlBlock>();
+                ${MANAGED_HANDLE_PARAMETER_NAME}->mspControlBlock = create_control_block(vkHandle);
                 ${MANAGED_HANDLE_PARAMETER_NAME}->mspControlBlock->set(${HANDLE_OBJECT_TYPE});
                 $<PARAMETERS>
                 $<condition="PARENT_PARAMETER">
@@ -176,16 +183,17 @@ inline void generate_managed_control_block_definitions(const xml::Manifest& xmlM
     $</"\n">
     Managed<${HANDLE_TYPE_NAME}>::ControlBlock::~ControlBlock()
     {
-        $<DESTROY_FUNCTIONS>
-        auto vkHandle = get<${HANDLE_TYPE_NAME}>();
-        if (vkHandle) {
+        assert(get<${HANDLE_TYPE_NAME}>());
+        unregister_control_block(get<${HANDLE_TYPE_NAME}>());
+        if (get<VkObjectType>() != VK_OBJECT_TYPE_MAX_ENUM) {
+            $<DESTROY_FUNCTIONS>
             $<PARENT_PARAMETERS>
             auto vk${STRIP_VK_PARENT_HANDLE_PARAMETER_TYPE_NAME} = *get<Managed<${PARENT_HANDLE_PARAMETER_TYPE_NAME}>>();
             assert(vk${STRIP_VK_PARENT_HANDLE_PARAMETER_TYPE_NAME});
             $</>
-            ${VK_DESTROY_FUNCTION_NAME}($<PARENT_PARAMETERS:", ">vk${STRIP_VK_PARENT_HANDLE_PARAMETER_TYPE_NAME}$</", ">vkHandle, get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
+            ${VK_DESTROY_FUNCTION_NAME}($<PARENT_PARAMETERS:", ">vk${STRIP_VK_PARENT_HANDLE_PARAMETER_TYPE_NAME}$</", ">get<${HANDLE_TYPE_NAME}>(), get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
+            $</>
         }
-        $</>
     }
     $<COMPILE_GUARDS:reverse="true">
     #endif // ${COMPILE_GUARD}

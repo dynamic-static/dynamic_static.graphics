@@ -27,7 +27,7 @@ class Managed<VkInstance>::ControlBlock
 {
 public:
     static VkResult create(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkInstance>* pInstance);
-
+    ControlBlock(VkInstance vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -56,6 +56,7 @@ template <>
 class Managed<VkPhysicalDevice>::ControlBlock
 {
 public:
+    ControlBlock(VkPhysicalDevice vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -83,7 +84,7 @@ class Managed<VkDevice>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkPhysicalDevice>& physicalDevice, const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDevice>* pDevice);
-
+    ControlBlock(VkDevice vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -114,7 +115,7 @@ class Managed<VkBuffer>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkBufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkBuffer>* pBuffer);
-
+    ControlBlock(VkBuffer vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -144,7 +145,7 @@ class Managed<VkBufferView>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkBufferViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkBufferView>* pView);
-
+    ControlBlock(VkBufferView vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -174,7 +175,7 @@ class Managed<VkCommandPool>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkCommandPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkCommandPool>* pCommandPool);
-
+    ControlBlock(VkCommandPool vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -204,7 +205,7 @@ class Managed<VkCommandBuffer>::ControlBlock
 {
 public:
     static VkResult allocate(const Managed<VkDevice>& device, const VkCommandBufferAllocateInfo* pAllocateInfo, Managed<VkCommandBuffer>* pCommandBuffers);
-
+    ControlBlock(VkCommandBuffer vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -233,7 +234,7 @@ class Managed<VkDescriptorPool>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkDescriptorPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDescriptorPool>* pDescriptorPool);
-
+    ControlBlock(VkDescriptorPool vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -263,7 +264,7 @@ class Managed<VkDescriptorSet>::ControlBlock
 {
 public:
     static VkResult allocate(const Managed<VkDevice>& device, const VkDescriptorSetAllocateInfo* pAllocateInfo, Managed<VkDescriptorSet>* pDescriptorSets);
-
+    ControlBlock(VkDescriptorSet vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -292,7 +293,7 @@ class Managed<VkDescriptorSetLayout>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkDescriptorSetLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDescriptorSetLayout>* pSetLayout);
-
+    ControlBlock(VkDescriptorSetLayout vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -322,7 +323,7 @@ class Managed<VkDescriptorUpdateTemplate>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkDescriptorUpdateTemplateCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDescriptorUpdateTemplate>* pDescriptorUpdateTemplate);
-
+    ControlBlock(VkDescriptorUpdateTemplate vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -353,7 +354,7 @@ class Managed<VkDeviceMemory>::ControlBlock
 {
 public:
     static VkResult allocate(const Managed<VkDevice>& device, const VkMemoryAllocateInfo* pAllocateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDeviceMemory>* pMemory);
-
+    ControlBlock(VkDeviceMemory vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -382,6 +383,7 @@ template <>
 class Managed<VkDisplayKHR>::ControlBlock
 {
 public:
+    ControlBlock(VkDisplayKHR vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -409,7 +411,7 @@ class Managed<VkDisplayModeKHR>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkPhysicalDevice>& physicalDevice, const Managed<VkDisplayKHR>& display, const VkDisplayModeCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkDisplayModeKHR>* pMode);
-
+    ControlBlock(VkDisplayModeKHR vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -440,7 +442,7 @@ class Managed<VkEvent>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkEventCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkEvent>* pEvent);
-
+    ControlBlock(VkEvent vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -470,7 +472,7 @@ class Managed<VkFence>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkFenceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkFence>* pFence);
-
+    ControlBlock(VkFence vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -500,7 +502,7 @@ class Managed<VkFramebuffer>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkFramebufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkFramebuffer>* pFramebuffer);
-
+    ControlBlock(VkFramebuffer vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -530,7 +532,7 @@ class Managed<VkImage>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkImageCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkImage>* pImage);
-
+    ControlBlock(VkImage vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -561,7 +563,7 @@ class Managed<VkImageView>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkImageViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkImageView>* pView);
-
+    ControlBlock(VkImageView vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -590,6 +592,7 @@ template <>
 class Managed<VkPerformanceConfigurationINTEL>::ControlBlock
 {
 public:
+    ControlBlock(VkPerformanceConfigurationINTEL vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -618,7 +621,7 @@ class Managed<VkPipeline>::ControlBlock
 public:
     static VkResult create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkComputePipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines);
     static VkResult create(const Managed<VkDevice>& device, const Managed<VkPipelineCache>& pipelineCache, uint32_t createInfoCount, const VkGraphicsPipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkPipeline>* pPipelines);
-
+    ControlBlock(VkPipeline vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -653,7 +656,7 @@ class Managed<VkPipelineCache>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkPipelineCacheCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkPipelineCache>* pPipelineCache);
-
+    ControlBlock(VkPipelineCache vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -683,7 +686,7 @@ class Managed<VkPipelineLayout>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkPipelineLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkPipelineLayout>* pPipelineLayout);
-
+    ControlBlock(VkPipelineLayout vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -713,7 +716,7 @@ class Managed<VkQueryPool>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkQueryPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkQueryPool>* pQueryPool);
-
+    ControlBlock(VkQueryPool vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -742,6 +745,7 @@ template <>
 class Managed<VkQueue>::ControlBlock
 {
 public:
+    ControlBlock(VkQueue vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -771,7 +775,7 @@ class Managed<VkRenderPass>::ControlBlock
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkRenderPassCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkRenderPass>* pRenderPass);
     static VkResult create(const Managed<VkDevice>& device, const VkRenderPassCreateInfo2* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkRenderPass>* pRenderPass);
-
+    ControlBlock(VkRenderPass vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -802,7 +806,7 @@ class Managed<VkSampler>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkSamplerCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSampler>* pSampler);
-
+    ControlBlock(VkSampler vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -832,7 +836,7 @@ class Managed<VkSamplerYcbcrConversion>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkSamplerYcbcrConversionCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSamplerYcbcrConversion>* pYcbcrConversion);
-
+    ControlBlock(VkSamplerYcbcrConversion vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -863,7 +867,7 @@ class Managed<VkSemaphore>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkSemaphoreCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSemaphore>* pSemaphore);
-
+    ControlBlock(VkSemaphore vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -893,7 +897,7 @@ class Managed<VkShaderModule>::ControlBlock
 {
 public:
     static VkResult create(const Managed<VkDevice>& device, const VkShaderModuleCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkShaderModule>* pShaderModule);
-
+    ControlBlock(VkShaderModule vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -959,7 +963,7 @@ public:
     #ifdef VK_USE_PLATFORM_XLIB_KHR
     static VkResult create(const Managed<VkInstance>& instance, const VkXlibSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSurfaceKHR>* pSurface);
     #endif // VK_USE_PLATFORM_XLIB_KHR
-
+    ControlBlock(VkSurfaceKHR vkHandle);
     ~ControlBlock();
 
     template <typename T>
@@ -1027,7 +1031,7 @@ class Managed<VkSwapchainKHR>::ControlBlock
 public:
     static VkResult create(const Managed<VkDevice>& device, uint32_t swapchainCount, const VkSwapchainCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator, Managed<VkSwapchainKHR>* pSwapchains);
     static VkResult create(const Managed<VkDevice>& device, const VkSwapchainCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkSwapchainKHR>* pSwapchain);
-
+    ControlBlock(VkSwapchainKHR vkHandle);
     ~ControlBlock();
 
     template <typename T>

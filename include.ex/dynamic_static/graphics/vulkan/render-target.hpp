@@ -30,7 +30,7 @@ public:
     /**
     TODO : Documentation
     */
-    RenderTarget(const Managed<VkImage>& image);
+    RenderTarget(const Managed<VkRenderPass>& renderPass, const Managed<VkImage>& image);
 
 private:
     Managed<VkImage> mImage;

@@ -13,7 +13,7 @@
 namespace dst {
 namespace vk {
 
-RenderTarget::RenderTarget(const Managed<VkImage>& image)
+RenderTarget::RenderTarget(const Managed<VkRenderPass>& renderPass, const Managed<VkImage>& image)
 {
     mImage = image;
     const auto& device = mImage.get<Managed<VkDevice>>();

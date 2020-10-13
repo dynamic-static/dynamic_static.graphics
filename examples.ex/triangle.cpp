@@ -38,6 +38,8 @@ public:
 
 int main(int argc, const char* argv[])
 {
-    TriangleApplication().start();
+    {
+        TriangleApplication().start();
+    }
     return 0;
 }

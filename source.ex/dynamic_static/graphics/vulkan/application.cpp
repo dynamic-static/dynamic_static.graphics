@@ -11,16 +11,38 @@
 #include "dynamic_static/graphics/vulkan/application.hpp"
 #include "dynamic_static/core/algorithm.hpp"
 
-#include <optional>
-
+#include <array>
 #include <iostream>
+#include <optional>
 
 namespace dst {
 namespace vk {
 
-Application::Application(const sys::Window::Info& windowInfo, const Info& applicationInfo)
+static VKAPI_ATTR VkBool32 VKAPI_CALL debug_utils_messenger_callback(
+    VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+    VkDebugUtilsMessageTypeFlagsEXT messageTypes,
+    const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+    void* pUserData
+)
+{
+    std::cout << '\n' << pCallbackData->pMessage << '\n';
+    return VK_FALSE;
+}
+
+Application::Application(const sys::Window::Info& windowInfo, Info applicationInfo)
     : gfx::Application(windowInfo)
 {
+    bool enableValidation = false;
+    #if 1
+    enableValidation = true;
+    uint32_t layerPropertyCount = 0;
+    dst_vk(vkEnumerateInstanceLayerProperties(&layerPropertyCount, nullptr));
+    std::vector<VkLayerProperties> layerProperties(layerPropertyCount);
+    dst_vk(vkEnumerateInstanceLayerProperties(&layerPropertyCount, layerProperties.data()));
+    applicationInfo.instanceLayers.push_back("VK_LAYER_KHRONOS_validation");
+    applicationInfo.instanceExtensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+    #endif
+
     ////////////////////////////////////////////////////////////////////////////////
     // Create VkInstance
     VkInstanceCreateInfo instanceCreateInfo { };
@@ -29,7 +51,7 @@ Application::Application(const sys::Window::Info& windowInfo, const Info& applic
     instanceCreateInfo.ppEnabledLayerNames = !applicationInfo.instanceLayers.empty() ? applicationInfo.instanceLayers.data() : nullptr;
     instanceCreateInfo.enabledExtensionCount = (uint32_t)applicationInfo.instanceExtensions.size();
     instanceCreateInfo.ppEnabledExtensionNames = !applicationInfo.instanceExtensions.empty() ? applicationInfo.instanceExtensions.data() : nullptr;
-    dst_vk(create<Managed<VkInstance>>(&instanceCreateInfo, nullptr, &mInstance));
+    auto vkResult = dst_vk(create<Managed<VkInstance>>(&instanceCreateInfo, nullptr, &mInstance));
     mPhysicalDevices = mInstance.get<std::vector<Managed<VkPhysicalDevice>>>();
     std::sort(mPhysicalDevices.begin(), mPhysicalDevices.end(),
         [](const Managed<VkPhysicalDevice>& lhs, const Managed<VkPhysicalDevice>& rhs)
@@ -52,6 +74,24 @@ Application::Application(const sys::Window::Info& windowInfo, const Info& applic
             return rankPhysicalDevice(rhs) < rankPhysicalDevice(lhs);
         }
     );
+    if (enableValidation) {
+        auto pfn_vkCreateDebugUtilsMessengerEXT = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(mInstance, "vkCreateDebugUtilsMessengerEXT");
+        if (pfn_vkCreateDebugUtilsMessengerEXT) {
+            VkDebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo { };
+            debugUtilsMessengerCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+            debugUtilsMessengerCreateInfo.messageSeverity =
+                VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
+                // VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT |
+                VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
+                VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+            debugUtilsMessengerCreateInfo.messageType =
+                VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
+                VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
+                VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+            debugUtilsMessengerCreateInfo.pfnUserCallback = debug_utils_messenger_callback;
+            dst_vk(pfn_vkCreateDebugUtilsMessengerEXT(mInstance, &debugUtilsMessengerCreateInfo, nullptr, &mVkDebugUtilsMessenger));
+        }
+    }
 
     ////////////////////////////////////////////////////////////////////////////////
     // Create VkDevice
@@ -76,8 +116,7 @@ Application::Application(const sys::Window::Info& windowInfo, const Info& applic
     auto computeQueueFamilyIndex = generalQueueFamilyIndex.has_value() ? generalQueueFamilyIndex : getQueueFamilyIndex(VK_QUEUE_COMPUTE_BIT);
     auto graphicsQueueFamilyIndex = generalQueueFamilyIndex.has_value() ? generalQueueFamilyIndex : getQueueFamilyIndex(VK_QUEUE_GRAPHICS_BIT);
     auto transferQueueFamilyIndex = generalQueueFamilyIndex.has_value() ? generalQueueFamilyIndex : getQueueFamilyIndex(VK_QUEUE_TRANSFER_BIT);
-    assert(graphicsQueueFamilyIndex.has_value());
-    assert(transferQueueFamilyIndex.has_value());
+    assert(generalQueueFamilyIndex.has_value() && "TODO : Actually setup support for multiple queues");
     std::vector<VkDeviceQueueCreateInfo> deviceQueueCreateInfos;
     auto addDeviceQueueCreateInfo = [&deviceQueueCreateInfos](std::optional<uint32_t> queueFamilyIndex)
     {
@@ -189,6 +228,92 @@ Application::Application(const sys::Window::Info& windowInfo, const Info& applic
     swapchainCreateInfo.presentMode = surfacePresentMode;
     swapchainCreateInfo.clipped = VK_TRUE;
     dst_vk(create<Managed<VkSwapchainKHR>>(mDevice, &swapchainCreateInfo, nullptr, &mSwapchain));
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Create VkRenderPass
+    VkAttachmentDescription colorAttachmentDescription { };
+    colorAttachmentDescription.format = swapchainCreateInfo.imageFormat;
+    colorAttachmentDescription.samples = VK_SAMPLE_COUNT_1_BIT;
+    colorAttachmentDescription.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    colorAttachmentDescription.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+    colorAttachmentDescription.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+    colorAttachmentDescription.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+    colorAttachmentDescription.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    colorAttachmentDescription.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+    VkAttachmentReference colorAttachmentReference { };
+    colorAttachmentReference.attachment = 0;
+    colorAttachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+    std::array<VkFormat, 3> depthFormats {
+        VK_FORMAT_D32_SFLOAT,
+        VK_FORMAT_D32_SFLOAT_S8_UINT,
+        VK_FORMAT_D24_UNORM_S8_UINT
+    };
+    auto depthFormat = VK_FORMAT_UNDEFINED;
+    for (const auto& format : depthFormats) {
+        VkFormatProperties formatProperties { };
+        vkGetPhysicalDeviceFormatProperties(mPhysicalDevices[0], format, &formatProperties);
+        if (formatProperties.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT) {
+            depthFormat = format;
+            break;
+        }
+    }
+    assert(depthFormat != VK_FORMAT_UNDEFINED);
+    VkAttachmentDescription depthAttachmentDescription { };
+    depthAttachmentDescription.format = depthFormat;
+    depthAttachmentDescription.samples = VK_SAMPLE_COUNT_1_BIT;
+    depthAttachmentDescription.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+    depthAttachmentDescription.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+    depthAttachmentDescription.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+    depthAttachmentDescription.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+    depthAttachmentDescription.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+    depthAttachmentDescription.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+    VkAttachmentReference depthAttachmentReference { };
+    depthAttachmentReference.attachment = 1;
+    depthAttachmentReference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+    std::array<VkAttachmentDescription, 2> attachmentDescriptions {
+        colorAttachmentDescription,
+        depthAttachmentDescription,
+    };
+    VkSubpassDescription subpassDescription { };
+    subpassDescription.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+    subpassDescription.colorAttachmentCount = 1;
+    subpassDescription.pColorAttachments = &colorAttachmentReference;
+    subpassDescription.pDepthStencilAttachment = true ? &depthAttachmentReference : nullptr;
+    VkRenderPassCreateInfo renderPassCreateInfo { };
+    renderPassCreateInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+    renderPassCreateInfo.attachmentCount = true ? 2 : 1;
+    renderPassCreateInfo.pAttachments = attachmentDescriptions.data();
+    renderPassCreateInfo.subpassCount = 1;
+    renderPassCreateInfo.pSubpasses = &subpassDescription;
+    dst_vk(create<Managed<VkRenderPass>>(mDevice, &renderPassCreateInfo, nullptr, &mRenderPass));
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Create VkSwapchainKHR RenderTargets
+    for (const auto& image : mSwapchain.get<std::vector<Managed<VkImage>>>()) {
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Create VkCommandPool and VkCommandBuffer
+    VkCommandPoolCreateInfo commandPoolCreateInfo { };
+    commandPoolCreateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+    commandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+    commandPoolCreateInfo.queueFamilyIndex = generalQueueFamilyIndex.value();
+    Managed<VkCommandPool> commandPool;
+    dst_vk(create<Managed<VkCommandPool>>(mDevice, &commandPoolCreateInfo, nullptr, &commandPool));
+    VkCommandBufferAllocateInfo commandBufferAllocateInfo { };
+    commandBufferAllocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+    commandBufferAllocateInfo.commandPool = commandPool;
+    commandBufferAllocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+    commandBufferAllocateInfo.commandBufferCount = 1;
+    dst_vk(allocate<Managed<VkCommandBuffer>>(mDevice, &commandBufferAllocateInfo, &mCommandBuffer));
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Create VkSemaphores
+    VkSemaphoreCreateInfo semaphoreCreateInfo { };
+    semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+    dst_vk(create<Managed<VkSemaphore>>(mDevice, &semaphoreCreateInfo, nullptr, &mImageAcquiredSemaphore));
+    dst_vk(create<Managed<VkSemaphore>>(mDevice, &semaphoreCreateInfo, nullptr, &mImageRenderedSemaphore));
 }
 
 void Application::setup()
@@ -197,6 +322,12 @@ void Application::setup()
 
 void Application::teardown()
 {
+    if (mVkDebugUtilsMessenger) {
+        auto pfn_vkDestroyDebugUtilsMessengerEXT = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(mInstance, "vkDestroyDebugUtilsMessengerEXT");
+        if (pfn_vkDestroyDebugUtilsMessengerEXT) {
+            pfn_vkDestroyDebugUtilsMessengerEXT(mInstance, mVkDebugUtilsMessenger, nullptr);
+        }
+    }
 }
 
 void Application::pre_update(const dst::Clock& clock, const dst::sys::Input& input)
