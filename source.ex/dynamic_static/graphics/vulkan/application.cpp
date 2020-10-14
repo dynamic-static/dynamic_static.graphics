@@ -278,10 +278,10 @@ Application::Application(const sys::Window::Info& windowInfo, Info applicationIn
     subpassDescription.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
     subpassDescription.colorAttachmentCount = 1;
     subpassDescription.pColorAttachments = &colorAttachmentReference;
-    subpassDescription.pDepthStencilAttachment = true ? &depthAttachmentReference : nullptr;
+    subpassDescription.pDepthStencilAttachment = false ? &depthAttachmentReference : nullptr;
     VkRenderPassCreateInfo renderPassCreateInfo { };
     renderPassCreateInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
-    renderPassCreateInfo.attachmentCount = true ? 2 : 1;
+    renderPassCreateInfo.attachmentCount = false ? 2 : 1;
     renderPassCreateInfo.pAttachments = attachmentDescriptions.data();
     renderPassCreateInfo.subpassCount = 1;
     renderPassCreateInfo.pSubpasses = &subpassDescription;
@@ -289,8 +289,10 @@ Application::Application(const sys::Window::Info& windowInfo, Info applicationIn
 
     ////////////////////////////////////////////////////////////////////////////////
     // Create VkSwapchainKHR RenderTargets
-    for (const auto& image : mSwapchain.get<std::vector<Managed<VkImage>>>()) {
-
+    const auto& swapchainImages = mSwapchain.get<std::vector<Managed<VkImage>>>();
+    mRenderTargets.reserve(swapchainImages.size());
+    for (const auto& image : swapchainImages) {
+        mRenderTargets.emplace_back(mRenderPass, image);
     }
 
     ////////////////////////////////////////////////////////////////////////////////

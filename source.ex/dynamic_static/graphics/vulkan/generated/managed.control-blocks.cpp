@@ -139,6 +139,8 @@ Managed<VkBuffer>::ControlBlock::~ControlBlock()
     }
 }
 
+#if 0
+// The following ControlBlock is manually implemented
 Managed<VkBufferView>::ControlBlock::ControlBlock(VkBufferView vkHandle)
 {
     assert(vkHandle);
@@ -176,6 +178,7 @@ Managed<VkBufferView>::ControlBlock::~ControlBlock()
         vkDestroyBufferView(vkDevice, get<VkBufferView>(), get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
     }
 }
+#endif
 
 Managed<VkCommandPool>::ControlBlock::ControlBlock(VkCommandPool vkHandle)
 {
@@ -566,6 +569,8 @@ Managed<VkFence>::ControlBlock::~ControlBlock()
     }
 }
 
+#if 0
+// The following ControlBlock is manually implemented
 Managed<VkFramebuffer>::ControlBlock::ControlBlock(VkFramebuffer vkHandle)
 {
     assert(vkHandle);
@@ -603,6 +608,7 @@ Managed<VkFramebuffer>::ControlBlock::~ControlBlock()
         vkDestroyFramebuffer(vkDevice, get<VkFramebuffer>(), get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
     }
 }
+#endif
 
 Managed<VkImage>::ControlBlock::ControlBlock(VkImage vkHandle)
 {
@@ -642,6 +648,8 @@ Managed<VkImage>::ControlBlock::~ControlBlock()
     }
 }
 
+#if 0
+// The following ControlBlock is manually implemented
 Managed<VkImageView>::ControlBlock::ControlBlock(VkImageView vkHandle)
 {
     assert(vkHandle);
@@ -679,6 +687,7 @@ Managed<VkImageView>::ControlBlock::~ControlBlock()
         vkDestroyImageView(vkDevice, get<VkImageView>(), get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
     }
 }
+#endif
 
 Managed<VkPerformanceConfigurationINTEL>::ControlBlock::ControlBlock(VkPerformanceConfigurationINTEL vkHandle)
 {

@@ -46,7 +46,11 @@ inline std::vector<std::string> get_custom_handle_fields(const std::string& hand
         { "VkDevice", { "std::vector<Managed<VkQueue>>" }},
         { "VkQueue", { "Managed<VkDeviceQueueCreateInfo>" }},
         { "VkSwapchainKHR", { "std::vector<Managed<VkImage>>" }},
-        { "VkImage", { "Managed<VkSwapchainKHR>" }},
+        { "VkBuffer", { "Managed<VkDeviceMemory>" }},
+        { "VkImage", { "Managed<VkSwapchainKHR>", "Managed<VkDeviceMemory>" }},
+        { "VkBufferView", { "Managed<VkBuffer>" }},
+        { "VkImageView", { "Managed<VkImage>" }},
+        { "VkFramebuffer", { "std::vector<Managed<VkImageView>>" }},
     };
     auto itr = sCustomHandleFields.find(handleType);
     return itr != sCustomHandleFields.end() ? itr->second : std::vector<std::string> { };
@@ -177,8 +181,16 @@ inline const std::set<std::string>& get_manually_implemented_handles(const xml::
     [&xmlManifest]()
     {
         std::set<std::string> manuallyImplementedHandles {
+            // TODO : VkCommandBuffer and VkDescriptorSet are manually implemented because
+            //  they're the only two with a parent pool...
             "VkCommandBuffer",
             "VkDescriptorSet",
+            // TODO : ...VkBufferView, VkFramebuffer, and VkImageView also take references
+            //  to handles defined in their create infos.  This should all be handled in the
+            //  generated code...
+            "VkBufferView",
+            "VkFramebuffer",
+            "VkImageView",
         };
         return manuallyImplementedHandles;
     }();

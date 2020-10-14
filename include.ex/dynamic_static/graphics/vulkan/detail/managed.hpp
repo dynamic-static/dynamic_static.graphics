@@ -41,6 +41,16 @@ inline void on_managed_handle_destroyed(Managed<VulkanHandleType>&)
 {
 }
 
+template <typename LeadManagedHandleType, typename FollowManagedHandleType>
+void resolve_circular_references(const LeadManagedHandleType& leadManagedHandle);
+
+template <typename ManagedHandleType>
+inline VkResult bind_memory(ManagedHandleType& managedHandle, Managed<VkDeviceMemory>& memory, VkDeviceSize memoryOffset)
+{
+    static_assert(false, "TODO : Documentation");
+    return VK_ERROR_INITIALIZATION_FAILED;
+}
+
 } // namespace detail
 
 /**
@@ -442,6 +452,10 @@ private:
     friend void detail::on_managed_handle_created(Managed<VulkanHandleType>&);
     template <typename VulkanHandleType>
     friend void detail::on_managed_handle_destroyed(Managed<VulkanHandleType>&);
+    template <typename LeadManagedHandleType, typename FollowManagedHandleType>
+    friend void detail::resolve_circular_references(const LeadManagedHandleType&);
+    template <typename ManagedHandleType>
+    friend VkResult detail::bind_memory(ManagedHandleType&, Managed<VkDeviceMemory>&, VkDeviceSize);
 };
 
 /**
@@ -460,6 +474,15 @@ template <typename ManagedVulkanHandleType, typename ...Args>
 inline VkResult create(Args&&... args)
 {
     return ManagedVulkanHandleType::ControlBlock::create(std::forward<Args>(args)...);
+}
+
+/**
+TODO : Documentation
+*/
+template <typename ManagedHandleType>
+inline VkResult bind_memory(ManagedHandleType& managedHandle, Managed<VkDeviceMemory>& memory, VkDeviceSize memoryOffset)
+{
+    return detail::bind_memory(managedHandle, memory, memoryOffset);
 }
 
 } // namespace vk

@@ -43,22 +43,8 @@ template <>
 void on_managed_handle_destroyed(Managed<VkInstance>& instance)
 {
     if (instance) {
-        auto& physicalDevices = const_cast<std::vector<Managed<VkPhysicalDevice>>&>(instance.get<std::vector<Managed<VkPhysicalDevice>>>());
-        if (instance.mspControlBlock.use_count() <= physicalDevices.size() + 1) {
-            if (std::all_of(physicalDevices.begin(), physicalDevices.end(),
-                [](const auto& physicalDevice)
-                {
-                    return !physicalDevice.mspControlBlock || physicalDevice.mspControlBlock.use_count() <= 2;
-                }
-            )) {
-                for (const auto& physicalDevice : physicalDevices) {
-                    if (physicalDevice.mspControlBlock) {
-                        physicalDevice.mspControlBlock->set(VK_OBJECT_TYPE_MAX_ENUM /* TODO : Setup VkObject from XML so this can use VK_OBJECT_TYPE_UNKNOWN*/);
-                    }
-                }
-                physicalDevices.clear();
-            }
-        }
+        assert(instance.mspControlBlock);
+        resolve_circular_references<Managed<VkInstance>, Managed<VkPhysicalDevice>>(instance);
     }
 }
 
@@ -66,7 +52,8 @@ template <>
 void on_managed_handle_destroyed(Managed<VkPhysicalDevice>& physicalDevice)
 {
     if (physicalDevice) {
-        on_managed_handle_destroyed(const_cast<Managed<VkInstance>&>(physicalDevice.get<Managed<VkInstance>>()));
+        assert(physicalDevice.mspControlBlock);
+        resolve_circular_references<Managed<VkInstance>, Managed<VkPhysicalDevice>>(physicalDevice.get<Managed<VkInstance>>());
     }
 }
 
@@ -102,22 +89,8 @@ template <>
 void on_managed_handle_destroyed(Managed<VkDevice>& device)
 {
     if (device) {
-        auto& queues = const_cast<std::vector<Managed<VkQueue>>&>(device.get<std::vector<Managed<VkQueue>>>());
-        if (device.mspControlBlock.use_count() <= queues.size() + 1) {
-            if (std::all_of(queues.begin(), queues.end(),
-                [](const auto& queue)
-                {
-                    return !queue.mspControlBlock || queue.mspControlBlock.use_count() <= 2;
-                }
-            )) {
-                for (const auto& queue : queues) {
-                    if (queue.mspControlBlock) {
-                        queue.mspControlBlock->set(VK_OBJECT_TYPE_MAX_ENUM /* TODO : Setup VkObject from XML so this can use VK_OBJECT_TYPE_UNKNOWN*/);
-                    }
-                }
-                queues.clear();
-            }
-        }
+        assert(device.mspControlBlock);
+        resolve_circular_references<Managed<VkDevice>, Managed<VkQueue>>(device);
     }
 }
 
@@ -125,7 +98,8 @@ template <>
 void on_managed_handle_destroyed(Managed<VkQueue>& queue)
 {
     if (queue) {
-        on_managed_handle_destroyed(const_cast<Managed<VkDevice>&>(queue.get<Managed<VkDevice>>()));
+        assert(queue.mspControlBlock);
+        resolve_circular_references<Managed<VkDevice>, Managed<VkQueue>>(queue.get<Managed<VkDevice>>());
     }
 }
 
@@ -177,22 +151,8 @@ template <>
 void on_managed_handle_destroyed(Managed<VkSwapchainKHR>& swapchain)
 {
     if (swapchain) {
-        auto& images = const_cast<std::vector<Managed<VkImage>>&>(swapchain.get<std::vector<Managed<VkImage>>>());
-        if (swapchain.mspControlBlock.use_count() <= images.size() + 1) {
-            if (std::all_of(images.begin(), images.end(),
-                [](const auto& image)
-                {
-                    return !image.mspControlBlock || image.mspControlBlock.use_count() <= 2;
-                }
-            )) {
-                for (const auto& image : images) {
-                    if (image.mspControlBlock) {
-                        image.mspControlBlock->set(VK_OBJECT_TYPE_MAX_ENUM /* TODO : Setup VkObject from XML so this can use VK_OBJECT_TYPE_UNKNOWN*/);
-                    }
-                }
-                images.clear();
-            }
-        }
+        assert(swapchain.mspControlBlock);
+        resolve_circular_references<Managed<VkSwapchainKHR>, Managed<VkImage>>(swapchain);
     }
 }
 
@@ -200,11 +160,84 @@ template <>
 void on_managed_handle_destroyed(Managed<VkImage>& image)
 {
     if (image) {
-        on_managed_handle_destroyed(const_cast<Managed<VkSwapchainKHR>&>(image.get<Managed<VkSwapchainKHR>>()));
+        assert(image.mspControlBlock);
+        resolve_circular_references<Managed<VkSwapchainKHR>, Managed<VkImage>>(image.get<Managed<VkSwapchainKHR>>());
     }
 }
 
+template <>
+VkResult bind_memory(Managed<VkBuffer>& buffer, Managed<VkDeviceMemory>& memory, VkDeviceSize memoryOffset)
+{
+    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
+    if (buffer && memory) {
+        assert(buffer.mspControlBlock);
+        assert(buffer.get<Managed<VkDevice>>());
+        vkResult = dst_vk(vkBindBufferMemory(buffer.get<Managed<VkDevice>>(), buffer, memory, memoryOffset));
+        if (vkResult == VK_SUCCESS) {
+            buffer.mspControlBlock->set(std::move(Managed<VkDeviceMemory>(memory)));
+        }
+    }
+    return vkResult;
+}
+
+template <>
+VkResult bind_memory(Managed<VkImage>& image, Managed<VkDeviceMemory>& memory, VkDeviceSize memoryOffset)
+{
+    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
+    if (image && memory) {
+        assert(image.mspControlBlock);
+        assert(image.get<Managed<VkDevice>>());
+        vkResult = dst_vk(vkBindImageMemory(image.get<Managed<VkDevice>>(), image, memory, memoryOffset));
+        if (vkResult == VK_SUCCESS) {
+            image.mspControlBlock->set(std::move(Managed<VkDeviceMemory>(memory)));
+        }
+    }
+    return vkResult;
+}
+
 } // namespace detail
+
+Managed<VkBufferView>::ControlBlock::ControlBlock(VkBufferView vkHandle)
+{
+    assert(vkHandle);
+    set(std::move(vkHandle));
+}
+
+VkResult Managed<VkBufferView>::ControlBlock::create(const Managed<VkDevice>& device, const VkBufferViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkBufferView>* pView)
+{
+    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
+    if (pView) {
+        pView->reset();
+        Managed<VkBuffer> buffer(pCreateInfo ? pCreateInfo->buffer : VK_NULL_HANDLE);
+        if (buffer) {
+            VkBufferView vkHandle = VK_NULL_HANDLE;
+            vkResult = vkCreateBufferView(device, pCreateInfo, pAllocator, &vkHandle);
+            if (vkResult == VK_SUCCESS) {
+                pView->mVkHandle = vkHandle;
+                pView->mspControlBlock = create_control_block(vkHandle);
+                pView->mspControlBlock->set(VK_OBJECT_TYPE_BUFFER_VIEW);
+                pView->mspControlBlock->set(std::move(Managed<VkDevice>(device)));
+                pView->mspControlBlock->set(std::move(Managed<VkBufferViewCreateInfo>(*pCreateInfo)));
+                pView->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
+                pView->mspControlBlock->set(std::move(buffer));
+                pView->mspControlBlock->set(std::move(vkHandle));
+                detail::on_managed_handle_created(*pView);
+            }
+        }
+    }
+    return vkResult;
+}
+
+Managed<VkBufferView>::ControlBlock::~ControlBlock()
+{
+    assert(get<VkBufferView>());
+    unregister_control_block(get<VkBufferView>());
+    if (get<VkObjectType>() != VK_OBJECT_TYPE_MAX_ENUM) {
+        auto vkDevice = *get<Managed<VkDevice>>();
+        assert(vkDevice);
+        vkDestroyBufferView(vkDevice, get<VkBufferView>(), get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
+    }
+}
 
 Managed<VkCommandBuffer>::ControlBlock::ControlBlock(VkCommandBuffer vkHandle)
 {
@@ -219,8 +252,8 @@ VkResult Managed<VkCommandBuffer>::ControlBlock::allocate(const Managed<VkDevice
         for (uint32_t i = 0; i < pAllocateInfo->commandBufferCount; ++i) {
             pCommandBuffers[i].reset();
         }
-        Managed<VkCommandPool> commandPool(pAllocateInfo ? pAllocateInfo->commandPool : VK_NULL_HANDLE);
-        if (device && commandPool) {
+        Managed<VkCommandPool> commandPool(pAllocateInfo->commandPool);
+        if (commandPool) {
             // TODO : Scratch pad allocator...
             std::vector<VkCommandBuffer> vkCommandBuffers(pAllocateInfo->commandBufferCount);
             vkResult = dst_vk(vkAllocateCommandBuffers(device, pAllocateInfo, vkCommandBuffers.data()));
@@ -262,7 +295,7 @@ VkResult Managed<VkDescriptorSet>::ControlBlock::allocate(const Managed<VkDevice
         if (vkResult == VK_SUCCESS) {
             pDescriptorSets->mVkHandle = vkHandle;
             pDescriptorSets->mspControlBlock = std::make_shared<Managed<VkDescriptorSet>::ControlBlock>();
-            pDescriptorSets->mspControlBlock->set(VK_OBJECT_TYPE_UNKNOWN);
+            pDescriptorSets->mspControlBlock->set(VK_OBJECT_TYPE_DESCRIPTOR_SET);
             pDescriptorSets->mspControlBlock->set(std::move(Managed<VkDevice>(device)));
             pDescriptorSets->mspControlBlock->set(std::move(Managed<VkDescriptorSetAllocateInfo>(*pAllocateInfo)));
             pDescriptorSets->mspControlBlock->set(std::move(vkHandle));
@@ -276,6 +309,97 @@ Managed<VkDescriptorSet>::ControlBlock::~ControlBlock()
 {
 }
 #endif
+
+Managed<VkFramebuffer>::ControlBlock::ControlBlock(VkFramebuffer vkHandle)
+{
+    assert(vkHandle);
+    set(std::move(vkHandle));
+}
+
+VkResult Managed<VkFramebuffer>::ControlBlock::create(const Managed<VkDevice>& device, const VkFramebufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkFramebuffer>* pFramebuffer)
+{
+    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
+    if (pFramebuffer) {
+        pFramebuffer->reset();
+        // TODO : Scratch pad allocator...
+        if (pCreateInfo && pCreateInfo->attachmentCount && pCreateInfo->pAttachments) {
+            std::vector<Managed<VkImageView>> attachments(pCreateInfo->attachmentCount);
+            for (uint32_t i = 0; i < pCreateInfo->attachmentCount; ++i) {
+                attachments[i] = pCreateInfo->pAttachments[i];
+                if (!attachments[i]) {
+                    return vkResult;
+                }
+            }
+            VkFramebuffer vkHandle = VK_NULL_HANDLE;
+            vkResult = vkCreateFramebuffer(device, pCreateInfo, pAllocator, &vkHandle);
+            if (vkResult == VK_SUCCESS) {
+                pFramebuffer->mVkHandle = vkHandle;
+                pFramebuffer->mspControlBlock = create_control_block(vkHandle);
+                pFramebuffer->mspControlBlock->set(VK_OBJECT_TYPE_FRAMEBUFFER);
+                pFramebuffer->mspControlBlock->set(std::move(Managed<VkDevice>(device)));
+                pFramebuffer->mspControlBlock->set(std::move(Managed<VkFramebufferCreateInfo>(*pCreateInfo)));
+                pFramebuffer->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
+                pFramebuffer->mspControlBlock->set(std::move(attachments));
+                pFramebuffer->mspControlBlock->set(std::move(vkHandle));
+                detail::on_managed_handle_created(*pFramebuffer);
+            }
+        }
+    }
+    return vkResult;
+}
+
+Managed<VkFramebuffer>::ControlBlock::~ControlBlock()
+{
+    assert(get<VkFramebuffer>());
+    unregister_control_block(get<VkFramebuffer>());
+    if (get<VkObjectType>() != VK_OBJECT_TYPE_MAX_ENUM) {
+        auto vkDevice = *get<Managed<VkDevice>>();
+        assert(vkDevice);
+        vkDestroyFramebuffer(vkDevice, get<VkFramebuffer>(), get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
+    }
+}
+
+Managed<VkImageView>::ControlBlock::ControlBlock(VkImageView vkHandle)
+{
+    assert(vkHandle);
+    set(std::move(vkHandle));
+}
+
+VkResult Managed<VkImageView>::ControlBlock::create(const Managed<VkDevice>& device, const VkImageViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, Managed<VkImageView>* pView)
+{
+    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
+    if (pView) {
+        pView->reset();
+        Managed<VkImage> image(pCreateInfo ? pCreateInfo->image : VK_NULL_HANDLE);
+        if (image) {
+            VkImageView vkHandle = VK_NULL_HANDLE;
+            vkResult = vkCreateImageView(device, pCreateInfo, pAllocator, &vkHandle);
+            if (vkResult == VK_SUCCESS) {
+                pView->mVkHandle = vkHandle;
+                pView->mspControlBlock = create_control_block(vkHandle);
+                pView->mspControlBlock->set(VK_OBJECT_TYPE_IMAGE_VIEW);
+                pView->mspControlBlock->set(std::move(Managed<VkDevice>(device)));
+                pView->mspControlBlock->set(std::move(Managed<VkImageViewCreateInfo>(*pCreateInfo)));
+                pView->mspControlBlock->set(std::move(pAllocator ? *pAllocator : VkAllocationCallbacks { }));
+                pView->mspControlBlock->set(std::move(image));
+                pView->mspControlBlock->set(std::move(vkHandle));
+                detail::on_managed_handle_created(*pView);
+            }
+        }
+    }
+    return vkResult;
+}
+
+Managed<VkImageView>::ControlBlock::~ControlBlock()
+{
+    assert(get<VkImageView>());
+    unregister_control_block(get<VkImageView>());
+    if (get<VkObjectType>() != VK_OBJECT_TYPE_MAX_ENUM) {
+        auto vkDevice = *get<Managed<VkDevice>>();
+        assert(vkDevice);
+        vkDestroyImageView(vkDevice, get<VkImageView>(), get<VkAllocationCallbacks>().pfnFree ? &get<VkAllocationCallbacks>() : nullptr);
+    }
+}
 
 } // namespace vk
 } // namespace dst

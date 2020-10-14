@@ -32,10 +32,7 @@ public:
     */
     RenderTarget(const Managed<VkRenderPass>& renderPass, const Managed<VkImage>& image);
 
-private:
-    Managed<VkImage> mImage;
-    Managed<VkImageView> mImageView;
-    Managed<VkFramebuffer> mFramebuffer;
+    Managed<VkFramebuffer> frameBuffer; //!< TODO : Documentation
 };
 
 } // namespace vk

@@ -136,6 +136,7 @@ private:
         Managed<VkDevice>,
         Managed<VkBufferCreateInfo>,
         VkAllocationCallbacks,
+        Managed<VkDeviceMemory>,
         VkBuffer
     > mFields;
 };
@@ -166,6 +167,7 @@ private:
         Managed<VkDevice>,
         Managed<VkBufferViewCreateInfo>,
         VkAllocationCallbacks,
+        Managed<VkBuffer>,
         VkBufferView
     > mFields;
 };
@@ -523,6 +525,7 @@ private:
         Managed<VkDevice>,
         Managed<VkFramebufferCreateInfo>,
         VkAllocationCallbacks,
+        std::vector<Managed<VkImageView>>,
         VkFramebuffer
     > mFields;
 };
@@ -554,6 +557,7 @@ private:
         Managed<VkImageCreateInfo>,
         VkAllocationCallbacks,
         Managed<VkSwapchainKHR>,
+        Managed<VkDeviceMemory>,
         VkImage
     > mFields;
 };
@@ -584,6 +588,7 @@ private:
         Managed<VkDevice>,
         Managed<VkImageViewCreateInfo>,
         VkAllocationCallbacks,
+        Managed<VkImage>,
         VkImageView
     > mFields;
 };
