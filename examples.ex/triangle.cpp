@@ -11,6 +11,7 @@
 #include "common/common.hpp"
 
 #include "dynamic_static/graphics/vulkan/application.hpp"
+#include "dynamic_static/graphics/vulkan/default.hpp"
 #include "dynamic_static/graphics/vulkan/managed.hpp"
 
 class TriangleApplication final
@@ -34,6 +35,14 @@ public:
         )
     {
     }
+
+private:
+    inline void setup() override final
+    {
+        auto graphicsPipelineCreateInfo = dst::vk::get_default<VkGraphicsPipelineCreateInfo>();
+    }
+
+    dst::vk::Managed<VkPipeline> mPipeline;
 };
 
 int main(int argc, const char* argv[])

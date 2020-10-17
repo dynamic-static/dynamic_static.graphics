@@ -40,6 +40,7 @@ set(generatedIncludeFiles
     "${generatedIncludePath}/comparison-operators.hpp"
     "${generatedIncludePath}/create-structure-copy.hpp"
     "${generatedIncludePath}/destroy-structure-copy.hpp"
+    "${generatedIncludePath}/get-stype.hpp"
     "${generatedIncludePath}/managed.control-blocks.hpp"
     "${generatedIncludePath}/to-tuple.hpp"
 )
@@ -61,6 +62,7 @@ dst_add_cpp_generator(
     sourceFiles
         "${generatorSourcePath}/create-structure-copy.generator.hpp"
         "${generatorSourcePath}/destroy-structure-copy.generator.hpp"
+        "${generatorSourcePath}/get-stype.generator.hpp"
         "${generatorSourcePath}/main.cpp"
         "${generatorSourcePath}/managed.control-blocks.generator.hpp"
         "${generatorSourcePath}/structure-comparison-operators.generator.hpp"
@@ -95,6 +97,7 @@ dst_add_static_library(
         "${includePath}/vulkan/detail/tuple-element-wrappers.hpp"
         "${includePath}/vulkan/comparison-operators.hpp"
         "${includePath}/vulkan/application.hpp"
+        "${includePath}/vulkan/default.hpp"
         "${includePath}/vulkan/defines.hpp"
         "${includePath}/vulkan/managed.hpp"
         "${includePath}/vulkan/render-target.hpp"
@@ -169,6 +172,7 @@ dst_add_static_library(
         "${sourcePath}/vulkan/detail/destroy-structure-copy-manual.cpp"
         "${sourcePath}/vulkan/detail/managed.control-blocks.manual.cpp"
         "${sourcePath}/vulkan/application.cpp"
+        "${sourcePath}/vulkan/default.cpp"
         "${sourcePath}/vulkan/render-target.cpp"
         "${sourcePath}/application.cpp"
         "${generatedSourceFiles}"
