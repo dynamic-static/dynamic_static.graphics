@@ -16,6 +16,21 @@ namespace dst {
 namespace vk {
 
 template <>
+const VkPipelineShaderStageCreateInfo& get_default<VkPipelineShaderStageCreateInfo>()
+{
+    static const VkPipelineShaderStageCreateInfo DefaultPipelineShaderStageCreateInfo {
+        /* VkStructureType                  sType;               */ VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
+        /* const void*                      pNext;               */ nullptr,
+        /* VkPipelineShaderStageCreateFlags flags;               */ 0,
+        /* VkShaderStageFlagBits            stage;               */ VK_SHADER_STAGE_ALL,
+        /* VkShaderModule                   module;              */ VK_NULL_HANDLE,
+        /* const char*                      pName;               */ "main",
+        /* const VkSpecializationInfo*      pSpecializationInfo; */ nullptr,
+    };
+    return DefaultPipelineShaderStageCreateInfo;
+}
+
+template <>
 const VkPipelineInputAssemblyStateCreateInfo& get_default<VkPipelineInputAssemblyStateCreateInfo>()
 {
     static const VkPipelineInputAssemblyStateCreateInfo DefaultPipelineInputAssemblyStateCreateInfo {

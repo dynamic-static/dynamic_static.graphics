@@ -26,10 +26,40 @@ option(DST_GFX_BUILD_EXAMPLES "TODO : Documentation" OFF)
 # External dependencies
 set(externalDirectory "${CMAKE_CURRENT_LIST_DIR}/external/")
 find_package(Vulkan REQUIRED)
+set(Vulkan_SDK_DIR "${Vulkan_INCLUDE_DIRS}/../")
 include(glslang)
 include(SPIRV-Cross)
-list(APPEND linkLibraries dynamic_static.system)
-list(APPEND linkLibraries Vulkan::Vulkan)
+list(
+    APPEND linkLibraries
+    dynamic_static.system
+    Vulkan::Vulkan
+    #### "${Vulkan_SDK_DIR}/Lib/GenericCodeGen.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/glslang.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/HLSL.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/MachineIndependent.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/OGLCompiler.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/OSDependent.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/shaderc.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/shaderc_combined.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/shaderc_util.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/spirv-cross-c.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/spirv-cross-core.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/spirv-cross-cpp.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/spirv-cross-glsl.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/spirv-cross-hlsl.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/spirv-cross-msl.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/spirv-cross-reflect.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/spirv-cross-util.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/SPIRV-Tools-link.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/SPIRV-Tools-opt.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/SPIRV-Tools-reduce.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/SPIRV-Tools.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/SPIRV.lib"
+    #### "${Vulkan_SDK_DIR}/Lib/SPVRemapper.lib"
+    "${Vulkan_SDK_DIR}/Lib/shaderc_shared.lib"
+    "${Vulkan_SDK_DIR}/Lib/spirv-cross-c-shared.lib"
+    "${Vulkan_SDK_DIR}/Lib/SPIRV-Tools-shared.lib"
+)
 
 set(includeDirectory "${CMAKE_CURRENT_LIST_DIR}/include.ex/")
 set(includePath "${includeDirectory}/dynamic_static/graphics/")
@@ -100,6 +130,7 @@ dst_add_static_library(
         "${includePath}/vulkan/default.hpp"
         "${includePath}/vulkan/defines.hpp"
         "${includePath}/vulkan/managed.hpp"
+        "${includePath}/vulkan/shader-compiler.hpp"
         "${includePath}/vulkan/render-target.hpp"
         "${includePath}/application.hpp"
         "${includePath}/defines.hpp"
@@ -174,6 +205,7 @@ dst_add_static_library(
         "${sourcePath}/vulkan/application.cpp"
         "${sourcePath}/vulkan/default.cpp"
         "${sourcePath}/vulkan/render-target.cpp"
+        "${sourcePath}/vulkan/shader-compiler.cpp"
         "${sourcePath}/application.cpp"
         "${generatedSourceFiles}"
 

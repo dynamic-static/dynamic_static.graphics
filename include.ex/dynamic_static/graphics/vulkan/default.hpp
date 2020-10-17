@@ -47,6 +47,7 @@ inline const VulkanStructuretype& get_default()
     return DefaultVulkanStructure;
 }
 
+template <> const VkPipelineShaderStageCreateInfo& get_default<VkPipelineShaderStageCreateInfo>();
 template <> const VkPipelineInputAssemblyStateCreateInfo& get_default<VkPipelineInputAssemblyStateCreateInfo>();
 template <> const VkViewport& get_default<VkViewport>();
 template <> const VkPipelineViewportStateCreateInfo& get_default<VkPipelineViewportStateCreateInfo>();
