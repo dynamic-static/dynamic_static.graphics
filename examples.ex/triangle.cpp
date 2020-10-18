@@ -51,10 +51,10 @@ private:
 
                 out gl_PerVertex
                 {
-                    vec5 gl_Position;
+                    vec4 gl_Position;
                 };
 
-                vec2 position[3] = vec2[](
+                vec2 positions[3] = vec2[](
                     vec2( 0.0, -0.5),
                     vec2( 0.5,  0.5),
                     vec2(-0.5,  0.5)
@@ -63,13 +63,13 @@ private:
                 vec4 colors[3] = vec4[](
                     vec4(1, 0, 0, 1),
                     vec4(0, 1, 0, 1),
-                    vec4(0, 0, 1, 1),
+                    vec4(0, 0, 1, 1)
                 );
 
                 void main()
                 {
-                    gl_Position = vec4(position[gl_VertexIndex], 0, 1);
-                    fsColor = colos[gl_VertexIndex];
+                    gl_Position = vec4(positions[gl_VertexIndex], 0, 1);
+                    fsColor = colors[gl_VertexIndex];
                 }
             )"
         );
@@ -79,7 +79,9 @@ private:
         Managed<VkShaderModule> vertexShaderModule;
         dst_vk(create<Managed<VkShaderModule>>(mDevice, &vertexShaderModuleCreateInfo, nullptr, &vertexShaderModule));
         auto vertexPipelineShaderStageCreateInfo = get_default<VkPipelineShaderStageCreateInfo>();
+        vertexPipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
         vertexPipelineShaderStageCreateInfo.module = vertexShaderModule;
+        vertexPipelineShaderStageCreateInfo.pName = "main";
 
         auto fragmentShaderByteCode = compile_shader_from_source(
             VK_SHADER_STAGE_FRAGMENT_BIT,
@@ -102,7 +104,9 @@ private:
         Managed<VkShaderModule> fragmentShaderModule;
         dst_vk(create<Managed<VkShaderModule>>(mDevice, &fragmentShaderModuleCreateInfo, nullptr, &fragmentShaderModule));
         auto fragmentPipelineShaderStageCreateInfo = get_default<VkPipelineShaderStageCreateInfo>();
+        fragmentPipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
         fragmentPipelineShaderStageCreateInfo.module = fragmentShaderModule;
+        fragmentPipelineShaderStageCreateInfo.pName = "main";
 
         std::array<VkPipelineShaderStageCreateInfo, 2> pipelineShaderStageCreateInfos {
             vertexPipelineShaderStageCreateInfo,
@@ -116,7 +120,10 @@ private:
         graphicsPipelineCreateInfo.pStages = pipelineShaderStageCreateInfos.data();
         graphicsPipelineCreateInfo.layout = pipelineLayout;
         graphicsPipelineCreateInfo.renderPass = mRenderPass;
-        dst_vk(create<Managed<VkPipeline>>(mDevice, Managed<VkPipelineCache> { }, 1, & graphicsPipelineCreateInfo, nullptr, & mPipeline));
+        dst_vk(create<Managed<VkPipeline>>(mDevice, VK_NULL_HANDLE, 1, &graphicsPipelineCreateInfo, nullptr, &mPipeline));
+
+        // TODO : Make Managed<VkPipelineLayout> a member of Managed<VkPipeline>
+        int b = 0;
     }
 
     dst::vk::Managed<VkPipeline> mPipeline;

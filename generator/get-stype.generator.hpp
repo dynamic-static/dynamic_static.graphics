@@ -35,6 +35,7 @@ inline void generate_get_stype(const xml::Manifest& xmlManifest)
 
         #include "dynamic_static/graphics/vulkan/defines.hpp"
 
+        #include <cassert>
         #include <type_traits>
 
         namespace dst {
@@ -43,7 +44,7 @@ inline void generate_get_stype(const xml::Manifest& xmlManifest)
         /**
         TODO : Documentation
         */
-        template <typename VulkanStructuretype>
+        template <typename VulkanStructureType>
         inline constexpr VkStructureType get_stype()
         {
             $<UNFILTERED_STRUCTURES>
@@ -53,15 +54,13 @@ inline void generate_get_stype(const xml::Manifest& xmlManifest)
             $</>
             if constexpr (std::is_same_v<VulkanStructureType, ${STRUCTURE_NAME}>) {
                 return ${STRUCTURE_TYPE_ENUM};
-            } else
+            }
             $<COMPILE_GUARDS:reverse=true>
             #endif // ${COMPILE_GUARD}
             $</>
             $</>
             $</>
-            {
-                static_assert(false, "TODO : Error message");
-            }
+            assert(false && "TODO : Error message");
         }
 
         } // namespace vk

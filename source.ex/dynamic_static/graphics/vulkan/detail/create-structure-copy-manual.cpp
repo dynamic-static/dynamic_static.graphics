@@ -223,7 +223,7 @@ VkPipelineMultisampleStateCreateInfo create_structure_copy<VkPipelineMultisample
     auto result = obj;
     result.pNext = create_pnext_copy(obj.pNext, pAllocator);
     result.pSampleMask = create_dynamic_array_copy(obj.rasterizationSamples / 32, obj.pSampleMask, pAllocator);
-    return obj;
+    return result;
 }
 
 template <>
@@ -232,7 +232,7 @@ VkShaderModuleCreateInfo create_structure_copy<VkShaderModuleCreateInfo>(const V
     auto result = obj;
     result.pNext = create_pnext_copy(obj.pNext, pAllocator);
     result.pCode = create_dynamic_array_copy(obj.codeSize / sizeof(uint32_t), obj.pCode, pAllocator);
-    return obj;
+    return result;
 }
 
 template <>

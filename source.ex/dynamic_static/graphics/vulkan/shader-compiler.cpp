@@ -96,6 +96,12 @@ std::vector<uint32_t> compile_shader_from_source(VkShaderStageFlagBits stage, in
     default: assert(false && "TODO : Better file and error handling");
     }
     glslang::TShader shader(eshStage);
+    std::string source;
+    if (lineOffset) {
+        source = std::string(lineOffset, '\n');
+        source += pSource;
+        pSource = source.c_str();
+    }
     shader.setStrings(&pSource, 1);
     auto messages = (EShMessages)(EShMsgSpvRules | EShMsgVulkanRules);
     if (!shader.parse(&get_built_in_resource(), 100, false, messages)) {

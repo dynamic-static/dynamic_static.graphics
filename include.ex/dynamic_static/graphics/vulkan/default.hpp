@@ -21,12 +21,17 @@ namespace vk {
 /**
 TODO : Documentation
 */
-template <typename VulkanStructureType>
-struct has_stype final
+template <typename VulkanStructureType, typename = int>
+struct has_stype : std::false_type
 {
-    template <typename T> static std::false_type test(...) { }
-    template <typename T> static auto test(int)->decltype(T::sType) { }
-    static constexpr bool value { std::is_same<std::true_type, decltype(test<VulkanStructureType>(0))>::value };
+};
+
+/**
+TODO : Documentation
+*/
+template <typename VulkanStructureType>
+struct has_stype<VulkanStructureType, decltype((void)VulkanStructureType::sType, 0)> : std::true_type
+{
 };
 
 /**

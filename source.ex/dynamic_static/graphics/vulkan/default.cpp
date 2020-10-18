@@ -97,7 +97,7 @@ template <>
 const VkPipelineMultisampleStateCreateInfo& get_default<VkPipelineMultisampleStateCreateInfo>()
 {
     static const VkPipelineMultisampleStateCreateInfo DefaultPipelineRasterizationStateCreateInfo {
-        /* VkStructureType                       sType;                 */ VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO,
+        /* VkStructureType                       sType;                 */ VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO,
         /* const void*                           pNext;                 */ nullptr,
         /* VkPipelineMultisampleStateCreateFlags flags;                 */ 0,
         /* VkSampleCountFlagBits                 rasterizationSamples;  */ VK_SAMPLE_COUNT_1_BIT,

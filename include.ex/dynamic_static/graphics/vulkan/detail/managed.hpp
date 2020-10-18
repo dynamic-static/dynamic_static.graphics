@@ -239,6 +239,14 @@ public:
     }
 
     /**
+    TODO : Documentation
+    */
+    inline Managed(uint64_t vkHandle)
+        : Managed((VulkanHandleType)vkHandle)
+    {
+    }
+
+    /**
     TODO : Docuemntation
     */
     inline Managed(VulkanHandleType vkHandle)
