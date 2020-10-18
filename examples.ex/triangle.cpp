@@ -113,20 +113,76 @@ private:
             fragmentPipelineShaderStageCreateInfo,
         };
         auto pipelineLayoutCreateInfo = get_default<VkPipelineLayoutCreateInfo>();
-        Managed<VkPipelineLayout> pipelineLayout;
-        dst_vk(create<Managed<VkPipelineLayout>>(mDevice, &pipelineLayoutCreateInfo, nullptr, &pipelineLayout));
+        dst_vk(create<Managed<VkPipelineLayout>>(mDevice, &pipelineLayoutCreateInfo, nullptr, &mPipelineLayout));
         auto graphicsPipelineCreateInfo = get_default<VkGraphicsPipelineCreateInfo>();
         graphicsPipelineCreateInfo.stageCount = (uint32_t)pipelineShaderStageCreateInfos.size();
         graphicsPipelineCreateInfo.pStages = pipelineShaderStageCreateInfos.data();
-        graphicsPipelineCreateInfo.layout = pipelineLayout;
+        graphicsPipelineCreateInfo.layout = mPipelineLayout;
         graphicsPipelineCreateInfo.renderPass = mRenderPass;
         dst_vk(create<Managed<VkPipeline>>(mDevice, VK_NULL_HANDLE, 1, &graphicsPipelineCreateInfo, nullptr, &mPipeline));
 
-        // TODO : Make Managed<VkPipelineLayout> a member of Managed<VkPipeline>
-        int b = 0;
+        std::array<VkClearValue, 2> clearValues;
+        clearValues[0].color = { 0, 0, 0, 1 };
+        clearValues[1].depthStencil = { 1, 0 };
+        auto extent = mSwapchain.get<Managed<VkSwapchainCreateInfoKHR>>()->imageExtent;
+        for (size_t i = 0; i < mCommandBuffers.size(); ++i) {
+            auto commandBufferBeginInfo = get_default<VkCommandBufferBeginInfo>();
+            dst_vk(vkBeginCommandBuffer(mCommandBuffers[i], &commandBufferBeginInfo));
+
+            auto renderPassBeginInfo = get_default<VkRenderPassBeginInfo>();
+            renderPassBeginInfo.renderPass = mRenderPass;
+            renderPassBeginInfo.framebuffer = mRenderTargets[i].frameBuffer;
+            renderPassBeginInfo.renderArea.extent = extent;
+            renderPassBeginInfo.clearValueCount = 1;
+            renderPassBeginInfo.pClearValues = clearValues.data();
+            vkCmdBeginRenderPass(mCommandBuffers[i], &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+            VkRect2D scissor { };
+            scissor.extent = extent;
+            vkCmdSetScissor(mCommandBuffers[i], 0, 1, &scissor);
+
+            VkViewport viewport { };
+            viewport.width = (float)extent.width;
+            viewport.height = (float)extent.height;
+            viewport.minDepth = 0;
+            viewport.maxDepth = 1;
+            vkCmdSetViewport(mCommandBuffers[i], 0, 1, &viewport);
+
+            vkCmdEndRenderPass(mCommandBuffers[i]);
+
+            vkEndCommandBuffer(mCommandBuffers[i]);
+        }
+    }
+
+    inline void render(const dst::Clock& clock) override final
+    {
+        using namespace dst::vk;
+        uint32_t swapchainImageIndex = 0;
+        dst_vk(vkAcquireNextImageKHR(mDevice, mSwapchain, 0, mImageAcquiredSemaphore, VK_NULL_HANDLE, &swapchainImageIndex));
+
+        VkPipelineStageFlags waitStages[] { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+        auto submitInfo = get_default<VkSubmitInfo>();
+        submitInfo.waitSemaphoreCount = 1;
+        submitInfo.pWaitSemaphores = &*mImageAcquiredSemaphore;
+        submitInfo.pWaitDstStageMask = waitStages;
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &*mCommandBuffers[swapchainImageIndex];
+        submitInfo.signalSemaphoreCount = 1;
+        submitInfo.pSignalSemaphores = &*mImageRenderedSemaphore;
+        dst_vk(vkQueueSubmit(mGraphicsQueue, 1, &submitInfo, VK_NULL_HANDLE));
+
+        auto presentInfo = get_default<VkPresentInfoKHR>();
+        presentInfo.waitSemaphoreCount = 1;
+        presentInfo.pWaitSemaphores = &*mImageRenderedSemaphore;
+        presentInfo.swapchainCount = 1;
+        presentInfo.pSwapchains = &*mSwapchain;
+        presentInfo.pImageIndices = &swapchainImageIndex;
+        dst_vk(vkQueuePresentKHR(mGraphicsQueue, &presentInfo));
+        dst_vk(vkQueueWaitIdle(mGraphicsQueue));
     }
 
     dst::vk::Managed<VkPipeline> mPipeline;
+    dst::vk::Managed<VkPipelineLayout> mPipelineLayout;
 };
 
 int main(int argc, const char* argv[])

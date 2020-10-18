@@ -105,7 +105,7 @@ protected:
     Managed<VkSwapchainKHR> mSwapchain;                                 //!< TODO : Documentation
     Managed<VkRenderPass> mRenderPass;                                  //!< TODO : Documentation
     std::vector<RenderTarget> mRenderTargets;                           //!< TODO : Documentation
-    Managed<VkCommandBuffer> mCommandBuffer;                            //!< TODO : Documentation
+    std::vector<Managed<VkCommandBuffer>> mCommandBuffers;              //!< TODO : Documentation
     Managed<VkSemaphore> mImageAcquiredSemaphore;                       //!< TODO : Documentation
     Managed<VkSemaphore> mImageRenderedSemaphore;                       //!< TODO : Documentation
     VkDebugUtilsMessengerEXT mVkDebugUtilsMessenger { VK_NULL_HANDLE }; //!< TODO : Documentation

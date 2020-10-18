@@ -99,14 +99,39 @@ Application::Application(const sys::Window::Info& windowInfo, Info applicationIn
     vkGetPhysicalDeviceQueueFamilyProperties(mPhysicalDevices[0], &queueFamilyCount, nullptr);
     std::vector<VkQueueFamilyProperties> queueFamilyProperties(queueFamilyCount);
     vkGetPhysicalDeviceQueueFamilyProperties(mPhysicalDevices[0], &queueFamilyCount, queueFamilyProperties.data());
-    auto getQueueFamilyIndex = [&queueFamilyProperties](VkQueueFlags queueFlags)
+    auto getQueueFamilyIndex = [&queueFamilyProperties](VkQueueFlags queueFlags) -> std::optional<uint32_t>
     {
         std::optional<uint32_t> queueFamilyIndex;
-        for (uint32_t i = 0; i < queueFamilyProperties.size(); ++i) {
-            if (queueFamilyProperties[i].queueCount && (queueFamilyProperties[i].queueFlags & queueFlags)) {
-                queueFamilyIndex = i;
-                if (queueFamilyProperties[i].queueFlags == queueFlags) {
-                    break;
+        VkQueueFlags selectedQueueFamilyFlags = 0;
+        for (uint32_t queueFamily_i = 0; queueFamily_i < queueFamilyProperties.size(); ++queueFamily_i) {
+            // NOTE : First check that queueFamilyProperties[queueFamily_i] has queues...
+            if (queueFamilyProperties[queueFamily_i].queueCount) {
+                //  ...then check if queueFamilyProperties[queueFamily_i].queueFlags is an exact
+                //  match for queueFlags, if so return queueFamily_i...
+                if (queueFamilyProperties[queueFamily_i].queueFlags == queueFlags) {
+                    return queueFamily_i;
+                }
+                //  ...if queueFamilyProperties[queueFamily_i].queueFlags doesn't exactly match
+                //  queueFlags, check if it's a better match than any encountered thus far.  If
+                //  queueFamilyIndex isn't set or queueFamilyProperties[i].queueFlags is less
+                //  than the best match thus far, check that each set queueFlags bit is also set
+                //  in queueFamilyProperties[queueFamily_i].queueFlags.  If each necessary bit
+                //  is set in queueFamilyProperties[queueFamily_i].queueFlags then this is the
+                //  best match encountered thus far, if we don't find an exact match then
+                //  we'll evetually return queueFamilyIndex.
+                if (!queueFamilyIndex || queueFamilyProperties[queueFamily_i].queueFlags < selectedQueueFamilyFlags) {
+                    bool suitable = true;
+                    for (size_t flagBit_i = 0; flagBit_i < sizeof(VkQueueFlags) * 8; ++flagBit_i) {
+                        auto queueFlag = queueFlags & (1 << flagBit_i);
+                        if (queueFlag && !(queueFamilyProperties[queueFamily_i].queueFlags & queueFlag)) {
+                            suitable = false;
+                            break;
+                        }
+                    }
+                    if (suitable) {
+                        queueFamilyIndex = queueFamily_i;
+                        selectedQueueFamilyFlags = queueFamilyProperties[queueFamily_i].queueFlags;
+                    }
                 }
             }
         }
@@ -296,19 +321,20 @@ Application::Application(const sys::Window::Info& windowInfo, Info applicationIn
     }
 
     ////////////////////////////////////////////////////////////////////////////////
-    // Create VkCommandPool and VkCommandBuffer
+    // Create VkCommandPool and VkCommandBuffers
     VkCommandPoolCreateInfo commandPoolCreateInfo { };
     commandPoolCreateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
     commandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-    commandPoolCreateInfo.queueFamilyIndex = generalQueueFamilyIndex.value();
+    commandPoolCreateInfo.queueFamilyIndex = graphicsQueueFamilyIndex.value();
     Managed<VkCommandPool> commandPool;
     dst_vk(create<Managed<VkCommandPool>>(mDevice, &commandPoolCreateInfo, nullptr, &commandPool));
     VkCommandBufferAllocateInfo commandBufferAllocateInfo { };
     commandBufferAllocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
     commandBufferAllocateInfo.commandPool = commandPool;
     commandBufferAllocateInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-    commandBufferAllocateInfo.commandBufferCount = 1;
-    dst_vk(allocate<Managed<VkCommandBuffer>>(mDevice, &commandBufferAllocateInfo, &mCommandBuffer));
+    commandBufferAllocateInfo.commandBufferCount = (uint32_t)mSwapchain.get<std::vector<Managed<VkImage>>>().size();
+    mCommandBuffers = std::vector<Managed<VkCommandBuffer>>(commandBufferAllocateInfo.commandBufferCount);
+    dst_vk(allocate<Managed<VkCommandBuffer>>(mDevice, &commandBufferAllocateInfo, mCommandBuffers.data()));
 
     ////////////////////////////////////////////////////////////////////////////////
     // Create VkSemaphores
