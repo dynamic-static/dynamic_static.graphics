@@ -12,6 +12,7 @@
 
 #include "dynamic_static/graphics/vulkan/generated/create-structure-copy.hpp"
 #include "dynamic_static/graphics/vulkan/generated/destroy-structure-copy.hpp"
+#include "dynamic_static/graphics/vulkan/default.hpp"
 #include "dynamic_static/graphics/vulkan/defines.hpp"
 
 #include <cassert>
@@ -151,7 +152,7 @@ public:
     }
 
 private:
-    VulkanStructureType mVkStructure { };
+    VulkanStructureType mVkStructure { get_default<VulkanStructureType>() };
 };
 
 /**
