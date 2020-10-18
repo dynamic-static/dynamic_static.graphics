@@ -137,6 +137,8 @@ private:
             renderPassBeginInfo.pClearValues = clearValues.data();
             vkCmdBeginRenderPass(mCommandBuffers[i], &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 
+            vkCmdBindPipeline(mCommandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, mPipeline);
+
             VkRect2D scissor { };
             scissor.extent = extent;
             vkCmdSetScissor(mCommandBuffers[i], 0, 1, &scissor);
@@ -147,6 +149,8 @@ private:
             viewport.minDepth = 0;
             viewport.maxDepth = 1;
             vkCmdSetViewport(mCommandBuffers[i], 0, 1, &viewport);
+
+            vkCmdDraw(mCommandBuffers[i], 3, 1, 0, 0);
 
             vkCmdEndRenderPass(mCommandBuffers[i]);
 
