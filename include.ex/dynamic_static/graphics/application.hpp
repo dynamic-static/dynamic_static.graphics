@@ -50,7 +50,7 @@ protected:
     /**
     TODO : Documentation
     */
-    virtual void setup();
+    virtual bool setup();
 
     /**
     TODO : Documentation

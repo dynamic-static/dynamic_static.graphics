@@ -49,8 +49,9 @@ void Application::stop()
     mRunning = false;
 }
 
-void Application::setup()
+bool Application::setup()
 {
+    return true;
 }
 
 void Application::teardown()
