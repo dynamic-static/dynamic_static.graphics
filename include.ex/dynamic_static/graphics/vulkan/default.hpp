@@ -52,6 +52,7 @@ inline const VulkanStructuretype& get_default()
     return DefaultVulkanStructure;
 }
 
+template <> const VkApplicationInfo& get_default<VkApplicationInfo>();
 template <> const VkAttachmentDescription& get_default<VkAttachmentDescription>();
 
 ////////////////////////////////////////////////////////////////////////////////

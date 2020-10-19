@@ -16,6 +16,21 @@ namespace dst {
 namespace vk {
 
 template <>
+const VkApplicationInfo& get_default<VkApplicationInfo>()
+{
+    static const VkApplicationInfo DefaultApplicationInfo {
+        /* VkStructureType sType;              */ VK_STRUCTURE_TYPE_APPLICATION_INFO,
+        /* const void*     pNext;              */ nullptr,
+        /* const char*     pApplicationName;   */ "dynamic_static Application",
+        /* uint32_t        applicationVersion; */ 0,
+        /* const char*     pEngineName;        */ "dynamic_static",
+        /* uint32_t        engineVersion;      */ 0,
+        /* uint32_t        apiVersion;         */ VK_API_VERSION_1_2,
+    };
+    return DefaultApplicationInfo;
+}
+
+template <>
 const VkAttachmentDescription& get_default<VkAttachmentDescription>()
 {
     static const VkAttachmentDescription DefaultAttachmentDescription {

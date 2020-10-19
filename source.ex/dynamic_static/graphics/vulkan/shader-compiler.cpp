@@ -12,6 +12,7 @@
 
 #include "glslang/Public/ShaderLang.h"
 #include "glslang/SPIRV/GlslangToSpv.h"
+#include "SPIRV-Reflect/spirv_reflect.h"
 
 #include <cassert>
 #include <iostream>
@@ -47,7 +48,7 @@ private:
 
 static const TBuiltInResource& get_built_in_resource();
 
-std::vector<uint32_t> compile_shader_from_file(const std::filesystem::path& filePath)
+std::vector<uint32_t> compile_glsl_to_spirv(const std::filesystem::path& filePath)
 {
     static const std::unordered_map<std::string, VkShaderStageFlagBits> ExtensionToStage {
             { ".vert", VK_SHADER_STAGE_VERTEX_BIT },
@@ -71,15 +72,15 @@ std::vector<uint32_t> compile_shader_from_file(const std::filesystem::path& file
     assert(file.is_open() && "TODO : Better file and error handling");
     std::string source(std::istreambuf_iterator<char>(file), { });
     assert(source.empty() && "TODO : Better file and error handling");
-    return compile_shader_from_source(itr->second, source.c_str());
+    return compile_glsl_to_spirv(itr->second, source.c_str());
 }
 
-std::vector<uint32_t> compile_shader_from_source(VkShaderStageFlagBits stage, const char* pSource)
+std::vector<uint32_t> compile_glsl_to_spirv(VkShaderStageFlagBits stage, const char* pSource)
 {
-    return compile_shader_from_source(stage, 0, pSource);
+    return compile_glsl_to_spirv(stage, 0, pSource);
 }
 
-std::vector<uint32_t> compile_shader_from_source(VkShaderStageFlagBits stage, int lineOffset, const char* pSource)
+std::vector<uint32_t> compile_glsl_to_spirv(VkShaderStageFlagBits stage, int lineOffset, const char* pSource)
 {
     assert(pSource && "TODO : Better file and error handling");
     auto glslangInitialized = GlslangInitializer::validate();
@@ -121,9 +122,33 @@ std::vector<uint32_t> compile_shader_from_source(VkShaderStageFlagBits stage, in
     return spirv;
 }
 
-ShaderReflectionInfo reflect_shader(size_t codeSize, const uint32_t* pCode)
+ShaderReflectionInfo reflect_shader(const Managed<VkShaderModule>& shaderModule)
 {
     ShaderReflectionInfo shaderReflectionInfo { };
+    if (shaderModule) {
+        const auto& shaderModuleCreateInfo = shaderModule.get<Managed<VkShaderModuleCreateInfo>>();
+        if (shaderModuleCreateInfo->codeSize && shaderModuleCreateInfo->pCode) {
+            SpvReflectShaderModule spvReflectShaderModule { };
+            // TODO : Better error handling
+            if (spvReflectCreateShaderModule(shaderModuleCreateInfo->codeSize, shaderModuleCreateInfo->pCode, &spvReflectShaderModule) == SPV_REFLECT_RESULT_SUCCESS) {
+                assert(spvReflectShaderModule.entry_point_count == 1 && "TODO : Setup support for multiple entry points...");
+                auto pipelineShaderStageCreateInfo = get_default<VkPipelineShaderStageCreateInfo>();
+                switch (spvReflectShaderModule.shader_stage) {
+                case SPV_REFLECT_SHADER_STAGE_VERTEX_BIT: pipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_VERTEX_BIT; break;
+                case SPV_REFLECT_SHADER_STAGE_TESSELLATION_CONTROL_BIT: pipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT; break;
+                case SPV_REFLECT_SHADER_STAGE_TESSELLATION_EVALUATION_BIT: pipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT; break;
+                case SPV_REFLECT_SHADER_STAGE_GEOMETRY_BIT: pipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_GEOMETRY_BIT; break;
+                case SPV_REFLECT_SHADER_STAGE_FRAGMENT_BIT: pipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT; break;
+                case SPV_REFLECT_SHADER_STAGE_COMPUTE_BIT: pipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_COMPUTE_BIT; break;
+                default: assert(false && "TODO : Better error handling");
+                }
+                pipelineShaderStageCreateInfo.module = shaderModule;
+                pipelineShaderStageCreateInfo.pName = spvReflectShaderModule.entry_point_name;
+                shaderReflectionInfo.pipelineShaderStageCreateInfo = pipelineShaderStageCreateInfo;
+                spvReflectDestroyShaderModule(&spvReflectShaderModule);
+            }
+        }
+    }
     return shaderReflectionInfo;
 }
 

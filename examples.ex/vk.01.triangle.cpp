@@ -11,13 +11,13 @@
 #include "dynamic_static/graphics/vulkan/application.hpp"
 #include "dynamic_static/graphics/vulkan/shader-compiler.hpp"
 
-class TriangleApplication final
+class VulkanExample_01_Triangle final
     : public dst::vk::Application
 {
 public:
-    static constexpr char* Name { "dynamic_static Vulkan 01.triangle" };
+    static constexpr char* Name { "dynamic_static Vulkan example 01 Triangle" };
 
-    inline TriangleApplication()
+    inline VulkanExample_01_Triangle()
         : dst::vk::Application(
             []()
             {
@@ -30,7 +30,6 @@ public:
             {
                 auto applicationInfo = dst::vk::get_default<VkApplicationInfo>();
                 applicationInfo.pApplicationName = Name;
-                applicationInfo.pEngineName = "dynamic_static";
                 return applicationInfo;
             }()
         )
@@ -194,6 +193,6 @@ private:
 
 int main(int argc, const char* argv[])
 {
-    TriangleApplication().start();
+    VulkanExample_01_Triangle().start();
     return 0;
 }

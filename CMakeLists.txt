@@ -28,10 +28,12 @@ set(externalDirectory "${CMAKE_CURRENT_LIST_DIR}/external/")
 find_package(Vulkan REQUIRED)
 set(Vulkan_SDK_DIR "${Vulkan_INCLUDE_DIRS}/../")
 include("${externalDirectory}/glslang.cmake")
+include("${externalDirectory}/SPIRV-Reflect.cmake")
 list(
     APPEND linkLibraries
     dynamic_static.system
     glslang
+    SPIRV-Reflect
     Vulkan::Vulkan
 )
 

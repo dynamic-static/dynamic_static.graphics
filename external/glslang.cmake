@@ -31,22 +31,22 @@
 #    )
 #endif()
 
-set(glslangSourceDirectory "${externalDirectory}/glslang/")
-set(glslangBuildDirectory "${CMAKE_BINARY_DIR}/external/glslang/")
+set(glslang_sourceDirectory "${externalDirectory}/glslang/")
+set(glslang_buildDirectory "${CMAKE_BINARY_DIR}/external/glslang/")
 dst_add_external_cmake_project(
     project glslang
-    sourceDirectory "${glslangSourceDirectory}"
-    buildDirectory "${glslangBuildDirectory}"
+    sourceDirectory "${glslang_sourceDirectory}"
+    buildDirectory "${glslang_buildDirectory}"
 )
 target_include_directories(glslang INTERFACE "${externalDirectory}/")
 target_link_libraries(
     glslang INTERFACE
-    "${glslangBuildDirectory}/glslang/$(Configuration)/GenericCodeGen*.lib"
-    "${glslangBuildDirectory}/glslang/$(Configuration)/glslang*.lib"
-    "${glslangBuildDirectory}/glslang/$(Configuration)/MachineIndependent*.lib"
-    "${glslangBuildDirectory}/glslang/OSDependent/Windows/$(Configuration)/OSDependent*.lib"
-    "${glslangBuildDirectory}/hlsl/$(Configuration)/HLSL*.lib"
-    "${glslangBuildDirectory}/OGLCompilersDLL/$(Configuration)/OGLCompiler*.lib"
-    "${glslangBuildDirectory}/SPIRV/$(Configuration)/SPIRV*.lib"
-    "${glslangBuildDirectory}/SPIRV/$(Configuration)/SPVRemapper*.lib"
+    "${glslang_buildDirectory}/glslang/$(Configuration)/GenericCodeGen*.lib"
+    "${glslang_buildDirectory}/glslang/$(Configuration)/glslang*.lib"
+    "${glslang_buildDirectory}/glslang/$(Configuration)/MachineIndependent*.lib"
+    "${glslang_buildDirectory}/glslang/OSDependent/Windows/$(Configuration)/OSDependent*.lib"
+    "${glslang_buildDirectory}/hlsl/$(Configuration)/HLSL*.lib"
+    "${glslang_buildDirectory}/OGLCompilersDLL/$(Configuration)/OGLCompiler*.lib"
+    "${glslang_buildDirectory}/SPIRV/$(Configuration)/SPIRV*.lib"
+    "${glslang_buildDirectory}/SPIRV/$(Configuration)/SPVRemapper*.lib"
 )

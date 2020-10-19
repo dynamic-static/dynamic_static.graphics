@@ -8,16 +8,17 @@
 ==========================================
 */
 
+#include "dynamic_static/core/color.hpp"
 #include "dynamic_static/graphics/vulkan/application.hpp"
 #include "dynamic_static/graphics/vulkan/shader-compiler.hpp"
 
-class TriangleApplication final
+class VulkanExample_02_VertexBuffer final
     : public dst::vk::Application
 {
 public:
-    static constexpr char* Name { "dynamic_static Vulkan 01.triangle" };
+    static constexpr char* Name { "dynamic_static Vulkan example 02 Vertex Buffer" };
 
-    inline TriangleApplication()
+    inline VulkanExample_02_VertexBuffer()
         : dst::vk::Application(
             []()
             {
@@ -30,7 +31,6 @@ public:
             {
                 auto applicationInfo = dst::vk::get_default<VkApplicationInfo>();
                 applicationInfo.pApplicationName = Name;
-                applicationInfo.pEngineName = "dynamic_static";
                 return applicationInfo;
             }()
         )
@@ -38,9 +38,23 @@ public:
     }
 
 private:
+    struct Vertex final
+    {
+        glm::vec3 position { };
+        glm::vec4 color { };
+    };
+
     inline bool setup() override final
     {
         Application::setup();
+        setup_pipeline();
+        setup_vertex_and_index_buffers();
+        record_command_buffers();
+        return true;
+    }
+
+    inline void setup_pipeline()
+    {
         using namespace dst::vk;
         auto vertexShaderByteCode = compile_glsl_to_spirv(
             VK_SHADER_STAGE_VERTEX_BIT,
@@ -48,6 +62,8 @@ private:
             R"(
                 #version 450
 
+                layout(location = 0) in vec3 vsPosition;
+                layout(location = 1) in vec4 vsColor;
                 layout(location = 0) out vec4 fsColor;
 
                 out gl_PerVertex
@@ -55,22 +71,10 @@ private:
                     vec4 gl_Position;
                 };
 
-                vec2 positions[3] = vec2[](
-                    vec2( 0.0, -0.5),
-                    vec2( 0.5,  0.5),
-                    vec2(-0.5,  0.5)
-                );
-
-                vec4 colors[3] = vec4[](
-                    vec4(1, 0, 0, 1),
-                    vec4(0, 1, 0, 1),
-                    vec4(0, 0, 1, 1)
-                );
-
                 void main()
                 {
-                    gl_Position = vec4(positions[gl_VertexIndex], 0, 1);
-                    fsColor = colors[gl_VertexIndex];
+                    gl_Position = vec4(vsPosition, 1);
+                    fsColor = vsColor;
                 }
             )"
         );
@@ -79,11 +83,8 @@ private:
         vertexShaderModuleCreateInfo.pCode = !vertexShaderByteCode.empty() ? vertexShaderByteCode.data() : nullptr;
         Managed<VkShaderModule> vertexShaderModule;
         dst_vk(create<Managed<VkShaderModule>>(get_device(), &vertexShaderModuleCreateInfo, nullptr, &vertexShaderModule));
-        auto vertexPipelineShaderStageCreateInfo = get_default<VkPipelineShaderStageCreateInfo>();
-        vertexPipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
-        vertexPipelineShaderStageCreateInfo.module = vertexShaderModule;
-        vertexPipelineShaderStageCreateInfo.pName = "main";
-
+        auto vertexShaderReflectionInfo = reflect_shader(vertexShaderModule);
+        
         auto fragmentShaderByteCode = compile_glsl_to_spirv(
             VK_SHADER_STAGE_FRAGMENT_BIT,
             __LINE__,
@@ -104,25 +105,43 @@ private:
         fragmentShaderModuleCreateInfo.pCode = !fragmentShaderByteCode.empty() ? fragmentShaderByteCode.data() : nullptr;
         Managed<VkShaderModule> fragmentShaderModule;
         dst_vk(create<Managed<VkShaderModule>>(get_device(), &fragmentShaderModuleCreateInfo, nullptr, &fragmentShaderModule));
-        auto fragmentPipelineShaderStageCreateInfo = get_default<VkPipelineShaderStageCreateInfo>();
-        fragmentPipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-        fragmentPipelineShaderStageCreateInfo.module = fragmentShaderModule;
-        fragmentPipelineShaderStageCreateInfo.pName = "main";
+        auto fragmentShaderReflectionInfo = reflect_shader(fragmentShaderModule);
 
         std::array<VkPipelineShaderStageCreateInfo, 2> pipelineShaderStageCreateInfos {
-            vertexPipelineShaderStageCreateInfo,
-            fragmentPipelineShaderStageCreateInfo,
+            vertexShaderReflectionInfo.pipelineShaderStageCreateInfo,
+            fragmentShaderReflectionInfo.pipelineShaderStageCreateInfo,
         };
         auto pipelineLayoutCreateInfo = get_default<VkPipelineLayoutCreateInfo>();
         Managed<VkPipelineLayout> pipelineLayout;
         dst_vk(create<Managed<VkPipelineLayout>>(get_device(), &pipelineLayoutCreateInfo, nullptr, &pipelineLayout));
+
         auto graphicsPipelineCreateInfo = get_default<VkGraphicsPipelineCreateInfo>();
         graphicsPipelineCreateInfo.stageCount = (uint32_t)pipelineShaderStageCreateInfos.size();
         graphicsPipelineCreateInfo.pStages = pipelineShaderStageCreateInfos.data();
         graphicsPipelineCreateInfo.layout = pipelineLayout;
         graphicsPipelineCreateInfo.renderPass = get_swapchain_render_pass();
         dst_vk(create<Managed<VkPipeline>>(get_device(), VK_NULL_HANDLE, 1, &graphicsPipelineCreateInfo, nullptr, &mPipeline));
+    }
 
+    inline void setup_vertex_and_index_buffers()
+    {
+        using namespace dst::vk;
+        std::array<Vertex, 4> vertices {
+            Vertex {{ -0.5f, -0.5f, 0.0f }, { dst::Color<>::OrangeRed }},
+            Vertex {{  0.5f, -0.5f, 0.0f }, { dst::Color<>::BlueViolet }},
+            Vertex {{  0.5f,  0.5f, 0.0f }, { dst::Color<>::DodgerBlue }},
+            Vertex {{ -0.5f,  0.5f, 0.0f }, { dst::Color<>::Goldenrod }},
+        };
+        std::array<uint64_t, 6> indices {
+            0, 1, 2,
+            2, 3, 0,
+        };
+        mIndexCount = indices.size();
+    }
+
+    inline void record_command_buffers()
+    {
+        using namespace dst::vk;
         std::array<VkClearValue, 2> clearValues;
         clearValues[0].color = { 0, 0, 0, 1 };
         clearValues[1].depthStencil = { 1, 0 };
@@ -131,7 +150,6 @@ private:
             const auto& commandBuffer = get_swapchain_command_buffers()[i];
             auto commandBufferBeginInfo = get_default<VkCommandBufferBeginInfo>();
             dst_vk(vkBeginCommandBuffer(commandBuffer, &commandBufferBeginInfo));
-
             auto renderPassBeginInfo = get_default<VkRenderPassBeginInfo>();
             renderPassBeginInfo.renderPass = get_swapchain_render_pass();
             renderPassBeginInfo.framebuffer = get_swapchain_framebuffers()[i];
@@ -139,27 +157,20 @@ private:
             renderPassBeginInfo.clearValueCount = 1;
             renderPassBeginInfo.pClearValues = clearValues.data();
             vkCmdBeginRenderPass(commandBuffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
-
             vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, mPipeline);
-
             VkRect2D scissor { };
             scissor.extent = extent;
             vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
-
             VkViewport viewport { };
             viewport.width = (float)extent.width;
             viewport.height = (float)extent.height;
             viewport.minDepth = 0;
             viewport.maxDepth = 1;
             vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
-
             vkCmdDraw(commandBuffer, 3, 1, 0, 0);
-
             vkCmdEndRenderPass(commandBuffer);
-
             vkEndCommandBuffer(commandBuffer);
         }
-        return true;
     }
 
     inline void render(const dst::Clock& clock) override final
@@ -190,10 +201,13 @@ private:
     }
 
     dst::vk::Managed<VkPipeline> mPipeline;
+    dst::vk::Managed<VkBuffer> mVertexBuffer;
+    dst::vk::Managed<VkBuffer> mIndexBuffer;
+    size_t mIndexCount { 0 };
 };
 
 int main(int argc, const char* argv[])
 {
-    TriangleApplication().start();
+    VulkanExample_02_VertexBuffer().start();
     return 0;
 }
