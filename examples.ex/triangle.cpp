@@ -11,26 +11,28 @@
 #include "common/common.hpp"
 
 #include "dynamic_static/graphics/vulkan/application.hpp"
-#include "dynamic_static/graphics/vulkan/default.hpp"
-#include "dynamic_static/graphics/vulkan/managed.hpp"
 #include "dynamic_static/graphics/vulkan/shader-compiler.hpp"
 
 class TriangleApplication final
     : public dst::vk::Application
 {
 public:
+    static constexpr char* Name { "dst::vk::triangle" };
+
     inline TriangleApplication()
         : dst::vk::Application(
             []()
             {
                 dst::sys::Window::Info windowInfo { };
                 windowInfo.extent = { 1280, 720 };
-                windowInfo.pName = "dst::vk::triangle";
+                windowInfo.pName = Name;
                 return windowInfo;
             }(),
             []()
             {
-                dst::vk::Application::Info applicationInfo { };
+                auto applicationInfo = dst::vk::get_default<VkApplicationInfo>();
+                applicationInfo.pApplicationName = Name;
+                applicationInfo.pEngineName = "dynamic_static";
                 return applicationInfo;
             }()
         )
@@ -114,11 +116,12 @@ private:
             fragmentPipelineShaderStageCreateInfo,
         };
         auto pipelineLayoutCreateInfo = get_default<VkPipelineLayoutCreateInfo>();
-        dst_vk(create<Managed<VkPipelineLayout>>(get_device(), &pipelineLayoutCreateInfo, nullptr, &mPipelineLayout));
+        Managed<VkPipelineLayout> pipelineLayout;
+        dst_vk(create<Managed<VkPipelineLayout>>(get_device(), &pipelineLayoutCreateInfo, nullptr, &pipelineLayout));
         auto graphicsPipelineCreateInfo = get_default<VkGraphicsPipelineCreateInfo>();
         graphicsPipelineCreateInfo.stageCount = (uint32_t)pipelineShaderStageCreateInfos.size();
         graphicsPipelineCreateInfo.pStages = pipelineShaderStageCreateInfos.data();
-        graphicsPipelineCreateInfo.layout = mPipelineLayout;
+        graphicsPipelineCreateInfo.layout = pipelineLayout;
         graphicsPipelineCreateInfo.renderPass = get_swapchain_render_pass();
         dst_vk(create<Managed<VkPipeline>>(get_device(), VK_NULL_HANDLE, 1, &graphicsPipelineCreateInfo, nullptr, &mPipeline));
 
@@ -189,13 +192,10 @@ private:
     }
 
     dst::vk::Managed<VkPipeline> mPipeline;
-    dst::vk::Managed<VkPipelineLayout> mPipelineLayout;
 };
 
 int main(int argc, const char* argv[])
 {
-    {
-        TriangleApplication().start();
-    }
+    TriangleApplication().start();
     return 0;
 }

@@ -22,14 +22,26 @@ Application::~Application()
 {
 }
 
+const sys::Window& Application::get_window() const
+{
+    return mWindow;
+}
+
+sys::Window& Application::get_window()
+{
+    return mWindow;
+}
+
 void Application::start()
 {
-    setup();
-    mRunning = true;
+    mRunning = setup();
+    Delegate<const sys::Window&> window_close_requested_handler;
+    mWindow.on_close_requested += window_close_requested_handler;
+    window_close_requested_handler = [&](const auto&) { mRunning = false; };
     mClock.update();
     while (mRunning) {
-        dst::sys::Window::poll_events();
         mClock.update();
+        dst::sys::Window::poll_events();
         const auto& input = mWindow.get_input();
         if (input.keyboard.down(dst::sys::Keyboard::Key::Escape)) {
             mRunning = false;

@@ -11,11 +11,10 @@
 #pragma once
 
 #include "dynamic_static/graphics/application.hpp"
+#include "dynamic_static/graphics/vulkan/default.hpp"
 #include "dynamic_static/graphics/vulkan/defines.hpp"
 #include "dynamic_static/graphics/vulkan/managed.hpp"
-#include "dynamic_static/graphics/vulkan/render-target.hpp"
 
-#include <string>
 #include <vector>
 
 namespace dst {
@@ -31,28 +30,22 @@ public:
     /**
     TODO : Documentation
     */
-    struct Info
-        : public VkApplicationInfo
-    {
-    public:
-        std::vector<const char*> instanceLayers;
-        std::vector<const char*> instanceExtensions {
+    Application(
+        const sys::Window::Info& windowInfo,
+        const VkApplicationInfo& applicationInfo = get_default<VkApplicationInfo>(),
+        const std::vector<const char*>& layers = { },
+        const std::vector<const char*>& instanceExtensions = {
             VK_KHR_SURFACE_EXTENSION_NAME,
             #ifdef VK_USE_PLATFORM_WIN32_KHR
             VK_KHR_WIN32_SURFACE_EXTENSION_NAME,
             #elif VK_USE_PLATFORM_XLIB_KHR
             VK_KHR_XLIB_SURFACE_EXTENSION_NAME,
             #endif
-        };
-        std::vector<const char*> deviceExtensions {
+        },
+        const std::vector<const char*>& deviceExtensions = {
             VK_KHR_SWAPCHAIN_EXTENSION_NAME,
-        };
-    };
-
-    /**
-    TODO : Documentation
-    */
-    Application(const sys::Window::Info& windowInfo, Info applicationInfo);
+        }
+    );
 
     /**
     TODO : Documentation
@@ -158,7 +151,11 @@ protected:
     /**
     TODO : Documentation
     */
-    virtual Managed<VkInstance> setup_instance(Info applicationInfo) const;
+    virtual Managed<VkInstance> setup_instance(
+        const VkApplicationInfo& applicationInfo,
+        std::vector<const char*>& layers,
+        std::vector<const char*>& extensions
+    ) const;
 
     /**
     TODO : Documentation
@@ -173,7 +170,7 @@ protected:
     /**
     TODO : Documentation
     */
-    virtual std::vector<Managed<VkDevice>> setup_devices(Info applicationInfo) const;
+    virtual std::vector<Managed<VkDevice>> setup_devices(std::vector<const char*>& extensions) const;
 
     /**
     TODO : Documentation
@@ -236,6 +233,10 @@ protected:
     virtual void post_render(const dst::Clock& clock) override;
 
 private:
+    Managed<VkApplicationInfo> mApplicationInfo { get_default<VkApplicationInfo>() };
+    std::vector<const char*> mLayers;
+    std::vector<const char*> mInstanceExtensions;
+    std::vector<const char*> mDeviceExtensions;
     Managed<VkInstance> mInstance;
     VkDebugUtilsMessengerEXT mVkDebugUtilsMessenger { VK_NULL_HANDLE };
     std::vector<Managed<VkPhysicalDevice>> mPhysicalDevices;
@@ -251,18 +252,6 @@ private:
     std::vector<Managed<VkCommandBuffer>> mSwapchainCommandBuffers;
     Managed<VkSemaphore> mSwapchainImageAcquiredSemaphore;
     Managed<VkSemaphore> mSwapchainImageRenderedSemaphore;
-
-    sys::Window::Info mWindowInfo;
-    Info mApplicationInfo;
-
-    #if 0
-    Managed<VkDevice> mDevice;
-    Managed<VkRenderPass> mRenderPass;
-    std::vector<RenderTarget> mRenderTargets;
-    std::vector<Managed<VkCommandBuffer>> mCommandBuffers;
-    Managed<VkSemaphore> mImageAcquiredSemaphore;
-    Managed<VkSemaphore> mImageRenderedSemaphore;
-    #endif
 };
 
 } // namespace vk
