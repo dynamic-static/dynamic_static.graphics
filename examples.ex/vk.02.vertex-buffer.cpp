@@ -119,9 +119,18 @@ private:
         Managed<VkPipelineLayout> pipelineLayout;
         dst_vk(create<Managed<VkPipelineLayout>>(get_device(), &pipelineLayoutCreateInfo, nullptr, &pipelineLayout));
 
+        auto vertexInputBindingDescription = get_vertex_input_binding_description<Vertex>(0);
+        auto vertexInputAttributeDescriptions = get_vertex_input_attribute_descriptions<glm::vec3, glm::vec4>(0);
+        auto pipelineVertexInputState = get_default<VkPipelineVertexInputStateCreateInfo>();
+        pipelineVertexInputState.vertexBindingDescriptionCount = 1;
+        pipelineVertexInputState.pVertexBindingDescriptions = &vertexInputBindingDescription;
+        pipelineVertexInputState.vertexAttributeDescriptionCount = (uint32_t)vertexInputAttributeDescriptions.size();
+        pipelineVertexInputState.pVertexAttributeDescriptions = vertexInputAttributeDescriptions.data();
+
         auto graphicsPipelineCreateInfo = get_default<VkGraphicsPipelineCreateInfo>();
         graphicsPipelineCreateInfo.stageCount = (uint32_t)pipelineShaderStageCreateInfos.size();
         graphicsPipelineCreateInfo.pStages = pipelineShaderStageCreateInfos.data();
+        graphicsPipelineCreateInfo.pVertexInputState = &pipelineVertexInputState;
         graphicsPipelineCreateInfo.layout = pipelineLayout;
         graphicsPipelineCreateInfo.renderPass = get_swapchain_render_pass();
         dst_vk(create<Managed<VkPipeline>>(get_device(), VK_NULL_HANDLE, 1, &graphicsPipelineCreateInfo, nullptr, &mPipeline));
@@ -143,7 +152,7 @@ private:
         VkMemoryRequirements vertexBufferMemoryRequirements { };
         vkGetBufferMemoryRequirements(get_device(), mVertexBuffer, &vertexBufferMemoryRequirements);
 
-        std::array<uint64_t, 6> indices {
+        std::array<uint16_t, 6> indices {
             0, 1, 2,
             2, 3, 0,
         };
@@ -151,7 +160,7 @@ private:
         auto indexBufferCreateInfo = get_default<VkBufferCreateInfo>();
         indexBufferCreateInfo.size = (VkDeviceSize)vertices.size() * sizeof(Vertex);
         indexBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
-        dst_vk(create<Managed<VkBuffer>>(get_device(), &vertexBufferCreateInfo, nullptr, &mIndexBuffer));
+        dst_vk(create<Managed<VkBuffer>>(get_device(), &indexBufferCreateInfo, nullptr, &mIndexBuffer));
         VkMemoryRequirements indexBufferMemoryRequirements { };
         vkGetBufferMemoryRequirements(get_device(), mIndexBuffer, &indexBufferMemoryRequirements);
 
@@ -244,7 +253,10 @@ private:
             viewport.minDepth = 0;
             viewport.maxDepth = 1;
             vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
-            vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+            VkDeviceSize offset = 0;
+            vkCmdBindVertexBuffers(commandBuffer, 0, 1, &*mVertexBuffer, &offset);
+            vkCmdBindIndexBuffer(commandBuffer, mIndexBuffer, 0, VK_INDEX_TYPE_UINT16);
+            vkCmdDrawIndexed(commandBuffer, (uint32_t)mIndexCount, 1, 0, 0, 0);
             vkCmdEndRenderPass(commandBuffer);
             vkEndCommandBuffer(commandBuffer);
         }

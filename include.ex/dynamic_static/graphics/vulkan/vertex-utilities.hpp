@@ -22,7 +22,7 @@ namespace vk {
 TODO : Documentation
 */
 template <typename VertexType>
-inline VkVertexInputBindingDescription get_vertex_input_binding_description(uint32_t binding = 0)
+inline VkVertexInputBindingDescription get_vertex_input_binding_description(uint32_t binding)
 {
     VkVertexInputBindingDescription vertexInputBindingDescription { };
     vertexInputBindingDescription.binding = binding;
@@ -35,12 +35,12 @@ inline VkVertexInputBindingDescription get_vertex_input_binding_description(uint
 TODO : Documentation
 */
 template <typename ...VertexAttributeTypes>
-inline std::array<VkVertexInputAttributeDescription, sizeof...(VertexAttributeTypes)> get_vertex_input_attribute_descriptions(uint32_t binding = 0)
+inline std::array<VkVertexInputAttributeDescription, sizeof...(VertexAttributeTypes)> get_vertex_input_attribute_descriptions(uint32_t binding)
 {
     size_t offset = 0;
     std::array<size_t, sizeof...(VertexAttributeTypes)> sizes { sizeof(VertexAttributeTypes)... };
     std::array<VkVertexInputAttributeDescription, sizeof...(VertexAttributeTypes)> vertexInputAttributeDescriptions { };
-    for (size_t i = 0; i < descriptions.size(); ++i) {
+    for (size_t i = 0; i < vertexInputAttributeDescriptions.size(); ++i) {
         vertexInputAttributeDescriptions[i].binding = binding;
         vertexInputAttributeDescriptions[i].location = static_cast<uint32_t>(i);
         vertexInputAttributeDescriptions[i].offset = static_cast<uint32_t>(offset);
