@@ -53,6 +53,12 @@ VkResult bind_memory(Managed<VkBuffer>& buffer, Managed<VkDeviceMemory>& memory,
 template <>
 VkResult bind_memory(Managed<VkImage>& image, Managed<VkDeviceMemory>& memory, VkDeviceSize memoryOffset);
 
+template <>
+VkResult bind_memory(VkDevice vkDevice, uint32_t bindInfoCount, const VkBindBufferMemoryInfo* pBindInfos);
+
+template <>
+VkResult bind_memory(VkDevice vkDevice, uint32_t bindInfoCount, const VkBindImageMemoryInfo* pBindInfos);
+
 template <typename LeadManagedHandleType, typename FollowManagedHandleType>
 inline void resolve_circular_references(const LeadManagedHandleType& leadManagedHandle)
 {

@@ -175,6 +175,11 @@ VkResult bind_memory(Managed<VkBuffer>& buffer, Managed<VkDeviceMemory>& memory,
         vkResult = dst_vk(vkBindBufferMemory(buffer.get<Managed<VkDevice>>(), buffer, memory, memoryOffset));
         if (vkResult == VK_SUCCESS) {
             buffer.mspControlBlock->set(std::move(Managed<VkDeviceMemory>(memory)));
+            auto bindBufferMemoryInfo = get_default<VkBindBufferMemoryInfo>();
+            bindBufferMemoryInfo.buffer = buffer;
+            bindBufferMemoryInfo.memory = memory;
+            bindBufferMemoryInfo.memoryOffset = memoryOffset;
+            buffer.mspControlBlock->set(std::move(Managed<VkBindBufferMemoryInfo>(bindBufferMemoryInfo)));
         }
     }
     return vkResult;
@@ -190,6 +195,45 @@ VkResult bind_memory(Managed<VkImage>& image, Managed<VkDeviceMemory>& memory, V
         vkResult = dst_vk(vkBindImageMemory(image.get<Managed<VkDevice>>(), image, memory, memoryOffset));
         if (vkResult == VK_SUCCESS) {
             image.mspControlBlock->set(std::move(Managed<VkDeviceMemory>(memory)));
+            auto bindImageMemoryInfo = get_default<VkBindImageMemoryInfo>();
+            bindImageMemoryInfo.image = image;
+            bindImageMemoryInfo.memory = memory;
+            bindImageMemoryInfo.memoryOffset = memoryOffset;
+            image.mspControlBlock->set(std::move(Managed<VkBindImageMemoryInfo>(bindImageMemoryInfo)));
+        }
+    }
+    return vkResult;
+}
+
+template <>
+VkResult bind_memory(VkDevice vkDevice, uint32_t bindInfoCount, const VkBindBufferMemoryInfo* pBindInfos)
+{
+    auto vkResult = dst_vk(vkBindBufferMemory2(vkDevice, bindInfoCount, pBindInfos));
+    if (vkResult == VK_SUCCESS && bindInfoCount && pBindInfos) {
+        for (uint32_t i = 0; i < bindInfoCount; ++i) {
+            Managed<VkBuffer> buffer(pBindInfos[i].buffer);
+            if (buffer) {
+                assert(buffer.get<Managed<VkDevice>>() == vkDevice && "TODO : Better error handling");
+                buffer.mspControlBlock->set(std::move(Managed<VkDeviceMemory>(pBindInfos[i].memory)));
+                buffer.mspControlBlock->set(std::move(Managed<VkBindBufferMemoryInfo>(pBindInfos[i])));
+            }
+        }
+    }
+    return vkResult;
+}
+
+template <>
+VkResult bind_memory(VkDevice vkDevice, uint32_t bindInfoCount, const VkBindImageMemoryInfo* pBindInfos)
+{
+    auto vkResult = dst_vk(vkBindImageMemory2(vkDevice, bindInfoCount, pBindInfos));
+    if (vkResult == VK_SUCCESS && bindInfoCount && pBindInfos) {
+        for (uint32_t i = 0; i < bindInfoCount; ++i) {
+            Managed<VkImage> image(pBindInfos[i].image);
+            if (image) {
+                assert(image.get<Managed<VkDevice>>() == vkDevice && "TODO : Better error handling");
+                image.mspControlBlock->set(std::move(Managed<VkDeviceMemory>(pBindInfos[i].memory)));
+                image.mspControlBlock->set(std::move(Managed<VkBindImageMemoryInfo>(pBindInfos[i])));
+            }
         }
     }
     return vkResult;

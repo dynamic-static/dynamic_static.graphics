@@ -137,6 +137,7 @@ private:
         Managed<VkBufferCreateInfo>,
         VkAllocationCallbacks,
         Managed<VkDeviceMemory>,
+        Managed<VkBindBufferMemoryInfo>,
         VkBuffer
     > mFields;
 };
@@ -558,6 +559,7 @@ private:
         VkAllocationCallbacks,
         Managed<VkSwapchainKHR>,
         Managed<VkDeviceMemory>,
+        Managed<VkBindImageMemoryInfo>,
         VkImage
     > mFields;
 };

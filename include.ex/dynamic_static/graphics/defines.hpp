@@ -10,12 +10,17 @@
 
 #pragma once
 
+#include <cassert>
+
 #include "dynamic_static/core/defines.hpp"
 #include "dynamic_static/system/defines.hpp"
 
 #define DYNAMIC_STATIC_GRAPHICS_VERSION_MAJOR 2
 #define DYNAMIC_STATIC_GRAPHICS_VERSION_MINOR 0
 #define DYNAMIC_STATIC_GRAPHICS_VERSION_PATCH 0
+
+#define dst_gfx_assert(EXPRESSION) \
+assert(EXPRESSION && "dynamic_static.graphics maintenance required")
 
 namespace dst {
 namespace gfx {

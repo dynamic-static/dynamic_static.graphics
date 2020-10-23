@@ -10,7 +10,11 @@
 
 #include "dynamic_static/core/color.hpp"
 #include "dynamic_static/graphics/vulkan/application.hpp"
+#include "dynamic_static/graphics/vulkan/physical-device-utilities.hpp"
 #include "dynamic_static/graphics/vulkan/shader-compiler.hpp"
+#include "dynamic_static/graphics/vulkan/vertex-utilities.hpp"
+
+#include <algorithm>
 
 class VulkanExample_02_VertexBuffer final
     : public dst::vk::Application
@@ -132,11 +136,84 @@ private:
             Vertex {{  0.5f,  0.5f, 0.0f }, { dst::Color<>::DodgerBlue }},
             Vertex {{ -0.5f,  0.5f, 0.0f }, { dst::Color<>::Goldenrod }},
         };
+        auto vertexBufferCreateInfo = get_default<VkBufferCreateInfo>();
+        vertexBufferCreateInfo.size = (VkDeviceSize)vertices.size() * sizeof(Vertex);
+        vertexBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+        dst_vk(create<Managed<VkBuffer>>(get_device(), &vertexBufferCreateInfo, nullptr, &mVertexBuffer));
+        VkMemoryRequirements vertexBufferMemoryRequirements { };
+        vkGetBufferMemoryRequirements(get_device(), mVertexBuffer, &vertexBufferMemoryRequirements);
+
         std::array<uint64_t, 6> indices {
             0, 1, 2,
             2, 3, 0,
         };
         mIndexCount = indices.size();
+        auto indexBufferCreateInfo = get_default<VkBufferCreateInfo>();
+        indexBufferCreateInfo.size = (VkDeviceSize)vertices.size() * sizeof(Vertex);
+        indexBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
+        dst_vk(create<Managed<VkBuffer>>(get_device(), &vertexBufferCreateInfo, nullptr, &mIndexBuffer));
+        VkMemoryRequirements indexBufferMemoryRequirements { };
+        vkGetBufferMemoryRequirements(get_device(), mIndexBuffer, &indexBufferMemoryRequirements);
+
+        auto memoryTypeBits = vertexBufferMemoryRequirements.memoryTypeBits & indexBufferMemoryRequirements.memoryTypeBits;
+        auto memoryTypeIndex = get_memory_type_index(get_physical_device(), memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+        assert(memoryTypeIndex.has_value() && "TODO : Error handling");
+        auto memoryAllocateInfo = get_default<VkMemoryAllocateInfo>();
+        memoryAllocateInfo.memoryTypeIndex = memoryTypeIndex.value();
+        memoryAllocateInfo.allocationSize = vertexBufferMemoryRequirements.size;
+        memoryAllocateInfo.allocationSize += memoryAllocateInfo.allocationSize % indexBufferMemoryRequirements.alignment;
+        auto indexBufferMemoryOffset = memoryAllocateInfo.allocationSize;
+        memoryAllocateInfo.allocationSize += indexBufferMemoryRequirements.size;
+        Managed<VkDeviceMemory> memory;
+        dst_vk(allocate<Managed<VkDeviceMemory>>(get_device(), &memoryAllocateInfo, nullptr, &memory));
+        dst_vk(bind_memory(mVertexBuffer, memory, 0));
+        dst_vk(bind_memory(mIndexBuffer, memory, indexBufferMemoryOffset));
+
+        auto stagingBufferCreateInfo = get_default<VkBufferCreateInfo>();
+        stagingBufferCreateInfo.size = std::max(vertexBufferCreateInfo.size, indexBufferCreateInfo.size);
+        stagingBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+        Managed<VkBuffer> stagingBuffer;
+        dst_vk(create<Managed<VkBuffer>>(get_device(), &stagingBufferCreateInfo, nullptr, &stagingBuffer));
+        VkMemoryRequirements stagingBufferMemoryRequirements { };
+        vkGetBufferMemoryRequirements(get_device(), mIndexBuffer, &stagingBufferMemoryRequirements);
+        auto stagingMemoryTypeBits = stagingBufferMemoryRequirements.memoryTypeBits;
+        auto stagingMemoryPropertyFlags = VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT;
+        auto stagingMemoryTypeIndex = get_memory_type_index(get_physical_device(), stagingMemoryTypeBits, stagingMemoryPropertyFlags);
+        assert(stagingMemoryTypeIndex.has_value() && "TODO : Error handling");
+        auto stagingMemoryAllocateInfo = get_default<VkMemoryAllocateInfo>();
+        stagingMemoryAllocateInfo.memoryTypeIndex = stagingMemoryTypeIndex.value();
+        stagingMemoryAllocateInfo.allocationSize = stagingBufferMemoryRequirements.size;
+        Managed<VkDeviceMemory> stagingMemory;
+        dst_vk(allocate<Managed<VkDeviceMemory>>(get_device(), &stagingMemoryAllocateInfo, nullptr, &stagingMemory));
+        dst_vk(bind_memory(stagingBuffer, stagingMemory, 0));
+
+        process_immediately(
+            [&](const Managed<VkCommandBuffer>& commandBuffer)
+            {
+                uint8_t* pStagingData = nullptr;
+                dst_vk(vkMapMemory(get_device(), stagingMemory, 0, VK_WHOLE_SIZE, 0, (void**)&pStagingData));
+                assert(pStagingData && "TODO : Error handling");
+                memcpy(pStagingData, vertices.data(), vertexBufferCreateInfo.size);
+                vkUnmapMemory(get_device(), stagingMemory);
+                VkBufferCopy bufferCopy { };
+                bufferCopy.size = vertexBufferCreateInfo.size;
+                vkCmdCopyBuffer(commandBuffer, stagingBuffer, mVertexBuffer, 1, &bufferCopy);
+            }
+        );
+
+        process_immediately(
+            [&](const Managed<VkCommandBuffer>& commandBuffer)
+            {
+                uint8_t* pStagingData = nullptr;
+                dst_vk(vkMapMemory(get_device(), stagingMemory, 0, VK_WHOLE_SIZE, 0, (void**)&pStagingData));
+                assert(pStagingData && "TODO : Error handling");
+                memcpy(pStagingData, indices.data(), indexBufferCreateInfo.size);
+                vkUnmapMemory(get_device(), stagingMemory);
+                VkBufferCopy bufferCopy { };
+                bufferCopy.size = indexBufferCreateInfo.size;
+                vkCmdCopyBuffer(commandBuffer, stagingBuffer, mIndexBuffer, 1, &bufferCopy);
+            }
+        );
     }
 
     inline void record_command_buffers()

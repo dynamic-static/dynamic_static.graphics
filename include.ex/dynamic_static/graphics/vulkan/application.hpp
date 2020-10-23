@@ -232,6 +232,39 @@ protected:
     */
     virtual void post_render(const dst::Clock& clock) override;
 
+    /**
+    TODO : Documentation
+    */
+    template <typename FunctionType>
+    inline void process_immediately(FunctionType function)
+    {
+        // TODO : This function's no good...it would be much nicer to have a mechanism
+        //  in place that would provide a "utility" VkCommandBuffer from a VkCommandPool
+        //  associated with the calling thread...this isn't really the right place for
+        //  something like that...this'll do for now...
+        if (!mImmediateCommandBuffer) {
+            auto commandPoolCreateInfo = get_default<VkCommandPoolCreateInfo>();
+            commandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT | VK_COMMAND_POOL_CREATE_TRANSIENT_BIT;
+            commandPoolCreateInfo.queueFamilyIndex = mGeneralQueue.get<Managed<VkDeviceQueueCreateInfo>>()->queueFamilyIndex;
+            Managed<VkCommandPool> commandPool;
+            dst_vk(create<Managed<VkCommandPool>>(get_device(), &commandPoolCreateInfo, nullptr, &commandPool));
+            auto commandBufferAllocateInfo = get_default<VkCommandBufferAllocateInfo>();
+            commandBufferAllocateInfo.commandPool = commandPool;
+            commandBufferAllocateInfo.commandBufferCount = 1;
+            dst_vk(allocate<Managed<VkCommandBuffer>>(get_device(), &commandBufferAllocateInfo, &mImmediateCommandBuffer));
+        }
+        auto commandBufferBeginInfo = get_default<VkCommandBufferBeginInfo>();
+        commandBufferBeginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+        dst_vk(vkBeginCommandBuffer(mImmediateCommandBuffer, &commandBufferBeginInfo));
+        function(mImmediateCommandBuffer);
+        dst_vk(vkEndCommandBuffer(mImmediateCommandBuffer));
+        auto submitInfo = get_default<VkSubmitInfo>();
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &*mImmediateCommandBuffer;
+        dst_vk(vkQueueSubmit(mGeneralQueue, 1, &submitInfo, VK_NULL_HANDLE));
+        dst_vk(vkQueueWaitIdle(mGeneralQueue));
+    }
+
 private:
     Managed<VkApplicationInfo> mApplicationInfo { get_default<VkApplicationInfo>() };
     std::vector<const char*> mLayers;
@@ -252,6 +285,7 @@ private:
     std::vector<Managed<VkCommandBuffer>> mSwapchainCommandBuffers;
     Managed<VkSemaphore> mSwapchainImageAcquiredSemaphore;
     Managed<VkSemaphore> mSwapchainImageRenderedSemaphore;
+    Managed<VkCommandBuffer> mImmediateCommandBuffer;
 };
 
 } // namespace vk

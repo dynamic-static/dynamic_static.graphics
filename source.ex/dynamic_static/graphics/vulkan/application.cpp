@@ -473,7 +473,7 @@ std::vector<Managed<VkFramebuffer>> Application::setup_swapchain_framebuffers() 
 std::vector<Managed<VkCommandBuffer>> Application::setup_swapchain_command_buffers() const
 {
     auto commandPoolCreateInfo = get_default<VkCommandPoolCreateInfo>();
-    commandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+    commandPoolCreateInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT | VK_COMMAND_POOL_CREATE_TRANSIENT_BIT;
     commandPoolCreateInfo.queueFamilyIndex = get_graphics_queue().get<Managed<VkDeviceQueueCreateInfo>>()->queueFamilyIndex;
     Managed<VkCommandPool> commandPool;
     if (dst_vk(create<Managed<VkCommandPool>>(get_device(), &commandPoolCreateInfo, nullptr, &commandPool)) == VK_SUCCESS) {

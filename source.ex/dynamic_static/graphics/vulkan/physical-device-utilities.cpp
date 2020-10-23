@@ -63,5 +63,18 @@ Managed<VkQueue> get_device_queue(const Managed<VkDevice>& device, VkQueueFlags 
     return { };
 }
 
+std::optional<uint32_t> get_memory_type_index(VkPhysicalDevice vkPhysicalDevice, uint32_t memoryTypeBits, VkMemoryPropertyFlags memoryPropertyFlags)
+{
+    VkPhysicalDeviceMemoryProperties physicalDeviceMemoryProperties { };
+    vkGetPhysicalDeviceMemoryProperties(vkPhysicalDevice, &physicalDeviceMemoryProperties);
+    for (uint32_t i = 0; i < physicalDeviceMemoryProperties.memoryTypeCount; ++i) {
+        const auto& memoryType = physicalDeviceMemoryProperties.memoryTypes[i];
+        if (memoryTypeBits & (1 << i) && (memoryType.propertyFlags & memoryPropertyFlags) == memoryPropertyFlags) {
+            return i;
+        }
+    }
+    return { };
+}
+
 } // namespace vk
 } // namespace dst

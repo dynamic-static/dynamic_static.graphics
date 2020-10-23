@@ -25,6 +25,14 @@
 namespace dst {
 namespace vk {
 
+/**
+TODO : Documentation
+*/
+using Handle = uint64_t;
+
+/**
+TODO : Documentation
+*/
 template <typename T, class Enable = void>
 class Managed
 {
@@ -43,10 +51,17 @@ inline void on_managed_handle_destroyed(Managed<VulkanHandleType>&)
 }
 
 template <typename LeadManagedHandleType, typename FollowManagedHandleType>
-void resolve_circular_references(const LeadManagedHandleType& leadManagedHandle);
+void resolve_circular_references(const LeadManagedHandleType&);
 
 template <typename ManagedHandleType>
-inline VkResult bind_memory(ManagedHandleType& managedHandle, Managed<VkDeviceMemory>& memory, VkDeviceSize memoryOffset)
+inline VkResult bind_memory(ManagedHandleType&, Managed<VkDeviceMemory>&, VkDeviceSize)
+{
+    static_assert(false, "TODO : Documentation");
+    return VK_ERROR_INITIALIZATION_FAILED;
+}
+
+template <typename VulkanBindMemoryInfoType>
+inline VkResult bind_memory(VkDevice, uint32_t, const VulkanBindMemoryInfoType*)
 {
     static_assert(false, "TODO : Documentation");
     return VK_ERROR_INITIALIZATION_FAILED;
@@ -332,8 +347,10 @@ public:
     template <typename T>
     inline const T& get() const
     {
-        assert(mspControlBlock);
-        return mspControlBlock->get<T>();
+        assert(mspControlBlock && "TODO : Documentation");
+        auto const& obj = mspControlBlock->get<T>();
+
+        return obj;
     }
 
     /**
@@ -465,6 +482,8 @@ private:
     friend void detail::resolve_circular_references(const LeadManagedHandleType&);
     template <typename ManagedHandleType>
     friend VkResult detail::bind_memory(ManagedHandleType&, Managed<VkDeviceMemory>&, VkDeviceSize);
+    template <typename VulkanBindMemoryInfoType>
+    friend VkResult detail::bind_memory(VkDevice, uint32_t, const VulkanBindMemoryInfoType*);
 };
 
 /**
@@ -492,6 +511,15 @@ template <typename ManagedHandleType>
 inline VkResult bind_memory(ManagedHandleType& managedHandle, Managed<VkDeviceMemory>& memory, VkDeviceSize memoryOffset)
 {
     return detail::bind_memory(managedHandle, memory, memoryOffset);
+}
+
+/**
+TODO : Documentation
+*/
+template <typename VulkanBindMemoryInfoType>
+inline VkResult bind_memory(VkDevice vkDevice, uint32_t bindInfoCount, const VulkanBindMemoryInfoType* pBindInfos)
+{
+    return detail::bind_memory(vkDevice, bindInfoCount, pBindInfos);
 }
 
 } // namespace vk
