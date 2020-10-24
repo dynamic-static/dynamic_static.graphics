@@ -145,6 +145,14 @@ ShaderReflectionInfo reflect_shader(const Managed<VkShaderModule>& shaderModule)
                 pipelineShaderStageCreateInfo.module = shaderModule;
                 pipelineShaderStageCreateInfo.pName = spvReflectShaderModule.entry_point_name;
                 shaderReflectionInfo.pipelineShaderStageCreateInfo = pipelineShaderStageCreateInfo;
+
+                shaderReflectionInfo.descriptorSetLayoutBindings.resize(spvReflectShaderModule.descriptor_set_count);
+                for (uint32_t i = 0; i < spvReflectShaderModule.descriptor_set_count; ++i) {
+                    auto const& spvReflectDescriptorSet = spvReflectShaderModule.descriptor_sets[i];
+                    auto descriptorSetLayoutBinding = get_default<VkDescriptorSetLayoutBinding>();
+                    // descriptorSetLayoutBinding.binding = 
+                }
+
                 spvReflectDestroyShaderModule(&spvReflectShaderModule);
             }
         }
