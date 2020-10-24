@@ -132,6 +132,8 @@ ShaderReflectionInfo reflect_shader(const Managed<VkShaderModule>& shaderModule)
             // TODO : Better error handling
             if (spvReflectCreateShaderModule(shaderModuleCreateInfo->codeSize, shaderModuleCreateInfo->pCode, &spvReflectShaderModule) == SPV_REFLECT_RESULT_SUCCESS) {
                 assert(spvReflectShaderModule.entry_point_count == 1 && "TODO : Setup support for multiple entry points...");
+                // TODO : Break this function up...
+                ////////////////////////////////////////////////////////////////////////////////
                 auto pipelineShaderStageCreateInfo = get_default<VkPipelineShaderStageCreateInfo>();
                 switch (spvReflectShaderModule.shader_stage) {
                 case SPV_REFLECT_SHADER_STAGE_VERTEX_BIT: pipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_VERTEX_BIT; break;
@@ -140,19 +142,47 @@ ShaderReflectionInfo reflect_shader(const Managed<VkShaderModule>& shaderModule)
                 case SPV_REFLECT_SHADER_STAGE_GEOMETRY_BIT: pipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_GEOMETRY_BIT; break;
                 case SPV_REFLECT_SHADER_STAGE_FRAGMENT_BIT: pipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT; break;
                 case SPV_REFLECT_SHADER_STAGE_COMPUTE_BIT: pipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_COMPUTE_BIT; break;
-                default: assert(false && "TODO : Better error handling");
+                default: assert(false && "TODO : Error handling");
                 }
                 pipelineShaderStageCreateInfo.module = shaderModule;
                 pipelineShaderStageCreateInfo.pName = spvReflectShaderModule.entry_point_name;
                 shaderReflectionInfo.pipelineShaderStageCreateInfo = pipelineShaderStageCreateInfo;
-
-                shaderReflectionInfo.descriptorSetLayoutBindings.resize(spvReflectShaderModule.descriptor_set_count);
-                for (uint32_t i = 0; i < spvReflectShaderModule.descriptor_set_count; ++i) {
-                    auto const& spvReflectDescriptorSet = spvReflectShaderModule.descriptor_sets[i];
-                    auto descriptorSetLayoutBinding = get_default<VkDescriptorSetLayoutBinding>();
-                    // descriptorSetLayoutBinding.binding = 
+                ////////////////////////////////////////////////////////////////////////////////
+                shaderReflectionInfo.descriptorSetLayoutBindings.reserve(spvReflectShaderModule.descriptor_set_count);
+                for (uint32_t descriptorSet_i = 0; descriptorSet_i < spvReflectShaderModule.descriptor_set_count; ++descriptorSet_i) {
+                    auto const& spvReflectDescriptorSet = spvReflectShaderModule.descriptor_sets[descriptorSet_i];
+                    std::vector<VkDescriptorSetLayoutBinding> descriptorSetLayoutBindings;
+                    descriptorSetLayoutBindings.reserve(spvReflectDescriptorSet.binding_count);
+                    for (uint32_t binding_i = 0; binding_i < spvReflectDescriptorSet.binding_count; ++binding_i) {
+                        auto const& pSpvReflectDescriptorBinding = spvReflectDescriptorSet.bindings[binding_i];
+                        if (pSpvReflectDescriptorBinding) {
+                            auto descriptorSetLayoutBinding = get_default<VkDescriptorSetLayoutBinding>();
+                            descriptorSetLayoutBinding.binding = pSpvReflectDescriptorBinding->binding;
+                            switch (pSpvReflectDescriptorBinding->descriptor_type) {
+                            case SPV_REFLECT_DESCRIPTOR_TYPE_SAMPLER: descriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_SAMPLER; break;
+                            case SPV_REFLECT_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER: descriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER; break;
+                            case SPV_REFLECT_DESCRIPTOR_TYPE_SAMPLED_IMAGE: descriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE; break;
+                            case SPV_REFLECT_DESCRIPTOR_TYPE_STORAGE_IMAGE: descriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE; break;
+                            case SPV_REFLECT_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER: descriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER; break;
+                            case SPV_REFLECT_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER: descriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER; break;
+                            case SPV_REFLECT_DESCRIPTOR_TYPE_UNIFORM_BUFFER: descriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER; break;
+                            case SPV_REFLECT_DESCRIPTOR_TYPE_STORAGE_BUFFER: descriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER; break;
+                            case SPV_REFLECT_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC: descriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC; break;
+                            case SPV_REFLECT_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC: descriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC; break;
+                            case SPV_REFLECT_DESCRIPTOR_TYPE_INPUT_ATTACHMENT: descriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT; break;
+                            // TODO : VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK_EXT
+                            // TODO : VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_KHR
+                            default: assert(false && "TODO : Error handling");
+                            }
+                            descriptorSetLayoutBinding.descriptorCount = pSpvReflectDescriptorBinding->count;
+                            // TODO : Multi stage visibility
+                            descriptorSetLayoutBinding.stageFlags = pipelineShaderStageCreateInfo.stage;
+                            descriptorSetLayoutBindings.push_back(descriptorSetLayoutBinding);
+                        }
+                    }
+                    shaderReflectionInfo.descriptorSetLayoutBindings.push_back({ spvReflectDescriptorSet.set, std::move(descriptorSetLayoutBindings) });
                 }
-
+                ////////////////////////////////////////////////////////////////////////////////
                 spvReflectDestroyShaderModule(&spvReflectShaderModule);
             }
         }

@@ -327,32 +327,49 @@ Managed<VkCommandBuffer>::ControlBlock::~ControlBlock()
     vkFreeCommandBuffers(device, commandPool, 1, &get<VkCommandBuffer>());
 }
 
-#if 0
+Managed<VkDescriptorSet>::ControlBlock::ControlBlock(VkDescriptorSet vkHandle)
+{
+    assert(vkHandle);
+    set(std::move(vkHandle));
+}
+
 VkResult Managed<VkDescriptorSet>::ControlBlock::allocate(const Managed<VkDevice>& device, const VkDescriptorSetAllocateInfo* pAllocateInfo, Managed<VkDescriptorSet>* pDescriptorSets)
 {
     auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
-    if (pDescriptorSets) {
-        #if 0
-        pDescriptorSets->reset();
-        VkDescriptorSet vkHandle = VK_NULL_HANDLE;
-        vkResult = vkAllocateDescriptorSets(device, pAllocateInfo, &vkHandle);
-        if (vkResult == VK_SUCCESS) {
-            pDescriptorSets->mVkHandle = vkHandle;
-            pDescriptorSets->mspControlBlock = std::make_shared<Managed<VkDescriptorSet>::ControlBlock>();
-            pDescriptorSets->mspControlBlock->set(VK_OBJECT_TYPE_DESCRIPTOR_SET);
-            pDescriptorSets->mspControlBlock->set(std::move(Managed<VkDevice>(device)));
-            pDescriptorSets->mspControlBlock->set(std::move(Managed<VkDescriptorSetAllocateInfo>(*pAllocateInfo)));
-            pDescriptorSets->mspControlBlock->set(std::move(vkHandle));
+    if (pAllocateInfo && pAllocateInfo->descriptorSetCount && pDescriptorSets) {
+        for (uint32_t i = 0; i < pAllocateInfo->descriptorSetCount; ++i) {
+            pDescriptorSets[i].reset();
         }
-        #endif
+        Managed<VkDescriptorPool> descriptorPool(pAllocateInfo->descriptorPool);
+        if (descriptorPool) {
+            // TODO : Scratch pad allocator...
+            std::vector<VkDescriptorSet> vkDescriptorSets(pAllocateInfo->descriptorSetCount);
+            vkResult = dst_vk(vkAllocateDescriptorSets(device, pAllocateInfo, vkDescriptorSets.data()));
+            if (vkResult == VK_SUCCESS) {
+                for (uint32_t i = 0; i < pAllocateInfo->descriptorSetCount; ++i) {
+                    pDescriptorSets[i].mVkHandle = vkDescriptorSets[i];
+                    pDescriptorSets[i].mspControlBlock = Managed<VkDescriptorSet>::create_control_block(vkDescriptorSets[i]);
+                    pDescriptorSets[i].mspControlBlock->set(VK_OBJECT_TYPE_COMMAND_BUFFER);
+                    pDescriptorSets[i].mspControlBlock->set(std::move(Managed<VkDescriptorPool>(descriptorPool)));
+                    pDescriptorSets[i].mspControlBlock->set(std::move(Managed<VkDescriptorSetAllocateInfo>(*pAllocateInfo)));
+                    pDescriptorSets[i].mspControlBlock->set(std::move(vkDescriptorSets[i]));
+                }
+            }
+        }
     }
     return vkResult;
 }
 
 Managed<VkDescriptorSet>::ControlBlock::~ControlBlock()
 {
+    assert(get<VkDescriptorSet>());
+    unregister_control_block(get<VkDescriptorSet>());
+    const auto& descriptorPool = get<Managed<VkDescriptorPool>>();
+    assert(descriptorPool);
+    const auto& device = descriptorPool.get<Managed<VkDevice>>();
+    assert(device);
+    vkFreeDescriptorSets(device, descriptorPool, 1, &get<VkDescriptorSet>());
 }
-#endif
 
 Managed<VkFramebuffer>::ControlBlock::ControlBlock(VkFramebuffer vkHandle)
 {

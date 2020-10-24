@@ -27,7 +27,7 @@ class ShaderReflectionInfo final
 {
 public:
     Managed<VkPipelineShaderStageCreateInfo> pipelineShaderStageCreateInfo { get_default<VkPipelineShaderStageCreateInfo>() }; //!< TODO : Docuemntation
-    std::vector<VkDescriptorSetLayoutBinding> descriptorSetLayoutBindings;                                                     //!< TODO : Documentation
+    std::vector<std::pair<uint32_t, std::vector<VkDescriptorSetLayoutBinding>>> descriptorSetLayoutBindings;                   //!< TODO : Documentation
     std::vector<VkPushConstantRange> pushConstantRanges;                                                                       //!< TODO : Documentation
 };
 

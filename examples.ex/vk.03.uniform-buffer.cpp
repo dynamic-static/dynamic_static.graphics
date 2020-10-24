@@ -20,7 +20,7 @@ class VulkanExample_03_VertexBuffer final
     : public dst::vk::Application
 {
 public:
-    static constexpr char* Name { "dynamic_static Vulkan example 02 Uniform Buffer" };
+    static constexpr char* Name { "dynamic_static Vulkan example 03 Uniform Buffer" };
 
     inline VulkanExample_03_VertexBuffer()
         : dst::vk::Application(
@@ -61,6 +61,7 @@ private:
         setup_pipeline_and_descriptor_set_layout();
         setup_vertex_and_index_buffers();
         setup_uniform_buffer();
+        setup_descriptor_set();
         record_command_buffers();
         return true;
     }
@@ -133,16 +134,15 @@ private:
 
         auto descriptorSetLayoutCreateInfo = get_default<VkDescriptorSetLayoutCreateInfo>();
         const auto& descriptorSetLayoutBindings = vertexShaderReflectionInfo.descriptorSetLayoutBindings;
-        descriptorSetLayoutCreateInfo.bindingCount = (uint32_t)descriptorSetLayoutBindings.size();
-        descriptorSetLayoutCreateInfo.pBindings = !descriptorSetLayoutBindings.empty() ? descriptorSetLayoutBindings.data() : nullptr;
-        
-
+        assert(descriptorSetLayoutBindings.size() == 1 && "TODO : Error handling");
+        descriptorSetLayoutCreateInfo.bindingCount = (uint32_t)descriptorSetLayoutBindings[0].second.size();
+        descriptorSetLayoutCreateInfo.pBindings = !descriptorSetLayoutBindings[0].second.empty() ? descriptorSetLayoutBindings[0].second.data() : nullptr;
+        dst_vk(create<Managed<VkDescriptorSetLayout>>(get_device(), &descriptorSetLayoutCreateInfo, nullptr, &mDescriptorSetLayout));
 
         auto pipelineLayoutCreateInfo = get_default<VkPipelineLayoutCreateInfo>();
         pipelineLayoutCreateInfo.setLayoutCount = 1;
-        pipelineLayoutCreateInfo.pSetLayouts = nullptr;
-        Managed<VkPipelineLayout> pipelineLayout;
-        dst_vk(create<Managed<VkPipelineLayout>>(get_device(), &pipelineLayoutCreateInfo, nullptr, &pipelineLayout));
+        pipelineLayoutCreateInfo.pSetLayouts = &*mDescriptorSetLayout;
+        dst_vk(create<Managed<VkPipelineLayout>>(get_device(), &pipelineLayoutCreateInfo, nullptr, &mPipelineLayout));
 
         auto vertexInputBindingDescription = get_vertex_input_binding_description<Vertex>(0);
         auto vertexInputAttributeDescriptions = get_vertex_input_attribute_descriptions<glm::vec3, glm::vec4>(0);
@@ -156,7 +156,7 @@ private:
         graphicsPipelineCreateInfo.stageCount = (uint32_t)pipelineShaderStageCreateInfos.size();
         graphicsPipelineCreateInfo.pStages = pipelineShaderStageCreateInfos.data();
         graphicsPipelineCreateInfo.pVertexInputState = &pipelineVertexInputState;
-        graphicsPipelineCreateInfo.layout = pipelineLayout;
+        graphicsPipelineCreateInfo.layout = mPipelineLayout;
         graphicsPipelineCreateInfo.renderPass = get_swapchain_render_pass();
         dst_vk(create<Managed<VkPipeline>>(get_device(), VK_NULL_HANDLE, 1, &graphicsPipelineCreateInfo, nullptr, &mPipeline));
     }
@@ -165,10 +165,10 @@ private:
     {
         using namespace dst::vk;
         std::array<Vertex, 4> vertices {
-            Vertex {{ -0.5f, -0.5f, 0.0f }, { dst::Color<>::OrangeRed }},
-            Vertex {{  0.5f, -0.5f, 0.0f }, { dst::Color<>::BlueViolet }},
-            Vertex {{  0.5f,  0.5f, 0.0f }, { dst::Color<>::DodgerBlue }},
-            Vertex {{ -0.5f,  0.5f, 0.0f }, { dst::Color<>::Goldenrod }},
+            Vertex {{ -0.5f, 0.0f, -0.5f }, { dst::Color<>::OrangeRed }},
+            Vertex {{  0.5f, 0.0f, -0.5f }, { dst::Color<>::BlueViolet }},
+            Vertex {{  0.5f, 0.0f,  0.5f }, { dst::Color<>::DodgerBlue }},
+            Vertex {{ -0.5f, 0.0f,  0.5f }, { dst::Color<>::Goldenrod }},
         };
         auto vertexBufferCreateInfo = get_default<VkBufferCreateInfo>();
         vertexBufferCreateInfo.size = (VkDeviceSize)vertices.size() * sizeof(vertices[0]);
@@ -209,7 +209,7 @@ private:
         Managed<VkBuffer> stagingBuffer;
         dst_vk(create<Managed<VkBuffer>>(get_device(), &stagingBufferCreateInfo, nullptr, &stagingBuffer));
         VkMemoryRequirements stagingBufferMemoryRequirements { };
-        vkGetBufferMemoryRequirements(get_device(), mIndexBuffer, &stagingBufferMemoryRequirements);
+        vkGetBufferMemoryRequirements(get_device(), stagingBuffer, &stagingBufferMemoryRequirements);
         auto stagingMemoryTypeBits = stagingBufferMemoryRequirements.memoryTypeBits;
         auto stagingMemoryPropertyFlags = VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT;
         auto stagingMemoryTypeIndex = get_memory_type_index(get_physical_device(), stagingMemoryTypeBits, stagingMemoryPropertyFlags);
@@ -272,6 +272,35 @@ private:
         dst_vk(vkMapMemory(get_device(), memory, 0, VK_WHOLE_SIZE, 0, (void**)&mpUniformBufferData));
     }
 
+    inline void setup_descriptor_set()
+    {
+        using namespace dst::vk;
+        auto descriptorPoolSize = get_default<VkDescriptorPoolSize>();
+        descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        descriptorPoolSize.descriptorCount = 1;
+        auto descriptorPoolCreateInfo = get_default<VkDescriptorPoolCreateInfo>();
+        descriptorPoolCreateInfo.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+        descriptorPoolCreateInfo.maxSets = 1;
+        descriptorPoolCreateInfo.poolSizeCount = 1;
+        descriptorPoolCreateInfo.pPoolSizes = &descriptorPoolSize;
+        Managed<VkDescriptorPool> descriptorPool;
+        dst_vk(create<Managed<VkDescriptorPool>>(get_device(), &descriptorPoolCreateInfo, nullptr, &descriptorPool));
+        auto descriptorSetAllocateInfo = get_default<VkDescriptorSetAllocateInfo>();
+        descriptorSetAllocateInfo.descriptorPool = descriptorPool;
+        descriptorSetAllocateInfo.descriptorSetCount = 1;
+        descriptorSetAllocateInfo.pSetLayouts = &*mDescriptorSetLayout;
+        dst_vk(allocate<Managed<VkDescriptorSet>>(get_device(), &descriptorSetAllocateInfo, &mDescriptorSet));
+        auto descriptorBufferInfo = get_default<VkDescriptorBufferInfo>();
+        descriptorBufferInfo.buffer = mUniformBuffer;
+        descriptorBufferInfo.range = VK_WHOLE_SIZE;
+        auto writeDescriptorSet = get_default<VkWriteDescriptorSet>();
+        writeDescriptorSet.dstSet = mDescriptorSet;
+        writeDescriptorSet.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        writeDescriptorSet.descriptorCount = 1;
+        writeDescriptorSet.pBufferInfo = &descriptorBufferInfo;
+        vkUpdateDescriptorSets(get_device(), 1, &writeDescriptorSet, 0, nullptr);
+    }
+
     inline void record_command_buffers()
     {
         using namespace dst::vk;
@@ -291,6 +320,7 @@ private:
             renderPassBeginInfo.pClearValues = clearValues.data();
             vkCmdBeginRenderPass(commandBuffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
             vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, mPipeline);
+            vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, mPipelineLayout, 0, 1, &*mDescriptorSet, 0, nullptr);
             VkRect2D scissor { };
             scissor.extent = extent;
             vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
@@ -353,11 +383,13 @@ private:
         dst_vk(vkQueueWaitIdle(get_graphics_queue()));
     }
 
+    dst::vk::Managed<VkDescriptorSetLayout> mDescriptorSetLayout;
+    dst::vk::Managed<VkPipelineLayout> mPipelineLayout;
     dst::vk::Managed<VkPipeline> mPipeline;
     dst::vk::Managed<VkBuffer> mVertexBuffer;
     dst::vk::Managed<VkBuffer> mIndexBuffer;
     dst::vk::Managed<VkBuffer> mUniformBuffer;
-    dst::vk::Managed<VkDescriptorSetLayout> mDescriptorSetLayout;
+    dst::vk::Managed<VkDescriptorSet> mDescriptorSet;
     uint8_t* mpUniformBufferData { nullptr };
     size_t mIndexCount { 0 };
     float mRotation { 0.0f };

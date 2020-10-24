@@ -184,7 +184,7 @@ private:
         Managed<VkBuffer> stagingBuffer;
         dst_vk(create<Managed<VkBuffer>>(get_device(), &stagingBufferCreateInfo, nullptr, &stagingBuffer));
         VkMemoryRequirements stagingBufferMemoryRequirements { };
-        vkGetBufferMemoryRequirements(get_device(), mIndexBuffer, &stagingBufferMemoryRequirements);
+        vkGetBufferMemoryRequirements(get_device(), stagingBuffer, &stagingBufferMemoryRequirements);
         auto stagingMemoryTypeBits = stagingBufferMemoryRequirements.memoryTypeBits;
         auto stagingMemoryPropertyFlags = VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT;
         auto stagingMemoryTypeIndex = get_memory_type_index(get_physical_device(), stagingMemoryTypeBits, stagingMemoryPropertyFlags);
