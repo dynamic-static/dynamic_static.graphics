@@ -9,7 +9,7 @@
 */
 
 #include "dynamic_static/graphics/vulkan/application.hpp"
-#include "dynamic_static/graphics/vulkan/shader-compiler.hpp"
+#include "dynamic_static/graphics/vulkan/shader-module-utilities.hpp"
 
 class VulkanExample_01_Triangle final
     : public dst::vk::Application

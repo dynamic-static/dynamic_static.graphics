@@ -451,6 +451,50 @@ VkResult Managed<VkImageView>::ControlBlock::create(const Managed<VkDevice>& dev
     return vkResult;
 }
 
+#if 0
+VkResult Managed<VkImageView>::ControlBlock::create(const Managed<VkImage>& image, const VkAllocationCallbacks* pAllocator, Managed<VkImageView>* pView)
+{
+    // TODO : This function needs some work to support VK_IMAGE_VIEW_TYPE_CUBE,
+    //  and VK_IMAGE_VIEW_TYPE_CUBE_ARRAY...there should also be checks that the
+    //  VkImage has proper flags set for VK_IMAGE_VIEW_TYPE_2D_ARRAY
+    auto vkResult = VK_ERROR_INITIALIZATION_FAILED;
+    if (pView) {
+        pView->reset();
+        if (image) {
+            auto const& imageCreateInfo = image.get<VkImageCreateInfo>();
+            auto imageViewCreateInfo = get_default<VkImageViewCreateInfo>();
+            imageViewCreateInfo.image = image;
+            if (1 <= imageCreateInfo.arrayLayers) {
+                switch (imageCreateInfo.imageType) {
+                case VK_IMAGE_TYPE_1D: imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_1D; break;
+                case VK_IMAGE_TYPE_2D: imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_1D; break;
+                case VK_IMAGE_TYPE_3D: imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_3D; break;
+                default: return VK_ERROR_VALIDATION_FAILED_EXT;
+                }
+            } else {
+                switch (imageCreateInfo.imageType) {
+                case VK_IMAGE_TYPE_1D: imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_1D_ARRAY; break;
+                case VK_IMAGE_TYPE_2D: imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_1D_ARRAY; break;
+                default: return VK_ERROR_VALIDATION_FAILED_EXT;
+                }
+            }
+            imageViewCreateInfo.format = imageCreateInfo.format;
+            if (imageCreateInfo.usage & VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT) {
+                imageViewCreateInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
+            } else {
+                imageViewCreateInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+            }
+            imageViewCreateInfo.subresourceRange.baseMipLevel = 0;
+            imageViewCreateInfo.subresourceRange.levelCount = imageCreateInfo.mipLevels;
+            imageViewCreateInfo.subresourceRange.baseArrayLayer = 0;
+            imageViewCreateInfo.subresourceRange.layerCount = imageCreateInfo.arrayLayers;
+            vkResult = vk::create<Managed<VkImageView>>(image.get<Managed<VkDevice>>(), &imageViewCreateInfo, pAllocator, pView);
+        }
+    }
+    return vkResult;
+}
+#endif
+
 Managed<VkImageView>::ControlBlock::~ControlBlock()
 {
     assert(get<VkImageView>());

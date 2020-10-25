@@ -9,10 +9,7 @@
 */
 
 #include "dynamic_static/core/color.hpp"
-#include "dynamic_static/graphics/vulkan/application.hpp"
-#include "dynamic_static/graphics/vulkan/physical-device-utilities.hpp"
-#include "dynamic_static/graphics/vulkan/shader-compiler.hpp"
-#include "dynamic_static/graphics/vulkan/vertex-utilities.hpp"
+#include "dynamic_static/graphics/vulkan.hpp"
 
 #include <algorithm>
 

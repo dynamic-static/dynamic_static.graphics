@@ -61,6 +61,9 @@ inline void generate_managed_control_block_declarations(const xml::Manifest& xml
         #endif // ${COMPILE_GUARD}
         $</>
         $</>
+        $<CUSTOM_CREATE_FUNCTIONS>
+        static ${CUSTOM_CREATE_FUNCTION};
+        $</>
         ControlBlock(${HANDLE_TYPE_NAME} vkHandle);
         ~ControlBlock();
 

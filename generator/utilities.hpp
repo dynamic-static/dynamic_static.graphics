@@ -39,6 +39,17 @@ inline std::string strip_vk(const std::string& str)
     return string::remove(string::remove(string::remove(str, "VK_"), "Vk"), "vk");
 }
 
+inline std::vector<std::string> get_custom_handle_ctors(const std::string& handleType)
+{
+    static const std::unordered_map<std::string, std::vector<std::string>> sCustomHandleCtors {
+        #if 0
+        { "VkImageView", { "VkResult create(const Managed<VkImage>& image, const VkAllocationCallbacks* pAllocator, Managed<VkImageView>* pImageView)" }},
+        #endif
+    };
+    auto itr = sCustomHandleCtors.find(handleType);
+    return itr != sCustomHandleCtors.end() ? itr->second : std::vector<std::string> { };
+}
+
 inline std::vector<std::string> get_custom_handle_fields(const std::string& handleType)
 {
     static const std::unordered_map<std::string, std::vector<std::string>> sCustomHandleFields {
@@ -537,6 +548,12 @@ inline dst::cppgen::SourceBlock get_handle_source_blocks(const xml::Manifest& xm
                                 };
                             }
                             return { };
+                        }
+                    ),
+                    SourceBlock("CUSTOM_CREATE_FUNCTIONS", get_custom_handle_ctors(handle.name),
+                        [&](const std::string& customCreateFunction) -> std::vector<SourceBlock>
+                        {
+                            return { SourceBlock("CUSTOM_CREATE_FUNCTION", customCreateFunction) };
                         }
                     ),
                     SourceBlock("DESTROY_FUNCTIONS", handle.destroyFunctions,

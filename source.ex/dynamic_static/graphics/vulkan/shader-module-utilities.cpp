@@ -8,7 +8,7 @@
 ==========================================
 */
 
-#include "dynamic_static/graphics/vulkan/shader-compiler.hpp"
+#include "dynamic_static/graphics/vulkan/shader-module-utilities.hpp"
 
 #include "glslang/Public/ShaderLang.h"
 #include "glslang/SPIRV/GlslangToSpv.h"
@@ -51,19 +51,19 @@ static const TBuiltInResource& get_built_in_resource();
 std::vector<uint32_t> compile_glsl_to_spirv(const std::filesystem::path& filePath)
 {
     static const std::unordered_map<std::string, VkShaderStageFlagBits> ExtensionToStage {
-            { ".vert", VK_SHADER_STAGE_VERTEX_BIT },
-            { ".tesc", VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT },
-            { ".tese", VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT },
-            { ".geom", VK_SHADER_STAGE_GEOMETRY_BIT },
-            { ".frag", VK_SHADER_STAGE_FRAGMENT_BIT },
-            { ".comp", VK_SHADER_STAGE_COMPUTE_BIT },
+        { ".vert", VK_SHADER_STAGE_VERTEX_BIT },
+        { ".tesc", VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT },
+        { ".tese", VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT },
+        { ".geom", VK_SHADER_STAGE_GEOMETRY_BIT },
+        { ".frag", VK_SHADER_STAGE_FRAGMENT_BIT },
+        { ".comp", VK_SHADER_STAGE_COMPUTE_BIT },
 
-            { ".vs", VK_SHADER_STAGE_VERTEX_BIT },
-            { ".tc", VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT },
-            { ".te", VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT },
-            { ".gs", VK_SHADER_STAGE_GEOMETRY_BIT },
-            { ".fs", VK_SHADER_STAGE_FRAGMENT_BIT },
-            { ".cs", VK_SHADER_STAGE_COMPUTE_BIT },
+        { ".vs", VK_SHADER_STAGE_VERTEX_BIT },
+        { ".tc", VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT },
+        { ".te", VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT },
+        { ".gs", VK_SHADER_STAGE_GEOMETRY_BIT },
+        { ".fs", VK_SHADER_STAGE_FRAGMENT_BIT },
+        { ".cs", VK_SHADER_STAGE_COMPUTE_BIT },
     };
     assert(filePath.has_extension() && "TODO : Better file and error handling");
     auto itr = ExtensionToStage.find(filePath.extension().string());

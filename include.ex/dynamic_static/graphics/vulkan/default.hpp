@@ -54,6 +54,12 @@ inline const VulkanStructuretype& get_default()
 
 template <> const VkApplicationInfo& get_default<VkApplicationInfo>();
 template <> const VkAttachmentDescription& get_default<VkAttachmentDescription>();
+template <> const VkBufferImageCopy& get_default<VkBufferImageCopy>();
+template <> const VkImageCreateInfo& get_default<VkImageCreateInfo>();
+template <> const VkImageMemoryBarrier& get_default<VkImageMemoryBarrier>();
+template <> const VkImageSubresourceLayers& get_default<VkImageSubresourceLayers>();
+template <> const VkImageSubresourceRange& get_default<VkImageSubresourceRange>();
+template <> const VkSamplerCreateInfo& get_default<VkSamplerCreateInfo>();
 
 ////////////////////////////////////////////////////////////////////////////////
 // VkGraphicsPipelineCreateInfo defaults

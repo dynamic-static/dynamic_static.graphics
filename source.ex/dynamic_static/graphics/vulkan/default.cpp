@@ -47,6 +47,112 @@ const VkAttachmentDescription& get_default<VkAttachmentDescription>()
     return DefaultAttachmentDescription;
 }
 
+template <>
+const VkBufferImageCopy& get_default<VkBufferImageCopy>()
+{
+    static const VkBufferImageCopy DefaultBuffyImageCopy {
+        /* VkDeviceSize             bufferOffset;      */ 0,
+        /* uint32_t                 bufferRowLength;   */ 0,
+        /* uint32_t                 bufferImageHeight; */ 0,
+        /* VkImageSubresourceLayers imageSubresource;  */ get_default<VkImageSubresourceLayers>(),
+        /* VkOffset3D               imageOffset;       */ { 0, 0, 0 },
+        /* VkExtent3D               imageExtent;       */ { 0, 0, 0 },
+    };
+    return DefaultBuffyImageCopy;
+}
+
+template <>
+const VkImageCreateInfo& get_default<VkImageCreateInfo>()
+{
+    static const VkImageCreateInfo DefaultImageCreateInfo {
+        /* VkStructureType       sType;                 */ VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO,
+        /* const void*           pNext;                 */ nullptr,
+        /* VkImageCreateFlags    flags;                 */ 0,
+        /* VkImageType           imageType;             */ VK_IMAGE_TYPE_2D,
+        /* VkFormat              format;                */ VK_FORMAT_UNDEFINED,
+        /* VkExtent3D            extent;                */ { 1, 1, 1 },
+        /* uint32_t              mipLevels;             */ 1,
+        /* uint32_t              arrayLayers;           */ 1,
+        /* VkSampleCountFlagBits samples;               */ VK_SAMPLE_COUNT_1_BIT,
+        /* VkImageTiling         tiling;                */ VK_IMAGE_TILING_OPTIMAL,
+        /* VkImageUsageFlags     usage;                 */ 0,
+        /* VkSharingMode         sharingMode;           */ VK_SHARING_MODE_EXCLUSIVE,
+        /* uint32_t              queueFamilyIndexCount; */ 0,
+        /* const uint32_t*       pQueueFamilyIndices;   */ nullptr,
+        /* VkImageLayout         initialLayout;         */ VK_IMAGE_LAYOUT_UNDEFINED,
+    };
+    return DefaultImageCreateInfo;
+}
+
+template <>
+const VkImageMemoryBarrier& get_default<VkImageMemoryBarrier>()
+{
+    static const VkImageMemoryBarrier DefaultImageMemoryBarrier {
+        /* VkStructureType         sType;               */ VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
+        /* const void*             pNext;               */ nullptr,
+        /* VkAccessFlags           srcAccessMask;       */ 0,
+        /* VkAccessFlags           dstAccessMask;       */ 0,
+        /* VkImageLayout           oldLayout;           */ VK_IMAGE_LAYOUT_UNDEFINED,
+        /* VkImageLayout           newLayout;           */ VK_IMAGE_LAYOUT_UNDEFINED,
+        /* uint32_t                srcQueueFamilyIndex; */ VK_QUEUE_FAMILY_IGNORED,
+        /* uint32_t                dstQueueFamilyIndex; */ VK_QUEUE_FAMILY_IGNORED,
+        /* VkImage                 image;               */ VK_NULL_HANDLE,
+        /* VkImageSubresourceRange subresourceRange;    */ get_default<VkImageSubresourceRange>()
+    };
+    return DefaultImageMemoryBarrier;
+}
+
+template <>
+const VkImageSubresourceLayers& get_default<VkImageSubresourceLayers>()
+{
+    static const VkImageSubresourceLayers DefaultImageSubresourceLayers {
+        /* VkImageAspectFlags aspectMask;     */ 0,
+        /* uint32_t           mipLevel;       */ 0,
+        /* uint32_t           baseArrayLayer; */ 0,
+        /* uint32_t           layerCount;     */ 1, //!< HUH? : VK_REMAINING_ARRAY_LAYERS,
+    };
+    return DefaultImageSubresourceLayers;
+}
+
+template <>
+const VkImageSubresourceRange& get_default<VkImageSubresourceRange>()
+{
+    static const VkImageSubresourceRange DefaultImageMemorySubresourceRange {
+        /* VkImageAspectFlags aspectMask;     */ 0,
+        /* uint32_t           baseMipLevel;   */ 0,
+        /* uint32_t           levelCount;     */ VK_REMAINING_MIP_LEVELS,
+        /* uint32_t           baseArrayLayer; */ 0,
+        /* uint32_t           layerCount;     */ VK_REMAINING_ARRAY_LAYERS,
+    };
+    return DefaultImageMemorySubresourceRange;
+}
+
+template <>
+const VkSamplerCreateInfo& get_default<VkSamplerCreateInfo>()
+{
+    static const VkSamplerCreateInfo DefaultSamplerCreateInfo {
+        /* VkStructureType         sType;                   */ VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO,
+        /* const void*             pNext;                   */ nullptr,
+        /* VkSamplerCreateFlags    flags;                   */ 0,
+        /* VkFilter                magFilter;               */ VK_FILTER_LINEAR,
+        /* VkFilter                minFilter;               */ VK_FILTER_LINEAR,
+        /* VkSamplerMipmapMode     mipmapMode;              */ VK_SAMPLER_MIPMAP_MODE_LINEAR,
+        /* VkSamplerAddressMode    addressModeU;            */ VK_SAMPLER_ADDRESS_MODE_REPEAT,
+        /* VkSamplerAddressMode    addressModeV;            */ VK_SAMPLER_ADDRESS_MODE_REPEAT,
+        /* VkSamplerAddressMode    addressModeW;            */ VK_SAMPLER_ADDRESS_MODE_REPEAT,
+        /* float                   mipLodBias;              */ 0.0f,
+        /* VkBool32                anisotropyEnable;        */ VK_TRUE,
+        /* float                   maxAnisotropy;           */ 16.0f,
+        /* VkBool32                compareEnable;           */ VK_FALSE,
+        /* VkCompareOp             compareOp;               */ VK_COMPARE_OP_ALWAYS,
+        /* float                   minLod;                  */ 0.0f,
+        /* float                   maxLod;                  */ 0.0f,
+        /* VkBorderColor           borderColor;             */ VK_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK,
+        /* VkBool32                unnormalizedCoordinates; */ VK_FALSE,
+    };
+    return DefaultSamplerCreateInfo;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // VkGraphicsPipelineCreateInfo defaults
 template <>
@@ -119,10 +225,10 @@ const VkPipelineRasterizationStateCreateInfo& get_default<VkPipelineRasterizatio
         /* VkCullModeFlags                         cullMode;                */ VK_CULL_MODE_BACK_BIT,
         /* VkFrontFace                             frontFace;               */ VK_FRONT_FACE_CLOCKWISE,
         /* VkBool32                                depthBiasEnable;         */ VK_FALSE,
-        /* float                                   depthBiasConstantFactor; */ 0,
-        /* float                                   depthBiasClamp;          */ 0,
-        /* float                                   depthBiasSlopeFactor;    */ 0,
-        /* float                                   lineWidth;               */ 1,
+        /* float                                   depthBiasConstantFactor; */ 0.0f,
+        /* float                                   depthBiasClamp;          */ 0.0f,
+        /* float                                   depthBiasSlopeFactor;    */ 0.0f,
+        /* float                                   lineWidth;               */ 1.0f,
     };
     return DefaultPipelineRasterizationStateCreateInfo;
 }
@@ -136,7 +242,7 @@ const VkPipelineMultisampleStateCreateInfo& get_default<VkPipelineMultisampleSta
         /* VkPipelineMultisampleStateCreateFlags flags;                 */ 0,
         /* VkSampleCountFlagBits                 rasterizationSamples;  */ VK_SAMPLE_COUNT_1_BIT,
         /* VkBool32                              sampleShadingEnable;   */ VK_FALSE,
-        /* float                                 minSampleShading;      */ 1,
+        /* float                                 minSampleShading;      */ 1.0f,
         /* const VkSampleMask*                   pSampleMask;           */ nullptr,
         /* VkBool32                              alphaToCoverageEnable; */ VK_FALSE,
         /* VkBool32                              alphaToOneEnable;      */ VK_FALSE,
@@ -174,7 +280,7 @@ const VkPipelineColorBlendStateCreateInfo& get_default<VkPipelineColorBlendState
         /* VkLogicOp                                  logicOp;           */ VK_LOGIC_OP_CLEAR,
         /* uint32_t                                   attachmentCount;   */ 1,
         /* const VkPipelineColorBlendAttachmentState* pAttachments;      */ &get_default<VkPipelineColorBlendAttachmentState>(),
-        /* float                                      blendConstants[4]; */ { 0, 0, 0, 0 },
+        /* float                                      blendConstants[4]; */ { 0.0f, 0.0f, 0.0f, 0.0f },
     };
     return DefaultPipelineColorBlendStateCreateInfo;
 }

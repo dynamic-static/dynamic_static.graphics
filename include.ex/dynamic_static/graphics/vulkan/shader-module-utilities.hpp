@@ -22,6 +22,7 @@ namespace vk {
 
 /**
 TODO : Documentation
+TODO : This structure desperately needs a refactor...
 */
 class ShaderReflectionInfo final
 {
