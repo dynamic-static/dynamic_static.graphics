@@ -17,6 +17,7 @@
 #include "dynamic_static/graphics/vulkan/device-memory-utilities.hpp"
 #include "dynamic_static/graphics/vulkan/image-utilities.hpp"
 #include "dynamic_static/graphics/vulkan/managed.hpp"
+#include "dynamic_static/graphics/vulkan/model.hpp"
 #include "dynamic_static/graphics/vulkan/physical-device-utilities.hpp"
 #include "dynamic_static/graphics/vulkan/shader-module-utilities.hpp"
 #include "dynamic_static/graphics/vulkan/vertex-utilities.hpp"

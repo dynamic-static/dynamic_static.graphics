@@ -57,6 +57,8 @@ private:
     inline bool setup() override final
     {
         Application::setup();
+        std::filesystem::path gltfSamplesDirectory = "D:/Development/KhronosGroup/glTF-Sample-Models/2.0/";
+        dst::vk::Model::load(gltfSamplesDirectory / "TriangleWithoutIndices/glTF/TriangleWithoutIndices.gltf", &mModel);
         setup_pipeline_and_descriptor_set_layout();
         setup_vertex_and_index_buffers();
         setup_image_view_and_sampler();
@@ -561,6 +563,7 @@ private:
         dst_vk(vkQueueWaitIdle(get_graphics_queue()));
     }
 
+    dst::vk::Model mModel;
     dst::vk::Managed<VkDescriptorSetLayout> mDescriptorSetLayout;
     dst::vk::Managed<VkPipelineLayout> mPipelineLayout;
     dst::vk::Managed<VkPipeline> mPipeline;

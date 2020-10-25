@@ -11,6 +11,7 @@
 #include "dynamic_static/graphics/vulkan/model.hpp"
 
 #define TINYGLTF_IMPLEMENTATION
+#define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "tinygltf/tiny_gltf.h"
 
 #include <iostream>
@@ -32,14 +33,20 @@ void Model::load(const std::filesystem::path& filePath, Model* pModel)
         tinygltf::TinyGLTF loader;
         std::string err;
         std::string warn;
-        auto success = loader.LoadASCIIFromFile(&tinygltfModel, &err, &warn, filePath.string());
+        bool success = false;
+        if (filePath.extension() == ".bin") {
+            success = loader.LoadBinaryFromFile(&tinygltfModel, &err, &warn, filePath.string());
+        } else
+        if (filePath.extension() == ".gltf") {
+            success = loader.LoadASCIIFromFile(&tinygltfModel, &err, &warn, filePath.string());
+        }
         if (!warn.empty()) {
             std::cout << "Warning loading glTF : " << filePath << '\n';
             std::cout << "    " << warn << '\n';
         }
         if (!err.empty()) {
             std::cout << "Error loading glTF : " << filePath << '\n';
-            std::cout << "    " << warn << '\n';
+            std::cout << "    " << err << '\n';
         }
         if (!success) {
             std::cout << "Failed to load glTF : " << filePath << '\n';
