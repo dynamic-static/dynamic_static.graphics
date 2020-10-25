@@ -210,6 +210,7 @@ bool Application::setup()
     mTransferQueue = get_device_queue(get_device(), VK_QUEUE_TRANSFER_BIT);
     mSurface = setup_surface();
     mSwapchain = setup_swapchain();
+    mSwapchainDepthBuffer = setup_swapchain_depth_buffer();
     mSwapchainRenderPass = setup_swapchain_render_pass();
     mSwapchainFramebuffers = setup_swapchain_framebuffers();
     mSwapchainCommandBuffers = setup_swapchain_command_buffers();
@@ -468,24 +469,45 @@ Managed<VkSwapchainKHR> Application::setup_swapchain() const
     return { };
 }
 
+Managed<VkImageView> Application::setup_swapchain_depth_buffer() const
+{
+    return { };
+}
+
 Managed<VkRenderPass> Application::setup_swapchain_render_pass() const
 {
     auto colorAttachmentDescription = get_default<VkAttachmentDescription>();
     colorAttachmentDescription.format = get_swapchain().get<Managed<VkSwapchainCreateInfoKHR>>()->imageFormat;
-    colorAttachmentDescription.samples = VK_SAMPLE_COUNT_1_BIT;
     colorAttachmentDescription.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
     colorAttachmentDescription.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+    // colorAttachmentDescription.initialLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
     colorAttachmentDescription.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
     auto colorAttachmentReference = get_default<VkAttachmentReference>();
     colorAttachmentReference.attachment = 0;
     colorAttachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
+    auto depthAttachmentDescription = get_default<VkAttachmentDescription>();
+    auto depthAttachmentReference = get_default<VkAttachmentReference>();
+    depthAttachmentReference.attachment = 1;
+    depthAttachmentReference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+    if (mSwapchainDepthBuffer) {
+        depthAttachmentDescription.format = mSwapchainDepthBuffer.get<Managed<VkImageViewCreateInfo>>()->format;
+        depthAttachmentDescription.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+        depthAttachmentDescription.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+    }
+
+    std::array<VkAttachmentDescription, 2> attachmentDescriptions {
+        colorAttachmentDescription,
+        depthAttachmentDescription,
+    };
+    auto renderPassCreateInfo = get_default<VkRenderPassCreateInfo>();
+    renderPassCreateInfo.attachmentCount = mSwapchainDepthBuffer ? 2 : 1;
+    renderPassCreateInfo.pAttachments = attachmentDescriptions.data();
     auto subpassDescription = get_default<VkSubpassDescription>();
     subpassDescription.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
     subpassDescription.colorAttachmentCount = 1;
     subpassDescription.pColorAttachments = &colorAttachmentReference;
-    auto renderPassCreateInfo = get_default<VkRenderPassCreateInfo>();
-    renderPassCreateInfo.attachmentCount = 1;
-    renderPassCreateInfo.pAttachments = &colorAttachmentDescription;
+    subpassDescription.pDepthStencilAttachment = &depthAttachmentReference;
     renderPassCreateInfo.subpassCount = 1;
     renderPassCreateInfo.pSubpasses = &subpassDescription;
     Managed<VkRenderPass> renderPass;
@@ -507,16 +529,13 @@ std::vector<Managed<VkFramebuffer>> Application::setup_swapchain_framebuffers() 
         imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
         imageViewCreateInfo.format = imageCreateInfo->format;
         imageViewCreateInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-        imageViewCreateInfo.subresourceRange.baseMipLevel = 0;
-        imageViewCreateInfo.subresourceRange.levelCount = 1;
-        imageViewCreateInfo.subresourceRange.baseArrayLayer = 0;
-        imageViewCreateInfo.subresourceRange.layerCount = 1;
         Managed<VkImageView> imageView;
         if (dst_vk(create<Managed<VkImageView>>(get_device(), &imageViewCreateInfo, nullptr, &imageView)) == VK_SUCCESS) {
+            std::array<VkImageView, 2> attachments { imageView, mSwapchainDepthBuffer };
             auto framebufferCreateInfo = get_default<VkFramebufferCreateInfo>();
             framebufferCreateInfo.renderPass = get_swapchain_render_pass();
-            framebufferCreateInfo.attachmentCount = 1;
-            framebufferCreateInfo.pAttachments = &*imageView;
+            framebufferCreateInfo.attachmentCount = mSwapchainDepthBuffer ? 2 : 1;
+            framebufferCreateInfo.pAttachments = attachments.data();
             framebufferCreateInfo.width = imageCreateInfo->extent.width;
             framebufferCreateInfo.height = imageCreateInfo->extent.height;
             framebufferCreateInfo.layers = 1;

@@ -59,6 +59,7 @@ template <> const VkImageCreateInfo& get_default<VkImageCreateInfo>();
 template <> const VkImageMemoryBarrier& get_default<VkImageMemoryBarrier>();
 template <> const VkImageSubresourceLayers& get_default<VkImageSubresourceLayers>();
 template <> const VkImageSubresourceRange& get_default<VkImageSubresourceRange>();
+template <> const VkImageViewCreateInfo& get_default<VkImageViewCreateInfo>();
 template <> const VkSamplerCreateInfo& get_default<VkSamplerCreateInfo>();
 
 ////////////////////////////////////////////////////////////////////////////////

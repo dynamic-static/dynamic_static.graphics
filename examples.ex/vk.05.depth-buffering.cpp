@@ -9,10 +9,9 @@
 */
 
 #include "dynamic_static/core/color.hpp"
-#include "dynamic_static/graphics/vulkan/application.hpp"
-#include "dynamic_static/graphics/vulkan/physical-device-utilities.hpp"
-#include "dynamic_static/graphics/vulkan/shader-module-utilities.hpp"
-#include "dynamic_static/graphics/vulkan/vertex-utilities.hpp"
+#include "dynamic_static/core/vector.hpp"
+#include "dynamic_static/graphics/vulkan.hpp"
+#include "dynamic_static/system/image.hpp"
 
 #include <algorithm>
 
@@ -20,7 +19,7 @@ class VulkanExample_03_VertexBuffer final
     : public dst::vk::Application
 {
 public:
-    static constexpr char* Name { "dynamic_static Vulkan example 03 Uniform Buffer" };
+    static constexpr char* Name { "dynamic_static Vulkan example 05 Depth Buffering" };
 
     inline VulkanExample_03_VertexBuffer()
         : dst::vk::Application(
@@ -52,7 +51,7 @@ private:
     struct Vertex final
     {
         glm::vec3 position { };
-        glm::vec4 color { };
+        glm::vec2 texcoord { };
     };
 
     inline bool setup() override final
@@ -60,10 +59,47 @@ private:
         Application::setup();
         setup_pipeline_and_descriptor_set_layout();
         setup_vertex_and_index_buffers();
+        setup_image_view_and_sampler();
         setup_uniform_buffer();
         setup_descriptor_set();
         record_command_buffers();
         return true;
+    }
+
+    inline dst::vk::Managed<VkImageView> setup_swapchain_depth_buffer() const override final
+    {
+        using namespace dst::vk;
+        const auto& swapchainCreateInfo = get_swapchain().get<Managed<VkSwapchainCreateInfoKHR>>();
+        auto imageCreateInfo = get_default<VkImageCreateInfo>();
+        imageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
+        imageCreateInfo.format = get_swapchain_depth_format();
+        imageCreateInfo.extent.width = swapchainCreateInfo->imageExtent.width;
+        imageCreateInfo.extent.height = swapchainCreateInfo->imageExtent.height;
+        imageCreateInfo.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+        Managed<VkImage> image;
+        dst_vk(create<Managed<VkImage>>(get_device(), &imageCreateInfo, nullptr, &image));
+
+        VkMemoryRequirements memoryRequirements { };
+        vkGetImageMemoryRequirements(get_device(), image, &memoryRequirements);
+        auto memoryAllocateInfo = get_default<VkMemoryAllocateInfo>();
+        memoryAllocateInfo.allocationSize = memoryRequirements.size;
+        auto memoryTypeBits = memoryRequirements.memoryTypeBits;
+        auto memoryPropertyFlags = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+        auto memoryTypeIndex = get_memory_type_index(get_physical_device(), memoryTypeBits, memoryPropertyFlags);
+        assert(memoryTypeIndex.has_value());
+        memoryAllocateInfo.memoryTypeIndex = memoryTypeIndex.value();
+        Managed<VkDeviceMemory> memory;
+        dst_vk(allocate<Managed<VkDeviceMemory>>(get_device(), &memoryAllocateInfo, nullptr, &memory));
+        dst_vk(bind_memory(image, memory, 0));
+
+        auto imageViewCreateInfo = get_default<VkImageViewCreateInfo>();
+        imageViewCreateInfo.image = image;
+        imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+        imageViewCreateInfo.format = imageCreateInfo.format;
+        imageViewCreateInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
+        Managed<VkImageView> imageView;
+        dst_vk(create<Managed<VkImageView>>(get_device(), &imageViewCreateInfo, nullptr, &imageView));
+        return imageView;
     }
 
     inline void setup_pipeline_and_descriptor_set_layout()
@@ -75,7 +111,7 @@ private:
             R"(
                 #version 450
 
-                layout(binding = 0)
+                layout(set = 0, binding = 0)
                 uniform Uniforms
                 {
                     mat4 world;
@@ -84,8 +120,8 @@ private:
                 } ubo;
 
                 layout(location = 0) in vec3 vsPosition;
-                layout(location = 1) in vec4 vsColor;
-                layout(location = 0) out vec4 fsColor;
+                layout(location = 1) in vec2 vsTexcoord;
+                layout(location = 0) out vec2 fsTexcoord;
 
                 out gl_PerVertex
                 {
@@ -95,7 +131,7 @@ private:
                 void main()
                 {
                     gl_Position = ubo.projection * ubo.view * ubo.world * vec4(vsPosition, 1);
-                    fsColor = vsColor;
+                    fsTexcoord = vsTexcoord;
                 }
             )"
         );
@@ -112,12 +148,13 @@ private:
             R"(
                 #version 450
 
-                layout(location = 0) in vec4 fsColor;
+                layout(set = 0, binding = 1) uniform sampler2D image;
+                layout(location = 0) in vec2 fsTexcoord;
                 layout(location = 0) out vec4 fragColor;
 
                 void main()
                 {
-                    fragColor = fsColor;
+                    fragColor = texture(image, fsTexcoord);
                 }
             )"
         );
@@ -133,10 +170,12 @@ private:
         };
 
         auto descriptorSetLayoutCreateInfo = get_default<VkDescriptorSetLayoutCreateInfo>();
-        const auto& descriptorSetLayoutBindings = vertexShaderReflectionInfo.descriptorSetLayoutBindings;
-        assert(descriptorSetLayoutBindings.size() == 1 && "TODO : Error handling");
-        descriptorSetLayoutCreateInfo.bindingCount = (uint32_t)descriptorSetLayoutBindings[0].second.size();
-        descriptorSetLayoutCreateInfo.pBindings = !descriptorSetLayoutBindings[0].second.empty() ? descriptorSetLayoutBindings[0].second.data() : nullptr;
+        std::array<VkDescriptorSetLayoutBinding, 2> descriptorSetLayoutBindings {
+            vertexShaderReflectionInfo.descriptorSetLayoutBindings[0].second[0],
+            fragmentShaderReflectionInfo.descriptorSetLayoutBindings[0].second[0],
+        };
+        descriptorSetLayoutCreateInfo.bindingCount = (uint32_t)descriptorSetLayoutBindings.size();
+        descriptorSetLayoutCreateInfo.pBindings = descriptorSetLayoutBindings.data();
         dst_vk(create<Managed<VkDescriptorSetLayout>>(get_device(), &descriptorSetLayoutCreateInfo, nullptr, &mDescriptorSetLayout));
 
         auto pipelineLayoutCreateInfo = get_default<VkPipelineLayoutCreateInfo>();
@@ -145,17 +184,23 @@ private:
         dst_vk(create<Managed<VkPipelineLayout>>(get_device(), &pipelineLayoutCreateInfo, nullptr, &mPipelineLayout));
 
         auto vertexInputBindingDescription = get_vertex_input_binding_description<Vertex>(0);
-        auto vertexInputAttributeDescriptions = get_vertex_input_attribute_descriptions<glm::vec3, glm::vec4>(0);
+        auto vertexInputAttributeDescriptions = get_vertex_input_attribute_descriptions<glm::vec3, glm::vec2>(0);
         auto pipelineVertexInputStateCreateInfo = get_default<VkPipelineVertexInputStateCreateInfo>();
         pipelineVertexInputStateCreateInfo.vertexBindingDescriptionCount = 1;
         pipelineVertexInputStateCreateInfo.pVertexBindingDescriptions = &vertexInputBindingDescription;
         pipelineVertexInputStateCreateInfo.vertexAttributeDescriptionCount = (uint32_t)vertexInputAttributeDescriptions.size();
         pipelineVertexInputStateCreateInfo.pVertexAttributeDescriptions = vertexInputAttributeDescriptions.data();
 
+        auto pipelineDepthStencilStateCreateInfo = get_default<VkPipelineDepthStencilStateCreateInfo>();
+        pipelineDepthStencilStateCreateInfo.depthTestEnable = VK_TRUE;
+        pipelineDepthStencilStateCreateInfo.depthWriteEnable = VK_TRUE;
+        pipelineDepthStencilStateCreateInfo.depthCompareOp = VK_COMPARE_OP_LESS;
+
         auto graphicsPipelineCreateInfo = get_default<VkGraphicsPipelineCreateInfo>();
         graphicsPipelineCreateInfo.stageCount = (uint32_t)pipelineShaderStageCreateInfos.size();
         graphicsPipelineCreateInfo.pStages = pipelineShaderStageCreateInfos.data();
         graphicsPipelineCreateInfo.pVertexInputState = &pipelineVertexInputStateCreateInfo;
+        graphicsPipelineCreateInfo.pDepthStencilState = &pipelineDepthStencilStateCreateInfo;
         graphicsPipelineCreateInfo.layout = mPipelineLayout;
         graphicsPipelineCreateInfo.renderPass = get_swapchain_render_pass();
         dst_vk(create<Managed<VkPipeline>>(get_device(), VK_NULL_HANDLE, 1, &graphicsPipelineCreateInfo, nullptr, &mPipeline));
@@ -164,27 +209,32 @@ private:
     inline void setup_vertex_and_index_buffers()
     {
         using namespace dst::vk;
-        std::array<Vertex, 4> vertices {
-            Vertex {{ -0.5f, 0.0f, -0.5f }, { dst::Color<>::OrangeRed }},
-            Vertex {{  0.5f, 0.0f, -0.5f }, { dst::Color<>::BlueViolet }},
-            Vertex {{  0.5f, 0.0f,  0.5f }, { dst::Color<>::DodgerBlue }},
-            Vertex {{ -0.5f, 0.0f,  0.5f }, { dst::Color<>::Goldenrod }},
+        std::array<Vertex, 8> vertices {
+            Vertex {{ -0.5f,  0.25f, -0.5f }, { 0.0f, 0.0f }},
+            Vertex {{  0.5f,  0.25f, -0.5f }, { 1.0f, 0.0f }},
+            Vertex {{  0.5f,  0.25f,  0.5f }, { 1.0f, 1.0f }},
+            Vertex {{ -0.5f,  0.25f,  0.5f }, { 0.0f, 1.0f }},
+
+            Vertex {{ -0.5f, -0.25f, -0.5f }, { 0.0f, 0.0f }},
+            Vertex {{  0.5f, -0.25f, -0.5f }, { 1.0f, 0.0f }},
+            Vertex {{  0.5f, -0.25f,  0.5f }, { 1.0f, 1.0f }},
+            Vertex {{ -0.5f, -0.25f,  0.5f }, { 0.0f, 1.0f }},
         };
         auto vertexBufferCreateInfo = get_default<VkBufferCreateInfo>();
         vertexBufferCreateInfo.size = (VkDeviceSize)vertices.size() * sizeof(vertices[0]);
-        vertexBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+        vertexBufferCreateInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
         dst_vk(create<Managed<VkBuffer>>(get_device(), &vertexBufferCreateInfo, nullptr, &mVertexBuffer));
         VkMemoryRequirements vertexBufferMemoryRequirements { };
         vkGetBufferMemoryRequirements(get_device(), mVertexBuffer, &vertexBufferMemoryRequirements);
 
-        std::array<uint16_t, 6> indices {
-            0, 1, 2,
-            2, 3, 0,
+        std::array<uint16_t, 12> indices {
+            0, 1, 2, 2, 3, 0,
+            4, 5, 6, 6, 7, 4,
         };
         mIndexCount = indices.size();
         auto indexBufferCreateInfo = get_default<VkBufferCreateInfo>();
         indexBufferCreateInfo.size = (VkDeviceSize)indices.size() * sizeof(indices[0]);
-        indexBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
+        indexBufferCreateInfo.usage = VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
         dst_vk(create<Managed<VkBuffer>>(get_device(), &indexBufferCreateInfo, nullptr, &mIndexBuffer));
         VkMemoryRequirements indexBufferMemoryRequirements { };
         vkGetBufferMemoryRequirements(get_device(), mIndexBuffer, &indexBufferMemoryRequirements);
@@ -250,6 +300,105 @@ private:
         );
     }
 
+    inline void setup_image_view_and_sampler()
+    {
+        using namespace dst::vk;
+        dst::sys::Image sysImage;
+        dst::sys::Image::load("D:/Development/dynamic_static/dynamic_static.graphics/examples/resources/images/statue.jpg", &sysImage);
+
+        auto imageCreateInfo = get_default<VkImageCreateInfo>();
+        imageCreateInfo.format = VK_FORMAT_R8G8B8A8_UNORM;
+        imageCreateInfo.extent.width = sysImage.get_width();
+        imageCreateInfo.extent.height = sysImage.get_height();
+        imageCreateInfo.usage = VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+        Managed<VkImage> image;
+        dst_vk(create<Managed<VkImage>>(get_device(), &imageCreateInfo, nullptr, &image));
+        VkMemoryRequirements memoryRequirements { };
+        dst_vk(vkGetImageMemoryRequirements(get_device(), image, &memoryRequirements));
+
+        auto memoryTypeBits = memoryRequirements.memoryTypeBits;
+        auto memoryTypeIndex = get_memory_type_index(get_physical_device(), memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+        assert(memoryTypeIndex.has_value() && "TODO : Error handling");
+        auto memoryAllocateInfo = get_default<VkMemoryAllocateInfo>();
+        memoryAllocateInfo.memoryTypeIndex = memoryTypeIndex.value();
+        memoryAllocateInfo.allocationSize = memoryRequirements.size;
+        Managed<VkDeviceMemory> memory;
+        dst_vk(allocate<Managed<VkDeviceMemory>>(get_device(), &memoryAllocateInfo, nullptr, &memory));
+        dst_vk(bind_memory(image, memory, 0));
+
+        auto stagingBufferCreateInfo = get_default<VkBufferCreateInfo>();
+        stagingBufferCreateInfo.size = sysImage.size_bytes();
+        stagingBufferCreateInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+        Managed<VkBuffer> stagingBuffer;
+        dst_vk(create<Managed<VkBuffer>>(get_device(), &stagingBufferCreateInfo, nullptr, &stagingBuffer));
+        VkMemoryRequirements stagingBufferMemoryRequirements { };
+        vkGetBufferMemoryRequirements(get_device(), stagingBuffer, &stagingBufferMemoryRequirements);
+        auto stagingMemoryTypeBits = stagingBufferMemoryRequirements.memoryTypeBits;
+        auto stagingMemoryPropertyFlags = VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT;
+        auto stagingMemoryTypeIndex = get_memory_type_index(get_physical_device(), stagingMemoryTypeBits, stagingMemoryPropertyFlags);
+        assert(stagingMemoryTypeIndex.has_value() && "TODO : Error handling");
+        auto stagingMemoryAllocateInfo = get_default<VkMemoryAllocateInfo>();
+        stagingMemoryAllocateInfo.memoryTypeIndex = stagingMemoryTypeIndex.value();
+        stagingMemoryAllocateInfo.allocationSize = stagingBufferMemoryRequirements.size;
+        Managed<VkDeviceMemory> stagingMemory;
+        dst_vk(allocate<Managed<VkDeviceMemory>>(get_device(), &stagingMemoryAllocateInfo, nullptr, &stagingMemory));
+        dst_vk(bind_memory(stagingBuffer, stagingMemory, 0));
+        uint8_t* pStagingData = nullptr;
+        dst_vk(vkMapMemory(get_device(), stagingMemory, 0, VK_WHOLE_SIZE, 0, (void**)&pStagingData));
+        assert(pStagingData && "TODO : Error handling");
+        memcpy(pStagingData, sysImage.data(), sysImage.size_bytes());
+        vkUnmapMemory(get_device(), stagingMemory);
+
+        process_immediately(
+            [&](const Managed<VkCommandBuffer>& commandBuffer)
+            {
+                auto imageMemoryBarrier = get_default<VkImageMemoryBarrier>();
+                imageMemoryBarrier.image = image;
+                imageMemoryBarrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+                imageMemoryBarrier.dstAccessMask = VK_ACCESS_MEMORY_WRITE_BIT;
+                imageMemoryBarrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+                vkCmdPipelineBarrier(
+                    commandBuffer,
+                    VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
+                    VK_PIPELINE_STAGE_TRANSFER_BIT,
+                    0,
+                    0, nullptr,
+                    0, nullptr,
+                    1, &imageMemoryBarrier
+                );
+
+                auto bufferImageCopy = get_default<VkBufferImageCopy>();
+                bufferImageCopy.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+                bufferImageCopy.imageExtent = image.get<Managed<VkImageCreateInfo>>()->extent;
+                vkCmdCopyBufferToImage(commandBuffer, stagingBuffer, image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &bufferImageCopy);
+
+                imageMemoryBarrier.srcAccessMask = imageMemoryBarrier.dstAccessMask;
+                imageMemoryBarrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+                imageMemoryBarrier.oldLayout = imageMemoryBarrier.newLayout;
+                imageMemoryBarrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+                vkCmdPipelineBarrier(
+                    commandBuffer,
+                    VK_PIPELINE_STAGE_TRANSFER_BIT,
+                    VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
+                    0,
+                    0, nullptr,
+                    0, nullptr,
+                    1, &imageMemoryBarrier
+                );
+            }
+        );
+
+        auto imageViewCreateInfo = get_default<VkImageViewCreateInfo>();
+        imageViewCreateInfo.image = image;
+        imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+        imageViewCreateInfo.format = imageCreateInfo.format;
+        imageViewCreateInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+        dst_vk(create<Managed<VkImageView>>(get_device(), &imageViewCreateInfo, nullptr, &mImageView));
+
+        auto samplerCreateInfo = get_default<VkSamplerCreateInfo>();
+        dst_vk(create<Managed<VkSampler>>(get_device(), &samplerCreateInfo, nullptr, &mSampler));
+    }
+
     inline void setup_uniform_buffer()
     {
         using namespace dst::vk;
@@ -275,14 +424,15 @@ private:
     inline void setup_descriptor_set()
     {
         using namespace dst::vk;
-        auto descriptorPoolSize = get_default<VkDescriptorPoolSize>();
-        descriptorPoolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        descriptorPoolSize.descriptorCount = 1;
+        std::array<VkDescriptorPoolSize, 2> descriptorPoolSizes {
+            VkDescriptorPoolSize { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1 },
+            VkDescriptorPoolSize { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1 },
+        };
         auto descriptorPoolCreateInfo = get_default<VkDescriptorPoolCreateInfo>();
         descriptorPoolCreateInfo.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
         descriptorPoolCreateInfo.maxSets = 1;
-        descriptorPoolCreateInfo.poolSizeCount = 1;
-        descriptorPoolCreateInfo.pPoolSizes = &descriptorPoolSize;
+        descriptorPoolCreateInfo.poolSizeCount = (uint32_t)descriptorPoolSizes.size();
+        descriptorPoolCreateInfo.pPoolSizes = descriptorPoolSizes.data();
         Managed<VkDescriptorPool> descriptorPool;
         dst_vk(create<Managed<VkDescriptorPool>>(get_device(), &descriptorPoolCreateInfo, nullptr, &descriptorPool));
         auto descriptorSetAllocateInfo = get_default<VkDescriptorSetAllocateInfo>();
@@ -290,23 +440,51 @@ private:
         descriptorSetAllocateInfo.descriptorSetCount = 1;
         descriptorSetAllocateInfo.pSetLayouts = &*mDescriptorSetLayout;
         dst_vk(allocate<Managed<VkDescriptorSet>>(get_device(), &descriptorSetAllocateInfo, &mDescriptorSet));
+
         auto descriptorBufferInfo = get_default<VkDescriptorBufferInfo>();
         descriptorBufferInfo.buffer = mUniformBuffer;
         descriptorBufferInfo.range = VK_WHOLE_SIZE;
-        auto writeDescriptorSet = get_default<VkWriteDescriptorSet>();
-        writeDescriptorSet.dstSet = mDescriptorSet;
-        writeDescriptorSet.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        writeDescriptorSet.descriptorCount = 1;
-        writeDescriptorSet.pBufferInfo = &descriptorBufferInfo;
-        vkUpdateDescriptorSets(get_device(), 1, &writeDescriptorSet, 0, nullptr);
+
+        auto descriptorImageInfo = get_default<VkDescriptorImageInfo>();
+        descriptorImageInfo.sampler = mSampler;
+        descriptorImageInfo.imageView = mImageView;
+        descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+
+        std::array<VkWriteDescriptorSet, 2> writeDescriptorSets {
+            VkWriteDescriptorSet {
+                /* VkStructureType                  sType;            */ VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
+                /* const void*                      pNext;            */ nullptr,
+                /* VkDescriptorSet                  dstSet;           */ mDescriptorSet,
+                /* uint32_t                         dstBinding;       */ 0,
+                /* uint32_t                         dstArrayElement;  */ 0,
+                /* uint32_t                         descriptorCount;  */ 1,
+                /* VkDescriptorType                 descriptorType;   */ VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                /* const VkDescriptorImageInfo*     pImageInfo;       */ nullptr,
+                /* const VkDescriptorBufferInfo*    pBufferInfo;      */ &descriptorBufferInfo,
+                /* const VkBufferView*              pTexelBufferView; */ nullptr,
+            },
+            VkWriteDescriptorSet {
+                /* VkStructureType                  sType;            */ VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
+                /* const void*                      pNext;            */ nullptr,
+                /* VkDescriptorSet                  dstSet;           */ mDescriptorSet,
+                /* uint32_t                         dstBinding;       */ 1,
+                /* uint32_t                         dstArrayElement;  */ 0,
+                /* uint32_t                         descriptorCount;  */ 1,
+                /* VkDescriptorType                 descriptorType;   */ VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                /* const VkDescriptorImageInfo*     pImageInfo;       */ &descriptorImageInfo,
+                /* const VkDescriptorBufferInfo*    pBufferInfo;      */ nullptr,
+                /* const VkBufferView*              pTexelBufferView; */ nullptr,
+            }
+        };
+        vkUpdateDescriptorSets(get_device(), (uint32_t)writeDescriptorSets.size(), writeDescriptorSets.data(), 0, nullptr);
     }
 
     inline void record_command_buffers()
     {
         using namespace dst::vk;
         std::array<VkClearValue, 2> clearValues;
-        clearValues[0].color = { 0, 0, 0, 1 };
-        clearValues[1].depthStencil = { 1, 0 };
+        clearValues[0].color = { 0.0f, 0.0f, 0.0f, 1.0f };
+        clearValues[1].depthStencil = { 1.0f, 0 };
         auto extent = get_swapchain().get<Managed<VkSwapchainCreateInfoKHR>>()->imageExtent;
         for (size_t i = 0; i < get_swapchain_command_buffers().size(); ++i) {
             const auto& commandBuffer = get_swapchain_command_buffers()[i];
@@ -316,7 +494,7 @@ private:
             renderPassBeginInfo.renderPass = get_swapchain_render_pass();
             renderPassBeginInfo.framebuffer = get_swapchain_framebuffers()[i];
             renderPassBeginInfo.renderArea.extent = extent;
-            renderPassBeginInfo.clearValueCount = 1;
+            renderPassBeginInfo.clearValueCount = 2;
             renderPassBeginInfo.pClearValues = clearValues.data();
             vkCmdBeginRenderPass(commandBuffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
             vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, mPipeline);
@@ -388,6 +566,8 @@ private:
     dst::vk::Managed<VkPipeline> mPipeline;
     dst::vk::Managed<VkBuffer> mVertexBuffer;
     dst::vk::Managed<VkBuffer> mIndexBuffer;
+    dst::vk::Managed<VkImageView> mImageView;
+    dst::vk::Managed<VkSampler> mSampler;
     dst::vk::Managed<VkBuffer> mUniformBuffer;
     dst::vk::Managed<VkDescriptorSet> mDescriptorSet;
     uint8_t* mpUniformBufferData { nullptr };

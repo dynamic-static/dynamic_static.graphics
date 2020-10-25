@@ -185,6 +185,11 @@ protected:
     /**
     TODO : Documentation
     */
+    virtual Managed<VkImageView> setup_swapchain_depth_buffer() const;
+
+    /**
+    TODO : Documentation
+    */
     virtual Managed<VkRenderPass> setup_swapchain_render_pass() const;
 
     /**
@@ -280,6 +285,7 @@ private:
     Managed<VkQueue> mTransferQueue;
     Managed<VkSurfaceKHR> mSurface;
     Managed<VkSwapchainKHR> mSwapchain;
+    Managed<VkImageView> mSwapchainDepthBuffer;
     Managed<VkRenderPass> mSwapchainRenderPass;
     std::vector<Managed<VkFramebuffer>> mSwapchainFramebuffers;
     std::vector<Managed<VkCommandBuffer>> mSwapchainCommandBuffers;

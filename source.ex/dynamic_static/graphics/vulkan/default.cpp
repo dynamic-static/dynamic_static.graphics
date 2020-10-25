@@ -128,6 +128,22 @@ const VkImageSubresourceRange& get_default<VkImageSubresourceRange>()
 }
 
 template <>
+const VkImageViewCreateInfo& get_default<VkImageViewCreateInfo>()
+{
+    static const VkImageViewCreateInfo DefaultImageViewCreateInfo {
+        /* VkStructureType            sType;            */ VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
+        /* const void*                pNext;            */ nullptr,
+        /* VkImageViewCreateFlags     flags;            */ 0,
+        /* VkImage                    image;            */ VK_NULL_HANDLE,
+        /* VkImageViewType            viewType;         */ VK_IMAGE_VIEW_TYPE_2D,
+        /* VkFormat                   format;           */ VK_FORMAT_UNDEFINED,
+        /* VkComponentMapping         components;       */ get_default<VkComponentMapping>(),
+        /* VkImageSubresourceRange    subresourceRange; */ get_default<VkImageSubresourceRange>()
+    };
+    return DefaultImageViewCreateInfo;
+}
+
+template <>
 const VkSamplerCreateInfo& get_default<VkSamplerCreateInfo>()
 {
     static const VkSamplerCreateInfo DefaultSamplerCreateInfo {

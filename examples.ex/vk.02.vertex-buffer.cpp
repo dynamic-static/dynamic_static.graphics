@@ -118,16 +118,16 @@ private:
 
         auto vertexInputBindingDescription = get_vertex_input_binding_description<Vertex>(0);
         auto vertexInputAttributeDescriptions = get_vertex_input_attribute_descriptions<glm::vec3, glm::vec4>(0);
-        auto pipelineVertexInputState = get_default<VkPipelineVertexInputStateCreateInfo>();
-        pipelineVertexInputState.vertexBindingDescriptionCount = 1;
-        pipelineVertexInputState.pVertexBindingDescriptions = &vertexInputBindingDescription;
-        pipelineVertexInputState.vertexAttributeDescriptionCount = (uint32_t)vertexInputAttributeDescriptions.size();
-        pipelineVertexInputState.pVertexAttributeDescriptions = vertexInputAttributeDescriptions.data();
+        auto pipelineVertexInputStateCreateInfo = get_default<VkPipelineVertexInputStateCreateInfo>();
+        pipelineVertexInputStateCreateInfo.vertexBindingDescriptionCount = 1;
+        pipelineVertexInputStateCreateInfo.pVertexBindingDescriptions = &vertexInputBindingDescription;
+        pipelineVertexInputStateCreateInfo.vertexAttributeDescriptionCount = (uint32_t)vertexInputAttributeDescriptions.size();
+        pipelineVertexInputStateCreateInfo.pVertexAttributeDescriptions = vertexInputAttributeDescriptions.data();
 
         auto graphicsPipelineCreateInfo = get_default<VkGraphicsPipelineCreateInfo>();
         graphicsPipelineCreateInfo.stageCount = (uint32_t)pipelineShaderStageCreateInfos.size();
         graphicsPipelineCreateInfo.pStages = pipelineShaderStageCreateInfos.data();
-        graphicsPipelineCreateInfo.pVertexInputState = &pipelineVertexInputState;
+        graphicsPipelineCreateInfo.pVertexInputState = &pipelineVertexInputStateCreateInfo;
         graphicsPipelineCreateInfo.layout = pipelineLayout;
         graphicsPipelineCreateInfo.renderPass = get_swapchain_render_pass();
         dst_vk(create<Managed<VkPipeline>>(get_device(), VK_NULL_HANDLE, 1, &graphicsPipelineCreateInfo, nullptr, &mPipeline));
