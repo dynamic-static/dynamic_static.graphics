@@ -29,6 +29,7 @@ find_package(Vulkan REQUIRED)
 set(Vulkan_SDK_DIR "${Vulkan_INCLUDE_DIRS}/../")
 include("${externalDirectory}/glslang.cmake")
 include("${externalDirectory}/SPIRV-Reflect.cmake")
+include("${externalDirectory}/tinygltf.cmake")
 list(
     APPEND linkLibraries
     dynamic_static.system
@@ -87,6 +88,7 @@ dst_add_static_library(
         "${linkLibraries}"
     includeDirectories
         "${includeDirectory}"
+        "${gltf_includeDirectory}"
 
         ${CMAKE_CURRENT_LIST_DIR}/include/
 
@@ -107,8 +109,10 @@ dst_add_static_library(
         "${includePath}/vulkan/defines.hpp"
         "${includePath}/vulkan/device-memory-utilities.hpp"
         "${includePath}/vulkan/device-utilities.hpp"
+        "${includePath}/vulkan/gltf-utilities.hpp"
         "${includePath}/vulkan/image-utilities.hpp"
         "${includePath}/vulkan/managed.hpp"
+        "${includePath}/vulkan/model.hpp"
         "${includePath}/vulkan/physical-device-utilities.hpp"
         "${includePath}/vulkan/render-target.hpp"
         "${includePath}/vulkan/shader-module-utilities.hpp"
@@ -187,7 +191,9 @@ dst_add_static_library(
         "${sourcePath}/vulkan/default.cpp"
         "${sourcePath}/vulkan/device-memory-utilities.cpp"
         "${sourcePath}/vulkan/device-utilities.cpp"
+        "${sourcePath}/vulkan/gltf-utilities.cpp"
         "${sourcePath}/vulkan/image-utilities.cpp"
+        "${sourcePath}/vulkan/model.cpp"
         "${sourcePath}/vulkan/physical-device-utilities.cpp"
         "${sourcePath}/vulkan/render-target.cpp"
         "${sourcePath}/vulkan/shader-module-utilities.cpp"
