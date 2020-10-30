@@ -13,6 +13,8 @@
 #include "dynamic_static/graphics/vulkan.hpp"
 #include "dynamic_static/system/image.hpp"
 
+#include "dynamic_static/graphics/gltf/gltf.hpp"
+
 #include <algorithm>
 
 class VulkanExample_03_VertexBuffer final
@@ -58,7 +60,8 @@ private:
     {
         Application::setup();
         std::filesystem::path gltfSamplesDirectory = "D:/Development/KhronosGroup/glTF-Sample-Models/2.0/";
-        dst::vk::Model::load(gltfSamplesDirectory / "TriangleWithoutIndices/glTF/TriangleWithoutIndices.gltf", &mModel);
+        dst::gltf::GlTf gltf;
+        gltf.load(gltfSamplesDirectory / "TriangleWithoutIndices/glTF/TriangleWithoutIndices.gltf");
         setup_pipeline_and_descriptor_set_layout();
         setup_vertex_and_index_buffers();
         setup_image_view_and_sampler();
