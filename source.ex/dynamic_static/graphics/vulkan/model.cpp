@@ -10,9 +10,11 @@
 
 #include "dynamic_static/graphics/vulkan/model.hpp"
 
+#if 0
 #define TINYGLTF_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "tinygltf/tiny_gltf.h"
+#endif
 
 #include <iostream>
 #include <string>
@@ -27,6 +29,7 @@ void Model::reset()
 
 void Model::load(const std::filesystem::path& filePath, Model* pModel)
 {
+    #if 0
     if (pModel) {
         pModel->reset();
         tinygltf::Model tinygltfModel;
@@ -54,6 +57,7 @@ void Model::load(const std::filesystem::path& filePath, Model* pModel)
         assert(warn.empty() && err.empty() && success && "TODO : Error handling");
         int b = 0;
     }
+    #endif
 }
 
 } // namespace vk

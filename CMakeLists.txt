@@ -10,33 +10,32 @@
 cmake_minimum_required(VERSION 3.3 FATAL_ERROR)
 project(dynamic_static.graphics VERSION 2.0.0)
 set(CMAKE_CXX_STANDARD 17)
-set(dynamic_static "${CMAKE_CURRENT_LIST_DIR}/../")
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/")
-################################################################################
-include("${CMAKE_CURRENT_LIST_DIR}/../dynamic_static.build/dynamic_static.cmake")
-dst_add_subdirectory(dynamic_static.core)
-dst_add_subdirectory(dynamic_static.cpp-generator)
-dst_add_subdirectory(dynamic_static.system)
-dst_add_subdirectory(dynamic_static.vk-xml-parser)
-################################################################################
 
 # Options
 option(DST_GFX_BUILD_EXAMPLES "TODO : Documentation" OFF)
 
-# External dependencies
-set(externalDirectory "${CMAKE_CURRENT_LIST_DIR}/external/")
+# Dependencies
+set(external "${CMAKE_CURRENT_LIST_DIR}/external/")
+include("${external}/dynamic_static.build.cmake")
+include("${external}/dynamic_static.core.cmake")
+include("${external}/dynamic_static.cpp-generator.cmake")
+include("${external}/dynamic_static.system.cmake")
+include("${external}/dynamic_static.vk-xml-parser.cmake")
+include("${external}/glslang.cmake")
+# include("${external}/SPIRV-Reflect.cmake")
+
 find_package(Vulkan REQUIRED)
 set(Vulkan_SDK_DIR "${Vulkan_INCLUDE_DIRS}/../")
-include("${externalDirectory}/glslang.cmake")
-include("${externalDirectory}/SPIRV-Reflect.cmake")
-include("${externalDirectory}/tinygltf.cmake")
+# include("${externalDirectory}/glslang.cmake")
+# include("${external}/SPIRV-Reflect.cmake")
 list(
     APPEND linkLibraries
+    dynamic_static.core
     dynamic_static.system
-    glslang
-    SPIRV-Reflect
+    glslang_
     Vulkan::Vulkan
 )
+# SPIRV-Reflect
 
 set(includeDirectory "${CMAKE_CURRENT_LIST_DIR}/include.ex/")
 set(includePath "${includeDirectory}/dynamic_static/graphics/")
