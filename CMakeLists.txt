@@ -6,7 +6,6 @@
 #     http://opensource.org/licenses/MIT
 # ==========================================
 
-# dynamic_static.Graphics CMake configuration
 cmake_minimum_required(VERSION 3.3 FATAL_ERROR)
 project(dynamic_static.graphics VERSION 2.0.0)
 set(CMAKE_CXX_STANDARD 17)

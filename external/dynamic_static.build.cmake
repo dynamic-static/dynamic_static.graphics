@@ -10,7 +10,7 @@ include(FetchContent)
 FetchContent_Declare(
     dynamic_static.build
     GIT_REPOSITORY "https://github.com/dynamic-static/dynamic_static.build.git"
-    GIT_TAG dependency-management
+    GIT_TAG trunk
     GIT_PROGRESS TRUE
 )
 FetchContent_MakeAvailable(dynamic_static.build)
