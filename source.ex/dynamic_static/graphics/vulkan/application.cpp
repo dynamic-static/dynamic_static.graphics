@@ -507,7 +507,7 @@ Managed<VkRenderPass> Application::setup_swapchain_render_pass() const
     subpassDescription.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
     subpassDescription.colorAttachmentCount = 1;
     subpassDescription.pColorAttachments = &colorAttachmentReference;
-    subpassDescription.pDepthStencilAttachment = &depthAttachmentReference;
+    subpassDescription.pDepthStencilAttachment = mSwapchainDepthBuffer ? &depthAttachmentReference : nullptr;
     renderPassCreateInfo.subpassCount = 1;
     renderPassCreateInfo.pSubpasses = &subpassDescription;
     Managed<VkRenderPass> renderPass;
