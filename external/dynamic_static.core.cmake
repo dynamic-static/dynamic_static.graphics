@@ -12,5 +12,6 @@ FetchContent_Declare(
     GIT_REPOSITORY "https://github.com/dynamic-static/dynamic_static.core.git"
     GIT_TAG trunk
     GIT_PROGRESS TRUE
+    FETCHCONTENT_UPDATES_DISCONNECTED
 )
 FetchContent_MakeAvailable(dynamic_static.core)

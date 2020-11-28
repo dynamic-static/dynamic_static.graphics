@@ -60,6 +60,7 @@ FetchContent_Declare(
     "https://github.com/KhronosGroup/glslang.git"
     GIT_TAG 10-11.0.0
     GIT_PROGRESS TRUE
+    FETCHCONTENT_UPDATES_DISCONNECTED
 )
 FetchContent_MakeAvailable(glslang)
 set_target_properties(HLSL                            PROPERTIES FOLDER "external/glslang/hlsl/")

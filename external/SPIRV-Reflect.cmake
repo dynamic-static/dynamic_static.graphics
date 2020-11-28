@@ -21,5 +21,6 @@ FetchContent_Declare(
     SPIRV-Reflect GIT_REPOSITORY
     "https://github.com/KhronosGroup/SPIRV-Reflect.git"
     GIT_PROGRESS TRUE
+    FETCHCONTENT_UPDATES_DISCONNECTED
 )
 FetchContent_MakeAvailable(SPIRV-Reflect)
