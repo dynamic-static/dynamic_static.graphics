@@ -12,7 +12,9 @@
 
 #include "glslang/Public/ShaderLang.h"
 #include "glslang/SPIRV/GlslangToSpv.h"
+#if 0
 #include "SPIRV-Reflect/spirv_reflect.h"
+#endif
 
 #include <cassert>
 #include <iostream>
@@ -125,6 +127,7 @@ std::vector<uint32_t> compile_glsl_to_spirv(VkShaderStageFlagBits stage, int lin
 ShaderReflectionInfo reflect_shader(const Managed<VkShaderModule>& shaderModule)
 {
     ShaderReflectionInfo shaderReflectionInfo { };
+    #if 0
     if (shaderModule) {
         const auto& shaderModuleCreateInfo = shaderModule.get<Managed<VkShaderModuleCreateInfo>>();
         if (shaderModuleCreateInfo->codeSize && shaderModuleCreateInfo->pCode) {
@@ -187,6 +190,7 @@ ShaderReflectionInfo reflect_shader(const Managed<VkShaderModule>& shaderModule)
             }
         }
     }
+    #endif
     return shaderReflectionInfo;
 }
 

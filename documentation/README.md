@@ -1,4 +1,4 @@
 
-# Dynamic_Static.Core documentation
+# dynamic_static.graphics documentation
 
 TODO : More README...
