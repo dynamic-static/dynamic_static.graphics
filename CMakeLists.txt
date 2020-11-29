@@ -21,6 +21,7 @@ include("${external}/dynamic_static.cpp-generator.cmake")
 include("${external}/dynamic_static.system.cmake")
 include("${external}/dynamic_static.vk-xml-parser.cmake")
 include("${external}/glslang.cmake")
+include("${external}/SPIRV-Cross.cmake")
 # include("${external}/SPIRV-Reflect.cmake")
 
 find_package(Vulkan REQUIRED)
@@ -32,6 +33,7 @@ list(
     dynamic_static.core
     dynamic_static.system
     glslang_
+    SPIRV-Cross_
     Vulkan::Vulkan
 )
 # SPIRV-Reflect
