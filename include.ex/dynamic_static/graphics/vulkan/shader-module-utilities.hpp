@@ -69,6 +69,11 @@ ShaderReflectionInfo reflect_shader(const Managed<VkShaderModule>& shaderModule)
 /**
 TODO : Documentation
 */
+VkPipelineShaderStageCreateInfo get_pipeline_shader_stage_create_info(const VkShaderModuleCreateInfo& shaderModuleCreateInfo);
+
+/**
+TODO : Documentation
+*/
 ShaderReflectionInfo reflect_spirv(size_t codeSize, const uint8_t* pCode);
 
 /**
