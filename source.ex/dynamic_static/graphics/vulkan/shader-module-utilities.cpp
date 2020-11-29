@@ -16,6 +16,9 @@
 #include "SPIRV-Reflect/spirv_reflect.h"
 #endif
 
+#include "spirv_glsl.hpp"
+
+#include <algorithm>
 #include <cassert>
 #include <iostream>
 #include <iterator>
@@ -127,6 +130,14 @@ std::vector<uint32_t> compile_glsl_to_spirv(VkShaderStageFlagBits stage, int lin
 ShaderReflectionInfo reflect_shader(const Managed<VkShaderModule>& shaderModule)
 {
     ShaderReflectionInfo shaderReflectionInfo { };
+    if (shaderModule) {
+        const auto& shaderModuleCreateInfo = shaderModule.get<Managed<VkShaderModuleCreateInfo>>();
+        if (shaderModuleCreateInfo->codeSize && shaderModuleCreateInfo->pCode) {
+        }
+        // spirv_cross::CompilerGLSL glsl()
+    }
+
+
     #if 0
     if (shaderModule) {
         const auto& shaderModuleCreateInfo = shaderModule.get<Managed<VkShaderModuleCreateInfo>>();
@@ -192,6 +203,64 @@ ShaderReflectionInfo reflect_shader(const Managed<VkShaderModule>& shaderModule)
     }
     #endif
     return shaderReflectionInfo;
+}
+
+ShaderReflectionInfo reflect_spirv(size_t codeSize, const uint8_t* pCode)
+{
+    ShaderReflectionInfo shaderReflectionInfo { };
+    if (codeSize && !(codeSize % 4) && pCode) {
+        spirv_cross::CompilerGLSL glsl((const uint32_t*)pCode, codeSize / 4);
+        // TODO : Optionally break up active resources based on entry point...
+        const auto& resources = glsl.get_shader_resources();
+        for (const auto& uniformBuffer : resources.uniform_buffers) {
+            VkDescriptorSetLayoutBinding descriptorSetLayoutBinding = get_default<VkDescriptorSetLayoutBinding>();
+            descriptorSetLayoutBinding.binding = glsl.get_decoration(uniformBuffer.id, spv::DecorationBinding);
+            descriptorSetLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+            descriptorSetLayoutBinding.descriptorCount = 1; // TODO : spv::DecorationArrayStride
+            auto set = glsl.get_decoration(uniformBuffer.id, spv::DecorationDescriptorSet);
+            add_descriptor_set_layout_binding(shaderReflectionInfo.descriptorSetReflectionInfos, set, descriptorSetLayoutBinding);
+        }
+    } else {
+        assert(false && "TODO : Error handling");
+    }
+    return shaderReflectionInfo;
+}
+
+void add_descriptor_set_layout_binding(std::vector<DescriptorSetReflectionInfo>& descriptorSetReflectionInfos, uint32_t set, const VkDescriptorSetLayoutBinding& descriptorSetLayoutBinding)
+{
+    struct Comparer
+    {
+        bool operator()(const DescriptorSetReflectionInfo& lhs, uint32_t rhs)
+        {
+            return lhs.set < rhs;
+        }
+        bool operator()(uint32_t lhs, const DescriptorSetReflectionInfo& rhs)
+        {
+            return lhs < rhs.set;
+        }
+    };
+    auto range = std::equal_range(descriptorSetReflectionInfos.begin(), descriptorSetReflectionInfos.end(), set, Comparer { });
+    auto itr = range.first != range.second ? range.first : descriptorSetReflectionInfos.insert(range.second, { });
+    add_descriptor_set_layout_binding(*itr, descriptorSetLayoutBinding);
+}
+
+void add_descriptor_set_layout_binding(DescriptorSetReflectionInfo& descriptorSetReflectionInfo, const VkDescriptorSetLayoutBinding& descriptorSetLayoutBinding)
+{
+    struct Comparer
+    {
+        bool operator()(const VkDescriptorSetLayoutBinding& lhs, uint32_t rhs)
+        {
+            return lhs.binding < rhs;
+        }
+        bool operator()(uint32_t lhs, const VkDescriptorSetLayoutBinding& rhs)
+        {
+            return lhs < rhs.binding;
+        }
+    };
+    auto& descriptorSetLayoutBindings = descriptorSetReflectionInfo.descriptorSetLayoutBindings;
+    auto binding = descriptorSetLayoutBinding.binding;
+    auto range = std::equal_range(descriptorSetLayoutBindings.begin(), descriptorSetLayoutBindings.end(), binding, Comparer { });
+    descriptorSetLayoutBindings.insert(range.second, descriptorSetLayoutBinding);
 }
 
 static const TBuiltInResource& get_built_in_resource()

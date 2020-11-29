@@ -104,8 +104,12 @@ private:
         vertexShaderModuleCreateInfo.pCode = !vertexShaderByteCode.empty() ? vertexShaderByteCode.data() : nullptr;
         Managed<VkShaderModule> vertexShaderModule;
         dst_vk(create<Managed<VkShaderModule>>(get_device(), &vertexShaderModuleCreateInfo, nullptr, &vertexShaderModule));
+
+        #if 0
         auto vertexShaderReflectionInfo = reflect_shader(vertexShaderModule);
-        
+        #endif
+        ShaderReflectionInfo vertexShaderReflectionInfo { };
+
         auto fragmentShaderByteCode = compile_glsl_to_spirv(
             VK_SHADER_STAGE_FRAGMENT_BIT,
             __LINE__,
@@ -127,16 +131,25 @@ private:
         fragmentShaderModuleCreateInfo.pCode = !fragmentShaderByteCode.empty() ? fragmentShaderByteCode.data() : nullptr;
         Managed<VkShaderModule> fragmentShaderModule;
         dst_vk(create<Managed<VkShaderModule>>(get_device(), &fragmentShaderModuleCreateInfo, nullptr, &fragmentShaderModule));
+
+        #if 0
         auto fragmentShaderReflectionInfo = reflect_shader(fragmentShaderModule);
+        #endif
+        ShaderReflectionInfo fragmentShaderReflectionInfo { };
+
         std::array<VkPipelineShaderStageCreateInfo, 2> pipelineShaderStageCreateInfos {
+            #if 0
             vertexShaderReflectionInfo.pipelineShaderStageCreateInfo,
             fragmentShaderReflectionInfo.pipelineShaderStageCreateInfo,
+            #endif
         };
 
         auto descriptorSetLayoutCreateInfo = get_default<VkDescriptorSetLayoutCreateInfo>();
         std::array<VkDescriptorSetLayoutBinding, 2> descriptorSetLayoutBindings {
+            #if 0
             vertexShaderReflectionInfo.descriptorSetLayoutBindings[0].second[0],
             fragmentShaderReflectionInfo.descriptorSetLayoutBindings[0].second[0],
+            #endif
         };
         descriptorSetLayoutCreateInfo.bindingCount = (uint32_t)descriptorSetLayoutBindings.size();
         descriptorSetLayoutCreateInfo.pBindings = descriptorSetLayoutBindings.data();
