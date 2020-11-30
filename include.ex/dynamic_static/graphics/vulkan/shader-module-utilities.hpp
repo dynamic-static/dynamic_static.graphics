@@ -33,20 +33,6 @@ public:
 /**
 TODO : Documentation
 */
-class ShaderReflectionInfo final
-{
-public:
-    std::vector<DescriptorSetReflectionInfo> descriptorSetReflectionInfos; //!< TODO : Documentation
-    #if 0
-    Managed<VkPipelineShaderStageCreateInfo> pipelineShaderStageCreateInfo { get_default<VkPipelineShaderStageCreateInfo>() }; //!< TODO : Docuemntation
-    std::vector<std::pair<uint32_t, std::vector<VkDescriptorSetLayoutBinding>>> descriptorSetLayoutBindings;                   //!< TODO : Documentation
-    std::vector<VkPushConstantRange> pushConstantRanges;                                                                       //!< TODO : Documentation
-    #endif
-};
-
-/**
-TODO : Documentation
-*/
 std::vector<uint32_t> compile_glsl_to_spirv(const std::filesystem::path& filePath);
 
 /**
@@ -59,27 +45,10 @@ TODO : Documentation
 */
 std::vector<uint32_t> compile_glsl_to_spirv(VkShaderStageFlagBits stage, int lineOffset, const char* pSource);
 
-#if 0
 /**
 TODO : Documentation
 */
-ShaderReflectionInfo reflect_shader(const Managed<VkShaderModule>& shaderModule);
-#endif
-
-/**
-TODO : Documentation
-*/
-VkPipelineShaderStageCreateInfo get_pipeline_shader_stage_create_info(const VkShaderModuleCreateInfo& shaderModuleCreateInfo);
-
-/**
-TODO : Documentation
-*/
-ShaderReflectionInfo reflect_spirv(size_t codeSize, const uint8_t* pCode);
-
-/**
-TODO : Documentation
-*/
-std::vector<DescriptorSetReflectionInfo> reflect_descriptor_set_layout_bindings(size_t codeSize, const uint8_t* pCode);
+std::vector<DescriptorSetReflectionInfo> reflect_descriptor_set_layout_bindings(size_t codeSize, const uint8_t* pCode, VkShaderStageFlags stageFlags = VK_SHADER_STAGE_ALL);
 
 /**
 TODO : Documentation

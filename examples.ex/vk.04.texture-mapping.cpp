@@ -104,11 +104,9 @@ private:
         vertexShaderModuleCreateInfo.pCode = !vertexShaderByteCode.empty() ? vertexShaderByteCode.data() : nullptr;
         Managed<VkShaderModule> vertexShaderModule;
         dst_vk(create<Managed<VkShaderModule>>(get_device(), &vertexShaderModuleCreateInfo, nullptr, &vertexShaderModule));
-
-        #if 0
-        auto vertexShaderReflectionInfo = reflect_shader(vertexShaderModule);
-        #endif
-        ShaderReflectionInfo vertexShaderReflectionInfo { };
+        auto vertexPipelineShaderStageCreateInfo = get_default<VkPipelineShaderStageCreateInfo>();
+        vertexPipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
+        vertexPipelineShaderStageCreateInfo.module = vertexShaderModule;
 
         auto fragmentShaderByteCode = compile_glsl_to_spirv(
             VK_SHADER_STAGE_FRAGMENT_BIT,
@@ -131,25 +129,29 @@ private:
         fragmentShaderModuleCreateInfo.pCode = !fragmentShaderByteCode.empty() ? fragmentShaderByteCode.data() : nullptr;
         Managed<VkShaderModule> fragmentShaderModule;
         dst_vk(create<Managed<VkShaderModule>>(get_device(), &fragmentShaderModuleCreateInfo, nullptr, &fragmentShaderModule));
-
-        #if 0
-        auto fragmentShaderReflectionInfo = reflect_shader(fragmentShaderModule);
-        #endif
-        ShaderReflectionInfo fragmentShaderReflectionInfo { };
+        auto fragmentPipelineShaderStageCreateInfo = get_default<VkPipelineShaderStageCreateInfo>();
+        fragmentPipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+        fragmentPipelineShaderStageCreateInfo.module = fragmentShaderModule;
 
         std::array<VkPipelineShaderStageCreateInfo, 2> pipelineShaderStageCreateInfos {
-            #if 0
-            vertexShaderReflectionInfo.pipelineShaderStageCreateInfo,
-            fragmentShaderReflectionInfo.pipelineShaderStageCreateInfo,
-            #endif
+            vertexPipelineShaderStageCreateInfo,
+            fragmentPipelineShaderStageCreateInfo,
         };
 
         auto descriptorSetLayoutCreateInfo = get_default<VkDescriptorSetLayoutCreateInfo>();
+        auto vertexShadercodeSize = vertexShaderModuleCreateInfo.codeSize;
+        auto pVertexShaderCode = (const uint8_t*)vertexShaderModuleCreateInfo.pCode;
+        const auto& vertexShaderDescriptorSetReflectionInfos = reflect_descriptor_set_layout_bindings(vertexShadercodeSize, pVertexShaderCode, VK_SHADER_STAGE_VERTEX_BIT);
+        assert(vertexShaderDescriptorSetReflectionInfos.size() == 1 && "TODO : Error handling");
+        assert(vertexShaderDescriptorSetReflectionInfos[0].descriptorSetLayoutBindings.size() == 1 && "TODO : Documentation");
+        auto fragmentShadercodeSize = fragmentShaderModuleCreateInfo.codeSize;
+        auto pFragmentShaderCode = (const uint8_t*)fragmentShaderModuleCreateInfo.pCode;
+        const auto& fragmentShaderDescriptorSetReflectionInfos = reflect_descriptor_set_layout_bindings(fragmentShadercodeSize, pFragmentShaderCode, VK_SHADER_STAGE_FRAGMENT_BIT);
+        assert(fragmentShaderDescriptorSetReflectionInfos.size() == 1 && "TODO : Error handling");
+        assert(fragmentShaderDescriptorSetReflectionInfos[0].descriptorSetLayoutBindings.size() == 1 && "TODO : Documentation");
         std::array<VkDescriptorSetLayoutBinding, 2> descriptorSetLayoutBindings {
-            #if 0
-            vertexShaderReflectionInfo.descriptorSetLayoutBindings[0].second[0],
-            fragmentShaderReflectionInfo.descriptorSetLayoutBindings[0].second[0],
-            #endif
+            vertexShaderDescriptorSetReflectionInfos[0].descriptorSetLayoutBindings[0],
+            fragmentShaderDescriptorSetReflectionInfos[0].descriptorSetLayoutBindings[0],
         };
         descriptorSetLayoutCreateInfo.bindingCount = (uint32_t)descriptorSetLayoutBindings.size();
         descriptorSetLayoutCreateInfo.pBindings = descriptorSetLayoutBindings.data();

@@ -8,6 +8,8 @@
 ==========================================
 */
 
+#if 0
+
 #include "dynamic_static/core/color.hpp"
 #include "dynamic_static/core/vector.hpp"
 #include "dynamic_static/graphics/vulkan.hpp"
@@ -596,3 +598,5 @@ int main(int argc, const char* argv[])
     VulkanExample_03_VertexBuffer().start();
     return 0;
 }
+
+#endif
