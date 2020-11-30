@@ -170,18 +170,24 @@ private:
         fragmentPipelineShaderStageCreateInfo.module = fragmentShaderModule;
 
         std::array<VkPipelineShaderStageCreateInfo, 2> pipelineShaderStageCreateInfos {
-            #if 0
-            vertexShaderReflectionInfo.pipelineShaderStageCreateInfo,
-            fragmentShaderReflectionInfo.pipelineShaderStageCreateInfo,
-            #endif
+            vertexPipelineShaderStageCreateInfo,
+            fragmentPipelineShaderStageCreateInfo,
         };
 
         auto descriptorSetLayoutCreateInfo = get_default<VkDescriptorSetLayoutCreateInfo>();
+        auto vertexShadercodeSize = vertexShaderModuleCreateInfo.codeSize;
+        auto pVertexShaderCode = (const uint8_t*)vertexShaderModuleCreateInfo.pCode;
+        const auto& vertexShaderDescriptorSetReflectionInfos = reflect_descriptor_set_layout_bindings(vertexShadercodeSize, pVertexShaderCode, VK_SHADER_STAGE_VERTEX_BIT);
+        assert(vertexShaderDescriptorSetReflectionInfos.size() == 1 && "TODO : Error handling");
+        assert(vertexShaderDescriptorSetReflectionInfos[0].descriptorSetLayoutBindings.size() == 1 && "TODO : Documentation");
+        auto fragmentShadercodeSize = fragmentShaderModuleCreateInfo.codeSize;
+        auto pFragmentShaderCode = (const uint8_t*)fragmentShaderModuleCreateInfo.pCode;
+        const auto& fragmentShaderDescriptorSetReflectionInfos = reflect_descriptor_set_layout_bindings(fragmentShadercodeSize, pFragmentShaderCode, VK_SHADER_STAGE_FRAGMENT_BIT);
+        assert(fragmentShaderDescriptorSetReflectionInfos.size() == 1 && "TODO : Error handling");
+        assert(fragmentShaderDescriptorSetReflectionInfos[0].descriptorSetLayoutBindings.size() == 1 && "TODO : Documentation");
         std::array<VkDescriptorSetLayoutBinding, 2> descriptorSetLayoutBindings {
-            #if 0
-            vertexShaderReflectionInfo.descriptorSetLayoutBindings[0].second[0],
-            fragmentShaderReflectionInfo.descriptorSetLayoutBindings[0].second[0],
-            #endif
+            vertexShaderDescriptorSetReflectionInfos[0].descriptorSetLayoutBindings[0],
+            fragmentShaderDescriptorSetReflectionInfos[0].descriptorSetLayoutBindings[0],
         };
         descriptorSetLayoutCreateInfo.bindingCount = (uint32_t)descriptorSetLayoutBindings.size();
         descriptorSetLayoutCreateInfo.pBindings = descriptorSetLayoutBindings.data();
