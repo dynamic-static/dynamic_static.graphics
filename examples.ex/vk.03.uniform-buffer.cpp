@@ -104,11 +104,9 @@ private:
         vertexShaderModuleCreateInfo.pCode = !vertexShaderByteCode.empty() ? vertexShaderByteCode.data() : nullptr;
         Managed<VkShaderModule> vertexShaderModule;
         dst_vk(create<Managed<VkShaderModule>>(get_device(), &vertexShaderModuleCreateInfo, nullptr, &vertexShaderModule));
-
-        #if 0
-        auto vertexShaderReflectionInfo = reflect_shader(vertexShaderModule);
-        #endif
-        ShaderReflectionInfo vertexShaderReflectionInfo { };
+        auto vertexPipelineShaderStageCreateInfo = get_default<VkPipelineShaderStageCreateInfo>();
+        vertexPipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
+        vertexPipelineShaderStageCreateInfo.module = vertexShaderModule;
 
         auto fragmentShaderByteCode = compile_glsl_to_spirv(
             VK_SHADER_STAGE_FRAGMENT_BIT,
@@ -130,27 +128,25 @@ private:
         fragmentShaderModuleCreateInfo.pCode = !fragmentShaderByteCode.empty() ? fragmentShaderByteCode.data() : nullptr;
         Managed<VkShaderModule> fragmentShaderModule;
         dst_vk(create<Managed<VkShaderModule>>(get_device(), &fragmentShaderModuleCreateInfo, nullptr, &fragmentShaderModule));
-
-        #if 0
-        auto fragmentShaderReflectionInfo = reflect_shader(fragmentShaderModule);
-        #endif
-        ShaderReflectionInfo fragmentShaderReflectionInfo { };
+        auto fragmentPipelineShaderStageCreateInfo = get_default<VkPipelineShaderStageCreateInfo>();
+        fragmentPipelineShaderStageCreateInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+        fragmentPipelineShaderStageCreateInfo.module = fragmentShaderModule;
 
         std::array<VkPipelineShaderStageCreateInfo, 2> pipelineShaderStageCreateInfos {
-            #if 0
-            vertexShaderReflectionInfo.pipelineShaderStageCreateInfo,
-            fragmentShaderReflectionInfo.pipelineShaderStageCreateInfo,
-            #endif
+            vertexPipelineShaderStageCreateInfo,
+            fragmentPipelineShaderStageCreateInfo,
         };
 
-        #if 0
         auto descriptorSetLayoutCreateInfo = get_default<VkDescriptorSetLayoutCreateInfo>();
-        const auto& descriptorSetLayoutBindings = vertexShaderReflectionInfo.descriptorSetLayoutBindings;
+        auto codeSize = vertexShaderModuleCreateInfo.codeSize;
+        auto pCode = (const uint8_t*)vertexShaderModuleCreateInfo.pCode;
+        const auto& descriptorSetReflectionInfos = reflect_descriptor_set_layout_bindings(codeSize, pCode);
+        assert(descriptorSetReflectionInfos.size() == 1 && "TODO : Error handling");
+        const auto& descriptorSetLayoutBindings = descriptorSetReflectionInfos[0].descriptorSetLayoutBindings;
         assert(descriptorSetLayoutBindings.size() == 1 && "TODO : Error handling");
-        descriptorSetLayoutCreateInfo.bindingCount = (uint32_t)descriptorSetLayoutBindings[0].second.size();
-        descriptorSetLayoutCreateInfo.pBindings = !descriptorSetLayoutBindings[0].second.empty() ? descriptorSetLayoutBindings[0].second.data() : nullptr;
+        descriptorSetLayoutCreateInfo.bindingCount = (uint32_t)descriptorSetLayoutBindings.size();
+        descriptorSetLayoutCreateInfo.pBindings = !descriptorSetLayoutBindings.empty() ? descriptorSetLayoutBindings.data() : nullptr;
         dst_vk(create<Managed<VkDescriptorSetLayout>>(get_device(), &descriptorSetLayoutCreateInfo, nullptr, &mDescriptorSetLayout));
-        #endif
 
         auto pipelineLayoutCreateInfo = get_default<VkPipelineLayoutCreateInfo>();
         pipelineLayoutCreateInfo.setLayoutCount = 1;

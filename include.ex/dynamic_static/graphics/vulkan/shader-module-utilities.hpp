@@ -79,12 +79,17 @@ ShaderReflectionInfo reflect_spirv(size_t codeSize, const uint8_t* pCode);
 /**
 TODO : Documentation
 */
+std::vector<DescriptorSetReflectionInfo> reflect_descriptor_set_layout_bindings(size_t codeSize, const uint8_t* pCode);
+
+/**
+TODO : Documentation
+*/
 void add_descriptor_set_layout_binding(std::vector<DescriptorSetReflectionInfo>& descriptorSetReflectionInfos, uint32_t set, const VkDescriptorSetLayoutBinding& descriptorSetLayoutBinding);
 
 /**
 TODO : Documentation
 */
-void add_descriptor_set_layout_binding(DescriptorSetReflectionInfo& descriptorSetReflectionInfo, const VkDescriptorSetLayoutBinding& descriptorSetLayoutBinding);
+void add_descriptor_set_layout_binding(std::vector<VkDescriptorSetLayoutBinding>& descriptorSetLayoutBindings, const VkDescriptorSetLayoutBinding& descriptorSetLayoutBinding);
 
 } // namespace vk
 } // namespace dst
